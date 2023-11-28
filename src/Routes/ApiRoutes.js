@@ -333,6 +333,7 @@ import { User } from '../SupportTicket/Pages/User';
 import { Developer } from '../SupportTicket/Pages/Developer';
 import TaskMaster from '../Admin/Pages/Schedule/TaskMaster';
 import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganDepartmentMapping';
+import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
 
 export default function ApiRoutes() {
 
@@ -820,7 +821,10 @@ export default function ApiRoutes() {
                    <Route path="/userDashoard/" element={<ProtectedRoutes Compnent={ <CommonLayout Component={<User />} name="null" />    } />} />
                    <Route path="/developerDashoard/" element={<ProtectedRoutes Compnent={ <CommonLayout Component={<Developer />} name="null" />    } />} />
                  
-                  
+                   {/* -----------------------------------Start Medvantage EMR Master----------------------------------------- */}
+                   <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster />} name="null" />} />} />
+                  {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
+
 
             </Routes>
 
