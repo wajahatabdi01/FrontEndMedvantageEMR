@@ -334,6 +334,7 @@ import { Developer } from '../SupportTicket/Pages/Developer';
 import TaskMaster from '../Admin/Pages/Schedule/TaskMaster';
 import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganDepartmentMapping';
 import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
+import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
 
 export default function ApiRoutes() {
 
@@ -823,6 +824,7 @@ export default function ApiRoutes() {
                  
                    {/* -----------------------------------Start Medvantage EMR Master----------------------------------------- */}
                    <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster />} name="null" />} />} />
+                   <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="null" />} />} />
                   {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
 
 
