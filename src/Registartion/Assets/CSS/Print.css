@@ -1,0 +1,59 @@
+.main-page {
+    width: 297mm;
+    min-height: 210mm;
+    margin: 10mm auto;
+    background: white;
+    box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+  }
+  .contain{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+  }
+  .sub-page {
+    padding: 1cm;
+    height: 297mm;
+  }
+  .table-div{
+    border: 1px solid black;
+  }
+  .table-div>  table> tbody> tr{
+    border-bottom: 1px solid black;
+  } 
+  .table-div> table> thead> tr{
+    border-bottom: 1px solid black;
+  } 
+  .table-div> table> tbody> tr:last-child{
+    border-bottom: none;
+  
+  } 
+  
+  @page {
+    size: A4;
+    margin: 0;
+  
+  }
+  @media print {
+    html,
+    body {
+      width:  297mm;
+      height:   210mm;
+    }
+    /* 210mm
+    297mm */
+    .main-page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+    }
+    .Btnprint{
+      display: none;
+    }
+  
+  }
+  

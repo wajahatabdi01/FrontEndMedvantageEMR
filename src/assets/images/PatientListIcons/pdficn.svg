@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="Group_12684" data-name="Group 12684" transform="translate(-1826 -693.226)">
+    <rect id="Rectangle_17337" data-name="Rectangle 17337" width="30" height="30" transform="translate(1826 693.226)" fill="rgba(245,230,218,0.72)"/>
+    <g id="Group_12663" data-name="Group 12663" transform="translate(212.87 -32.659)">
+      <g id="pdf" transform="translate(1620 733.318)">
+        <g id="Group_12662" data-name="Group 12662" transform="translate(0)">
+          <g id="Group_12661" data-name="Group 12661" transform="translate(0)">
+            <path id="Path_45014" data-name="Path 45014" d="M28.948,4.1,25.092.089A.291.291,0,0,0,24.883,0H19.137A1.167,1.167,0,0,0,17.97,1.166V5.238H15.642a.873.873,0,0,0-.873.872v4.367a.873.873,0,0,0,.873.872H17.97v2.62a1.166,1.166,0,0,0,1.166,1.164h8.726a1.166,1.166,0,0,0,1.166-1.163V4.3A.291.291,0,0,0,28.948,4.1ZM24.955.786,28.12,4.074H24.955Zm-9.313,9.982a.291.291,0,0,1-.29-.29V6.111a.291.291,0,0,1,.29-.29H23.5a.291.291,0,0,1,.29.29v4.367a.291.291,0,0,1-.29.29Zm12.806,3.2a.583.583,0,0,1-.584.581H19.137a.584.584,0,0,1-.584-.582V11.35H23.5a.873.873,0,0,0,.873-.872V6.111a.873.873,0,0,0-.873-.872H18.552V1.166a.585.585,0,0,1,.584-.584h5.236V4.365a.291.291,0,0,0,.291.291h3.783Z" transform="translate(-14.769)" fill="#41220a" stroke="#41220a" stroke-width="0.3"/>
+          </g>
+        </g>
+      </g>
+      <text id="IPD" transform="translate(1622 743)" fill="#41220a" font-size="4" font-family="Poppins-SemiBold, Poppins" font-weight="600" letter-spacing="0.001em"><tspan x="0" y="0">IPD</tspan></text>
+    </g>
+  </g>
+</svg>

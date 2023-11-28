@@ -1,0 +1,27 @@
+<svg id="medical-room" xmlns="http://www.w3.org/2000/svg" width="16.868" height="16.868" viewBox="0 0 16.868 16.868">
+  <g id="Group_12515" data-name="Group 12515" transform="translate(9.95 9.422)">
+    <g id="Group_12514" data-name="Group 12514">
+      <path id="Path_44963" data-name="Path 44963" d="M307.93,286v3.789H302v.988h5.93v2.669h.988V286Z" transform="translate(-302 -286)" fill="#546788"/>
+    </g>
+  </g>
+  <g id="Group_12517" data-name="Group 12517" transform="translate(9.95 10.905)">
+    <g id="Group_12516" data-name="Group 12516">
+      <path id="Path_44964" data-name="Path 44964" d="M305.295,331H302v1.318h4.909A1.65,1.65,0,0,0,305.295,331Z" transform="translate(-302 -331)" fill="#546788"/>
+    </g>
+  </g>
+  <g id="Group_12519" data-name="Group 12519">
+    <g id="Group_12518" data-name="Group 12518">
+      <path id="Path_44965" data-name="Path 44965" d="M7.479,0h-6A1.484,1.484,0,0,0,0,1.483V15.056H8.961V1.483A1.484,1.484,0,0,0,7.479,0ZM3.657,13.409H2.669V5.041h.988Zm2.636,0H5.3V5.041h.988ZM7.973,2.861a1.755,1.755,0,0,1-1.879-.127L5.8,2.514,5.5,2.733a1.7,1.7,0,0,1-2.046,0l-.295-.219-.295.219a1.755,1.755,0,0,1-1.879.127V1.483A.5.5,0,0,1,1.483.988h6a.5.5,0,0,1,.494.494Z" fill="#546788"/>
+    </g>
+  </g>
+  <g id="Group_12521" data-name="Group 12521" transform="translate(0 15.931)">
+    <g id="Group_12520" data-name="Group 12520" transform="translate(0 0)">
+      <rect id="Rectangle_18913" data-name="Rectangle 18913" width="1" height="1" transform="translate(0 -0.063)" fill="#546788"/>
+    </g>
+  </g>
+  <g id="Group_12523" data-name="Group 12523" transform="translate(8.434 15.931)">
+    <g id="Group_12522" data-name="Group 12522" transform="translate(0 0)">
+      <rect id="Rectangle_18914" data-name="Rectangle 18914" width="1" height="1" transform="translate(-0.434 -0.063)" fill="#546788"/>
+    </g>
+  </g>
+</svg>

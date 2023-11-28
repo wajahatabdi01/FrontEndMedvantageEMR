@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="Group_198" data-name="Group 198" transform="translate(-1330 -120)">
+    <g id="图层_x0020_1" transform="translate(1330 120.1)">
+      <path id="Path_44725" data-name="Path 44725" d="M8,0A8,8,0,1,1,0,8,8,8,0,0,1,8,0Z" transform="translate(0 -0.1)" fill="#aaa"/>
+    </g>
+    <g id="cancel" transform="translate(1334.546 124.554)">
+      <g id="Group_184" data-name="Group 184" transform="translate(0 0.016)">
+        <path id="Path_44726" data-name="Path 44726" d="M4.445,3.659,7.169.934a.4.4,0,0,0,0-.563L6.93.132a.4.4,0,0,0-.564,0L3.643,2.856.919.132a.4.4,0,0,0-.563,0L.117.371a.4.4,0,0,0,0,.563L2.841,3.659.117,6.382a.4.4,0,0,0,0,.564l.239.239a.4.4,0,0,0,.563,0L3.643,4.461,6.367,7.185a.4.4,0,0,0,.282.116h0a.4.4,0,0,0,.282-.116l.239-.239a.4.4,0,0,0,0-.564Z" transform="translate(0 -0.016)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

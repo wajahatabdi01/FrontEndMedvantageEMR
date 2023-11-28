@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Group_12932" data-name="Group 12932" transform="translate(-609.5 -210)">
+    <g id="Rectangle_17440" data-name="Rectangle 17440" transform="translate(609.5 210)" fill="#fee7e7" stroke="#ff2d2d" stroke-width="1">
+      <rect width="32" height="32" rx="7" stroke="none"/>
+      <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none"/>
+    </g>
+    <g id="blood-pressure" transform="translate(617.668 217)">
+      <path id="Path_44547" data-name="Path 44547" d="M33.082,27.018a4.557,4.557,0,1,0,4.159,4.539A4.557,4.557,0,0,0,33.082,27.018Zm.665,7.273H31.621a.3.3,0,1,1,0-.608h2.127a.3.3,0,1,1,0,.608Zm-.3-1.823a.76.76,0,1,1-1.063-.7V30.008a.3.3,0,1,1,.608,0v1.765a.757.757,0,0,1,.456.7Zm2.582-.608a.3.3,0,0,1-.3-.3,3.038,3.038,0,1,0-6.076,0,.3.3,0,1,1-.608,0,3.646,3.646,0,0,1,7.292,0,.3.3,0,0,1-.3.3Z" transform="translate(-21.367 -20.013)" fill="#ff2d2d"/>
+      <path id="Path_44548" data-name="Path 44548" d="M12.026,15.544a5.178,5.178,0,0,1,5.207-5.165A47.214,47.214,0,0,0,12.557,4.1a.308.308,0,0,0-.453,0c-.255.286-6.231,6.985-6.231,10.457a6.464,6.464,0,0,0,6.456,6.456,6.392,6.392,0,0,0,2.9-.693,5.19,5.19,0,0,1-3.208-4.776Z" transform="translate(-5.873 -4)" fill="#ff2d2d"/>
+      <path id="Path_44549" data-name="Path 44549" d="M42.626,44.66a.152.152,0,1,0,.152-.148.152.152,0,0,0-.152.148Z" transform="translate(-31.46 -32.204)" fill="#ff2d2d"/>
+    </g>
+  </g>
+</svg>

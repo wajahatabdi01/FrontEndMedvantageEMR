@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="43" height="43.353" viewBox="0 0 43 43.353">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.146" y1="0.146" x2="0.854" y2="0.854" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff6432"/>
+      <stop offset="1" stop-color="#f44336"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.217" y1="0.218" x2="0.791" y2="0.82" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b33128"/>
+      <stop offset="0.93" stop-color="#b33128" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="_02.camera" data-name="02.camera" transform="translate(-0.782 -0.363)">
+    <circle id="background" cx="21.5" cy="21.5" r="21.5" transform="translate(0.782 0.363)" fill="url(#linear-gradient)"/>
+    <path id="Path_44545" data-name="Path 44545" d="M161.158,164.091a21.877,21.877,0,0,1-19.722,17.339L128.89,168.887l6.6-11.127,7.731-7.13,4.465,4.468,3.03-1.447Z" transform="translate(-117.831 -137.714)" fill="url(#linear-gradient-2)"/>
+    <g id="Group_49" data-name="Group 49" transform="translate(10.385 12.188)">
+      <path id="Path_44546" data-name="Path 44546" d="M142.12,145.281h-4.793a3.445,3.445,0,0,0-3.434-3.171H131.17a3.445,3.445,0,0,0-3.434,3.171h-4.794A1.942,1.942,0,0,0,121,147.225v12.4a1.942,1.942,0,0,0,1.942,1.942H142.12a1.942,1.942,0,0,0,1.942-1.942v-12.4A1.942,1.942,0,0,0,142.12,145.281Zm-9.589,12.642a4.5,4.5,0,1,1,4.5-4.5,4.5,4.5,0,0,1-4.5,4.5Z" transform="translate(-121 -142.11)" fill="#fff"/>
+      <circle id="Ellipse_346" data-name="Ellipse 346" cx="2.473" cy="2.473" r="2.473" transform="translate(9.058 8.84)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

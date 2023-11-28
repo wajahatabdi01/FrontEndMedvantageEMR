@@ -1,0 +1,372 @@
+/* .layOutSurgeryOTNavbar .customeTopNav {
+    margin-left: 0 !important;
+    transition: all 0.9s ease-in-out;
+}  */
+
+.layOutSurgeryOTNavbar  .offcanvas-logo{
+    width: 270px;
+    transition: all 0.9s ease-in-out;
+}
+
+.layOutSurgeryOTNavbar .offcanvas-logo {
+    width: 270px;    
+    height: 51px;   
+    border-bottom: 1px solid #80808042; 
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    z-index: 1031;
+    background: white;
+}
+
+.otDashboardWrapper{
+    margin-top: 60px;
+}
+.otDashboardWrapperSecond{
+    margin-top: 60px;
+}
+
+.otDashboardContainer {
+    background-color: #112437;    
+    padding: 0 5px;    
+}
+
+.tableOtDashboardSection{
+    height: 868px;
+    overflow: auto;
+}
+.tableOtDashboardSectionSecond{
+    height: 868px;
+    overflow: auto;
+}
+
+.otDashboardTitleIcons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    background-color: #F5F8FF
+}
+
+
+
+.otDashboardTitleIcons .title {
+    color: #1D4999;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    font-size: 22px;
+    font: normal normal 600 22px/33px;
+}
+
+.otDashboardTitleIcons .rightIcons {
+    display: flex;
+    column-gap: 15px;
+    flex-wrap: wrap;
+    cursor: pointer;
+    padding-right: 16px;
+}
+.layOutSurgeryOTNavbar .offcanvas-logo img {
+    width: 80%;
+}
+
+.layOutSurgeryOTNavbar  .shortCollapseBtn{
+    display: none;
+}
+.layOutSurgeryOTNavbar  .navbarTogglerRemoveActiveClass{
+    display: none;
+}
+
+
+.tableOtDashboard{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tableOtDashboard thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #112437;
+}
+
+.tableOtDashboard thead.active {
+    background-image: linear-gradient(45deg, #0F2027, #203A43, #2C5364);
+}
+
+.tableOtDashboard thead th {
+    color: #FFFFFF;
+    /* padding: 5px 20px; */    
+    padding: 3px 20px 3px 5px;
+    white-space: nowrap;
+    font-size: 17px;
+    font-weight: 400;
+    overflow: hidden;
+    /* position: relative; */
+}
+
+.tableOtDashboard tbody td{
+    color: #FFFFFF;
+    /* padding: 3px 20px; */
+    padding: 5px 20px 5px 5px;
+    font-size: 14px;
+   font-weight: 300;
+   vertical-align: top;
+ }
+
+ .tableOtDashboard.border thead th{
+    border: 1px solid  #ffffff33;
+ }
+
+ .tableOtDashboard.border tbody td{
+    border: 1px solid #ffffff33;
+ }
+
+
+ .tableOtDashboard.border-bottom thead th{
+    border-bottom: 1px solid #ffffff33;
+ }
+
+ .tableOtDashboard.border-bottom tbody td{
+    border-bottom: 1px solid #ffffff33;
+ }
+
+ .tableOtDashboard.tripped tbody tr:nth-child(odd) {
+    background-color: #142A40;
+}
+
+.tableOtDashboard tbody tr:hover {
+    background-image: linear-gradient(90deg, #80808054, #00000054);
+}
+
+
+/* .tableOtDashboard tbody tr.active {
+    background-image: linear-gradient(90deg, #4caf504d, #00000054);
+} */
+
+.tableOtDashboard tbody tr.active {
+    background-image: linear-gradient(90deg, #4caf504d, #4caf501f);
+}
+
+.tableNormal{
+    width: 100%;
+    border-collapse: collapse;    
+}
+
+ .tableNormal td {
+    padding: 2px !important;
+    border: 1px solid transparent !important;
+    white-space: initial;
+}
+
+.tableNormal tr:hover {
+    background-image: none !important;   
+}
+
+.tableNormal tr:nth-child(odd) {
+    background-color: transparent !important;
+}
+
+.maxOverFlow{
+    height: 132px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.maxOverFlow::-webkit-scrollbar {
+    width: 2px;
+    height: 0px;   
+}
+
+.otPatientName {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+.otPatientAgeGender {
+    font-size: 12px;
+    font-style: italic;
+    color: #B3CDE6;
+    font-weight: 300;
+}
+
+.otName {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.otFloor {
+    font-size: 17px;
+    font-weight: 200;
+}
+
+.otTime {
+    display: flex;
+    align-items: flex-start;
+    font-size: 13px;
+    font-weight: 200;    
+    white-space: pre-wrap;
+    column-gap: 5px;
+}
+.textStatus {   
+    font-size: 13px;    
+    font-style: italic;  
+} 
+
+.colorBlue{
+    color: #3BB0FF;
+}
+.colorGreen{
+    color: #14F504;
+}
+.colorRed{
+    color: #FC2525;
+}
+
+.staffName {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.surgeryName {
+    color: #00E2E2;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.surgionTitle {
+    color: #00CBFF;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.surgeryPrescribed {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.surgionName {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+
+.borderLine{
+    border-bottom: 1px solid #8080807a;
+    padding-bottom: 3px;
+}
+
+.diseaseType{
+    color: red;
+    font-size: 13px;   
+    font-weight: 400;
+}
+
+.diseaseList {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    list-style: none;  
+}
+
+.diseaseList li {
+    padding: 1px 2px;
+    font-size: 11px;
+    border: 1px white solid;
+    border-radius: 4px;
+}
+
+.medicalHistory {
+    color: #F99614;
+    font-size: 13px;
+    font-weight: 400;
+    border-bottom: 1px solid #F99614;
+    max-width: 108px;
+ 
+}
+
+
+.otDashboardBox {
+    background-color: #142A40;
+    /* min-height: 500px; */
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 21px;
+}
+
+.otDashboardBoxTitle {
+    color: white;
+    font-size: 19px;
+    border-bottom: 1px solid #80808066;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding-bottom: 2px;
+}
+
+.text-white{
+    color: white;    
+}
+
+.otNumber{
+    /* font-size: 50px; */   
+    color: white;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    font: normal normal 600 57px/71px Poppins;
+}
+
+.otFloorSecond {
+    /* font-size: 40px; */    
+    color: white;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    font: normal normal normal 56px/30px Poppins;
+}
+.realtimeMonitor {
+    border: 1px solid white;
+    max-width: 218px;
+    padding: 2px 4px 2px 10px;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.otSecondAllergies {
+    max-width: 260px;
+    max-height: 69px;
+    overflow: auto;
+}
+
+
+.medicalHistoryOtSecond {
+    color: #F99614;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.medicalHistoryOtSecondTime {
+    color: #F99614;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+
+@media screen and (max-width:991.98px) {
+    .layOutSurgeryOTNavbar  .offcanvas-logo {
+        height: 56px;
+        border-bottom: none;
+    }    
+}
+
+
+
+

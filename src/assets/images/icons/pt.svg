@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.516" height="21.469" viewBox="0 0 22.516 21.469">
+  <g id="Icon" transform="translate(-1.25 -1.75)">
+    <circle id="Ellipse_713" data-name="Ellipse 713" cx="3.404" cy="3.404" r="3.404" transform="translate(13.817 1.75)" fill="#1d4999"/>
+    <circle id="Ellipse_714" data-name="Ellipse 714" cx="3.404" cy="3.404" r="3.404" transform="translate(13.817 16.412)" fill="#1d4999"/>
+    <circle id="Ellipse_715" data-name="Ellipse 715" cx="3.404" cy="3.404" r="3.404" transform="translate(7.01 9.081)" fill="#1d4999"/>
+    <path id="Path_45180" data-name="Path 45180" d="M22.177,4.25a.785.785,0,0,1,0,1.571H19.035a.785.785,0,1,1,0-1.571Z" transform="translate(0.803 0.118)" fill="#1d4999" fill-rule="evenodd"/>
+    <path id="Path_45181" data-name="Path 45181" d="M22.177,18.25a.785.785,0,0,1,0,1.571H19.035a.785.785,0,1,1,0-1.571Z" transform="translate(0.803 0.78)" fill="#1d4999" fill-rule="evenodd"/>
+    <path id="Path_45182" data-name="Path 45182" d="M2.035,12.821a.785.785,0,0,1,0-1.571H7.8a.785.785,0,1,1,0,1.571Z" transform="translate(0 0.449)" fill="#1d4999" fill-rule="evenodd"/>
+    <path id="Path_45183" data-name="Path 45183" d="M11.984,4.25a.785.785,0,0,1,0,1.571H2.035a.785.785,0,0,1,0-1.571Z" transform="translate(0 0.118)" fill="#1d4999" fill-rule="evenodd"/>
+    <path id="Path_45184" data-name="Path 45184" d="M11.984,18.25a.785.785,0,1,1,0,1.571H2.035a.785.785,0,1,1,0-1.571Z" transform="translate(0 0.78)" fill="#1d4999" fill-rule="evenodd"/>
+    <path id="Path_45185" data-name="Path 45185" d="M15.035,12.821a.785.785,0,1,1,0-1.571h7.331a.785.785,0,0,1,0,1.571Z" transform="translate(0.614 0.449)" fill="#1d4999" fill-rule="evenodd"/>
+  </g>
+</svg>

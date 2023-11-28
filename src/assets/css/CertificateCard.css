@@ -1,0 +1,476 @@
+.card-wrapper {
+    padding: 5px 20px;
+    min-height: 100vh;
+    background-color: white;
+    position: relative;
+}
+
+.logo-main{            
+        width: 250px;
+        height: 70px;
+}
+   
+.logo-main img{            
+        /* width: 100%;    */
+        width: 230px;
+       height: 50px;    
+}
+
+
+
+   
+
+@media print {
+    body {       
+        background-color: white !important;        
+    }
+    .card-wrapper{
+    height: auto;
+    min-height: auto;
+    background-color: white;    
+}
+.med-table-section{
+    height: auto;
+    min-height: auto;
+}
+.hideOnprint{
+    display: none;
+}
+
+.customeTopNav {
+    display: none;
+}
+.sidebar-nav {
+    display: none;
+} 
+
+ }
+
+
+
+ /* .card-wrapper::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;     
+    background-image: url(../images/Navbar/water-mark.png);
+    background-size: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;    
+} */
+
+.water-mark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: opacity(0.3);
+    /* width: 250px; */
+}
+
+.water-mark img{
+    width: 100%;
+}
+
+.water-mark .clientText {
+    font-weight: 600;
+    color: #0000005e;
+    font-size: 30px;
+    transform: rotate(330deg);    
+}
+
+
+.dis-hed {
+    display: flex;
+    justify-content: space-between;
+    align-items: self-start;
+    border-bottom: 1px solid #0000001c;
+    padding-bottom: 3px;
+}
+
+.address-section {    
+    text-align: center;    
+}
+
+.address-section .address {
+    width: 200px;
+    text-align: right;
+    color: #707070;
+    font-size: 14px;
+    font-weight: 500;
+}
+.address-section .proprietor {
+    /* width: 200px; */
+    /* text-align: right; */
+    color: #707070;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.address-section .email {    
+/* text-align: right; */
+color: #707070;
+font-size: 12px;
+}
+
+.address-section .phone {    
+/* text-align: right; */
+color: #707070;
+font-size: 12px;
+}
+
+.address-section .organizationName {  
+color: #707070;
+font-size: 16px;
+font-weight: 600;
+text-transform: uppercase;
+}
+
+.address-section .organizationAddress {    
+    color: #707070;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.address-section .organizationContact {    
+    color: #707070;
+    font-size: 12px;
+    /* font-weight: 100; */
+}
+
+.document-title {
+    color: #0C3681;
+    font-size: 20px;
+    font-weight: 600;
+    /* text-align: center; */
+    margin-top: 10px;
+}
+.document1-title {
+    color: #0C3681;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+.document-title-h {
+   color: #707070;
+   font-size: 17px;
+   font-weight: 600;
+   text-align: center;
+   margin-top: 10px;
+   border-top: 1px solid #ddd;
+   padding-top: 10px;
+   font-style: italic;
+}
+.tdbox {
+   border: 1px solid #ddd;
+   width: 250px;
+   height: 50px;
+}
+
+.table-certificate{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-certificate tbody tr:hover{
+    background-color: #dd795421 !important;
+}
+
+.table-certificate.border th {
+    border: 1px solid #70707024;
+}
+
+.table-certificate.border td{
+   border: 1px solid #70707024;
+}
+
+.table-certificate.border-bottom td{
+    border-bottom: 1px solid #70707024;
+ }
+
+.table-certificate td {
+    padding: 4px 3px;
+    font-size: 12px;
+    color: #707070;
+    vertical-align: top;
+}
+
+.table-certificate td.key {
+    font-weight: 600;
+}
+
+.table-certificate th{
+   padding: 4px 3px;
+   font-size: 14px;
+   color: #0C3681;
+   text-align: left;
+   font-weight: 500;
+}
+
+.table-certificate thead.border-bottom {
+    border-bottom: 1px solid #00000014;    
+}
+
+
+.table-certificate.tableVaccination td {
+    padding: 7px 3px;
+}
+
+.table-certificate.tableVaccination th {
+    padding: 8px 3px;
+}
+
+.bgDCE7FF{
+    background: #DCE7FF;   
+}
+.color1D4999{    
+    color: #1D4999 !important;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right !important;
+}
+.bglight-g{
+    background-color: #ECFBEC;
+}
+
+.bglight-r{
+background-color: #FCF6F6;
+}
+
+.d-none {
+    display: none;
+}
+
+.vaccinatedIndicators {
+    color: #546788;
+    font-size: 13px;
+    font-weight: 700;
+}
+.printIcon{
+    cursor: pointer;
+}
+
+
+.table-certificate td.value{  
+   font-size: 11px;   
+}
+.table-certificate td.valueSecond{  
+    font-weight: 600;   
+}
+ .cert-top1{
+    margin-top: 10px;
+ }
+ .cert-top2{
+    margin-top: 20px;
+ }
+ .cert-top3{
+    margin-top: 30px;
+ }
+ .cert-top4{
+    margin-top: 40px;
+ }
+
+.cert-title {
+    color: #0C3681;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+ .cert-title-details {
+    font-size: 12px;
+    color: #707070;
+}
+
+ ol.cert-ol {
+    margin: 0;
+    padding: 0;
+    margin-left: 25px;
+}
+
+ol.cert-ol li {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.quater-border{
+    position: fixed;
+    width: 7px;
+    height: 200px;
+}
+.quater-border.right-top{
+    top: 0;
+    right: 0;
+    background-color: #1D4999;    
+}
+.quater-border.left-bottom{
+    bottom: 0;
+    left:  0;    
+    background-color: #F16724; 
+}
+
+.sign-right {
+   display: inline-block;
+   border-bottom: 2px dotted #707070;
+   width: 181px;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+.table-certificate td.pathoTestName {
+    font-size: 14px;
+    font-weight: 700;
+    padding-top: 15px;
+}
+
+.table-certificate td.textBlue {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0C3681;
+}
+
+.signatureContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 72px;
+    gap: 25px;
+}
+
+.signatureContainerItem {
+    border-top: 1px #8080805e dotted;
+    font-size: 12px;
+    color: #707070;
+    font-size: 13px;
+    font-weight: 600;
+    width: 260px;
+    padding-top: 2px;
+    text-align: center;
+}
+
+.opdSlipContainer{
+    position: relative;
+    min-height: 100vh;
+    padding: 10px;
+}
+.opdSlipFooter{
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+}
+.opdSlipFooter a{
+    text-decoration: none;
+    color: gray;
+    font-size: 15px;
+}
+
+
+.totalReceivedText {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;   
+}
+.borderRightTransparent {   
+    border-right: 1px solid transparent;
+}
+
+.signatureSection{
+    display: flex;
+    justify-content: right;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000000ab;
+}
+.borderBottom{
+    border-bottom: 1px solid #00000075;
+}
+
+.healthCardContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.healthCardContainerInner {
+    width: 500px;
+    background: #8080800a;
+    border-radius: 4px;
+}
+
+
+
+.healthCardContainerInner .header {
+    display: grid;
+    grid-template-columns: 100px auto;
+    background-image: url('../images/CardIcons/CardBackground.png');
+    height: 90px;
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: bottom;   
+}
+.healthCardContainerInner .headerText {    
+    color: white;
+    font-size: 12px;
+}
+
+.healthCardContainerInner .cardLogo {
+    text-align: center;
+    padding-top: 10px;
+}
+.healthCardContainerInner .cardLogo img{
+   width: 65%;
+}
+
+.cardTitleBarcodeContainer {
+    display: grid;
+    grid-template-columns: 150px auto;
+    text-align: center;    
+    font-weight: 600;
+    letter-spacing: 1px;
+    align-items: baseline;
+}
+
+.tableHealthCard{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableHealthCard td {
+    padding: 1px 3px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.consultantSign{
+    /* borderBottom:'1px solid black', paddingBottom:'20px', display:'inline-block' */
+    display: inline-block;
+    border-bottom: 1px solid #00000014;
+    padding-bottom: 30px;
+    font-weight: bolder;
+
+}
+
+
+
+.tableHeaderFooter {
+    page-break-after: always;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableHeaderFooter thead {
+    display: table-header-group;
+}
+
+.tableHeaderFooter tbody  {
+    page-break-inside: avoid;
+}
+
+.tableHeaderFooter tfoot  {
+    display: table-footer-group;
+}

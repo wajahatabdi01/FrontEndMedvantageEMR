@@ -1,0 +1,12 @@
+<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1014">
+<g id="Group 990">
+<g id="Group 988">
+<ellipse id="Ellipse 16" cx="9.90124" cy="10" rx="7.90124" ry="8" fill="#4FADF0"/>
+<line id="Line 4" x1="9.08447" y1="3.83337" x2="9.08447" y2="9.50004" stroke="white" stroke-linecap="round"/>
+<line id="Line 5" x1="0.5" y1="-0.5" x2="6.1265" y2="-0.5" transform="matrix(0.695285 0.718734 -0.710044 0.704157 8.58447 10.0001)" stroke="white" stroke-linecap="square"/>
+</g>
+</g>
+<path id="Ellipse 29" d="M19.5 10.125C19.5 15.4466 15.2409 19.75 10 19.75C4.75913 19.75 0.5 15.4466 0.5 10.125C0.5 4.80339 4.75913 0.5 10 0.5C15.2409 0.5 19.5 4.80339 19.5 10.125Z" stroke="#A5A5A5"/>
+</g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="Group_12619" data-name="Group 12619" transform="translate(-1613.66 -291)">
+    <rect id="Rectangle_18955" data-name="Rectangle 18955" width="30" height="30" transform="translate(1613.66 291)" fill="#e4f6f4"/>
+    <g id="medical-room_1_" data-name="medical-room (1)" transform="translate(1620.861 298.402)">
+      <g id="Group_12602" data-name="Group 12602">
+        <g id="Group_12601" data-name="Group 12601">
+          <path id="Path_45005" data-name="Path 45005" d="M14.684,8.713v3.5H13.643a1.523,1.523,0,0,0-1.4-2.133H8.287V1.371A1.372,1.372,0,0,0,6.916,0H1.371A1.372,1.372,0,0,0,0,1.371V15.6H.914V14.227H7.373V15.6h.914V13.13h6.4V15.6H15.6V8.713Zm-7.312,4.6H.914V3.635a2.551,2.551,0,0,0,2.01-.2,2.477,2.477,0,0,0,2.439,0,2.551,2.551,0,0,0,2.01.2Zm0-10.668a1.623,1.623,0,0,1-1.738-.118l-.273-.2-.273.2a1.575,1.575,0,0,1-1.892,0l-.273-.2-.273.2a1.623,1.623,0,0,1-1.738.118V1.371A.457.457,0,0,1,1.371.914H6.916a.457.457,0,0,1,.457.457Zm4.874,9.571H8.287V11h3.96a.609.609,0,0,1,0,1.219Z" fill="#039783"/>
+        </g>
+      </g>
+      <g id="Group_12604" data-name="Group 12604" transform="translate(2.632 4.386)">
+        <g id="Group_12603" data-name="Group 12603" transform="translate(0 0)">
+          <rect id="Rectangle_19100" data-name="Rectangle 19100" width="1" height="8" transform="translate(0.368 -0.386)" fill="#039783"/>
+        </g>
+      </g>
+      <g id="Group_12606" data-name="Group 12606" transform="translate(5.264 4.386)">
+        <g id="Group_12605" data-name="Group 12605" transform="translate(0 0)">
+          <rect id="Rectangle_19101" data-name="Rectangle 19101" width="1" height="8" transform="translate(-0.264 -0.386)" fill="#039783"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

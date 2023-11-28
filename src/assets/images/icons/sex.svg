@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11.858" height="19.209" viewBox="0 0 11.858 19.209">
+  <g id="Group_13042" data-name="Group 13042" transform="translate(-1270.88 -531.875)">
+    <g id="Group_12406" data-name="Group 12406" transform="translate(1270.88 531.875)">
+      <g id="Group_12401" data-name="Group 12401" transform="translate(0 0)">
+        <path id="Path_44885" data-name="Path 44885" d="M182.577,397.515v4.3h2.251l.375-3.863Z" transform="translate(-178.764 -382.601)" fill="#546788"/>
+        <path id="Path_44886" data-name="Path 44886" d="M178.461,2.405a2.406,2.406,0,0,0,2.405,2.406l.375-2.405L180.866,0A2.4,2.4,0,0,0,178.461,2.405Z" transform="translate(-174.802 0)" fill="#546788"/>
+        <g id="Group_12400" data-name="Group 12400" transform="translate(0 4.782)">
+          <path id="Path_44887" data-name="Path 44887" d="M83.411,127.448l-2.471,7.281,1.092.359.594-.059.487.415-.854,2.57h5.121V127.463Z" transform="translate(-80.94 -127.448)" fill="#546788"/>
+          <path id="Path_44888" data-name="Path 44888" d="M111.115,215.373l-1.081-.355,1.53-4.524,1.066.361Z" transform="translate(-108.942 -207.378)" fill="#546788"/>
+        </g>
+      </g>
+      <g id="Group_12403" data-name="Group 12403" transform="translate(5.537 4.811)">
+        <g id="Group_12402" data-name="Group 12402" transform="translate(0 0)">
+          <path id="Path_44889" data-name="Path 44889" d="M265.948,128.233h-3.371v6.847l2.626-.75v-2.676h.032l1.686,3.1,1.977-1.076Z" transform="translate(-262.577 -128.233)" fill="#546788"/>
+        </g>
+        <path id="Path_44890" data-name="Path 44890" d="M262.577,290.728l.375,8.3H265.2v-8.3Z" transform="translate(-262.577 -284.632)" fill="#546788"/>
+      </g>
+      <path id="Path_44891" data-name="Path 44891" d="M262.952,4.811a2.405,2.405,0,0,0,0-4.811l-.375,2.405Z" transform="translate(-257.04 0)" fill="#546788"/>
+    </g>
+    <g id="Group_12405" data-name="Group 12405" transform="translate(1276.456 531.875)">
+      <path id="Path_44893" data-name="Path 44893" d="M242.577,0h.563V19.209h-.563Z" transform="translate(-242.577)" fill="#fffff7"/>
+    </g>
+  </g>
+</svg>

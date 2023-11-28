@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13.183" height="13.183" viewBox="0 0 13.183 13.183">
+  <g id="blood-test" transform="translate(0.001 -0.002)">
+    <path id="Path_44972" data-name="Path 44972" d="M4.033,1.254a6.622,6.622,0,0,0-1.2-1.18.386.386,0,0,0-.448,0,6.643,6.643,0,0,0-1.2,1.18A5,5,0,0,0,0,4.351,2.511,2.511,0,0,0,2.607,6.934,2.507,2.507,0,0,0,5.214,4.411,4.977,4.977,0,0,0,4.033,1.254Zm-.755,3.4H2.993v.285a.386.386,0,1,1-.772,0V4.652H1.937a.386.386,0,0,1,0-.772h.284V3.6a.386.386,0,1,1,.772,0V3.88h.285a.386.386,0,0,1,0,.772Z" transform="translate(0)" fill="#546788"/>
+    <g id="Group_12526" data-name="Group 12526" transform="translate(1.409 1.404)">
+      <path id="Path_44973" data-name="Path 44973" d="M56.313,346.112l2.729,2.731-.019.018-.956.957a1.929,1.929,0,0,1-2.729,0h0a1.934,1.934,0,0,1,0-2.731l.956-.956Z" transform="translate(-54.774 -338.602)" fill="#546788"/>
+      <path id="Path_44974" data-name="Path 44974" d="M0,0H3.826V3.861H0Z" transform="translate(2.082 6.967) rotate(-45)" fill="#546788"/>
+      <path id="Path_44975" data-name="Path 44975" d="M266.049,148.475l-1.36,1.36L261.96,147.1l1.359-1.361Z" transform="translate(-256.625 -143.393)" fill="#546788"/>
+      <g id="Group_12525" data-name="Group 12525" transform="translate(6.854)">
+        <path id="Path_44976" data-name="Path 44976" d="M321.711,56.618l-.637-.637a.386.386,0,0,1,0-.546l.872-.872a.386.386,0,0,1,.546,0l.637.637Z" transform="translate(-320.961 -54.449)" fill="#546788"/>
+        <path id="Path_44977" data-name="Path 44977" d="M0,0H1.287V2.005H0Z" transform="translate(2.716 1.294) rotate(45)" fill="#546788"/>
+        <path id="Path_44978" data-name="Path 44978" d="M428.457,163.424l-.637-.637,1.418-1.419.637.637a.386.386,0,0,1,0,.546l-.872.872A.386.386,0,0,1,428.457,163.424Z" transform="translate(-425.069 -158.615)" fill="#546788"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="9.931" height="18" viewBox="0 0 9.931 18">
+  <g id="smartphone" transform="translate(-16 -3)">
+    <ellipse id="Ellipse_690" data-name="Ellipse 690" cy="0.5" ry="0.5" transform="translate(20.931 19)" fill="#546788"/>
+    <path id="Path_44877" data-name="Path 44877" d="M24.069,3H17.862A1.864,1.864,0,0,0,16,4.862h9.931A1.864,1.864,0,0,0,24.069,3ZM21.9,4.241H20.034a.31.31,0,0,1,0-.621H21.9a.31.31,0,0,1,0,.621Z" fill="#546788"/>
+    <path id="Path_44878" data-name="Path 44878" d="M16,11h9.931V22.793H16Z" transform="translate(0 -5.517)" fill="#546788"/>
+    <path id="Path_44879" data-name="Path 44879" d="M16,52.241A1.864,1.864,0,0,0,17.862,54.1h6.207a1.864,1.864,0,0,0,1.862-1.862V51H16Zm4.966-.621a.931.931,0,1,1-.931.931A.931.931,0,0,1,20.966,51.621Z" transform="translate(0 -33.103)" fill="#546788"/>
+  </g>
+</svg>

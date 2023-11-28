@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.511" height="19.511" viewBox="0 0 19.511 19.511">
+  <g id="magnesium" transform="translate(0)">
+    <ellipse id="Ellipse_821" data-name="Ellipse 821" cx="2.436" cy="2.436" rx="2.436" ry="2.436" transform="translate(0.421 14.218)" fill="#e7ae5f"/>
+    <ellipse id="Ellipse_822" data-name="Ellipse 822" cx="2.436" cy="2.436" rx="2.436" ry="2.436" transform="matrix(0.987, -0.16, 0.16, 0.987, 13.858, 0.845)" fill="#e7ae5f"/>
+    <ellipse id="Ellipse_823" data-name="Ellipse 823" cx="1.15" cy="1.15" rx="1.15" ry="1.15" transform="translate(11.475 9.179)" fill="#e7ae5f"/>
+    <path id="Path_45738" data-name="Path 45738" d="M18.678,5.807A3.577,3.577,0,0,1,13.7.833,9.759,9.759,0,0,0,.833,13.7a3.577,3.577,0,0,1,4.974,4.974A9.759,9.759,0,0,0,18.678,5.807Zm-9.5,6.816H8.036V9.194l-1.15,1.989L5.735,9.194v3.429H4.592V6.888h1.13L6.885,8.9,8.049,6.888h1.13v5.735Zm5.74,0A2.294,2.294,0,0,1,11,14.247l.808-.808a1.15,1.15,0,0,0,1.964-.813v-.313a2.294,2.294,0,1,1,0-3.966v-.31h1.143Z" transform="translate(0 0)" fill="#e7ae5f"/>
+  </g>
+</svg>

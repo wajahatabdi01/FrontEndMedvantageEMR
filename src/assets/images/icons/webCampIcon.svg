@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.146" y1="0.146" x2="0.854" y2="0.854" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff6432"/>
+      <stop offset="1" stop-color="#f44336"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.217" y1="0.218" x2="0.791" y2="0.82" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b33128"/>
+      <stop offset="0.93" stop-color="#b33128" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2" transform="translate(0.076 0.076)">
+    <g id="_02.camera" data-name="02.camera" transform="translate(-0.076 -0.076)">
+      <circle id="background" cx="12" cy="12" r="12" transform="translate(0)" fill="url(#linear-gradient)"/>
+      <path id="Path_44545" data-name="Path 44545" d="M146.592,158.015a12,12,0,0,1-10.82,9.512l-6.883-6.882,3.623-6.1,4.241-3.911,2.45,2.451,1.662-.794Z" transform="translate(-122.842 -143.563)" fill="url(#linear-gradient-2)"/>
+      <g id="Group_49" data-name="Group 49" transform="translate(5.678 6.667)">
+        <path id="Path_44546" data-name="Path 44546" d="M132.586,143.85h-2.63a1.89,1.89,0,0,0-1.884-1.74h-1.494a1.89,1.89,0,0,0-1.884,1.74h-2.63A1.066,1.066,0,0,0,121,144.916v6.8a1.066,1.066,0,0,0,1.066,1.066h10.521a1.066,1.066,0,0,0,1.066-1.066v-6.8A1.066,1.066,0,0,0,132.586,143.85Zm-5.26,6.936a2.469,2.469,0,1,1,2.469-2.469,2.469,2.469,0,0,1-2.469,2.469Z" transform="translate(-121 -142.11)" fill="#fff"/>
+        <circle id="Ellipse_346" data-name="Ellipse 346" cx="1.357" cy="1.357" r="1.357" transform="translate(4.969 4.85)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
