@@ -1,6 +1,8 @@
 import React from 'react'
 import Heading from '../../../Component/Heading';
 import save from "../../../assets/images/icons/save.svg"
+import plus from "../../../assets/images/icons/newPlus.png"
+import deleteBtn from "../../../assets/images/icons/newDelete.png";
 
 export default function ListEditorMaster() {
   return (
@@ -16,6 +18,16 @@ export default function ListEditorMaster() {
                                 <div style={{ display:'flex', position: 'relative' }}>
                                     {/* <input type="text" className='form-control form-control-sm' placeholder="Search" value={''} onChange={''} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span> */}
+                                    <button type="button" className="btn btn-sq-xs btn-save-fill mb-1 me-1" onClick={''} style={{ padding: '5px', width:'30px', height:'30px', display: 'flex', justifyContent: 'center', alignItems: 'center'}} 
+                                   data-bs-toggle="modal" data-bs-title="Add New List" data-bs-placement="bottom" data-bs-target="#newListModal" title='New List'>
+                                            <img src={plus} className='icnn' alt='' style={{ width: '100%', height: '100%' }}/>
+                                    </button>
+                                    <button type="button" className="btn btn-sq-xs btn-danger mb-1 me-1" onClick={''} style={{padding: '5px', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center',}}
+data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" title='Delete List'>
+  <img src={deleteBtn} className='icnn' alt='' style={{ width: '100%', height: '100%' }} />
+</button>
+
+
                                     <select className='form-select form-select-sm' style={{width:'250px'}}>
                                           <option value='0'>test 1</option>
                                           <option value='1'>test 2</option>
@@ -81,7 +93,7 @@ export default function ListEditorMaster() {
                         <div className="col-12">
                         <div className='whitebg' style={{padding:"3px"}}>
                         <div className="d-flex  gap-2 mt-2" style={{justifyContent:'left', flexWrap:'wrap'}}>
-                        <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={''}><img src={save} className='icnn' alt='' />Save</button>
+                            <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={''}><img src={save} className='icnn' alt='' />Save</button>
                         </div>
                         </div>
                         </div>
@@ -95,24 +107,47 @@ export default function ListEditorMaster() {
 
 
                 {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
-                {/* <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
                     <div className="modal-dialog modalDelete">
                         <div className="modal-content">
 
                             <div className="modal-body modelbdy text-center">
                                 <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
-                                <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
-                                <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                                <div className='popDeleteTitle mt-3'>Delete?</div>
+                                <div className='popDeleteContent'>Do you want to delete?</div>
                             </div>
-                            <div className="modal-footer1 text-center">
+                            <div className="modal-footer1 text-center" >
 
-                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
-                                <button type="button" className="btn-delete popBtnDelete" onClick={handleDeleteRow} data-bs-dismiss="modal">{t("Delete")}</button>
+                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button>
+                                <button type="button" className="btn-delete popBtnDelete" onClick={''} data-bs-dismiss="modal">"Delete"</button>
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
                 {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
+
+                {/*  <!------------------- Start New List Modal ---------------------------------->  */}
+                <div className="modal fade" id="newListModal" tabIndex="-1" aria-labelledby="newListModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                    <div className="modal-dialog modalDelete">
+                        <div className="modal-content">
+
+                            <div className="modal-body modelbdy text-center">
+                                
+                                <div className='popDeleteContent'>Add New List</div>
+                                <div className="mb-2 me-2">
+                                            
+                                            <input type="text" className="form-control form-control-sm" id="bedName" placeholder="Enter Bed Name name" onChange={''} />
+                                        </div>
+                            </div>
+                            <div className="modal-footer1 text-center" style={{ marginTop: "-27px"}}>
+
+                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button>
+                                <button type="button" className="btn-delete popBtnDelete" onClick={''} data-bs-dismiss="modal">"Delete"</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* {/ -----------------------End New List Modal Popup--------------------- /} */}
 
                 {/*####### Chat Button */}
                 {/* <div className="chat-btn" title='Start Chat' onClick={btnOpenChatBox}> <i className="bi bi-chat-left-dots"></i></div> */}
