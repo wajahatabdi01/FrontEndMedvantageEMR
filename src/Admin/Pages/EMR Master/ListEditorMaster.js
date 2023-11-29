@@ -3,8 +3,10 @@ import Heading from '../../../Component/Heading';
 import save from "../../../assets/images/icons/save.svg"
 import plus from "../../../assets/images/icons/newPlus.png"
 import deleteBtn from "../../../assets/images/icons/newDelete.png";
+import { CodeMaster } from './CodeMaster';
 
 export default function ListEditorMaster() {
+    const style={marginLeft:'0px'};
   return (
     <>
             <section className="main-content pt-3 mt-5">
@@ -65,7 +67,7 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                                         </select>
                                       </td>
                                       <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Order'/></td>
-                                      <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Order'/></td>
+                                      <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Codes' data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#codesModal"/></td>
 
                                     </tr>
                                         {/* {bedData && bedData.filter((val) => `${val.bedName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((key, index) => {
@@ -121,7 +123,7 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                                 <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button>
                                 <button type="button" className="btn-delete popBtnDelete" onClick={''} data-bs-dismiss="modal">"Delete"</button>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
                 {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
@@ -148,6 +150,16 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                     </div>
                 </div>
                 {/* {/ -----------------------End New List Modal Popup--------------------- /} */}
+
+                <div className="modal fade" id="codesModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static" >
+                    <div className="modal-dialog modalDelete" style={{maxWidth:'max-content'}}>
+                        <div className="modal-content" >
+                        {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
+                        <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i class="bi bi-x-octagon"></i></button>
+                           <CodeMaster isExcludeCss="1"/>
+                        </div>
+                    </div>
+                </div>
 
                 {/*####### Chat Button */}
                 {/* <div className="chat-btn" title='Start Chat' onClick={btnOpenChatBox}> <i className="bi bi-chat-left-dots"></i></div> */}

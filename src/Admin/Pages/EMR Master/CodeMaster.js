@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import Heading from '../../../Component/Heading';
 
-export const CodeMaster = () => {
+export const CodeMaster = (props) => {
+  console.log('props',props)
     let [bedData, setBeddata] = useState([])
     let [updateBool, setUpdateBool] = useState(0)
     let [sendForm, setSendForm] = useState({ "userId": window.userId })
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
-
+    let [propData, setPropData] = useState(props)
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
     let [tosterValue, setTosterValue] = useState(0)
     const [searchTerm, setSearchTerm] = useState('');
+    console.log('propData : ', propData)
 //     const [currentPage, setCurrentPage] = useState(1);
 //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -36,7 +38,7 @@ export const CodeMaster = () => {
     const handleSearch = () => { }
     return (
         <>
-            <section className="main-content pt-3 mt-5">
+            <section className="main-content pt-3 mt-5"  style={propData.isExcludeCss === 1 ? {marginLeft:'0px'}:{marginLeft:'267px'}}>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">

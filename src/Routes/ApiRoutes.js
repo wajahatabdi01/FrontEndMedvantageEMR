@@ -823,7 +823,7 @@ export default function ApiRoutes() {
                    <Route path="/developerDashoard/" element={<ProtectedRoutes Compnent={ <CommonLayout Component={<Developer />} name="null" />    } />} />
                  
                    {/* -----------------------------------Start Medvantage EMR Master----------------------------------------- */}
-                   <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster />} name="EMRMaster" />} />} />
+                   <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
                    <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
 
