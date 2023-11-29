@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Heading from '../../../Component/Heading';
 
 export const CodeMaster = (props) => {
-  console.log('props',props)
     let [bedData, setBeddata] = useState([])
     let [updateBool, setUpdateBool] = useState(0)
     let [sendForm, setSendForm] = useState({ "userId": window.userId })
@@ -38,7 +37,7 @@ export const CodeMaster = (props) => {
     const handleSearch = () => { }
     return (
         <>
-            <section className="main-content pt-3 mt-5"  style={propData.isExcludeCss === 1 ? {marginLeft:'0px'}:{marginLeft:'267px'}}>
+            <section className="main-content pt-3 mt-5" style={props.style}>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">
