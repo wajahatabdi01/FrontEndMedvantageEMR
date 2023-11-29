@@ -6,7 +6,7 @@ import deleteBtn from "../../../assets/images/icons/newDelete.png";
 import { CodeMaster } from './CodeMaster';
 
 export default function ListEditorMaster() {
-    const style={marginLeft:'0px'};
+    const customStyle={marginLeft:'0px'};
   return (
     <>
             <section className="main-content pt-3 mt-5">
@@ -156,7 +156,7 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                         <div className="modal-content" >
                         {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                         <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i class="bi bi-x-octagon"></i></button>
-                           <CodeMaster isExcludeCss="1"/>
+                           <CodeMaster style={customStyle}/>
                         </div>
                     </div>
                 </div>
