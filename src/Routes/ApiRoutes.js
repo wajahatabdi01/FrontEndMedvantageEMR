@@ -335,6 +335,7 @@ import TaskMaster from '../Admin/Pages/Schedule/TaskMaster';
 import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganDepartmentMapping';
 import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
 import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
+import LabNotificationReport from '../FHIRLab/Pages/LabNotificationReport';
 
 export default function ApiRoutes() {
 
@@ -826,6 +827,11 @@ export default function ApiRoutes() {
                    <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
                    <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
+
+                  {/* -----------------------------------Start Medvantage FHIRLab----------------------------------------- */}
+                  <Route path="/labnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LabNotificationReport />} name="LabNotificationReport" />} />} />
+                  {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
+
 
 
             </Routes>

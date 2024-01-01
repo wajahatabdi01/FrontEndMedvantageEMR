@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Heading from '../../../Component/Heading';
 import save from "../../../assets/images/icons/save.svg"
 import plus from "../../../assets/images/icons/newPlus.png"
 import deleteBtn from "../../../assets/images/icons/newDelete.png";
 import { CodeMaster } from './CodeMaster';
+import DropdownWithSearch from '../../../Component/DropdownWithSearch';
 
 export default function ListEditorMaster() {
+    let [clearDropdown, setClearDropdown] = useState(0);
     const customStyle={marginLeft:'0px'};
+
+    const handleTextChange = async (e) => {
+
+    }
+
+    let handleClear = (value) => {
+        setClearDropdown(value);
+        
+      }
   return (
     <>
             <section className="main-content pt-3 mt-5">
@@ -30,10 +41,11 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
 </button>
 
 
-                                    <select className='form-select form-select-sm' style={{width:'250px'}}>
+                                    {/* <select className='form-select form-select-sm' style={{width:'250px'}}>
                                           <option value='0'>test 1</option>
                                           <option value='1'>test 2</option>
-                                        </select>
+                                        </select> */}
+                                        <DropdownWithSearch defaulNname="Adress Book Types" name="bacteriaID" list={''} valueName="" displayName="" editdata={""} getvalue={handleTextChange} clear={clearDropdown} clearFun={handleClear} />
                                         <span style={{padding:'5px'}}>Showing Items: 11 of 11</span>
 
                                 </div>
@@ -166,10 +178,6 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
 
             </section>
             {/* <Loder val={loder} /> */}
-
-
-
-
         </>
   )
 }
