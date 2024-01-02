@@ -4,11 +4,14 @@ import Heading from '../../../Component/Heading';
 import Delete from '../../../assets/images/icons/delete.svg'
 import GetCodeDropdown from '../../../FHIRLab/API/GET/GetCodeDropdown';
 import GetCodeBind from '../../../FHIRLab/API/GET/GetCodeBindList';
+import Search from '../../../assets/images/icons/search_7079548.png'
 
 export const CodeMaster = (props) => {
     
     const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])
+    const [textSearch, setTextSearch] = useState('')
+    const [getCode, setCode] = useState('')
 //     const [currentPage, setCurrentPage] = useState(1);
 //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -26,21 +29,49 @@ export const CodeMaster = (props) => {
 //     setCurrentPage(1); // Reset to the first page when changing items per page
 //   };
 
+///////////////////////////////////////////// search text box /////////////////////////////
+
+let handleSearchChange = (e) =>{
+    setTextSearch(e.target.value)
+}
+
+////////////////////////////////////////////////// to set code /////////////////////////////
+
+let funSetCode = (code) => {
+    setCode(code);
+}
+
 //////////////////////////////////// to Get Code list in dropdown
-let funGetCode =async () => {
+let funGetCodeList =async () => {
      const getResponse = await GetCodeDropdown();
      setCodeList(getResponse.responseValue)
 }
 
 /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-let funBindCodeList = async (code) =>{
-    const getBindRes = await GetCodeBind(code);
+let funBindCodeList = async () =>{
+    console.log('getCode : ', getCode);
+    console.log('textSearch : ', textSearch);
+    if(getCode === '' || getCode === undefined || getCode === null){
+        alert('Please select code.');
+    }
+    else{
+        const getBindRes = await GetCodeBind(getCode, textSearch);
     setCodeBindList(getBindRes.responseValue)
     console.log('getBindRes : ', getBindRes)
+    }
+    
+}
+
+////////////////////////////////////////////// to clear the list and dropdown ////////////////////////////////
+let clearData = () => {
+    setTextSearch('');
+    setCodeList([]);
+    setCodeBindList([])
+    funGetCodeList();
 }
 
 useEffect(() => {
-    funGetCode();
+    funGetCodeList();
 },[])
     return (
         <>
@@ -54,7 +85,7 @@ useEffect(() => {
                                 <div className="inner-content">
                                 <div className="d-flex flex-wrap align-content-end">
                                      <div className="mb-2 me-2">
-                                        <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funBindCodeList(event.target.value)}>
+                                        <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
                                         <option value='0'>Select Code</option>
                                         {getCodeList && getCodeList.map((list, ind) => (
                                             <option key={ind} value={list.codeId}>{list.codeName}</option>
@@ -62,10 +93,13 @@ useEffect(() => {
                                         </select>
                                     </div>
                                     <div className="mb-2 me-2">
-                                        <input type="text" className='form-control form-control-sm' placeholder="Search..." onChange={''} />
+                                        <input type="text" value={textSearch} className='form-control form-control-sm' placeholder="Search..." onChange={handleSearchChange} />
+                                    </div>
+                                    <div className="mb-2 me-2 " style={{backgroundColor:'#ffefef'}}>
+                                    <img src={Search} alt='' title='Search' style={{ cursor: 'pointer' , width:'20px', height:'20px'}}  onClick={funBindCodeList}/>
                                     </div>
                                     <div className='mb-2 me-2'>
-                                        <img src={Delete} alt='' title='Delete' style={{ cursor: 'pointer' }} />
+                                        <img src={Delete} alt='' title='Delete' style={{ cursor: 'pointer' }} onClick={clearData}/>
                                     </div>
                                 </div>
 
@@ -113,9 +147,9 @@ useEffect(() => {
 
                                             <th className="text-center" style={{ "width": "5%" }}> Code </th>
                                             <th>Description</th>
-                                            <th style={{ position: 'relative', width: '180px' }}>
-                                                <input type="text" className='form-control form-control-sm' placeholder="Search..." onChange={''} />
-                                            </th>
+                                            {/* <th style={{ position: 'relative', width: '180px' }}>
+                                                <input type="text" className='form-control form-control-sm' placeholder="Search..." onChange={} />
+                                            </th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
