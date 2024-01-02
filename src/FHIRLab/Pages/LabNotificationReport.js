@@ -16,7 +16,7 @@ export default function LabNotificationReport() {
 
   useEffect(() => {
     window.sessionStorage.setItem('billNu','')
-  });
+  },[]);
 
   return (
     <section className="main-content mt-5 pt-3">
