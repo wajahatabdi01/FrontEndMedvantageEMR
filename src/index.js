@@ -41,6 +41,7 @@ window.LogBaseUrl = "http://172.16.61.31:7089/"
 // window.supportTicketUploadMediaBaseUrl = "http://23.236.54.179:127"
 window.supportTicketUploadMediaBaseUrl = "http://192.168.8.2:7088"
 window.fhiropenEMR = "http://192.168.11.101:6082"
+window.fhiropenEMRLab = "http://192.168.11.101:6088"
 
 
 // use for demo 

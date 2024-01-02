@@ -336,6 +336,7 @@ import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganD
 import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
 import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
 import LabNotificationReport from '../FHIRLab/Pages/LabNotificationReport';
+import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
 
 export default function ApiRoutes() {
 
@@ -830,6 +831,7 @@ export default function ApiRoutes() {
 
                   {/* -----------------------------------Start Medvantage FHIRLab----------------------------------------- */}
                   <Route path="/labnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LabNotificationReport />} name="LabNotificationReport" />} />} />
+                  <Route path="/radiolabnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<RadioLabNotificationReport />} name="LabNotificationReport" />} />} />
                   {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
 
 
