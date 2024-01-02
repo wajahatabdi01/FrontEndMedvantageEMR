@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import GetLabNotificationReportData from '../API/GET/GetLabNotificationReportData';
 import Search from '../../Code/Serach';
 
-export default function PathologyNotificationReport() {
+export default function MicrobiologyNotificationReport() {
 
   const [billList, setBillList] = useState([]);
   const [billListSearch, setBillListSearch] = useState([]);
@@ -20,7 +20,7 @@ export default function PathologyNotificationReport() {
 
   const funGetBillList = async () => {
     
-    const getRes = await GetLabNotificationReportData(1);
+    const getRes = await GetLabNotificationReportData(2);
     if(getRes.status === 1){
       setBillList(getRes.responseValue);
       setBillListSearch(getRes.responseValue)
@@ -55,7 +55,7 @@ export default function PathologyNotificationReport() {
           <div className="row">
             <div className="col-12 mt-2">
               <div className='handlser'>
-                <Heading text='Pathology Notification Report' />
+                <Heading text='Microbiology Notification Report' />
 
                 <div style={{ position: 'relative' }}>
                   <input type="text" className='form-control form-control-sm' placeholder='Search..' onChange={handleSearch} />

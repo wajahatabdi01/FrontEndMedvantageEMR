@@ -157,7 +157,7 @@ useEffect(() => {
                                             return(
                                                 <tr key={bindList.code}>
                                                     <td style={{textAlign: 'center'}}>{bindList.code}</td>
-                                                    <td>{bindList.code_text}</td>
+                                                    <td onClick={()=>{props.SelectedData(bindList)}} style={{overflow: 'hidden', textOverflow:'ellipsis'}}>{bindList.code_text}</td>
                                                 </tr>
                                             )
                                         })}

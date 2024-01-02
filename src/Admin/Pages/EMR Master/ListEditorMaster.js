@@ -13,6 +13,10 @@ export default function ListEditorMaster() {
     const handleTextChange = async (e) => {
 
     }
+    let SelectedData =(data)=>{ 
+        console.log('data : ', data)
+        document.getElementById("data").value = data.code
+    }   
 
     let handleClear = (value) => {
         setClearDropdown(value);
@@ -66,6 +70,7 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                                         </tr>
                                     </thead>
                                     <tbody>
+                                   
                                     <tr>
                                       <td><input type='text' className='form-control form-control-sm' placeholder='Enter Id'/></td>
                                       <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Title'/></td>
@@ -79,7 +84,7 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                                         </select>
                                       </td>
                                       <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Order'/></td>
-                                      <td><input type='text' className='form-control form-control-sm' style={{width:'250px'}} placeholder='Enter Codes' data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#codesModal"/></td>
+                                      <td><input type='text' className='form-control form-control-sm' id={"data"} style={{width:'250px'}} placeholder='Enter Codes' data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#codesModal"/></td>
 
                                     </tr>
                                         {/* {bedData && bedData.filter((val) => `${val.bedName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((key, index) => {
@@ -164,11 +169,11 @@ data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" dat
                 {/* {/ -----------------------End New List Modal Popup--------------------- /} */}
 
                 <div className="modal fade" id="codesModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static" >
-                    <div className="modal-dialog modalDelete" style={{maxWidth:'max-content'}}>
+                    <div className="modal-dialog modalDelete" style={{maxWidth:'550px'}}>
                         <div className="modal-content" >
                         {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                         <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i class="bi bi-x-octagon"></i></button>
-                           <CodeMaster style={customStyle}/>
+                           <CodeMaster style={customStyle} SelectedData={SelectedData}/>
                         </div>
                     </div>
                 </div>

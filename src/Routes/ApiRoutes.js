@@ -338,6 +338,7 @@ import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
 import LabNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
 import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
 import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
+import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
 
 export default function ApiRoutes() {
 
@@ -833,6 +834,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------------Start Medvantage FHIRLab----------------------------------------- */}
                   <Route path="/pathnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PathologyNotificationReport />} name="LabNotificationReport" />} />} />
                   <Route path="/radiolabnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<RadioLabNotificationReport />} name="LabNotificationReport" />} />} />
+                  <Route path="/microbiologynotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<MicrobiologyNotificationReport />} name="LabNotificationReport" />} />} />
                   {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
 
 
