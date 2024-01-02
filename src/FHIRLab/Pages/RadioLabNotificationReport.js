@@ -4,26 +4,44 @@ import TableContainer from '../../Component/TableContainer';
 import visible from '../../assets/images/icons/visible.svg'
 import GetLabNotificationReportData from '../API/GET/GetLabNotificationReportData';
 import { useEffect, useState } from 'react';
+import Search from '../../Code/Serach';
 
 export const RadioLabNotificationReport = () => {
     const [radioData, setRadioData] = useState([]);
+    const [radioDataSearch, setRadioDataSearch] = useState([]);
     const navigate = useNavigate();
 
     const funRedirectPage = (billNumber) => {
-        window.sessionStorage.getItem('radioLabBillNumber', billNumber);
-        navigate('/SampleCollection');
+        window.sessionStorage.setItem('radioLabBillNumber', billNumber);
+        navigate('/Perform-Test/');
     };
 
     const getData = async () => {
-        const radioResp = await GetLabNotificationReportData(3);
-        console.log('data', radioResp);
+        const radioResp = await GetLabNotificationReportData(3);        
         if (radioResp.status === 1) {
             setRadioData(radioResp.responseValue);
+            setRadioDataSearch(radioResp.responseValue);
         }
     };
 
+    const handleSearch = (e) =>{
+        let resp = Search(radioData, e.target.value);
+        if (e.target.value !== "") {
+            if (resp.length !== 0) {
+                setRadioDataSearch(resp)
+            }
+            else {
+                setRadioDataSearch([])
+      
+            }
+          }
+          else {
+            setRadioDataSearch(radioData)
+          }
+    };
     useEffect(() => {
         getData();
+        window.sessionStorage.setItem('radioLabBillNumber', '');
     }, []);
     return (
         <section className="main-content mt-5 pt-3">
@@ -34,7 +52,7 @@ export const RadioLabNotificationReport = () => {
                             <Heading text='Radio Lab Notification Report' />
 
                             <div style={{ position: 'relative' }}>
-                                <input type="text" className='form-control form-control-sm' placeholder='Search..' onChange={''} />
+                                <input type="text" className='form-control form-control-sm' placeholder='Search..' onChange={handleSearch} />
                                 <span className="tblsericon"><i class="fas fa-search"></i></span>
                             </div>
                         </div>
@@ -52,23 +70,25 @@ export const RadioLabNotificationReport = () => {
                                 </thead>
 
                                 <tbody>
-                                
-                                    <tr>
-                                        <td>1</td>
-                                        <td>12-11-2023</td>
-                                        <td>Test</td>
-                                        <td>Dr. Test</td>
-                                        <td className=''>
-                                            <div className='action-button '>
-                                                <div className='btn-sm' title='Prescription sent' >
-                                                    <img src={visible} style={{ 'width': '20px', 'border-radius': '5px', }} alt='' onClick={() => funRedirectPage('1B-0099999')} />
-                                                </div>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
+                                    {
+                                        radioDataSearch && radioDataSearch.map((list, ind) => {
+                                            return (
+                                                <tr>
+                                                    <td>{ind+1}</td>
+                                                    <td>{list.uhid}</td>
+                                                    <td>{list.billNo}</td>
+                                                    <td>{list.billDateTime}</td>                                                    
+                                                    <td className=''>
+                                                        <div className='action-button '>
+                                                            <div className='btn-sm' title='Prescription sent' >
+                                                                <img src={visible} style={{ 'width': '20px', 'border-radius': '5px', }} alt='' onClick={() => funRedirectPage(list.billNo)} />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
                                 </tbody>
                             </TableContainer>
                         </div>
