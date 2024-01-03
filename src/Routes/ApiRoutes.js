@@ -339,6 +339,7 @@ import LabNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport'
 import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
 import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
 import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
+import FHIRFamilyHistoryEdit from '../EditCredentional/Pages/FHIRFamilyHistoryEdit';
 
 export default function ApiRoutes() {
 
@@ -837,6 +838,9 @@ export default function ApiRoutes() {
                   <Route path="/microbiologynotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<MicrobiologyNotificationReport />} name="LabNotificationReport" />} />} />
                   {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
 
+                  {/* -----------------------------------Start Medvantage Edit SEction----------------------------------------- */}
+                  <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRFamilyHistoryEdit />} name="EditSection" />} />} />
+                  {/* -----------------------------------End Medvantage Edit SEction----------------------------------------- */}
 
 
             </Routes>

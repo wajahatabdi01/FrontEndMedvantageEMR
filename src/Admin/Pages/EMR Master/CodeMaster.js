@@ -5,6 +5,8 @@ import Delete from '../../../assets/images/icons/delete.svg'
 import GetCodeDropdown from '../../../FHIRLab/API/GET/GetCodeDropdown';
 import GetCodeBind from '../../../FHIRLab/API/GET/GetCodeBindList';
 import Search from '../../../assets/images/icons/search_7079548.png'
+import '../../../assets/css/multipleSelectDropdown.css'
+import '../../../assets/css/App.css'
 
 export const CodeMaster = (props) => {
     
@@ -12,6 +14,7 @@ export const CodeMaster = (props) => {
     const [getCodeBindList, setCodeBindList] = useState([])
     const [textSearch, setTextSearch] = useState('')
     const [getCode, setCode] = useState('')
+    const [arrToFwd, setArrToFwd] = useState([]);
 //     const [currentPage, setCurrentPage] = useState(1);
 //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -49,15 +52,12 @@ let funGetCodeList =async () => {
 
 /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
 let funBindCodeList = async () =>{
-    console.log('getCode : ', getCode);
-    console.log('textSearch : ', textSearch);
     if(getCode === '' || getCode === undefined || getCode === null){
         alert('Please select code.');
     }
     else{
         const getBindRes = await GetCodeBind(getCode, textSearch);
     setCodeBindList(getBindRes.responseValue)
-    console.log('getBindRes : ', getBindRes)
     }
     
 }
@@ -70,6 +70,30 @@ let clearData = () => {
     funGetCodeList();
 }
 
+let getDataDetail = (id,code) => {
+    const targetInputBox = document.getElementById("chckBoxId" + id).checked;
+    if(targetInputBox === false) {
+        let temp = [...arrToFwd];
+        for(var i =0; i< temp.length; i++){
+            if(temp[i].id === id){
+                temp.splice(i,1);
+            }
+        }
+        props.SelectedData(temp,props.modalID)
+        setArrToFwd(temp)
+    }
+    else{
+        let temp = [...arrToFwd];
+        temp.push({
+            id: id,
+            code:code,
+        })
+        props.SelectedData(temp,props.modalID)
+        setArrToFwd([...temp])
+    }
+
+
+}
 useEffect(() => {
     funGetCodeList();
 },[])
@@ -85,6 +109,21 @@ useEffect(() => {
                                 <div className="inner-content">
                                 <div className="d-flex flex-wrap align-content-end">
                                      <div className="mb-2 me-2">
+                                        {/* <div>
+                                            <button className="dropbtn ps-2 pe-2" style={{width:'180px'}} onClick={()=>{document.getElementById("ms-dd-content").style.display = document.getElementById("ms-dd-content").style.display === 'none' ? 'block': 'none'}}>
+                                                <span className=' ms-dropdown-label'>Select Code</span>
+                                                <i className="bi bi-chevron-down"></i> 
+                                            </button>
+                                            <div id="ms-dd-content" className='ms-dropdown-content'>
+                                            <ul className='ms-dropdown-list-container' >
+                                                {getCodeList && getCodeList.map((list, ind) => {
+                                                    return(
+                                                        <li key={ind}><input type='checkbox' id={'ms-dropdown-value'} className='ms-dropdown-checkbox' onClick={''} />{list.codeName}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                            </div>
+                                        </div> */}
                                         <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
                                         <option value='0'>Select Code</option>
                                         {getCodeList && getCodeList.map((list, ind) => (
@@ -110,41 +149,12 @@ useEffect(() => {
                             <div className='handlser'>
                                 <Heading text="Code Master" />
 
-                                <div style={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-                                    {/* <div style={{ display: 'flex', flexDirection: 'row', gap: 1, marginRight: "20px" }}>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-sm"
-                                            placeholder="Search"
-                                            value={searchTerm}
-                                            onChange={handleSearch}
-                                        />
-                                        <span >
-                                            <i className="fas fa-search"></i>
-                                        </span>
-                                    </div> */}
-                                    
-
-                                    {/* <div>
-                                       
-                                        <label>Show</label>
-                                        <select>
-                                            <option value={15}>15</option>
-                                            <option value={25}>25</option>
-                                            <option value={50}>50</option>
-                                            <option value={100}>100</option>
-                                           
-                                        </select>
-                                        <label>Entries</label>
-                                    </div> */}
-                                </div>
-
                             </div>
                             <div className="med-table-section" style={{ "height": "74vh" }}>
                                 <table className="med-table border_ striped">
                                     <thead>
                                         <tr>
-
+                                            <th style={{width:'3%'}}>#</th>
                                             <th className="text-center" style={{ "width": "5%" }}> Code </th>
                                             <th>Description</th>
                                             {/* <th style={{ position: 'relative', width: '180px' }}>
@@ -156,8 +166,9 @@ useEffect(() => {
                                         {getCodeBindList && getCodeBindList.map((bindList, ind) =>{
                                             return(
                                                 <tr key={bindList.code}>
+                                                <td><input type='checkbox' id={'chckBoxId'+bindList.id} role='switch' onClick={()=>{getDataDetail(bindList.id,bindList.code);}}/></td>
                                                     <td style={{textAlign: 'center'}}>{bindList.code}</td>
-                                                    <td onClick={()=>{props.SelectedData(bindList)}} style={{overflow: 'hidden', textOverflow:'ellipsis'}}>{bindList.code_text}</td>
+                                                    <td  style={{overflow: 'hidden', textOverflow:'ellipsis'}}>{bindList.code_text}</td>
                                                 </tr>
                                             )
                                         })}
