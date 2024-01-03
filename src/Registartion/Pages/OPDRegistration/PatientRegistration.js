@@ -5,9 +5,10 @@ import GetCityList from '../../API/GET/GetCityList';
 import GetDepartmentList from '../../API/GET/GetDepartmentList';
 import GetRoomList from '../../API/GET/GetRoomList';
 import ValidationOPDRegistration from '../../../Validation/OPD/OpdRegistration'
+import DemographyPatientPriviousNames from '../../../Validation/Registartion/DemographyPatientPriviousNames'
 import GetMaritalStatusList from '../../API/GET/GetMaritalStatusList';
 import GetDoctorList from '../../API/GET/GetDoctorList';
-import OPDPatientRegistration from '../../API/POST/OPDPatientRegistration';
+import { OPDPatientRegistration, InsertFHIRPatientHistory } from '../../API/POST/OPDPatientRegistration';
 import GetWardList from '../../API/GET/GetWardList';
 import SuccessToster from '../../../Component/SuccessToster';
 import AlertToster from '../../../Component/AlertToster';
@@ -15,6 +16,10 @@ import GetRaceType from '../../API/GET/GetRaceType';
 import GetEthinicity from '../../API/GET/GetEthinicity';
 import GetLanguage from '../../API/GET/GetLanguage';
 import GetGender from '../../API/GET/GetGender';
+
+import PatientDetails from './Components/PatientDetails';
+import ContactDetails from './Components/ContactDetails';
+
 // Icons Import 
 import smartphone from '../../../assets/images/icons/smartphone.svg';
 import patientOPD from '../../../assets/images/icons/patientOPD.svg';
@@ -62,6 +67,7 @@ export default function PatientRegistration() {
     let [doctorList, setDoctorList] = useState([]);
     let [wardList, setWardList] = useState([]);
     let [maritalStatusList, setmMaritalStatusList] = useState([]);
+    let [priviousNameList, setPriviousNameList] = useState([]);
     let [patientMobileNo, setPatientMobileNo] = useState('');
     let [patientName, setPatientName] = useState('');
     let [patientHomeMobNo, setPatientHomeMobNo] = useState('');
@@ -106,6 +112,7 @@ export default function PatientRegistration() {
     let [isRevisitPatient, setisRevisitPatient] = useState(0);
     let [uhid, setUhid] = useState('');
     let [showPatientHistory, setShowPatientHistory] = useState(0);
+    let [showPreviousNamesPopUp, setShowPreviousNamesPopUp] = useState(false);
     let [showPrintHealthCardConfirmation, setShowPrintHealthCardConfirmation] = useState(0);
     let [isEdit, setIsEdit] = useState(false);
     let [showEdit, setShowEdit] = useState(false);
@@ -243,6 +250,10 @@ export default function PatientRegistration() {
         if(e.target.name=== "cardNo"){
             setCardNo(e.target.value)
         }
+
+    }
+
+    let handlerChange2 = (e) => {
 
     }
     let getStateList = async (val) => {
@@ -621,6 +632,58 @@ export default function PatientRegistration() {
         document.getElementById("ddlDepartment").disabled = false;
         document.getElementById("ddlDoctor").disabled = false;
     }
+    let savePriviousName = async () => {
+        
+
+
+
+
+
+        const previousNamePrefix = document.getElementById('txtPreviousNamePrefix').value;
+        const previousNameFirst = document.getElementById('txtPreviousNameFirst').value;
+        const previousNameMiddle = document.getElementById('txtPreviousNameMiddle').value;
+        const previousNameLast = document.getElementById('txtPreviousNameLast').value;
+        const previousNameSuffix = document.getElementById('txtPreviousNameSuffix').value;
+        const previousNameEndDate = document.getElementById('txtPreviousNameEndDate').value;
+        var dataObj = {
+            previousNamePrefix:previousNamePrefix, 
+            previousNameFirst:previousNameFirst,
+            previousNameMiddle:previousNameMiddle,
+            previousNameLast:previousNameLast,
+            previousNameSuffix:previousNameSuffix,
+            previousNameEndDate:previousNameEndDate,
+            fullName: previousNamePrefix + ' ' + previousNameFirst + ' ' + previousNameMiddle + ' ' + previousNameLast + ' ' + previousNameSuffix
+        };
+        // setPriviousNameList(dataObj);
+        setPriviousNameList(prevList => [...prevList, dataObj]);
+        // const res = DemographyPatientPriviousNames(previousNamePrefix,previousNameFirst,previousNameMiddle,previousNameLast,previousNameSuffix,previousNameEndDate)
+        // if (res === true) {
+        //     setShowUnderProcess(1);
+        //     var dataObj = {
+        //         uuid: PatientID,
+        //         date:
+        //     };
+        //     let data = await InsertFHIRPatientHistory(dataObj);
+        //     if (data.status === 1) {
+        //         setShowUnderProcess(0);
+        //         setShowToster(1)
+               
+        //         setTimeout(() => {
+        //             clear();
+        //             setShowToster(0);
+        //         }, 2000)
+        //     }
+        //     else {
+        //         setShowUnderProcess(0)
+        //         setShowAlertToster(1)
+        //         setShowMessage(data.responseValue)
+        //         setTimeout(() => {
+        //             setShowToster(0)
+        //         }, 2000)
+        //     }
+        // }
+   
+    };
     let save = async () => {
       
         //Patient Visit
@@ -1035,6 +1098,10 @@ export default function PatientRegistration() {
 
     }, []);
     document.body.dir = i18n.dir();
+
+    let showPreviousNamesPopUpHandle = (val) => {
+        setShowPreviousNamesPopUp(val);
+    }
     return (
         <>
            <section className="main-content mt-5 pt-3">
@@ -1055,33 +1122,675 @@ export default function PatientRegistration() {
                                      <span class="fieldse">{t("Patient_Details")}</span>
                                      <div className="inner-content">
                                         <div className="dflex regEqualColums1">
-                                            <div className="col-2 mb-2">
-                                                <label htmlFor="txtMobileNo" className="form-label">
-                                                    <img src={smartphone} className='icnn' alt=''/>
-                                                {t("MOBILE_NUMBER")}</label><sup style={{ color: "red" }}>*</sup>
-                                                    <div className='lft'>
-                                                    <select className="form-select form-select-sm" id='ddlCountryCode' aria-label=".form-select-sm example"  onChange={handleGetStateByCountry} style={{borderRight:'transparent', borderTopRightRadius:'0px', borderBottomRightRadius:'0px', width:'80px', padding:'0 5px 0 5px'}}>
-                                                        {/* <option value='0'>+91</option> */}
-                                                        {countryList && countryList.map((list, index) => {
-                                                            if(list.id === countryID){
-                                                                return(<option value={list.id} selected>{list.countryCode}</option>)
-                                                            }
-                                                            else{
-                                                                return (
-                                                                    <option value={list.id}>{list.countryCode}</option>
-                                                                )
+                                            
+                                          
+                                         <PatientDetails onPatientDetailsChange={handlerChange2} onPriviousNamesAddButtonClick={showPreviousNamesPopUpHandle} isShowPriviousModal={showPreviousNamesPopUp} priviousNames={priviousNameList}/>
 
-                                                            }
-                                                    
+
+
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                <span className='collapsetxt'> {t("Contact")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#contactInfo"
+                                                        aria-expanded="false"
+                                                        aria-controls="contactInfo"
+                                                    >
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="contactInfo"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+<ContactDetails onPatientDetailsChange={handlerChange}/>
+
+
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                <span className='collapsetxt'> {t("Patient_Choices")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#choicesInfo"
+                                                        aria-expanded="false"
+                                                        aria-controls="contactInfo"
+                                                    >
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="choicesInfo"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+
+                                                        <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlProvider" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Provider")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlProvider" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Provider")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
                                                         })}
                                                     </select>
-                                                <input type="number" className="form-control form-control-sm" id="txtMobileNo" placeholder={t("Mobile_Number")} name='mobileNumber' value={patientMobileNo} onChange={handlerChange} style={{borderLeft:'transparent', borderTopLeftRadius:'0px', borderBottomLeftRadius:'0px'}}/>
+                                                    <small id="errProvider" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                 </div>
-                                                {/* <button type="button" className="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalSetting"><i className="bi bi-gear-fill"></i></button> */}
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtProvideSinceDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("ProvideSinceDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtProvideSinceDate" placeholder={t("ENTER_Provide_Since_Date")} name='provideSinceDate' value={email} onChange={handlerChange} />
+                                                </div>
 
-                                                <small id="errMobile" className="form-text text-danger" style={{ display: 'none' }}>
-                                                </small>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlReferring_Provider" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Referring_Provider")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlReferring_Provider" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Referring_Provider")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errReferring_Provider" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlPharmacy" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Pharmacy")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlPharmacy" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Pharmacy")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errPharmacy" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlHIPAA_Notice_Received" className="form-label"><img src={city} className='icnn'  alt=''/>{t("HIPAA_Notice_Received")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlHIPAA_Notice_Received" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_HIPAA_Notice_Received")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errHIPAA_Notice_Received" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Voice_Message" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Voice_Message")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Voice_Message" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Voice_Message")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Voice_Message" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtLeaveMessageWith" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("LeaveMessageWith")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtLeaveMessageWith" placeholder={t("ENTER_Leave_Message_With")} name='leaveMessageWith' value={email} onChange={handlerChange} />
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Mail_Message" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Mail_Message")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Mail_Message" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Mail_Message")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Mail_Message" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_SMS" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_SMS")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_SMS" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_SMS")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_SMS" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Email" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Email")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Email" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Email")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Email" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Immunization_Registry_Use" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Immunization_Registry_Use")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Immunization_Registry_Use" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Immunization_Registry_Use")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Immunization_Registry_Use" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Immunization_Info_Sharing" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Immunization_Info_Sharing")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Immunization_Info_Sharing" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Immunization_Info_Sharing")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Immunization_Info_Sharing" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Health_Information_Exchange" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Health_Information_Exchange")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Health_Information_Exchange" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Health_Information_Exchange")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Health_Information_Exchange" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlAllow_Patient_Portal" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Allow_Patient_Portal")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlAllow_Patient_Portal" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Allow_Patient_Portal")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errAllow_Patient_Portal" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreventAPIAccess" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreventAPIAccess")}</label>
+                                                    <input type="checkbox" className="form-control form-control-sm" id="chkPreventAPIAccess"  name='preventAPIAccess'  />
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtCMSPortalLogin" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("CMSPortalLogin")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtCMSPortalLogin" placeholder={t("ENTER_CMS_Portal_Login")} name='cMSPortalLogin' value={email} onChange={handlerChange} />
+                                                </div>
+
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlImmunization_Registry_Status" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Immunization_Registry_Status")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlImmunization_Registry_Status" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Immunization_Registry_Status")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errImmunization_Registry_Status" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtImmunizationRegistryStatusEffectiveDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("ImmunizationRegistryStatusEffectiveDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtImmunizationRegistryStatusEffectiveDate" placeholder={t("ENTER_Immunization_Registry_Status_Effective_Date")} name='immunizationRegistryStatusEffectiveDate' value={email} onChange={handlerChange} />
+                                                </div>
+
+                                                
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlPublicity_Code" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Publicity_Code")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlPublicity_Code" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Publicity_Code")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errPublicity_Code" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPublicityCodeEffectiveDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PublicityCodeEffectiveDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtPublicityCodeEffectiveDate" placeholder={t("ENTER_Publicity_Code_Effective_Date")} name='publicityCodeEffectiveDate' value={email} onChange={handlerChange} />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlProtection_Indicator" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Protection_Indicator")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlProtection_Indicator" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Protection_Indicator")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errProtection_Indicator" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtProtectionIndicatorEffectiveDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("ProtectionIndicatorEffectiveDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtProtectionIndicatorEffectiveDate" placeholder={t("ENTER_Protection_Indicator_Effective_Date")} name='protectionIndicatorEffectiveDate' value={email} onChange={handlerChange} />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtCareTeamProvider" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("CareTeamProvider")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtCareTeamProvider" placeholder={t("ENTER_Care_Team_Provider")} name='careTeamProvider' value={email} onChange={handlerChange} />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlCare_Team_Status" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Care_Team_Status")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlCare_Team_Status" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Care_Team_Status")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errCare_Team_Status" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtCareTeamFacility" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("CareTeamFacility")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtCareTeamFacility" placeholder={t("ENTER_Care_Team_Facility")} name='careTeamFacility' value={email} onChange={handlerChange} />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlPatientCategories" className="form-label"><img src={city} className='icnn'  alt=''/>{t("PatientCategories")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlPatientCategories" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Patient_Categories")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errPatientCategories" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                <span className='collapsetxt'> {t("Employer")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#employerInfo"
+                                                        aria-expanded="false"
+                                                        aria-controls="employerInfo"
+                                                    >
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="employerInfo"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+
+                                                        <div className="col-2 mb-2">
+                                                    <label htmlFor="txtOccupation" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Occupation")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtOccupation" placeholder={t("ENTER_Occupation")} name='occupation' value={email} onChange={handlerChange} />
+                                                     </div>
+
+
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlIndustry" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Industry")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlIndustry" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Industry")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errIndustry" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtEmployerName" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Employer_Name")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtEmployerName" placeholder={t("ENTER_Employer_Name")} name='employerName' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtEmployerStreet" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Employer_Street")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtEmployerStreet" placeholder={t("ENTER_Employer_Street")} name='employerStreet' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtEmployerStreetLine2" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Employer_Street_Line2")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtEmployerStreetLine2" placeholder={t("ENTER_Employer_Street_Line2")} name='employerStreetLine2' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtEmployerCity" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Employer_City")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtEmployerCity" placeholder={t("ENTER_Employer_City")} name='employerCity' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlEmployerCountry" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Employer_Country")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlEmployerCountry" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Employer_Country")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errEmployerCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="ddlEmployerState" className="form-label"><img src={city} className='icnn'  alt=''/>{t("Employer_State")}</label>
+                                                    <select className="form-select form-select-sm" id="ddlEmployerState" aria-label=".form-select-sm example" onChange={getSelectedCity}>
+                                                        <option value="0">{t("Select_Employer_State")}</option>
+                                                        {cityList && cityList.map((list) => {
+                                                            
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            
+                                                        })}
+                                                    </select>
+                                                    <small id="errEmployerState" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtEmployerZip" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Employer_Zip")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtEmployerZip" placeholder={t("ENTER_Employer_Zip")} name='employerZip' value={email} onChange={handlerChange} />
+                                                     </div>
+
+
+
+
+
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                <span className='collapsetxt'> {t("Stats")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#statsInfo"
+                                                        aria-expanded="false"
+                                                        aria-controls="statsInfo"
+                                                    >
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="statsInfo"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+
+                                                        <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlEthnicity" className="form-label">{t("Ethnicity_Name")}</label>
+                                                                <select className="form-select form-select-sm" id="ddlEthnicity" aria-label=".form-select-sm example" onChange={getSelectedEthinicity}>
+                                                                    <option value="0">{t("Enter_Ethnicity_Name")}</option>
+                                                                    {ethinicityList && ethinicityList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.ethinicityName}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                            </div>
+                                                            <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlPreferredLanguage" className="form-label">{t("Preferred_Language")}</label>
+                                                                <select className="form-select form-select-sm" id="ddlPreferredLanguage" aria-label=".form-select-sm example" onChange={getSelectedLanguage}>
+                                                                    <option value="0">{t("Select_Preferred_Language")}</option>
+                                                                    {languageList && languageList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.languageName}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                            </div>
+                                                            
+                                                            <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlRaceType" className="form-label">{t("Race_Type")}</label>
+                                                                <select className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" onChange={getSelectRaceType}>
+                                                                    <option value="0">{t("Select_Race_Type")}</option>
+                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div className="col-2 mb-2">
+                                                    <label htmlFor="txtFamilySize" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Family_Size")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtFamilySize" placeholder={t("ENTER_Family_Size")} name='familySize' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtFinancialReviewDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("FinancialReviewDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtFinancialReviewDate" placeholder={t("ENTER_Financial_Review_Date")} name='financialReviewDate' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtMonthlyIncome" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Monthly_Income")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtMonthlyIncome" placeholder={t("ENTER_Monthly_Income")} name='monthlyIncome' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtHomeless" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Homeless")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtHomeless" placeholder={t("ENTER_Homeless")} name='homeless' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtInterpreter" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Interpreter")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtInterpreter" placeholder={t("ENTER_Interpreter")} name='interpreter' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                    <label htmlFor="txtMigrant" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("Migrant")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtMigrant" placeholder={t("ENTER_Migrant")} name='migrant' value={email} onChange={handlerChange} />
+                                                     </div>
+                                                     <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlReferralSource" className="form-label">{t("Referral_Source")}</label>
+                                                                <select className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" onChange={getSelectRaceType}>
+                                                                    <option value="0">{t("Select_Referral_Source")}</option>
+                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                    </div>
+
+                                                    <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlVFC" className="form-label">{t("VFC")}</label>
+                                                                <select className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" onChange={getSelectRaceType}>
+                                                                    <option value="0">{t("Select_VFC")}</option>
+                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                    </div>
+                                                    <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlReligion" className="form-label">{t("Religion")}</label>
+                                                                <select className="form-select form-select-sm selectwid" id="ddlReligion" aria-label=".form-select-sm example" onChange={getSelectRaceType}>
+                                                                    <option value="0">{t("Select_Religion")}</option>
+                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                        return (
+                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                        )
+                                                                    })}
+
+
+                                                                </select>
+                                                    </div>
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                <span className='collapsetxt'> {t("Other_Information")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseOne"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseOne"
+                                                    >
+                                                       {/* {t("Other_Information")} */}
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="collapseOne"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+                                                          
+                                                           
+                                                          
+                                                   
                                             <div className="col-2 mb-2">
                                                 <label htmlFor="ddlIdentityType" className="form-label"><img src={identityIcon} className='icnn' alt='' />{t("Identity_Type")}</label>
                                                 <select className="form-select form-select-sm" id="ddlIdentityType" aria-label=".form-select-sm example" onChange={handlerdentity}>
@@ -1104,20 +1813,9 @@ export default function PatientRegistration() {
                                                 <input type="text" className="form-control form-control-sm" id="txtIdentityNo" placeholder={t("Identity_Number")} name='IdentityNo' value={IdentityNo} onChange={handlerChange} />
                                                 <small id="errIdentityNo" className="form-text text-danger" style={{ display: 'none' }}></small>
                                             </div>
-                                            <div className="col-2 mb-2">
-                                                <label htmlFor="txtPatientName" className="form-label"><img src={patientOPD} className='icnn'   alt=''/>{t("Patient_Name")}</label><sup style={{ color: "red" }}>*</sup>
-                                                <input type="text" className="form-control form-control-sm" id="txtPatientName" placeholder={t("Enter_Patient_Name")} name='patientName' value={patientName} onChange={handlerChange} />
-                                                <small id="errPatientName" className="form-text text-danger" style={{ display: 'none' }}>
-                                                </small>
-                                            </div>
-                                            <div className="col-2 mb-2 relative">
-                                                <label htmlFor="txtDob" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Date_of_Birth")}</label><sup style={{ color: "red" }}>*</sup>
-                                                <input type="date" className="form-control form-control-sm" id="txtDob" name='dob' value={dob} onChange={getPatientAge}  />
-                                                <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                            </div>
-                                            {/* <div className="col-2_ mb-2 relative">
-                                            <div className="form-text or1">OR</div>
-                                            </div> */}
+
+
+
                                             <div className="col-1 mb-2">
                                                 <div className='d-flex align-items-center gap-1 orrmob'>
                                                 <div className="form-text or1" style={{width:'25px'}}>OR</div>
@@ -1137,21 +1835,9 @@ export default function PatientRegistration() {
                                                 </select>
                                                 <small id="errAgeUnit" className="form-text text-danger" style={{ display: 'none' }}></small>
                                             </div>
-                                            <div className="col-2 mb-2">
-                                                <label htmlFor="ddlGender" className="form-label"><img src={genderIcon} className='icnn'  alt=''/>{t("Gender")}</label><sup style={{ color: "red" }}>*</sup>
-                                                <select className="form-select form-select-sm" id="ddlGender" aria-label=".form-select-sm example" onChange={getSelectedGender}>
-                                                    <option value="0">{t("Select_Gender")}</option>
 
-                                                    {getPatientGender && getPatientGender.map((val, ind) => {
-                                                        return (
 
-                                                            <option value={val.id}>{val.name}</option>
-                                                        )
-                                                    })}
 
-                                                </select>
-                                                <small id="errPatientGender" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                            </div>
                                             <div className="col-1 mb-2">
                                                 <label htmlFor="txtAge" className="form-label"><img src={ageIcon} className='icnn'  alt=''/>{t("Height(cm)")}</label>
                                                 {/* <sup style={{ color: "red" }}>*</sup> */}
@@ -1186,82 +1872,22 @@ export default function PatientRegistration() {
                                                 </select>
                                             </div>
                                             {/* <div className="row"> */}
-                                                <div className="col-2 mb-2">
-                                                    <label htmlFor="txtEmailAddress" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("EMAIL_ID")}</label>
-                                                    <input type="email" className="form-control form-control-sm" id="txtEmailAddress" placeholder={t("ENTER_EMAIL_ID")} name='email' value={email} onChange={handlerChange} />
-                                                </div>
+                                                
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtAddress" className="form-label"><img src={addressIcon} className='icnn'  alt=''/>{t("Address")}</label><sup style={{ color: "red" }}>*</sup>
                                                     <input type="text" className="form-control form-control-sm" id="txtAddress" placeholder={t("Enter_Address")} name='address' value={patientAddress} onChange={handlerChange} />
                                                     <small id="errPatientAddress" className="form-text text-danger" style={{ display: 'none' }}>
                                                     </small>
                                                 </div>
-                                                <div className="col-2 mb-2">
-                                                    <label htmlFor="ddlState" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("State")}</label><sup style={{ color: "red" }}>*</sup>
-                                                    <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='state' onChange={() => { getCityListByState(1) }}>
-                                                        <option value="0">{t("Select_State")}</option>
-                                                        {stateList && stateList.map((list, index) => {
-                                                            
-                                                                return (
-                                                                    <option value={list.id}>{list.stateName}</option>
-                                                                )
-                                                            
-                                                        })}
+                                  
 
-                                                    </select>
-                                                    <small id="errState" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="col-2 mb-2">
-                                                    <label htmlFor="ddlCity" className="form-label"><img src={city} className='icnn'  alt=''/>{t("City_Name")}</label><sup style={{ color: "red" }}>*</sup>
-                                                    <select className="form-select form-select-sm" id="ddlCity" aria-label=".form-select-sm example" onChange={getSelectedCity}>
-                                                        <option value="0">{t("Select_City_Name")}</option>
-                                                        {cityList && cityList.map((list) => {
-                                                            
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            
-                                                        })}
-                                                    </select>
-                                                    <small id="errCity" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-2 mb-2">
-                                                    <label htmlFor="txtZip" className="form-label"><img src={zipCodeIcon} className='icnn'  alt=''/>{t("Zip")}</label>
-                                                    <input type="number" className="form-control form-control-sm" id="txtZip" placeholder={t("Enter_Zip_Code")} name='zip' value={zipCode} onChange={handlerChange}/>
-                                                    <small id="errZip" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            {/* </div> */}
-
-
-
-                                            {/* <div className="col-2 mb-2">
-                                                <label htmlFor="txtUHID" className="form-label">UHID</label>
-                                                <input type="number" className="form-control form-control-sm" id="txtUHID" placeholder="Enter UHID If Exists" name='UHID' value={patientUHID} onChange={handlerChange} />
                                             </div>
-                                            <div className="col-2 mb-2">
-                                                <label htmlFor="txtDob" className="form-label">PatientID</label>
-                                                <input type="number" className="form-control form-control-sm" id="txtPatientID" placeholder="Enter Patient ID" name='PatientID' value={PatientID} onChange={handlerChange} />
-                                            </div> */}
-
-                                            {/* <div className="col-2 mb-2">
-                                                <label htmlFor="ddddlMaritalStatuslGender" className="form-label"><img src={userOPD} className='icnn'/>Patient Type</label>
-                                                <select className="form-select form-select-sm" id="ddlMaritalStatus" aria-label=".form-select-sm example" onChange={getSelectedLanguage}>
-                                                    <option value="0">Select Patient Type</option>
-                                                    {languageList && languageList.map((list) => {
-                                                        return (
-                                                            <option value={list.id}>{list.languageName}</option>
-                                                        )
-                                                    })}
-
-
-                                                </select>
-                                            </div> */}
-
-
-
                                         </div>
                                     </div>
-                                  </div>
                                 </div>
 
 
@@ -1290,45 +1916,8 @@ export default function PatientRegistration() {
                                                 >
                                                     <div className="accordion-body">
                                                         <div className="dflex">
-                                                            <div className="col-2 mb-2">
-                                                                <label htmlFor="ddddlMaritalStatuslGender" className="form-label">{t("Race_Type")}</label>
-                                                                <select className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" onChange={getSelectRaceType}>
-                                                                    <option value="0">{t("Select_Race_Type")}</option>
-                                                                    {raceTypeList && raceTypeList.map((list) => {
-                                                                        return (
-                                                                            <option value={list.id}>{list.raceType}</option>
-                                                                        )
-                                                                    })}
-
-
-                                                                </select>
-                                                            </div>
-                                                            <div className="col-2 mb-2">
-                                                                <label htmlFor="ddddlMaritalStatuslGender" className="form-label">{t("Ethnicity_Name")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlEthnicity" aria-label=".form-select-sm example" onChange={getSelectedEthinicity}>
-                                                                    <option value="0">{t("Enter_Ethnicity_Name")}</option>
-                                                                    {ethinicityList && ethinicityList.map((list) => {
-                                                                        return (
-                                                                            <option value={list.id}>{list.ethinicityName}</option>
-                                                                        )
-                                                                    })}
-
-
-                                                                </select>
-                                                            </div>
-                                                            <div className="col-2 mb-2">
-                                                                <label htmlFor="ddddlMaritalStatuslGender" className="form-label">{t("Preferred_Language")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlPreferredLanguage" aria-label=".form-select-sm example" onChange={getSelectedLanguage}>
-                                                                    <option value="0">{t("Select_Preferred_Language")}</option>
-                                                                    {languageList && languageList.map((list) => {
-                                                                        return (
-                                                                            <option value={list.id}>{list.languageName}</option>
-                                                                        )
-                                                                    })}
-
-
-                                                                </select>
-                                                            </div>
+                                                            
+                                                           
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddddlMaritalStatuslGender" className="form-label"><img src={ageIcon} className='icnn' />{t("Marital_Status")}</label>
                                                                 <select className="form-select form-select-sm" id="ddlMaritalStatus" aria-label=".form-select-sm example" onChange={getSelectedMaritalSttaus}>
@@ -1600,7 +2189,49 @@ export default function PatientRegistration() {
             </section>
 
 
+{/* ######################## Moodal Pop Area For Add Privious Names #################### */}
+{showPreviousNamesPopUp == true ?
+            <div className={`modal d-${showPreviousNamesPopUp == true?"block":""}`} id="modalSetting" data-bs-backdrop="static">
+                <div className="modal-dialog" style={{ maxWidth: '60vw' }}>
+                    <div className="modal-content p-0">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Patient List On This Mobile No.</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title='Close Window' onClick={()=>{setShowPreviousNamesPopUp(false)}}><i className="bi bi-x-octagon"></i></button>
+                        </div>
+                        <div className="modal-body p-0">
+                        <div className="dflex">
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNamePrefix" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNamePrefix")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtPreviousNamePrefix" placeholder={t("ENTER_Previous_Name_Prefix")} name='previousNamePrefix'  />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNameFirst" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNameFirst")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtPreviousNameFirst" placeholder={t("ENTER_Previous_Name_First")} name='previousNameFirst'  />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNameMiddle" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNameMiddle")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtPreviousNameMiddle" placeholder={t("ENTER_Previous_Name_Middle")} name='previousNameMiddle'  />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNameLast" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNameLast")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtPreviousNameLast" placeholder={t("ENTER_Previous_Name_Last")} name='previousNameLast'  />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNameSuffix" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNameSuffix")}</label>
+                                                    <input type="text" className="form-control form-control-sm" id="txtPreviousNameSuffix" placeholder={t("ENTER_Previous_Name_Suffix")} name='previousNameSuffix'  />
+                                                </div>
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtPreviousNameEndDate" className="form-label"><img src={emailIcon} className='icnn'  alt=''/>{t("PreviousNameEndDate")}</label>
+                                                    <input type="date" className="form-control form-control-sm" id="txtPreviousNameEndDate" placeholder={t("ENTER_Previous_Name_End_Date")} name='previousNameEndDate'  />
+                                                </div>
+                                                <div className="col-2 mb-2">  <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={savePriviousName}><img src={saveButtonIcon} className='icnn' />{t("Save")}</button></div>
+                                              
+                                                </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>:""}
 
             {/* ######################## Moodal Pop Area #################### */}
                 {showPatientHistory === 1 ?
