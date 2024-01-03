@@ -335,6 +335,10 @@ import TaskMaster from '../Admin/Pages/Schedule/TaskMaster';
 import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganDepartmentMapping';
 import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
 import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
+import LabNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
+import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
+import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
+import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
 
 export default function ApiRoutes() {
 
@@ -826,6 +830,13 @@ export default function ApiRoutes() {
                    <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
                    <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
+
+                  {/* -----------------------------------Start Medvantage FHIRLab----------------------------------------- */}
+                  <Route path="/pathnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PathologyNotificationReport />} name="LabNotificationReport" />} />} />
+                  <Route path="/radiolabnotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<RadioLabNotificationReport />} name="LabNotificationReport" />} />} />
+                  <Route path="/microbiologynotificationreport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<MicrobiologyNotificationReport />} name="LabNotificationReport" />} />} />
+                  {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
+
 
 
             </Routes>

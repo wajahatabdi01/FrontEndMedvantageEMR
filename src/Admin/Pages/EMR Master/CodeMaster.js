@@ -1,20 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Heading from '../../../Component/Heading';
+import Delete from '../../../assets/images/icons/delete.svg'
+import GetCodeDropdown from '../../../FHIRLab/API/GET/GetCodeDropdown';
+import GetCodeBind from '../../../FHIRLab/API/GET/GetCodeBindList';
+import Search from '../../../assets/images/icons/search_7079548.png'
 
 export const CodeMaster = (props) => {
-    let [bedData, setBeddata] = useState([])
-    let [updateBool, setUpdateBool] = useState(0)
-    let [sendForm, setSendForm] = useState({ "userId": window.userId })
-    let [loder, setLoder] = useState(1)
-    let [rowId, setRowId] = useState('')
-    let [propData, setPropData] = useState(props)
-    let [showUnderProcess, setShowUnderProcess] = useState(0)
-    let [showToster, setShowToster] = useState(0)
-    let [tosterMessage, setTosterMessage] = useState("")
-    let [tosterValue, setTosterValue] = useState(0)
-    const [searchTerm, setSearchTerm] = useState('');
-    console.log('propData : ', propData)
+    
+    const [getCodeList, setCodeList] = useState([])
+    const [getCodeBindList, setCodeBindList] = useState([])
+    const [textSearch, setTextSearch] = useState('')
+    const [getCode, setCode] = useState('')
 //     const [currentPage, setCurrentPage] = useState(1);
 //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -32,9 +29,50 @@ export const CodeMaster = (props) => {
 //     setCurrentPage(1); // Reset to the first page when changing items per page
 //   };
 
+///////////////////////////////////////////// search text box /////////////////////////////
 
-    const handleChange = () => { }
-    const handleSearch = () => { }
+let handleSearchChange = (e) =>{
+    setTextSearch(e.target.value)
+}
+
+////////////////////////////////////////////////// to set code /////////////////////////////
+
+let funSetCode = (code) => {
+    setCode(code);
+}
+
+//////////////////////////////////// to Get Code list in dropdown
+let funGetCodeList =async () => {
+     const getResponse = await GetCodeDropdown();
+     setCodeList(getResponse.responseValue)
+}
+
+/////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
+let funBindCodeList = async () =>{
+    console.log('getCode : ', getCode);
+    console.log('textSearch : ', textSearch);
+    if(getCode === '' || getCode === undefined || getCode === null){
+        alert('Please select code.');
+    }
+    else{
+        const getBindRes = await GetCodeBind(getCode, textSearch);
+    setCodeBindList(getBindRes.responseValue)
+    console.log('getBindRes : ', getBindRes)
+    }
+    
+}
+
+////////////////////////////////////////////// to clear the list and dropdown ////////////////////////////////
+let clearData = () => {
+    setTextSearch('');
+    setCodeList([]);
+    setCodeBindList([])
+    funGetCodeList();
+}
+
+useEffect(() => {
+    funGetCodeList();
+},[])
     return (
         <>
             <section className="main-content pt-3 mt-5" style={props.style}>
@@ -45,19 +83,26 @@ export const CodeMaster = (props) => {
                                 <div className="title">Code Master</div>
                                 {/* <div className="title">{content} </div> */}
                                 <div className="inner-content">
-                                    <div className="d-flex flex-wrap align-content-end">
-                                        <div className="mb-2 me-2">
-                                            <select className='form-select form-select-sm'>
-                                                <option value='0'>test 1</option>
-                                                <option value='1'>test 2</option>
-                                            </select>
-                                        </div>
-
-                                        <div className="mb-2 relative">
-                                            <input type='checkbox' />
-                                            <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;<span>Include Inactive</span></label>
-                                        </div>
+                                <div className="d-flex flex-wrap align-content-end">
+                                     <div className="mb-2 me-2">
+                                        <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
+                                        <option value='0'>Select Code</option>
+                                        {getCodeList && getCodeList.map((list, ind) => (
+                                            <option key={ind} value={list.codeId}>{list.codeName}</option>
+                                        ))}
+                                        </select>
                                     </div>
+                                    <div className="mb-2 me-2">
+                                        <input type="text" value={textSearch} className='form-control form-control-sm' placeholder="Search..." onChange={handleSearchChange} />
+                                    </div>
+                                    <div className="mb-2 me-2 " style={{backgroundColor:'#ffefef'}}>
+                                    <img src={Search} alt='' title='Search' style={{ cursor: 'pointer' , width:'20px', height:'20px'}}  onClick={funBindCodeList}/>
+                                    </div>
+                                    <div className='mb-2 me-2'>
+                                        <img src={Delete} alt='' title='Delete' style={{ cursor: 'pointer' }} onClick={clearData}/>
+                                    </div>
+                                </div>
+
                                 </div>
                             </div>
                         </div>
@@ -66,7 +111,7 @@ export const CodeMaster = (props) => {
                                 <Heading text="Code Master" />
 
                                 <div style={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-                                    <div style={{ display: 'flex', flexDirection: 'row', gap: 1, marginRight: "20px" }}>
+                                    {/* <div style={{ display: 'flex', flexDirection: 'row', gap: 1, marginRight: "20px" }}>
                                         <input
                                             type="text"
                                             className="form-control form-control-sm"
@@ -77,20 +122,21 @@ export const CodeMaster = (props) => {
                                         <span >
                                             <i className="fas fa-search"></i>
                                         </span>
-                                    </div>
+                                    </div> */}
+                                    
 
-                                    <div>
-                                        {/* Items per page select box */}
+                                    {/* <div>
+                                       
                                         <label>Show</label>
                                         <select>
                                             <option value={15}>15</option>
                                             <option value={25}>25</option>
                                             <option value={50}>50</option>
                                             <option value={100}>100</option>
-                                            {/* Add more options based on your needs */}
+                                           
                                         </select>
                                         <label>Entries</label>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                             </div>
@@ -101,27 +147,33 @@ export const CodeMaster = (props) => {
 
                                             <th className="text-center" style={{ "width": "5%" }}> Code </th>
                                             <th>Description</th>
+                                            {/* <th style={{ position: 'relative', width: '180px' }}>
+                                                <input type="text" className='form-control form-control-sm' placeholder="Search..." onChange={} />
+                                            </th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        {getCodeBindList && getCodeBindList.map((bindList, ind) =>{
+                                            return(
+                                                <tr key={bindList.code}>
+                                                    <td style={{textAlign: 'center'}}>{bindList.code}</td>
+                                                    <td onClick={()=>{props.SelectedData(bindList)}} style={{overflow: 'hidden', textOverflow:'ellipsis'}}>{bindList.code_text}</td>
+                                                </tr>
+                                            )
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
                             {/* Pagination controls */}
-                            <nav>
+                            {/* <nav>
                                 <ul className="pagination">
-                                    {/* {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, index) => (
-                                        <li key={index + 1} className={currentPage === index + 1 ? 'active' : ''}>
-                                            <button onClick={() => paginate(index + 1)}>{index + 1}</button>
-                                        </li>
-                                    ))} */}
+                                    
                                     <button >1</button>
                                     <button >2</button>
                                     <button >3</button>
                                     <button >4  </button>
                                 </ul>
-                            </nav>
+                            </nav> */}
                         </div>
                     </div>
                 </div>

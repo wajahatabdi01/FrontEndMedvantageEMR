@@ -35,7 +35,8 @@ import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
 
-export default function SampleCollection() {
+export default function SampleCollection(props) {
+  
   let [sampleCollectionList, setSampleCollectionList] = useState([])
   let [textBillNo, setTextboxValue] = useState('');
   let [patientName, setPatientName] = useState('');
@@ -64,8 +65,9 @@ export default function SampleCollection() {
   let [showErrMessage, setShowErrMessage] = useState('');
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [isShowbtnSec, setIsShowbtnSec] = useState(0);
+  
   const { t } = useTranslation();
-
+  
    let [showLoder, setShowLoder] = useState(0);
 
    const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -76,7 +78,6 @@ export default function SampleCollection() {
     if (event.target.name === "Bill") {
       setTextboxValue(event.target.value);
       //setBarcodeValue(event.target.value);
-
     }
   };
   // ****************************** GET SAMPLE COLLECTION DATA *************************************
@@ -91,6 +92,7 @@ export default function SampleCollection() {
       setShowLoder(1)
       let getResponse = await GetSampleCollection(textBillNo,clientID);
       let getPatientDetails = await GetPatientBillingDetails(textBillNo,clientID)
+      console.log('	getPatientDetails : ', getPatientDetails)
       const patientDetails = getPatientDetails.responseValue[0];
       if (getPatientDetails.status === 1) {
         setShowImage(0)
@@ -323,9 +325,15 @@ export default function SampleCollection() {
 
 
 
-  // useEffect(() => {
-  // }, [])
+  useEffect(() => {
+    //setBiiNumFromSession(window.sessionStorage.getItem('billNu'));
+    setTextboxValue(window.sessionStorage.getItem('billNu'))
+  }, [])
   document.body.dir = i18n.dir();
+
+  window.addEventListener('beforeunload', () => {
+    console.log('User clicked back button');
+  });
   return (
     <>
       <section className="main-content mt-5 pt-3">
