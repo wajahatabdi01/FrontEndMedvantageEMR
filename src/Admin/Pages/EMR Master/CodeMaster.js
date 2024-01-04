@@ -7,96 +7,109 @@ import GetCodeBind from '../../../FHIRLab/API/GET/GetCodeBindList';
 import Search from '../../../assets/images/icons/search_7079548.png'
 import '../../../assets/css/multipleSelectDropdown.css'
 import '../../../assets/css/App.css'
+import NoDataFound from '../../../assets/images/icons/No data-rafiki.svg'
 
 export const CodeMaster = (props) => {
-    
+
     const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])
     const [textSearch, setTextSearch] = useState('')
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
-//     const [currentPage, setCurrentPage] = useState(1);
-//   const [itemsPerPage, setItemsPerPage] = useState(5);
+     const [showImage,setShowImage]=useState(0);
+    //     const [currentPage, setCurrentPage] = useState(1);
+    //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-//   // Calculate the index range for the current page
-//   const indexOfLastItem = currentPage * itemsPerPage;
-//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-//   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+    //   // Calculate the index range for the current page
+    //   const indexOfLastItem = currentPage * itemsPerPage;
+    //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    //   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-//   // Change page
-//   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    //   // Change page
+    //   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-//   // Change items per page
-//   const handleItemsPerPageChange = (e) => {
-//     setItemsPerPage(Number(e.target.value));
-//     setCurrentPage(1); // Reset to the first page when changing items per page
-//   };
+    //   // Change items per page
+    //   const handleItemsPerPageChange = (e) => {
+    //     setItemsPerPage(Number(e.target.value));
+    //     setCurrentPage(1); // Reset to the first page when changing items per page
+    //   };
 
-///////////////////////////////////////////// search text box /////////////////////////////
+    ///////////////////////////////////////////// search text box /////////////////////////////
 
-let handleSearchChange = (e) =>{
-    setTextSearch(e.target.value)
-}
-
-////////////////////////////////////////////////// to set code /////////////////////////////
-
-let funSetCode = (code) => {
-    setCode(code);
-}
-
-//////////////////////////////////// to Get Code list in dropdown
-let funGetCodeList =async () => {
-     const getResponse = await GetCodeDropdown();
-     setCodeList(getResponse.responseValue)
-}
-
-/////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-let funBindCodeList = async () =>{
-    if(getCode === '' || getCode === undefined || getCode === null){
-        alert('Please select code.');
+    let handleSearchChange = (e) => {
+        setTextSearch(e.target.value)
     }
-    else{
-        const getBindRes = await GetCodeBind(getCode, textSearch);
-    setCodeBindList(getBindRes.responseValue)
+
+    ////////////////////////////////////////////////// to set code /////////////////////////////
+
+    let funSetCode = (code) => {
+        setCode(code);
     }
-    
-}
 
-////////////////////////////////////////////// to clear the list and dropdown ////////////////////////////////
-let clearData = () => {
-    setTextSearch('');
-    setCodeList([]);
-    setCodeBindList([])
-    funGetCodeList();
-}
+    //////////////////////////////////// to Get Code list in dropdown
+    let funGetCodeList = async () => {
+        const getResponse = await GetCodeDropdown();
+        setCodeList(getResponse.responseValue)
+    }
 
-let getDataDetail = (id,code) => {
-    const targetInputBox = document.getElementById("chckBoxId" + id).checked;
-    if(targetInputBox === false) {
-        let temp = [...arrToFwd];
-        for(var i =0; i< temp.length; i++){
-            if(temp[i].id === id){
-                temp.splice(i,1);
+    /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
+    let funBindCodeList = async () => {
+        if (getCode === '' || getCode === undefined || getCode === null) {
+            alert('Please select code.');
+        }
+        else {
+            const getBindRes = await GetCodeBind(getCode, textSearch);
+            if(getBindRes.responseValue.length === 0){
+                setShowImage(1);
+            }
+            else{
+                setShowImage(0)
+                setCodeBindList(getBindRes.responseValue)
             }
         }
-        props.SelectedData(temp,props.modalID)
-        setArrToFwd(temp)
-    }
-    else{
-        let temp = [...arrToFwd];
-        temp.push({
-            id: id,
-            code:code,
-        })
-        props.SelectedData(temp,props.modalID)
-        setArrToFwd([...temp])
+
     }
 
+    ////////////////////////////////////////////// to clear the list and dropdown ////////////////////////////////
+    let clearData = () => {
+        setTextSearch('');
+        setCodeList([]);
+        setCodeBindList([])
+        funGetCodeList();
+    }
 
-}
-useEffect(() => {
-    funGetCodeList();
-},[])
+    let getDataDetail = (id, code) => {
+        console.log('props.modalID : ', props.modalID)
+        const targetInputBox = document.getElementById("chckBoxId" + id).checked;
+        if (targetInputBox === false) {
+            let temp = [...arrToFwd];
+            for (var i = 0; i < temp.length; i++) {
+                if (temp[i].id === id) {
+                    temp.splice(i, 1);
+                }
+            }
+            props.SelectedData(temp, props.modalID)
+            setArrToFwd(temp)
+        }
+        else {
+            let temp = [...arrToFwd];
+            temp.push({
+                id: id,
+                code: code,
+                dropdownId: getCode,
+
+            })
+            props.SelectedData(temp, props.modalID)
+            setArrToFwd([...temp])
+        }
+
+
+    }
+    useEffect(() => {
+        //console.log("dataaa", props.defaultData[props.defaultData.length - 1])
+        //setArrToFwd(props.defaultData.filter(val => val.moduleId === props.modalID))
+        funGetCodeList();
+    }, [])
     return (
         <>
             <section className="main-content pt-3 mt-5" style={props.style}>
@@ -107,9 +120,9 @@ useEffect(() => {
                                 <div className="title">Code Master</div>
                                 {/* <div className="title">{content} </div> */}
                                 <div className="inner-content">
-                                <div className="d-flex flex-wrap align-content-end">
-                                     <div className="mb-2 me-2">
-                                        {/* <div>
+                                    <div className="d-flex flex-wrap align-content-end">
+                                        <div className="mb-2 me-2">
+                                            {/* <div>
                                             <button className="dropbtn ps-2 pe-2" style={{width:'180px'}} onClick={()=>{document.getElementById("ms-dd-content").style.display = document.getElementById("ms-dd-content").style.display === 'none' ? 'block': 'none'}}>
                                                 <span className=' ms-dropdown-label'>Select Code</span>
                                                 <i className="bi bi-chevron-down"></i> 
@@ -124,23 +137,23 @@ useEffect(() => {
                                             </ul>
                                             </div>
                                         </div> */}
-                                        <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
-                                        <option value='0'>Select Code</option>
-                                        {getCodeList && getCodeList.map((list, ind) => (
-                                            <option key={ind} value={list.codeId}>{list.codeName}</option>
-                                        ))}
-                                        </select>
+                                            <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
+                                                <option value='0'>Select Code</option>
+                                                {getCodeList && getCodeList.map((list, ind) => (
+                                                    <option key={ind} value={list.codeId}>{list.codeName}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-2 me-2">
+                                            <input type="text" value={textSearch} className='form-control form-control-sm' placeholder="Search..." onChange={handleSearchChange} />
+                                        </div>
+                                        <div className="mb-2 me-2 " style={{ backgroundColor: '#ffefef' }}>
+                                            <img src={Search} alt='' title='Search' style={{ cursor: 'pointer', width: '20px', height: '20px' }} onClick={funBindCodeList} />
+                                        </div>
+                                        <div className='mb-2 me-2'>
+                                            <img src={Delete} alt='' title='Delete' style={{ cursor: 'pointer' }} onClick={clearData} />
+                                        </div>
                                     </div>
-                                    <div className="mb-2 me-2">
-                                        <input type="text" value={textSearch} className='form-control form-control-sm' placeholder="Search..." onChange={handleSearchChange} />
-                                    </div>
-                                    <div className="mb-2 me-2 " style={{backgroundColor:'#ffefef'}}>
-                                    <img src={Search} alt='' title='Search' style={{ cursor: 'pointer' , width:'20px', height:'20px'}}  onClick={funBindCodeList}/>
-                                    </div>
-                                    <div className='mb-2 me-2'>
-                                        <img src={Delete} alt='' title='Delete' style={{ cursor: 'pointer' }} onClick={clearData}/>
-                                    </div>
-                                </div>
 
                                 </div>
                             </div>
@@ -154,7 +167,7 @@ useEffect(() => {
                                 <table className="med-table border_ striped">
                                     <thead>
                                         <tr>
-                                            <th style={{width:'3%'}}>#</th>
+                                            <th style={{ width: '3%' }}>#</th>
                                             <th className="text-center" style={{ "width": "5%" }}> Code </th>
                                             <th>Description</th>
                                             {/* <th style={{ position: 'relative', width: '180px' }}>
@@ -163,15 +176,30 @@ useEffect(() => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {getCodeBindList && getCodeBindList.map((bindList, ind) =>{
-                                            return(
+                                    {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
+                                    {getCodeBindList && getCodeBindList.map((bindList, ind) => {
+                                            return (
                                                 <tr key={bindList.code}>
-                                                <td><input type='checkbox' id={'chckBoxId'+bindList.id} role='switch' onClick={()=>{getDataDetail(bindList.id,bindList.code);}}/></td>
-                                                    <td style={{textAlign: 'center'}}>{bindList.code}</td>
-                                                    <td  style={{overflow: 'hidden', textOverflow:'ellipsis'}}>{bindList.code_text}</td>
+                                                    {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
+                                                     role='switch'
+                                                     
+                                                      defaultChecked=
+                                                      {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
+                                                       props.defaultData.filter(val => val.moduleId === props.modalID).filter(val => val.data[0].id === bindList.id).length !== 0 ? 
+                                                       true : 
+                                                       false:
+                                                        false
+                                                        } onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td> */}
+                                                    <td><input type='checkbox' id={'chckBoxId' + bindList.id}
+                                                     role='switch' onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td>
+                                                    <td style={{ textAlign: 'center' }}>{bindList.code}</td>
+                                                    <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
                                                 </tr>
                                             )
                                         })}
+                                    </>
+                                    
+                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -195,7 +223,7 @@ useEffect(() => {
 
 
         </>
-    )   
+    )
 }
 
 

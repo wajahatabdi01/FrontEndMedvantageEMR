@@ -10,17 +10,26 @@ export default function FHIRFamilyHistoryEdit() {
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [PopUpId, setPopUpId] = useState('');
 
+  let [makeData, setMakeData]  = useState([])
+ 
+
   const customStyle={marginLeft:'0px'};
 
   let SelectedData =(data,modalID)=>{ 
     
     // console.log('modalID : ', modalID);
+    let t ={
+      moduleId:modalID,
+      data:data
+    }
+    setMakeData([...makeData, t])
     let temp = ""
     for(var i =0; i<data.length; i++){
-      console.log('data array : ', modalID)
+      // console.log('data array : ', modalID)
       temp += " "+ data[i].id
     }
     document.getElementById(modalID).value = temp
+    
 }
  const handleOpenModal=(modalID)=>{
   setIsShowPopUp(1);
@@ -31,8 +40,37 @@ export default function FHIRFamilyHistoryEdit() {
  const handleCloseModal=()=>{
   setIsShowPopUp(0);
   setPopUpId('');
+ }
+
+ const handleSave = () => {
+  let  tempArr = [];
+  const fatherDiagnosisCodes=document.getElementById('mdlFatherID').value;
+  const motherDiagnosisCodes=document.getElementById('mdlMotherID').value;
+  const siblingsDiagnosisCodes=document.getElementById('siblingsID').value;
+  const spouseDiagnosisCodes=document.getElementById('spouseID').value;
+  const offspringDiagnosisCodes=document.getElementById('offSpringID').value;
   
 
+  const arrFather=fatherDiagnosisCodes.split(' ').slice(1,fatherDiagnosisCodes.length)
+  const arrMother=motherDiagnosisCodes.split(' ').slice(1,motherDiagnosisCodes.length)
+  const arrSiblings=siblingsDiagnosisCodes.split(' ').slice(1,siblingsDiagnosisCodes.length)
+  const arrSpouse=spouseDiagnosisCodes.split(' ').slice(1,spouseDiagnosisCodes.length)
+  const arrSprings=offspringDiagnosisCodes.split(' ').slice(1,offspringDiagnosisCodes.length)
+  let arr=[{code:'code F',arr:arrFather},{code:'code M',arr:arrMother},{code:'code S',arr:arrSiblings},{code:'Code Sp',arr:arrSpouse},{code:'code OS',arr:arrSprings}];
+  console.log('finalArr',arr);
+ 
+  for(var i=0; i <arr.length; i++){
+     if(arr[i].arr.length > 0){
+       tempArr.push({
+          code:arr[i].code,
+          codeValue:arr[i].arr
+       })
+     }
+  }
+  
+  console.log('temapArr',JSON.stringify(tempArr))
+  
+  
  }
   return (
     <section className="main-content mt-5 pt-3">
@@ -53,7 +91,7 @@ export default function FHIRFamilyHistoryEdit() {
                     <th style={{borderBottom: 'none', paddingTop:'10px'}}>Father : </th>
                     <th style={{borderBottom:'none', paddingTop:'10px'}}><input type='text' value='code F' className='form-control form-control-sm' style={{maxWidth:'250px'}} readOnly/></th>
                     <th style={{borderBottom: 'none', paddingTop:'10px'}}>Diagnosis Code : </th>
-                    <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id={"mdlFatherID"} style={{maxWidth:'250px'}} placeholder='Enter Codes'  onClick={()=>{handleOpenModal('mdlFatherID')}}/></th>
+                    <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id={"mdlFatherID"}  style={{maxWidth:'250px'}} placeholder='Enter Codes'  onClick={()=>{handleOpenModal('mdlFatherID')}}/></th>
                     {/* <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id={"fatherID"} style={{maxWidth:'250px'}} placeholder='Enter Codes' data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#codesModal" /></th> */}
                   </tr>
                   <tr>
@@ -83,7 +121,7 @@ export default function FHIRFamilyHistoryEdit() {
                 </thead>
               </TableContainer>
               <div className="d-flex  gap-2 mt-3 samplebtnnFHIR">
-              <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" ><img src={save} className='icnn' alt='' />Save</button>
+              <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
               </div>
             </div>
 
@@ -99,6 +137,7 @@ export default function FHIRFamilyHistoryEdit() {
                         <div className="modal-content" >
                         {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                         <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
+                           {/* <CodeMaster style={customStyle} SelectedData = {SelectedData} defaultData={makeData} modalID={PopUpId}/> */}
                            <CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/>
                         </div>
                     </div>
