@@ -58,6 +58,7 @@ import GetInsuranceCompanyList from '../../API/GET/GetInsuranceCompanyList'
 
 import i18n from "i18next";
 import InsuranceDetails from './Components/InsuranceDetails';
+import SearchOrAddPatient from './Components/SearchOrAddPatient';
 
 
 export default function PatientRegistration() {
@@ -2090,6 +2091,37 @@ export default function PatientRegistration() {
                                                     <div className="accordion-body">
                                                         <div className="dflex">
                                                             <InsuranceDetails  />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionSearchOrAddPatient">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                    <span className='collapsetxt'> {t("Search Or Add Patient")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#SearchOrAddPatientInfo"
+                                                        aria-expanded="false"
+                                                        aria-controls="SearchOrAddPatientInfo"
+                                                    >
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="SearchOrAddPatientInfo"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionSearchOrAddPatient"
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+                                                            <SearchOrAddPatient  />
                                                         </div>
                                                     </div>
                                                 </div>
