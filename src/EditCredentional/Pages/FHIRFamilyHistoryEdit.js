@@ -57,13 +57,12 @@ export default function FHIRFamilyHistoryEdit() {
   const arrSpouse=spouseDiagnosisCodes.split(' ').slice(1,spouseDiagnosisCodes.length)
   const arrSprings=offspringDiagnosisCodes.split(' ').slice(1,offspringDiagnosisCodes.length)
   let arr=[{code:'code F',arr:arrFather},{code:'code M',arr:arrMother},{code:'code S',arr:arrSiblings},{code:'Code Sp',arr:arrSpouse},{code:'code OS',arr:arrSprings}];
-  console.log('finalArr',arr);
  
   for(var i=0; i <arr.length; i++){
      if(arr[i].arr.length > 0){
        tempArr.push({
           code:arr[i].code,
-          codeValue:arr[i].arr
+          codeValue:arr[i].arr.join(',')
        })
      }
   }
@@ -137,8 +136,10 @@ export default function FHIRFamilyHistoryEdit() {
                         <div className="modal-content" >
                         {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                         <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
-                           {/* <CodeMaster style={customStyle} SelectedData = {SelectedData} defaultData={makeData} modalID={PopUpId}/> */}
-                           <CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/>
+                           
+
+                            <CodeMaster style={customStyle} SelectedData = {SelectedData} defaultData={makeData} modalID={PopUpId}/> 
+                           {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>
                 </div>

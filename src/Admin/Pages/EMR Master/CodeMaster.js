@@ -16,7 +16,7 @@ export const CodeMaster = (props) => {
     const [textSearch, setTextSearch] = useState('')
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
-     const [showImage,setShowImage]=useState(0);
+    const [showImage, setShowImage] = useState(0);
     //     const [currentPage, setCurrentPage] = useState(1);
     //   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -53,16 +53,18 @@ export const CodeMaster = (props) => {
     }
 
     /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-    let funBindCodeList = async () => {
-        if (getCode === '' || getCode === undefined || getCode === null) {
+    let funBindCodeList = async (e, id = "") => {
+        if (getCode === '' && getCode === undefined && getCode === null && id !== "") {
             alert('Please select code.');
         }
         else {
-            const getBindRes = await GetCodeBind(getCode, textSearch);
-            if(getBindRes.responseValue.length === 0){
+            
+            let ids = id != ""?id:getCode
+            const getBindRes = await GetCodeBind(ids, textSearch);
+            if (getBindRes.responseValue.length === 0) {
                 setShowImage(1);
             }
-            else{
+            else {
                 setShowImage(0)
                 setCodeBindList(getBindRes.responseValue)
             }
@@ -79,8 +81,9 @@ export const CodeMaster = (props) => {
     }
 
     let getDataDetail = (id, code) => {
-        console.log('props.modalID : ', props.modalID)
+        
         const targetInputBox = document.getElementById("chckBoxId" + id).checked;
+        
         if (targetInputBox === false) {
             let temp = [...arrToFwd];
             for (var i = 0; i < temp.length; i++) {
@@ -98,6 +101,7 @@ export const CodeMaster = (props) => {
                 code: code,
                 dropdownId: getCode,
 
+
             })
             props.SelectedData(temp, props.modalID)
             setArrToFwd([...temp])
@@ -106,8 +110,19 @@ export const CodeMaster = (props) => {
 
     }
     useEffect(() => {
-        //console.log("dataaa", props.defaultData[props.defaultData.length - 1])
-        //setArrToFwd(props.defaultData.filter(val => val.moduleId === props.modalID))
+        
+        setArrToFwd(props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !==0 ? props.defaultData[props.defaultData.length - 1].data : [] : [])
+
+        let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
+        if (hai.length !== 0) {
+            setTimeout(()=>{
+
+                document.getElementById("dropdownId").value = hai[0].dropdownId
+                setCode(hai[0].dropdownId)
+                funBindCodeList("", hai[0].dropdownId)
+
+            }, 500)
+        }
         funGetCodeList();
     }, [])
     return (
@@ -137,7 +152,7 @@ export const CodeMaster = (props) => {
                                             </ul>
                                             </div>
                                         </div> */}
-                                            <select className='form-select form-select-sm' style={{ width: '179px' }} onChange={(event) => funSetCode(event.target.value)}>
+                                            <select className='form-select form-select-sm' style={{ width: '179px' }} id="dropdownId" onChange={(event) => funSetCode(event.target.value)}>
                                                 <option value='0'>Select Code</option>
                                                 {getCodeList && getCodeList.map((list, ind) => (
                                                     <option key={ind} value={list.codeId}>{list.codeName}</option>
@@ -176,30 +191,30 @@ export const CodeMaster = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
-                                    {getCodeBindList && getCodeBindList.map((bindList, ind) => {
-                                            return (
-                                                <tr key={bindList.code}>
-                                                    {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
-                                                     role='switch'
-                                                     
-                                                      defaultChecked=
-                                                      {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
-                                                       props.defaultData.filter(val => val.moduleId === props.modalID).filter(val => val.data[0].id === bindList.id).length !== 0 ? 
-                                                       true : 
-                                                       false:
-                                                        false
-                                                        } onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td> */}
-                                                    <td><input type='checkbox' id={'chckBoxId' + bindList.id}
-                                                     role='switch' onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td>
-                                                    <td style={{ textAlign: 'center' }}>{bindList.code}</td>
-                                                    <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </>
-                                    
-                                    }
+                                        {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
+                                            {getCodeBindList && getCodeBindList.map((bindList, ind) => {
+                                                return (
+                                                    <tr key={bindList.code}>
+                                                        <td><input type='checkbox' id={'chckBoxId' + bindList.id}
+                                                            role='switch'
+
+                                                            defaultChecked=
+                                                            {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
+                                                                props.defaultData[props.defaultData.length - 1].data.filter(val => val.id === bindList.id).length !== 0 ?
+                                                                    true :
+                                                                    false :
+                                                                false
+                                                            } onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td>
+                                                        {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
+                                                     role='switch' onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td> */}
+                                                        <td style={{ textAlign: 'center' }}>{bindList.code}</td>
+                                                        <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </>
+
+                                        }
                                     </tbody>
                                 </table>
                             </div>
