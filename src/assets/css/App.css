@@ -8025,6 +8025,10 @@ select.selanghj {
   justify-content: right;
   flex-wrap: wrap;
 }
+.samplebtnnFHIR {
+  justify-content: left;
+  flex-wrap: wrap;
+}
 
 .form-control:disabled {
   color: #6a7077;

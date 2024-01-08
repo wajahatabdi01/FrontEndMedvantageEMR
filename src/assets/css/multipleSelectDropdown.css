@@ -1,0 +1,25 @@
+.ms-dropdown-label{
+  font-weight: 400;
+  color: #707070;
+}
+.ms-dropdown-selectall{
+  margin-top: 12px;
+}
+.ms-dropdown-list-container{
+  list-style-type: none;
+  padding-left: 10px;
+}
+.ms-dropdown-checkbox {
+  margin-right: 7px;
+}
+.ms-dropdown-content{
+  display: none;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  height: 232px;
+  overflow: auto;
+  position: absolute;
+  z-index: 25;
+  background-color: white;
+  width: 230px;
+}
