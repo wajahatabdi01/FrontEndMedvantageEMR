@@ -27,7 +27,8 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
         workPhone: '',
         mobileNumber: '',
         email: '',
-        emailDirect: ''
+        emailDirect: '',
+        additionalAddressess: []
        
       });
     
@@ -105,14 +106,52 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
     
   const handleContactDetailsChange = (e) => {
     const { name, value } = e.target;
+    setContactDetails((prevPatientDetails) => ({
+        ...prevPatientDetails,
+        [name]: value,
+      }));
     onContactDetailsChange(name, value);
   };
+
+  const handleContactDetailsAdditionalChange = (e,index) => {
+    const { name, value } = e.target;
+    if (index >= 0 && index < contactDetails.additionalAddressess.length) {
+
+    }
+    else
+    {
+
+    }
+    
+    setContactDetails((prevPatientDetails) => ({
+        ...prevPatientDetails,
+        [name]: value,
+      }));
+    onContactDetailsChange(name, value);
+  };
+
   const handleAddInput = () => {
     setInputCount(prevCount => prevCount + 1);
+    contactDetails.additionalAddressess.push({
+        addressUse: '',
+        addressType: '',
+        startDate: null,
+        endDate:null,
+        street : '',
+        streetLine2: '',
+        country: '',
+        state: '',
+        city:'',
+        zipCode:''
+
+
+        
+    });
     setInputValues(prevValues => [...prevValues, '']);
   };
 
   const handleInputChange = (index, value) => {
+    // contactDetails.additionalAddressess[index]
     setInputValues(prevValues => {
       const newValues = [...prevValues];
       newValues[index] = value;
@@ -261,7 +300,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
 
               <div className="col-2 mb-2">
                   <label htmlFor={"ddlAddressUse" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Address_Use")}</label><sup style={{ color: "red" }}>*</sup>
-                  <select className="form-select form-select-sm" id={"ddlAddressUse" + index} aria-label=".form-select-sm example" name={"addressUse" + index}>
+                  <select className="form-select form-select-sm" id={"ddlAddressUse" + index} aria-label=".form-select-sm example" name={"addressUse" + index} onChange={(e) => handleContactDetailsAdditionalChange(e,index)} >
                       <option value="0">{t("Address_Use")}</option>
                       {stateList && stateList.map((list, index) => {
 
@@ -278,7 +317,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
               <div className="col-2 mb-2">
                   <label htmlFor={"ddlAddressType" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Address_Type")}</label>
 
-                  <select className="form-select form-select-sm" id={"ddlAddressType" + index} aria-label=".form-select-sm example" name={"addressType" + index}>
+                  <select className="form-select form-select-sm" id={"ddlAddressType" + index} aria-label=".form-select-sm example" name={"addressType" + index} >
                       <option value="0">{t("Address_Type")}</option>
                       {stateList && stateList.map((list, index) => {
 
@@ -299,6 +338,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
                       value={value}
                       id={"txtStartDate" + index}
                       className="form-control form-control-sm"
+                      name={"startDate" + index}
                       onChange={(e) => handleInputChange(index, e.target.value)} />
 
               </div>
@@ -311,20 +351,12 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
                       value={value}
                       id={"txtEndDate" + index}
                       className="form-control form-control-sm"
+                      name={"endDate" + index}
                       onChange={(e) => handleInputChange(index, e.target.value)} />
 
               </div>
 
-              <div className="col-2 mb-2">
-                  <label htmlFor={"txtEndDate" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("End_Date")}</label>
-                  <input
-                      type="date"
-                      value={value}
-                      id={"txtEndDate" + index}
-                      className="form-control form-control-sm"
-                      onChange={(e) => handleInputChange(index, e.target.value)} />
-
-              </div>
+         
 
               <div className="col-2 mb-2">
                   <label htmlFor={"txtStreet" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Street")}</label>
@@ -332,6 +364,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
                       type="text"
                       value={value}
                       id={"txtStreet" + index}
+                      name={"street" + index}
                       className="form-control form-control-sm"
                       onChange={(e) => handleInputChange(index, e.target.value)} />
 
@@ -343,13 +376,14 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
                       type="text"
                       value={value}
                       id={"txtStreetLine2" + index}
+                      name={"streetLine2" + index}
                       className="form-control form-control-sm"
                       onChange={(e) => handleInputChange(index, e.target.value)} />
 
               </div>
               <div className="col-2 mb-2">
                   <label htmlFor={"ddlCountry" + index} className="form-label"><img src={city} className='icnn' alt='' />{t("Country")}</label>
-                  <select className="form-select form-select-sm" id={"ddlCountry" + index} aria-label=".form-select-sm example" onChange={() => { onChangeCountryAdditional(index); } }>
+                  <select className="form-select form-select-sm" id={"ddlCountry" + index} aria-label=".form-select-sm example" name = {'country' + index} onChange={() => { onChangeCountryAdditional(index); } }>
                       <option value="0">{t("Select_Country")}</option>
                       {countryList && countryList.map((list) => {
 
@@ -386,7 +420,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
               </div>
               <div className="col-2 mb-2">
                   <label htmlFor={"ddlCity" + index} className="form-label"><img src={city} className='icnn' alt='' />{t("City_Name")}</label><sup style={{ color: "red" }}>*</sup>
-                  <select className="form-select form-select-sm" id={"ddlCity" + index} aria-label=".form-select-sm example">
+                  <select className="form-select form-select-sm" id={"ddlCity" + index}  name={"city" + index} aria-label=".form-select-sm example">
                       <option value="0">{t("Select_City_Name")}</option>
                       {cityListAdd[index] && cityListAdd[index].map((list) => {
 
@@ -404,7 +438,7 @@ const ContactDetails = ({ initialContactDetails,onContactDetailsChange }) => {
               </div>
               <div className="col-2 mb-2">
                   <label htmlFor="txtZip" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Zip")}</label>
-                  <input type="number" className="form-control form-control-sm" id="txtZip" placeholder={t("Enter_Zip_Code")} name='zipCode' value={contactDetails.zipCode} onChange={handleContactDetailsChange} />
+                  <input type="number" className="form-control form-control-sm" id="txtZip" placeholder={t("Enter_Zip_Code")} name={'zipCode' + index} value={contactDetails.zipCode} onChange={handleContactDetailsChange} />
                   <small id="errZip" className="form-text text-danger" style={{ display: 'none' }}></small>
               </div>
 
