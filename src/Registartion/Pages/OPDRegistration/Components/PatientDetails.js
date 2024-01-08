@@ -140,7 +140,8 @@ const PatientDetails = ({ initialPatientDetails,onPatientDetailsChange,onPriviou
                   <option value="3">{t("Day")}</option>
               </select>
               <small id="errSexualOrientation" className="form-text text-danger" style={{ display: 'none' }}></small>
-          </div><div className="col-2 mb-2">
+          </div>
+          <div className="col-2 mb-2">
               <label htmlFor="txtExternalID" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Patient_ExternalID")}</label>
               <input type="text" className="form-control form-control-sm" id="txtExternalID" placeholder={t("Enter_Patient_ExternalID")} name='externalID' value={patientDetails.externalID} onChange={handlePatientDetailsChange} />
               <small id="errExternalID" className="form-text text-danger" style={{ display: 'none' }}>
@@ -202,6 +203,7 @@ displayValue="fullName" // Property name to display in the dropdown options
               </small>
           </div>
           <div className="col-2 mb-2">
+          <label htmlFor="ddlEmpty" className="form-label"></label>
           <button type="button" class="form-control form-control-sm" id="addPriviousNames" onClick={handlePatientDetailsAdd}>Add</button>
           </div>
           <div className="col-2 mb-2">
@@ -220,6 +222,22 @@ displayValue="fullName" // Property name to display in the dropdown options
               <small id="errPatientGender" className="form-text text-danger" style={{ display: 'none' }}></small>
           </div>
           
+
+          <div className="col-2 mb-2">
+              <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender_Identity")}</label><sup style={{ color: "red" }}>*</sup>
+              <select className="form-select form-select-sm" id="ddlGenderIdentity" aria-label=".form-select-sm example" onChange={handlePatientDetailsChange}>
+                  <option value="0">{t("Select_Gender_Identity")}</option>
+
+                  {getPatientGender && getPatientGender.map((val, ind) => {
+                      return (
+
+                          <option value={val.id}>{val.name}</option>
+                      );
+                  })}
+
+              </select>
+              <small id="errPatientGenderIdentity" className="form-text text-danger" style={{ display: 'none' }}></small>
+          </div>
           </>
 
   );
