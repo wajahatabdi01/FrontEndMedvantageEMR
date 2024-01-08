@@ -1976,6 +1976,41 @@ input[type=number] {
   z-index: 5;
 }
 
+.paginationSearch {
+  padding: 20px;
+  float: right;
+}
+
+.box-container {
+  height: 220px;
+  width: 210px;
+  margin: 0px auto;
+  background-color: #f0f0f0;
+  /* padding: 8px; */
+  border-radius: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.list-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-items li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-items li:last-child {
+  border-bottom: none;
+}
+
+/* Optional: Hover effect */
+.list-items li:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
 .modal.d-block {
   background: #000000e8;
 }

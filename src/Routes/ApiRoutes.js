@@ -339,6 +339,7 @@ import LabNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport'
 import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
 import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
 import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
+import SearchRegisteredPatient from '../EditCredentional/Pages/SearchRegisteredPatient';
 
 export default function ApiRoutes() {
 
@@ -370,6 +371,7 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
+                        <Route path='/searchRegisteredPatient/' element={<SearchRegisteredPatient />} />
                   </>
 
 
