@@ -44,14 +44,14 @@ const PatientDetails = ({ initialPatientDetails,onPatientDetailsChange,onPriviou
         birthMiddleName: '',
         birthLastName: '',
         patient_Name: '',
-        dob: '',
+        dob: null,
         sexualOrientation: '',
         externalID : '',
         ss: '',
         license : '',
         maritalStatus : '',
         billingNote : '',
-        previousNames : '',
+        previousNames : [],
         gender : '',
        
       });
@@ -77,6 +77,16 @@ const PatientDetails = ({ initialPatientDetails,onPatientDetailsChange,onPriviou
     onPriviousNamesAddButtonClick(isShowPriviousModal);
   }
   const {t} = useTranslation();
+  let onSelect = (selectedList, selectedItem) =>
+  {
+console.log(selectedList);
+console.log(selectedItem);
+setPatientDetails((prevPatientDetails) => ({
+    ...prevPatientDetails,
+    previousNames: selectedList,
+  }));
+onPatientDetailsChange('previousNames', selectedList);
+  }
   return (
     <><div className="col-1 mb-2">
           <label htmlFor="ddlTitle" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("PatientTitle")}</label><sup style={{ color: "red" }}>*</sup>
@@ -130,17 +140,29 @@ const PatientDetails = ({ initialPatientDetails,onPatientDetailsChange,onPriviou
               </small>
           </div><div className="col-2 mb-2 relative">
               <label htmlFor="txtDob" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Date_of_Birth")}</label><sup style={{ color: "red" }}>*</sup>
-              <input type="date" className="form-control form-control-sm" id="txtDob" name='dob' value={patientDetails.dob}  />
+              <input type="date" className="form-control form-control-sm" id="txtDob" name='dob' value={patientDetails.dob} onChange={handlePatientDetailsChange} />
               <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
-          </div><div className="col-1 mb-2">
-              <label htmlFor="ddlSexualOrientation" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("SexualOrientation")}</label>
-              <select className="form-select form-select-sm" id="ddlSexualOrientation" aria-label=".form-select-sm example" name='sexualOrientation' onChange={handlePatientDetailsChange}>
-                  <option value="1" selected>{t("Year")}</option>
-                  <option value="2">{t("Month")}</option>
-                  <option value="3">{t("Day")}</option>
-              </select>
-              <small id="errSexualOrientation" className="form-text text-danger" style={{ display: 'none' }}></small>
-          </div><div className="col-2 mb-2">
+          </div>
+
+          <div className="col-2 mb-2">
+                                                                <label htmlFor="ddlsexualOrientation" className="form-label"><img src={ageIcon} className='icnn' />{t("Sexual_Orientation")}</label>
+                                                                <select className="form-select form-select-sm" id="ddlsexualOrientation" aria-label=".form-select-sm example" name='sexualOrientation' onChange={handlePatientDetailsChange}>
+                                                                    <option value="0">{t("Select_Sexual_Orientation")}</option>
+                                                                    <option value="Straight or Heterosexual">Straight or Heterosexual</option>
+                                                                    <option value="Gay, Lesbian or Homosexual">Gay, Lesbian or Homosexual</option>
+                                                                    <option value="Bisexual">Bisexual</option>
+                                                                    <option value="Pansexual">Pansexual</option>
+                                                                    <option value="Queer">Queer</option>
+                                                                    <option value="Asexual">Asexual</option>
+                                                                    <option value="Twospirit">Two-spirit</option>
+                                                                    <option value="Questioning/not sure">Questioning/not sure</option>
+                                                                    <option value="Choose not to disclose">Choose not to disclose</option>
+                                                                    <option value="Questioning/not sure">Questioning/not sure</option>
+                                                                    <option value="Transgender">Transgender </option>
+                                                                </select>
+                                                            </div>
+
+          <div className="col-2 mb-2">
               <label htmlFor="txtExternalID" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Patient_ExternalID")}</label>
               <input type="text" className="form-control form-control-sm" id="txtExternalID" placeholder={t("Enter_Patient_ExternalID")} name='externalID' value={patientDetails.externalID} onChange={handlePatientDetailsChange} />
               <small id="errExternalID" className="form-text text-danger" style={{ display: 'none' }}>
@@ -192,7 +214,7 @@ const PatientDetails = ({ initialPatientDetails,onPatientDetailsChange,onPriviou
              <Multiselect
 options={priviousNames} // Options to display in the dropdown
 // selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-// onSelect={this.onSelect} // Function will trigger on select event
+ onSelect={onSelect} // Function will trigger on select event
 // onRemove={this.onRemove} // Function will trigger on remove event
 displayValue="fullName" // Property name to display in the dropdown options
 />
@@ -202,6 +224,7 @@ displayValue="fullName" // Property name to display in the dropdown options
               </small>
           </div>
           <div className="col-2 mb-2">
+          <label htmlFor="ddlEmpty" className="form-label"></label>
           <button type="button" class="form-control form-control-sm" id="addPriviousNames" onClick={handlePatientDetailsAdd}>Add</button>
           </div>
           <div className="col-2 mb-2">
@@ -220,6 +243,22 @@ displayValue="fullName" // Property name to display in the dropdown options
               <small id="errPatientGender" className="form-text text-danger" style={{ display: 'none' }}></small>
           </div>
           
+
+          <div className="col-2 mb-2">
+              <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender_Identity")}</label><sup style={{ color: "red" }}>*</sup>
+              <select className="form-select form-select-sm" id="ddlGenderIdentity" aria-label=".form-select-sm example" onChange={handlePatientDetailsChange}>
+                  <option value="0">{t("Select_Gender_Identity")}</option>
+
+                  {getPatientGender && getPatientGender.map((val, ind) => {
+                      return (
+
+                          <option value={val.id}>{val.name}</option>
+                      );
+                  })}
+
+              </select>
+              <small id="errPatientGenderIdentity" className="form-text text-danger" style={{ display: 'none' }}></small>
+          </div>
           </>
 
   );

@@ -40,9 +40,9 @@ export default function ListEditorMaster() {
                                             <img src={plus} className='icnn' alt='' style={{ width: '100%', height: '100%' }}/>
                                     </button>
                                     <button type="button" className="btn btn-sq-xs btn-danger mb-1 me-1" onClick={''} style={{padding: '5px', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center',}}
-data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" title='Delete List'>
-  <img src={deleteBtn} className='icnn' alt='' style={{ width: '100%', height: '100%' }} />
-</button>
+                                    data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" title='Delete List'>
+                                    <img src={deleteBtn} className='icnn' alt='' style={{ width: '100%', height: '100%' }} />
+                                    </button>
 
 
                                     {/* <select className='form-select form-select-sm' style={{width:'250px'}}>

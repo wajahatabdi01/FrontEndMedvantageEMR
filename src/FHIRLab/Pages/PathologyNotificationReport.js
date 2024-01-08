@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Heading from '../../Component/Heading';
 import TableContainer from '../../Component/TableContainer';
 import visible from '../../assets/images/icons/visible.svg'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GetLabNotificationReportData from '../API/GET/GetLabNotificationReportData';
 import Search from '../../Code/Serach';
 
