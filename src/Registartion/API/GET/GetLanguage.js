@@ -1,5 +1,5 @@
-let GetLanguage = async (stateID) => {
-    const url = window.AppbaseUrl + "/api/KnowMedApis/GetLanguageList";
+let GetLanguage = async () => {
+    const url = window.fhirAdminEMR + "/api/LanguageMaster/GetAllLanguageMaster";
     const head = { 'content-type': 'application/json', 'accept': '*/*', }
     let data = {};
     let response = await fetch(url, {

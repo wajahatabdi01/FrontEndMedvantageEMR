@@ -1,5 +1,5 @@
 let GetEthinicity =async(stateID)=>{
-    const url= window.AppbaseUrl+"/api/KnowMedApis/getEthinicityList";
+    const url= window.fhiropenEMR+"/api/KnowMedApis/getEthinicityList";
     const head={'content-type':'application/json','accept':'*/*',}
     let data={};
     let response= await fetch(url,{
