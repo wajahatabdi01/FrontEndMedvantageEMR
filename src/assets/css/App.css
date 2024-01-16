@@ -4507,7 +4507,7 @@ label.labelPageIndex {
   padding: 1px 5px;
 } */
 
-.btnModalClose {
+/* .btnModalClose {
   outline: none;
   border: none;
   background: #F44336;
@@ -4517,6 +4517,28 @@ label.labelPageIndex {
   position: absolute;
   right: -10px;
   top: -10px;
+} */
+
+.btnModalClose {
+  display: flex;
+  outline: none;
+  border: none;
+  background: #F44336;
+  color: white;
+  border-radius: 50%;  
+  position: absolute;
+  right: 6px;
+  top: 5px;
+  background: white;
+  color: black;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;  
+}
+
+.btnModalClose i{  
+  margin: 0;
 }
 
 .modal-dialog .modal-header {

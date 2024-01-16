@@ -7,6 +7,7 @@ import BoxContainer from '../../Component/BoxContainer';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 import IconEdit from '../../assets/images/icons/IconEdit.svg'
+import viewIcon from '../../assets/images/icons/viewIcon.svg'
 import IconDelete from '../../assets/images/icons/IconDelete.svg'
 import saveButtonIcon from '../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../assets/images/icons/clear.svg';
@@ -228,7 +229,7 @@ function SearchRegisteredPatient() {
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
-                                                                <img src={IconEdit} onClick={() => "handleUpdate"(val.id, val.wardId, val.departmentId, val.userId, val.wardName, val.departName)} alt='' />
+                                                                <img src={viewIcon} onClick={() => "handleUpdate"(val.id, val.wardId, val.departmentId, val.userId, val.wardName, val.departName)} alt='' />
                                                             </div>
 
                                                         </div>
