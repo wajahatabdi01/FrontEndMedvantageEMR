@@ -23,6 +23,7 @@ import GetWardDepartmentAssign from '../../../../../Admin/Api/Master/WardDepartm
 import GetWardDepartmentAssignById from '../../../../../Admin/Api/Master/WardDepartmentAssignAPI/GetWardDepartmentAssignById'
 import Loader from '../../../../../Component/Loader'
 import SaveButton from '../../../../../Component/SaveButton'
+import FHIRFamilyHistoryEdit from '../../../../../EditCredentional/Pages/FHIRFamilyHistoryEdit'
 
 
 export default function OPDBottomSection(props) {
@@ -37,7 +38,16 @@ export default function OPDBottomSection(props) {
 
     let [wardList, setWardList] = useState([])
 
-    let [loderVal, setLoderVal] = useState(0)
+    let [loderVal, setLoderVal] = useState(0);
+    const [isShowPopUp, setIsShowPopUp] = useState(0);
+
+    const handleOpenModal=(modalID)=>{
+        setIsShowPopUp(1);      
+       }
+
+       const handleCloseModal=()=>{
+        setIsShowPopUp(0);       
+       }
 
 
     let getWardData = async () => {
@@ -362,6 +372,9 @@ export default function OPDBottomSection(props) {
           <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} onClick={() => { setShowReferralModal(1) }}>
             <img src={Referral} className='icnn' alt='' />{t("Referral")}
           </button>
+          <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} onClick={handleOpenModal}>
+            <img src={Referral} className='icnn' alt='' />Family History
+          </button>
           <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal">
             <img src={PatientHistory1} className='icnn' alt=''/> {t("Patient History")}
           </button>
@@ -376,6 +389,21 @@ export default function OPDBottomSection(props) {
         {showAlertToster === 1 ? <AlertToster handle={setShowAlertToster} message={showAlertMessage} /> : ""}
         <PatientHistory />
         {showReferralModal === 1 ? <OPDReferral showModal={1} func={setShowReferralModal} /> : ""}
+        {isShowPopUp === 1 ?
+      
+      <div className={`modal d-${isShowPopUp===1 ?'block':'none'}`} id="codesModal"  data-bs-backdrop="static" >
+                    <div className="modal-dialog modalDelete" style={{maxWidth:'750px'}}>
+                        <div className="modal-content" >
+                        {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
+                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
+                           
+
+                            <FHIRFamilyHistoryEdit patientUhid = {activePatient}/> 
+                           {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
+                        </div>
+                    </div>
+                </div>
+      :''}
         <Loader val={loderVal} />
      </div>
     </div>

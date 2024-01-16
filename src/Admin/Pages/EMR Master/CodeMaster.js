@@ -59,7 +59,7 @@ export const CodeMaster = (props) => {
         }
         else {
             
-            let ids = id != ""?id:getCode
+            let ids = id = ""?id:getCode
             const getBindRes = await GetCodeBind(ids, textSearch);
             if (getBindRes.responseValue.length === 0) {
                 setShowImage(1);
@@ -91,6 +91,7 @@ export const CodeMaster = (props) => {
                     temp.splice(i, 1);
                 }
             }
+           
             props.SelectedData(temp, props.modalID)
             setArrToFwd(temp)
         }
@@ -121,7 +122,7 @@ export const CodeMaster = (props) => {
                 setCode(hai[0].dropdownId)
                 funBindCodeList("", hai[0].dropdownId)
 
-            }, 500)
+            }, 1000)
         }
         funGetCodeList();
     }, [])

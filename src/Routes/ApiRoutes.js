@@ -841,7 +841,8 @@ export default function ApiRoutes() {
                   {/* -----------------------------------END Medvantage FHIRLab----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage Edit SEction----------------------------------------- */}
-                  <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRFamilyHistoryEdit />} name="EditSection" />} />} />
+                  {/* <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRFamilyHistoryEdit isExcludeCss="0"/>} name="EditSection" />} />} /> */}
+                  <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<FHIRFamilyHistoryEdit />} />} />
                   {/* -----------------------------------End Medvantage Edit SEction----------------------------------------- */}
 
 
