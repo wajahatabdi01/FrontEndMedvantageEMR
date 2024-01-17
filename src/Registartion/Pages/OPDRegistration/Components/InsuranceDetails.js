@@ -1,8 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import GetCountryList from '../../../API/GET/GetCountryList';
+import GetStateList from '../../../API/GET/GetStateList';
+import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
 
 const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChange, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary }) => {
     let [insuranceDetails, setInsuranceDetails] = useState();
+    let [countryList, setCountryList] = useState([]);
+    let [providerList, setProviderList] = useState([]);
+    let [stateListprimary, setStateListPrimary] = useState([]);
+    let [stateListSEprimary, setStateListSEPrimary] = useState([]);
+    let [stateListsecondry, setStateListSecondry] = useState([]);
+    let [stateListSESecondry, setStateListSESecondry] = useState([]);
+    let [stateListTertiary, setStateListTertiary] = useState([]);
+    let [stateListSETertiary, setStateListSETertiary] = useState([]);
     let [sendFormPrimary, setSendFormPrimary] = useState(
         {
             insuranceProviderId: '',
@@ -132,7 +143,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }));
     };
     const handleSecondry = (e) => {
-        
+
         document.getElementById("errSecondary").style.display = "none"
         document.getElementById("errPlanNameSecondary").style.display = "none"
         document.getElementById("errSubscriberSecondary").style.display = "none"
@@ -190,7 +201,157 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     let [insuranceDetailsList, setInsuranceDetailsList] = useState({
 
     });
+
+    const getUserListByRoleId = async () => {
+        const param = {
+            roleId: 2,
+            clientID: window.clientId,
+        }
+        const response = await GetUserListByRoleId(param)
+        if (response.status === 1) {
+            setProviderList(response.responseValue)
+            console.log("ProviderList", response.responseValue)
+        }
+    }
+
+
+    let getCountryList = async () => {
+        console.log('fetch country');
+        let response = await GetCountryList();
+        console.log('fetch country', response);
+        if (response.status === 1) {
+            setCountryList(response.responseValue);
+            //getStateList(countryID);
+        }
+    }
+    let getStateListPrimary = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListPrimary(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListPrimary([]);
+        }
+    }
+    let getSEStateListPrimary = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListSEPrimary(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListSEPrimary([]);
+        }
+    }
+    let onChangeCountryParimary = async (e) => {
+        console.log('e.target', e.target.value);
+        getStateListPrimary(e.target.value);
+        setSendFormPrimary((prevData) => ({
+            ...prevData,
+            countryId: e.target.value
+        }))
+    };
+    let onChangeCountrySEPrimary = async (e) => {
+        console.log('e.target', e.target.value);
+        getSEStateListPrimary(e.target.value);
+        setSendFormPrimary((prevData) => ({
+            ...prevData,
+            seCountryId: e.target.value
+        }))
+    };
+
+    //Secondry 
+    let getStateListSecondry = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListSecondry(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListSecondry([]);
+        }
+    }
+    let getSEStateListSecondry = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListSESecondry(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListSESecondry([]);
+        }
+    }
+    let onChangeCountrySecondry = async (e) => {
+        console.log('e.target', e.target.value);
+        getStateListSecondry(e.target.value);
+        setSendFormSecondary((prevData) => ({
+            ...prevData,
+            countryId: e.target.value
+        }))
+    };
+    let onChangeCountrySESecondry = async (e) => {
+        console.log('e.target', e.target.value);
+        getSEStateListSecondry(e.target.value);
+        setSendFormSecondary((prevData) => ({
+            ...prevData,
+            seCountryId: e.target.value
+        }))
+    };
+
+    //Tertiary
+    let getStateListTertiary = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListTertiary(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListTertiary([]);
+        }
+    }
+    let getSEStateListTertiary = async (param) => {
+        let data = await GetStateList(param);
+        console.log('state list', data);
+        if (data.status === 1) {
+
+            setStateListSETertiary(data.responseValue);
+        }
+        else {
+            console.error(data.responseValue);
+            setStateListSETertiary([]);
+        }
+    }
+    let onChangeCountryTertiary = async (e) => {
+        console.log('e.target', e.target.value);
+        getStateListTertiary(e.target.value);
+        setSendFormTri((prevData) => ({
+            ...prevData,
+            countryId: e.target.value
+        }))
+    };
+    let onChangeCountrySETertiary = async (e) => {
+        console.log('e.target', e.target.value);
+        getSEStateListTertiary(e.target.value);
+        setSendFormTri((prevData) => ({
+            ...prevData,
+            seCountryId: e.target.value
+        }))
+    };
     useEffect(() => {
+        // getStateList();
+        getCountryList();
+        getUserListByRoleId();
         getInsuranceDetailsPrimary(sendFormPrimary);
         getInsuranceDetailsSecondry(sendFormSecondary);
         getInsuranceDetailsTertiary(sendFormTri);
@@ -205,11 +366,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         <div style={{ width: '250px' }}>
                             <label htmlFor="ddlPrimary" className="form-label">{t("Primary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
                             <select className="form-select form-select-sm" id="ddlPrimary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormPrimary.insuranceProviderId} onChange={handlePrimary}>
-                                <option value="1" selected>Unassigned</option>
-                                <option value="2">A</option>
-                                <option value="3">B</option>
-                                <option value="4">C</option>
-                                <option value="5">D</option>
+                                <option value="0">{t("Select_Provider")}</option>
+                                {providerList && providerList.map((list) => {
+                                    return (
+                                        <option value={list.id}>{list.name}</option>
+                                    )
+                                })}
                             </select>
                             <div id="errPrimary" className="form-text text-danger" style={{ display: 'none' }}></div>
                         </div>
@@ -337,28 +499,62 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlSECountry" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlSECountry" aria-label=".form-select-sm example" name='seCountryId' value={sendFormPrimary.seCountryId} onChange={onChangeCountrySEPrimary} >
+                                    <option value="0">{t("Select_Country")}</option>
+                                    {countryList && countryList.map((list) => {
+
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errSECountry" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
+
+                        <div className="col-md-2 mb-2">
                             <label htmlFor="ddlSEState" className="form-label">{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEState" aria-label=".form-select-sm example" name='seStateId' value={sendFormPrimary.seStateId} onChange={handlePrimary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListSEprimary && stateListSEprimary.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errSEStateprimary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlCountry" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={onChangeCountryParimary}>
+                                    <option value="0">Select Country</option>
+                                    {/* <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={onChangeCountry}> */}
+                                    {countryList && countryList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
+                        <div className="col-md-2 mb-2">
                             <label htmlFor="ddlState" className="form-label">{t("State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='stateId' value={sendFormPrimary.stateId} onChange={handlePrimary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListprimary && stateListprimary.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errStatePrimary" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -374,38 +570,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="txtZipCode" className="form-label">{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCode" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormPrimary.zipCode} onChange={handlePrimary} />
                             <small id="errZipCode" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountry" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlSECountry" aria-label=".form-select-sm example" name='seCountryId' value={sendFormPrimary.seCountryId} onChange={handlePrimary} >
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errSECountry" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountry" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={handlePrimary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtPhoneNumber" className="form-label">{t("Phone Number")}</label>
@@ -433,9 +597,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             </div>
                             <small id="errAcceptAssignment" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
                     </div>
-                    <hr />
                 </div>
             </div>
 
@@ -446,11 +608,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         <div style={{ width: '250px' }}>
                             <label htmlFor="ddlSecondary" className="form-label">{t("Secondary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
                             <select className="form-select form-select-sm" id="ddlSecondary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormSecondary.insuranceProviderId} onChange={handleSecondry}>
-                                <option value="1" selected>Unassigned</option>
-                                <option value="2">A</option>
-                                <option value="3">B</option>
-                                <option value="4">C</option>
-                                <option value="5">D</option>
+                                <option value="0">{t("Select_Provider")}</option>
+                                {providerList && providerList.map((list) => {
+                                    return (
+                                        <option value={list.id}>{list.name}</option>
+                                    )
+                                })}
                             </select>
                             <div id="errSecondary" className="form-text text-danger" style={{ display: 'none' }}></div>
                         </div>
@@ -578,30 +741,62 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <input type="text" className="form-control form-control-sm" id="txtCitySecondary" placeholder={t("Enter City")} name='city' value={sendFormSecondary.city} onChange={handleSecondry} />
                             <small id="errCitySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                        <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlSECountrySecondary" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlSECountrySecondary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormSecondary.seCountryId} onChange={onChangeCountrySESecondry} >
+                                    <option value="0">{t("Select_Country")}</option>
+                                    {countryList && countryList.map((list) => {
 
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errSECountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="ddlSEStateSecondary" className="form-label">{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEStateSecondary" aria-label=".form-select-sm example" name='seStateId' value={sendFormSecondary.seStateId} onChange={handleSecondry}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListSESecondry && stateListSESecondry.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errSEStateSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                        <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlCountrySecondary" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlCountrySecondary" aria-label=".form-select-sm example" name='countryId' value={sendFormSecondary.countryId} onChange={onChangeCountrySecondry}>
+                                    <option value="0">{t("Select_Country")}</option>
+                                    {countryList && countryList.map((list) => {
 
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errCountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="ddlStateSecondary" className="form-label">{t("State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlStateSecondary" aria-label=".form-select-sm example" name='stateId' value={sendFormSecondary.stateId} onChange={handleSecondry}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListsecondry && stateListsecondry.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errStateSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -617,38 +812,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="txtZipCodeSecondary" className="form-label">{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeSecondary" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormSecondary.zipCode} onChange={handleSecondry} />
                             <small id="errZipCodeSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountrySecondary" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlSECountrySecondary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormSecondary.seCountryId} onChange={handleSecondry} >
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errSECountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountrySecondary" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlCountrySecondary" aria-label=".form-select-sm example" name='countryId' value={sendFormSecondary.countryId} onChange={handleSecondry}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errCountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtPhoneNumberSecondary" className="form-label">{t("Phone Number")}</label>
@@ -676,9 +839,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             </div>
                             <small id="errAcceptAssignmentSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
                     </div>
-                    <hr />
                 </div>
             </div>
 
@@ -690,11 +851,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         <div style={{ width: '250px' }}>
                             <label htmlFor="ddlTertiary" className="form-label">{t("Tertiary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
                             <select className="form-select form-select-sm" id="ddlTertiary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormTri.insuranceProviderId} onChange={handleTertiary} >
-                                <option value="1" selected>Unassigned</option>
-                                <option value="2">A</option>
-                                <option value="3">B</option>
-                                <option value="4">C</option>
-                                <option value="5">D</option>
+                                <option value="0">{t("Select_Provider")}</option>
+                                {providerList && providerList.map((list) => {
+                                    return (
+                                        <option value={list.id}>{list.name}</option>
+                                    )
+                                })}
                             </select>
                             <div id="errTertiary" className="form-text text-danger" style={{ display: 'none' }}></div>
                         </div>
@@ -820,30 +982,56 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <input type="text" className="form-control form-control-sm" id="txtCityTertiary" placeholder={t("Enter City")} name='city' value={sendFormTri.city} onChange={handleTertiary} />
                             <small id="errCityTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
+                        <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlSECountryTertiary" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlSECountryTertiary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormTri.seCountryId} onChange={onChangeCountrySETertiary}>
+                                    {countryList && countryList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errSECountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="ddlSEStateTertiary" className="form-label">{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId' value={sendFormTri.seStateId} onChange={handleTertiary}>
-                                    <option value="1" selected>select SE State</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListSETertiary && stateListSETertiary.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
+                        <div className="col-md-2 mb-2">
+                            <label htmlFor="ddlCountryTertiary" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <div className='d-flex gap-3' >
+                                <select className="form-select form-select-sm" id="ddlCountryTertiary" aria-label=".form-select-sm example" name='countryId' value={sendFormTri.countryId} onChange={onChangeCountryTertiary}>
+                                    {countryList && countryList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.countryName}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errCountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="ddlStateTertiary" className="form-label">{t("State")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlStateTertiary" aria-label=".form-select-sm example" name='stateId' value={sendFormTri.stateId} onChange={handleTertiary}>
-                                    <option value="1" selected>select State</option>
-                                    <option value="2">UP</option>
-                                    <option value="3">MP</option>
-                                    <option value="4">Ap</option>
-                                    <option value="5">TN</option>
+                                    <option value="0">{t("Select_State")}</option>
+                                    {stateListTertiary && stateListTertiary.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.stateName}</option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <small id="errStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -859,38 +1047,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="txtZipCodeTertiary" className="form-label">{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeTertiary" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormTri.zipCode} onChange={handleTertiary} />
                             <small id="errZipCodeTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountryTertiary" className="form-label">{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlSECountryTertiary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormTri.seCountryId} onChange={handleTertiary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errSECountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                        </div>
-
-                        <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountryTertiary" className="form-label">{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="ddlCountryTertiary" aria-label=".form-select-sm example" name='countryId' value={sendFormTri.countryId} onChange={handleTertiary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">India</option>
-                                    <option value="3">England</option>
-                                    <option value="4">Austrlia</option>
-                                    <option value="5">US</option>
-                                </select>
-                            </div>
-                            <small id="errCountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtPhoneNumberTertiary" className="form-label">{t("Phone Number")}</label>
@@ -918,9 +1074,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             </div>
                             <small id="errAcceptAssignmentTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 

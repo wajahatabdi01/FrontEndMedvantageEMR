@@ -64,6 +64,8 @@ import GetAllIndustryData from '../../API/GET/GetAllIndustryData';
 import GetAllReligionData from '../../API/GET/GetAllReligionData';
 import InsertPatientDemographicData from '../../API/POST/InsertPatientDemographicData';
 import GetAllGuardianRelation from '../../API/GET/GetAllGuardianRelation';
+import GetUserListByRoleId from '../../API/GET/GetUserListByRoleId';
+import GetAllReferralSourceData from '../../API/GET/GetAllReferralSourceData';
 
 
 export default function PatientRegistration() {
@@ -100,6 +102,7 @@ export default function PatientRegistration() {
     let [patientAge, setPatientAge] = useState("");
     let [patientGender, setPatientGender] = useState('0');
     let [getPatientGender, setGetPatientGender] = useState([]);
+    let [genderList, setGenderList] = useState([]);
     let [PatientID, setPatientID] = useState('');
     let [patientUHID, setPatientUHID] = useState('');
     let [matarialStatus, setMatarialStatus] = useState('0');
@@ -109,6 +112,7 @@ export default function PatientRegistration() {
     let [showMessage, setShowMessage] = useState(0)
     let [lastUhid, setLastUhid] = useState('');
     let [raceTypeList, setRaceTypeList] = useState([])
+    let [referralList, setReferralList] = useState([])
     let [ethinicityList, setEthinicityList] = useState([])
     let [languageList, setLanguageList] = useState([])
     let [sexualOrientationlist, setSexualOrientationlist] = useState([]);
@@ -224,6 +228,20 @@ export default function PatientRegistration() {
             console.log("InsuranceList", InsuranceList.responseValue)
         }
     }
+    const GetGenderList = async () => {
+        let response = await GetGender()
+        if (response.status === 1) {
+            setGenderList(response.responseValue)
+            console.log("genderList", response.responseValue)
+        }
+    }
+    const getreferralList = async () => {
+        let response = await GetAllReferralSourceData()
+        if (response.status === 1) {
+            setReferralList(response.responseValue)
+            console.log("referralList", response.responseValue)
+        }
+    }
     const getGuardianRelationList = async () => {
         const response = await GetAllGuardianRelation()
         if (response.status === 1) {
@@ -231,6 +249,7 @@ export default function PatientRegistration() {
             console.log("response", response.responseValue)
         }
     }
+    
 
     let getIndustryList = async () => {
         const response = await GetAllIndustryData();
@@ -1668,7 +1687,8 @@ export default function PatientRegistration() {
         clearErrorMessages();
     }
     useEffect(() => {
-        // document.getElementById('ddlAgeUnit').value = 1;
+        getreferralList();
+        GetGenderList();
         getCountryList();
         getGuardianRelationList();
         getRelgionList();
@@ -2004,9 +2024,9 @@ export default function PatientRegistration() {
                                                                 <label htmlFor="ddlReferralSource" className="form-label">{t("Referral_Source")}</label>
                                                                 <select className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSource' onChange={(e) => { handleStatsDetails("referralSource", e.target.value) }}>
                                                                     <option value="0">{t("Select Referral Source")}</option>
-                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                    {referralList && referralList.map((list) => {
                                                                         return (
-                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                            <option value={list.id}>{list.name}</option>
                                                                         )
                                                                     })}
                                                                 </select>
@@ -2016,11 +2036,10 @@ export default function PatientRegistration() {
                                                                 <label htmlFor="ddlVFC" className="form-label">{t("VFC")}</label>
                                                                 <select className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='vfc' onChange={(e) => { handleStatsDetails("vfc", e.target.value) }}>
                                                                     <option value="0">{t("Select_VFC")}</option>
-                                                                    {raceTypeList && raceTypeList.map((list) => {
-                                                                        return (
-                                                                            <option value={list.id}>{list.raceType}</option>
-                                                                        )
-                                                                    })}
+                                                                    <option value="1">Unassigned</option>
+                                                                    <option value="2">Eligible</option>
+                                                                    <option value="3">Ineligible</option>
+                                
                                                                 </select>
                                                             </div>
                                                             <div className="col-2 mb-2">
@@ -2264,9 +2283,11 @@ export default function PatientRegistration() {
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
                                                     <select className="form-select form-select-sm" id="ddlGaurdian_Gender" aria-label=".form-select-sm example" name='genderId' onChange={(e) => { handlerChange2("genderId", e.target.value) }} >
                                                         <option value="0">{t("Select Gaurdian Gender")}</option>
-                                                        <option value="1">Male</option>
-                                                        <option value="2">Female</option>
-                                                        <option value="3">Other</option>
+                                                        {genderList && genderList.map((list)=>{
+                                                            return(
+                                                                <option value={list.id}>{list.name}</option>
+                                                            )
+                                                        })}
                                                     </select>
                                                 </div>
 

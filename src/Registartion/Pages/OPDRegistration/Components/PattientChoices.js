@@ -8,7 +8,9 @@ import { useTranslation } from 'react-i18next';
 import GetStateList from '../../../API/GET/GetStateList'
 import GetCityList from '../../../API/GET/GetCityList';
 import GetCountryList from '../../../API/GET/GetCountryList';
+import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
 const PattientChoices = ({ patientchoicesData }) => {
+    let [providerList, setProviderList] = useState([]);
     const [choicesList, setChoicesList] = useState([{ id: 1, name: 'Yes' }, { id: 0, name: 'No' }]);
     const { t } = useTranslation();
     const handlePattientChoicesChange = (e) => {
@@ -20,6 +22,18 @@ const PattientChoices = ({ patientchoicesData }) => {
         }));
         // onPattientChoicesChange(name, value);
     };
+    const getUserListByRoleId = async () => {
+        const param = {
+            roleId: 2,
+            clientID: window.clientId,
+        }
+        const response = await GetUserListByRoleId(param)
+        if (response.status === 1) {
+            setProviderList(response.responseValue)
+            console.log("ProviderList", response.responseValue)
+        }
+    }
+
     const [patientchoicesList, setPatientchoicesList] = useState({
         providerID: '',
         provideSinceDate: '',
@@ -53,6 +67,7 @@ const PattientChoices = ({ patientchoicesData }) => {
 
     });
     useEffect(() => {
+        getUserListByRoleId();
         // if (initialPatientChoiceDetails) {
         //     setPatientchoicesList(initialPatientChoiceDetails);
         // }
@@ -64,7 +79,7 @@ const PattientChoices = ({ patientchoicesData }) => {
                 <label htmlFor="ddlProvider" className="form-label"><img src={city} className='icnn' alt='' />{t("Provider")}</label>
                 <select className="form-select form-select-sm" id="ddlProvider" aria-label=".form-select-sm example" name='providerID' value={patientchoicesList.providerID} onChange={handlePattientChoicesChange}>
                     <option value="0">{t("Select_Provider")}</option>
-                    {choicesList && choicesList.map((list) => {
+                    {providerList && providerList.map((list) => {
                         return (
                             <option value={list.id}>{list.name}</option>
                         )
@@ -81,12 +96,10 @@ const PattientChoices = ({ patientchoicesData }) => {
                 <label htmlFor="ddlReferring_Provider" className="form-label"><img src={city} className='icnn' alt='' />{t("Referring_Provider")}</label>
                 <select className="form-select form-select-sm" id="ddlReferring_Provider" aria-label=".form-select-sm example" name='refProviderID' value={patientchoicesList.refProviderID} onChange={handlePattientChoicesChange} >
                     <option value="0">{t("Select_Referring_Provider")}</option>
-                    {choicesList && choicesList.map((list) => {
-
+                    {providerList && providerList.map((list) => {
                         return (
                             <option value={list.id}>{list.name}</option>
                         )
-
                     })}
                 </select>
                 <small id="errReferring_Provider" className="form-text text-danger" style={{ display: 'none' }}></small>
