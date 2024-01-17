@@ -63,6 +63,7 @@ import GetAllSexualOrientation from '../../API/GET/GetAllSexualOrientation';
 import GetAllIndustryData from '../../API/GET/GetAllIndustryData';
 import GetAllReligionData from '../../API/GET/GetAllReligionData';
 import InsertPatientDemographicData from '../../API/POST/InsertPatientDemographicData';
+import GetAllGuardianRelation from '../../API/GET/GetAllGuardianRelation';
 
 
 export default function PatientRegistration() {
@@ -140,7 +141,7 @@ export default function PatientRegistration() {
     let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
     let [headingName, setHeadingName] = useState(JSON.parse(sessionStorage.getItem("activePage")).menuName);
     let [content, setContent] = useState('');
-
+    let [guardianRelationList, setGuardianRelationList] = useState([]);
     // Insurance Company Lists
     let [CardNo, setCardNo] = useState('');
     let [insuranceCompany, setinsuranceCompany] = useState(0);
@@ -221,6 +222,13 @@ export default function PatientRegistration() {
         if (InsuranceList.status === 1) {
             setInsuranceCompanyList(InsuranceList.responseValue)
             console.log("InsuranceList", InsuranceList.responseValue)
+        }
+    }
+    const getGuardianRelationList = async () => {
+        const response = await GetAllGuardianRelation()
+        if (response.status === 1) {
+            setGuardianRelationList(response.responseValue)
+            console.log("response", response.responseValue)
         }
     }
 
@@ -503,7 +511,7 @@ export default function PatientRegistration() {
 
     }
     let getSelectedDoctor = () => {
-    
+
         document.getElementById("errDoctor").style.display = "none";
         const doctor = document.getElementById('ddlDoctor').value;
         setSelectedDoctor(doctor);
@@ -1662,6 +1670,7 @@ export default function PatientRegistration() {
     useEffect(() => {
         // document.getElementById('ddlAgeUnit').value = 1;
         getCountryList();
+        getGuardianRelationList();
         getRelgionList();
         getIndustryList();
         getAllSexualOrientation();
@@ -2086,7 +2095,7 @@ export default function PatientRegistration() {
                                                         aria-expanded="false"
                                                         aria-controls="miscInfo"
                                                     >
-                                                        {/* {t("Other_Information")} */}
+
                                                     </span>
                                                 </h2>
                                                 <div
@@ -2115,6 +2124,114 @@ export default function PatientRegistration() {
                                     </div>
                                 </div>
 
+                                {/* ....................................................................Visit Details..................................................................... */}
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                    <span className='collapsetxt'> {t("Visit Details")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#visitDetails"
+                                                        aria-expanded="false"
+                                                        aria-controls="miscInfo"
+                                                    >
+
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="visitDetails"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                        <div className="dflex">
+                                                            <div className="col-md-2 mb-2">
+                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Class</label><sup style={{ color: "red" }}>*</sup>
+                                                                <div className='d-flex gap-3' >
+                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                                                                        <option value="1" selected>select SE State</option>
+                                                                        <option value="2">UP</option>
+                                                                        <option value="3">MP</option>
+                                                                        <option value="4">Ap</option>
+                                                                        <option value="5">TN</option>
+                                                                    </select>
+                                                                </div>
+                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            </div>
+                                                            <div className="col-md-2 mb-2">
+                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Type</label><sup style={{ color: "red" }}>*</sup>
+                                                                <div className='d-flex gap-3' >
+                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                                                                        <option value="1" selected>select SE State</option>
+                                                                        <option value="2">UP</option>
+                                                                        <option value="3">MP</option>
+                                                                        <option value="4">Ap</option>
+                                                                        <option value="5">TN</option>
+                                                                    </select>
+                                                                </div>
+                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            </div>
+                                                            <div className="col-md-2 mb-2">
+                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Sensitivity</label><sup style={{ color: "red" }}>*</sup>
+                                                                <div className='d-flex gap-3' >
+                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                                                                        <option value="1" selected>select SE State</option>
+                                                                        <option value="2">UP</option>
+                                                                        <option value="3">MP</option>
+                                                                        <option value="4">Ap</option>
+                                                                        <option value="5">TN</option>
+                                                                    </select>
+                                                                </div>
+                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            </div>
+                                                            <div className="col-md-2 mb-2">
+                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Encounter Provider</label><sup style={{ color: "red" }}>*</sup>
+                                                                <div className='d-flex gap-3' >
+                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                                                                        <option value="1" selected>select SE State</option>
+                                                                        <option value="2">UP</option>
+                                                                        <option value="3">MP</option>
+                                                                        <option value="4">Ap</option>
+                                                                        <option value="5">TN</option>
+                                                                    </select>
+                                                                </div>
+                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            </div>
+                                                            <div className="col-md-2 mb-2">
+                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Discharge Disposition</label><sup style={{ color: "red" }}>*</sup>
+                                                                <div className='d-flex gap-3' >
+                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                                                                        <option value="1" selected>select SE State</option>
+                                                                        <option value="2">UP</option>
+                                                                        <option value="3">MP</option>
+                                                                        <option value="4">Ap</option>
+                                                                        <option value="5">TN</option>
+                                                                    </select>
+                                                                </div>
+                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                            </div>
+                                                            <div className="col-md-2 mb-2">
+                                                                <Heading text="Reason for Visit" />
+                                                                <textarea id="w3review" name="w3review" rows="3" cols="40"></textarea>
+                                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <div className="col-md-2 mb-3" style={{ justifyContent: 'normal' }}>
+                                                                <Heading text="Link/Add Issues to This Visit" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 {/* ....................................................................Guardian_Details..................................................................... */}
 
 
@@ -2133,14 +2250,11 @@ export default function PatientRegistration() {
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
                                                     <select className="form-select form-select-sm" id="ddlRelationToPat" aria-label=".form-select-sm example" name='guardianrelationship' onChange={(e) => { handlerChange2("guardianrelationship", e.target.value) }} >
                                                         <option value="0">{t("Select_Relation")}</option>
-                                                        <option value="1">Father</option>
-                                                        <option value="2">Mother</option>
-                                                        <option value="3">Brother</option>
-                                                        <option value="4">Son</option>
-                                                        <option value="5">Daughter</option>
-                                                        <option value="6">Sister</option>
-                                                        <option value="7">Spouse</option>
-                                                        <option value="8">Other</option>
+                                                        {guardianRelationList && guardianRelationList.map((list) => {
+                                                            return (
+                                                                <option value={list.id}>{list.guardianRelationName}</option>
+                                                            )
+                                                        })}
                                                     </select>
 
 

@@ -15,6 +15,9 @@ import Search from '../../Code/Serach'
 import GetAllRegisteredPatients from '../API/GetAllRegisteredPatients';
 import GetAllSearchByName from '../API/GetAllSearchByName';
 import GetAllDob from '../API/GetAllDob';
+import GetPatientDetailsByUHID from '../../Clinical/API/RemotePatientMonitorDashboard/GetPatientDetailsByUHID';
+import GetMenuByDepartmentIdAndUserId from '../../Clinical/API/RemotePatientMonitorDashboard/GetMenuByDepartmentIdAndUserId';
+import GetDepartmentByID from '../API/GetDepartmentByID';
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -42,7 +45,8 @@ function SearchRegisteredPatient() {
         if (response.status === 1) {
             setRegisteredPatientList(response.responseValue);
         }
-        console.log("Patientdata:::>", response.responseValue)
+        window.sessionStorage.setItem("PatientDetails",JSON.stringify(response.responseValue));
+        console.log("PatientDetails:::>", response.responseValue)
     }
 
     let getAllNames = async (query) => {
@@ -137,6 +141,57 @@ function SearchRegisteredPatient() {
         setSelectedDate('');
         setRegisteredPatientList('');
     }
+
+    const handleRedirect = async (key) => {
+        console.log('key',key)
+        // const menuDetails = taskDetails.menuData;
+        let resp = await GetPatientDetailsByUHID(key);
+        console.log('resp',resp)
+
+       
+        if (resp.status === 1) {
+            let deptmenu = await GetMenuByDepartmentIdAndUserId(resp.responseValue[0].deptId);
+            // let deptResponse = await GetDepartmentByID(1);
+            let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
+            console.log('dept',deptResponse);
+            if(deptResponse){
+                if (deptmenu.status === 1) {
+                    window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
+                        resp.responseValue,
+                    ))
+                    window.sessionStorage.setItem("departmentmenu", JSON.stringify({
+                        "menuList": deptmenu.responseValue.menuList,
+                        "departmentList": deptmenu.responseValue.departmentList,
+                    }))
+                    window.sessionStorage.setItem("IPDpatientsendData", JSON.stringify(
+                        [[key]],
+                    ))
+                    window.sessionStorage.setItem("IPDactivePatient", JSON.stringify({ Uhid: key }))
+                    window.sessionStorage.setItem("activePage", JSON.stringify({
+                        "WardId": resp.responseValue[0].wardId,
+                        "wardName": resp.responseValue[0].wardName,
+                        "DepartmentId": resp.responseValue[0].deptId,
+                        "departmentName": deptResponse.departmentName,
+                        "menuName": "Prescription",
+                        "menuId": 51
+                    }))
+                    // window.open(menuDetails.url)
+                    window.open('/prescriptionipd/')
+                }
+            }
+            else{
+
+                console.error('Something went wrong..');
+            }
+            
+            console.log("deptmenu", deptmenu)
+ 
+            // newWindow["uhid"] = props.patientData.UhId
+            // window["clientId"] = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId
+            // setPatientProfilePopup(1)
+        }
+    }
+
     useEffect(() => {
         getAllNames();
         // getAllDob();
@@ -229,7 +284,7 @@ function SearchRegisteredPatient() {
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
-                                                                <img src={viewIcon} onClick={() => "handleUpdate"(val.id, val.wardId, val.departmentId, val.userId, val.wardName, val.departName)} alt='' />
+                                                                <img src={viewIcon} onClick={()=>{handleRedirect(val.uhID)}} alt='' />
                                                             </div>
 
                                                         </div>

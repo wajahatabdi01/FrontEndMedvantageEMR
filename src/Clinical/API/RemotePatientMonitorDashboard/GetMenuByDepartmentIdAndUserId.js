@@ -1,6 +1,6 @@
 export default async function GetMenuByDepartmentIdAndUserId(deptId) {
 
-    console.log("Fsdfh")
+    // console.log("Fsdfh")
     let url = window.UserbaseUrl + "/api/Users/GetMenuByDepartmentIdAndUserId?deptId=" + deptId + "&userId=" + window.userId + "&clientId=" + window.clientId
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let data = {};
