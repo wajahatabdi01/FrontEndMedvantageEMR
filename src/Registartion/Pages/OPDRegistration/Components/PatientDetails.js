@@ -247,7 +247,7 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
                     })}
                 </select>
                 <small id="errMaritalStatus" className="form-text text-danger" style={{ display: 'none' }}></small>
-            </div><div className="col-2 mb-2">
+            </div><div className="col-3 mb-2">
                 <label htmlFor="txtBillingNote" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BillingNote")}</label>
                 <input type="text" className="form-control form-control-sm" id="txtBillingNote" placeholder={t("Enter_BillingNote")} name='billingNote' value={patientDetails.billingNote} onChange={handlePatientDetailsChange} />
                 <small id="errBillingNote" className="form-text text-danger" style={{ display: 'none' }}>
