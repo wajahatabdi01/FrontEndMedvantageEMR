@@ -601,6 +601,13 @@ span.starMandatory {
   border: 1px solid #002F75;
   font-weight: 700;
 }
+.btn-secondry {
+  color: #ffffff;
+  min-width: 80px;
+  border-radius: 3px;
+  border: 1px solid #96989b;
+  font-weight: 700;
+}
 
 .btn-add {
   margin-top: 21px;
@@ -640,6 +647,13 @@ span.starMandatory {
   min-width: 40px;
   border-radius: 3px;
   border: 1px solid #002F75;
+  font-weight: 700;
+}
+.btn-secondry-opt {
+  color: #5e5f61;
+  min-width: 40px;
+  border-radius: 3px;
+  border: 1px solid #828385;
   font-weight: 700;
 }
 
@@ -4541,6 +4555,39 @@ label.labelPageIndex {
   height: 22px;
   align-items: center;
   justify-content: center;  
+}
+.addvisitbtn button {
+  background: #1d4999;
+  border: 1px solid #1d4999;
+  color: #fff;
+  padding: 5px 9px;
+  width: 100px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+.problemhead {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+.addvisitbtn button:hover {
+  background: #fff;
+  color: #1d4999;
+}
+.issue-text {
+  width: 100%;
+  border: 1px solid #dee2e6;
+  height: 13vh;
+  overflow: scroll;
+  /* min-width: 320px; */
+  margin-top: 10px;
+}
+.visit-pop {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  align-items: center;
 }
 
 .btnModalClose i{  

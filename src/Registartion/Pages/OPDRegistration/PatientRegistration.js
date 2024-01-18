@@ -63,6 +63,10 @@ import GetAllSexualOrientation from '../../API/GET/GetAllSexualOrientation';
 import GetAllIndustryData from '../../API/GET/GetAllIndustryData';
 import GetAllReligionData from '../../API/GET/GetAllReligionData';
 import InsertPatientDemographicData from '../../API/POST/InsertPatientDemographicData';
+import GetAllGuardianRelation from '../../API/GET/GetAllGuardianRelation';
+import GetUserListByRoleId from '../../API/GET/GetUserListByRoleId';
+import GetAllReferralSourceData from '../../API/GET/GetAllReferralSourceData';
+import VisitDetails from './Components/VisitDetails';
 
 
 export default function PatientRegistration() {
@@ -99,6 +103,7 @@ export default function PatientRegistration() {
     let [patientAge, setPatientAge] = useState("");
     let [patientGender, setPatientGender] = useState('0');
     let [getPatientGender, setGetPatientGender] = useState([]);
+    let [genderList, setGenderList] = useState([]);
     let [PatientID, setPatientID] = useState('');
     let [patientUHID, setPatientUHID] = useState('');
     let [matarialStatus, setMatarialStatus] = useState('0');
@@ -108,6 +113,7 @@ export default function PatientRegistration() {
     let [showMessage, setShowMessage] = useState(0)
     let [lastUhid, setLastUhid] = useState('');
     let [raceTypeList, setRaceTypeList] = useState([])
+    let [referralList, setReferralList] = useState([])
     let [ethinicityList, setEthinicityList] = useState([])
     let [languageList, setLanguageList] = useState([])
     let [sexualOrientationlist, setSexualOrientationlist] = useState([]);
@@ -140,7 +146,7 @@ export default function PatientRegistration() {
     let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
     let [headingName, setHeadingName] = useState(JSON.parse(sessionStorage.getItem("activePage")).menuName);
     let [content, setContent] = useState('');
-
+    let [guardianRelationList, setGuardianRelationList] = useState([]);
     // Insurance Company Lists
     let [CardNo, setCardNo] = useState('');
     let [insuranceCompany, setinsuranceCompany] = useState(0);
@@ -223,6 +229,28 @@ export default function PatientRegistration() {
             console.log("InsuranceList", InsuranceList.responseValue)
         }
     }
+    const GetGenderList = async () => {
+        let response = await GetGender()
+        if (response.status === 1) {
+            setGenderList(response.responseValue)
+            console.log("genderList", response.responseValue)
+        }
+    }
+    const getreferralList = async () => {
+        let response = await GetAllReferralSourceData()
+        if (response.status === 1) {
+            setReferralList(response.responseValue)
+            console.log("referralList", response.responseValue)
+        }
+    }
+    const getGuardianRelationList = async () => {
+        const response = await GetAllGuardianRelation()
+        if (response.status === 1) {
+            setGuardianRelationList(response.responseValue)
+            console.log("response", response.responseValue)
+        }
+    }
+
 
     let getIndustryList = async () => {
         const response = await GetAllIndustryData();
@@ -503,7 +531,7 @@ export default function PatientRegistration() {
 
     }
     let getSelectedDoctor = () => {
-    
+
         document.getElementById("errDoctor").style.display = "none";
         const doctor = document.getElementById('ddlDoctor').value;
         setSelectedDoctor(doctor);
@@ -1660,8 +1688,10 @@ export default function PatientRegistration() {
         clearErrorMessages();
     }
     useEffect(() => {
-        // document.getElementById('ddlAgeUnit').value = 1;
+        getreferralList();
+        GetGenderList();
         getCountryList();
+        getGuardianRelationList();
         getRelgionList();
         getIndustryList();
         getAllSexualOrientation();
@@ -1995,9 +2025,9 @@ export default function PatientRegistration() {
                                                                 <label htmlFor="ddlReferralSource" className="form-label">{t("Referral_Source")}</label>
                                                                 <select className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSource' onChange={(e) => { handleStatsDetails("referralSource", e.target.value) }}>
                                                                     <option value="0">{t("Select Referral Source")}</option>
-                                                                    {raceTypeList && raceTypeList.map((list) => {
+                                                                    {referralList && referralList.map((list) => {
                                                                         return (
-                                                                            <option value={list.id}>{list.raceType}</option>
+                                                                            <option value={list.id}>{list.name}</option>
                                                                         )
                                                                     })}
                                                                 </select>
@@ -2007,11 +2037,10 @@ export default function PatientRegistration() {
                                                                 <label htmlFor="ddlVFC" className="form-label">{t("VFC")}</label>
                                                                 <select className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='vfc' onChange={(e) => { handleStatsDetails("vfc", e.target.value) }}>
                                                                     <option value="0">{t("Select_VFC")}</option>
-                                                                    {raceTypeList && raceTypeList.map((list) => {
-                                                                        return (
-                                                                            <option value={list.id}>{list.raceType}</option>
-                                                                        )
-                                                                    })}
+                                                                    <option value="1">Unassigned</option>
+                                                                    <option value="2">Eligible</option>
+                                                                    <option value="3">Ineligible</option>
+
                                                                 </select>
                                                             </div>
                                                             <div className="col-2 mb-2">
@@ -2086,7 +2115,7 @@ export default function PatientRegistration() {
                                                         aria-expanded="false"
                                                         aria-controls="miscInfo"
                                                     >
-                                                        {/* {t("Other_Information")} */}
+
                                                     </span>
                                                 </h2>
                                                 <div
@@ -2115,6 +2144,42 @@ export default function PatientRegistration() {
                                     </div>
                                 </div>
 
+                                {/* ....................................................................Visit Details..................................................................... */}
+
+                                <div className="inner-content mb-2">
+                                    <div className="row">
+                                        <div className="accordion accordionPatientRaceSection" id="accordionExample">
+                                            <div className="accordion-item position-relative">
+                                                <h2 className="accordion-header otherinfo ">
+                                                    <span className='collapsetxt'> {t("Visit Details")}</span>
+                                                    <span
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#visitDetails"
+                                                        aria-expanded="false"
+                                                        aria-controls="miscInfo"
+                                                    >
+
+                                                    </span>
+                                                </h2>
+                                                <div
+                                                    id="visitDetails"
+                                                    className="accordion-collapse collapse show1"
+                                                    data-bs-parent="#accordionExample"
+
+                                                >
+                                                    <div className="accordion-body">
+                                                      <VisitDetails/>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 {/* ....................................................................Guardian_Details..................................................................... */}
 
 
@@ -2133,14 +2198,11 @@ export default function PatientRegistration() {
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
                                                     <select className="form-select form-select-sm" id="ddlRelationToPat" aria-label=".form-select-sm example" name='guardianrelationship' onChange={(e) => { handlerChange2("guardianrelationship", e.target.value) }} >
                                                         <option value="0">{t("Select_Relation")}</option>
-                                                        <option value="1">Father</option>
-                                                        <option value="2">Mother</option>
-                                                        <option value="3">Brother</option>
-                                                        <option value="4">Son</option>
-                                                        <option value="5">Daughter</option>
-                                                        <option value="6">Sister</option>
-                                                        <option value="7">Spouse</option>
-                                                        <option value="8">Other</option>
+                                                        {guardianRelationList && guardianRelationList.map((list) => {
+                                                            return (
+                                                                <option value={list.id}>{list.guardianRelationName}</option>
+                                                            )
+                                                        })}
                                                     </select>
 
 
@@ -2150,9 +2212,11 @@ export default function PatientRegistration() {
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
                                                     <select className="form-select form-select-sm" id="ddlGaurdian_Gender" aria-label=".form-select-sm example" name='genderId' onChange={(e) => { handlerChange2("genderId", e.target.value) }} >
                                                         <option value="0">{t("Select Gaurdian Gender")}</option>
-                                                        <option value="1">Male</option>
-                                                        <option value="2">Female</option>
-                                                        <option value="3">Other</option>
+                                                        {genderList && genderList.map((list) => {
+                                                            return (
+                                                                <option value={list.id}>{list.name}</option>
+                                                            )
+                                                        })}
                                                     </select>
                                                 </div>
 
@@ -2333,7 +2397,7 @@ export default function PatientRegistration() {
                                                         <div>
                                                             {isEdit === false ? <>
                                                                 {/* <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlePrintHealthCard}><img src={printIcon} className='icnn' />Print Health Card</button> */}
-                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={saveButtonObjCheck}><img src={saveButtonIcon} className='icnn' />{t("Save_Print")}</button></> : ''}
+                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={saveButtonObjCheck}><img src={saveButtonIcon} className='icnn' />{t("Save")}</button></> : ''}
                                                             {isEdit === true ? <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnUpdate' onClick={handleUpdate}><img src={saveButtonIcon} className='icnn' />{t("UPDATE")}</button> : ''}
                                                             {showEdit === true ? <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnEdit' onClick={handleEdit}><img src={clearIcon} className='icnn' />{t("Edit")}</button> : ''}
                                                             <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnClear' onClick={clear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
