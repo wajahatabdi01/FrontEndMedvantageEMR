@@ -66,6 +66,7 @@ import InsertPatientDemographicData from '../../API/POST/InsertPatientDemographi
 import GetAllGuardianRelation from '../../API/GET/GetAllGuardianRelation';
 import GetUserListByRoleId from '../../API/GET/GetUserListByRoleId';
 import GetAllReferralSourceData from '../../API/GET/GetAllReferralSourceData';
+import VisitDetails from './Components/VisitDetails';
 
 
 export default function PatientRegistration() {
@@ -249,7 +250,7 @@ export default function PatientRegistration() {
             console.log("response", response.responseValue)
         }
     }
-    
+
 
     let getIndustryList = async () => {
         const response = await GetAllIndustryData();
@@ -2039,7 +2040,7 @@ export default function PatientRegistration() {
                                                                     <option value="1">Unassigned</option>
                                                                     <option value="2">Eligible</option>
                                                                     <option value="3">Ineligible</option>
-                                
+
                                                                 </select>
                                                             </div>
                                                             <div className="col-2 mb-2">
@@ -2169,80 +2170,8 @@ export default function PatientRegistration() {
 
                                                 >
                                                     <div className="accordion-body">
-                                                        <div className="dflex">
-                                                            <div className="col-md-2 mb-2">
-                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Class</label><sup style={{ color: "red" }}>*</sup>
-                                                                <div className='d-flex gap-3' >
-                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                                                                        <option value="1" selected>select SE State</option>
-                                                                        <option value="2">UP</option>
-                                                                        <option value="3">MP</option>
-                                                                        <option value="4">Ap</option>
-                                                                        <option value="5">TN</option>
-                                                                    </select>
-                                                                </div>
-                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                            </div>
-                                                            <div className="col-md-2 mb-2">
-                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Type</label><sup style={{ color: "red" }}>*</sup>
-                                                                <div className='d-flex gap-3' >
-                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                                                                        <option value="1" selected>select SE State</option>
-                                                                        <option value="2">UP</option>
-                                                                        <option value="3">MP</option>
-                                                                        <option value="4">Ap</option>
-                                                                        <option value="5">TN</option>
-                                                                    </select>
-                                                                </div>
-                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                            </div>
-                                                            <div className="col-md-2 mb-2">
-                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Sensitivity</label><sup style={{ color: "red" }}>*</sup>
-                                                                <div className='d-flex gap-3' >
-                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                                                                        <option value="1" selected>select SE State</option>
-                                                                        <option value="2">UP</option>
-                                                                        <option value="3">MP</option>
-                                                                        <option value="4">Ap</option>
-                                                                        <option value="5">TN</option>
-                                                                    </select>
-                                                                </div>
-                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                            </div>
-                                                            <div className="col-md-2 mb-2">
-                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Encounter Provider</label><sup style={{ color: "red" }}>*</sup>
-                                                                <div className='d-flex gap-3' >
-                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                                                                        <option value="1" selected>select SE State</option>
-                                                                        <option value="2">UP</option>
-                                                                        <option value="3">MP</option>
-                                                                        <option value="4">Ap</option>
-                                                                        <option value="5">TN</option>
-                                                                    </select>
-                                                                </div>
-                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                            </div>
-                                                            <div className="col-md-2 mb-2">
-                                                                <label htmlFor="ddlSEStateTertiary" className="form-label">Discharge Disposition</label><sup style={{ color: "red" }}>*</sup>
-                                                                <div className='d-flex gap-3' >
-                                                                    <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                                                                        <option value="1" selected>select SE State</option>
-                                                                        <option value="2">UP</option>
-                                                                        <option value="3">MP</option>
-                                                                        <option value="4">Ap</option>
-                                                                        <option value="5">TN</option>
-                                                                    </select>
-                                                                </div>
-                                                                <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                            </div>
-                                                            <div className="col-md-2 mb-2">
-                                                                <Heading text="Reason for Visit" />
-                                                                <textarea id="w3review" name="w3review" rows="3" cols="40"></textarea>
-                                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <div className="col-md-2 mb-3" style={{ justifyContent: 'normal' }}>
-                                                                <Heading text="Link/Add Issues to This Visit" />
-                                                            </div>
-                                                        </div>
+                                                      <VisitDetails/>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -2283,8 +2212,8 @@ export default function PatientRegistration() {
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
                                                     <select className="form-select form-select-sm" id="ddlGaurdian_Gender" aria-label=".form-select-sm example" name='genderId' onChange={(e) => { handlerChange2("genderId", e.target.value) }} >
                                                         <option value="0">{t("Select Gaurdian Gender")}</option>
-                                                        {genderList && genderList.map((list)=>{
-                                                            return(
+                                                        {genderList && genderList.map((list) => {
+                                                            return (
                                                                 <option value={list.id}>{list.name}</option>
                                                             )
                                                         })}
@@ -2468,7 +2397,7 @@ export default function PatientRegistration() {
                                                         <div>
                                                             {isEdit === false ? <>
                                                                 {/* <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlePrintHealthCard}><img src={printIcon} className='icnn' />Print Health Card</button> */}
-                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={saveButtonObjCheck}><img src={saveButtonIcon} className='icnn' />{t("Save_Print")}</button></> : ''}
+                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={saveButtonObjCheck}><img src={saveButtonIcon} className='icnn' />{t("Save")}</button></> : ''}
                                                             {isEdit === true ? <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnUpdate' onClick={handleUpdate}><img src={saveButtonIcon} className='icnn' />{t("UPDATE")}</button> : ''}
                                                             {showEdit === true ? <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnEdit' onClick={handleEdit}><img src={clearIcon} className='icnn' />{t("Edit")}</button> : ''}
                                                             <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnClear' onClick={clear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>

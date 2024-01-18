@@ -11,6 +11,7 @@ import GetCountryList from '../../../API/GET/GetCountryList';
 import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
 const PattientChoices = ({ patientchoicesData }) => {
     let [providerList, setProviderList] = useState([]);
+    let [categoryList, setcategoryList] = useState([]);
     const [choicesList, setChoicesList] = useState([{ id: 1, name: 'Yes' }, { id: 0, name: 'No' }]);
     const { t } = useTranslation();
     const handlePattientChoicesChange = (e) => {
