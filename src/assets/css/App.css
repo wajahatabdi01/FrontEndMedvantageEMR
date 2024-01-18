@@ -9665,3 +9665,32 @@ span.saveb img {
 .dropsearch button {
   min-width: 250px;
 }
+
+.orders-navtabs .nav-tabs .nav-item.show .nav-link, .orders-navtabs .nav-tabs .nav-link.active {
+  color: #1d4999;
+  border: 2px solid #1d4999;
+  background: #93b1e940 !important;
+  font-weight: 600;
+}
+.orders-navtabs .nav-tabs .nav-link:focus,.orders-navtabs  .nav-tabs .nav-link:hover{
+  color: #1d4999;
+  border: 2px solid #1d4999;
+  background: #93b1e940 !important;
+  font-weight: 600;
+}
+ 
+.orders-navtabs .nav-tabs .nav-link{
+  color: #1d4999;
+  padding: 5px 15px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  line-height: 20px;
+}
+.orders-navtabs ul {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  border: 0;
+}
