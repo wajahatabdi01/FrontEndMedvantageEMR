@@ -341,6 +341,7 @@ import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationR
 import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
 import SearchRegisteredPatient from '../EditCredentional/Pages/SearchRegisteredPatient';
 import FHIRFamilyHistoryEdit from '../EditCredentional/Pages/FHIRFamilyHistoryEdit';
+import FHIRCarePlan from '../FHIRCarePlan/Pages/FHIRCarePlan';
 
 export default function ApiRoutes() {
 
@@ -844,6 +845,10 @@ export default function ApiRoutes() {
                   {/* <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRFamilyHistoryEdit isExcludeCss="0"/>} name="EditSection" />} />} /> */}
                   <Route path="/fhirfamilyhistoryedit/" element={<ProtectedRoutes Compnent={<FHIRFamilyHistoryEdit />} />} />
                   {/* -----------------------------------End Medvantage Edit SEction----------------------------------------- */}
+
+                  {/* -----------------------------------Start Medvantage CarePlan SEction----------------------------------------- */}
+                  <Route path="/fhircareplan/" element={<ProtectedRoutes Compnent={<FHIRCarePlan />} />} />
+                  {/* -----------------------------------Start Medvantage CarePlan SEction----------------------------------------- */}
 
 
             </Routes>

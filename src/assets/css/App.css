@@ -1034,6 +1034,12 @@ label.subj {
 
 /* End Login css */
 
+/* FHIR CSS Start */
+.fhirBorder{
+  border: 1px solid #dee2e6;
+}
+/* FHIR CSS End */
+
 
 /* Dashboard css */
 .dashboard-main {
