@@ -38,13 +38,10 @@ const ContactDetails = ({ contactDetailsData }) => {
 
     useEffect(() => {
         getCountryList();
-        // if (initialContactDetails) {
-        //     setContactDetails(initialContactDetails);
-           
-        // }
         contactDetailsData(contactDetails);
         console.log('contactDetails',contactDetails)
     }, [contactDetails,contactDetailsData]);
+    
     let getCountryList = async () => {
         console.log('fetch country');
         let response = await GetCountryList();

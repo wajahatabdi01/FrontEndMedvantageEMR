@@ -1,16 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Heading from '../../../../Component/Heading'
 
-function VisitDetails() {
-    let [sendForm,setSendForm]=useState();
+const VisitDetails = ({ visitDetailsData }) => {
+    const [visitDetails, setVisitDetails] = useState({
+        classId: '0',
+        typeId: '0',
+        sensitivityId: '0',
+        encounterProviderId: '0',
+        dischargeDispositionId: '0',
+        reasonforVisit: '',
+        encounterJsonString: '[]',
+    });
+    const handleVisitDetailsChange = (e) => {
+        const { name, value } = e.target;
+        setVisitDetails((prevVisitDetails) => ({
+            ...prevVisitDetails,
+            [name]: value,
+        }));
+    };
+
+    useEffect(() => {
+        visitDetailsData(visitDetails);
+    }, [visitDetails, visitDetailsData]);
+
     return (
         <>
             <div className="dflex">
                 <div className="col-md-2 mb-2">
                     <label htmlFor="ddlSEStateTertiary" className="form-label">Class</label><sup style={{ color: "red" }}>*</sup>
                     <div className='d-flex gap-3' >
-                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                            <option value="0" selected>Select class</option>
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='classId' onChange={handleVisitDetailsChange}>
+                            <option value="0" selected>Select Class</option>
                             <option value="1">Outpatient</option>
                             <option value="2">Emergency Dept</option>
                             <option value="3">Out in Field</option>
@@ -22,7 +42,7 @@ function VisitDetails() {
                 <div className="col-md-2 mb-2">
                     <label htmlFor="ddlSEStateTertiary" className="form-label">Type</label><sup style={{ color: "red" }}>*</sup>
                     <div className='d-flex gap-3' >
-                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='typeId' value={visitDetails.typeId} onChange={handleVisitDetailsChange}>
                             <option value="0" selected>Select Type</option>
                             <option value="1">Visit out of hours</option>
                             <option value="2">Weekend Visit</option>
@@ -35,7 +55,7 @@ function VisitDetails() {
                 <div className="col-md-2 mb-2">
                     <label htmlFor="ddlSEStateTertiary" className="form-label">Sensitivity</label><sup style={{ color: "red" }}>*</sup>
                     <div className='d-flex gap-3' >
-                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='sensitivityId' onChange={handleVisitDetailsChange}>
                             <option value="0" selected>Select Sensitivity</option>
                             <option value="1">Normal</option>
                             <option value="2">High</option>
@@ -47,8 +67,10 @@ function VisitDetails() {
                 <div className="col-md-2 mb-2">
                     <label htmlFor="ddlSEStateTertiary" className="form-label">Encounter Provider</label><sup style={{ color: "red" }}>*</sup>
                     <div className='d-flex gap-3' >
-                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                            <option value="0" selected>Select Encounter Provider</option>
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='encounterProviderId' onChange={handleVisitDetailsChange}>
+                            <option value="0" selected>Se
+
+                                lect Encounter Provider</option>
                             <option value="1">Administator</option>
                             <option value="2">Provider External</option>
                         </select>
@@ -58,8 +80,8 @@ function VisitDetails() {
                 <div className="col-md-2 mb-2">
                     <label htmlFor="ddlSEStateTertiary" className="form-label">Discharge Disposition</label><sup style={{ color: "red" }}>*</sup>
                     <div className='d-flex gap-3' >
-                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId'>
-                            <option value="0" selected>select SE State</option>
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='dischargeDispositionId' onChange={handleVisitDetailsChange}>
+                            <option value="0" selected>Select Discharge Disposition</option>
                             <option value="1">Home</option>
                             <option value="2">Discharge to home for hospice care</option>
                             <option value="3">Alternative Home</option>
@@ -75,30 +97,23 @@ function VisitDetails() {
                 <div className='row'>
                     <div className='col-md-3'>
                         <Heading text="Reason for Visit" />
-                        <textarea className='mt-4 form-control' id="w3review" name="w3review" rows="2" cols="40" style={{ height: '121px' }}></textarea>
+                        <textarea className='form-control' id="w3review" rows="3" cols="40" name="reasonforVisit" onChange={handleVisitDetailsChange}></textarea>
                     </div>
                     <div className='col-md-4'>
-                        <div className='row'>
-                            <div className='col-md-6'> <Heading text="Link/Add Issues to This Visit" /></div>
-                            <div className='col-md-2 addvisitbtn'>
-                                <button type="button" class="form-control form-control-sm" id="addPriviousNames" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-plus"></i> Add</button>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='issue-text form-control'>
-                                <div>
-                                    <ul>
-                                        <li>Text1</li>
-                                        <li>Text1</li>
-                                        <li>Text1</li>
-                                        <li>Text1</li>
-                                        <li>Text1</li>
-                                        <li>Text1</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <Heading text="Link/Add Issues to This Visit" />
+                        <select className='form-control' multiple>
+                            <option>Text1</option>
+                            <option>Text1</option>
+                            <option>Text1</option>
+                            <option>Text1</option>
+                            <option>Text1</option>
+                            <option>Text1</option>
+                        </select>
                     </div>
+                    <div className='col-md-2 addvisitbtn_ mt-5'>
+                        <button type="button" class="btn btn-save btn-save-fill btn-sm" id="addPriviousNames" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-plus"></i> Add</button>
+                    </div>
+
                 </div>
             </div>
             {/* --------------------------Modal Popup---------------------------- */}
@@ -110,6 +125,7 @@ function VisitDetails() {
                             <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
                         </div>
                         <div class="modal-body">
+                            <div className='orders-navtabs'>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#problem" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Problem</button>
@@ -129,48 +145,58 @@ function VisitDetails() {
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#dental " type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Dental</button>
                                 </li>
-                            </ul><div class="tab-content" id="myTabContent">
+                            </ul>
+                            </div>
+                            <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="problem" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                     <div className='problemhead'>
                                         <div className='problemhead-inn'>
-                                            <div className="col-9 mb-2">
-                                                <div className='issue-text'>
-                                                    <div>
-                                                        <ul>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                        </ul>
-                                                    </div>
+                                            <div className="col-12 mb-2">
+
+                                                <div>
+                                                    <select className='form-control' style={{ height: '8em' }} multiple>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                    </select>
                                                 </div>
+
                                             </div>
+                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
                                         </div>
-                                        <span>(Select one of these, or type your own title)</span>
+
                                         <div className='problemhead-inn'>
-                                            <div className="col-6 mb-2">
+                                            <div className="col-12 mb-2">
                                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
                                                 <input type="text" className="form-control form-control-sm" id="txtPatientRelationAddress" placeholder="Enter title" name='guardianAddress' />
                                             </div>
                                         </div>
                                         <div className='problemhead-inn'>
-                                            <div className="col-9 mb-2">
+                                            <div className="col-12 mb-2">
                                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div className='issue-text'>
-                                                    <div>
-                                                        <ul>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                            <li>Text1</li>
-                                                        </ul>
-                                                    </div>
+                                                <div>
+                                                    <select className='form-control' style={{ height: '8em' }} multiple>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                        <option>Text1</option>
+                                                    </select>
                                                 </div>
+
                                             </div>
                                             <div class="d-inline-flex gap-2">
                                                 <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
@@ -186,7 +212,9 @@ function VisitDetails() {
                                                 <div className="col-6 mb-2">
                                                     <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
                                                     <input type="date" className="form-control form-control-sm" id="txtPatientRelationAddress" name='guardianAddress' />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>(leave blank if still active)</div>
+                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
+                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -238,18 +266,6 @@ function VisitDetails() {
                                         <div className='col-12'>
                                             <div className="row">
                                                 <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="txtPatientRelationAddress" name='guardianAddress' />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="w3review" name="w3review" rows="3" cols="40" style={{ height: '121px' }}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
                                                     <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label><sup style={{ color: "red" }}>*</sup>
                                                     <div className='d-flex gap-3' >
                                                         <select className="form-select form-select-sm" id="ddlRelationshipTertiary" aria-label=".form-select-sm example" name='relationshipId' >
@@ -268,6 +284,19 @@ function VisitDetails() {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className='col-12'>
+                                            <div className="row">
+                                                <div className="col-12 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
+                                                    <input type="text" className="form-control form-control-sm mt-1" id="txtPatientRelationAddress" name='guardianAddress' />
+                                                </div>
+                                                <div className="col-12 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
+                                                    <textarea className='mt-1 form-control' id="w3review" name="w3review" rows="3" cols="40" style={{ height: '121px' }}></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 {/* --------------------------Allergy Tab Section----------------------------------------------- */}
@@ -965,7 +994,7 @@ function VisitDetails() {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default VisitDetails
+export default VisitDetails;

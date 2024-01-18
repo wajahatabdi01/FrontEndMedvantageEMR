@@ -160,6 +160,7 @@ export default function PatientRegistration() {
     const [insuranceDetailsSecondry, setInsuranceDetailsSecondry] = useState();
     const [insuranceDetailsTertiary, setInsuranceDetailsTertiary] = useState();
     const [contactDetails, setContactDetails] = useState();
+    const [visitDetails, setVisitDetails] = useState();
     const [patientChoiceDetails, setPatientChoiceDetails] = useState();
     const [patientDetails, setPatientDetails] = useState();
     const [statsJsonString, setStatsJsonString] = useState();
@@ -1390,6 +1391,7 @@ export default function PatientRegistration() {
         // console.log('tempArr',)
         console.log('patientDetails', patientDetails);
         console.log('contactDetails', contactDetails);
+        console.log('visitDetails', visitDetails);
         console.log('patientChoiceDetails', patientChoiceDetails);
         console.log('registrationObj', registrationObj);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
@@ -1405,6 +1407,7 @@ export default function PatientRegistration() {
             ...contactDetails,
             ...patientChoiceDetails,
             ...registrationObj,
+            ...visitDetails,
             employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
             insuranceDetailsJsonString: JSON.stringify(tempArr),
             statsJsonString: JSON.stringify([statsJsonString]),
@@ -2170,7 +2173,7 @@ export default function PatientRegistration() {
 
                                                 >
                                                     <div className="accordion-body">
-                                                      <VisitDetails/>
+                                                      <VisitDetails visitDetailsData={setVisitDetails}/>
 
                                                     </div>
                                                 </div>
