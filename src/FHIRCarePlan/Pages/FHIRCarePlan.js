@@ -12,6 +12,7 @@ export default function FHIRCarePlan() {
   let [makeData, setMakeData]  = useState([]);
   let [getData, setgetData]  = useState([]);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
+  const [isShowPopReasonUpRowID, setIsShowReasonPopUpRowID] = useState('');
   const [PopUpId, setPopUpId] = useState('');
   const [carePlanRow, setCarePlanRow] = useState([
     {
@@ -53,6 +54,13 @@ export default function FHIRCarePlan() {
     
   
    }
+  const handleOpenReasonModal=(rowID)=>{
+    console.log('indexxxx : ', rowID);
+    setIsShowReasonPopUpRowID(rowID);
+
+    
+  
+   }
    const handleCloseModal=()=>{
     setIsShowPopUp(0);
     setPopUpId('');
@@ -68,64 +76,58 @@ export default function FHIRCarePlan() {
     setCarePlanRow(tempArr);
   }
 
-  const handleDeleteCarePlanRow = (index) =>{
-    console.log('index : ', index);
-    console.log('carePlanRow : ', carePlanRow);
-    let tempArr = []
-    const data = carePlanRow;
+  const handleDeleteCarePlanRow = (index,key) =>{
+    let tempArr = [];
+    const data = [...carePlanRow];
+    if(data.length === 1){
+      return ;
+    }
     console.log('data arrraaayy : ', data);
-    return;
-    // tempArr.splice(index,1);
-    // console.log('tempArr after delete', tempArr);
+     data.splice(index,1);
+     console.log('tempArr after delete', data);
     for(var i=0; i < data.length; i++){
-      const code=document.getElementById('codeInputID'+i).value;
-      const date=document.getElementById('careDateID'+i).value;
-      const type=document.getElementById('careTypeID'+i).value;
-      const description=document.getElementById('careDescriptionID'+i).value;
+      const code=document.getElementById('codeInputID'+data[i].rowID).value;
+      const date=document.getElementById('careDateID'+data[i].rowID).value;
+      const type=document.getElementById('careTypeID'+data[i].rowID).value;
+      const description=document.getElementById('careDescriptionID'+data[i].rowID).value;
       tempArr.push({
-       rowID:i+1,
+       rowID:data[i].rowID,
        Date : date,
        Code :code,
        Type : type,
        Description : description,
-    });
-   }
-   console.log('save tempArr',tempArr);
-   var index1 = tempArr.findIndex((i) => i.rowID == (index+1));
-   //var index1 = tempArr.findIndex((i));
-   console.log('index found : ', index1)
-   if(index1 != -1){
-    const newTempArr  = [...tempArr];
-    console.log('newTempArr : ', newTempArr);
-    newTempArr.splice(index1, 1)
-    setCarePlanRow([...newTempArr])
-   }
-
-
-
-
-   
-    //setCarePlanRow([...tempArr]);
+      });
+    
+    }
+    setCarePlanRow(data);
+    setTimeout(()=>{
+    for(var j=0; j < tempArr.length; j++){
+      document.getElementById('codeInputID'+tempArr[j].rowID).value=tempArr[j].Code;
+      document.getElementById('careDateID'+tempArr[j].rowID).value=tempArr[j].Date;
+      document.getElementById('careTypeID'+tempArr[j].rowID).value=tempArr[j].Type;
+      document.getElementById('careDescriptionID'+tempArr[j].rowID).value=tempArr[j].Description;
+    }
+    },200)
     
   }
 
   const handleSave=()=>{
-    let tempArr=[];
-    const data =carePlanRow;
+    let tempArrList=[];
+    const data =[...carePlanRow];
     for(var i=0; i < data.length; i++){
-       const code=document.getElementById('codeInputID'+i).value;
-       const date=document.getElementById('careDateID'+i).value;
-       const type=document.getElementById('careTypeID'+i).value;
-       const description=document.getElementById('careDescriptionID'+i).value;
-       tempArr.push({
-        rowID:i+1,
+       const code=document.getElementById('codeInputID'+data[i].rowID).value;
+       const date=document.getElementById('careDateID'+data[i].rowID).value;
+       const type=document.getElementById('careTypeID'+data[i].rowID).value;
+       const description=document.getElementById('careDescriptionID'+data[i].rowID).value;
+       tempArrList.push({
+        rowID:data[i].rowID,
         Date : date,
         Code :code,
         Type : type,
         Description : description,
      });
     }
-    console.log('save tempArr',tempArr)
+    console.log('save tempArr',tempArrList)
   }
  
   return (
@@ -138,41 +140,40 @@ export default function FHIRCarePlan() {
         </div>
         <div className="med-box">
           {carePlanRow && carePlanRow.map((carePlan, index) => {
-            return (
+            return (<>
               <div className='mt-2 mb-2' style={{border:'1px solid black'}}>
                 <div className="row">
                   <div className="col-2 mt-2">
                     <label className='form-label'>Code :</label>
-                    <input type='text' className='form-control form-control-sm mb-2' id={'codeInputID'+index}  onClick={()=>{handleOpenModal('codeInputID'+index)}}/>
+                    <input type='text' className='form-control form-control-sm mb-2' id={'codeInputID'+carePlan.rowID}  onClick={()=>{handleOpenModal('codeInputID'+carePlan.rowID)}}/>
                     <span>{carePlan.rowID}</span>
                   </div>
                   <div className="col-2 mt-2">
                     <label className='form-label'>Date :</label>
-                    <input type='date' className='form-control form-control-sm mb-2' id={'careDateID'+index} value={carePlan.Date}/>
+                    <input type='date' className='form-control form-control-sm mb-2' id={'careDateID'+carePlan.rowID} />
                   </div>
                   <div className="col-2 mt-2">
                     <label className='form-label'>Type :</label>
-                    <select className='form-select form-select-sm' id={'careTypeID'+index} value={carePlan.Type}>
+                    <select className='form-select form-select-sm' id={'careTypeID'+carePlan.rowID} >
                       <option value='0'>Select Code</option>
                       <option value='1'>Select Code 1</option>
                     </select>
                   </div>
                   <div className="col-6 mt-2">
                     <label className='form-label'>Description :</label>
-                    <textarea className='form-control form-control-sm mb-2' id={'careDescriptionID'+index} value={carePlan.Description}/>
+                    <textarea className='form-control form-control-sm mb-2' id={'careDescriptionID'+carePlan.rowID} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-12 mt-2 mb-2">
                     <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" onClick={()=>{handleAddCarePlanRow(carePlan.rowID)}}><img src={plus} className='icnn' alt='' />Add</button>
-                    <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={()=>{handleDeleteCarePlanRow(index)}}><img src={deleteIcon} className='icnn' alt='' />Delete</button>
-                    <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2" style={{ borderColor: 'black' }}><img src={asterik} className='icnn' alt='' />Add Reason</button>
+                    <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={()=>{handleDeleteCarePlanRow(index,carePlan.rowID)}}><img src={deleteIcon} className='icnn' alt='' />Delete</button>
+                    <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2" style={{ borderColor: 'black' }} onClick={() => {handleOpenReasonModal(carePlan.rowID)}}><img src={asterik} className='icnn' alt='' />Add Reason</button>
                   </div>
                 </div>
               </div>
-            )
-          })}
-          <div className="mt-3">
+              {isShowPopReasonUpRowID === carePlan.rowID ? 
+                <div className="mt-3">
             <div className="fhirBorder">
               <label className='form-label' style={{ fontWeight: 'bold' }}>Care Plan Reason Information</label>
               <hr />
@@ -206,7 +207,11 @@ export default function FHIRCarePlan() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> : ''}
+              </>
+            )
+          })}
+          
 
         </div>
         <div className="col-12 mt-2">
