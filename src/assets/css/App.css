@@ -1048,6 +1048,12 @@ label.subj {
 
 /* End Login css */
 
+/* FHIR CSS Start */
+.fhirBorder{
+  border: 1px solid #dee2e6;
+}
+/* FHIR CSS End */
+
 
 /* Dashboard css */
 .dashboard-main {
@@ -9678,7 +9684,6 @@ span.saveb img {
   background: #93b1e940 !important;
   font-weight: 600;
 }
- 
 .orders-navtabs .nav-tabs .nav-link{
   color: #1d4999;
   padding: 5px 15px;
