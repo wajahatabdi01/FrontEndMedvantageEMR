@@ -39,6 +39,7 @@ export default function FHIRCarePlan(props) {
  
 
   const customStyle = { marginLeft: '0px' };
+  const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
 
   const funGetIssueSubTestType = async () =>{
     const subTestRes = await GetIssueSubType();
@@ -142,7 +143,7 @@ export default function FHIRCarePlan(props) {
 
       });
       const dataArray = Object.values(lastIndexMap);
-      // console.log('dataArray : ', dataArray);
+      
       return dataArray;
   }
 
@@ -188,7 +189,7 @@ export default function FHIRCarePlan(props) {
     
     let finalObj = {
       uhid : props.patientUhid,
-      clientId: 176,
+      clientId: clientID,
       jsonCarePlanData : JSON.stringify(tempArrList)
     }
    

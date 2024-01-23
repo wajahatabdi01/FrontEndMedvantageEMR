@@ -14,7 +14,6 @@ export default function ListEditorMaster() {
 
     }
     let SelectedData =(data)=>{ 
-        console.log('data : ', data)
         document.getElementById("data").value = data.code
     }   
 

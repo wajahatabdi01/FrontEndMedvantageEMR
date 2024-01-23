@@ -62,7 +62,7 @@ export default function OPDBottomSection(props) {
     let getWardData = async () => {
 
         let resp = await GetWardDepartmentAssignById()
-        console.log("tt", resp)
+       
         if (resp.status === 1) {
             setWardList(resp.responseValue)
 
@@ -84,7 +84,7 @@ export default function OPDBottomSection(props) {
     const handleChangeAdmission = (e) => {
 
         if (e.target.name === 'dropdownadmission') {
-            console.log("cscscscscsd",e.target.value.split(",")[1]);
+            
             setSelectedOptionAdmission(parseInt(e.target.value.split(",")[0]));
             SaveOPDData(e.target.value.split(",")[1], "adviseWardName");
 
@@ -94,7 +94,7 @@ export default function OPDBottomSection(props) {
     let handlesave = async () => {
         try {
 
-            console.log("sdcdcs", window.userId)
+            
             let patientdata = JSON.parse(window.sessionStorage.getItem("patientsendData"))
             let tempSendData = {}
             patientdata.map((value, index) => {
@@ -205,7 +205,7 @@ export default function OPDBottomSection(props) {
 
                 })
             }
-            console.log("vitsalss", tempSendData.jsonVital)
+            
 
             // get data from complaint and diagnosis
             if (document.getElementById("symptomsData").value !== "") {
@@ -224,7 +224,7 @@ export default function OPDBottomSection(props) {
             }
 
 
-            console.log("dignosisData", tempSendData["jsonDiagnosis"])
+           
 
 
             tempSendData["jsonDiagnosis"] = JSON.stringify(tempSendData["jsonDiagnosis"])
@@ -239,7 +239,7 @@ export default function OPDBottomSection(props) {
             let durationFlag = [-1, -1]
             let temparray = JSON.parse(tempSendData.jsonArray)
             JSON.parse(tempSendData.jsonArray).map((val, ind) => {
-                console.log("val", val)
+             
                 if (val.id === 0 && val.drugName === "") {
                     temparray.splice(ind, 1)
                 }
@@ -269,7 +269,7 @@ export default function OPDBottomSection(props) {
                 let response = await POSTOPDPatientPrescription(tempSendData)
 
                 if (response.status === 1) {
-                    console.log("finalResponse", response.responseValue)
+                    
                     setShowtoster(1)
                     window.open("/prescriptionPrint/", 'noopener,noreferrer');
                     setLoderVal(0)

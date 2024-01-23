@@ -60,11 +60,11 @@ export default function OPDVRight(props) {
     // let response = await GetAllPatientVital(uhid)
     let response = await GetAllPatientVitalsHourly(curdate(), uhid);
     //let response = await GetAllPatientVitalsHourly('2023-01-11', 2597700);
-    // console.log('response', response);
+
     if (response.status === 1 && response.responseValue.length !== 0) {
       setLoader(0);
 
-      // console.log('dataaa', response.responseValue);
+     
       // let data = getvitaldata(response.responseValue)
       setPatientViatlsData(response.responseValue);
       makeData(response.responseValue)
@@ -91,15 +91,15 @@ export default function OPDVRight(props) {
     let main = []
     let flag = -1
     data.map((val, ind) => {
-      // console.log("val", val, ind)
+      
 
       vitalNumber.map((vv, ii) => {
 
         // let resp = FindByQuery(JSON.parse(val.json), vv.toString(), "vmId")
         let resp = JSON.parse(val.json).filter(vals => vals.vmId.toString() === vv.toString())
-        // console.log("data", resp, val)
+        
         if (resp.length !== 0) {
-          // console.log("BP=>"+ ii, resp[0].vmId)
+          
           if (resp.length !== 0 && resp[0].vmId !== 6 && resp[0].vmId !== 4) {
 
             temp.push(resp[0].vmValue)
@@ -130,7 +130,7 @@ export default function OPDVRight(props) {
         }
 
       })
-      // console.log("main", main)
+     
       main.push(temp)
       temp = []
       flag = -1
@@ -142,7 +142,7 @@ export default function OPDVRight(props) {
         return a.map(function (r) { return r[c]; });
       });
     }
-    // console.log("asa", transpose(main))
+    
     setTestVitals(transpose(main))
   }
   let getVentilatorDetails = async () => {
@@ -188,13 +188,13 @@ export default function OPDVRight(props) {
         ventiMode: 0
       }
       const response = await DeleteVentilatorDetails(obj);
-      if (response.status === 1) {
-        // console.log('success deleted')
-        // getVentilatorDetails();
-      }
-      else {
-        console.log('error ')
-      }
+      // if (response.status === 1) {
+      //   // console.log('success deleted')
+      //   // getVentilatorDetails();
+      // }
+      // else {
+      //   console.log('error ')
+      // }
     }
 
   }
@@ -219,7 +219,7 @@ export default function OPDVRight(props) {
                 <tr style={{ flexWrap: 'nowrap' }}>
                   <td>{t("Vitals /Time")}</td>
                   {patientViatlsData && patientViatlsData.map((list, index) => {
-                    // { console.log('patientViatlsData', patientViatlsData) }
+                    
                     return (
                       <td ><b>{list.showVitalTime}</b></td>
                     )
@@ -227,12 +227,12 @@ export default function OPDVRight(props) {
                 </tr>
                 {
                   patientViatlsData && vitalNumber.map((val, ind) => {
-                    // console.log("val", val)
+                    
                     return (
                       <tr>
                         <td>
                           <div className='d-flex align-items-center '>
-                            {val !== 6 ? <img src={vitalImg[ind].icon} className='icnn' /> : ""}
+                            {val !== 6 ? <img src={vitalImg[ind].icon} className='icnn' alt=''/> : ""}
                             {val !== 6 ? <span>{vitalImg[ind].name}</span> : ""}
                           </div>
                         </td>

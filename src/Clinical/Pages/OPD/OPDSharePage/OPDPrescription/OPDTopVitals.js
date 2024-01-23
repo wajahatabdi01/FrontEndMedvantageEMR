@@ -140,7 +140,7 @@ export default function OPDTopVitals(props) {
                         //temp[ind].vmValue = parseFloat(value);
                     } else {
                         temp[ind].vmValue = parseFloat(value);
-                        console.log('parseInt(name) : ', parseInt(name))
+                      
                         document.getElementById('vitalId' + parseInt(name)).style.border = "1px solid #e5e5e5";
                         document.getElementById('vitalLabel' + parseInt(name)).style.color = "#1d4999";
                     }
@@ -209,7 +209,7 @@ export default function OPDTopVitals(props) {
         let active = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
 
         a.map((val, ind) => {
-            console.log("aaaaaaaaaa", active, val)
+            
             if (active === val.uhid) {
                 if (val.patientType === "New") {
                     setShowPatientType("New Patient")

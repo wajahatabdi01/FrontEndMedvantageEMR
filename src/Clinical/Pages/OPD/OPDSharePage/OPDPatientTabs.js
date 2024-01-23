@@ -29,7 +29,7 @@ document.body.dir = i18n.dir();
 
                 if (response.status === 1) {
                     if (response.responseValue[0].crNo != null) {
-                        console.log("enter in Not Null")
+                     
                         // props.getdata([0, 3])
                         // props.handlePopUp(0)
                         if (patientList != null) {
@@ -55,7 +55,7 @@ document.body.dir = i18n.dir();
                         }
                         else {
                             setPatientList([response.responseValue[0]])
-                            console.log("data", [response.responseValue[0]])
+                            
                             window.sessionStorage.setItem("patientList", JSON.stringify([response.responseValue[0]]))
                         }
                         // let responsedd = await POSTVisitRevisit(sendData)
@@ -105,11 +105,11 @@ document.body.dir = i18n.dir();
                         window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": temp[temp.length - 1].uhId }))
 
                         window.sessionStorage.setItem("patientList", JSON.stringify(temp))
-                        console.log("actibe", temp.length - 1)
+                       
                         setActiveTab(temp.length - 1)
                     }
                     else {
-                        console.log("activeTab", temp[activeTab])
+                       
                         window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": temp[activeTab].uhId }))
                     }
 

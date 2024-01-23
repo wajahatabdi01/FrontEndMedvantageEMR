@@ -18,7 +18,7 @@ let getvitaldata = (vitalDatas) => {
 
           })
         }
-        // console.log("send =>",senddata)
+        
         if (senddata.length !== 0) {
           final_data.push(senddata)
         }
@@ -54,7 +54,7 @@ let getvitaldata = (vitalDatas) => {
         })
         temps[4] = bp.slice(1)
         temps.splice(5, 1)
-        // console.log("datetime ",index,value[index])
+       
         // temps.push(value[index].vitalDateTime)
      
 
