@@ -6,13 +6,14 @@ import asterik from '../../assets/images/icons/icons8-asterisk-30.png'
 import save from '../../assets/images/icons/save.svg';
 import clear from '../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
+import GetIssueSubType from '../API/GetIssueSubType'
+import POSTFHIRCarePlan from '../API/POSTFHIRCarePlan'
 
 
-export default function FHIRCarePlan() {
+export default function FHIRCarePlan(props) {
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
-  //const [isShowPopReasonUpRowID, setIsShowReasonPopUpRowID] = useState('');
   const [reasonSectionOpen, setReasonSectionOpen] = useState({});
   const [PopUpId, setPopUpId] = useState('');
   const [carePlanRow, setCarePlanRow] = useState([
@@ -23,18 +24,30 @@ export default function FHIRCarePlan() {
       Type: 0,
       Description: '',
       reasonCode: '',
-      // reasonStatus: '',
-      // reasonRecordingDate: '',
-      // reasonEndDate: '',
+      reasonStatus: '',
+      reasonRecordingDate: '',
+      reasonEndDate: '',
     },
   ]);
+
+  const [getIssueSubType, setIssueSubType] = useState([]);
 
   // const handleTextChange  =(e) =>{
   //   let arr=[...carePlanRow];
 
   // }
+ 
 
   const customStyle = { marginLeft: '0px' };
+
+  const funGetIssueSubTestType = async () =>{
+    const subTestRes = await GetIssueSubType();
+    if(subTestRes.status === 1)
+    {
+      setIssueSubType(subTestRes.responseValue)
+    }
+   
+  }
 
   let SelectedData = (data, modalID) => {
 
@@ -43,6 +56,7 @@ export default function FHIRCarePlan() {
       moduleId: modalID,
       data: data
     }
+    
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
@@ -62,7 +76,7 @@ export default function FHIRCarePlan() {
   const handleOpenReasonModal = (rowID) => {
     // Update the state to mark the reason section as open for the specified rowID
     const tempArr = [...carePlanRow]
-    console.log('tempArr hhh hgg : ', tempArr)
+   
     setReasonSectionOpen((prevState) => ({
       ...prevState,
       [rowID]: true,
@@ -74,12 +88,12 @@ export default function FHIRCarePlan() {
   }
 
   const handleAddCarePlanRow = (param) => {
-    console.log('data', param);
+    
     let tempArr = [...carePlanRow];
     tempArr.push({
       rowID: param + 1,
     });
-    console.log('temparr', tempArr)
+    
     setCarePlanRow(tempArr);
   }
 
@@ -89,9 +103,9 @@ export default function FHIRCarePlan() {
     if (data.length === 1) {
       return;
     }
-    console.log('data arrraaayy : ', data);
+    
     data.splice(index, 1);
-    console.log('tempArr after delete', data);
+   
     for (var i = 0; i < data.length; i++) {
       const code = document.getElementById('codeInputID' + data[i].rowID).value;
       const date = document.getElementById('careDateID' + data[i].rowID).value;
@@ -118,13 +132,30 @@ export default function FHIRCarePlan() {
 
   }
 
-  const handleSave = () => {
+  const dataMaker = async(param) => {
+      const lastIndexMap = {};
+      var jsonData = param;
+      jsonData.forEach((item, index, array) =>{
+        const moduleId = item.moduleId;
+        lastIndexMap[moduleId] = array[index];
+        
+
+      });
+      const dataArray = Object.values(lastIndexMap);
+      // console.log('dataArray : ', dataArray);
+      return dataArray;
+  }
+
+  const handleSave =async () => {
+    const getresponse = await dataMaker(makeData);
+   
     let tempArrList = [];
     const data = [...carePlanRow];
-    console.log('dataaaaaaaaa : ', data);
+    
 
     for (var i = 0; i < data.length; i++) {
-      const code = document.getElementById('codeInputID' + data[i].rowID).value;
+      
+     
       const date = document.getElementById('careDateID' + data[i].rowID).value;
       const type = document.getElementById('careTypeID' + data[i].rowID).value;
       const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
@@ -136,23 +167,49 @@ export default function FHIRCarePlan() {
       const reasonRecordingDate = reasonRecordingDateElement ? reasonRecordingDateElement.value : '';
       const reasonEndDateElement = document.getElementById('reasonEndDateID' + data[i].rowID);
       const reasonEndDate = reasonEndDateElement ? reasonEndDateElement.value : '';
+       var arr=getresponse[i].data;
+       var maker="";
+       var codeTextMaker= "";
+       for(var j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownId +':'+arr[j].id  : maker +','+arr[j].dropdownId +':'+arr[j].id;
+                                          codeTextMaker =  codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker +'|'+arr[j].codeText;}
       tempArrList.push({
-        rowID: data[i].rowID,
-        Date: date,
-        Code: code,
-        Type: type,
-        Description: description,
-        reasonCode: reasonCode,
-        reasonStatus: reasonStatus,
-        reasonRecordingDate: reasonRecordingDate,
-        reasonEndDate: reasonEndDate,
+        date: date,
+        codeType: maker,
+        codeText: codeTextMaker,
+        care_plan_type: type,
+        description: description,
+        reason_code: reasonCode,
+        reason_status: reasonStatus,
+        reason_date_low: reasonRecordingDate,
+        reason_date_high: reasonEndDate,
       });
     }
-    console.log('save tempArr', tempArrList)
+   
+    
+    let finalObj = {
+      uhid : props.patientUhid,
+      clientId: 176,
+      jsonCarePlanData : JSON.stringify(tempArrList)
+    }
+   
+    
+    const saveObj = await POSTFHIRCarePlan(finalObj);
+    
+      if(saveObj.status === 1){
+        alert('Data saved of care plan')
+      }
+      else{
+        alert('Data Not saved')
+      }
+    
   }
 
+  useEffect(() => {
+    funGetIssueSubTestType()
+  },[])
+
   return (
-    <section className="main-content mt-5 pt-3" >
+    <section className="main-content mt-5 pt-3" style={customStyle}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-12">
@@ -175,8 +232,12 @@ export default function FHIRCarePlan() {
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Type :</label>
                           <select className='form-select form-select-sm' id={'careTypeID' + carePlan.rowID} >
-                            <option value='0'>Select Code</option>
-                            <option value='1'>Select Code 1</option>
+                          <option value='0'>Select Code</option>
+                          {getIssueSubType && getIssueSubType.map((list, ind) => (
+                            <option key={ind} value={list.id}>{list.name}</option>
+                  ))}
+                            
+                            
                           </select>
                         </div>
                         <div className="col-xl-3 col-lg-6 col-md-6 mb-2">
@@ -220,7 +281,9 @@ export default function FHIRCarePlan() {
                               <label htmlFor="" className="form-label">Reason Status</label>
                               <select className='form-select form-select-sm' id={'reasonStatusID' + carePlan.rowID}>
                                 <option value='0'>Select Code</option>
-                                <option value='1'>Select Code 1</option>
+                                <option value='1'>Pending</option>
+                                <option value='2'>Completed</option>
+                                <option value='3'>Negated</option>
                               </select>
                             </div>
 
@@ -252,7 +315,7 @@ export default function FHIRCarePlan() {
                 <div className="whitebg" style={{ padding: '3px' }}>
                   <div className="d-flex gap-2 mt-2 samplebtnn">
                     <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
-                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" ><img src={clear} className='icnn' alt='' />Clear</button>
+                    {/* <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" ><img src={clear} className='icnn' alt='' />Clear</button> */}
                   </div>
                 </div>
               </div>

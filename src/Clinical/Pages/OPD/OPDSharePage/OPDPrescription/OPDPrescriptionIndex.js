@@ -297,7 +297,7 @@ export default function OPDPrescriptionIndex(props) {
                             values.map((val, ind) => {
                                 if (values[0] === activeUHID) {
                                     let key = Object.keys(val)
-                                    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+                                    
                                     if (key[0] === "jsonVital") {
                                         if (data.patientVitals.length != 0) {
                                             Vitalsdata = data.patientVitals

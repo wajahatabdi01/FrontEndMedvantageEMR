@@ -1,6 +1,7 @@
 async function PostContraIndicationList(sendData) {
 
-    let url = window.AppbaseUrl + `/api/ADRReport/getContraIndication`;
+    // let url = window.AppbaseUrl + `/api/ADRReport/getContraIndication`;
+    let url = window.fhiropenEMR + `/api/ADRReport/getContraIndication`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}
     let responsonse = "";
