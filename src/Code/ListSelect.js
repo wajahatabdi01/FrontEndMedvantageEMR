@@ -7,7 +7,7 @@ let DownKey = (ul, liSelected, index, next, oldData) => {
         index.current = index.current + 1
         //down 
         if (liSelected.current) {
-            // console.log("csdcscsd", liSelected.current)
+           
             removeClass(liSelected.current, 'selected');
             next.current = ul.getElementsByTagName('li')[index.current];
             if (typeof next.current !== undefined && index.current <= len) {
@@ -28,7 +28,7 @@ let DownKey = (ul, liSelected, index, next, oldData) => {
             // count =  count + 1;
 
             // if (count > 1 && rect.y > 0) {
-            //     console.log("count", count)
+            
             //     document.getElementById(ul.parentNode.id).scrollTo({
             //         top: 50 + old,
             //         behavior: "smooth"
@@ -42,7 +42,7 @@ let DownKey = (ul, liSelected, index, next, oldData) => {
             //         behavior: "smooth"
             //     });
             // }
-            // console.log("dddddddddddddddddddddddd", index.current);
+            
 
 
         } else {
@@ -61,7 +61,7 @@ let UpKey = (ul, liSelected, index, next, oldData) => {
         if (liSelected.current) {
             removeClass(liSelected.current, 'selected');
             index.current = index.current - 1
-            // console.log(index);
+           
             next.current = list[index.current];
             if (typeof next.current !== undefined && index.current >= 0) {
                 liSelected.current = next.current;
@@ -78,7 +78,7 @@ let UpKey = (ul, liSelected, index, next, oldData) => {
             // count =  count + 1;
 
             // if (count > 1 && rect.y > 0) {
-            //     console.log("count", count)
+            
             //     document.getElementById(ul.parentNode.id).scrollTo({
             //         top: 50 - old,
             //         behavior: "smooth"
@@ -93,7 +93,7 @@ let UpKey = (ul, liSelected, index, next, oldData) => {
             //     });
             // }
             // var rect = list[index.current].getBoundingClientRect();
-            // console.log("document.getElementById(ul.parentNode.id).offsetHeight", document.getElementById(ul.parentNode.id).offsetHeight)
+           
             // if (rect.top > document.getElementById(ul.parentNode.id).offsetHeight && rect.top > 0) {
             //     document.getElementById(ul.parentNode.id).scrollTo({
             //         top: document.getElementById(ul.parentNode.id).offsetHeight,

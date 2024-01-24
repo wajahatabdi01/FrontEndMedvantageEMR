@@ -70,7 +70,7 @@ export default function CreateCultureSterileReport() {
       //     id:2,
       //     text:e.target.value
       //   })
-      //   console.log('tempArr WetMount',tempArr)
+    
       //   setTxtTempArr([...tempArr]);
       // }
       // else{
@@ -80,7 +80,7 @@ export default function CreateCultureSterileReport() {
       //       id:2,
       //       text:e.target.value
       //     })
-      //     console.log('tempArr WetMount',tempArr)
+   
       //     setTxtTempArr([...tempArr]);
       //   }
       // }

@@ -19,11 +19,11 @@ export default function TextBoxWithSearch(props) {
 
     const onChange = (e) => {
         const suggestions = props.list;
-        // console.log("props", suggestions[0][props.displayName]);
+        
         const input = e.currentTarget.value;
         // const newFilteredSuggestions
         if (suggestions.length !== 0) {
-            console.log("data", suggestions)
+            
             const newFilteredSuggestions = suggestions.filter(
                 (val) =>
                     val[props.displayName].trim()
@@ -42,7 +42,7 @@ export default function TextBoxWithSearch(props) {
         setFiltered([]);
         setIsShow(false);
         setInput(e.currentTarget.innerText);
-        console.log("suggestion",suggestion)
+       
         let target = {
             target: {
                 value: e.currentTarget.innerText,
@@ -58,9 +58,9 @@ export default function TextBoxWithSearch(props) {
             // enter key
             setActive(0);
             setIsShow(false);
-            console.log(filtered[active][props.displayName]);
+           
             setInput(filtered[active][props.displayName]);
-            console.log("dsadas", filtered[active])
+            
             let target = {
                 target: {
                     value: filtered[active][props.displayName],
@@ -76,7 +76,7 @@ export default function TextBoxWithSearch(props) {
             return active === 0 ? null : setActive(active - 1);
         } else if (e.keyCode === 40) {
             // down arrow
-            console.log("enter Down")
+         
             return active - 1 === filtered.length ? null : setActive(active + 1);
         }
     };
@@ -141,8 +141,7 @@ export default function TextBoxWithSearch(props) {
         );
     };
     useEffect(() => {
-        // console.log("list",  props.list)
-        console.log("dadsad", props.editdata)
+        
         setInput(props.editdata);
         // if (props.editdata) {
         // }

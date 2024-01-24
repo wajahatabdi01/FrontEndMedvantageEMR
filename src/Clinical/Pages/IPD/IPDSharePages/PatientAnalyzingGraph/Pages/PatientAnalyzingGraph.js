@@ -51,41 +51,39 @@ export default function PatientAnalyzingGraph() {
 
   let getInvestigationList = async () => {
     var response = await GetInvestigationList();
-    // console.log('result',response)
+    
     if (response.status === 1) {
-      console.log('result', response)
+     
       setInvestigationList(response.responseValue)
     }
   }
   let getVitalList = async () => {
     var response = await GetVitalList();
-    // console.log('result',response)
+    
     if (response.status === 1) {
-      console.log('result vital', response)
+     
       setVitalList(response.responseValue)
     }
   }
   let getSupplimentList = async () => {
     var response = await GetSupplimentList();
-    // console.log('result',response)
+  
     if (response.status === 1) {
-      console.log('result Suppliment', response)
+     
       setSupplimentList(response.responseValue)
     }
   }
   let getFoodList = async () => {
     var response = await GetFoodList();
-    // console.log('result',response)
-    if (response.status === 1) {
-      console.log('result food', response)
+   
+    if (response.status === 1) {     
       setFoodList(response.responseValue)
     }
   }
   let getNutrientList = async () => {
     var response = await GetNutrientList();
-    // console.log('result',response)
+    
     if (response.status === 1) {
-      console.log('result Nutrient', response)
       setNutrientList(response.responseValue)
     }
   }
@@ -96,7 +94,6 @@ export default function PatientAnalyzingGraph() {
   }
   //Handle Start Here
   let handleChange = (e) => {
-    console.log('e', e.target.value);
     document.getElementById('errInvestigation').style.display = "none";
     document.getElementById('errVital').style.display = "none";
     document.getElementById('errSupplement').style.display = "none";
@@ -109,8 +106,6 @@ export default function PatientAnalyzingGraph() {
       let arr = [...selectedInvestigationList];
       for (var i = 0; i < investigationList.length; i++) {
         if (investigationList[i].id === data) {
-          console.log('id', investigationList[i].id);
-          console.log('name', investigationList[i].testname);
           if (arr.length === 0) {
             arr.push({
               id: investigationList[i].id,
@@ -129,7 +124,6 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('arr', arr);
           setSelectedInvestigationList(arr)
 
           break;
@@ -138,7 +132,6 @@ export default function PatientAnalyzingGraph() {
     }
     if (e.target.name === "Vital") {
       var slctdVital = e.target.value;
-      console.log('slctdVital', slctdVital);
       var arr = [...selectedVitalList];
       // var tempVitalList=[...selectedVitalList];
       for (var i = 0; i < vitalList.length; i++) {
@@ -151,7 +144,6 @@ export default function PatientAnalyzingGraph() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctdVital);
-            console.log('index', index);
             if (index !== -1) {
               document.getElementById('errVital').style.display = "block";
             }
@@ -162,14 +154,12 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('setSelectedVitalList', arr);
           setSelectedVitalList(arr);
         }
       }
     }
     if (e.target.name === "Supplement") {
       var slctdSupplement = e.target.value;
-      console.log('slctdVital', slctdSupplement);
       var arr = [...selectedSupplimentList]
       for (var i = 0; i < supplimentList.length; i++) {
         if (supplimentList[i].supplimentId === slctdSupplement) {
@@ -181,7 +171,6 @@ export default function PatientAnalyzingGraph() {
           }
           else {
             var index = arr.findIndex((val) => val.supplimentId === slctdSupplement);
-            console.log('index', index);
             if (index !== -1) {
               document.getElementById('errSupplement').style.display = "block";
             }
@@ -192,14 +181,12 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('setSelectedSupp', arr)
           setSelectedSupplimentList(arr);
         }
       }
     }
     if (e.target.name === "Nutrient") {
       var slctdNutrient = e.target.value;
-      console.log('slctdVital', slctdNutrient);
       var arr = [...selectedNutrientList]
       for (var i = 0; i < nutrientList.length; i++) {
         if (nutrientList[i].id === slctdNutrient) {
@@ -211,7 +198,6 @@ export default function PatientAnalyzingGraph() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctdNutrient);
-            console.log('index', index);
             if (index !== -1) {
               document.getElementById('errNutrient').style.display = "block";
             }
@@ -222,14 +208,12 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('setSelectedNutrient', arr)
           setSelectedNutrientList(arr);
         }
       }
     }
     if (e.target.name === "FoodSupplementDrug") {
       var slctdFoodSupplementDrug = e.target.value;
-      console.log('slctdFoodSupplementDrug', slctdFoodSupplementDrug);
       var arr = [...selectedFoodList]
       for (var i = 0; i < foodList.length; i++) {
         if (foodList[i].id === slctdFoodSupplementDrug) {
@@ -241,7 +225,6 @@ export default function PatientAnalyzingGraph() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctdFoodSupplementDrug);
-            console.log('index', index);
             if (index !== -1) {
               document.getElementById('errFoodSupplementDrug').style.display = "block";
             }
@@ -252,14 +235,12 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('setSelectedNutrient', arr)
           setSelectedFoodList(arr);
         }
       }
     }
     if (e.target.name === "ECG") {
       var slctdECG = e.target.value;
-      console.log('slctdFoodSupplementDrug', slctdECG);
       var arr = [...selectedEcgList]
       for (var i = 0; i < ecgList.length; i++) {
         if (ecgList[i].ecgName === slctdECG) {
@@ -270,7 +251,6 @@ export default function PatientAnalyzingGraph() {
           }
           else {
             var index = arr.findIndex((val) => val.ecgName === slctdECG);
-            console.log('index', index);
             if (index !== -1) {
               document.getElementById('errECG').style.display = "block";
             }
@@ -280,7 +260,6 @@ export default function PatientAnalyzingGraph() {
               });
             }
           }
-          console.log('setSelectedEcg', arr)
           setSelectedEcgList(arr);
         }
       }
@@ -298,42 +277,36 @@ export default function PatientAnalyzingGraph() {
   //Used To Remove Selected Vitals
   let removeSelectedVital = (index) => {
     var tempArr = [...selectedVitalList]
-    console.log('index :', index);
     tempArr.splice(index, 1);
     setSelectedVitalList(tempArr)
   }
   //Used To Remove Selected Investigation
   let removeSelectedInvestigation = (index) => {
     var tempArr = [...selectedInvestigationList]
-    console.log('index inves:', index);
     tempArr.splice(index, 1);
     setSelectedInvestigationList(tempArr)
   }
   //Used To Remove Selected Supplement
   let removeSelectedSupplement = (index) => {
     var tempArr = [...selectedSupplimentList]
-    console.log('index inves:', index);
     tempArr.splice(index, 1);
     setSelectedSupplimentList(tempArr)
   }
   //Used To Remove Selected Nutrient
   let removeSelectedNutrient = (index) => {
     var tempArr = [...selectedNutrientList]
-    console.log('index inves:', index);
     tempArr.splice(index, 1);
     setSelectedNutrientList(tempArr)
   }
   //Used To Remove Selected Food Supplement Drug
   let removeSelectedFoodSupplemntDrg = (index) => {
     var tempArr = [...selectedFoodList]
-    console.log('index inves:', index);
     tempArr.splice(index, 1);
     setSelectedFoodList(tempArr)
   }
   //Used To Remove Selected Food Supplement Drug
   let removeSelectedEcg = (index) => {
     var tempArr = [...selectedEcgList]
-    console.log('index inves:', index);
     tempArr.splice(index, 1);
     setSelectedEcgList(tempArr)
   }
@@ -350,7 +323,6 @@ export default function PatientAnalyzingGraph() {
       if (hrEle >= 12) AMorPM = 'PM';
       hrEle = (hrEle % 12);
       fromTimeFormat = hrEle === 0 ? 12 + ':' + minEle + ' ' + AMorPM : hrEle + ':' + minEle + ' ' + AMorPM;
-      console.log('res', fromTimeFormat);
     }
 
     for (var i = 0; i < selectedVitalList.length; i++) {
@@ -359,8 +331,6 @@ export default function PatientAnalyzingGraph() {
     for (var i = 0; i < selectedInvestigationList.length; i++) {
       investigationColName = investigationColName + selectedInvestigationList[i].id + ',';
     }
-    console.log('tempVitalList', vitalColName);
-    console.log('tempInves', investigationColName);
     // if (fromTimeFormat === "") {
     //   document.getElementById('errFromDate').style.display = "block";
     // }
@@ -386,8 +356,6 @@ export default function PatientAnalyzingGraph() {
         vitalIdSearch: vitalColName,
       }
       let response = await GetPatientAnalysingGraph(obj);
-      console.log('obj', obj);
-      console.log('response', response);
       if (response.status === 1) {
         graphData(response.responseValues);
       }
@@ -401,11 +369,9 @@ export default function PatientAnalyzingGraph() {
     let arrLabel = [];
     let seriesArr = [];
     let a = []
-    console.log('values', values);
 
     for (var i = 0; i < values.length; i++) {
       if (values[i].investigation !== "") {
-        console.log("iiiiiiiiiiiiiii", i)
         var getData = JSON.parse(values[i].investigation);
         // if(values)
 
@@ -423,10 +389,7 @@ export default function PatientAnalyzingGraph() {
         //      name:investigation,
         //      y:investigation,
         // });
-        // console.log("dsadasdas",getData )
         getData.map((val, ind) => {
-
-          console.log("aaaaaaaaaaaaa", a)
           let t = [val.subTestName + "-" + val.result + " "]
           a.push(t)
         })
@@ -516,7 +479,6 @@ export default function PatientAnalyzingGraph() {
     for (var k = 0; k < values.length; k++) {
       arrLabel.push(values[k].valueDateTime);
     }
-    console.log("arrLane;l", arrLabel)
     let backColor = []
 
     arrLabel.map((val, ind) => {
@@ -558,18 +520,11 @@ export default function PatientAnalyzingGraph() {
       }
     })
     setBackColos([...backColor])
-    console.log("<<<<<-----------backcolor--------->>>>> ", backColor)
-    console.log('arrInvestigation', arrInvestigation)
-    console.log('arrLabel', arrLabel);
-    console.log('investigation', investigation);
-    console.log('arrVitals', arrVitals);
-    console.log('seriesVital', seriesVital);
     seriesArr.push({
       name: "Investigation",
       data: arrInvestigation
     });
 
-    console.log('seriesArr', seriesArr)
     // grapConfig(arrLabel, seriesArr,arrVitals)
     grapConfig(arrLabel, seriesArr, seriesVital,backColor)
   }
@@ -578,10 +533,6 @@ export default function PatientAnalyzingGraph() {
   let grapConfig = (labelData, seriesData, vitalSeriesData,backColor) => {
 
     let daynightdata = [labelData.map((val, ind) => val.split(" ")[1])]
-    // console.log("csdcscsdcscsdcdscscs", daynightdata[0].indexOf("10:00:00"))
-    // console.log('seriesData', seriesData);
-    // console.log('labelData', labelData);
-    console.log('backColor--->>>> : ', backColor);
     setGraph({
       chart: {
         displayErrors: true,

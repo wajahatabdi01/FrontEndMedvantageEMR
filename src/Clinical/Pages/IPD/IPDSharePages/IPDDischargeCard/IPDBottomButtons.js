@@ -39,11 +39,9 @@ export default function IPDBottomButtons(props) {
           //setBloodId(val.bloodGroupId)
           setFollowUpDate(val.followUpDate)
           props.followUpDate(val.followUpDate)
-          console.log('followUpDate--------------->',val.followUpDate)
-          //console.log('bloodGroupId--------------->',val.bloodGroupId)
         }
     })
-      console.log("--------------------->",response.responseValue)
+    
     }
 }
 
@@ -55,10 +53,10 @@ let getAdmitedPatient = async () => {
        if(val.uhId === uhid)
       {
         setBloodId(val.bloodGroupId)
-        console.log('bloodGroupId--------------->',val.bloodGroupId)
+        
       }
   })
-    console.log("--------------------->",response.responseValue)
+   
   }
 }
 
@@ -71,7 +69,7 @@ let getAdmitedPatient = async () => {
 
     if(e.target.name === "dischargeType"){
       // props.sendAllBtnData(e.target.value)
-      console.log('select dt',document.getElementById('ddlDischargeType').value)
+      
       props.dischargeType(document.getElementById('ddlDischargeType').value)
 
     }

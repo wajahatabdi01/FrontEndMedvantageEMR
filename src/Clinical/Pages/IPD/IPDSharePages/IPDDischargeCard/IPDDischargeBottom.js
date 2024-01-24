@@ -58,10 +58,10 @@ export default function IPDDischargeBottom(props) {
       userID: window.userId,
     };
 
-    console.log("object", obj);
+    
 
     let reponse = await PostDischargeCard(obj);
-    console.log("reponse", reponse);
+    
     if (reponse.status === 1) {
       window.sessionStorage.setItem(
         "PrintDischarge",
@@ -105,18 +105,8 @@ export default function IPDDischargeBottom(props) {
      else{
       
     
-    console.log("testname", props.sendprocedure);
-    console.log(
-      "data allMedication",
-      props.allMedication,
-      "data allComplain",
-      props.allComplain
-    );
+    
     // props.allMedication.pop()
-    console.log("after pop", props.allMedication);
-    console.log("after sendprocedure", props.sendprocedure);
-    console.log("after sendremarks", props.sendremarks);
-    console.log("after sendinvestigation", props.sendinvestigation);
     let procedure = {
       problemId: 0,
       problemName: props.sendprocedure,
@@ -147,10 +137,10 @@ export default function IPDDischargeBottom(props) {
       deptID: 1,
       userID: window.userId,
     };
-    console.log("object", obj);
+    
 
     let reponse = await PostDischargeCard(obj);
-    console.log("reponse", reponse);
+    
       if(reponse.status === 1){
         setShowToster(1);
         setTimeout(()=>{
@@ -166,7 +156,7 @@ export default function IPDDischargeBottom(props) {
     
   };
   let  handleLastPrint =()=>{
-    console.log("cdsjbcsdh")
+   
     window.open("/printDischargeCard/", "noopener,noreferrer");
   }
 

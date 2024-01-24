@@ -69,7 +69,7 @@ export default function OPDInvestigationLeft(props) {
               <td>{value.collectionDateTime.split("T")[0]}</td>
               <td style={{ 'color': '#2D8AF5' }}>{value.subCategoryName} ({value.testName})</td>
               <td align='center' className='viewtd'>
-                <i className="fa-solid fa-eye pointer" onClick={() => { props.getActiveSubID(value.sampleCollectionMainID); props.setShowTestList(0); console.log("csdc") }}></i>
+                <i className="fa-solid fa-eye pointer" onClick={() => { props.getActiveSubID(value.sampleCollectionMainID); props.setShowTestList(0);}}></i>
               </td>
             </tr>
           )

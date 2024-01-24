@@ -71,14 +71,14 @@ export default function Output() {
     }
     let getOutputTypeList = async () => {
         let response = await GetOutputTypeList();
-        console.log('res->', response)
+       
         if (response.status === 1) {
             setOutputTypeList(response.responseValue)
         }
     }
     let getUnitList = async () => {
         let response = await GetUnitList();
-        console.log('res unit->', response)
+      
         if (response.status === 1) {
             setUnitList(response.responseValue)
         }
@@ -95,7 +95,7 @@ export default function Output() {
         });
         setShowLoder(1);
         let data = await GetPatientOutputList(getPmID);
-        console.log('first,data', data)
+        
         if (data.status === 1) {
             setShowLoder(0)
             setPatientOutputList(data.responseValue);
@@ -155,10 +155,10 @@ export default function Output() {
                     userID: userID,
                     clientId: window.clientId
                 }
-                console.log('obj', obj)
+                
             }
             let response = await SavePatientOutput(obj);
-            console.log('response', response)
+          
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -195,9 +195,7 @@ export default function Output() {
                 return;
             }
         });
-        console.log('rowID', rowID);
-        console.log('userID', userID);
-        console.log('getPmID', getPmID);
+       
 
         const response = await DeletePatientOutput(getPmID, rowID, userID);
         if (response.status === 1) {
@@ -238,7 +236,7 @@ export default function Output() {
     }
     let handlerEdit = (params) => {
         setIsUpdateBtnShow(true);
-        console.log('params', params)
+        
         setQuantity(params.quantity);
         setDate(params.outputDateFormat);
         setTime(params.outputTimeFormat);
@@ -297,11 +295,11 @@ export default function Output() {
                     clientId: window.clientId
 
                 }
-                console.log('obj', obj)
+                
             }
 
             let response = await UpdatePatientOutput(obj);
-            console.log('response', response)
+            
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -342,7 +340,7 @@ export default function Output() {
         var today = new Date();
         const minutes = today.getMinutes().toString().length === 1 ? '0' + today.getMinutes() : today.getMinutes();
         const currentTime = today.getHours() + ':' + minutes;
-        console.log('currentTime', currentTime)
+        
         return currentTime;
     }
     useEffect(() => {

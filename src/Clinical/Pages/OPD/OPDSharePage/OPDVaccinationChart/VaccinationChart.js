@@ -45,7 +45,7 @@ export default function VaccinationChart() {
         let resp = await GetVaccinationChartData(uhID);
         let docRes = await GetDoctorList();
         if (resp.status === 1) {
-            console.log('resp', resp.responseValue);
+           
             for (let i = 0; i < resp.responseValue.length; i++) {
                 storeDuration.push({ 'duration': resp.responseValue[i].duration, 'sno': resp.responseValue[i].sNum });
                 storeVaccineName.push(resp.responseValue[i].vaccineName);
@@ -59,8 +59,7 @@ export default function VaccinationChart() {
             storeVaccineName = [];
             distinctSoreDuration = [];
         }
-        console.log('reponse', resp.responseValue);
-
+        
         if (docRes.status === 1) {
             setDoctorList(docRes.responseValue);
         }

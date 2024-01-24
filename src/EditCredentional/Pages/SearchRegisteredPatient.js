@@ -39,19 +39,16 @@ function SearchRegisteredPatient() {
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const pageSize = 15;
-    let getData = async (pageNumbers) => {
-        console.log("Func invoked")
+    let getData = async (pageNumbers) => {       
         const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, selectedDate);
         if (response.status === 1) {
             setRegisteredPatientList(response.responseValue);
         }
         window.sessionStorage.setItem("PatientDetails",JSON.stringify(response.responseValue));
-        console.log("PatientDetails:::>", response.responseValue)
     }
 
     let getAllNames = async (query) => {
         const response = await GetAllSearchByName(query);
-        console.log('response search', response);
         if (response.status === 1) {
             setSearchByNameList(response.responseValue);
         }
@@ -86,16 +83,13 @@ function SearchRegisteredPatient() {
     const handleSearchByDob = (searchValue) => {
         setSearchByDob(searchValue);
         //setSelectedDob('');
-        console.log('searchValue', searchValue);
         let ddlDataContainerValueForDob = document.getElementById('ddlDataContainerForDob');
         ddlDataContainerValueForDob.style.display = searchValue.length < 3 ? 'none' : 'block';
         if (searchValue.length >= 2) {
             const dobData = searchByDobList;
-            console.log('dobData', dobData)
             const filteredDataForDob = dobData.filter((val, i, arr) => {
                 var tempData = (typeof val.dob === 'string') && val.dob.toLowerCase().includes(searchValue.toLowerCase());
                 return tempData
-                //console.log('tempData',val.patientName.toLowerCase().includes(searchValue.toLowerCase()))
             });
             setFilteredNameList(filteredDataForDob);
             getAllDob(searchValue);
@@ -108,13 +102,11 @@ function SearchRegisteredPatient() {
     }
 
     const handleSelectPatient = (param) => {
-        console.log('param', param);
         setSelectedPatient(param.patientName);
         document.getElementById('ddlDataContainer').style.display = "none";
 
     }
     const handleSelectDob = (param) => {
-        console.log('param', param);
         //setSelectedDob(param.dob);
         document.getElementById('ddlDataContainerForDob').style.display = "none";
 
@@ -143,17 +135,14 @@ function SearchRegisteredPatient() {
     }
 
     const handleRedirect = async (key) => {
-        console.log('key',key)
         // const menuDetails = taskDetails.menuData;
         let resp = await GetPatientDetailsByUHID(key);
-        console.log('resp',resp)
 
        
         if (resp.status === 1) {
             let deptmenu = await GetMenuByDepartmentIdAndUserId(resp.responseValue[0].deptId);
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
-            console.log('dept',deptResponse);
             if(deptResponse){
                 if (deptmenu.status === 1) {
                     window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
@@ -183,9 +172,6 @@ function SearchRegisteredPatient() {
 
                 console.error('Something went wrong..');
             }
-            
-            console.log("deptmenu", deptmenu)
- 
             // newWindow["uhid"] = props.patientData.UhId
             // window["clientId"] = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId
             // setPatientProfilePopup(1)

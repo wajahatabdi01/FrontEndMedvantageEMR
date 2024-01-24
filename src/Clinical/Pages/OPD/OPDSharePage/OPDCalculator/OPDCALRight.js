@@ -31,7 +31,7 @@ export default function OPDCALRight(props) {
     let response = await GetCalculatorParameterWithResult(sendData);
     setPatientResultData("")
     if (response.status === 1 && response.responseValue != null) {
-      console.log("cal", response.responseValue[0].result[0].formula)
+      
       setPatientResultData(response.responseValue[0])
       setSendForm(response.responseValue[0].parameterList)
       setLoader(0)
@@ -46,18 +46,16 @@ export default function OPDCALRight(props) {
   let getScore = async (data, index) => {
     let response = await GetCalculatorParameterScore(data)
     let temp = [...patientResultData.parameterList]
-    // console.log("temp data")
+   
     if (response.status === 1) {
       patientResultData.parameterList.map((v, ind) => {
         if (v.parameterID === parameterIDStore) {
           temp[ind].parameterScore = response.responseValue[0].score
-          console.log("cvvvv",  temp[ind].parameterScore)
+          
         }
       })
       patientResultData.result = patientResultData.result
       patientResultData.parameterList = temp
-      console.log("dddddddd", patientResultData)
-      console.log("tttttttttttttttttttt", temp)
       setPatientResultData(patientResultData)
 
     }
@@ -86,9 +84,9 @@ export default function OPDCALRight(props) {
     setParameterIDStore(sendForm[index].parameterID)
     sendForm[index].parameterValue = e.target.value
     getScore(data, index)
-    // console.log("cddddddddddddddddddddddddddddddddd",patientResultData[0] )
+   
     // patientResultData[0][index].parameterValue =e.target.value
-    // console.log("data ", patientResultData)
+    
 
   }
 
@@ -119,7 +117,7 @@ export default function OPDCALRight(props) {
   }
 
   let sendData = async () => {
-    console.log("test")
+   
     let data = {
       UHID: activeUHID,
       parameter: JSON.stringify(sendForm),
@@ -199,7 +197,7 @@ export default function OPDCALRight(props) {
   
                           </div>
                         </td>
-                        {console.log("score", val.parameterScore ? val.parameterScore : "")}
+                        
                         <td className='v-top text-center pb-3_'>{t("SCORES")} : {val.score ? val.score : val.parameterValue ? val.score : val.parameterScore} <span className='pointer' title={val.scoreList}>{t("All:")} {t("SCORES")}</span></td>
                       </tr>
                     )

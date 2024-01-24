@@ -324,7 +324,7 @@ export default function OPDPatientInputData(props) {
                 // else if (name === "physicalData") {
                 //     // setPhysicalExaminationValue(value)
                 //     let t = 0
-                //     console.log("value ", value)
+                
                 //     row["problemId"] = 0
                 //     row["problemName"] = value
                 //     row["pdmId"] = 6
@@ -420,7 +420,7 @@ export default function OPDPatientInputData(props) {
                 //     }
                 // })
                 // if (t === 0) {
-                //     console.log("enter")
+                
                 //     setSendData([...data, row])
 
                 //     setSymptomsData([...symptomsData, row])
@@ -511,11 +511,11 @@ export default function OPDPatientInputData(props) {
             setSendData([...temp])
             setIsProvisionalDiagnosis(true)
         }
-        // console.log("value is ", isProvisionalDiagnosis)
+       
     }
 
     let handleRemove = (ind, problemId, name) => {
-        // console.log("proble", problemId)
+        
 
 
         try {
@@ -534,7 +534,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 symptomsData.map((val, inde) => {
-                    // console.log("enter sympy")
+                    
                     if (val.pdmId === 2 && val.problemId === problemId) {
                         tempsymptomsData.splice(inde, 1)
                         return
@@ -565,7 +565,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 consultantData.map((val, inde) => {
-                    // console.log("enter sympy")
+                    
                     if (val.pdmId === 4 && val.problemId === problemId) {
                         tempconsultantData.splice(inde, 1)
                         return
@@ -576,10 +576,10 @@ export default function OPDPatientInputData(props) {
             // sendData.map((val, index) => {
 
             //     if (val.pdmId === 2 && val.problemId === problemId) {
-            //         // console.log("enter")
+            //         
             //         tempSenddata.splice(ind, 1)
             //         symptomsData.map((val, inde) => {
-            //             console.log("enter sympy")
+            //            
             //             if (val.pdmId === 2 && val.problemId === problemId) {
             //                 tempsymptomsData.splice(inde, 1)
             //             }
@@ -599,7 +599,7 @@ export default function OPDPatientInputData(props) {
 
             //     }
             //     else if (val.pdmId === 6 && val.problemId === problemId) {
-            //         console.log("data", val.pdmId)
+            //         
             //         tempSenddata.splice(ind, 1)
             //         // setSendData(tempSenddata)
             //         physicalData.map((val, inde) => {
@@ -690,7 +690,7 @@ export default function OPDPatientInputData(props) {
                                     }
                                 })
                             }
-                            // console.log("tempValue", val.jsonVital[0].vmId)
+                            
                             // setSendVitals(val.jsonVital)
                         }
                         else if (key[0] === "disable") {
@@ -859,7 +859,7 @@ export default function OPDPatientInputData(props) {
                 // else if (name === "physicalData") {
                 //     // setPhysicalExaminationValue(value)
                 //     let t = 0
-                //     console.log("value ", value)
+                
                 //     row["problemId"] = 0
                 //     row["problemName"] = value
                 //     row["pdmId"] = 6

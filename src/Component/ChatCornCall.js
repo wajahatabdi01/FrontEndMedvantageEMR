@@ -16,9 +16,6 @@ export default function ChatCornCall() {
   let btnCloseChatBoxCornCall = () => {
     setChatBoxCornCall(0)
   }
-  // console.log('countryCode', countryCode);
-  // console.log('cornCallUrl', cornCallUrl);
-  // console.log('check num', countryCode+cornCallUrl)
   return (
     <>
       {chatBoxCornCall == 1 ?

@@ -24,7 +24,7 @@ export default function OPDInvestigationRight(props) {
       if (props.callingpage === 0) {
 
         response = await GetSubCategoryWisePatientInvestigation({ "subCategoryId": props.activeSubId })
-        console.log("investigation", response.responseValues)
+    
 
         if (response.status === 1) {
           if (response.responseValue !== undefined) {
@@ -42,7 +42,7 @@ export default function OPDInvestigationRight(props) {
       else if (props.callingpage === 1) {
         let activeUHID = props.uhid
         response = await GetTestListForIpdandOpd(activeUHID, props.activeSubId)
-        console.log("investigation", response.responseValues)
+       
         if (response.status === 1) {
 
           setSubTestData(response.responseValue)
@@ -75,13 +75,13 @@ export default function OPDInvestigationRight(props) {
   }
 
   let handleGraphData = (subtestId) => {
-    console.log("cdsc")
+    
     getGraphData(subtestId)
   }
 
   useEffect(() => {
     getdata()
-    console.log("csdxxxxxxxx")
+ 
   }, [props])
 
   return (

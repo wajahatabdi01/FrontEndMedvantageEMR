@@ -151,7 +151,6 @@ export default function CreateCultureReport() {
   }
 
   let getDetails = async () => {
-    console.log('first')
     let arrForDropdown = []
     if (textBillNo === '' || textBillNo === null || textBillNo === undefined || textBillNo === 0) {
       alert('Fill Bill Number!');
@@ -217,7 +216,6 @@ export default function CreateCultureReport() {
   }
 
   // let getSensitiveAndResistanceByBacteria = async () => {
-  //   console.log('hello')
   //   //let orgID = document.getElementById('organismID').value;
   // }
 
@@ -616,7 +614,6 @@ export default function CreateCultureReport() {
                               </td>
                             </tr> */}
                                 {/* {sampleRecieveList && sampleRecieveList.map((list, index) => {
-                          console.log('the list : ', list)
                           return(
                             <>{
                               list.isCollected === 'YES' && <tr key={list.id}> 

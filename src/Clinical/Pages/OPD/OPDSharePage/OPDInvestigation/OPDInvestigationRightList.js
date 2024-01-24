@@ -19,7 +19,7 @@ export default function OPDInvestigationRightList(props) {
             let response = await GetSubTestNameForGraph()
             if (response.status === 1) {
                 setSubtestNameList(response.responseValue)
-                console.log("data",)
+               
             }
         }
         catch (e) { }
@@ -39,7 +39,7 @@ export default function OPDInvestigationRightList(props) {
     }
 
     useEffect(() => {
-        console.log("dcscs")
+       
         getData()
     }, [])
     return (

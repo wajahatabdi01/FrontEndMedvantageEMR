@@ -50,7 +50,7 @@ export default function CommonLayout(props) {
             setActivePage(<OPDPatientList setShowMenu={setShowMenu} handlepatientTab={0} showPatientListValue={0}/>)
         }
         else if (props.name.toString().trim().toLowerCase() === "IPDPatientList".toString().trim().toLowerCase()) {
-            console.log("ttttttttt",)
+           
             setChangeNavbar(0)
             setIsSuperadmin(false)
             setShowMenu(0)
@@ -109,7 +109,7 @@ export default function CommonLayout(props) {
     let getDataDeaprtmentMenu = async (value) => {
         let response = await GetMenuAndDeptByHeadId(value)
         if (response.status === 1) {
-            // console.log("daa",response.responseValue.deparmentList )
+           
 
             setDepartmentData(response.responseValue.departmentList)
             setMenuData(response.responseValue.menuList)
@@ -154,9 +154,9 @@ export default function CommonLayout(props) {
 
                 }
                 else {
-                    // console.log(response.responseValue.menuList[0].url)
+                  
                     let flag = 0
-                    // console.log("urls", response.responseValue.menuList)
+                    
                     response.responseValue.menuList.map((val, ind) => {
                         if (val.url === "/opdpatientlist/") {
                             flag = 1

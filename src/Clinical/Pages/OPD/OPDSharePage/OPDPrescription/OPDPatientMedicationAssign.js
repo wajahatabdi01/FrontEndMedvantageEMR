@@ -126,7 +126,7 @@ export default function OPDPatientMedicationAssign(props) {
 
     let handleDeleteRow = async (ind, id, value, drugId) => {
         handleDeleteRowCode(ind, id, value, drugId, row, drugInteractionId, medicationData, setMedicationData, setShowMeassage, setShowSuccessToster, setShowAlertToster)
-        // console.log("ind", ind, id, value)
+       
         // // let response = handleDelete()
         // try {
         //     let temp = [...medicationData]
@@ -144,7 +144,7 @@ export default function OPDPatientMedicationAssign(props) {
         //                 // document.getElementById("addprescription" + showAdd).style.display = "block";
         //             }
         //             else {
-        //                 // console.log("showAdd", temp)
+        //                
         //                 if (temp.length === 1) {
         //                     setMedicationData([...temp, row])
         //                 }
@@ -291,7 +291,7 @@ export default function OPDPatientMedicationAssign(props) {
                     else {
                         temp[ind]["duration"] = "," + value
                     }
-                    // console.log("duration ", value)
+                    
                     setMedicationData([...temp])
                 }
                 else if (name === "rationalData") {
@@ -409,13 +409,13 @@ export default function OPDPatientMedicationAssign(props) {
                             if (key[0] === "jsonallergies") {
                                 if (val.jsonallergies.length !== 0) {
                                     checkMedicine = val
-                                    console.log("enter inl")
+                                   
                                 }
                             }
                         }
                     })
                 })
-                // console.log("csdcscsdcs", checkMedicine.jsonallergies )
+                
                 if (checkMedicine.length !== 0) {
                     if (checkMedicine.jsonallergies.length === 0) {
                         let response = FindByQuery(temp, data[1], "drugName")
@@ -427,8 +427,7 @@ export default function OPDPatientMedicationAssign(props) {
                             temp[ind]["dosageStrength"] = data[3]
                             temp[ind]["doseUnit"] = data[4]
                             temp[ind]["isAntibiotic"] = data[5]
-                            // console.log("isAnitincds", data[5])
-                            // console.log("currentId", drugInteractionId)
+                            
                             setDrugInteractionId([...drugInteractionId, data[0]])
                           
 
@@ -461,8 +460,7 @@ export default function OPDPatientMedicationAssign(props) {
                                 temp[ind]["dosageStrength"] = data[3]
                                 temp[ind]["doseUnit"] = data[4]
                                 temp[ind]["isAntibiotic"] = data[5]
-                                // console.log("isAnitincds", data[5])
-                                // console.log("currentId", drugInteractionId)
+                                
                                 setDrugInteractionId([...drugInteractionId, data[0]])
                                 
 
@@ -499,8 +497,7 @@ export default function OPDPatientMedicationAssign(props) {
                         temp[ind]["dosageStrength"] = data[3]
                         temp[ind]["doseUnit"] = data[4]
                         temp[ind]["isAntibiotic"] = data[5]
-                        // console.log("isAnitincds", data[5])
-                        // console.log("currentId", drugInteractionId)
+                        
                         setDrugInteractionId([...drugInteractionId, data[0]])
                         
                         GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
@@ -677,12 +674,12 @@ export default function OPDPatientMedicationAssign(props) {
                         if (key[0] === "jsonArray") {
                             val.jsonArray.map((val, i) => {
                                 if (val != null) {
-                                    // console.log("drug", val.drugId)
+                                   
                                     // setMedicationData([...medicationsData, val])
                                     if (val.stopBy === null || val.stopBy === "") {
                                         druginteractionIds.push(val.drugId)
 
-                                        // console.log("val", val)
+                                        
                                         
                                         let resp = query(rationalList, val.rationalId, "id")
                                         // let resp = []

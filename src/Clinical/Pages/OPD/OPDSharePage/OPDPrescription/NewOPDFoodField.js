@@ -191,16 +191,16 @@ export default function NewOPDFoodField(props) {
             let OtherFoodList = []
 
             let tempdata = []
-            console.log("props.foodData", props.foodData)
+            
             temp.map((value, index) => {
                 value.map((val, ind) => {
                     if (value[0] === activeUHID) {
                         let key = Object.keys(val)
                         if (key[0] === "jsonFood") {
                             val.jsonFood.map((v, i) => {
-                                console.log("ppppppppppppp", v)
+                               
                                 if (v.pdmId === 10) {
-                                    console.log("csdcscdscscsdcscsc", v)
+                                    
                                     AvoidFoodList.push(v)
                                     setAvoidFoodList(v)
                                     tempdata.push([...tempdata, v])
@@ -259,14 +259,14 @@ export default function NewOPDFoodField(props) {
                 if (name === "Recommended") {
                     let response = FindByQuery(foodDataList, value, "foodName")
                     if (response.length != 0) {
-                        console.log("sfdffffffffffffff")
+                        
 
 
                         setFoodDataListTemp(response)
                         setShowFoodDataRecommendedList(1)
                         // var offsets = document.getElementById("recommendedListdiv").getBoundingClientRect();
                         // let bodyheight = document.body.clientHeight
-                        // console.log("offset",offsets.top,  bodyheight)
+                       
                         //   if(offsets.top + 250> bodyheight)
                         // {
                         document.getElementById("recommendedListdiv").style.marginTop = "-278px";
@@ -316,7 +316,7 @@ export default function NewOPDFoodField(props) {
     let handleRemove = (name, index, problemId, problemName, pmId) => {
         let temp = [...sendData]
         if (name === "Recommended") {
-            console.log("cds")
+            
             let recTemp = [...recommendedFoodList]
             sendData.map((val, ind) => {
                 if (val.pdmId === 9 && val.problemId === problemId) {
@@ -333,7 +333,7 @@ export default function NewOPDFoodField(props) {
             setSendData(temp)
         }
         else if (name === "Avoided") {
-            console.log("cds")
+           
             let recTemp = [...recommendedFoodList]
             sendData.map((val, ind) => {
                 if (val.pdmId === 10 && val.problemId === problemId) {
@@ -350,7 +350,7 @@ export default function NewOPDFoodField(props) {
             setSendData(temp)
         }
         else if (name === "Other") {
-            console.log("cds")
+           
             let recTemp = [...otherFoodList]
             sendData.map((val, ind) => {
                 if (val.pdmId === 11 && val.problemId === problemId) {
@@ -372,7 +372,7 @@ export default function NewOPDFoodField(props) {
         let data = [...sendData].filter(n => n)
         try {
             if (boxname === "Recommended") {
-                console.log("emter")
+             
                 let temp = window.sessionStorage.getItem("patientsendData") ? JSON.parse(window.sessionStorage.getItem("patientsendData")) : []
                 let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
                 // let patientDataAlergies = temp.filter(val => val[0] === activeUHID)
@@ -386,13 +386,13 @@ export default function NewOPDFoodField(props) {
                             if (key[0] === "jsonallergies") {
                                 if (val.jsonallergies.length !== 0) {
                                     checkFood = val
-                                    console.log("enter inl")
+                                   
                                 }
                             }
                         }
                     })
                 })
-                console.log("Change", checkFood)
+                
 
                 if (checkFood.length === 0) {
                     let t = 0
@@ -565,7 +565,7 @@ export default function NewOPDFoodField(props) {
                 <div className='d-flex flex-wrap gap-2 btn-bottom-opd ps-2' style={{ overflowX: "auto", height: '70px', color: "#419849", background: "#D5EED7", width: "0px" }}>
                     {
                         recommendedFoodList && recommendedFoodList.map((val, ind) => {
-                            // console.log("recom", val)
+                            
                             return (
                                 <div className='d-flex flex-row justify-content-center align-items-center gap-2 p-2 opdcancletab'>
                                     <label className=''>{val.problemName[0].toUpperCase() + val.problemName.slice(1, val.problemName.length).toLowerCase()}</label>

@@ -57,8 +57,6 @@ export default function ViewReportPrint(props) {
       remarkString = remarkString === '' ? testDataForRemark[a].resultRemark : remarkString + ',' + testDataForRemark[a].resultRemark;
     }
     setRemarkFinal(remarkString)
-
-    //console.log('GetPrintTestResultBySubIdAndUserId : ', testResultData);
     //let getSampleType = await GetLabSampleType(theBillNo);
     let getPatientDetails = await GetPatientBillingDetails(theBillNo,clientID)
 
@@ -84,8 +82,6 @@ export default function ViewReportPrint(props) {
     setTestResultPrintList(testResultData.responseValue);
 
     //let testData = await GetSubTestForValidationByMainAndTestId(sampleCollectionMainId,theUserId);
-
-    //console.log('patient test details : ', testData.responseValue);
     setPatientName(data.responseValue[0].patientName)
     setWard(data.responseValue[0].wardName)
     setGender(data.responseValue[0].gender)
@@ -177,8 +173,7 @@ export default function ViewReportPrint(props) {
 
                   <div className="address-section">
 
-                    <>
-                      {/* {console.log("printData.userData", printData.dataClient.address)} */}
+                    <>                     
                       <div className='organizationName'> ERA MEDICAL COLLEGE</div>
                       <div className='organizationAddress'> ERA MEDICAL COLLEGE , SARFARAZGANJ,LUICKNOW</div>
                       <div className='organizationContact'>PHONE :7007545201 </div>

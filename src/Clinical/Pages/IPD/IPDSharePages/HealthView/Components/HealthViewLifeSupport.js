@@ -22,7 +22,7 @@ export const HealthViewLifeSupport = () => {
     let [mainData, setMainData] = useState([]);
     let getLifeSupportData = async () => {
         let lifeSupportResp = await GetHealthViewLifeSupport(uhID);
-        console.log('lifeSupportResp', lifeSupportResp);
+        
         if (lifeSupportResp.status === 1) {
             lifeSupportId = [];
             lifeSupportName = [];
@@ -45,7 +45,7 @@ export const HealthViewLifeSupport = () => {
         data.map((val, ind) => {
             lifeSupportId.map((vv, ii) => {
                 let resp = FindByQuery(JSON.parse(val.json), vv.toString(), "lifeSupportMachineNameID")
-                console.log("response", resp)
+                
                 if (resp.length !== 0) {
                     if (resp.length > 1) {
                         resp.map((val, ind) => {
@@ -61,7 +61,7 @@ export const HealthViewLifeSupport = () => {
                 }
 
             })
-            console.log('temp', temp);
+            
 
             main.push(temp)
             temp = []
@@ -70,19 +70,19 @@ export const HealthViewLifeSupport = () => {
         for (var i = 0; i < main.length; i++) {
             for (var j = 0; j < main[i].length; j++) {
                 var data = main[i][j].fromTimeToTime;
-                console.log('ssssort--->>>>>>', data)
+                
                 // sortMain.push(main[i][j].sort())
             }
         }
         setLifeSupport(sortMain);
-        console.log('main', sortMain);
+       
 
         // function transpose(a) {
         //     return Object.keys(a).map(function (c) {
         //         return a.map(function (r) { return r[c]; });
         //     });
         // }
-        // console.log('transpose(main)', transpose(main));
+        
         // setLifeSupport(transpose(main))
     };
 

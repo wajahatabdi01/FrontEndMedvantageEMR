@@ -25,7 +25,7 @@ export default function OPDDiagnosisSuggestion(props) {
     let [showloder, setShowloder] = useState(1)
 
     let getdata = async () => {
-        console.log("sdcsdcsdcsdc")
+        
         let temp = []
         let activeUHID = []
         if (props.calling === 0) {
@@ -92,7 +92,7 @@ export default function OPDDiagnosisSuggestion(props) {
             }
 
             let response = await POSTProvableDiseaseList(sendData)
-            console.log("cscscs", response)
+            
             if (response.status === 1) {
                 setShowloder(0)
                 setProblemList(response.responseValue)
@@ -171,7 +171,7 @@ export default function OPDDiagnosisSuggestion(props) {
                                 </div>
                                 <div className='d-flex flex-column gap-1'>
                                     {problemList && problemList.map((val, ind) => {
-                                        // console.log("val", val)
+                                        
                                         return (
                                             <>
                                                 <span className='ps-4 p-2 departmentList d-flex flex-column gap-1' onClick={() => { handleClick(val.id, val.problemName) }}><label>{val.problemName}</label>

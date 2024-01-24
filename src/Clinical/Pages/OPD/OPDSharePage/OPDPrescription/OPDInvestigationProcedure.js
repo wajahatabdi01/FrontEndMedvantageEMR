@@ -43,9 +43,9 @@ export default function OPDInvestigationProcedure(props) {
             let tempN = [...investname]
             if (temp.length != 0) {
                 sendData.map((val, ind) => {
-                    console.log("itemId", val.itemId, typeof (id))
+                  
                     if (val.itemId === parseInt(id)) {
-                        console.log("investigation")
+                        
                         showInvestigation[index].checked = 0
                         document.getElementById(id).checked = false
                         temp.splice(ind, 1)
@@ -149,14 +149,14 @@ export default function OPDInvestigationProcedure(props) {
             // response.push(val)
         })
         setShowInvestigation([...tempitems])
-        console.log("tempitems", tempitems)
+      
         setSearchShow([...tempitems])
         setTotal(total)
 
     }
 
     let handleSearch = (e) => {
-        // console.log("itemMasterList", itemMasterList)
+        
         try {
             if (e.target.value !== "") {
                 let searcresult = Search(searchShow, e.target.value)
@@ -182,7 +182,7 @@ export default function OPDInvestigationProcedure(props) {
                         // response.push(val)
                     })
                     setShowInvestigation(tempitems)
-                    console.log("temps", tempitems)
+                    
 
                 }
                 else {
@@ -203,7 +203,7 @@ export default function OPDInvestigationProcedure(props) {
                         // response.push(val)
                     })
                     setShowInvestigation(tempitems)
-                    console.log("temps", tempitems)
+                    
                 }
             }
             else {
@@ -237,7 +237,7 @@ export default function OPDInvestigationProcedure(props) {
             // response.push(val)
         })
         setShowInvestigation([...tempitems])
-        console.log("tempitems", tempitems)
+        
         setSearchShow([...tempitems])
         setTotal(total)
         setSendData(investigationHistory)
@@ -289,7 +289,7 @@ export default function OPDInvestigationProcedure(props) {
             <div className='opdorder border-topp'>
                 <div className='totalod'>  {t("Total Investigation Charge")}: <span>{total}</span></div>
                 <div className='resetpodinvest'>
-                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" style={{ width: "100px" }} onClick={() => { handleReset(); console.log("investigation ", sendData) }}>
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" style={{ width: "100px" }} onClick={() => { handleReset(); }}>
                         <i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}
                     </button>
                 </div>

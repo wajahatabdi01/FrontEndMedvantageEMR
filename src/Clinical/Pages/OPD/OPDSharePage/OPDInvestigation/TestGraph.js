@@ -21,7 +21,7 @@ export default function TestGraph(props) {
     let makeData = (data) => {
         let temp = []
         let label = []
-        console.log("data", data)
+       
         data.map((val, ind) => {
             temp.push({
                 type: 'spline',
@@ -39,8 +39,7 @@ export default function TestGraph(props) {
     }
 
     let grapConfig = (labelData, sendData) => {
-        console.log("length", labelData)
-        console.log("value", sendData)
+        
         setGraph({
             chart: {
 
@@ -126,7 +125,7 @@ export default function TestGraph(props) {
                     <div className='mt-1 ps-5 pe-4 row'>
                         <div className='col-12'>
 
-                            {console.log(graph)}
+                            
                             {/* {bool === 0 ? */}
                                 <HighchartsReact highcharts={Highcharts} options={graph} />
                                 {/* : <LodingIcon val={bool} />} */}

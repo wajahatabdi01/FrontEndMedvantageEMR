@@ -43,7 +43,7 @@ export default function WCAGPopup(props) {
     }
     let changebodygrayscale = (val) => {
         // let a = document.getElementsByTagName("html").style.filter;
-        // console.log("filter ", a)
+        
         Array.from(document.getElementsByTagName("html"))
             .forEach(el => {
                 if (el.style.filter !== "grayscale(100%) saturate(0%) brightness(70%) contrast(150%)") {
@@ -57,7 +57,7 @@ export default function WCAGPopup(props) {
     }
     let changebodylowsaturation = (val) => {
         // let a = document.getElementsByTagName("html").style.filter;
-        // console.log("filter ", a)
+     
         Array.from(document.getElementsByTagName("html"))
             .forEach(el => {
                 if (el.style.filter !== "saturate(60%)") {
@@ -123,8 +123,7 @@ export default function WCAGPopup(props) {
             document.onmouseup = () => {
 
                 if (window.getSelection) {
-                    selectedText = window.getSelection();
-                    console.log("text", selectedText)
+                    selectedText = window.getSelection();                   
 
                     let textToSpeak = selectedText;
                     let speakData = new SpeechSynthesisUtterance();

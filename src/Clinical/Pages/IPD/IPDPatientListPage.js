@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 // import TableContainer from '../../../Components/TableContainer'
 import GetPatientList from '../../API/IPD/GetPatientList'
 import { Link, useNavigate } from 'react-router-dom'
-import Navbar from '../../../Component/Navbar'
-import OffcanvasLogo from "../../../assets/images/Navbar/offcanvas-logo.png";
 import store from '../../../Store'
 import { getIPDUHIDChangeData } from '../../../Reduce/IPD/IPDUHIDChange'
 // import searchIcon from "../../../assets/images/Navbar/search.svg"
@@ -62,7 +60,7 @@ export default function IPDPatientListPage(props) {
     let handleActiveTab = (val) => {
         let oldPatientList = window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")) : []
         let response = FindByQuery(oldPatientList, val.uhId, "uhId")
-        console.log("patient List", response)
+        
         if (response.length === 0) {
 
             let menus = window.sessionStorage.getItem("departmentmenu") ? JSON.parse(window.sessionStorage.getItem("departmentmenu")).menuList : []
@@ -82,7 +80,7 @@ export default function IPDPatientListPage(props) {
             if (props.showNavbar === 0) {
                 props.setShowPatientList(0)
             }
-            console.log("props. show", props.showNavbar, menus)
+           
             if (menus.length !== 0) {
                 if (props.setShowMenu !== undefined) {
                     props.setShowMenu(1)
@@ -226,10 +224,10 @@ export default function IPDPatientListPage(props) {
                                                 <th className='text-center_'>{t("Action")}</th>
                                             </thead>
                                             <tbody>
-                                                {console.log("show tab value", showTab)}
+                                               
                                                 {showTab === 0 ? <>
                                                     {patientListTemp && patientListTemp.map((val, ind) => {
-                                                        console.log("val", val)
+                                                        
                                                         return (
                                                             <tr className=''>
                                                                 <td className='text-center pe-1'>{ind + 1}</td>

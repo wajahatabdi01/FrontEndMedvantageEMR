@@ -347,7 +347,7 @@ export default function DischargeComplain(props) {
 
         //     }
         //     else if (val.pdmId === 4 && val.problemId === problemId) {
-        //         console.log("dasd")
+       
         //         tempSenddata.splice(ind, 1)
         //         setSendData(tempSenddata)
         //         props.sendAllComplain([tempSenddata])
@@ -373,7 +373,7 @@ export default function DischargeComplain(props) {
                     return
                 }
             })
-            console.log("ind", ind)
+          
             tempsymptomsData.splice(ind, 1)
         }
         else if (name === "consultantData") {
@@ -391,7 +391,7 @@ export default function DischargeComplain(props) {
         setSendData(tempSenddata)
         props.sendAllComplain([tempSenddata])
         // SaveIPDData(tempSenddata, "jsonDiagnosis")
-        // console.log("senddata", tempSenddata)
+        
 
     }
     let getDischarge = async () => {
@@ -399,12 +399,11 @@ export default function DischargeComplain(props) {
         let com = []
         let UhId = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
         let DischargeTypeId = 2;
-        console.log('UhId', UhId);
-        console.log('DischargeTypeId', DischargeTypeId);
+        
         let response = await GetDischargeCard(UhId, DischargeTypeId);
-        console.log('reponse', response);
+        
         if (response.status === 1) {
-            // console.log('reponse',response);
+           
             // sendAllComplain(response.responseValue.patientComplainHistory)
             // setGetAllData(response.responseValue)
 

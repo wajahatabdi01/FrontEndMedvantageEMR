@@ -45,7 +45,6 @@ export default function MenuSideBar(props) {
   });
 
   let handleMenu = (name, id) => {
-    // console.log("dsvcsdcsd", name, id)
     let wardId = JSON.parse(window.sessionStorage.getItem("activePage")).WardId
     let wardname = JSON.parse(window.sessionStorage.getItem("activePage")).wardName
     let departmentName = JSON.parse(window.sessionStorage.getItem("activePage")).departmentName ? JSON.parse(window.sessionStorage.getItem("activePage")).departmentName : ""
@@ -72,7 +71,6 @@ export default function MenuSideBar(props) {
       setMenuList(menList)
       // setMenuList([])
     }
-    // console.log("menushow", props.showMenu)
   }, [props])
   return (
     // < !--offCanvas navbar  -- >

@@ -8,9 +8,9 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
 
         let temp = [...medicationData]
         if (value === 0) {
-            console.log("index", ind)
+            
             temp.splice(ind, 1)
-            console.log("tempdata", temp)
+           
             if (temp.length !== 0) {
                 let druginteraction = drugInteractionId.findIndex(drugInteractionId => drugInteractionId === drugId)
                 if (druginteraction !== -1) {
@@ -19,7 +19,7 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
                 let index = temp.findIndex(temp => temp.id === 0);
                 if (index !== -1) {
                     let index = temp.findIndex(temp => temp.drugName === "");
-                    console.log("ddsad", index)
+                   
                     if (index !== -1) {
 
                         setMedicationData(temp)
@@ -32,8 +32,7 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
                     // document.getElementById("addprescription" + showAdd).style.display = "block";
                 }
                 else {
-                    // console.log("showAdd", temp)
-                    console.log("ddsad", temp)
+                    
 
                     if (temp.length === 1) {
                         setMedicationData([...temp, row])
@@ -45,7 +44,7 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
                 }
             }
             else {
-                console.log("00lenh")
+                
 
                 setMedicationData([row])
             }
@@ -138,7 +137,7 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
 //             }
 //             else if (name === "duration") {
 //                 temp[ind]["duration"] = value
-//                 // console.log("duration ", value)
+//                
 //                 setMedicationData([...temp])
 //             }
 //             else if (name === "rationalData") {
@@ -218,10 +217,9 @@ let handleDeleteRowCode = async (ind, id, value, drugId, row, drugInteractionId,
 //             temp[ind]["dosageStrength"] = data[3]
 //             temp[ind]["doseUnit"] = data[4]
 //             temp[ind]["isAntibiotic"] = data[5]
-//             // console.log("isAnitincds", data[5])
-//             console.log("currentId", drugInteractionId)
+//             
 //             setDrugInteractionId([...drugInteractionId, data[0]])
-//             // console.log("drug interaction", drugInteractionId)
+//            
 
 //             GetDrugInteractionn([...drugInteractionId, data[0]])
 //             document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]

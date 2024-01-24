@@ -161,7 +161,6 @@ export default function Print() {
     }
   }
   let handleSearch = () => {
-    console.log("ds")
     let response = FindByQuery(newBillList, searchValue, "billNo")
     if (searchValue.length !== 0 && searchValue !== undefined) {
       if (response.length !== 0) {

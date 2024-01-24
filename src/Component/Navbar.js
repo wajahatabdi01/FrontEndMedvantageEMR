@@ -49,11 +49,11 @@ export default function Navbar(props) {
 
     let searchGlobal = (e) => {
         if (e.keyCode === 13) {
-            // console.log("sdsfsd",e.keyCode)
+
             SearchGlobal(e.target.value)
         }
         else if (e.keyCode === 40) {
-            // console.log("sdsfsd",e.keyCode)
+
             SearchGlobal(e.target.value)
         }
 
@@ -96,10 +96,8 @@ export default function Navbar(props) {
             connection.invoke("NewUserConnected", window.userId, 0).catch(err => console.log(err))
             connection.on("OnNewUserConnected", (message) => {
                 connection.on("commonNotification", (message) => {
-                    console.log("mess", message.responseValue.recieverId === window.userId)
                     if (message.responseValue.recieverId === window.userId) {
                         tempnotification = message.responseValue
-                        console.log("sddsbcsbcd", tempnotification)
                         total += 1
                         setToatalNotification([...toatalNotification, tempnotification])
                     }
@@ -148,14 +146,11 @@ export default function Navbar(props) {
     }, [props.changeNavbar])
 
     let handleShowPrescription = (param) => {
-        // console.log('paramsssss', param);
-
         setPrescription(JSON.parse(param.medicineData));
         setUhid(param.UHID);
         setPatientName(param.PatientName);
     };
 
-    //  console.log('prescription', prescription);
 
     
 
@@ -183,7 +178,6 @@ export default function Navbar(props) {
         let logoLeft = document.querySelector('.logoLeft');
         let navLinkicons = document.getElementsByClassName('navLinkicon');
         let customeCollapses = document.querySelectorAll('.custome-collapse ul.navbar-nav');
-        //  console.log(customeCollapses);
         let getSidebarNav = document.querySelector(".sidebar-nav");
         let offcanvasBody = document.querySelector(".offcanvas-body");
         getshortCollapseBtn.onclick = function () {
@@ -332,11 +326,11 @@ export default function Navbar(props) {
                                         </span>
 
                                     <ul className="dropdown-menu" aria-labelledby="notificationdropdown">
-                                        {/* {console.log('toatalNotification', toatalNotification[0])} */}
+                                        
                                         {
-                                            // console.log("xdscscs", toatalNotification)
+                                            
                                             toatalNotification && toatalNotification.map((val, ind) => {
-                                                console.log("dhsjksa", JSON.parse(val.responseValue))
+                                                
                                                 return (
 
                                                     <li><a className="dropdown-item" href="#" data-bs-target='#ViewAlterNativePrescriptionModal' data-bs-toggle='modal' onClick={() => { handleShowPrescription(JSON.parse(val.responseValue)) }}><i class="fa fa-cog"></i>{JSON.parse(val.responseValue).Uhid}</a></li>
@@ -456,8 +450,7 @@ export default function Navbar(props) {
                                     <div className="med-box"> <div className="title">{t("Medicine/Item_Details")}</div>
 
                                         <div className='d-flex gap-3 justify-content-end me-2 mb-1 fst-italic text-primary-emphasis'>
-                                            <div>
-                                                {/* {toatalNotification && console.log("vvvvvv,", toatalNotification)} */}
+                                            <div>                                              
                                                 <b>{t("Uhid")}:</b> {uhid}
                                             </div>
                                             <div><b>{t("Patient_nm")}:</b> {patientName}</div>

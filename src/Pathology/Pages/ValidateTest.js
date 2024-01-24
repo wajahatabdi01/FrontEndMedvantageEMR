@@ -674,8 +674,7 @@ export default function ValidateTest() {
 
                   <div className="med-table-section repeat mb-2 " style={{height:"545px"}}>
                     <table className="med-table border_ striped">
-                      {validateTestList && validateTestList.map((sampleList, index) => {
-                        console.log('sampleList : ',sampleList)
+                      {validateTestList && validateTestList.map((sampleList, index) => {                      
                         return (<>
                           <thead className='py-2' key={sampleList.testID}>
                             <tr style={{ backgroundColor: '#1d499926' }}>

@@ -88,14 +88,11 @@ export default function PerformTest() {
   /// ***************************** GET perform Test **********************************************
 
   let funGetPerformTest = async () => {
-    console.log('getTxtBillNo : ', getTxtBillNo)
     // setShowLoder(1)
     let getResult = await GetPerformTest(getTxtBillNo,clientID);
     let getPatientDetails = await GetPatientBillingDetails(getTxtBillNo,clientID);
     const testList = getResult.responseValue.tests;
     const patientBillingDetails = getPatientDetails.responseValue[0];
-    console.log('getResult : ', getResult);
-
     if (getPatientDetails.status === 1) {
 
       
@@ -362,9 +359,6 @@ export default function PerformTest() {
     }
     setFillRemark('');
   }
-  useEffect(() => {
-    console.log('getTxtBillNo : ', getTxtBillNo)
-  }, [])
   document.body.dir = i18n.dir();
   return (
     <>
@@ -474,8 +468,7 @@ export default function PerformTest() {
                             </tr>
                           </thead>
                           <tbody>
-                            {getPerformTestList && getPerformTestList.map((val, ind) => {
-                              console.log('val : ', val)
+                            {getPerformTestList && getPerformTestList.map((val, ind) => {                            
                               return (
                                 <tr key={val.id}>
                                   <td className="text-center">{ind + 1}</td>
