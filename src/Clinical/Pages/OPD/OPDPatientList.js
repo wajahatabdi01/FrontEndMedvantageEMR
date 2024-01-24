@@ -42,7 +42,7 @@ export default function OPDPatientList(props) {
             if (patientList != "") {
                 let flag = null
                 flag = patientList.filter(item => item.uhId.toLowerCase().includes(response.responseValue[0].uhId.toLowerCase()));
-                console.log("UHID HAi", flag)
+               
                 if (flag.length === 0 && flag != null) {
                     store.dispatch(getUHIDSearch(uhid))
                     store.dispatch(getPatientData(response))
@@ -50,7 +50,7 @@ export default function OPDPatientList(props) {
                     let t = [response.responseValue[0].uhId]
                     window.sessionStorage.setItem("patientsendData", JSON.stringify([...patientsendData, t]))
                     window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": uhid }))
-                    console.log("props value", props)
+                    
                     if (props.showPatientListValue === 1) {
                         props.setShowPatientList(0)
                         if (props.setShowMenu !== undefined) {
@@ -87,7 +87,7 @@ export default function OPDPatientList(props) {
 
             }
             else {
-                console.log("uhid Id", response.responseValue)
+                
                 store.dispatch(getUHIDSearch(uhid))
                 store.dispatch(getPatientData(response))
                 window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": uhid }))
@@ -95,8 +95,6 @@ export default function OPDPatientList(props) {
                 window.sessionStorage.setItem("patientList", JSON.stringify([...patientList, response.responseValue[0]]))
 
                 window.sessionStorage.setItem("patientsendData", JSON.stringify([...patientsendData, t]))
-                console.log("props value", props)
-
                 if (props.showPatientListValue === 1) {
                     props.setShowPatientList(0)
                     if (props.setShowMenu !== undefined) {
@@ -157,13 +155,13 @@ export default function OPDPatientList(props) {
                 let response = await GetCheckCrNo(data.uhid)
                 func(response, data.uhid)
                 if (window.sessionStorage.getItem("OPDPatientData")) {
-                    console.log("runnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                   
                     let temp = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))
                     temp.push(data)
                     window.sessionStorage.setItem("OPDPatientData", JSON.stringify(temp))
                 }
                 else {
-                    console.log("nort runnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                    
 
                     window.sessionStorage.setItem("OPDPatientData", JSON.stringify([data]))
 
@@ -175,13 +173,13 @@ export default function OPDPatientList(props) {
             let response = await GetCheckCrNo(data.uhid)
             func(response, data.uhid)
             if (window.sessionStorage.getItem("OPDPatientData")) {
-                console.log("runnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                
                 let temp = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))
                 temp.push(data)
                 window.sessionStorage.setItem("OPDPatientData", JSON.stringify(temp))
             }
             else {
-                console.log("nort runnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                
 
                 window.sessionStorage.setItem("OPDPatientData", JSON.stringify([data]))
 

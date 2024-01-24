@@ -3,7 +3,7 @@ async function GetOPDPatientList(uhid) {
     let activeWard = JSON.parse(window.sessionStorage.getItem("activePage")).WardId
     // let UhId = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-    let url = window.AppbaseUrl + `/api/AdmittedPatientList/GetOPDPatientVisitDetails?headId=${activeWard}&departmentId=${activeDeaprtment}&UserId=${window.userId}&ClientId=${clientID}`;
+    let url = window.fhiropenEMR + `/api/AdmittedPatientList/GetOPDPatientVisitDetails?headId=${activeWard}&departmentId=${activeDeaprtment}&UserId=${window.userId}&ClientId=${clientID}`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}
     let response = fetch(url, {

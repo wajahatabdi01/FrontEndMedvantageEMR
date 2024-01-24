@@ -1,6 +1,7 @@
 async function GetFrequncyList() {
 
-    let url = window.AppbaseUrl + `/api/KnowMedApis/GetFrequencyList?userId=${window.userId}`;
+    // let url = window.AppbaseUrl + `/api/KnowMedApis/GetFrequencyList?userId=${window.userId}`;
+    let url = window.fhiropenEMR + `/api/KnowMedApis/GetFrequencyList?userId=${window.userId}`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}
     let response = fetch(url, {

@@ -150,7 +150,7 @@ export default function OPDPrescriptionIndex(props) {
                                 }
                                 else if (key[0] === "jsonVital") {
                                     if (data.patientVitals.length != 0) {
-                                        console.log("vitals data", data.patientVitals)
+                                        
                                         Vitalsdata = [...data.patientVitals]
 
                                     }
@@ -158,7 +158,7 @@ export default function OPDPrescriptionIndex(props) {
                                 else if (key[0] === "jsonArray") {
                                     if (data.allPrescription.length != 0) {
                                         prescriptiondata = [...data.allPrescription]
-                                        // console.log("dataPrescription", data.allPrescription)
+                                        
                                         // SaveOPDData(data.allPrescription, "jsonArray")
                                     }
                                     else {
@@ -297,7 +297,7 @@ export default function OPDPrescriptionIndex(props) {
                             values.map((val, ind) => {
                                 if (values[0] === activeUHID) {
                                     let key = Object.keys(val)
-                                    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+                                    
                                     if (key[0] === "jsonVital") {
                                         if (data.patientVitals.length != 0) {
                                             Vitalsdata = data.patientVitals
@@ -398,7 +398,7 @@ export default function OPDPrescriptionIndex(props) {
                             values.map((val, ind) => {
                                 if (values[0] === activeUHID) {
                                     let key = Object.keys(val)
-                                    console.log("data", key[0])
+                                    
                                     if (key[0] === "jsonDiagnosis") {
                                         if (data.patientComplainHistory.length != 0) {
 
@@ -549,14 +549,14 @@ export default function OPDPrescriptionIndex(props) {
             let patientData = JSON.parse(window.sessionStorage.getItem("patientsendData"))
             let activepatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
             patientData && patientData.map((val, ind) => {
-                console.log("val value", val.length)
+               
                 if ((val[0].toString().toLowerCase().trim() === activepatient.toString().toLowerCase().trim()) && val.length > 1) {
                     flag = 1
                     t = val
                     return
                 }
             })
-            console.log("flag value ", flag)
+            
             if (flag === 1) {
                 t.map((v, i) => {
                     if (v.disable === 0) {
@@ -572,7 +572,7 @@ export default function OPDPrescriptionIndex(props) {
                 })
             }
             else {
-                console.log("enter")
+                
                 CheckCrNo()
             }
         }

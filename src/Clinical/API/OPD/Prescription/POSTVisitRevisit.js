@@ -1,5 +1,6 @@
 export default async function POSTVisitRevisit(sendData) {
-    let url = window.AppbaseUrl+"/api/PatientPrescription/VisitRevisit"
+    // let url = window.AppbaseUrl+"/api/PatientPrescription/VisitRevisit"
+    let url = window.fhiropenEMR+"/api/PatientPrescription/VisitRevisit"
     let head={ 'Content-Type': 'application/json', 'accept': '*/*', };
     let data = {};
    let responsonse = "";

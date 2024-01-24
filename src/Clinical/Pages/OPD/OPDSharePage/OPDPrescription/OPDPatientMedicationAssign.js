@@ -261,7 +261,7 @@ export default function OPDPatientMedicationAssign(props) {
                     if (temp[ind]["duration"] !== "-1" && temp[ind]["duration"] !== "") {
                         let textdata = temp[ind]["duration"].split(",")[0]
                         let selectdata = temp[ind]["duration"].split(",")[1]
-                        console.log("ttttttt", temp[ind]["duration"])
+                        
                         if (selectdata.length !== 0) {
                             temp[ind]["duration"] = value + "," + selectdata
                         }
@@ -395,7 +395,7 @@ export default function OPDPatientMedicationAssign(props) {
     let handleClick = (name, ind, data) => {
         try {
             let temp = [...medicationData]
-            console.log("csdcsdcsdc", name)
+            
 
             if (name === "drugData") {
 
@@ -430,7 +430,7 @@ export default function OPDPatientMedicationAssign(props) {
                             // console.log("isAnitincds", data[5])
                             // console.log("currentId", drugInteractionId)
                             setDrugInteractionId([...drugInteractionId, data[0]])
-                            console.log("drug interaction", drugInteractionId)
+                          
 
                             GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                             document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
@@ -447,7 +447,7 @@ export default function OPDPatientMedicationAssign(props) {
                     else {
                         let flag = 0
                         checkMedicine.jsonallergies.map((val, ind) => {
-                            console.log("cscsdc", val === data[0])
+                            
                             if (val.problemId === data[0]) {
                                 flag = 1
                             }
@@ -464,7 +464,7 @@ export default function OPDPatientMedicationAssign(props) {
                                 // console.log("isAnitincds", data[5])
                                 // console.log("currentId", drugInteractionId)
                                 setDrugInteractionId([...drugInteractionId, data[0]])
-                                console.log("drug interaction", drugInteractionId)
+                                
 
                                 GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                                 document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
@@ -490,7 +490,7 @@ export default function OPDPatientMedicationAssign(props) {
                     }
                 }
                 else {
-                    console.log("temp, ", temp)
+                    
                     let response = FindByQuery(temp, data[1], "drugName")
                     if (response.length === 0) {
                         temp[ind]["drugId"] = data[0]
@@ -502,8 +502,7 @@ export default function OPDPatientMedicationAssign(props) {
                         // console.log("isAnitincds", data[5])
                         // console.log("currentId", drugInteractionId)
                         setDrugInteractionId([...drugInteractionId, data[0]])
-                        console.log("drug interaction", drugInteractionId)
-
+                        
                         GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                         document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
                         setShowSearchBoxMedic(-1)
@@ -543,7 +542,7 @@ export default function OPDPatientMedicationAssign(props) {
             else if (name === "rationalData") {
                 temp[ind]["rationalId"] = data[0]
                 temp[ind]["problemName"] = data[1]
-                console.log("data", data[1])
+             
                 setShowSearchBoxRational(-1)
                 document.getElementById("rationalData" + ind).value = data[1];
                 setMedicationData(temp)
@@ -618,12 +617,12 @@ export default function OPDPatientMedicationAssign(props) {
         // let drugresponse = await PostDrugInteraction({ "brandId": "11884,11885,11886,11887,11888,12537", "medicineName": "string" })
         // let contraResponse = await PostContraIndicationList({ "brandId": "38802,38898", "diseaseName": "834" })
         // let sideEffectResponse = await ADRReportPost({"brandId":"3219","problemId":"14166,2891,577"})
-        console.log("senddata", senddata)
+     
         let drugresponse = await PostDrugInteraction({ "brandId": senddata.toString(), "medicineName": "string" })
         let contraResponse = await PostContraIndicationList({ "brandId": senddata.toString(), "diseaseName": problemId.toString() })
         // let sideEffectResponse = await ADRReportPost({ "brandId": senddata.toString(), "problemId": problemId.toString() })
         if (drugresponse.status === 1 && drugresponse.responseValue.length != 0) {
-            console.log("1")
+            
             setShowPopupDDrugInteraction(1)
             setDrugInteractionIdResponse(drugresponse.responseValue)
         }
@@ -632,7 +631,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         }
         if (contraResponse.status === 1 && contraResponse.responseValue.length != 0) {
-            console.log("2")
+            
 
             setShowPopupDDrugInteraction(1)
             setContraIndicationResponse(contraResponse.responseValue)
@@ -642,7 +641,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         }
         if (sideEffectResponse.status === 1 && sideEffectResponse.responseValue[0].otherSideEffect.length != 0) {
-            console.log("3")
+         
 
             setShowPopupDDrugInteraction(1)
             setSideEffectResponse(sideEffectResponse.responseValue[0].otherSideEffect)
@@ -659,7 +658,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         try {
             function query(data, query, value) {
-                console.log("ratonalData", data)
+               
                 return data
                     .filter(item => item[value] == query)
 
@@ -684,7 +683,7 @@ export default function OPDPatientMedicationAssign(props) {
                                         druginteractionIds.push(val.drugId)
 
                                         // console.log("val", val)
-                                        console.log("restional", rationalList)
+                                        
                                         let resp = query(rationalList, val.rationalId, "id")
                                         // let resp = []
                                         if (resp.length !== 0) {

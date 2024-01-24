@@ -5,10 +5,12 @@ async function GetPatientHistory(PmID = "") {
     let url = ""
     if (PmID === "") {
 
-        url = window.AppbaseUrl + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}`;
+        // url = window.AppbaseUrl + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}`;
+        url = window.fhiropenEMR + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}`;
     }
     else {
-        url = window.AppbaseUrl + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}&PmID=${PmID}`;
+        // url = window.AppbaseUrl + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}&PmID=${PmID}`;
+        url = window.fhiropenEMR + `/api/PatientPrescription/PatientOPDAllHistory?UhId=${UhId}&DeptId=${activeDeaprtment}&UserId=${userId}&PmID=${PmID}`;
 
     }
     let head = { "Content-Type": "application/JSON", accept: '*/*' };

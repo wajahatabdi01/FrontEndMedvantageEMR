@@ -24,6 +24,7 @@ import GetWardDepartmentAssignById from '../../../../../Admin/Api/Master/WardDep
 import Loader from '../../../../../Component/Loader'
 import SaveButton from '../../../../../Component/SaveButton'
 import FHIRFamilyHistoryEdit from '../../../../../EditCredentional/Pages/FHIRFamilyHistoryEdit'
+import FHIRCarePlan from '../../../../../FHIRCarePlan/Pages/FHIRCarePlan'
 
 
 export default function OPDBottomSection(props) {
@@ -40,20 +41,28 @@ export default function OPDBottomSection(props) {
 
     let [loderVal, setLoderVal] = useState(0);
     const [isShowPopUp, setIsShowPopUp] = useState(0);
+    const [isShowCarePlanPopUp, setIsShowCarePlanPopUp] = useState(0);
 
     const handleOpenModal=(modalID)=>{
         setIsShowPopUp(1);      
        }
 
+    const handleOpenCarePlanModal=(modalID)=>{
+        setIsShowCarePlanPopUp(1);      
+       }
+
        const handleCloseModal=()=>{
         setIsShowPopUp(0);       
+       }
+       const handleCloseCarePlanModal=()=>{
+        setIsShowCarePlanPopUp(0);       
        }
 
 
     let getWardData = async () => {
 
         let resp = await GetWardDepartmentAssignById()
-        console.log("tt", resp)
+       
         if (resp.status === 1) {
             setWardList(resp.responseValue)
 
@@ -75,7 +84,7 @@ export default function OPDBottomSection(props) {
     const handleChangeAdmission = (e) => {
 
         if (e.target.name === 'dropdownadmission') {
-            console.log("cscscscscsd",e.target.value.split(",")[1]);
+            
             setSelectedOptionAdmission(parseInt(e.target.value.split(",")[0]));
             SaveOPDData(e.target.value.split(",")[1], "adviseWardName");
 
@@ -85,7 +94,7 @@ export default function OPDBottomSection(props) {
     let handlesave = async () => {
         try {
 
-            console.log("sdcdcs", window.userId)
+            
             let patientdata = JSON.parse(window.sessionStorage.getItem("patientsendData"))
             let tempSendData = {}
             patientdata.map((value, index) => {
@@ -196,7 +205,7 @@ export default function OPDBottomSection(props) {
 
                 })
             }
-            console.log("vitsalss", tempSendData.jsonVital)
+            
 
             // get data from complaint and diagnosis
             if (document.getElementById("symptomsData").value !== "") {
@@ -215,7 +224,7 @@ export default function OPDBottomSection(props) {
             }
 
 
-            console.log("dignosisData", tempSendData["jsonDiagnosis"])
+           
 
 
             tempSendData["jsonDiagnosis"] = JSON.stringify(tempSendData["jsonDiagnosis"])
@@ -230,7 +239,7 @@ export default function OPDBottomSection(props) {
             let durationFlag = [-1, -1]
             let temparray = JSON.parse(tempSendData.jsonArray)
             JSON.parse(tempSendData.jsonArray).map((val, ind) => {
-                console.log("val", val)
+             
                 if (val.id === 0 && val.drugName === "") {
                     temparray.splice(ind, 1)
                 }
@@ -260,7 +269,7 @@ export default function OPDBottomSection(props) {
                 let response = await POSTOPDPatientPrescription(tempSendData)
 
                 if (response.status === 1) {
-                    console.log("finalResponse", response.responseValue)
+                    
                     setShowtoster(1)
                     window.open("/prescriptionPrint/", 'noopener,noreferrer');
                     setLoderVal(0)
@@ -372,6 +381,9 @@ export default function OPDBottomSection(props) {
           <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} onClick={() => { setShowReferralModal(1) }}>
             <img src={Referral} className='icnn' alt='' />{t("Referral")}
           </button>
+          <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} onClick={handleOpenCarePlanModal}>
+            <img src={Referral} className='icnn' alt='' />Care Plan
+          </button>
           <button className='saveprintopd btnbluehover ps-3 pe-3' disabled={disable === 1 ? true : false} onClick={handleOpenModal}>
             <img src={Referral} className='icnn' alt='' />Family History
           </button>
@@ -399,6 +411,21 @@ export default function OPDBottomSection(props) {
                            
 
                             <FHIRFamilyHistoryEdit patientUhid = {activePatient}/> 
+                           {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
+                        </div>
+                    </div>
+                </div>
+      :''}
+        {isShowCarePlanPopUp === 1 ?
+      
+      <div className={`modal d-${isShowCarePlanPopUp===1 ?'block':'none'}`} id="codesModal"  data-bs-backdrop="static" >
+                    <div className="modal-dialog modalDelete" style={{maxWidth:'750px'}}>
+                        <div className="modal-content" >
+                        {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
+                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseCarePlanModal}></i></button>
+                           
+
+                            <FHIRCarePlan patientUhid = {activePatient}/> 
                            {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>

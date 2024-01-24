@@ -167,7 +167,7 @@ export default function OPDVLeft(props) {
                 }, 2000)
                 props.setGetData(1)
                 handleClear();
-                console.log(response)
+                
             }
             else {
                 setShowUnderProcess(0)

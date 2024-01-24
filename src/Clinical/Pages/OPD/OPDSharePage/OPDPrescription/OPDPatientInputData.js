@@ -524,7 +524,7 @@ export default function OPDPatientInputData(props) {
             let tempphysicalData = [...physicalData]
             let tempSenddata = [...sendData]
             let flag = 0
-            console.log("tempData before", name)
+            
 
             if (name === "symptomsData") {
                 sendData.map((val, ind) => {
@@ -550,7 +550,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 physicalData.map((val, inde) => {
-                    console.log("enter sympy")
+                    
                     if (val.pdmId === 6 && val.problemId === problemId) {
                         tempphysicalData.splice(inde, 1)
                         return
@@ -614,11 +614,7 @@ export default function OPDPatientInputData(props) {
 
 
             // })
-
-            console.log("tempData", tempSenddata)
-            console.log("Consultant", tempconsultantData)
-            console.log("physical", tempphysicalData)
-            console.log("symptoms", symptomsData)
+            
             setSymptomsData(tempsymptomsData)
             setConsultantData(tempconsultantData)
             setPhysicalData(tempphysicalData)
@@ -974,7 +970,7 @@ export default function OPDPatientInputData(props) {
 
                             <div className='row p-0 m-0 opd-prescription-box'>
                                 <div className='p-3 m-0  col-sm-3 col-12 img-text-box-back-opd'>
-                                    <div className='d-flex flex-row gap-2  m-0 pdata' onClick={() => { console.log("data", sendData) }}>
+                                    <div className='d-flex flex-row gap-2  m-0 pdata'>
                                         <img src={PhysicalExamination} className='' alt='' />
                                         <label>{t("History of Patient Illness")}</label>
                                     </div>

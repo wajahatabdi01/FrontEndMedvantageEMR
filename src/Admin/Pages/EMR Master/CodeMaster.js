@@ -8,6 +8,7 @@ import Search from '../../../assets/images/icons/search_7079548.png'
 import '../../../assets/css/multipleSelectDropdown.css'
 import '../../../assets/css/App.css'
 import NoDataFound from '../../../assets/images/icons/No data-rafiki.svg'
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 export const CodeMaster = (props) => {
 
@@ -17,23 +18,7 @@ export const CodeMaster = (props) => {
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
     const [showImage, setShowImage] = useState(0);
-    //     const [currentPage, setCurrentPage] = useState(1);
-    //   const [itemsPerPage, setItemsPerPage] = useState(5);
-
-    //   // Calculate the index range for the current page
-    //   const indexOfLastItem = currentPage * itemsPerPage;
-    //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    //   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-    //   // Change page
-    //   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    //   // Change items per page
-    //   const handleItemsPerPageChange = (e) => {
-    //     setItemsPerPage(Number(e.target.value));
-    //     setCurrentPage(1); // Reset to the first page when changing items per page
-    //   };
-
+    
     ///////////////////////////////////////////// search text box /////////////////////////////
 
     let handleSearchChange = (e) => {
@@ -49,6 +34,7 @@ export const CodeMaster = (props) => {
     //////////////////////////////////// to Get Code list in dropdown
     let funGetCodeList = async () => {
         const getResponse = await GetCodeDropdown();
+        
         setCodeList(getResponse.responseValue)
     }
 
@@ -61,6 +47,7 @@ export const CodeMaster = (props) => {
             
             let ids = id = ""?id:getCode
             const getBindRes = await GetCodeBind(ids, textSearch);
+            
             if (getBindRes.responseValue.length === 0) {
                 setShowImage(1);
             }
@@ -80,7 +67,7 @@ export const CodeMaster = (props) => {
         funGetCodeList();
     }
 
-    let getDataDetail = (id, code) => {
+    let getDataDetail = (id, code, codeText) => {
         
         const targetInputBox = document.getElementById("chckBoxId" + id).checked;
         
@@ -97,13 +84,16 @@ export const CodeMaster = (props) => {
         }
         else {
             let temp = [...arrToFwd];
+            
             temp.push({
                 id: id,
                 code: code,
                 dropdownId: getCode,
+                codeText: codeText
 
 
-            })
+            });
+            
             props.SelectedData(temp, props.modalID)
             setArrToFwd([...temp])
         }
@@ -117,7 +107,7 @@ export const CodeMaster = (props) => {
         let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
         if (hai.length !== 0) {
             setTimeout(()=>{
-
+               
                 document.getElementById("dropdownId").value = hai[0].dropdownId
                 setCode(hai[0].dropdownId)
                 funBindCodeList("", hai[0].dropdownId)
@@ -205,7 +195,7 @@ export const CodeMaster = (props) => {
                                                                     true :
                                                                     false :
                                                                 false
-                                                            } onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td>
+                                                            } onClick={() => { getDataDetail(bindList.id, bindList.code, bindList.code_text); }} /></td>
                                                         {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
                                                      role='switch' onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td> */}
                                                         <td style={{ textAlign: 'center' }}>{bindList.code}</td>

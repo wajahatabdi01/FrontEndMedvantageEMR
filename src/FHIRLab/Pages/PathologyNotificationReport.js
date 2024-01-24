@@ -77,7 +77,7 @@ export default function PathologyNotificationReport() {
 
                   <tbody>
                     {/* {notificationListSearch && notificationListSearch.map((val, ind) => {
-                      console.log('val', val);
+                     
                       return (
                         <tr>
                           <td>{ind + 1}</td>

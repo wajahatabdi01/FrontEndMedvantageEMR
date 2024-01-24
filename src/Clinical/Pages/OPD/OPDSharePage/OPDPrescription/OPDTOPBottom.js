@@ -69,7 +69,7 @@ export default function OPDTOPBottom(props) {
                         let key = Object.keys(val)
 
                         if (key[0] === "patientCategoryResult") {
-                            console.log("props value", val.patientCategoryResult)
+                            
                             setPatientCategoryResult(val.patientCategoryResult)
                         }
                         // else if (key[0] === "patientExaminationResult") {
