@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import GetCountryList from '../../../API/GET/GetCountryList';
 import GetStateList from '../../../API/GET/GetStateList';
 import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
+import GetAllRelations from '../../../API/GET/GetAllRelations';
 
 const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChange, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary }) => {
     let [insuranceDetails, setInsuranceDetails] = useState();
     let [countryList, setCountryList] = useState([]);
     let [providerList, setProviderList] = useState([]);
+    let [relationList, setRelationList] = useState([]);
     let [stateListprimary, setStateListPrimary] = useState([]);
     let [stateListSEprimary, setStateListSEPrimary] = useState([]);
     let [stateListsecondry, setStateListSecondry] = useState([]);
@@ -236,6 +238,14 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
             setStateListPrimary([]);
         }
     }
+
+    let getallRelation = async () => {
+        const response = await GetAllRelations();
+        if (response.status === 1) {
+            setRelationList(response.responseValue);
+        }
+    }
+
     let getSEStateListPrimary = async (param) => {
         let data = await GetStateList(param);
         console.log('state list', data);
@@ -352,6 +362,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         // getStateList();
         getCountryList();
         getUserListByRoleId();
+        getallRelation();
         getInsuranceDetailsPrimary(sendFormPrimary);
         getInsuranceDetailsSecondry(sendFormSecondary);
         getInsuranceDetailsTertiary(sendFormTri);
@@ -411,11 +422,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlRelationship" className="form-label">{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationship" aria-label=".form-select-sm example" name='relationshipId' value={sendFormPrimary.relationshipId} onChange={handlePrimary} >
-                                    <option value="1" selected>Unassigned</option>
-                                    <option value="2">Mother</option>
-                                    <option value="3">Father</option>
-                                    <option value="4">Brother</option>
-                                    <option value="5">Sister</option>
+                                    <option value="0" selected>Select Relation</option>
+                                    {relationList && relationList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errRelationship" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -653,11 +665,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlRelationshipSecondary" className="form-label">{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationshipSecondary" aria-label=".form-select-sm example" name='relationshipId' value={sendFormSecondary.relationshipId} onChange={handleSecondry}>
-                                    <option value="1" selected>Unassigned</option>
-                                    <option value="2">Mother</option>
-                                    <option value="3">Father</option>
-                                    <option value="4">Brother</option>
-                                    <option value="5">Sister</option>
+                                    <option value="0" selected>Select Relation</option>
+                                    {relationList && relationList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errRelationshipSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -896,11 +909,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlRelationshipTertiary" className="form-label">{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationshipTertiary" aria-label=".form-select-sm example" name='relationshipId' value={sendFormTri.relationshipId} onChange={handleTertiary} >
-                                    <option value="1" selected>Unassigned</option>
-                                    <option value="2">Mother</option>
-                                    <option value="3">Father</option>
-                                    <option value="4">Brother</option>
-                                    <option value="5">Sister</option>
+                                    <option value="0" selected>Select Relation</option>
+                                    {relationList && relationList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>

@@ -73,6 +73,7 @@ export default function PatientRegistration() {
     let [stateList, setStateList] = useState([]);
     let [cityList, setCityList] = useState([]);
     let [deparetmentList, setDepartmentList] = useState([]);
+    let [providerList, setProviderList] = useState([]);
     let [roomList, setRoomList] = useState([]);
     let [doctorList, setDoctorList] = useState([]);
     let [wardList, setWardList] = useState([]);
@@ -161,6 +162,7 @@ export default function PatientRegistration() {
     const [insuranceDetailsTertiary, setInsuranceDetailsTertiary] = useState();
     const [contactDetails, setContactDetails] = useState();
     const [visitDetails, setVisitDetails] = useState();
+    const [issueDetails, setIssueDetails] = useState();
     const [patientChoiceDetails, setPatientChoiceDetails] = useState();
     const [patientDetails, setPatientDetails] = useState();
     const [statsJsonString, setStatsJsonString] = useState();
@@ -500,6 +502,19 @@ export default function PatientRegistration() {
             setGetPatientGender(response.responseValue)
         }
     }
+
+    const getUserListByRoleId = async () => {
+        const param = {
+            roleId: 2,
+            clientID: window.clientId,
+        }
+        const response = await GetUserListByRoleId(param)
+        if (response.status === 1) {
+            setProviderList(response.responseValue)
+            console.log("ProviderList", response.responseValue)
+        }
+    }
+
     let getSelectedGender = () => {
         document.getElementById("errPatientGender").style.display = "none";
         const gender = document.getElementById('ddlGender').value;
@@ -1394,14 +1409,13 @@ export default function PatientRegistration() {
         console.log('visitDetails', visitDetails);
         console.log('patientChoiceDetails', patientChoiceDetails);
         console.log('registrationObj', registrationObj);
+        console.log('issueDetails', issueDetails);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
         // let respValidation = handleValidation({ ...patientDetails, ...contactDetails, ...registrationObj, ...employerDetailsJsonString, ...tempArr, ...statsJsonString })
 
         // var ob=[];
         // ob = [...patientDetails];
         // console.log('ob',ob)
-
-        // return
         var makeDataObj = {
             ...patientDetails,
             ...contactDetails,
@@ -1411,6 +1425,7 @@ export default function PatientRegistration() {
             employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
             insuranceDetailsJsonString: JSON.stringify(tempArr),
             statsJsonString: JSON.stringify([statsJsonString]),
+            encounterDetailsJsonString: JSON.stringify([issueDetails]),
             clientID: clientID,
             userId: window.userId,
             "departmentId": ddlDepartment,
@@ -1422,6 +1437,7 @@ export default function PatientRegistration() {
 
         console.log("makeDataObj", makeDataObj);
         console.log("sendDataObj", sendDataObj);
+        // return;
         if (respValidation) {
             const response = await InsertPatientDemographicData(sendDataObj);
             if (response.status === 1) {
@@ -1691,6 +1707,7 @@ export default function PatientRegistration() {
         clearErrorMessages();
     }
     useEffect(() => {
+        getUserListByRoleId();
         getreferralList();
         GetGenderList();
         getCountryList();
@@ -2173,7 +2190,7 @@ export default function PatientRegistration() {
 
                                                 >
                                                     <div className="accordion-body">
-                                                      <VisitDetails visitDetailsData={setVisitDetails}/>
+                                                        <VisitDetails visitDetailsData={setVisitDetails} issueDetailData={setIssueDetails} />
 
                                                     </div>
                                                 </div>
@@ -2352,12 +2369,17 @@ export default function PatientRegistration() {
                                                     <label htmlFor="ddlDoctor" className="form-label"><img src={medicalAssistance} className='icnn' />{t("Doctor/Consultant")}</label><sup style={{ color: "red" }}>*</sup>
                                                     <select className="form-select form-select-sm" id="ddlDoctor" name='doctor' onChange={getSelectedDoctor} aria-label=".form-select-sm example">
                                                         <option value="0">{t("selectDoctor")}</option>
-                                                        {doctorList && doctorList.map((list) => {
+                                                        {/* {doctorList && doctorList.map((list) => {
                                                             return (
                                                                 <option value={list.id}>{list.titleName !== null ? list.titleName + ' ' + list.name : list.name}</option>
                                                             )
                                                         })
-                                                        }
+                                                        } */}
+                                                        {providerList && providerList.map((list) => {
+                                                            return (
+                                                                <option value={list.id}>{list.name}</option>
+                                                            )
+                                                        })}
                                                     </select>
                                                     <small id="errDoctor" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                 </div>
