@@ -938,14 +938,14 @@ export default function OPDPatientInputData(props) {
                                     <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2"><img src={plus} className='icnn' alt='' /></button>
                                     </div> */}
 
-                                    <div className="input-container col-md-12">
-                                        <div className='col-md-10'>
+                                    <div className="input-container col-md-12 row">
+                                        <div className='col-md-11'>
                                         <input autoComplete="off"    type="text"   className="text-box-opd" placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress}
                                             disabled={disable === 1 ? true : false}/>
                                         </div>
                                         
-                                    <div className="d-flex justify-content-end align-items-center">
-                                        <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2">
+                                    <div className="col-md-1 d-flex justify-content-end align-items-center">
+                                        <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2">
                                              <img src={plus} className="icnn" alt="" />
                                         </button>
                                      </div>
