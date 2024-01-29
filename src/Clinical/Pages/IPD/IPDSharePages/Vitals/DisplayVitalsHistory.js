@@ -51,7 +51,6 @@ export default function DisplayVitalsHistory() {
         getData(date)
     }
     useEffect(() => {
-        console.log("cxzcbmxvvbxcm")
         getData()
     }, [])
     return (

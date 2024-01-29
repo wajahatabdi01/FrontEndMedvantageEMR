@@ -22,7 +22,6 @@ export default function IPDHistory() {
         setNameDynamicSidebar(name)
         setCategoryId(id)
         setCategoryType(categoryType)
-        console.log("cncsdcbsvcbsdvscscvsdgcvsdc", categoryType)
         if (categoryType === 2) {
 
             setShowDynamicSideBar(val)

@@ -21,6 +21,7 @@ import GetwhatToEatAndWhatToNotEate from '../../../../API/OPD/Prescription/KnowM
 import store from '../../../../../Store'
 import { getPatientData } from '../../../../../Reduce/OPD/PatientData'
 import DownKey, { UpKey } from "../../../../../Code/ListSelect"
+import plus from '../../../../../assets/images/icons/icons8-plus-30.png'
 // import Autocomplete from '../../../../Code/AutoComplete'
 
 
@@ -931,7 +932,26 @@ export default function OPDPatientInputData(props) {
                                 </div>
                                 <div className='p-2 m-0 col-sm-9 col-12'>
 
-                                    <input autoComplete="off" type="text" className='text-box-opd ' placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress} disabled={disable === 1 ? true : false} />
+                                    
+                                    {/* <input autoComplete="off" type="text" className='text-box-opd ' placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress} disabled={disable === 1 ? true : false} />
+                                    <div className='d-flex justify-content-end flex-wrap'>
+                                    <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2"><img src={plus} className='icnn' alt='' /></button>
+                                    </div> */}
+
+                                    <div className="input-container col-md-12">
+                                        <div className='col-md-10'>
+                                        <input autoComplete="off"    type="text"   className="text-box-opd" placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress}
+                                            disabled={disable === 1 ? true : false}/>
+                                        </div>
+                                        
+                                    <div className="d-flex justify-content-end align-items-center">
+                                        <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2">
+                                             <img src={plus} className="icnn" alt="" />
+                                        </button>
+                                     </div>
+                                    </div>
+
+                                     
                                     {showSearchBoxProblem === 1 ?
                                         <div id="symptomsDataListdiv" className='position-absolute opdmedicationsearchbox'>
                                             <ul id="symptomsDataList">

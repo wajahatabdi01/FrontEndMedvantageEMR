@@ -336,7 +336,6 @@ export default function IPDPatientComplaintConsultant() {
                     return
                 }
             })
-            console.log("ind", ind)
             tempsymptomsData.splice(ind, 1)
         }
         else if (name === "consultantData") {

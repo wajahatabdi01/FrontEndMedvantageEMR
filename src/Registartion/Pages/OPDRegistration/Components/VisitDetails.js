@@ -260,29 +260,29 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                 </div>
             </div>
             {/* --------------------------Modal Popup---------------------------- */}
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class=" modal-dialog modal-dialog-scrollable modal-lg">
-                    <div class="modal-content ">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Issue</h1>
-                            <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Issue</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <div className='orders-navtabs'>
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#problem" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Problem</button>
+                                <ul className="nav nav-tabs" id="myTab" role="tablist">
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#problem" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Problem</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#allergy" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Allergy  </button>
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#allergy" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Allergy  </button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#medication" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Medication</button>
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#medication" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Medication</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#device" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Device</button>
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#device" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Device</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
+                                    <li className="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#surgery  " type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Surgery</button>
                                     </li>
                                     <li class="nav-item" role="presentation">

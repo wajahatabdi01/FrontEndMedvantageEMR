@@ -42,9 +42,9 @@ export default function IPDInvestigation(props) {
         let tempN = [...investname]
         if (temp.length != 0) {
             sendData.map((val, ind) => {
-                // console.log("itemId", val.itemId, typeof (id))
+
                 if (val.itemId === parseInt(id)) {
-                    // console.log("investigation")
+
                     showInvestigation[index].checked = 0
                     document.getElementById(id).checked = false
                     temp.splice(ind, 1)
@@ -111,7 +111,6 @@ export default function IPDInvestigation(props) {
 
 
     let setData = () => {
-        console.log("dscs")
         setSendData([])
         let tempdata = []
         setShowInvestigation([])
