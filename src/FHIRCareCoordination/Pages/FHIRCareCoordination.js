@@ -1,6 +1,6 @@
 import FHIRCareCoordinationExport from "./FHIRCareCoordinationExport";
 import FHIRCareCoordinationImport from "./FHIRCareCoordinationImport";
-
+import NoDataFound from '../../assets/images/icons/No data-rafiki.svg';
 const FHIRCareCoordination = () => {
     return (
         <section className="main-content mt-5 pt-3">
@@ -24,21 +24,21 @@ const FHIRCareCoordination = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-content" id="myTabContent">
+                        <div class="tab-content mt-2" id="myTabContent">
                             {/* --------------------------------Start FHIR Care Coordination Import Section-------------------------------------------- */}
                             <div class="tab-pane fade show active intab" id="Import" role="tabpanel" aria-labelledby="Import-tab">
                                 <FHIRCareCoordinationImport />
-
                             </div>
                             {/* -----------------------------------End FHIR Care Coordination Import Section---------------------------------------------- */}
 
                             {/* -----------------------------------Start FHIR Care Coordination Export Section---------------------------------------------- */}
-
                             <div class="tab-pane fade intab" id="Export" role="tabpanel" aria-labelledby="Export-tab">
                                 <FHIRCareCoordinationExport />
                             </div>
                             {/* -----------------------------------Enf FHIR Care Coordination Export Section---------------------------------------------- */}
                         </div>
+
+                        <div className='imageNoDataFound' style={{marginTop:'68px'}}><img src={NoDataFound} alt="imageNoDataFound" /></div>
                     </div>
 
                 </div>
