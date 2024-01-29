@@ -9,6 +9,7 @@ import '../../../assets/css/multipleSelectDropdown.css'
 import '../../../assets/css/App.css'
 import NoDataFound from '../../../assets/images/icons/No data-rafiki.svg'
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+import Loader from '../../../Component/Loader';
 
 export const CodeMaster = (props) => {
 
@@ -18,6 +19,8 @@ export const CodeMaster = (props) => {
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
     const [showImage, setShowImage] = useState(0);
+    const [loader, setLoader] = useState(0)
+    
     
     ///////////////////////////////////////////// search text box /////////////////////////////
 
@@ -28,6 +31,7 @@ export const CodeMaster = (props) => {
     ////////////////////////////////////////////////// to set code /////////////////////////////
 
     let funSetCode = (code) => {
+        console.log('code ........... : ' , code)
         setCode(code);
     }
 
@@ -39,19 +43,21 @@ export const CodeMaster = (props) => {
     }
 
     /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-    let funBindCodeList = async (e, id = "") => {
-        if (getCode === '' && getCode === undefined && getCode === null && id !== "") {
+    let funBindCodeList = async (e, codeName = "") => {
+        if (getCode === '' && getCode === undefined && getCode === null && codeName !== "") {
             alert('Please select code.');
         }
         else {
-            
-            let ids = id = ""?id:getCode
-            const getBindRes = await GetCodeBind(ids, textSearch);
+            setLoader(1);
+            const codeNames = codeName = ""?codeName:getCode
+            const getBindRes = await GetCodeBind(codeNames, textSearch);
             
             if (getBindRes.responseValue.length === 0) {
+                setLoader(0);
                 setShowImage(1);
             }
             else {
+                setLoader(0)
                 setShowImage(0)
                 setCodeBindList(getBindRes.responseValue)
             }
@@ -88,7 +94,7 @@ export const CodeMaster = (props) => {
             temp.push({
                 id: id,
                 code: code,
-                dropdownId: getCode,
+                dropdownName: getCode,
                 codeText: codeText
 
 
@@ -105,12 +111,14 @@ export const CodeMaster = (props) => {
         setArrToFwd(props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !==0 ? props.defaultData[props.defaultData.length - 1].data : [] : [])
 
         let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
+
+        console.log('haiiiiiiiiiiiiiiiiiiiii : ', hai)
         if (hai.length !== 0) {
             setTimeout(()=>{
                
-                document.getElementById("dropdownId").value = hai[0].dropdownId
-                setCode(hai[0].dropdownId)
-                funBindCodeList("", hai[0].dropdownId)
+                document.getElementById("dropdownName").value = hai[0].dropdownName
+                setCode(hai[0].dropdownName)
+                funBindCodeList("", hai[0].dropdownName)
 
             }, 1000)
         }
@@ -143,10 +151,10 @@ export const CodeMaster = (props) => {
                                             </ul>
                                             </div>
                                         </div> */}
-                                            <select className='form-select form-select-sm' style={{ width: '179px' }} id="dropdownId" onChange={(event) => funSetCode(event.target.value)}>
+                                            <select className='form-select form-select-sm' style={{ width: '179px' }} id="dropdownName" onChange={(event) => funSetCode(event.target.value)}>
                                                 <option value='0'>Select Code</option>
                                                 {getCodeList && getCodeList.map((list, ind) => (
-                                                    <option key={ind} value={list.codeId}>{list.codeName}</option>
+                                                    <option key={ind} value={list.codeName}>{list.codeName}</option>
                                                 ))}
                                             </select>
                                         </div>
@@ -186,9 +194,8 @@ export const CodeMaster = (props) => {
                                             {getCodeBindList && getCodeBindList.map((bindList, ind) => {
                                                 return (
                                                     <tr key={bindList.code}>
-                                                        <td><input type='checkbox' id={'chckBoxId' + bindList.id}
-                                                            role='switch'
-
+                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.id : 'chckBoxId'} id={'chckBoxId' + bindList.id}
+                                                            role={props.isMultiple === true ? 'switch' : ''}
                                                             defaultChecked=
                                                             {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
                                                                 props.defaultData[props.defaultData.length - 1].data.filter(val => val.id === bindList.id).length !== 0 ?
@@ -221,6 +228,7 @@ export const CodeMaster = (props) => {
                             </nav> */}
                         </div>
                     </div>
+                    <Loader val={loader} />
                 </div>
             </section>
 

@@ -22,6 +22,7 @@ import store from '../../../../../Store'
 import { getPatientData } from '../../../../../Reduce/OPD/PatientData'
 import DownKey, { UpKey } from "../../../../../Code/ListSelect"
 import plus from '../../../../../assets/images/icons/icons8-plus-30.png'
+import MedicalProblem from '../../../../../FHIRClinical/Pages/Clinical/MedicalProblem'
 // import Autocomplete from '../../../../Code/AutoComplete'
 
 
@@ -945,7 +946,7 @@ export default function OPDPatientInputData(props) {
                                         </div>
                                         
                                     <div className="col-md-1 d-flex justify-content-end align-items-center">
-                                        <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2">
+                                        <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                              <img src={plus} className="icnn" alt="" />
                                         </button>
                                      </div>
@@ -1155,6 +1156,175 @@ export default function OPDPatientInputData(props) {
             {/* ######################## Moodal Pop Area #################### */}
 
             <Antibiogram setShowAntibiogram={setShowAntibiogram} />
+
+            {/* ######################### Medical Problem Pop Up################################# */}
+
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Medical Problem</h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="problemhead">
+                                <div className='problemhead-inn'>
+                                    <div className="col-12 mb-2">
+                                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Type: Problem</b></label>
+                                        <input type="text" className="form-control form-control-sm" style={{ height: '8em' }}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='problemhead-inn'>
+                                            <div className="col-12 mb-2">
+                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Active Issue: Codes</b></label>
+                                                <div>
+                                                    <select className='form-control' style={{ height: '8em' }} multiple name='issueCodes' id='issueCodes' >
+                                                        {/* {issueDetails.coding !== "" ?
+                                                            <option>{issueDetails.coding}</option>
+                                                            : ''} */}
+                                                            <option value='0'>Test</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            
+                                        </div>
+                            <div className='problemhead-inn'>
+                                            <div className="col-12 mb-2">
+                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
+                                                <div>
+                                                    <select className='form-control' style={{ height: '8em' }} multiple name='Coding' id='Coding' >
+                                                        {/* {issueDetails.coding !== "" ?
+                                                            <option>{issueDetails.coding}</option>
+                                                            : ''} */}
+                                                            <option value='0'>Test</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="d-inline-flex gap-2">
+                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
+                                                <button type="button" class="btn btn-secondary btn-sm" onClick={''}>Remove</button>
+                                            </div>
+                                            
+                                        </div>
+                                        <div className='col-12 mt-2'>
+                                            <div className="row">
+                                                <div className="col-6 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
+                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={''} />
+                                                </div>
+                                                <div className="col-6 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
+                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={''} />
+                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
+                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className='col-12 mt-2'>
+                                            <div className="row">
+                                                <div className="col-4 mb-2">
+                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
+                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                                                    <div className='d-flex gap-3' >
+                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={''} >
+                                                            <option value="0" selected>Select Classification</option>
+                                                            {/* {classificationList && classificationList.map((list) => {
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            })} */}
+                                                            <option value='0'>list.name</option>
+                                                        </select>
+                                                    </div>
+                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-4 mb-2">
+                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
+                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                                                    <div className='d-flex gap-3' >
+                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={''} >
+                                                            <option value="0" selected>Select Occurrence</option>
+                                                            {/* {occurencelist && occurencelist.map((list) => {
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            })} */}
+                                                            <option value='0'>list.name</option>
+                                                        </select>
+                                                    </div>
+                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+
+                                                <div className="col-4 mb-2">
+                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
+                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                                                    <div className='d-flex gap-3' >
+                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={''} >
+                                                            <option value="0" selected>Select Status</option>
+                                                            {/* {statuslist && statuslist.map((list) => {
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            })} */}
+                                                            <option value='0'>list.name</option>
+                                                        </select>
+                                                    </div>
+                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-12 mt-2'>
+                                            <div className="row">
+                                                <div className="col-6 mb-2">
+                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
+                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                                                    <div className='d-flex gap-3' >
+                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={''} >
+                                                            <option value="0" selected>Select Outcome</option>
+                                                            {/* {outComelist && outComelist.map((list) => {
+                                                                return (
+                                                                    <option value={list.id}>{list.name}</option>
+                                                                )
+                                                            })} */}
+                                                            <option value='0'>list.name</option>
+                                                        </select>
+                                                    </div>
+                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="col-6 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
+                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={''} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-12 mt-2' >
+                                            <div className="row">
+                                                <div className="col-12 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
+                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={''} />
+                                                </div>
+                                                <div className="col-12 mb-2">
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
+                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={''}></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal" onClick={''}><i class="bi bi-check-lg"></i> Save</button>
+                                <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
 
 
 
