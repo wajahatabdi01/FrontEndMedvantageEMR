@@ -254,11 +254,13 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                     </div> */}
 
                     <div className='col-md-2 addvisitbtn_ mt-5'>
-                        <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-plus"></i> Add</button>
+                        <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-plus"></i> Add Issue</button>
                     </div>
 
                 </div>
             </div>
+
+
             {/* --------------------------Modal Popup---------------------------- */}
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className=" modal-dialog modal-dialog-scrollable modal-lg">
@@ -335,7 +337,7 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
 
                                             </div>
                                             <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
+                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}><i class="bi bi-plus"></i> Add</button>
                                                 <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
                                             </div>
                                         </div>
