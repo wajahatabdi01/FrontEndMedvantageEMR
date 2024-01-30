@@ -81,7 +81,7 @@ export const HealthViewVitals = () => {
             vitalNumber.map((vv, ii) => {
 
                 let resp = FindByQuery(JSON.parse(val.json), vv.toString(), "vmId")
-                 console.log('resp',resp)   
+                
                 if (resp.length !== 0 && resp[0].vmId !== 6 && resp[0].vmId !== 4) {
                     temp.push(resp[0].vmValue)
 
@@ -122,7 +122,7 @@ export const HealthViewVitals = () => {
                 return a.map(function (r) { return r[c]; });
             });
         }
-        // console.log("asa", transpose(main))
+        
         setTestVitals(transpose(main))
     }
 

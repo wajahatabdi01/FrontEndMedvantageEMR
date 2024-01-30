@@ -119,7 +119,7 @@ export default function OPDFoodFields(props) {
                     }
                 }
                 else if (name === "Avoided") {
-                    console.log("cds", response)
+                   
 
                     if (response.length != 0) {
                         setFoodDataListTemp(response)
@@ -188,9 +188,7 @@ export default function OPDFoodFields(props) {
                             temp.splice(ind, 1);
                             setSendData([...temp])
                             setOtherData("")
-                            setFoodOtherSendData("")
-                            console.log("sdfd", temp)
-
+                            setFoodOtherSendData("")                            
                         }
                     })
                 }
@@ -204,11 +202,11 @@ export default function OPDFoodFields(props) {
     let handleClick = (name, value) => {
 
         try {
-            console.log("fdfdsfs", )
+            
             if (name === "Recommended") {
 
                 let checkFood = JSON.parse(window.sessionStorage.getData("patientsendData")).jsonallergies ? JSON.parse(window.sessionStorage.getData("patientsendData")).jsonallergies : []
-                console.log("Change", checkFood)
+               
                 if (checkFood.length === 0) {
                     let t = 0
                     row["problemId"] = value[0]

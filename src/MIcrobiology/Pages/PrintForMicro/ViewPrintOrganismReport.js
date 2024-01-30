@@ -119,7 +119,7 @@ let handlePrint = async () => {
                   <div className="address-section">
 
                     <>
-                      {/* {console.log("printData.userData", printData.dataClient.address)} */}
+                      
                       <div className='organizationName'> ERA MEDICAL COLLEGE</div>
                       <div className='organizationAddress'> ERA MEDICAL COLLEGE , SARFARAZGANJ,LUICKNOW</div>
                       <div className='organizationContact'>PHONE :7007545201 </div>

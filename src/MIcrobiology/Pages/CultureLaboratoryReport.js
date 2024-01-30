@@ -86,8 +86,6 @@ export default function CultureLaboratoryReport() {
       const testList = getTestDetails.responseValue.testDetails;
        
       const patientDetails = getPatientDetails.responseValue[0];
-      console.log('testList : ', testList)
-      console.log('patientDetails : ', patientDetails)
       if(getPatientDetails.status === 1)
       {
         
@@ -275,9 +273,6 @@ export default function CultureLaboratoryReport() {
             billMasterId: billId,
       userId:JSON.parse(window.sessionStorage.getItem("LoginData")).userId
           }
-          console.log('lab obj : ', obj);
-          return;
-         
           let saveRadioData = await PostCultureLabReport(obj);
           if(saveRadioData.status === 1)
     {

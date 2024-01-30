@@ -57,7 +57,7 @@ export default function IPDFile() {
 
         //Get med IPD File Data
         if (medIPDFileResp.status === 1) {
-            console.log('medIPDFileResp', medIPDFileResp);
+           
             setPatientDetails(medIPDFileResp.responseValue.patientDetails);
             setProgressNote(medIPDFileResp.responseValue.progressNote);
             setComplaintSign(medIPDFileResp.responseValue.complaintSign);
@@ -103,7 +103,7 @@ export default function IPDFile() {
             labTest = [];
             labDate = [];
         };
-        console.log('labIPDFileData', labIPDFileData);
+       
 
 
 
@@ -140,8 +140,7 @@ export default function IPDFile() {
     const uniqueTestNames = distinctItem(testName);
     const uniqueSubTestNames = distinctItem(subTestName);
     const uniqueLabDates = distinctItem(labUniqueDate);
-    console.log('unique test', uniqueTestNames)
-    console.log('unique sub test', uniqueSubTestNames)
+    
     //////////
     let arrData = [];
     let tempObj = {};

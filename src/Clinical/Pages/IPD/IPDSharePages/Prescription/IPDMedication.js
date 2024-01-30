@@ -206,7 +206,6 @@ export default function IPDMedication(props) {
             let temp = [...medicationData]
             let value = e.target.value
             let name = e.target.name
-            console.log("sjbcsdscscs", value)
             if (e.target.value !== "") {
                 if (name === "drugData") {
 
@@ -284,7 +283,6 @@ export default function IPDMedication(props) {
                 }
                 else if (name === "duration") {
                     // temp[ind]["duration"] = value
-                    // console.log("duration ", value)
                     if (temp[ind]["duration"] !== "0,Days") {
                         let textdata = temp[ind]["duration"].split(",")[0]
                         let selectdata = temp[ind]["duration"].split(",")[1]
@@ -393,7 +391,6 @@ export default function IPDMedication(props) {
         let activeUHID = window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
         let patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
         let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
-        console.log("dsfsdfsda", doctorName)
         let data = {
             "userId": 323,
             "Uhid": activeUHID,
@@ -412,19 +409,13 @@ export default function IPDMedication(props) {
             "status": true,
             "methodName": "receivePrescription"
         }
-        console.log("sedn data", sendData)
-        let response = await PostAssignMachineToPatient(sendData)
-        if (response.status === 1) {
-            console.log("res", response)
-        }
+        let response = await PostAssignMachineToPatient(sendData)      
     }
     let handleClick = (name, ind, data) => {
 
         try {
-            let temp = [...medicationData]
-            // console.log("cdsc", data[5])
+            let temp = [...medicationData]           
             if (name === "drugData") {
-                console.log("csdcsdcsdcsdc145236")
                 let response = FindByQuery(temp, data[1], "drugName")
                 if (response.length === 0) {
                     temp[ind]["drugId"] = data[0]
@@ -449,7 +440,6 @@ export default function IPDMedication(props) {
 
             }
             else if (name === "frequencyData") {
-                // console.log("data", data)
                 temp[ind]["doseFrequency"] = data
                 document.getElementById("frequencyData" + ind).value = data
 
@@ -509,7 +499,6 @@ export default function IPDMedication(props) {
         let contraResponse = await PostContraIndicationList({ "brandId": senddata.toString(), "diseaseName": problemId.toString() })
         // let sideEffectResponse = await ADRReportPost({ "brandId": senddata.toString(), "problemId": problemId.toString() })
         if (drugresponse.status === 1 && drugresponse.responseValue.length != 0) {
-            console.log("1")
             setShowPopupDDrugInteraction(1)
             setDrugInteractionIdResponse(drugresponse.responseValue)
         }
@@ -518,8 +507,6 @@ export default function IPDMedication(props) {
 
         }
         if (contraResponse.status === 1 && contraResponse.responseValue.length != 0) {
-            console.log("2")
-
             setShowPopupDDrugInteraction(1)
             setContraIndicationResponse(contraResponse.responseValue)
         }
@@ -528,8 +515,6 @@ export default function IPDMedication(props) {
 
         }
         if (sideEffectResponse.status === 1 && sideEffectResponse.responseValue[0].otherSideEffect.length != 0) {
-            console.log("3")
-
             setShowPopupDDrugInteraction(1)
             setSideEffectResponse(sideEffectResponse.responseValue[0].otherSideEffect)
         }

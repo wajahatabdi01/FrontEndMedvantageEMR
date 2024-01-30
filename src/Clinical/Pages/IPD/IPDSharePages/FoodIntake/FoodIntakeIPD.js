@@ -62,7 +62,7 @@ export default function FoodIntakeIPD() {
       } 
     
       today = yyyy + '-' + mm + '-' + dd;
-      console.log(today);
+     
      document.getElementById("txtDate").value = today;
     }
     let handleChangeDropdown = (e)=>{
@@ -76,7 +76,7 @@ export default function FoodIntakeIPD() {
     let getFoodList = async () => {
         let data = await GetFoodList();
         setFoodList(data.responseValue);
-        console.log(data);
+        
       }
 
       // let handleChange = (e) => {
@@ -106,7 +106,7 @@ export default function FoodIntakeIPD() {
        if(name === "txtDate"){
         settxtDate(value)
         getFoodIntakeList(value);
-        console.log('txtDateee',value);
+    
        }
        else if(name === "time"){
         setTime(value)
@@ -136,10 +136,10 @@ export default function FoodIntakeIPD() {
 
       let getData = async(value)=>{
         let unitList = await GetUnitList(value);
-        console.log("cdcsd", unitList)
+        
         if(unitList.status === 1)
         {
-          console.log('uni',unitList);
+         
           setUnitList(unitList.responseValue);
         }
       }
@@ -150,13 +150,11 @@ export default function FoodIntakeIPD() {
   //   const currentFormattedDate = currentDate.toISOString();
   //   let fromDate = currentFormattedDate;
   //   let data = await GetIntakeList(uhid,fromDate);
-  //   console.log('test : ', data);
   //   setAllIntakeList(data.foodIntakeList);
     
   // }
 
   let getFoodIntakeList = async(txtDate)=>{
-    console.log('txtDate',txtDate);
     const txtGetDate=document.getElementById("txtDate").value;
     let uhid = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
     let foodIntakeList = await GetFoodIntakeList(uhid,txtGetDate);
@@ -164,7 +162,6 @@ export default function FoodIntakeIPD() {
    
       setFoodIntakeList (foodIntakeList.foodIntakeList);
       setFoodIntakeListtemp (foodIntakeList.foodIntakeList);
-      console.log('ff',foodIntakeList);
     }
   }
     useEffect(() => {
@@ -176,10 +173,10 @@ export default function FoodIntakeIPD() {
     let save = async () => {
       clearError();
       const txtGetDate=document.getElementById("txtDate").value;
-      console.log('txtDate',txtGetDate);
+      
       //for validation
       const isValidateFood= DieteticsFoodIntakeValidation(txtGetDate,time,food,Quantity,unit);
-      console.log('fa',isValidateFood);
+      
       var id = isValidateFood[1];
       if(isValidateFood===true){
         let foodObj ={
@@ -190,7 +187,7 @@ export default function FoodIntakeIPD() {
            uhid:JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid,
            recommendedUserID:window.userId,
         }
-        console.log(foodObj, 'faiz');
+        
         let data = await SaveFoodIntake(foodObj);
         if (data.status === 1) {
            setShowUnderProcess(0);

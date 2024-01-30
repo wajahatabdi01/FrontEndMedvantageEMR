@@ -92,7 +92,6 @@ export default function SampleCollection(props) {
       setShowLoder(1)
       let getResponse = await GetSampleCollection(textBillNo,clientID);
       let getPatientDetails = await GetPatientBillingDetails(textBillNo,clientID)
-      console.log('	getPatientDetails : ', getPatientDetails)
       const patientDetails = getPatientDetails.responseValue[0];
       if (getPatientDetails.status === 1) {
         setShowImage(0)
@@ -188,11 +187,8 @@ export default function SampleCollection(props) {
         // var stringOfTestName = '';
         // for(var m=0;m<arr.length;m++)
         // {
-        //   console.log('arrForBarcode : ', arr[m].testname);
         //   stringOfTestName = stringOfTestName === ''? stringOfTestName + arr[m].testname + ',': stringOfTestName + arr[m].testname
         // }
-        // console.log('user id  : ', userID)
-        // console.log('the stringOfTestName to show : ', stringOfTestName);
      
         
         let data = await SaveSampleCollection(textBillNo, billId, UHID, pmid, isCriticalVal, patientType, JSON.stringify(arr), userID,clientID);

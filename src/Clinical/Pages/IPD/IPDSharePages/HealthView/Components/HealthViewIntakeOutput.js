@@ -92,7 +92,7 @@ export const HealthViewIntakeOutput = () => {
         }
     });
 
-    console.log('dateCounts', dateCounts);
+    
 
     useEffect(() => {
         getData();

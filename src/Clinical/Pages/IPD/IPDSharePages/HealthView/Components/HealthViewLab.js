@@ -18,7 +18,7 @@ export const HealthViewLab = () => {
     let [testName, setTestName] = useState([]);
     let getLabData = async () => {
         let labResponse = await GetHealthViewLab(uhID);
-        console.log('labResponse', labResponse);
+        
         if (labResponse.status === 1) {
             testId = [];
             testName = [];
@@ -47,9 +47,9 @@ export const HealthViewLab = () => {
                 }
 
             })
-            console.log('temp', temp);
+           
             main.push(temp)
-            console.log('main', main);
+            
             temp = []
         })
 

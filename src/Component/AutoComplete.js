@@ -19,7 +19,7 @@ export default function AutoComplete(props) {
 
   const onChange = (e) => {
     const { suggestions } = props;
-    console.log("props", suggestions[0][props.searchKey])
+    
     const input = e.currentTarget.value;
     const newFilteredSuggestions = suggestions.filter(
       (suggestion) => suggestion[props.searchKey].toLowerCase().indexOf(input.toLowerCase()) > -1

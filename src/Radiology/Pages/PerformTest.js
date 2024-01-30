@@ -434,7 +434,7 @@ export default function PerformTest() {
                                       <div className='ms-2'><b className='fs-6'> {val.organName}</b><img src={remarkIcon} alt="remark" data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#remarkModal" style={{ marginLeft: '8px', borderRadius: '20px', cursor: 'pointer' }} title='Remark' onClick={() => { handlerShowRemarkPopUp(val) }} /></div>
                                       {/* <div className='d-flex repeat gap-3 align-items-center'>
                                                     {JSON.parse(val.parameter).map((list)=>{
-                                                      console.log('list : ', list)
+                                                    
                                                         return(
                                                           <>
                                                             <div>

@@ -90,7 +90,7 @@ export default function DischargeMedication(props) {
         if (rationalData.status === 1) {
             setRationalList(rationalData.responseValue)
             setRationalListTemp(rationalData.responseValue)
-            console.log("ccsdcsdcsdcs", rationalData.responseValue)
+            
         }
 
     }
@@ -243,7 +243,7 @@ export default function DischargeMedication(props) {
                 }
                 else if (name === "duration") {
                     // temp[ind]["duration"] = value
-                    // console.log("duration ", value)
+                    
                     if (temp[ind]["duration"] !== "0,Days") {
                         let textdata = temp[ind]["duration"].split(",")[0]
                         let selectdata = temp[ind]["duration"].split(",")[1]
@@ -406,7 +406,7 @@ export default function DischargeMedication(props) {
 
     let handleClick = (name, ind, data) => {
         let temp = [...medicationData]
-        console.log("cdsc", data[5])
+       
         if (name === "drugData") {
             temp[ind]["drugId"] = data[0]
             temp[ind]["drugName"] = data[1]
@@ -423,7 +423,7 @@ export default function DischargeMedication(props) {
 
         }
         else if (name === "frequencyData") {
-            console.log("data", data)
+          
             temp[ind]["doseFrequency"] = data
             document.getElementById("frequencyData" + ind).value = data
 
@@ -471,15 +471,14 @@ export default function DischargeMedication(props) {
 
         let UhId = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
         let DischargeTypeId = 2;
-        console.log('UhId', UhId);
-        console.log('DischargeTypeId', DischargeTypeId);
+        
         let response = await GetDischargeCard(UhId, DischargeTypeId);
-        console.log('reponse', response);
+        
         if (response.status === 1) {
-            // console.log('reponse',response);
+            
             // sendAllComplain(response.responseValue.patientComplainHistory)
             // setGetAllData(response.responseValue)
-            console.log("comming data", response.responseValue.admitPrescriptionHistory)
+            
             if (response.responseValue.admitPrescriptionHistory.length !== 0) {
                 setMedicationData([...response.responseValue.admitPrescriptionHistory, row])
                 props.sendAllMedication([...response.responseValue.admitPrescriptionHistory])

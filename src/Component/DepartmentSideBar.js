@@ -52,11 +52,9 @@ export default function DepartmentSideBar(props) {
         window.sessionStorage.setItem("activePage", JSON.stringify({ "WardId": wardId, "wardName": wardname, "DepartmentId": departmentId, "departmentName": departmentName }))
 
     }
-    useEffect(() => {
-        console.log("wardId", props.extDepartmentData)
+    useEffect(() => {       
         if (props.extDepartmentData.length !== 0) {
-            getData()
-            console.log("head name", props.getHeadName)
+            getData()           
         }
 
     }, [props.extDepartmentData])

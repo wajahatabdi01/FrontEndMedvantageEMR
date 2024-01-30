@@ -19,9 +19,6 @@ export default function IPDDischargeCard() {
   let [sendremarks, setsendRemarks] = useState();
   let [sendinvestigation, setsendInvestigation] = useState();
 
-  useEffect(() => {
-    console.log("object");
-  }, []);
 
   return (
     <>

@@ -291,7 +291,7 @@ export default function OPDBottomSection(props) {
             }
             else {
 
-                console.log("flags", freqFlag, durationFlag)
+                
                 if (flag === 0) {
                     setShowAlertToster(1)
                     setShowAlertMessage("Please Fill Patient complaint!!")

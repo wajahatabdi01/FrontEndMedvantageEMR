@@ -109,7 +109,6 @@ export default function IPDPrecriptionIndex() {
     // }
     else {
       temp.map((values, index) => {
-        console.log("index", index)
         if (values[0] === activeUHID) {
           store.dispatch(getIPDPatientData(values))
         }
@@ -143,8 +142,6 @@ export default function IPDPrecriptionIndex() {
       store.dispatch(getIPDPatientData(temp))
       setLoader(0)
     }
-    console.log("enter")
-
   }, [IPDUHIDChange])
   return (
     <>

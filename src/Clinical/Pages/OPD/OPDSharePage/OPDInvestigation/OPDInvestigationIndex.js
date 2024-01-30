@@ -24,7 +24,7 @@ export default function OPDInvestigationIndex(props) {
         setActiveId("");
         setIsUpload(1);
         const getActiveUhid=JSON.parse(sessionStorage.getItem("IPDactivePatient")).Uhid;
-        console.log('getActiveUhid',getActiveUhid)
+        
         let response = await GetPatientMediaData(getActiveUhid);
         if (response.status === 1) {
             if (response.responseValue.length === 0) {

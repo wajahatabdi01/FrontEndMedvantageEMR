@@ -99,7 +99,7 @@ export default function BottomButtons(props) {
         let diagnoFlaf = 0
         if(Object.keys(tempSendData).length !== 0)
         {
-            console.log("csdcsdcsd",tempSendData.length )
+            
             if (tempSendData["jsonDiagnosis"].length !== 0 && tempSendData["jsonDiagnosis"][0] !== null) {
                 if (tempSendData["jsonDiagnosis"][tempSendData["jsonDiagnosis"].length - 1] === null) {
                     tempSendData["jsonDiagnosis"].pop()
@@ -124,9 +124,6 @@ export default function BottomButtons(props) {
             tempSendData["jsonDiagnosis"].push(row)
 
         }
-
-        console.log("sdmcsdcsbds,", window.userId)
-
         if (document.getElementById("consultantData").value !== "") {
             let row = { "problemId": 0, "problemName": document.getElementById("consultantData").value, "pdmId": 4 }
             tempSendData["jsonDiagnosis"].push(row)
@@ -148,9 +145,7 @@ export default function BottomButtons(props) {
         let freqFlag = [-1, -1]
         let durationFlag = [-1, -1]
         let temparray = JSON.parse(tempSendData.jsonArray)
-        console.log("ddddddddddd", temparray)
         JSON.parse(tempSendData.jsonArray).map((val, ind) => {
-            console.log("val", val)
             if (val.id === 0 && val.drugName === "") {
                 temparray.splice(ind, 1)
             }
@@ -175,8 +170,6 @@ export default function BottomButtons(props) {
 
 
         tempSendData["jsonArray"] = JSON.stringify(temparray)
-        console.log(flag === 1 && diagnoFlaf === 1 && freqFlag[0] === -1 && durationFlag[0] === -1)
-        console.log("dasdsadsavkvvvahdvasdasdas", tempSendData)
         // return
         if (flag === 1 && diagnoFlaf === 1 && freqFlag[0] === -1 && durationFlag[0] === -1) {
             let response = await PostPatientIPDPrescription(tempSendData)
@@ -201,7 +194,6 @@ export default function BottomButtons(props) {
             }
         }
         else {
-            console.log("flags", freqFlag, durationFlag)
             if (flag === 0) {
                 setShowAlertToster(1)
                 setShowTosterMessage(t("Please Fill Patient complaint"))
@@ -233,7 +225,6 @@ export default function BottomButtons(props) {
         let activeUHID = window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
         let patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
         let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
-        console.log("dsfsdfsda", doctorName)
         let data = {
             "userId": window.userId,
             "Uhid": activeUHID,
@@ -265,11 +256,9 @@ export default function BottomButtons(props) {
             // "status": true,
             // "methodName": "receivePrescription"
         }
-        console.log("sedn data", JSON.stringify(sendData))
         let response = await InsertPrescriptionNotification(sendData)
 
         if (response.status === 1) {
-            console.log("res", response)
             setShowtoster(1)
             setShowTosterMessage(t("Prescription sent to Pharmacy"))
         }
@@ -358,8 +347,6 @@ export default function BottomButtons(props) {
                                             </thead>
                                             <tbody className="accordion accordionPatientRaceSection" id="accordionExample">
                                                 {patientHistoryList && patientHistoryList.map((list, index) => {
-                                                    console.log('list : ', list)
-                                                    console.log('patient history from database : ', patientHistoryList)
                                                     return (<>
                                                         <tr >
                                                             <td>{index + 1}</td>

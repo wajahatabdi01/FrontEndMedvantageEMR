@@ -39,7 +39,7 @@ const handleDateTimeClick = (popUpDate, popUpTime, rowID) => {
     setRowID(rowID);
     setTime(convert12to24(popUpTime));
     setDate(popUpDate);
-    console.log('dddd', rowID + ' ', popUpDate + ' ', convert12to24(popUpTime));
+    
   };
 
   const handleChange = (e) => {

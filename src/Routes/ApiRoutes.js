@@ -343,6 +343,7 @@ import SearchRegisteredPatient from '../EditCredentional/Pages/SearchRegisteredP
 import FHIRFamilyHistoryEdit from '../EditCredentional/Pages/FHIRFamilyHistoryEdit';
 import FHIRCarePlan from '../FHIRCarePlan/Pages/FHIRCarePlan';
 import FHIRCareCoordination from '../FHIRCareCoordination/Pages/FHIRCareCoordination';
+import MedicalProblem from '../FHIRClinical/Pages/Clinical/MedicalProblem';
 
 export default function ApiRoutes() {
 
@@ -849,13 +850,15 @@ export default function ApiRoutes() {
 
                   {/* -----------------------------------Start Medvantage CarePlan SEction----------------------------------------- */}
                   <Route path="/fhircareplan/" element={<ProtectedRoutes Compnent={<FHIRCarePlan />} />} />
-                  {/* -----------------------------------Start Medvantage CarePlan SEction----------------------------------------- */}
+                  {/* -----------------------------------End Medvantage CarePlan SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage CareCoordination SEction----------------------------------------- */}
                   <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} />
-                  {/* -----------------------------------Start Medvantage CareCoordination SEction----------------------------------------- */}
+                  {/* -----------------------------------End Medvantage CareCoordination SEction----------------------------------------- */}
 
-
+                  {/* -----------------------------------Start Medvantage Clinical SEction----------------------------------------- */}
+                  <Route path="/medicalproblem/" element={<ProtectedRoutes Compnent={<MedicalProblem />} />} />
+                  {/* -----------------------------------End Medvantage Clinical SEction----------------------------------------- */}
             </Routes>
 
       )

@@ -87,7 +87,6 @@ export default function OrganParameterMaster() {
   }
 //   let getOrganMasterList = async()=>{
 //     const response = await GetOrganMasterList();
-//     console.log('response om',response)
 //     if(response.status === 1){
 //         setOrganMasterList(response.responseValue)Components
 //     }

@@ -44,10 +44,9 @@ export default function IPDDischargeRightSide(props) {
       window.sessionStorage.getItem("IPDactivePatient")
     ).Uhid;
     let DischargeTypeId = 2;
-    console.log("UhId", UhId);
-    console.log("DischargeTypeId", DischargeTypeId);
+   
     let response = await GetDischargeCard(UhId, DischargeTypeId);
-    console.log("reponse", response);
+    
     if (response.status === 1) {
       response.responseValue.patientComplainHistory.map((val, ind) => {
         if (val.pdmId === 5) {
@@ -65,7 +64,7 @@ export default function IPDDischargeRightSide(props) {
 
         }
       });
-      console.log("notes", procedure)
+      
       // setProcedure(procedure);
       // setRemarks(remark);
       // setInvestigation(invest);

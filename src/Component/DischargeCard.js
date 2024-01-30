@@ -25,7 +25,6 @@ export default function DischargeCard() {
         setPatientDetails(val);
       }
     });
-    console.log("test", test);
   };
   let functionGetLoginData = ()=> {      
     let response = JSON.parse(window.sessionStorage.getItem("LoginData"));            
