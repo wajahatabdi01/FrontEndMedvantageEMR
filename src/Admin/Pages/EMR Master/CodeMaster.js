@@ -10,11 +10,13 @@ import '../../../assets/css/App.css'
 import NoDataFound from '../../../assets/images/icons/No data-rafiki.svg'
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 import Loader from '../../../Component/Loader';
+import GetCarePlanType from '../../../FHIRCarePlan/API/GetCarePlanType';
 
 export const CodeMaster = (props) => {
 
     const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])
+    
     const [textSearch, setTextSearch] = useState('')
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
@@ -31,7 +33,6 @@ export const CodeMaster = (props) => {
     ////////////////////////////////////////////////// to set code /////////////////////////////
 
     let funSetCode = (code) => {
-        console.log('code ........... : ' , code)
         setCode(code);
     }
 
@@ -41,6 +42,10 @@ export const CodeMaster = (props) => {
         
         setCodeList(getResponse.responseValue)
     }
+
+    
+
+    
 
     /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
     let funBindCodeList = async (e, codeName = "") => {
@@ -112,7 +117,7 @@ export const CodeMaster = (props) => {
 
         let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
 
-        console.log('haiiiiiiiiiiiiiiiiiiiii : ', hai)
+        
         if (hai.length !== 0) {
             setTimeout(()=>{
                
@@ -122,7 +127,7 @@ export const CodeMaster = (props) => {
 
             }, 1000)
         }
-        funGetCodeList();
+        funGetCodeList();    
     }, [])
     return (
         <>
