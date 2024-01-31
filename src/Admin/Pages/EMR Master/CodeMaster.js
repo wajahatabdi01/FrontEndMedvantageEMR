@@ -48,24 +48,49 @@ export const CodeMaster = (props) => {
     
 
     /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-    let funBindCodeList = async (e, codeName = "") => {
+    let funBindCodeList = async (e, codeName ) => {
         if (getCode === '' && getCode === undefined && getCode === null && codeName !== "") {
             alert('Please select code.');
         }
         else {
             setLoader(1);
-            const codeNames = codeName = ""?codeName:getCode
-            const getBindRes = await GetCodeBind(codeNames, textSearch);
-            
-            if (getBindRes.responseValue.length === 0) {
-                setLoader(0);
-                setShowImage(1);
+            //const codeNames = codeName = ""?codeName:getCode;
+            const codeNames = getCode;
+            if(codeName !== undefined){
+                let getBindRes = await GetCodeBind(codeName, textSearch);
+                if(getBindRes.status === 0) {
+                    setLoader(0);
+                    setShowImage(1);
+                }
+                else{
+                    setLoader(0)
+                setShowImage(0)
+                setCodeBindList(getBindRes.responseValue.slice(0,50))
+                }
             }
-            else {
+            else{
+                let getBindRes = await GetCodeBind(codeNames, textSearch);
+                if(getBindRes.status === 0) {
+                    setLoader(0);
+                    setShowImage(1);
+                }
+                else{
+                    const result = getBindRes.responseValue;
                 setLoader(0)
                 setShowImage(0)
-                setCodeBindList(getBindRes.responseValue)
+                setCodeBindList(result.slice(0,50))
+                }
             }
+            
+            // console.log('result ............ : ', result)
+            // if (getBindRes.responseValue.length === 0) {
+            //     setLoader(0);
+            //     setShowImage(1);
+            // }
+            // else {
+                
+            // }
+            
         }
 
     }
@@ -120,12 +145,11 @@ export const CodeMaster = (props) => {
         
         if (hai.length !== 0) {
             setTimeout(()=>{
-               
                 document.getElementById("dropdownName").value = hai[0].dropdownName
                 setCode(hai[0].dropdownName)
                 funBindCodeList("", hai[0].dropdownName)
 
-            }, 1000)
+            }, 3000)
         }
         funGetCodeList();    
     }, [])
@@ -197,13 +221,14 @@ export const CodeMaster = (props) => {
                                     <tbody>
                                         {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
                                             {getCodeBindList && getCodeBindList.map((bindList, ind) => {
-                                                return (
+                                                return (                                                  
+                                                    <>
                                                     <tr key={bindList.code}>
                                                         <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.id : 'chckBoxId'} id={'chckBoxId' + bindList.id}
                                                             role={props.isMultiple === true ? 'switch' : ''}
                                                             defaultChecked=
                                                             {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
-                                                                props.defaultData[props.defaultData.length - 1].data.filter(val => val.id === bindList.id).length !== 0 ?
+                                                                props.defaultData[props.defaultData.length - 1].data.filter(val => val.code === bindList.code).length !== 0 ?
                                                                     true :
                                                                     false :
                                                                 false
@@ -213,6 +238,8 @@ export const CodeMaster = (props) => {
                                                         <td style={{ textAlign: 'center' }}>{bindList.code}</td>
                                                         <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
                                                     </tr>
+                                                    </>
+
                                                 )
                                             })}
                                         </>

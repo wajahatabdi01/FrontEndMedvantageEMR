@@ -61,7 +61,7 @@ export default function FHIRCarePlan(props) {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].id
+      temp += " " + data[i].code
     }
 
     document.getElementById(modalID).value = temp
