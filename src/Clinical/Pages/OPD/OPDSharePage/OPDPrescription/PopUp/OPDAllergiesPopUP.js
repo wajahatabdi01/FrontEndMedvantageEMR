@@ -1,327 +1,556 @@
-import React, { useEffect, useState } from 'react'
-import searcIcon from "../../../../../../assets/images/Navbar/search.svg"
-import GetFoodListByPrefixText from '../../../../../API/OPD/Prescription/KnowMedsAPI/GetFoodListByPrefixText'
-import GetBrandList from '../../../../../API/OPD/Prescription/KnowMedsAPI/GetBrandList'
-import Search, { FindByQuery, SearchIndex } from '../../../../../../Code/Serach'
-import SaveOPDData from '../../../../../../Code/SaveOPDData'
-import Loader from '../../../../../../Component/Loader';
-import { useTranslation } from 'react-i18next';
-import  i18n from "i18next";
+import React, { useEffect, useState } from "react";
+import searcIcon from "../../../../../../assets/images/Navbar/search.svg";
+import GetFoodListByPrefixText from "../../../../../API/OPD/Prescription/KnowMedsAPI/GetFoodListByPrefixText";
+import { FindByQuery, SearchIndex } from "../../../../../../Code/Serach";
+import SaveOPDData from "../../../../../../Code/SaveOPDData";
+import { useTranslation } from "react-i18next";
+import plus from "../../../../../../assets/images/icons/icons8-plus-30.png";
+import i18n from "i18next";
+import Select from "react-select";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function OPDAllergiesPopUP(props) {
-    const {t} = useTranslation();
-    document.body.dir = i18n.dir();
+  const { t } = useTranslation();
+  document.body.dir = i18n.dir();
 
-    let [showData, setShowData] = useState(0)
-    let [sendData, setSendData] = useState([])
-    let [foodDataList, setFoodDataList] = useState([])
-    let [foodDataListTemp, setFoodDataListTemp] = useState([])
+  let [showData, setShowData] = useState(0);
+  let [sendData, setSendData] = useState([]);
+  let [foodDataList, setFoodDataList] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState();
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
 
-    let [medicationDataList, setMedicationDataList] = useState([])
-    let [medicationDataListTemp, setMedicationDataListTemp] = useState([])
+  let [itemListShow, setItemListShow] = useState(10);
+  let [scroll, setScroll] = useState(0);
+  let row = { problemId: 0, problemName: "", pdmId: 0, checked: true };
+  let [disable, setDisable] = useState(0);
+  let [loader, setLoader] = useState(1);
+  const [problem, setProblem] = useState("");
+  const [coding, setCoding] = useState("");
+  const [outComelist, setOutcomeList] = useState([]);
+  const [occurencelist, setOccurenceList] = useState([]);
+  const [statuslist, setStatusList] = useState([]);
+  const [classificationList, setClassificationList] = useState([]);
+  const [issueDetails, setIssueDetails] = useState({
+    title: "",
+    coding: "",
+    beginDateTime: "",
+    endDateTime: "",
+    classificationTypeId: "0",
+    occurrenceId: "0",
+    verificationStatusId: "0",
+    referredby: "",
+    comments: "",
+    outcomeId: "0",
+    destination: "",
+  });
 
-    let [itemListShow, setItemListShow] = useState(30)
-    let [scroll, setScroll] = useState(0)
-    let row = { "problemId": 0, "problemName": "", "pdmId": 0, "checked": true }
-    let [disable, setDisable] = useState(0)
-    let [loader, setLoader] = useState(1)
+  const [filteredFoodList, setFilteredFoodList] = useState([]);
 
-    let handleTab = (val) => {
-        setShowData(val)
-        setScroll(0)
-        setItemListShow(30)
-        document.getElementById("serachId").value = ""
-        if (document.getElementById("serachId").value === "" && val === 0) {
-            setFoodDataListTemp(foodDataList)
-        }
-        else {
-            setMedicationDataListTemp(medicationDataList)
-        }
+  const [searchTerm, setSearchTerm] = useState("");
+
+  let getdata = async () => {
+    let responseFoodList = await GetFoodListByPrefixText();
+
+    if (responseFoodList.status === 1) {
+      console.log("Data bind", responseFoodList.responseValue);
+      setLoader(0);
+
+      setFoodDataList(responseFoodList.responseValue);
+      setFilteredFoodList(responseFoodList.responseValue);
     }
+  };
 
-    let getdata = async () => {
-        let responseFoodList = await GetFoodListByPrefixText()
-        let responseMedicationList = await GetBrandList()
-        if (responseFoodList.status === 1) {
-            setLoader(0)
-            setFoodDataList(responseFoodList.responseValue)
-            setFoodDataListTemp(responseFoodList.responseValue)
-            setData(responseFoodList.responseValue, "food")
-        }
-        if (responseMedicationList.status === 1) {
-            setMedicationDataList(responseMedicationList.responseValue)
-            setMedicationDataListTemp(responseMedicationList.responseValue)
-            setData(responseMedicationList.responseValue, "medication")
-        }
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    filterFoodList(e.target.value);
+  };
+
+  const filterFoodList = (term) => {
+    const filteredList = foodDataList.filter((food) =>
+      food.foodName.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredFoodList(filteredList);
+  };
+
+  const infinityScroll = () => {
+    // Adjust the threshold and fetch more items as needed
+    console.log('window.innerHeight', window.innerHeight);
+    console.log('document.documentElement.scrollTop', document.documentElement.scrollTop);
+    console.log('document.documentElement.offsetHeight', document.documentElement.offsetHeight);
+    if (!(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight)) {
+      setItemListShow(itemListShow + 10);
     }
+  };
 
-    let setData = (val, name) => {
+  console.log('itemListShow',itemListShow);
 
-        let temp = window.sessionStorage.getItem("patientsendData") ? JSON.parse(window.sessionStorage.getItem("patientsendData")) : []
-        let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
-        let tempdata = []
+  //   let infinityScroll = () => {
+  //     console.log("callll");
+  //     // let getScrollSection = document.querySelector("#react-select-3-listbox");
+  //     // setScroll(getScrollSection.scrollTop);
+  //     // let scrollTop = getScrollSection.scrollTop;
+  //     // let scrollHeight = getScrollSection.scrollHeight;
+  //     // let clientHeight = getScrollSection.clientHeight;
+  //     // if (scrollTop + clientHeight >= scrollHeight) {
+  //     //   setItemListShow(itemListShow + 10);
+  //     // }
 
-        temp.map((value, index) => {
-            value.map((val, ind) => {
-                if (value[0] === activeUHID) {
-                    let key = Object.keys(val)
-                    if (key[0] === "jsonallergies") {
-                        setSendData(val.jsonallergies)
-                        tempdata = [...val.jsonallergies]
-                    }
-                    else if (key[0] === "disable") {
-                        setDisable(val.disable)
-                    }
-                }
-            })
-        })
+  //       setItemListShow(itemListShow + 10);
+  //       onscroll()
+  //   };
+  //   let onscroll = ()=>{
+  //     console.log("cdslcnsd")
+  //     window.scroll("scroll",  setItemListShow(itemListShow + 10))
+  //   }
+  // Function triggered on selection
+  function handleSelect(data) {
+    console.log("data", data);
+    setSelectedOptions(data);
+  }
 
+  useEffect(() => {
+    getdata();
+  }, []);
 
-        let tempitems = [...val]
-        val.map((val, ind) => {
-            let res = SearchIndex(tempdata, "problemId", parseInt(val.id))
-            if (res !== "") {
-                tempitems[ind].checked = true
-            }
-            else {
-                if (tempitems[ind].checked !== true) {
-                    tempitems[ind].checked = false
-                }
-            }
-        })
-        if (name === "food") {
-            setFoodDataListTemp(tempitems)
-        }
-        else {
-            setMedicationDataListTemp(tempitems)
-        }
+  return (
+    <>
+      <div
+        className={`${
+          props.val === 0 ? "offcanvas" : "offcanvas show"
+        }   offcanvas-end`}
+        style={{ width: "400px" }}
+        data-bs-scroll="true"
+        data-bs-backdrop="static"
+        tabIndex="-1"
+        id="allergies"
+        aria-labelledby="allergiesLabel"
+      >
+        <div
+          className="offcanvas-header d-flex justify-content-start gap-4  p-4 "
+          style={{ borderBottom: "1px solid #C6C6C6", background: "#1D4999" }}
+        >
+          <div
+            className="d-flex justify-content-center align-items-center pointer"
+            style={{
+              backgroundColor: "white",
+              borderRadius: "50px",
+              width: "24px",
+              height: "24px",
+            }}
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              props.fun(0);
+            }}
+            aria-label="Close"
+          >
+            <i className="fa fa-close "></i>
+          </div>
+          <h5 className="offcanvas-title text-white" id="allergiesLabel">
+            {t("Allergies")}
+          </h5>
+          {/* <button type="button" className="btn-close"  ></button> */}
+        </div>
+        <div className="offcanvas-body ps-4 pe-3">
+          <div className="d-flex flex-column pt-2">
+            <div className="d-flex flex-wrap mb-2 gap-3 justify-content-between">
+              <div
+                className="opdLabDetailsbox pointer"
+                style={{
+                  background: `${showData === 0 ? "#dee5ef" : "white"}`,
+                }}
+              >
+                <span>{t("Food")}</span>
+              </div>
 
-    }
-
-    // useEffect(()=>{
-    // },[sendData])
-
-
-    let handlechange = (val, name) => {
-        let temp = [...sendData]
-        if (name === "food") {
-            let response = SearchIndex(sendData, "problemId", val.id)
-            // console.log("response", response)
-            if (response.length === 0) {
-                let response = SearchIndex(foodDataListTemp, "id", val.id)
-
-                console.log("val", response)
-                row["problemId"] = val.id
-                row["problemName"] = val.foodName
-                row["pdmId"] = 7
-                row["checked"] = true
-                temp.push(row)
-                foodDataListTemp[response]["checked"] = true
-
-            }
-            else {
-                foodDataListTemp[response].checked = false
-                document.getElementById("f" + val.id).checked = false
-                temp.splice(response, 1)
-                // setData(foodDataList, "food")
-                setFoodDataListTemp(foodDataListTemp)
-            }
-
-        }
-        else {
-            let response = SearchIndex(sendData, "problemId", val.id)
-            if (response.length === 0) {
-                console.log("val", val)
-                let response = SearchIndex(medicationDataListTemp, "id", val.id)
-
-                row["problemId"] = val.id
-                row["problemName"] = val.brandName
-                row["pdmId"] = 8
-                row["checked"] = true
-                temp.push(row)
-                medicationDataListTemp[response]["checked"] = true
-
-
-            }
-            else {
-                medicationDataListTemp[response].checked = false
-                document.getElementById("m" + val.id).checked = false
-                temp.splice(response, 1)
-                // setData(foodDataList, "food")
-                setMedicationDataListTemp(medicationDataListTemp)
-            }
-        }
-
-        setSendData(temp)
-        SaveOPDData(temp, "jsonallergies")
-
-
-    }
-
-    let handleSearch = (e) => {
-
-        let response = []
-        if (showData === 0) {
-            if (e.target.value !== "") {
-                response = FindByQuery(foodDataList, e.target.value, "foodName")
-                let tempitems = [...response]
-                if (response.length !== 0) {
-                    response.map((val, ind) => {
-                        let res = FindByQuery(sendData, parseInt(val.problemId), "problemId")
-
-                        if (res.length !== 0) {
-                            if (response[ind].checked === true) {
-                                tempitems[ind].checked = true
-                            }
-                            else {
-                                tempitems[ind].checked = false
-                            }
-                        }
-                        else {
-                            if (val.checked === true) {
-                                tempitems[ind].checked = true
-                            }
-                            else {
-                                tempitems[ind].checked = false
-
-                            }
-
-                        }
-                    })
-                    setFoodDataListTemp(tempitems)
-                    console.log(tempitems)
-                    // setData(response, "food")
-                }
-                // setFoodDataListTemp([])
-            }
-            else {
-                console.log("foodList", foodDataList)
-                setFoodDataListTemp(foodDataList)
-            }
-        }
-        else {
-            console.log("branc name", e.target.value)
-            if (e.target.value !== "") {
-                response = FindByQuery(medicationDataList, e.target.value, "brandName")
-                let tempitems = [...response]
-                if (response.length !== 0) {
-                    response.map((val, ind) => {
-                        let res = FindByQuery(sendData, parseInt(val.problemId), "problemId")
-
-                        if (res.length !== 0) {
-                            if (response[ind].checked === true) {
-                                tempitems[ind].checked = true
-                            }
-                            else {
-                                tempitems[ind].checked = false
-                            }
-                        }
-                        else {
-                            if (val.checked === true) {
-                                tempitems[ind].checked = true
-                            }
-                            else {
-                                tempitems[ind].checked = false
-
-                            }
-
-                        }
-                    })
-                    setMedicationDataListTemp(tempitems)
-
-                }
-                // setMedicationDataListTemp([])
-            }
-            else {
-                // console.log("foodList", foodDataList)
-                setMedicationDataListTemp(medicationDataList)
-            }
-        }
-
-    }
-
-    let infinityScroll = () => {
-        let getScrollSection = document.querySelector(".scroll-in-section");
-        setScroll(getScrollSection.scrollTop)
-        let scrollTop = getScrollSection.scrollTop;
-        let scrollHeight = getScrollSection.scrollHeight;
-        let clientHeight = getScrollSection.clientHeight;
-        if ((scrollTop + clientHeight >= scrollHeight) && (itemListShow <= medicationDataListTemp.length)) {
-            setItemListShow(itemListShow + 10)
-        }
-    }
-
-    useEffect(() => {
-        let getScrollSection = document.querySelector(".scroll-in-section");
-        getScrollSection.addEventListener("scroll", infinityScroll);
-    }, [scroll])
-
-    useEffect(() => {
-        getdata()
-        setData([], "food")
-    }, [])
-
-    return (
-        <>
-            <div className={`${props.val === 0 ? 'offcanvas' : "offcanvas show"}   offcanvas-end`} style={{ width: "400px" }} data-bs-scroll="true" data-bs-backdrop="static" tabIndex="-1" id="allergies" aria-labelledby="allergiesLabel">
-                <div className="offcanvas-header d-flex justify-content-start gap-4  p-4 " style={{ borderBottom: "1px solid #C6C6C6", background: "#1D4999" }}>
-                    <div className='d-flex justify-content-center align-items-center pointer' style={{ backgroundColor: "white", borderRadius: "50px", width: "24px", height: "24px" }} data-bs-dismiss="offcanvas" onClick={() => { props.fun(0) }} aria-label="Close"><i className='fa fa-close ' ></i></div>
-                    <h5 className="offcanvas-title text-white" id="allergiesLabel" >{t("Allergies")}</h5>
-                    {/* <button type="button" className="btn-close"  ></button> */}
-                </div>
-                <div className="offcanvas-body ps-4 pe-3" >
-                    <div className='d-flex flex-column pt-2'>
-                        <div className='d-flex flex-column searchbar gap-1  pt-2 mb-3'>
-                            <input type='text' className='ps-3 pe-5 pb-2 pt-2 serchbox' id="serachId" placeholder={t('Search your Symptoms')} onChange={handleSearch} />
-                            <img src={searcIcon} className='rightsidebarsearchicon' alt=''/>
-                        </div>
-                        <div className='d-flex flex-wrap mb-2 gap-3'>
-                            <div className='opdLabDetailsbox pointer' style={{ background: `${showData === 0 ? "#dee5ef" : "white"}` }} onClick={() => { handleTab(0) }}>
-                                <span>{t("Food")}</span>
-                            </div>
-                            <div className='opdLabDetailsbox pointer' style={{ background: `${showData === 1 ? "#dee5ef" : "white"}` }} onClick={() => { handleTab(1) }}>
-                                <span>{t("Medication")}</span>
-                            </div>
-                        </div>
-
-                        <div className='wrap scroll-in-section allergiespopup' style={{ maxHeight: "70vh" }}>
-
-                            {showData === 0 ?
-                                foodDataListTemp.slice(0, itemListShow).map((val, ind) => {
-                                    return (
-
-                                        <div className='d-flex flex-row gap-1 justify-content-left' style={{ verticalAlign: "middle" }} key={val.id +ind}>
-                                            <span className='allergynamechk'>
-                                                <input type="checkbox" defaultChecked={val.checked} value="true" id={"f" + val.id} name={val.id} onClick={() => handlechange(val, "food")} disabled={disable ? true : false} />
-                                            </span>
-                                            <span className='allergyname'>{val.foodName}</span>
-                                        </div>
-
-                                    )
-
-                                })
-                                :
-                                medicationDataListTemp.slice(0, itemListShow).map((val, ind) => {
-                                    return (
-                                        <div className='d-flex flex-row gap-1 justify-content-left' style={{ verticalAlign: "middle" }} key={val.id + ind}>
-                                            <span className='allergynamechk'>
-                                                <input type="checkbox" defaultChecked={val.checked} value="true" name={val.id} id={"m" + val.id} onClick={() => { handlechange(val, "medication") }} disabled={disable ? true : false} />
-                                            </span>
-                                            <span className='allergyname'>{val.brandName}</span>
-                                        </div>
-                                    )
-                                })}
-                        </div>
-
-                    </div>
-                </div>
-                <Loader val={loader} />
+              <div
+                className="col-md-1 d-flex  align-items-center mr-2"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                <button
+                  type="button"
+                  className="btn btn-sm btn-save-fill mb-1 ms-2"
+                >
+                  <img src={plus} className="icnn" alt="" />
+                </button>
+              </div>
             </div>
-            <div className="offcanvas-backdrop fade show" onClick={() => { props.fun(0) }}></div>
-        </>
-    )
-}
-let searches = (array, value) => {
-    const index = array.findIndex(item => item.itemId === value);
-    return index
+          </div>
+        </div>
+      </div>
+      <div
+        className="offcanvas-backdrop fade show"
+        onClick={() => {
+          props.fun(0);
+        }}
+      ></div>
+
+      {/* ############################################################### MODAl POP UP ############################################################### */}
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+          <div className="modal-content ">
+            <div className="modal-header">
+              <h1
+                className="modal-title fs-5 text-white "
+                id="staticBackdropLabel"
+              >
+                Allergy
+              </h1>
+              <button
+                type="button"
+                className="btn-close_ btnModalClose"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div class="tab-content">
+                {/* --------------------------Allergy Tab Section----------------------------------------------- */}
+
+                <div className="problemhead">
+                  <div className="problemhead-inn">
+                    <div
+                      className="wrap scroll-in-section allergiespopup"
+                      style={{ maxHeight: "70vh" }}
+                    >
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        placeholder="Search Allergies"
+                      />
+
+                      <Select
+                        options={filteredFoodList.map((food) => ({
+                            label: food.foodName,
+                            value: food.id,
+                          }))}
+                        onMenuOpen={infinityScroll}
+                        onMenuScroll={infinityScroll}
+                        placeholder="Select Allergies"
+                        value={selectedOptions}
+                        onChange={handleSelect}
+                        isMulti
+                      />
+                    </div>
+
+                    <span className="font-monospace fst-italic">
+                      (Select one of these, or type your own title)
+                    </span>
+                  </div>
+
+                  <div className="problemhead-inn">
+                    <div className="col-12 mb-2">
+                      <label
+                        htmlFor="txtPatientRelationAddress"
+                        className="form-label"
+                      >
+                        <b>Title</b>
+                      </label>
+                      <input
+                        type="text"
+                        value=""
+                        className="form-control form-control-sm"
+                        name="title"
+                        id="title"
+                        placeholder="Enter title"
+                      />
+                    </div>
+                  </div>
+                  <div className="problemhead-inn">
+                    <div className="col-12 mb-2">
+                      <label
+                        htmlFor="txtPatientRelationAddress"
+                        className="form-label"
+                      >
+                        <b>Coding</b>
+                      </label>
+                      <div>
+                        <select
+                          className="form-control"
+                          style={{ height: "8em" }}
+                          multiple
+                          name="coding"
+                          id="coding"
+                        >
+                          {issueDetails.coding !== "" ? (
+                            <option>{issueDetails.coding}</option>
+                          ) : (
+                            ""
+                          )}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="d-inline-flex gap-2">
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        style={{ backgroundColor: "#1d4999" }}
+                      >
+                        Add
+                      </button>
+                      <button type="button" class="btn btn-secondary btn-sm">
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="row">
+                      <div className="col-6 mb-2">
+                        <label
+                          htmlFor="txtPatientRelationAddress"
+                          className="form-label"
+                        >
+                          <b>Begin Date and Time</b>
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control form-control-sm"
+                          id="beginDateTime"
+                          name="beginDateTime"
+                        />
+                      </div>
+                      <div className="col-6 mb-2">
+                        <label
+                          htmlFor="txtPatientRelationAddress"
+                          className="form-label"
+                        >
+                          <b>End Date and Time</b>
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control form-control-sm"
+                          id="endDateTime"
+                          name="endDateTime"
+                        />
+                        <div className="mt-2" style={{ float: "inline-end" }}>
+                          <span className="font-monospace fst-italic">
+                            (leave blank if still active)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="row">
+                      <div className="col-4 mb-2">
+                        <label
+                          htmlFor="ddlRelationshipTertiary"
+                          className="form-label"
+                        >
+                          <b>Classification Type</b>
+                        </label>
+                        {/* <sup style={{ color: "red" }}>*</sup> */}
+                        <div className="d-flex gap-3">
+                          <select
+                            className="form-select form-select-sm"
+                            id="classificationTypeId"
+                            aria-label=".form-select-sm example"
+                            name="classificationTypeId"
+                          >
+                            <option value="0" selected>
+                              Select Classification
+                            </option>
+                            {classificationList &&
+                              classificationList.map((list) => {
+                                return (
+                                  <option value={list.id}>{list.name}</option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                        <small
+                          id="errRelationshipTertiary"
+                          className="form-text text-danger"
+                          style={{ display: "none" }}
+                        ></small>
+                      </div>
+                      <div className="col-4 mb-2">
+                        <label
+                          htmlFor="ddlRelationshipTertiary"
+                          className="form-label"
+                        >
+                          <b>Occurrence</b>
+                        </label>
+                        {/* <sup style={{ color: "red" }}>*</sup> */}
+                        <div className="d-flex gap-3">
+                          <select
+                            className="form-select form-select-sm"
+                            id="occurrenceId"
+                            aria-label=".form-select-sm example"
+                            name="occurrenceId"
+                          >
+                            <option value="0" selected>
+                              Select Occurrence
+                            </option>
+                            {occurencelist &&
+                              occurencelist.map((list) => {
+                                return (
+                                  <option value={list.id}>{list.name}</option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                        <small
+                          id="errRelationshipTertiary"
+                          className="form-text text-danger"
+                          style={{ display: "none" }}
+                        ></small>
+                      </div>
+
+                      <div className="col-4 mb-2">
+                        <label
+                          htmlFor="ddlRelationshipTertiary"
+                          className="form-label"
+                        >
+                          <b>Verification Status</b>
+                        </label>
+                        {/* <sup style={{ color: "red" }}>*</sup> */}
+                        <div className="d-flex gap-3">
+                          <select
+                            className="form-select form-select-sm"
+                            id="verificationStatusId"
+                            aria-label=".form-select-sm example"
+                            name="verificationStatusId"
+                          >
+                            <option value="0" selected>
+                              Select Status
+                            </option>
+                            {statuslist &&
+                              statuslist.map((list) => {
+                                return (
+                                  <option value={list.id}>{list.name}</option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                        <small
+                          id="errRelationshipTertiary"
+                          className="form-text text-danger"
+                          style={{ display: "none" }}
+                        ></small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="row">
+                      <div className="col-6 mb-2">
+                        <label
+                          htmlFor="ddlRelationshipTertiary"
+                          className="form-label"
+                        >
+                          <b>Outcome</b>
+                        </label>
+                        {/* <sup style={{ color: "red" }}>*</sup> */}
+                        <div className="d-flex gap-3">
+                          <select
+                            className="form-select form-select-sm"
+                            id="outcomeId"
+                            aria-label=".form-select-sm example"
+                            name="outcomeId"
+                          >
+                            <option value="0" selected>
+                              Select Outcome
+                            </option>
+                            {outComelist &&
+                              outComelist.map((list) => {
+                                return (
+                                  <option value={list.id}>{list.name}</option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                        <small
+                          id="errRelationshipTertiary"
+                          className="form-text text-danger"
+                          style={{ display: "none" }}
+                        ></small>
+                      </div>
+                      <div className="col-6 mb-2">
+                        <label
+                          htmlFor="txtPatientRelationAddress"
+                          className="form-label"
+                        >
+                          <b>Destination</b>
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          id="destination"
+                          name="destination"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="row">
+                      <div className="col-12 mb-2">
+                        <label
+                          htmlFor="txtPatientRelationAddress"
+                          className="form-label"
+                        >
+                          <b>Referred by</b>
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm mt-1"
+                          id="referredby"
+                          name="referredby"
+                        />
+                      </div>
+                      <div className="col-12 mb-2">
+                        <label
+                          htmlFor="txtPatientRelationAddress"
+                          className="form-label"
+                        >
+                          <b>Comments</b>
+                        </label>
+                        <textarea
+                          className="mt-1 form-control"
+                          id="comments"
+                          name="comments"
+                          rows="3"
+                          cols="40"
+                          style={{ height: "121px" }}
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                <button
+                  type="button"
+                  class="btn btn-save btn-save-fill btn-lg "
+                  data-bs-dismiss="modal"
+                >
+                  <i class="bi bi-check-lg"></i> Save
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-secondry btn-lg"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="bi bi-x-lg"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
