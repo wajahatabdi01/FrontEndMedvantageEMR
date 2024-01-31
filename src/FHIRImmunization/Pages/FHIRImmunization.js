@@ -5,13 +5,61 @@ import clearIcon from '../../assets/images/icons/clear.svg'
 import printIcon from '../../assets/images/icons/icons8-print-26.png'
 import FHIRImmunizationCodeMaster from '../Components/FHIRImmunizationCodeMaster';
 
+import deleteIcon from '../../assets/images/icons/icons8-delete-30.png'
+
+
 export default function FHIRImmunization() {
 
+  let [makeData, setMakeData] = useState([]);
+  let [getData, setgetData] = useState([]);
+  const [PopUpId, setPopUpId] = useState('');
   const [showObservation, setShowObservation] = useState(false);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
 
+  const [selectedValue, setSelectedValue] = useState('');
 
+  const [getUnassignedField, setUnassignedField] = useState(false);
+  const [getVaccineFundingField, setVaccineFundingField] = useState(false);
+  const [getVaccineTypeField, setVaccineTypeField] = useState(false);
+  const [getDiseaseField, setDiseaseField] = useState(false);
+
+  const [observationRow, setObservationRow] = useState([
+    {
+      rowID: 1,
+      Date: '',
+      Code: '',
+      Type: 0,
+      Description: '',
+      reasonCode: '',
+      reasonStatus: '',
+      reasonRecordingDate: '',
+      reasonEndDate: '',
+    },
+  ]);
+  
   const customStyle = { marginLeft: '0px' };
+
+  const handleAddCarePlanRow = (param) => {
+    
+    let tempArr = [...observationRow];
+    tempArr.push({
+      rowID: param + 1,
+    });
+    
+    setObservationRow(tempArr);
+  }
+
+  const handleDeleteCarePlanRow = (index, key) => {
+    let tempArr = [];
+    const data = [...observationRow];
+    if (data.length === 1) {
+      return;
+    }
+    
+    data.splice(index, 1);
+    setObservationRow(data)
+  }
+
   const funToShowObservation = () => {
     setShowObservation(!showObservation)
   }
@@ -19,12 +67,125 @@ export default function FHIRImmunization() {
   const handleOpenModal = (modalID) => {
     console.log('modal open')
     setIsShowPopUp(1);
-    //setPopUpId(modalID);
+    setPopUpId(modalID);
   }
 
   const handleCloseModal = () => {
     setIsShowPopUp(0);
-    // setPopUpId('');
+     setPopUpId('');
+  }
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+
+    // Add your logic based on the selected value
+    if (value === '1') {
+      setDiseaseField(false);
+      setUnassignedField(false);
+      setVaccineFundingField(false);
+      setVaccineTypeField(false);
+    }
+   else if (value === '2') {
+      setDiseaseField(false);
+      setUnassignedField(false);
+      setVaccineFundingField(true);
+      setVaccineTypeField(false);
+    }
+   else if (value === '3') {
+      setDiseaseField(false);
+      setUnassignedField(false);
+      setVaccineFundingField(false);
+      setVaccineTypeField(true);
+    }
+   else if (value === '4') {
+      setDiseaseField(true);
+      setUnassignedField(false);
+      setVaccineFundingField(false);
+      setVaccineTypeField(false);
+    }
+
+    // Set the selected value in the state
+    setSelectedValue(value);
+  };
+
+  /////////////////////////// To send data in codemaster component and to receive it Immunization ///////////////////////////////////////
+
+  const SelectedData = (data, modalID) => {
+
+
+    const t = {
+      moduleId: modalID,
+      data: data
+    }
+    
+    setgetData(t);
+    setMakeData([...makeData, t])
+    let temp = ""
+    for (var i = 0; i < data.length; i++) {
+      temp += " " + data[i].code
+    }
+
+    document.getElementById(modalID).value = temp
+
+  }
+
+  /////////////////////////////////// To send data in codemaster component for CVX Code /////////////////////////////////
+  const SelectedDataCVX = (data, modalID) => {
+    console.log('the modal ID CVX: ', modalID)
+
+    const t = {
+      moduleId: modalID,
+      data: data
+    }
+    
+    setgetData(t);
+    setMakeData([...makeData, t])
+    let temp = ""
+    for (var i = 0; i < data.length; i++) {
+      temp += " " + data[i].code
+    }
+
+    document.getElementById(modalID).value = temp
+
+  }
+  
+  /////////////////////////////////// To send data in codemaster component for SNOW Code /////////////////////////////////
+  const SelectedDataSNOW = (data, modalID) => {
+    console.log('the modal ID SNOW: ', modalID)
+
+    const t = {
+      moduleId: modalID,
+      data: data
+    }
+    
+    setgetData(t);
+    setMakeData([...makeData, t])
+    let temp = ""
+    for (var i = 0; i < data.length; i++) {
+      temp += " " + data[i].code
+    }
+
+    document.getElementById(modalID).value = temp
+
+  }
+  /////////////////////////////////// To send data in codemaster component for Reason Code /////////////////////////////////
+  const SelectedDataReason= (data, modalID) => {
+    console.log('the modal ID SNOW: ', modalID)
+
+    const t = {
+      moduleId: modalID,
+      data: data
+    }
+    
+    setgetData(t);
+    setMakeData([...makeData, t])
+    let temp = ""
+    for (var i = 0; i < data.length; i++) {
+      temp += " " + data[i].code
+    }
+
+    document.getElementById(modalID).value = temp
+
   }
   return (
     <>
@@ -42,7 +203,7 @@ export default function FHIRImmunization() {
                         <div className="row">
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Code" className="form-label">Immunization (CVX Code)<span className="starMandatory">*</span></label>
-                            <input  id="immunizationCode" type="text" className="form-control form-control-sm" name="immunizationCode" placeholder= "Enter Code" onClick={handleOpenModal} />
+                            <input  id="immunizationCode" type="text" className="form-control form-control-sm" name="immunizationCode" placeholder= "Enter Code" onClick={()=> {handleOpenModal('immunizationCode')}} />
                             <small id="errImmunizationCode" className="form-text text-danger" style={{ display: 'none' }}></small>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
@@ -146,7 +307,7 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Reason" className="form-label">Reason Code</label>
-                            <input  id="ReasonId" type="text" className="form-control form-control-sm" name="ReasonName" onChange={''} /> 
+                            <input  id="ReasonId" type="text" className="form-control form-control-sm" name="ReasonName" onClick={()=> {handleOpenModal('ReasonId')}} /> 
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="ImmunizationOrdering" className="form-label">Immunization Ordering Provider</label>
@@ -169,23 +330,72 @@ export default function FHIRImmunization() {
                               <div className='col-12 mt-1'>
                               <div className='fieldsett fieldse '>
                                 <span className='fieldse'>Observation Results</span>
-                                <div className="row">
+                                {observationRow && observationRow.map((observeList, ind) => {
+                                  const isLastRow = ind === observationRow.length - 1; // Check if it's the last row
+                                  return(
+                                    <div className="row">
                                 <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                   <label htmlFor="ObservationCriteria" className="form-label">Observation Criteria</label>
-                                  <select name="" className='form-select form-select-sm' id="ObservationCriteriaID">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
+                                  <select name="" className='form-select form-select-sm' value={selectedValue} id={"ObservationCriteriaID"+observeList.rowID} onChange={handleSelectChange}>
+                                    <option value="1">Unassigned</option>
+                                    <option value="2">Vaccine funding program eligibility criteria</option>
+                                    <option value="3">Vaccine Type</option>
+                                    <option value="4">Disease with presumed immunity</option>
                                   </select> 
                                 </div>
-                                <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
-                                <label htmlFor="ObservationCriteria" className="form-label"></label>
-                                  <div>
-                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={plus} className='icnn' alt='' />Add</button>
+                                {getVaccineFundingField && <>
+                                  <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                  <label htmlFor="ObservationCriteriaValue" className="form-label">Observation Criteria Value</label>
+                                  <select name="" className='form-select form-select-sm' id={"ObservationCriteriaValueID" + observeList.rowID}>
+                                    <option value="1">Not VFC eligible</option>
+                                    <option value="2">Not VFC eligible</option>
+                                    <option value="3">Not VFC eligible</option>
+                                  </select> 
+                                </div>
+                                </>}
+                                {getVaccineTypeField && <>
+                                  <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                    <label htmlFor="CVX_Code" className="form-label">CVX Code</label>
+                                    <input  id={"CVX_CodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="CVX_CodeName" onClick={()=> {handleOpenModal('CVX_CodeId'+observeList.rowID)}} />  
                                   </div>
-                                  
+                                  <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                    <label htmlFor="Date_VIS_Published" className="form-label">Date VIS Published</label>
+                                    <input  id={"Date_VIS_Published_Id" + observeList.rowID} type="date" className="form-control form-control-sm" name="Date_VIS_Published_Name"  />  
+                                  </div>
+                                  <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                    <label htmlFor="Date_VIS_Presented" className="form-label">Date VIS Presented</label>
+                                    <input  id={"Date_VIS_PresentedId" + observeList.rowID} type="date" className="form-control form-control-sm" name="Date_VIS_PresentedName"  />  
+                                  </div>
+                                </>}
+                                {getDiseaseField && <>
+                                  <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                    <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code</label>
+                                    <input  id={"SNOMED-CTCodeId"+observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={()=> {handleOpenModal("SNOMED-CTCodeId"+observeList.rowID)}} />  
+                                  </div>
+                                </>}
+                                <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
+                                  <div className="row align-items-center p-2">
+                                    <label htmlFor="ObservationCriteria" className="form-label"></label>
+
+                                    <div className="d-flex">
+                                      {isLastRow && ( // Conditionally render the buttons only for the last row
+                                        <>
+                                          <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { handleAddCarePlanRow(observeList.rowID) }}>
+                                            <img src={plus} className='icnn' alt='' /> Add
+                                          </button>
+
+                                          <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={() => { handleDeleteCarePlanRow(ind, observeList.rowID) }}>
+                                            <img src={deleteIcon} className='icnn' alt='' /> Delete
+                                          </button>
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
+
                                 </div>
+                                  )
+                                })}
                                
                               </div>
                               </div>
@@ -259,7 +469,12 @@ export default function FHIRImmunization() {
 
 
               {/* <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} /> */}
-              <FHIRImmunizationCodeMaster style={customStyle} />
+              {PopUpId === 'immunizationCode' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> :
+              PopUpId === 'CVX_CodeId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> :
+              PopUpId === 'SNOMED-CTCodeId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSNOW} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> : 
+              PopUpId === 'ReasonId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataReason} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> :''}
+              
+              
               {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
             </div>
           </div>
