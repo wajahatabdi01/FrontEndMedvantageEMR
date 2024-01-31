@@ -344,6 +344,8 @@ import FHIRFamilyHistoryEdit from '../EditCredentional/Pages/FHIRFamilyHistoryEd
 import FHIRCarePlan from '../FHIRCarePlan/Pages/FHIRCarePlan';
 import FHIRCareCoordination from '../FHIRCareCoordination/Pages/FHIRCareCoordination';
 import MedicalProblem from '../FHIRClinical/Pages/Clinical/MedicalProblem';
+import AddRule from '../FHIRAdmin/Pages/AddRule';
+import ViewPlanRules from '../FHIRAdmin/Pages/ViewPlanRules';
 import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
 import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
 
@@ -861,6 +863,13 @@ export default function ApiRoutes() {
                   {/* -----------------------------------Start Medvantage Clinical SEction----------------------------------------- */}
                   <Route path="/medicalproblem/" element={<ProtectedRoutes Compnent={<MedicalProblem />} />} />
                   {/* -----------------------------------End Medvantage Clinical SEction----------------------------------------- */}
+
+
+                  {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
+                  <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} />
+                  <Route path="/Viewplanrules/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} />
+                  {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
+
 
                   {/* -----------------------------------Start Medvantage Immunization SEction----------------------------------------- */}
                   <Route path="/fhirimmunization/" element={<ProtectedRoutes Compnent={<FHIRImmunization />} />} />
