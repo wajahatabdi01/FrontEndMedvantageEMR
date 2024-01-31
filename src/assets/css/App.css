@@ -698,28 +698,30 @@ span.starMandatory {
   padding: 5px 0px;
 }
 
+
 .handlser input {
-  height: 25px;
-  padding: 2px 5px;
-  margin-right: 10px;
-  font-size: 13px;
   border: 1px solid #dee2e6;
   border-radius: 3px;
-  max-width: 150px;
+  font-size: 13px;
+  height: 25px;
+  margin-right: 10px;
+  max-width: 200px;
+  padding: 2px 38px 2px 5px;
   width: 100%;
 }
 
 .tblsericon {
-  cursor: pointer;
-  position: absolute;
-  top: 1px;
-  right: 11px;
-  font-size: 14px;
   background: #dee4f3;
+  border-radius: 0 3px 3px 0;
+  color: #777;
+  color: var(--secondary-color);
+  cursor: pointer;
+  font-size: 15px;
   margin: 0;
   padding: 3px 8px;
-  color: var(--secondary-color);
-  border-radius: 0px 3px 3px 0;
+  position: absolute;
+  right: 11px;
+  top: 1px;
 }
 
 .med-table-section {
@@ -3597,6 +3599,58 @@ span.uhid {
   background: var(--primary-bg-btn-color);
   color: var(--primary-bg-btn-text-color);
   border: var(--primary-bg-btn-color);
+}
+.checklabel label {
+  color: var(--secondary-color);
+  font-size: 13px !important;
+  line-height: 30px;
+}
+.checklabel input[type=checkbox] {
+  margin-top: 7px !important;
+  height: 16px !important;
+  width: 16px !important;
+}
+.planrulebrde {
+  flex: 1 1;
+  border: 1px solid #ddd;
+  max-height: 40vh;
+  min-height: 20vh;
+  overflow: auto;
+}
+.allrules {
+  padding: 5px;
+}
+.rulesec {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 10px 7px;
+  background: #d1dbf3;
+  color: #1d4999;
+  font-size: 13px;
+  font-weight: 600;
+}
+.rulesec input {
+  height: 20px;
+  max-width: 150px;
+  width: 100%;
+  border-radius: 3px;
+  padding: 0px 21px 0 5px;
+  font-size: 13px;
+  font-style: italic;
+  color: #787474;
+}
+.rulesericon {
+  background: #eaecf1;
+  border-radius: 0 3px 3px 0;
+  color: #1d4999;
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0;
+  padding: 0px 1px;
+  position: absolute;
+  right: 1px;
+  top: 1px;
 }
 
 .diet-btn {
