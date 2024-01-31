@@ -346,6 +346,8 @@ import FHIRCareCoordination from '../FHIRCareCoordination/Pages/FHIRCareCoordina
 import MedicalProblem from '../FHIRClinical/Pages/Clinical/MedicalProblem';
 import AddRule from '../FHIRAdmin/Pages/AddRule';
 import ViewPlanRules from '../FHIRAdmin/Pages/ViewPlanRules';
+import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
+import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
 
 export default function ApiRoutes() {
 
@@ -869,6 +871,10 @@ export default function ApiRoutes() {
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 
+                  {/* -----------------------------------Start Medvantage Immunization SEction----------------------------------------- */}
+                  <Route path="/fhirimmunization/" element={<ProtectedRoutes Compnent={<FHIRImmunization />} />} />
+                  <Route path="/fhirimmunizationcodemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRImmunizationCodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
+                  {/* -----------------------------------End Medvantage Immunization SEction----------------------------------------- */}
             </Routes>
 
       )

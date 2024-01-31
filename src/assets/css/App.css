@@ -778,6 +778,13 @@ span.headingSample {
   font-weight: 500;
 }
 
+.easeInOut {
+  height: 100px;
+  transition: height 2s;
+}
+
+#divObservation {transition-timing-function: ease-in-out;}
+
 label.subj {
   color: rgb(84, 103, 136);
   font-size: 15px;

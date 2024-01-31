@@ -8,9 +8,11 @@ import clear from '../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
 import GetIssueSubType from '../API/GetIssueSubType'
 import POSTFHIRCarePlan from '../API/POSTFHIRCarePlan'
+import GetCarePlanType from '../API/GetCarePlanType'
 
 
 export default function FHIRCarePlan(props) {
+  const [getCarePlanTypeList, setCarePlanTypeList] = useState([])
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -30,7 +32,6 @@ export default function FHIRCarePlan(props) {
     },
   ]);
 
-  const [getIssueSubType, setIssueSubType] = useState([]);
 
   // const handleTextChange  =(e) =>{
   //   let arr=[...carePlanRow];
@@ -41,14 +42,12 @@ export default function FHIRCarePlan(props) {
   const customStyle = { marginLeft: '0px' };
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
 
-  const funGetIssueSubTestType = async () =>{
-    const subTestRes = await GetIssueSubType();
-    if(subTestRes.status === 1)
-    {
-      setIssueSubType(subTestRes.responseValue)
-    }
-   
-  }
+  //////////////////////////////////////  TO Get Care Plan Type List ///////////////////////////////
+
+  const funGetCarePlanTypeList =  async () => {
+    const getCareTypeRes = await GetCarePlanType();
+    setCarePlanTypeList(getCareTypeRes.responseValue)
+}
 
   let SelectedData = (data, modalID) => {
 
@@ -62,7 +61,7 @@ export default function FHIRCarePlan(props) {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].id
+      temp += " " + data[i].code
     }
 
     document.getElementById(modalID).value = temp
@@ -206,7 +205,7 @@ export default function FHIRCarePlan(props) {
   }
 
   useEffect(() => {
-    funGetIssueSubTestType()
+    funGetCarePlanTypeList()
   },[])
 
   return (
@@ -234,8 +233,8 @@ export default function FHIRCarePlan(props) {
                           <label className='form-label'>Type :</label>
                           <select className='form-select form-select-sm' id={'careTypeID' + carePlan.rowID} >
                           <option value='0'>Select Code</option>
-                          {getIssueSubType && getIssueSubType.map((list, ind) => (
-                            <option key={ind} value={list.id}>{list.name}</option>
+                          {getCarePlanTypeList && getCarePlanTypeList.map((list, ind) => (
+                            <option key={ind} value={list.id}>{list.typeName}</option>
                   ))}
                             
                             
