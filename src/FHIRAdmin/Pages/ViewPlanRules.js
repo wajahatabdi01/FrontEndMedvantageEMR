@@ -9,11 +9,24 @@ import clearIcon from '../../assets/images/icons/clear.svg';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 export default function ViewPlanRules() {
-    let [buildingList, setBuildingList] = useState([]);
+    document.body.dir = i18n.dir();
     let [updateBool, setUpdateBool] = useState(0)
-    let [sendForm, setSendForm] = useState({ "userId": window.userId })
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
+    let [sendForm, setSendForm] = useState({
+        "userId": window.userId,
+        "clientId": window.clientId,
+        title: '',
+        active: 0,
+        passive: 0,
+        patientReminder: 0,
+        bibliographicCitation: '',
+        developer: '',
+        fundingSource: '',
+        release: '',
+        webReference: '',
+        referentialCDS: '',
+    })
 
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
@@ -23,6 +36,8 @@ export default function ViewPlanRules() {
     const { t } = useTranslation();
 
     const [showAddPlan, setShowAddPlan] = useState(0);
+    const [selectedRules, setSelectedRules] = useState([]);
+    const [availableRules, setAvailableRules] = useState([]);
 
     const handleAddNewPlanClick = () => {
         setShowAddPlan(1);
@@ -37,12 +52,41 @@ export default function ViewPlanRules() {
     };
 
 
+    //Static Rules
+    let ruleList = [
+        { id: 1, rule: "Cancer Screening: Pap Smear1" },
+        { id: 2, rule: "Cancer Screening: Pap Smear2" },
+        { id: 3, rule: "Cancer Screening: Pap Smear3" },
+        { id: 4, rule: "Cancer Screening: Pap Smear4" },
+        { id: 5, rule: "Cancer Screening: Pap Smear5" },
+        { id: 6, rule: "Cancer Screening: Pap Smear6" },
+        { id: 7, rule: "Cancer Screening: Pap Smear7" },
+        { id: 9, rule: "Cancer Screening: Pap Smear9" },
+        { id: 8, rule: "Cancer Screening: Pap Smear8" },
+        { id: 10, rule: "Cancer Screening: Pap Smear10" },
+        { id: 11, rule: "Cancer Screening: Pap Smear11" },
+        { id: 12, rule: "Cancer Screening: Pap Smear12" },
+        { id: 13, rule: "Cancer Screening: Pap Smear13" },
+        { id: 14, rule: "Cancer Screening: Pap Smear14" },
+    ];
+
+    const handleAddRule = (rule) => {
+        if (!selectedRules.find((selectedRule) => selectedRule.id === rule.id)) {
+            setSelectedRules([...selectedRules, rule]);
+            setAvailableRules(availableRules.filter((availableRule) => availableRule.id !== rule.id));
+        }
+    };
+
+    const handleRemoveRule = (rule) => {
+        setSelectedRules(selectedRules.filter((selectedRule) => selectedRule.id !== rule.id));
+        setAvailableRules([...availableRules, rule]);
+    };
 
 
     useEffect(() => {
-
+        setAvailableRules(ruleList);
     }, [])
-    document.body.dir = i18n.dir();
+
     return (
         <>
             <section className="main-content mt-5 pt-3">
@@ -123,32 +167,48 @@ export default function ViewPlanRules() {
                                         {/* -------------------------------------Start Plan Rule Mapping Section---------------------------------------------- */}
 
                                         <div className='PlanRuleMapping'>
+                                            <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div>
                                             <div className="d-flex px-1">
-
                                                 <div className="planrulebrde flex-1">
                                                     <div className='rulesec'>
-                                                        <div>rule already in plan</div>
+                                                        <div><span className='rulecount'>{selectedRules.length}</span> rule already in plan</div>
                                                         <div>Remove all rules from plan</div>
                                                     </div>
                                                     <div className='allrules'>
-                                                        Text1
+                                                        {selectedRules.map((rule) => (
+                                                            <div className="planrule" key={rule.id}>
+                                                                <div className="plantxt">{rule.rule}</div>
+                                                                <div className="planicon" onClick={() => handleRemoveRule(rule)}>
+                                                                    <i className="fa fa-minus"></i>
+                                                                </div>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 </div>
                                                 <div className="planrulebrde flex-1">
                                                     <div className='rulesec'>
-                                                        <div style={{ position: 'relative' }}>
-                                                        <input type='text' className='form-control' placeholder={t("Search")} />
-                                                        <span className="rulesericon"><i class="fas fa-search"></i></span>
+                                                        <div className='ruleserch'>
+                                                            <input type='text' className='form-control' placeholder={t("Search")} />
+                                                            <span className="rulesericon"><i class="fas fa-search"></i></span>
                                                         </div>
                                                         <div>Add all rules to plan</div>
                                                     </div>
                                                     <div className='allrules'>
-                                                        Text2
+
+                                                        {availableRules.map((val) => {
+                                                            return (
+                                                                <div className="planrule" key={val.id}>
+                                                                    <div className="plantxt">{val.rule}</div>
+                                                                    <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                        <i className="fa fa-plus"></i>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div className='row px-1 '>
                                                 <div className="col-lg-12 col-md-12 col-sm-12">
                                                     <div className="mb-2 relative">

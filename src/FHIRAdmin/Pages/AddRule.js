@@ -8,12 +8,28 @@ import saveButtonIcon from '../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../assets/images/icons/clear.svg';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
+import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
+import PostAddRule from '../API/AddRule/PostAddRule'
+import GetAddRule from '../API/AddRule/GetAddRule'
 export default function AddRule() {
-    let [buildingList, setBuildingList] = useState([]);
+    let [ruleList, setRuleList] = useState([]);
     let [updateBool, setUpdateBool] = useState(0)
-    let [sendForm, setSendForm] = useState({ "userId": window.userId })
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
+    let [sendForm, setSendForm] = useState({
+        "userId": window.userId,
+        "clientId": window.clientId,
+        title: '',
+        active: 0,
+        passive: 0,
+        patientReminder: 0,
+        bibliographicCitation: '',
+        developer: '',
+        fundingSource: '',
+        release: '',
+        webReference: '',
+        referentialCDS: '',
+    })
 
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
@@ -22,16 +38,127 @@ export default function AddRule() {
     const [searchTerm, setSearchTerm] = useState('');
     let [content, setContent] = useState('');
     const { t } = useTranslation();
+
+    let [makeData, setMakeData] = useState([]);
+    let [getData, setgetData] = useState([]);
+    const [isShowPopUp, setIsShowPopUp] = useState(0);
+    const [PopUpId, setPopUpId] = useState('');
+
+    const customStyle = { marginLeft: '0px' };
+
+
     // Function to handle changes in the search term
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    const handleOpenModal = (modalID) => {
+        setIsShowPopUp(1);
+        setPopUpId(modalID);
+    }
+
+    const handleCloseModal = () => {
+        setIsShowPopUp(0);
+        setPopUpId('');
+    }
+
+    let SelectedData = (data, modalID) => {
+        let t = {
+            moduleId: modalID,
+            data: data
+        }
+        setgetData(t);
+        setMakeData([...makeData, t])
+        let temp = ""
+        for (var i = 0; i < data.length; i++) {
+            temp += " " + data[i].code
+        }
+        document.getElementById(modalID).value = temp
+    }
+
+    //Handle Change
+    let handleChange = async (e) => {
+        const { name, value, checked } = e.target;
+
+        if (name === "active") {
+            setSendForm((prevData) => ({
+                ...prevData,
+                [name]: checked,
+            }));
+        }
+        else if (name === "passive") {
+            setSendForm((prevData) => ({
+                ...prevData,
+                [name]: checked,
+            }));
+        }
+        else if (name === "patientReminder") {
+            setSendForm((prevData) => ({
+                ...prevData,
+                [name]: checked,
+            }));
+        }
+        else {
+            setSendForm((prevData) => ({
+                ...prevData,
+                [name]: value,
+                "userId": window.userId,
+                "clientId": window.clientId
+            }));
+        }
+    }
+
+    //Handle Save 
+    const handlerSave = async () => {
+        const activeData = document.getElementById("active").checked ? 1 : 0;
+        const passiveData = document.getElementById("passive").checked ? 1 : 0;
+        const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
+
+        if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
+            document.getElementById('errTitle').innerHTML = "Title is Required";
+            document.getElementById('errTitle').style.display = "block";
+        }
+        else {
+            setShowUnderProcess(1);
+            var obj = {
+                "title": sendForm.title,
+                "active": activeData,
+                "passive": passiveData,
+                "patientReminder": patientReminderData,
+                "bibliographicCitation": sendForm.bibliographicCitation,
+                "developer": sendForm.developer,
+                "fundingSource": sendForm.fundingSource,
+                "release": "testrel",
+                "webReference": sendForm.webReference,
+                "referentialCDS": sendForm.referentialCDS,
+                "userId": window.userId
+            }
+            const response = await PostAddRule(obj);
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setTosterValue(0);
+                setShowToster(1);
+                setTosterMessage("Data Saved Successfully.!");
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 1500)
+            }
+            else {
+                setShowUnderProcess(0);
+                setTosterValue(1);
+                setShowToster(1);
+                setTosterMessage(response.responseValue);
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 1500)
+            }
+        }
+    }
+
 
 
 
     useEffect(() => {
-
     }, [])
     document.body.dir = i18n.dir();
     return (
@@ -48,8 +175,9 @@ export default function AddRule() {
                                         <div className='row px-1 py-3'>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Title <span className="starMandatory">*</span></label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Title")} />
+                                                    <label htmlFor="title" className="form-label">Title <span className="starMandatory">*</span></label>
+                                                    <input type="text" className="form-control form-control-sm" id="title" name='title' onChange={handleChange} placeholder={t("Enter Title")} />
+                                                    <small id="errTitle" className="invalid-feedback" style={{ display: 'none' }}></small>
                                                 </div>
                                             </div>
 
@@ -58,20 +186,20 @@ export default function AddRule() {
                                                     <label htmlFor="" className="form-label">Type </label>
                                                     <div className='d-flex gap-3 flex-wrap checklabel'>
                                                         <div className="form-check ps-0">
-                                                            <input className="form-check-input" type="checkbox" id="" name="" />
-                                                            <label className="form-check-label" htmlFor="" >
+                                                            <input className="form-check-input" type="checkbox" id="active" name="active" />
+                                                            <label className="form-check-label" htmlFor="active" >
                                                                 Active Alert
                                                             </label>
                                                         </div>
                                                         <div className="form-check ps-0">
-                                                            <input className="form-check-input" type="checkbox" id="" name="" />
-                                                            <label className="form-check-label" htmlFor="" >
+                                                            <input className="form-check-input" type="checkbox" id="passive" name="passive" />
+                                                            <label className="form-check-label" htmlFor="passive" >
                                                                 Passive Alert
                                                             </label>
                                                         </div>
                                                         <div className="form-check ps-0">
-                                                            <input className="form-check-input" type="checkbox" id="" name="" />
-                                                            <label className="form-check-label" htmlFor="">
+                                                            <input className="form-check-input" type="checkbox" id="patientReminder" name="patientReminder" />
+                                                            <label className="form-check-label" htmlFor="patientReminder">
                                                                 Patient Reminder
                                                             </label>
                                                         </div>
@@ -80,38 +208,38 @@ export default function AddRule() {
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Bibliographic Citation</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Bibliographic Citation")} />
+                                                    <label htmlFor="bibliographicCitation" className="form-label">Bibliographic Citation</label>
+                                                    <input type="text" className="form-control form-control-sm" id="bibliographicCitation" name='bibliographicCitation' onChange={handleChange} placeholder={t("Enter Bibliographic Citation")} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Developer</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Developer")} />
+                                                    <label htmlFor="developer" className="form-label">Developer</label>
+                                                    <input type="text" className="form-control form-control-sm" id="developer" name='developer' onChange={handleChange} placeholder={t("Enter Developer")} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Funding Source</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Funding Source")} />
+                                                    <label htmlFor="fundingSource" className="form-label">Funding Source</label>
+                                                    <input type="text" className="form-control form-control-sm" id="fundingSource" name='fundingSource' onChange={handleChange} placeholder={t("Enter Funding Source")} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Release</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Release")} />
+                                                    <label htmlFor="release" className="form-label">Release</label>
+                                                    <input type="text" className="form-control form-control-sm" id="release" name='release' onChange={handleChange} placeholder={t("Enter Release")} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Web Reference</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Web Reference")} />
+                                                    <label htmlFor="webReference" className="form-label">Web Reference</label>
+                                                    <input type="text" className="form-control form-control-sm" id="webReference" name='webReference' onChange={handleChange} placeholder={t("Enter Web Reference")} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
-                                                    <label htmlFor="" className="form-label">Referential CDS</label>
-                                                    <input type="text" className="form-control form-control-sm" id="" name='' placeholder={t("Enter Referential CDS")} />
+                                                    <label htmlFor="referentialCDS" className="form-label">Referential CDS</label>
+                                                    <input type="text" className="form-control form-control-sm" id="referentialCDS" name='referentialCDS' onChange={handleChange} placeholder={t("Enter Referential CDS")} onClick={() => { handleOpenModal('referentialCDS') }} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
@@ -126,7 +254,7 @@ export default function AddRule() {
                                                                     : <div>
                                                                         {updateBool === 0 ?
                                                                             <>
-                                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
                                                                                 <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Clear")}</button>
                                                                             </>
                                                                             :
@@ -149,7 +277,29 @@ export default function AddRule() {
                         </div>
                     </div>
                 </div>
+
+                {/* -------------------------Table Section-------------------------------- */}
+
+
+                {/* ------------------------------------------ Code Master popUp Start------------------------------------ */}
+                {isShowPopUp === 1 ?
+
+                    <div className={`modal d-${isShowPopUp === 1 ? 'block' : 'none'}`} id="codesModal" data-bs-backdrop="static" >
+                        <div className="modal-dialog modalDelete" style={{ maxWidth: '550px' }}>
+                            <div className="modal-content" >
+                                {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
+
+
+                                <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} />
+                                {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
+                            </div>
+                        </div>
+                    </div>
+                    : ''}
+                {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
             </section>
+
         </>
     )
 }
