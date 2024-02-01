@@ -8,7 +8,7 @@ async function GetCodeBind(code, textSearch) {
   let data = {}
   let response = fetch(url, {
     headers: head,
-    method : 'POST'
+    method : 'GET'
 }).then((res) => res.json()).then(data);
 return response;  
 }
