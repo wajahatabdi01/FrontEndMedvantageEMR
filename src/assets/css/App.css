@@ -3620,29 +3620,30 @@ span.uhid {
 .planrulebrde {
   flex: 1 1;
   border: 1px solid #ddd;
-  max-height: 40vh;
-  min-height: 20vh;
-  overflow: auto;
 }
 .allrules {
   padding: 5px;
+  max-height: 50vh;
+  min-height: 20vh;
+  overflow: auto;
 }
 .rulesec {
   display: flex;
   gap: 20px;
   justify-content: space-between;
-  padding: 10px 7px;
+  padding: 5px 7px;
   background: #d1dbf3;
   color: #1d4999;
   font-size: 13px;
   font-weight: 600;
+  min-height: 40px;
+  align-items: center;
 }
 .rulesec input {
-  height: 20px;
-  max-width: 150px;
+  height: 30px;
   width: 100%;
   border-radius: 3px;
-  padding: 0px 21px 0 5px;
+  padding: 0px 35px 0 5px;
   font-size: 13px;
   font-style: italic;
   color: #787474;
@@ -3654,10 +3655,55 @@ span.uhid {
   cursor: pointer;
   font-size: 12px;
   margin: 0;
-  padding: 0px 1px;
+  padding: 0px 7px;
   position: absolute;
   right: 1px;
   top: 1px;
+  height: 28px;
+  width: 33px;
+  line-height: 30px;
+}
+.ruleserch {
+  position: relative;
+  width: 250px;
+}
+.statusRule {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: left;
+}
+span.rulecount {
+  background: #ab3813;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 5px;
+  color: #fff;
+  font-size: 12px;
+}
+.planicon i {
+  cursor: pointer;
+  width: 23px;
+  height: 23px;
+  line-height: 24px;
+  font-size: 10px;
+  background: #1d4999;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+}
+.planrule:hover i {
+  background: #fff;
+  color: #1d4999;
+}
+.planrule:hover {
+  background: #1d4999;
+  color: #fff;
+  cursor: move;
 }
 
 .diet-btn {
@@ -3665,6 +3711,18 @@ span.uhid {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: right;
+}
+.planrule {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 5px;
+  gap: 20px;
+  align-items: center;
+  background: #f5f8ff;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #1d4999;
 }
 
 .listd-in.showing {
@@ -7546,10 +7604,7 @@ img.toppic1 {
   /* Change this to the desired color */
 }
 
-img,
-i {
-  margin-left: 4px;
-}
+
 
 .txticon input {
   padding-right: 30px;
