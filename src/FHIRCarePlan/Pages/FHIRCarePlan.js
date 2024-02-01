@@ -49,7 +49,7 @@ export default function FHIRCarePlan(props) {
     setCarePlanTypeList(getCareTypeRes.responseValue)
 }
 
-  let SelectedData = (data, modalID) => {
+  const SelectedData = (data, modalID) => {
 
 
     let t = {
