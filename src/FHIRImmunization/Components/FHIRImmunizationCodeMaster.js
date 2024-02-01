@@ -79,8 +79,6 @@ export default function FHIRImmunizationCodeMaster(props) {
               setCodeBindList(result.slice(0,50))
               }
           }
-          
-          // console.log('result ............ : ', result)
           // if (getBindRes.responseValue.length === 0) {
           //     setLoader(0);
           //     setShowImage(1);
@@ -102,8 +100,7 @@ export default function FHIRImmunizationCodeMaster(props) {
   }
 
   let getDataDetail = (id, code, codeText) => {
-      
-      const targetInputBox = document.getElementById("chckBoxId" + id).checked;
+      const targetInputBox = document.getElementById("chckBoxId" + code).checked;
       
       if (targetInputBox === false) {
           let temp = [...arrToFwd];
@@ -112,7 +109,6 @@ export default function FHIRImmunizationCodeMaster(props) {
                   temp.splice(i, 1);
               }
           }
-         
           props.SelectedData(temp, props.modalID)
           setArrToFwd(temp)
       }
@@ -127,7 +123,6 @@ export default function FHIRImmunizationCodeMaster(props) {
 
 
           });
-          
           props.SelectedData(temp, props.modalID)
           setArrToFwd([...temp])
       }
@@ -140,14 +135,14 @@ export default function FHIRImmunizationCodeMaster(props) {
 
       let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
 
-      
+      console.log('haiiiiiiiiiiiii L: ', hai)
       if (hai.length !== 0) {
           setTimeout(()=>{
               document.getElementById("dropdownName").value = hai[0].dropdownName
               setCode(hai[0].dropdownName)
               funBindCodeList("", hai[0].dropdownName)
 
-          }, 3000)
+          }, 2000)
       }
       funGetCodeList();    
   }, [])
@@ -222,7 +217,7 @@ export default function FHIRImmunizationCodeMaster(props) {
                                                 return (                                                  
                                                     <>
                                                     <tr key={bindList.code}>
-                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.id : 'chckBoxId'} id={'chckBoxId' + bindList.id}
+                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.code : 'chckBoxId'} id={'chckBoxId' + bindList.code}
                                                             role={props.isMultiple === true ? 'switch' : ''}
                                                             defaultChecked=
                                                             {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
