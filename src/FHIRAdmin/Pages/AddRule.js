@@ -12,7 +12,6 @@ import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
 import PostAddRule from '../API/AddRule/PostAddRule'
 import GetAddRule from '../API/AddRule/GetAddRule'
 export default function AddRule() {
-    let [ruleList, setRuleList] = useState([]);
     let [updateBool, setUpdateBool] = useState(0)
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
@@ -43,9 +42,7 @@ export default function AddRule() {
     let [getData, setgetData] = useState([]);
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     const [PopUpId, setPopUpId] = useState('');
-
     const customStyle = { marginLeft: '0px' };
-
 
     // Function to handle changes in the search term
     const handleSearch = (event) => {
@@ -73,7 +70,9 @@ export default function AddRule() {
         for (var i = 0; i < data.length; i++) {
             temp += " " + data[i].code
         }
+        console.log("temp",temp);
         document.getElementById(modalID).value = temp
+        console.log("modalId1",modalID)
     }
 
     //Handle Change
@@ -108,12 +107,26 @@ export default function AddRule() {
         }
     }
 
+    const dataMaker = async(param) => {
+        const lastIndexMap = {};
+        var jsonData = param;
+        jsonData.forEach((item, index, array) =>{
+          const moduleId = item.moduleId;
+          lastIndexMap[moduleId] = array[index];        
+          });
+        const dataArray = Object.values(lastIndexMap);        
+        return dataArray;
+    }
+  
+
     //Handle Save 
     const handlerSave = async () => {
+        // const getresponse = await dataMaker(makeData);
+        // console.log("getresponse",getresponse)
+        // return;
         const activeData = document.getElementById("active").checked ? 1 : 0;
         const passiveData = document.getElementById("passive").checked ? 1 : 0;
         const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
-
         if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
             document.getElementById('errTitle').innerHTML = "Title is Required";
             document.getElementById('errTitle').style.display = "block";
@@ -128,7 +141,7 @@ export default function AddRule() {
                 "bibliographicCitation": sendForm.bibliographicCitation,
                 "developer": sendForm.developer,
                 "fundingSource": sendForm.fundingSource,
-                "release": "testrel",
+                "release": sendForm.release,
                 "webReference": sendForm.webReference,
                 "referentialCDS": sendForm.referentialCDS,
                 "userId": window.userId
@@ -156,6 +169,22 @@ export default function AddRule() {
     }
 
 
+    //Handel Clear
+    const handleClear = () => {
+        setUpdateBool(0);
+        document.getElementById("title").value = "";
+        document.getElementById("bibliographicCitation").value = "";
+        document.getElementById("developer").value = "";
+        document.getElementById("fundingSource").value = "";
+        document.getElementById("release").value = "";
+        document.getElementById("webReference").value = "";
+        document.getElementById("referentialCDS").value = "";
+        document.getElementById('errTitle').style.display = "none";
+        setSendForm({ "userId": window.userId, "clientId": window.clientId })
+        document.getElementById("active").checked = 0;
+        document.getElementById("passive").checked = 0;
+        document.getElementById("patientReminder").checked = 0;
+    }
 
 
     useEffect(() => {
@@ -239,7 +268,8 @@ export default function AddRule() {
                                             <div className="col-lg-4 col-md-6 col-sm-12">
                                                 <div className="mb-2 me-2">
                                                     <label htmlFor="referentialCDS" className="form-label">Referential CDS</label>
-                                                    <input type="text" className="form-control form-control-sm" id="referentialCDS" name='referentialCDS' onChange={handleChange} placeholder={t("Enter Referential CDS")} onClick={() => { handleOpenModal('referentialCDS') }} />
+                                                    {/* <input type="text" className="form-control form-control-sm" id="referentialCDS" name='referentialCDS' placeholder={t("Enter Referential CDS")} onClick={() => { handleOpenModal('referentialCDS') }} /> */}
+                                                    <input  id="referentialCDS" type="text" className="form-control form-control-sm" name="referentialCDS" placeholder= "Enter Code" onClick={()=> {handleOpenModal('referentialCDS')}} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
@@ -250,12 +280,11 @@ export default function AddRule() {
                                                             <>
                                                                 {showToster === 1 ?
                                                                     <Toster value={tosterValue} message={tosterMessage} />
-
                                                                     : <div>
                                                                         {updateBool === 0 ?
                                                                             <>
                                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                                                                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Clear")}</button>
+                                                                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' />{t("Clear")}</button>
                                                                             </>
                                                                             :
                                                                             <>
@@ -270,7 +299,6 @@ export default function AddRule() {
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
