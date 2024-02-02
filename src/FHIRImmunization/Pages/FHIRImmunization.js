@@ -13,6 +13,7 @@ import GetFHIRImmunizationObservationCriteria from '../API/GET/GetFHIRImmunizati
 import GetFHIRImmunizationSubstancerefusalReason from '../API/GET/GetFHIRImmunizationSubstancerefusalReason';
 import GetFHIRImmunizationRoute from '../API/GET/GetFHIRImmunizationRoute';
 import GetFHIRNameandTitleofImmunizationAdministrator from '../API/GET/GetFHIRNameandTitleofImmunizationAdministrator';
+import { use } from 'i18next';
 
 
 export default function FHIRImmunization() {
@@ -35,6 +36,26 @@ export default function FHIRImmunization() {
 
   const [selectedValues, setSelectedValues] = useState({});
 
+  const [sendForm, setSendForm] = useState({
+    DatenTimeAdministered : '',
+    AmountAdministered : '',
+    AmountAdministeredUnit : 0,
+    ExpirationDate : '',
+    ImmunizationManufacturer : 0,
+    ImmunizationLotNumber : 0,
+    ImmunizationStatements : '',
+    NameAndTitleofImmunizationAdministrator: '',
+    IDofImmunizationAdministrator : 0,
+    DateofVISStatement : '',
+    Route : 0,
+    InformationSource : '',
+    AdministrationSite : 0,
+    CompletionStatus : 0,
+    SubstanceRefusalReason : 0,
+    ImmunizationOrderingProvider:0,
+    Notes: ''
+
+  })
 
   const [observationRow, setObservationRow] = useState([
     {
@@ -123,6 +144,14 @@ export default function FHIRImmunization() {
       [rowID]: value,
     }));
   };
+
+  const handleChange=(e)=>{
+    const {name,value}= e.target;
+       setSendForm((arr)=>({
+        ...arr,
+          [name]:value
+       })); 
+    }
 
   /////////////////////////// To send data in codemaster component and to receive it Immunization ///////////////////////////////////////
 
@@ -233,6 +262,111 @@ export default function FHIRImmunization() {
     }
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  
+  ///////////////////////////////////////////////////////////// Make data for sending in handle save function /////////////////////////////////////////////////////////////////////
+  const dataMaker = async(param) => {
+       
+    const lastIndexMap = {};
+    var jsonData = param;
+    jsonData.forEach((item, index, array) =>{
+      const moduleId = item.moduleId;
+      lastIndexMap[moduleId] = array[index];        
+      });
+      const dataArray = Object.values(lastIndexMap);
+         
+      return dataArray;
+}
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////// To save data //////////////////////////////////////////////////////////////
+
+  const handleSave = async () => {
+    console.log('makeData : ', makeData)
+    const getresponse = await dataMaker(makeData);
+    let tempArrList = [];
+    const data = [...observationRow];
+    console.log('data afsfsfsg :', data )
+    for(var i =0; i<getresponse.length; i++)
+    {      
+      if(getresponse[i].moduleId === 'immunizationCode')
+      {
+        const investigationArr = getresponse[i].data;   
+        let investMaker = '';
+        let investCodeText = '';  
+        for(var j=0; j < investigationArr.length; j++)
+          { investMaker=investMaker.length === 0 ? investigationArr[j].dropdownName +':'+investigationArr[j].code  : investMaker +';'+investigationArr[j].dropdownName +':'+investigationArr[j].code;
+            investCodeText =  investCodeText.length === 0 ? (investigationArr[j].codeText  ? investigationArr[j].codeText : '') : investCodeText +'|'+(investigationArr[j].codeText  ? investigationArr[j].codeText : '');}
+          var investConCat = investMaker + ' ' + investCodeText;          
+      }
+      if(getresponse[i].moduleId === 'ReasonId')
+      {
+        const investigationArr = getresponse[i].data;  
+        let investMakerResaon = '';
+        let investCodeTextReason = '';  
+        for(var k=0; k < investigationArr.length; k++)
+          { investMakerResaon=investMakerResaon.length === 0 ? investigationArr[k].dropdownName +':'+investigationArr[k].code  : investMakerResaon +';'+investigationArr[k].dropdownName +':'+investigationArr[k].code;
+          investCodeTextReason =  investCodeTextReason.length === 0 ? (investigationArr[k].codeText  ? investigationArr[k].codeText : '') : investCodeTextReason +'|'+(investigationArr[k].codeText  ? investigationArr[k].codeText : '');}
+          var investConCatReason = investMakerResaon + ' ' + investCodeTextReason;
+      }
+    }
+
+    // for(let b = 0; b<getresponse.length; b++){
+    //   for (let a =0; a< data.length; a++){
+    //     console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh : ', data[b][a])
+    //     const ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[i].rowID).value;
+    //     const ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[i].rowID);
+    //     const ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
+    //     const CVX_Code = document.getElementById('CVX_CodeId' + data[i].rowID).value;
+    //     const Date_VIS_Published = document.getElementById('Date_VIS_Published_Id' + data[i].rowID).value;
+    //     const Date_VIS_Presented = document.getElementById('Date_VIS_PresentedId' + data[i].rowID).value;
+    //     let arrDynamic = getresponse[a][b].data;
+    //     console.log('arrDynamic : ', arrDynamic)
+    //   }
+    // }
+
+   
+    
+    console.log('getresponse length:', getresponse.length);
+    console.log('data length:', data.length);
+    
+    for (let b = 0; b < getresponse.length; b++) {
+        console.log('data[b] length:', data[b].length);
+    
+        for (let a = 0; a < data[b].length; a++) {
+            console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh : ', data[b][a]);
+            // Rest of your code here
+            let arrDynamic = getresponse[b][a].data;
+            console.log('arrDynamic : ', arrDynamic);
+        }
+    }
+    
+
+    return;
+       const finalObjInvestAndReason = {
+        cvx_code : investConCat,
+        reasonCode: investConCatReason,
+        administeredDate : sendForm.DatenTimeAdministered,
+        amountAdministeredUnit : sendForm.AmountAdministeredUnit,
+        amountAdministered : sendForm.AmountAdministered,
+        expirationDate : sendForm.ExpirationDate,
+        manufacturer : sendForm.ImmunizationManufacturer,
+        lotNumber : sendForm.ImmunizationLotNumber,
+        dateImmunizationInformationStatementsGiven : sendForm.ImmunizationStatements,
+        administeredBy : sendForm.NameAndTitleofImmunizationAdministrator ,
+        route : sendForm.Route,
+        administrationSite : sendForm.AdministrationSite,
+        informationSource : sendForm.InformationSource,
+        completionStatus: sendForm.CompletionStatus,
+        refusalReason : sendForm.SubstanceRefusalReason,
+        orderingProvider : sendForm.ImmunizationOrderingProvider,
+        note: sendForm.Notes
+
+       }
+
+       console.log('finalObj : ', finalObjInvestAndReason)
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
 
   useEffect(() => {  
@@ -259,15 +393,15 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Date & Time Administered</label>
-                            <input  id="dateId" type="date" className="form-control form-control-sm" name="dateName" onChange={''} />  
+                            <input  id="dateId" type="date" className="form-control form-control-sm" name="DatenTimeAdministered" value={sendForm.DatenTimeAdministered} onChange={handleChange} />  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Amount" className="form-label">Amount Administered</label>
-                            <input  id="amountId" type="text" className="form-control form-control-sm" name="amountName" onChange={''} />  
+                            <input  id="amountId" type="text" className="form-control form-control-sm" name="AmountAdministered" value={sendForm.AmountAdministered} onChange={handleChange} />  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Amount" className="form-label">Amount Administered Unit</label>
-                            <select name="" className='form-select form-select-sm' id="amountUnitID">
+                            <select name="AmountAdministeredUnit" className='form-select form-select-sm' id="amountUnitID" value={sendForm.AmountAdministeredUnit} onChange={handleChange} >
                               <option value="0">mm/gg</option>
                               <option value="1">mm/CC</option>
                               <option value="2">mm</option>
@@ -275,11 +409,11 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Immunization Expiration Date</label>
-                            <input  id="expireDateId" type="date" className="form-control form-control-sm" name="expireDateName" onChange={''} />  
+                            <input  id="expireDateId" type="date" className="form-control form-control-sm" name="ExpirationDate" value={sendForm.ExpirationDate} onChange={handleChange} />  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Manufacturer" className="form-label">Immunization Manufacturer</label>
-                            <select name="" className='form-select form-select-sm' id="ManufacturerID">
+                            <select name="ImmunizationManufacturer" className='form-select form-select-sm' id="ManufacturerID" value={sendForm.ImmunizationManufacturer} onChange={handleChange}>
                               <option value="0">--Select Manufacturer--</option>
                               {getImmunizationManufacture && getImmunizationManufacture.map((list, ind) => {
                                 return(<option value={list.id}>{list.name}</option>)
@@ -289,19 +423,19 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>  
                             <label htmlFor="LotNumber" className="form-label">Immunization Lot Number</label>
-                            <select name="" className='form-select form-select-sm' id="LotNumberID">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                            <select name="ImmunizationLotNumber" className='form-select form-select-sm' id="LotNumberID" value={sendForm.ImmunizationLotNumber} onChange={handleChange}>
+                              <option value="0">1</option>
+                              <option value="1">2</option>
+                              <option value="2">3</option>
                             </select> 
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Date Immunization Information Statements Given</label>
-                            <input  id="ImmunizationDateId" type="date" className="form-control form-control-sm" name="ImmunizationDateName"  />  
+                            <input  id="ImmunizationDateId" type="date" className="form-control form-control-sm" name="ImmunizationStatements" value={sendForm.ImmunizationStatements} onChange={handleChange}/>  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Immunization" className="form-label">Name and Title of Immunization Administrator</label>
-                            <input  id="ImmunizationAdministratorId" type="text" className="form-control form-control-sm" name="ImmunizationAdministratorName" onChange={''} />  
+                            <input  id="ImmunizationAdministratorId" type="text" className="form-control form-control-sm" name="NameAndTitleofImmunizationAdministrator" value={sendForm.NameAndTitleofImmunizationAdministrator} onChange={handleChange} />  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 text-center'>
                             <label htmlFor="Immunization" className="form-label"><b>or choose</b></label>
@@ -309,7 +443,7 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="LotNumber" className="form-label"></label>
-                            <select name="" className='form-select form-select-sm' id="AdministratorID">
+                            <select name="IDofImmunizationAdministrator" className='form-select form-select-sm' id="AdministratorID" value={sendForm.IDofImmunizationAdministrator} onChange={handleChange}>
                               <option value="0">--Select Administrator--</option>
                               {getImmunizationAdministrator && getImmunizationAdministrator.map((adminList, adminInd) =>{
                                 return(<option value={adminList.id}>{adminList.name}</option>)
@@ -320,11 +454,11 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="VISDateTime" className="form-label">Date of VIS Statement (?)</label>
-                            <input  id="VISId" type="date" className="form-control form-control-sm" name="VISName" onChange={''} />  
+                            <input  id="VISId" type="date" className="form-control form-control-sm" name="DateofVISStatement" value={sendForm.DateofVISStatement} onChange={handleChange} />  
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Route" className="form-label">Route</label>
-                            <select name="" className='form-select form-select-sm' id="RouteID">
+                            <select name="Route" className='form-select form-select-sm' id="RouteID" value={sendForm.Route} onChange={handleChange}>
                               <option value="0">--Select Route--</option>
                                 {getImmunizationRoute && getImmunizationRoute.map((routeList, routeInd) => {
                                   return(<option value={routeList.id}>{routeList.name}</option>)
@@ -333,7 +467,7 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Administration" className="form-label">Administration Site</label>
-                            <select name="" className='form-select form-select-sm' id="AdministrationID">
+                            <select name="AdministrationSite" className='form-select form-select-sm' id="AdministrationID" value={sendForm.AdministrationSite} onChange={handleChange}>
                               <option value="0">--Select Site--</option>
                               {getImmunizationAdministrationSite && getImmunizationAdministrationSite.map((siteList, siteInd) => {
                                 return(<option value={siteList.id}>{siteList.name}</option>)
@@ -342,15 +476,15 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Information" className="form-label">Information Source</label>
-                            <select name="" className='form-select form-select-sm' id="InformationID">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                            <select name="InformationSource" className='form-select form-select-sm' id="InformationID" value={sendForm.InformationSource} onChange={handleChange}>
+                              <option value="0">1</option>
+                              <option value="1">2</option>
+                              <option value="2">3</option>
                             </select> 
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Completion" className="form-label">Completion Status</label>
-                            <select name="" className='form-select form-select-sm' id="CompletionID">
+                            <select name="CompletionStatus" className='form-select form-select-sm' id="CompletionID" value={sendForm.CompletionStatus} onChange={handleChange}>
                               <option value="0">--Select Status--</option>
                               {getImmunizationCompletionStatus && getImmunizationCompletionStatus.map((statusList, statusInd) => {
                                 return(<option value={statusList.id}>{statusList.name}</option>)
@@ -359,7 +493,7 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Substance" className="form-label">Substance Refusal Reason</label>
-                            <select name="" className='form-select form-select-sm' id="SubstanceID">
+                            <select name="SubstanceRefusalReason" className='form-select form-select-sm' id="SubstanceID" value={sendForm.SubstanceRefusalReason} onChange={handleChange}>
                               <option value="0">--Select Refusal--</option>
                               {getImmunizationSubstancerefusalReason && getImmunizationSubstancerefusalReason.map((reasonList, reasonInd) => {
                                 return(<option value={reasonList.id}>{reasonList.name}</option>)
@@ -372,15 +506,15 @@ export default function FHIRImmunization() {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="ImmunizationOrdering" className="form-label">Immunization Ordering Provider</label>
-                            <select name="" className='form-select form-select-sm' id="ImmunizationOrderingID">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
+                            <select name="ImmunizationOrderingProvider" className='form-select form-select-sm' id="ImmunizationOrderingID" value={sendForm.ImmunizationOrderingProvider} onChange={handleChange}>
+                              <option value="0">1</option>
+                              <option value="1">2</option>
                               <option value="3">3</option>
                             </select> 
                           </div>
                           <div className='col-xxl-12 col-xl-12 col-lg-12 col-md-12 mb-3'>
                             <label htmlFor="Notes" className="form-label">Notes</label>
-                            <textarea  id="NotesId" type="text" className="form-control form-control-sm" name="Notes" onChange={''} /> 
+                            <textarea  id="NotesId" type="text" className="form-control form-control-sm" name="Notes" value={sendForm.Notes} onChange={handleChange} /> 
                           </div>
                           
                             <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mb-1 mt-2 text-center">
@@ -475,7 +609,7 @@ export default function FHIRImmunization() {
                           
                               <div>
                                 
-                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
+                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
                                   <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={printIcon} className='icnn' alt="" />Print Record (PDF)</button>
                                
                                   <>
