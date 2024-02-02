@@ -70,9 +70,9 @@ export default function AddRule() {
         for (var i = 0; i < data.length; i++) {
             temp += " " + data[i].code
         }
-        console.log("temp",temp);
+        
         document.getElementById(modalID).value = temp
-        console.log("modalId1",modalID)
+       
     }
 
     //Handle Change
@@ -108,22 +108,40 @@ export default function AddRule() {
     }
 
     const dataMaker = async(param) => {
+       
         const lastIndexMap = {};
         var jsonData = param;
         jsonData.forEach((item, index, array) =>{
           const moduleId = item.moduleId;
           lastIndexMap[moduleId] = array[index];        
           });
-        const dataArray = Object.values(lastIndexMap);        
-        return dataArray;
+        const dataArray = Object.values(lastIndexMap);
+               
+         return dataArray;
     }
   
 
     //Handle Save 
     const handlerSave = async () => {
-        // const getresponse = await dataMaker(makeData);
-        // console.log("getresponse",getresponse)
-        // return;
+        //let tempArrList = [];
+       
+        const getresponse = await dataMaker(makeData);
+        
+        const codeArr = getresponse[0].data;
+        
+        var maker="";
+       var codeTextMaker= "";
+       for(var j=0; j < codeArr.length; j++)
+       { maker=maker.length === 0 ? codeArr[j].dropdownName +':'+codeArr[j].code  : maker +';'+codeArr[j].dropdownName +':'+codeArr[j].code;
+        codeTextMaker =  codeTextMaker.length === 0 ? (codeArr[j].codeText  ? codeArr[j].codeText : '') : codeTextMaker +'|'+(codeArr[j].codeText  ? codeArr[j].codeText : '');}
+
+        // tempArrList.push({          
+        //     codeType: maker,
+        //     codeText: codeTextMaker,          
+        //   });                               
+       
+        const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
+       
         const activeData = document.getElementById("active").checked ? 1 : 0;
         const passiveData = document.getElementById("passive").checked ? 1 : 0;
         const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
@@ -143,9 +161,10 @@ export default function AddRule() {
                 "fundingSource": sendForm.fundingSource,
                 "release": sendForm.release,
                 "webReference": sendForm.webReference,
-                "referentialCDS": sendForm.referentialCDS,
+                "referentialCDS" : colabDataOfMakerAndCodeText,
                 "userId": window.userId
             }
+           
             const response = await PostAddRule(obj);
             if (response.status === 1) {
                 setShowUnderProcess(0);
