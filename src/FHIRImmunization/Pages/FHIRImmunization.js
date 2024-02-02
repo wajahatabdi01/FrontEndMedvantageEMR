@@ -22,7 +22,8 @@ export default function FHIRImmunization() {
   const [PopUpId, setPopUpId] = useState('');
   const [showObservation, setShowObservation] = useState(false);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
-  const [isShowPopUpCvxSnow, setIsShowPopUpCvxSnow] = useState(0);
+  const [isShowPopUpCvx, setIsShowPopUpCvx] = useState(0);
+  const [isShowPopUpSnow, setIsShowPopUpSnow] = useState(0);
 
   const [getImmunizationManufacture, setImmunizationManufacture] = useState([]);
   const [getImmunizationAdministrationSite, setImmunizationAdministrationSite] = useState([]);
@@ -77,7 +78,6 @@ export default function FHIRImmunization() {
   }
  //////////////////////////////////////////// Opem modal for immunization an reason code ////////////////////////////////////////
   const handleOpenModal = (modalID) => {
-    console.log('modal open')
     setIsShowPopUp(1);
     setPopUpId(modalID);
   }
@@ -89,15 +89,27 @@ export default function FHIRImmunization() {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  //////////////////////////////////////////////// Open and close modal for CVX and SNOW Code //////////////////////
+  //////////////////////////////////////////////// Open and close modal for CVX  Code //////////////////////
     const handleOpenModalCVX = (modalId) => {
-      console.log('modalIdddddddddddddd : ', modalId);
-      setIsShowPopUpCvxSnow(1)
+      setIsShowPopUpCvx(1)
       setPopUpId(modalId);
     }
 
     const handleCloseModalCVX = () => {
-      setIsShowPopUpCvxSnow(0);
+      setIsShowPopUpCvx(0);
+      setPopUpId('');
+    }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+  //////////////////////////////////////////////// Open and close modal for  SNOW Code //////////////////////
+    const handleOpenModalSnow = (modalId) => {
+      setIsShowPopUpSnow(1)
+      setPopUpId(modalId);
+    }
+
+    const handleCloseModalSnow = () => {
+      setIsShowPopUpSnow(0);
       setPopUpId('');
     }
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +147,6 @@ export default function FHIRImmunization() {
 
   /////////////////////////////////// To send data in codemaster component for CVX Code /////////////////////////////////
   const SelectedDataCVX = (data, modalID) => {
-    console.log('the modal ID CVX: ', modalID)
 
     const t = {
       moduleId: modalID,
@@ -148,15 +159,13 @@ export default function FHIRImmunization() {
     for (var i = 0; i < data.length; i++) {
       temp += " " + data[i].code
     }
-
     document.getElementById(modalID).value = temp
 
   }
   
   /////////////////////////////////// To send data in codemaster component for SNOW Code /////////////////////////////////
-  const SelectedDataSNOW = (data, modalID) => {
-    console.log('the modal ID SNOW: ', modalID)
-
+  const SelectedDataSnow = (data, modalID) => {
+  
     const t = {
       moduleId: modalID,
       data: data
@@ -174,7 +183,6 @@ export default function FHIRImmunization() {
   }
   /////////////////////////////////// To send data in codemaster component for Reason Code /////////////////////////////////
   const SelectedDataReason= (data, modalID) => {
-    console.log('the modal ID SNOW: ', modalID)
 
     const t = {
       moduleId: modalID,
@@ -430,7 +438,7 @@ export default function FHIRImmunization() {
                                 {selectedValues[observeList.rowID] === '4' && (
                                   <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                     <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code</label>
-                                    <input  id={"SNOMED-CTCodeId"+observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={()=> {handleOpenModal("SNOMED-CTCodeId"+observeList.rowID)}} />  
+                                    <input  id={"SNOMED-CTCodeId"+observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={()=> {handleOpenModalSnow("SNOMED-CTCodeId"+observeList.rowID)}} />  
                                   </div>
                                   )}
                                 <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
@@ -531,20 +539,16 @@ export default function FHIRImmunization() {
               {/* <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} /> */}
               {PopUpId === 'immunizationCode' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> : 
               PopUpId === 'ReasonId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataReason} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> :''}
-              
-              
-              {observationRow && observationRow.map((observelist, observeInd)=>{
-                console.log('the observe list : ', observelist)
-              })}
             </div>
           </div>
         </div>
 : ''}
 {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
-        {/* ------------------------------------------ Code Master CV and SNOW popUp Start------------------------------------ */}
-        {isShowPopUpCvxSnow === 1 ? (
+
+        {/* ------------------------------------------ Code Master CV  Start------------------------------------ */}
+        {isShowPopUpCvx === 1 ? (
           
-          <div className={`modal d-${isShowPopUpCvxSnow === 1 ? 'block' : 'none'}`} id="codesModal" data-bs-backdrop="static">
+          <div className={`modal d-${isShowPopUpCvx === 1 ? 'block' : 'none'}`} id="codesModal" data-bs-backdrop="static">
             <div className="modal-dialog modalDelete" style={{ maxWidth: '550px' }}>
               <div className="modal-content">
                 <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window" onClick={handleCloseModalCVX}>
@@ -553,6 +557,27 @@ export default function FHIRImmunization() {
                 {observationRow && observationRow.map((observelist, observeInd) => (
                   PopUpId === 'CVX_CodeId' + observelist.rowID ?
                     <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} isMultiple={true}/>
+                   : ''
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : ''}
+
+{/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+        
+        {/* ------------------------------------------ Code Master CV  Start------------------------------------ */}
+        {isShowPopUpSnow === 1 ? (
+          
+          <div className={`modal d-${isShowPopUpSnow === 1 ? 'block' : 'none'}`} id="codesModal" data-bs-backdrop="static">
+            <div className="modal-dialog modalDelete" style={{ maxWidth: '550px' }}>
+              <div className="modal-content">
+                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window" onClick={handleCloseModalSnow}>
+                  <i className="bi bi-x-octagon"></i>
+                </button>
+                {observationRow && observationRow.map((observelist, observeInd) => (
+                  PopUpId === 'SNOMED-CTCodeId' + observelist.rowID ?
+                    <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} isMultiple={true}/>
                    : ''
                 ))}
               </div>
