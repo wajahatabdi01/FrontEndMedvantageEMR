@@ -173,6 +173,7 @@ export default function AddRule() {
                 setTosterMessage("Data Saved Successfully.!");
                 setTimeout(() => {
                     setShowToster(0);
+                    handleClear();
                 }, 1500)
             }
             else {
