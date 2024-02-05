@@ -135,7 +135,6 @@ export default function PatientRegistrationAndAdmit() {
                 }
 
             }
-
         }
         if (e.target.name === "patientName") {
             setPatientName(e.target.value);

@@ -8,8 +8,10 @@ import { useTranslation } from 'react-i18next';
 import GetStateList from '../../../API/GET/GetStateList'
 import GetCityList from '../../../API/GET/GetCityList';
 import GetCountryList from '../../../API/GET/GetCountryList';
+import calendar from '../../../../assets/images/icons/calendar.svg';
+
 import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
-const PattientChoices = ({ patientchoicesData }) => {
+const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) => {
     let [providerList, setProviderList] = useState([]);
     let [categoryList, setcategoryList] = useState([]);
     const [choicesList, setChoicesList] = useState([{ id: 1, name: 'Yes' }, { id: 0, name: 'No' }]);
@@ -73,11 +75,45 @@ const PattientChoices = ({ patientchoicesData }) => {
         //     setPatientchoicesList(initialPatientChoiceDetails);
         // }
         patientchoicesData(patientchoicesList);
-    }, [patientchoicesList, patientchoicesData]);
+        if (clearStatus === 1) {
+            setClearStatus(0)
+            setPatientchoicesList({
+                providerID: '',
+                provideSinceDate: '',
+                refProviderID: '',
+                pharmacyId: '',
+                hipaaNotice: '',
+                hipaaVoice: '',
+                leaveMessageWith: '',
+                hipaaAllowemail: '',
+                hipaaAllowemail: '',
+                allowSMS: '',
+                allowImmRegUse: '',
+                allowImmInfoShare: '',
+                allowHealthInfoEx: '',
+                allowPatientPortal: '',
+                preventAPIAccess: '',
+                cmsportalLogin: '',
+                immRegStatus: '',
+                immRegStatEffdate: '',
+                publicityCode: '',
+                publCodeEffDate: '',
+                careTeamProvider: '',
+                careTeamStatus: '',
+                careTeamFacility: '',
+                categoryId: '',
+                protectIndicator: '',
+                protIndiEffdate: '',
+                careTeamProvider: '',
+                careTeamStatus: '',
+                careTeamFacility: '',
+            })
+        }
+    }, [patientchoicesList, patientchoicesData,clearStatus]);
     return (
         <div className="dflex">
             <div className="col-2 mb-2">
-                <label htmlFor="ddlProvider" className="form-label"><img src={city} className='icnn' alt='' />{t("Provider")}</label>
+                <label htmlFor="ddlProvider" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Provider")}</label>
                 <select className="form-select form-select-sm" id="ddlProvider" aria-label=".form-select-sm example" name='providerID' value={patientchoicesList.providerID} onChange={handlePattientChoicesChange}>
                     <option value="0">{t("Select_Provider")}</option>
                     {providerList && providerList.map((list) => {
@@ -89,12 +125,12 @@ const PattientChoices = ({ patientchoicesData }) => {
                 <small id="errProvider" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
             <div className="col-2 mb-2">
-                <label htmlFor="txtProvideSinceDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("ProvideSinceDate")}</label>
+                <label htmlFor="txtProvideSinceDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("ProvideSinceDate")}</label>
                 <input type="date" className="form-control form-control-sm" id="txtProvideSinceDate" placeholder={t("ENTER_Provide_Since_Date")} name='provideSinceDate' value={patientchoicesList.provideSinceDate} onChange={handlePattientChoicesChange} />
             </div>
 
             <div className="col-2 mb-2">
-                <label htmlFor="ddlReferring_Provider" className="form-label"><img src={city} className='icnn' alt='' />{t("Referring_Provider")}</label>
+                <label htmlFor="ddlReferring_Provider" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Referring_Provider")}</label>
                 <select className="form-select form-select-sm" id="ddlReferring_Provider" aria-label=".form-select-sm example" name='refProviderID' value={patientchoicesList.refProviderID} onChange={handlePattientChoicesChange} >
                     <option value="0">{t("Select_Referring_Provider")}</option>
                     {providerList && providerList.map((list) => {
@@ -281,7 +317,7 @@ const PattientChoices = ({ patientchoicesData }) => {
             </div>
 
             <div className="col-2 mb-2">
-                <label htmlFor="txtImmunizationRegistryStatusEffectiveDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Immunization Registry Status Effective Date")}</label>
+                <label htmlFor="txtImmunizationRegistryStatusEffectiveDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Immunization Registry Status Effective Date")}</label>
                 <input type="date" className="form-control form-control-sm" id="txtImmunizationRegistryStatusEffectiveDate" placeholder={t("ENTER_Immunization_Registry_Status_Effective_Date")} name='immRegStatEffdate' value={patientchoicesList.immRegStatEffdate} onChange={handlePattientChoicesChange} />
             </div>
 
@@ -302,7 +338,7 @@ const PattientChoices = ({ patientchoicesData }) => {
                 <small id="errPublicity_Code" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
             <div className="col-2 mb-2">
-                <label htmlFor="txtPublicityCodeEffectiveDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PublicityCodeEffectiveDate")}</label>
+                <label htmlFor="txtPublicityCodeEffectiveDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("PublicityCodeEffectiveDate")}</label>
                 <input type="date" className="form-control form-control-sm" id="txtPublicityCodeEffectiveDate" placeholder={t("ENTER_Publicity_Code_Effective_Date")} name='publCodeEffDate' value={patientchoicesList.publCodeEffDate} onChange={handlePattientChoicesChange} />
             </div>
             <div className="col-2 mb-2">
@@ -320,7 +356,7 @@ const PattientChoices = ({ patientchoicesData }) => {
                 <small id="errProtection_Indicator" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
             <div className="col-2 mb-2">
-                <label htmlFor="txtProtectionIndicatorEffectiveDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("ProtectionIndicatorEffectiveDate")}</label>
+                <label htmlFor="txtProtectionIndicatorEffectiveDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("ProtectionIndicatorEffectiveDate")}</label>
                 <input type="date" className="form-control form-control-sm" id="txtProtectionIndicatorEffectiveDate" placeholder={t("ENTER_Protection_Indicator_Effective_Date")} name='protIndiEffdate' value={patientchoicesList.protIndiEffdate} onChange={handlePattientChoicesChange} />
             </div>
             <div className="col-2 mb-2">

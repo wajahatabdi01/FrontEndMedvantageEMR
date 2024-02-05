@@ -11,16 +11,23 @@ import GetAllGenderIdentities from '../../../API/GET/GetAllGenderIdentities';
 import GetAllSexualOrientation from '../../../API/GET/GetAllSexualOrientation';
 import GetMaritalStatusList from '../../../API/GET/GetMaritalStatusList';
 import GetAllTitleForPatient from '../../../API/GET/GetAllTitleForPatient';
+import GetCountryList from '../../../API/GET/GetCountryList';
+import smartphone from '../../../../assets/images/icons/smartphone.svg';
+import GetPatientDetailsByMobileNo from '../../../API/GET/GetPatientDetailsByMobileNo';
+import l from '@linways/table-to-excel';
 
-const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPriviousNamesAddButtonClick, isShowPriviousModal, priviousNames,patientDetailsData }) => {
+const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, onPriviousNamesAddButtonClick, isShowPriviousModal, priviousNames, patientDetailsData }) => {
     let [patientGender, setPatientGender] = useState('0');
     const [selectedPriviousNames, setSelectedPriviousNames] = useState([]);
     let [getPatientGender, setGetPatientGender] = useState([]);
+    let [countryList, setCountryList] = useState([]);
     let [getPatientGenderIdentities, setGetPatientGenderIdentities] = useState([]);
     let [sexualOrientationlist, setSexualOrientationlist] = useState([]);
-    let [maritalStatusList,setMaritalStatusList]=useState([]);
-    let [titleList,setTitleList]=useState([]);
+    let [maritalStatusList, setMaritalStatusList] = useState([]);
+    let [titleList, setTitleList] = useState([]);
     const [options, setOptions] = useState([]);
+    let [patientListByMobileNo, setPatientListByMobileNo] = useState([]);
+    let [showPatientHistory, setShowPatientHistory] = useState(0);
     const handleTagsChange = (movies) => {
         setSelectedPriviousNames(movies);
     };
@@ -40,7 +47,17 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
     //     // Set the state with the newTags array
     //     setOptions(newTags);
     //   }, []); 
+    let getCountryList = async () => {
+        console.log('fetch country');
+        let response = await GetCountryList();
+        console.log('fetch country', response);
+        if (response.status === 1) {
+            setCountryList(response.responseValue);
+            //getStateList(countryID);
 
+
+        }
+    }
     let getAllSexualOrientation = async () => {
         const response = await GetAllSexualOrientation();
         if (response.status === 1) {
@@ -59,24 +76,26 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
             setMaritalStatusList(response.responseValue);
         }
     }
-    let getAllGender=async()=>{
+    let getAllGender = async () => {
         const response = await GetGender();
-        if(response.status===1){
+        if (response.status === 1) {
             setGetPatientGender(response.responseValue)
         }
+        console.log("GetGender", response)
     }
-    let getAllGenderIdentities=async()=>{
+    let getAllGenderIdentities = async () => {
         const response = await GetAllGenderIdentities();
-        if(response.status===1){
+        if (response.status === 1) {
             setGetPatientGenderIdentities(response.responseValue)
         }
     }
 
 
     const [patientDetails, setPatientDetails] = useState({
+        mobileNo: '',
         titleId: '',
         patientName: '',
-        middleName:'',
+        middleName: '',
         lastName: '',
         nameSuffix: '',
         birthFirstName: '',
@@ -85,18 +104,19 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
         dob: '',
         sexualOrientationId: '',
         externalId: '',
-        socialSecurityNo:'',
+        socialSecurityNo: '',
         driversLicense: '',
         maritalStatusId: '',
         billingNote: '',
         previousNamesJsonString: '[]',
         genderId: '',
-        genderidentityId:''
+        genderidentityId: ''
     });
 
     useEffect(() => {
         patientDetailsData(patientDetails);
         getAllGender();
+        getCountryList();
         getTitle();
         getAllGenderIdentities();
         getAllSexualOrientation();
@@ -104,11 +124,61 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
         if (initialPatientDetails) {
             setPatientDetails(initialPatientDetails);
         }
-        console.log('patientDetails',patientDetails)
-    }, [initialPatientDetails,patientDetailsData,patientDetails]);
+        console.log('patientDetails', patientDetails)
+        if (clearStatus === 1) {
+            setClearStatus(0)
+            setPatientDetails({
+                mobileNo: '',
+                titleId: '',
+                patientName: '',
+                middleName: '',
+                lastName: '',
+                nameSuffix: '',
+                birthFirstName: '',
+                birthMiddleName: '',
+                birthLastName: '',
+                dob: '',
+                sexualOrientationId: '',
+                externalId: '',
+                socialSecurityNo: '',
+                driversLicense: '',
+                maritalStatusId: '',
+                billingNote: '',
+                previousNamesJsonString: '[]',
+                genderId: '',
+                genderidentityId: ''
+            })
+        }
+    }, [initialPatientDetails, patientDetailsData, patientDetails, clearStatus]);
 
-
+    let getPatientDetailsByMobileNumber = async (value) => {
+        // setisRevisitPatient(1);
+        let response = await GetPatientDetailsByMobileNo(value);
+        if (response.status === 1) {
+            setPatientListByMobileNo(response.responseValue);
+            if (response.responseValue.length > 0) {
+                setShowPatientHistory(1)
+            }
+        }
+    }
     const handlePatientDetailsChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "mobileNo") {
+            const checkLength = value;
+            console.log("hfhfhhffhf", checkLength)
+            if (checkLength.toString().length > 10) {
+                return false;
+            }
+            else {
+                // setPatientMobileNo(e.target.value);
+                if (checkLength.toString().length === 10) {
+                    const key = value;
+                    getPatientDetailsByMobileNumber(key);
+                }
+
+            }
+        }
+        document.getElementById("errMobile").style.display = "none"
         document.getElementById("errPatientFirstName").style.display = "none";
         document.getElementById("errTitle").style.display = "none";
         document.getElementById("errPatientMiddleName").style.display = "none"
@@ -118,14 +188,13 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
         document.getElementById("errPatientGenderIdentity").style.display = "none"
 
 
-        const { name, value } = e.target;
-        // console.log(name);
-        // console.log(value);
         setPatientDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
+
         }));
-        //onPatientDetailsChange(name, value);
+        console.log("name", name)
+
     };
     const handlePatientDetailsAdd = (e) => {
         isShowPriviousModal = !isShowPriviousModal
@@ -143,22 +212,48 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
         //     ...prevPatientDetails,
         //     previousNames: selectedList,
         // }));
-       // onPatientDetailsChange('previousNames', selectedList);
+        // onPatientDetailsChange('previousNames', selectedList);
     }
     return (
-        <><div className="col-1 mb-2">
-            <label htmlFor="ddlTitle" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("PatientTitle")}</label>
-            <sup style={{ color: "red" }}>*</sup>
-            <select className="form-select form-select-sm" id="ddlTitle" aria-label=".form-select-sm example" name='titleId' value={patientDetails.titleId} onChange={handlePatientDetailsChange}>
-                <option value="0" selected>Select Title</option>
-                {titleList && titleList.map((list)=>{
-                    return(
-                        <option value={list.id}>{list.name}</option>
-                    )
-                })}
-            </select>
-            <small id="errTitle" className="form-text text-danger" style={{ display: 'none' }}></small>
-        </div><div className="col-2 mb-2">
+        <>
+            <div className="col-1 mb-2">
+                <label htmlFor="txtMobileNo" className="form-label">
+                    <img src={smartphone} className='icnn' alt='' />
+                    {t("MOBILE_NUMBER")}</label><sup style={{ color: "red" }}>*</sup>
+
+                <div className='lft'>
+                    <select className="form-select form-select-sm" id='ddlCountryCode' aria-label=".form-select-sm example" style={{ borderRight: 'transparent', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', width: '80px', padding: '0 5px 0 5px' }}>
+                        {/* <option value='0'>+91</option> */}
+                        {countryList && countryList.map((list, index) => {
+                            if (list.id === 101) {
+                                return (<option value={list.id} selected>{list.countryCode}</option>);
+                            }
+                            else {
+                                return (
+                                    <option value={list.id}>{list.countryCode}</option>
+                                );
+                            }
+                        })}
+                    </select>
+                    <input type="number" className="form-control form-control-sm" id="txtMobileNo" placeholder={t("Mobile_Number")} name='mobileNo' value={patientDetails.mobileNo} onChange={handlePatientDetailsChange} style={{ borderLeft: 'transparent', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} />
+                </div>
+                {/* <button type="button" className="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalSetting"><i className="bi bi-gear-fill"></i></button> */}
+                <small id="errMobile" className="form-text text-danger" style={{ display: 'none' }}>
+                </small>
+            </div>
+            <div className="col-1 mb-2">
+                <label htmlFor="ddlTitle" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("PatientTitle")}</label>
+                <sup style={{ color: "red" }}>*</sup>
+                <select className="form-select form-select-sm" id="ddlTitle" aria-label=".form-select-sm example" name='titleId' value={patientDetails.titleId} onChange={handlePatientDetailsChange}>
+                    <option value="0" selected>Select Title</option>
+                    {titleList && titleList.map((list) => {
+                        return (
+                            <option value={list.id}>{list.name}</option>
+                        )
+                    })}
+                </select>
+                <small id="errTitle" className="form-text text-danger" style={{ display: 'none' }}></small>
+            </div><div className="col-2 mb-2">
                 <label htmlFor="txtPatientFirstName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientFirstName")}</label><sup style={{ color: "red" }}>*</sup>
                 <input type="text" className="form-control form-control-sm" id="txtPatientFirstName" placeholder={t("Enter_Patient_First_Name")} name='patientName' value={patientDetails.patientName} onChange={handlePatientDetailsChange} />
                 <small id="errPatientFirstName" className="form-text text-danger" style={{ display: 'none' }}>
@@ -173,13 +268,15 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
                 <input type="text" className="form-control form-control-sm" id="txtPatientLastName" placeholder={t("Enter_Patient_Last_Name")} name='lastName' value={patientDetails.lastName} onChange={handlePatientDetailsChange} />
                 <small id="errPatientLastName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
-            </div><div className="col-2 mb-2">
+            </div>
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="txtPatientSuffix" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientSuffix")}</label>
-                {/* <sup style={{ color: "red" }}>*</sup> */}
+                <sup style={{ color: "red" }}>*</sup>
                 <input type="text" className="form-control form-control-sm" id="txtPatientSuffix" placeholder={t("Enter_Patient_Suffix")} name='patientSuffix' value={patientDetails.patientSuffix} onChange={handlePatientDetailsChange} />
                 <small id="errPatientSuffix" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
-            </div><div className="col-2 mb-2">
+            </div> */}
+            <div className="col-2 mb-2">
                 <label htmlFor="txtBirthFirstName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BirthFirstName")}</label>
                 <input type="text" className="form-control form-control-sm" id="txtBirthFirstName" placeholder={t("Enter_Birth_First_Name")} name='birthFirstName' value={patientDetails.birthFirstName} onChange={handlePatientDetailsChange} />
                 <small id="errBirthFirstName" className="form-text text-danger" style={{ display: 'none' }}>
@@ -211,8 +308,8 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
                 <label htmlFor="ddlsexualOrientation" className="form-label"><img src={ageIcon} className='icnn' />{t("Sexual_Orientation")}</label>
                 <select className="form-select form-select-sm" id="ddlsexualOrientation" aria-label=".form-select-sm example" name='sexualOrientationId' value={patientDetails.sexualOrientationId} onChange={handlePatientDetailsChange}>
                     <option value="0">{t("Select_Sexual_Orientation")}</option>
-                    {sexualOrientationlist && sexualOrientationlist.map((list)=>{
-                        return(
+                    {sexualOrientationlist && sexualOrientationlist.map((list) => {
+                        return (
                             <option value={list.id}>{list.name}</option>
                         )
                     })}
@@ -240,18 +337,47 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
                 <label htmlFor="ddlMaritalStatus" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("MaritalStatus")}</label>
                 <select className="form-select form-select-sm" id="ddlMaritalStatus" aria-label=".form-select-sm example" name='maritalStatusId' value={patientDetails.maritalStatusId} onChange={handlePatientDetailsChange}>
                     <option value="0" >Select Marital Status</option>
-                    {maritalStatusList && maritalStatusList.map((list)=>{
-                        return(
+                    {maritalStatusList && maritalStatusList.map((list) => {
+                        return (
                             <option value={list.id}>{list.name}</option>
                         )
                     })}
                 </select>
                 <small id="errMaritalStatus" className="form-text text-danger" style={{ display: 'none' }}></small>
-            </div><div className="col-3 mb-2">
+            </div><div className="col-2 mb-2">
                 <label htmlFor="txtBillingNote" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BillingNote")}</label>
                 <input type="text" className="form-control form-control-sm" id="txtBillingNote" placeholder={t("Enter_BillingNote")} name='billingNote' value={patientDetails.billingNote} onChange={handlePatientDetailsChange} />
                 <small id="errBillingNote" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
+            </div>
+
+            <div className="col-2 mb-2">
+                <label htmlFor="ddlGender" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender")}</label><sup style={{ color: "red" }}>*</sup>
+                <select className="form-select form-select-sm" id="ddlGender" aria-label=".form-select-sm example" name='genderId' value={patientDetails.genderId} onChange={handlePatientDetailsChange}>
+                    <option value="0">{t("Select_Gender")}</option>
+
+                    {getPatientGender && getPatientGender.map((val, ind) => {
+                        return (
+                            <option value={val.id}>{val.name}</option>
+                        );
+                    })}
+
+                </select>
+                <small id="errPatientGender" className="form-text text-danger" style={{ display: 'none' }}></small>
+            </div>
+
+
+            <div className="col-2 mb-2">
+                <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender Identity")}</label><sup style={{ color: "red" }}>*</sup>
+                <select className="form-select form-select-sm" id="ddlGenderIdentity" aria-label=".form-select-sm example" name='genderidentityId' value={patientDetails.genderidentityId} onChange={handlePatientDetailsChange}>
+                    <option value="0">{t("Select Gender Identity")}</option>
+                    {getPatientGenderIdentities && getPatientGenderIdentities.map((val, ind) => {
+                        return (
+                            <option value={val.id}>{val.name}</option>
+                        );
+                    })}
+                </select>
+                <small id="errPatientGenderIdentity" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
             <div className="col-2 mb-2 classMultiselect">
                 <label htmlFor="txtPreviousNames" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNames")}</label>
@@ -287,36 +413,70 @@ const PatientDetails = ({ initialPatientDetails, onPatientDetailsChange, onPrivi
             </div>
             <div className="col-2 mb-2">
                 <label htmlFor="ddlEmpty" className="form-label"></label>
-                <button type="button" class="form-control form-control-sm" id="addPriviousNames" onClick={handlePatientDetailsAdd}><i className="bi bi-plus"></i> Add</button>
-            </div>
-            <div className="col-2 mb-2">
-                <label htmlFor="ddlGender" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender")}</label><sup style={{ color: "red" }}>*</sup>
-                <select className="form-select form-select-sm" id="ddlGender" aria-label=".form-select-sm example" name='genderId' value={patientDetails.genderId} onChange={handlePatientDetailsChange}>
-                    <option value="0">{t("Select_Gender")}</option>
-
-                    {getPatientGender && getPatientGender.map((val, ind) => {
-                        return (
-                            <option value={val.id}>{val.name}</option>
-                        );
-                    })}
-
-                </select>
-                <small id="errPatientGender" className="form-text text-danger" style={{ display: 'none' }}></small>
+                <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={handlePatientDetailsAdd}><i className="bi bi-plus"></i> Add</button>
             </div>
 
+            {/* ######################## Moodal Pop Area #################### */}
+            {showPatientHistory === 1 ?
+                <div className={`modal d-${showPatientHistory === 1 ? "block" : ""}`} id="modalSetting" data-bs-backdrop="static">
+                    <div className="modal-dialog" style={{ maxWidth: '65vw' }}>
+                        <div className="modal-content p-0">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Patient List On This Mobile No.</h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title='Close Window' onClick={() => { setShowPatientHistory(0) }}><i className="bi bi-x-octagon"></i></button>
+                            </div>
+                            <div className="modal-body p-0">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="med-box">
+                                            <div className="med-table-section" style={{ height: '30rem' }}>
+                                                <table className='med-table border_ striped'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>UHID</th>
+                                                            <th>Patient Name</th>
+                                                            <th className='text-center'>Age/Gender</th>
+                                                            <th>Mobile Number</th>
+                                                            <th>Department</th>
+                                                            <th>Address</th>
+                                                            <th>Visit Date</th>
+                                                            <th className='text-center'>Select Profile</th>
+                                                        </tr>
+                                                    </thead>
 
-            <div className="col-2 mb-2">
-                <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender Identity")}</label><sup style={{ color: "red" }}>*</sup>
-                <select className="form-select form-select-sm" id="ddlGenderIdentity" aria-label=".form-select-sm example" name='genderidentityId' value={patientDetails.genderidentityId} onChange={handlePatientDetailsChange}>
-                    <option value="0">{t("Select Gender Identity")}</option>
-                    {getPatientGenderIdentities && getPatientGenderIdentities.map((val, ind) => {
-                        return (
-                            <option value={val.id}>{val.name}</option>
-                        );
-                    })}
-                </select>
-                <small id="errPatientGenderIdentity" className="form-text text-danger" style={{ display: 'none' }}></small>
-            </div>
+                                                    <tbody>
+
+                                                        {patientListByMobileNo && patientListByMobileNo.map((list, index) => {
+                                                            return (
+                                                                <tr>
+                                                                    <td>{index + 1}</td>
+                                                                    <td>{list.uhID}</td>
+                                                                    <td>{list.patientName}</td>
+                                                                    <td className='text-center'>{list.age}<span>{parseInt(list.ageUnitId) === 1 ? 'Y' : parseInt(list.ageUnitId) === 2 ? 'M' : parseInt(list.ageUnitId) === 3 ? 'D' : ''}</span>/{list.patientGender}</td>
+                                                                    <td>{list.mobileNo}</td>
+                                                                    <td>{list.departmentName}</td>
+                                                                    <td>{list.address}</td>
+                                                                    <td>{list.registrationDate}</td>
+                                                                    <td className='text-center'><i class="fa-regular fa-circle-check" title='Select Patient Profile' onClick={() => { "getPatientRegHistory"(list, 0); setShowPatientHistory(0) }} style={{ fontSize: '1rem', cursor: 'pointer' }} ariaHidden="true" ></i>
+                                                                        {/* <i class="fa fa-arrow-up" title='Select Patient Profile' onClick={() => { getPatientRegHistory(list) ;setShowPatientHistory(0) }} style={{ fontSize: '1.5rem', color: 'red', cursor: 'pointer' }} ariaHidden="true" data-dismiss="modal"></i> */}
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div> : ""}
+
         </>
 
     );
