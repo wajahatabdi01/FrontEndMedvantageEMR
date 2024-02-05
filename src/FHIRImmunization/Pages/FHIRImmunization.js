@@ -240,6 +240,18 @@ export default function FHIRImmunization() {
 
   }
 
+  /////////////////////////////////////////////////////// To delete the observation rows ///////////////////////////////////////
+
+  const handleDeleteObservationRow= (index, key) => {
+    let deleteTempArr = [];
+    const arrData = [...observationRow];
+    if(arrData.length === 1){
+      return;
+    }
+    arrData.splice(index, 1)
+    setObservationRow(arrData)
+  }
+
 
 
   ///////////////////////////////////////////////// Function to get dropdown lists //////////////////////////////////////////
@@ -380,7 +392,7 @@ export default function FHIRImmunization() {
         if(getresponse[b].moduleId === 'ObservationCriteriaValueID'+observationRow[c].rowID)
         {
          
-          const investigationArr = getresponse[b].data;
+          //const investigationArr = getresponse[b].data;
         // for(let j=0; j < investigationArr.length; j++)
         // { investMakerD=investigationArr[j].dropdownName;
         //   investCodeCVXD = investigationArr[j].code;
@@ -425,12 +437,13 @@ export default function FHIRImmunization() {
         uhid:'UHID00143',
         clientId: 176,
         userId : 12,
-        cvx_code : investConCat,
+        cvxCode : investConCat,
         reasonCode: investConCatReason,
         administeredDate : sendForm.DatenTimeAdministered,
         amountAdministeredUnit : sendForm.AmountAdministeredUnit,
         amountAdministered : sendForm.AmountAdministered,
         expirationDate : sendForm.ExpirationDate,
+        visDate : sendForm.DateofVISStatement,
         manufacturer : sendForm.ImmunizationManufacturer,
         lotNumber : sendForm.ImmunizationLotNumber,
         dateImmunizationInformationStatementsGiven : sendForm.ImmunizationStatements,
@@ -445,7 +458,8 @@ export default function FHIRImmunization() {
         jsonObservationCriteriaDetails : JSON.stringify(tempArrList)
 
        }
-
+       console.log('finalObjInvestAndReason : ', finalObjInvestAndReason  )
+       
        const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
        if(saveObj.status === 1){
         alert('Data saved of Immunization')
@@ -676,7 +690,7 @@ export default function FHIRImmunization() {
 
                                         </>
                                       )}
-                                          <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={() => { handleDeleteCarePlanRow(ind, observeList.rowID) }}>
+                                          <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={() => { handleDeleteObservationRow(ind, observeList.rowID) }}>
                                             <img src={deleteIcon} className='icnn' alt='' /> Delete
                                           </button>
                                     </div>
