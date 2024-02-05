@@ -1,6 +1,6 @@
 import FHIRCareCoordinationExport from "./FHIRCareCoordinationExport";
 import FHIRCareCoordinationImport from "./FHIRCareCoordinationImport";
-import NoDataFound from '../../assets/images/icons/No data-rafiki.svg';
+
 const FHIRCareCoordination = () => {
     return (
         <section className="main-content mt-5 pt-3">
@@ -38,7 +38,7 @@ const FHIRCareCoordination = () => {
                             {/* -----------------------------------Enf FHIR Care Coordination Export Section---------------------------------------------- */}
                         </div>
 
-                        <div className='imageNoDataFound' style={{marginTop:'68px'}}><img src={NoDataFound} alt="imageNoDataFound" /></div>
+                       
                     </div>
 
                 </div>
