@@ -51,7 +51,7 @@ export default function ViewPlanRules() {
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
     // const [selectedPlanId, setSelectedPlanId] = useState('0');
     const [selectedPlanId, setSelectedPlanId] = useState();
-
+    let [showData, setShowData] = useState(0)
 
 
     const handleAddNewPlanClick = () => {
@@ -138,7 +138,8 @@ export default function ViewPlanRules() {
             ruleId: rule.id,
             ruleTitle: rule.title,
         }
-        setSelectedRules((prev) => ([...prev, temp]));
+        // setSelectedRules((prev) => ([...prev, temp]));
+        setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
         let avilableIndex = tempAvailableRules.findIndex(val => val.ruleId === rule.id)
         if (avilableIndex) {
             let temprules = [...tempAvailableRules]
@@ -203,10 +204,12 @@ export default function ViewPlanRules() {
 
     //HandleChang
     const handleChange = async (e) => {
+       let selectedRule = document.getElementById("planId").value
+       console.log("selectedRule",selectedRule)
+        setShowData(selectedRule);
         setEditPlan("");
         const { name, value } = e.target;
         setSendForm((prevData) => ({ ...prevData, [name]: value }));
-
         setSelectedPlanId(value);
         // setShowAddPlan(value !== '0');
     };
@@ -361,94 +364,96 @@ export default function ViewPlanRules() {
                                             </div>
                                         </div>
                                         {/* -------------------------------------Start Plan Rule Mapping Section---------------------------------------------- */}
-                                      
-                                            <div className='PlanRuleMapping mt-2' >
-                                                {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
-                                                <div className="d-flex px-1">
-                                                    <div className="planrulebrde flex-1">
-                                                        <div className='rulesec'>
-                                                            <div><span className='rulecount'>{selectedRules.length}</span> Rule already in plan</div>
-                                                            <div>Remove all rules from plan</div>
-                                                        </div>
-                                                        <div className='allrules'>
+                                        {showData === 0 ?
+                                          '':  <div className='PlanRuleMapping mt-2' >
+                                          {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
+                                          <div className="d-flex px-1">
+                                              <div className="planrulebrde flex-1">
+                                                  <div className='rulesec'>
+                                                      <div><span className='rulecount'>{selectedRules && selectedRules.length}</span> Rule already in plan</div>
+                                                      <div>Remove all rules from plan</div>
+                                                  </div>
+                                                  <div className='allrules'>
 
-                                                            {selectedRules.map((val) => (
-                                                                <div className="planrule" key={val.id}>
-                                                                    <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
-                                                                    <div className="planicon" onClick={() => handleRemoveRule(val)}>
-                                                                        <i className="fa fa-minus"></i>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
+                                                      {/* {selectedRules && selectedRules.map((val) => (
+                                                          <div className="planrule" key={val.id}>
+                                                              <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                              <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                  <i className="fa fa-minus"></i>
+                                                              </div>
+                                                          </div>
+                                                      ))} */}
 
-                                                          
-                                                            {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
-                                                                selectedRules.map((val) => (
-                                                                    <React.Fragment key={val.id}>
-                                                                        <div className="planrule">
-                                                                            <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
-                                                                            <div className="planicon" onClick={() => handleRemoveRule(val)}>
-                                                                                <i className="fa fa-minus"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </React.Fragment>
-                                                                ))
-                                                            ) : (
-                                                                <div>{selectedRules.length}</div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="planrulebrde flex-1">
-                                                        <div className='rulesec'>
-                                                            <div className='ruleserch'>
-                                                                <input type='text' className='form-control' placeholder={t("Search")} />
-                                                                <span className="rulesericon"><i className="fas fa-search"></i></span>
-                                                            </div>
-                                                            <div>Add rules to plan</div>
-                                                        </div>
-                                                        <div className='allrules'>
-                                                            {tempAvailableRules.map((val) => (
-                                                                <div className="planrule" key={val.id}>
-                                                                    <div className="plantxt" val={val.id}>{val.title}</div>
-                                                                    <div className="planicon" onClick={() => handleAddRule(val)}>
-                                                                        <i className="fa fa-plus"></i>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className='row px-1 '>
-                                                    <div className="col-lg-4 col-md-4 col-sm-4">
-                                                        <div className="mb-2 relative">
-                                                            <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
-                                                            <div>
-                                                                {showUnderProcess === 1 ? <TosterUnderProcess /> :
-                                                                    <>
-                                                                        {showToster === 1 ?
-                                                                            <Toster value={tosterValue} message={tosterMessage} />
 
-                                                                            : <div>
-                                                                                {updateBool === 0 ?
-                                                                                    <>
-                                                                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                                                                                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
-                                                                                    </>
-                                                                                    :
-                                                                                    <>
-                                                                                        <button type="button" className="btn btn-save btn-sm mb-1 me-1">{t("UPDATE")}</button>
-                                                                                        <button type="button" className="btn btn-clear btn-sm mb-1">{t("Cancel")}</button>
-                                                                                    </>
-                                                                                }
-                                                                            </div>}
-                                                                    </>
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
+                                                      {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
+                                                          selectedRules.map((val) => (
+                                                              <React.Fragment key={val.id}>
+                                                                  <div className="planrule">
+                                                                      <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                                      <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                          <i className="fa fa-minus"></i>
+                                                                      </div>
+                                                                  </div>
+                                                              </React.Fragment>
+                                                          ))
+                                                      ) : (
+                                                          <div>{selectedRules && selectedRules.length}</div>
+                                                      )}
+                                                  </div>
+                                              </div>
+                                              <div className="planrulebrde flex-1">
+                                                  <div className='rulesec'>
+                                                      <div className='ruleserch'>
+                                                          <input type='text' className='form-control' placeholder={t("Search")} />
+                                                          <span className="rulesericon"><i className="fas fa-search"></i></span>
+                                                      </div>
+                                                      <div>Add rules to plan</div>
+                                                  </div>
+                                                  <div className='allrules'>
+                                                      {tempAvailableRules.map((val) => (
+                                                          <div className="planrule" key={val.id}>
+                                                              <div className="plantxt" val={val.id}>{val.title}</div>
+                                                              <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                  <i className="fa fa-plus"></i>
+                                                              </div>
+                                                          </div>
+                                                      ))}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className='row px-1 '>
+                                              <div className="col-lg-4 col-md-4 col-sm-4">
+                                                  <div className="mb-2 relative">
+                                                      <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
+                                                      <div>
+                                                          {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                                                              <>
+                                                                  {showToster === 1 ?
+                                                                      <Toster value={tosterValue} message={tosterMessage} />
+
+                                                                      : <div>
+                                                                          {updateBool === 0 ?
+                                                                              <>
+                                                                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                                                                  <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
+                                                                              </>
+                                                                              :
+                                                                              <>
+                                                                                  <button type="button" className="btn btn-save btn-sm mb-1 me-1">{t("UPDATE")}</button>
+                                                                                  <button type="button" className="btn btn-clear btn-sm mb-1">{t("Cancel")}</button>
+                                                                              </>
+                                                                          }
+                                                                      </div>}
+                                                              </>
+                                                          }
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+}
+
+
 
                                         {/* -------------------------------------End Plan Rule Mapping Section---------------------------------------------- */}
                                     </div>
