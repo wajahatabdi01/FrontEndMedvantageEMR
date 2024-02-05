@@ -4,11 +4,17 @@ import GetAllIssueOutCome from '../../../API/GET/GetAllIssueOutCome';
 import GetAllIssueOccurence from '../../../API/GET/GetAllIssueOccurence';
 import GetAllVarificationStatus from '../../../API/GET/GetAllVarificationStatus';
 import GetAllClassification from '../../../API/GET/GetAllClassification';
+import Problem from '../IssuesPopUpComponents/Problem';
+import Allergy from '../IssuesPopUpComponents/Allergy';
+import Medication from '../IssuesPopUpComponents/Medication';
+import Device from '../IssuesPopUpComponents/Device';
+import Surgery from '../IssuesPopUpComponents/Surgery';
 
-const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
+const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     // console.log("issueValue", issueValue);
     let [problem, setProblem] = useState('');
+    // let[issueDetails,setIssueDetails]=useState()
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
@@ -24,22 +30,87 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
         dischargeDispositionId: '0',
         reasonforVisit: '',
     });
-    const [issueDetails, setIssueDetails] = useState({
-        title: '',
-        coding: '',
-        beginDateTime: '',
-        endDateTime: '',
-        classificationTypeId: '0',
-        occurrenceId: '0',
-        verificationStatusId: '0',
-        referredby: '',
-        comments: '',
-        outcomeId: '0',
-        destination: ''
-    });
+    let handleClear = () => {
+        console.log("dat delet")
+        issueDetailData(
+            {
+                Problem: {
+                    titleId: '',
+                    title: '',
+                    coding: '',
+                    beginDateTime: '',
+                    endDateTime: '',
+                    classificationTypeId: '0',
+                    occurrenceId: '0',
+                    verificationStatusId: '0',
+                    referredby: '',
+                    comments: '',
+                    outcomeId: '0',
+                    destination: ''
+                },
+
+                Allergy: {
+                    titleId: '',
+                    title: '',
+                    coding: '',
+                    beginDateTime: '',
+                    endDateTime: '',
+                    classificationTypeId: '0',
+                    occurrenceId: '0',
+                    verificationStatusId: '0',
+                    referredby: '',
+                    comments: '',
+                    outcomeId: '0',
+                    destination: ''
+                },
+
+                Medication: {
+                    titleId: '',
+                    title: '',
+                    coding: '',
+                    beginDateTime: '',
+                    endDateTime: '',
+                    classificationTypeId: '0',
+                    occurrenceId: '0',
+                    verificationStatusId: '0',
+                    referredby: '',
+                    comments: '',
+                    outcomeId: '0',
+                    destination: ''
+                },
+                Device: {
+                    title: '',
+                    coding: '',
+                    beginDateTime: '',
+                    endDateTime: '',
+                    classificationTypeId: '0',
+                    occurrenceId: '0',
+                    verificationStatusId: '0',
+                    referredby: '',
+                    comments: '',
+                    outcomeId: '0',
+                    destination: ''
+                },
+                Surgery: {
+                    titleId: '',
+                    title: '',
+                    coding: '',
+                    beginDateTime: '',
+                    endDateTime: '',
+                    classificationTypeId: '0',
+                    occurrenceId: '0',
+                    verificationStatusId: '0',
+                    referredby: '',
+                    comments: '',
+                    outcomeId: '0',
+                    destination: ''
+                },
+            }
+        );
+    }
     let handleSaveIssues = async () => {
-        console.log("Function Invoked")
-        console.log('issueDetails', issueDetails);
+        console.log("Function Invoked", issueDetails)
+        // console.log('issueDetails', issueDetails);
         const selectProblem = document.getElementById("ddlproblems").value;
         // const titleForProblem = document.getElementById("title").value;
         // const referredbyForProblem = document.getElementById("referredby").value;
@@ -67,53 +138,54 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
         // setLink(link);
     }
     const handleTitleInputChange = (e) => {
-        setProblem(e.target.value);
-        setCodingSelected(false);
-        const { name, value } = e.target;
-        setIssueDetails((prevIssueDetails) => ({
-            ...prevIssueDetails,
-            [name]: value,
-        }));
+        //     setProblem(e.target.value);
+        //     setCodingSelected(false);
+        //     const { name, value } = e.target;
+        //     setIssueDetails((prevIssueDetails) => ({
+        //         ...prevIssueDetails,
+        //         [name]: value,
+        //     }));
     };
+
     const handleCodingInputChange = (e) => {
-        // setCoding(e.target.value);
-        setCodingSelected(false);
-        const { name, value } = e.target;
-        setIssueDetails((prevIssueDetails) => ({
-            ...prevIssueDetails,
-            [name]: value,
-        }));
+        //     // setCoding(e.target.value);
+        //     setCodingSelected(false);
+        //     const { name, value } = e.target;
+        //     setIssueDetails((prevIssueDetails) => ({
+        //         ...prevIssueDetails,
+        //         [name]: value,
+        //     }));
     };
 
     let handleRemove = () => {
-        setCoding('');
-        setIssueDetails((prevIssueDetails) => ({
-            ...prevIssueDetails,
-            'coding': '',
-        }));
+        //     setCoding('');
+        //     setIssueDetails((prevIssueDetails) => ({
+        //         ...prevIssueDetails,
+        //         'coding': '',
+        //     }));
     }
 
     let handleIssueDetailsChange = (e) => {
-        console.log("issueDetailData", issueDetailData)
-        const { name, value } = e.target;
-        setIssueDetails((prevIssueDetails) => ({
-            ...prevIssueDetails,
-            [name]: value,
-        }));
+        // console.log("issueDetailData", issueDetailData)
+        // const { name, value } = e.target;
+        // setIssueDetails((prevIssueDetails) => ({
+        //     ...prevIssueDetails,
+        //     [name]: value,
+        // }));
     }
 
     let handleSelectProblem = () => {
-        const selectProblem = document.getElementById("ddlproblems").value;
+        //const selectProblem = document.getElementById("ddlproblems").value;
         // const selectedProblem = selectProblem.options[selectProblem.selectedIndex].text
-        setProblem(selectProblem);
-        setCoding(selectProblem);
-        console.log('selectProblem', selectProblem)
-        setCodingSelected(true);
-        setIssueDetails((prev) => ({
-            ...prev,
-            title: selectProblem,
-            coding: selectProblem,
-        }))
+        // setProblem(selectProblem);
+        // setCoding(selectProblem);
+        // console.log('selectProblem', selectProblem)
+        // setCodingSelected(true);
+        // setIssueDetails((prev) => ({
+        //     ...prev,
+        //     title: selectProblem,
+        //     coding: selectProblem,
+        // }))
     }
 
     const handleVisitDetailsChange = (e) => {
@@ -154,8 +226,8 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
         getAllVarificationStatus();
         getClassificationlist();
         visitDetailsData(visitDetails);
-        issueDetailData(issueDetails)
-    }, [visitDetails, visitDetailsData, issueDetails, issueDetailData]);
+        // issueDetailData(issueDetails)
+    }, [visitDetails, visitDetailsData]);
 
     return (
         <>
@@ -238,20 +310,37 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                     </div>
                     <div className='col-md-4'>
                         <Heading text="Link/Add Issues to This Visit" />
+                        {
+                            console.log("prblem", issueDetails.Problem)
+                        }
                         <select className='form-control' multiple>
-                            {issueDetails.coding !== "" ?
-                                <option>{issueDetails.coding}</option>
-                                : ''}
+                            {issueDetails !== undefined ?
+                                <>
+                                    {
+                                        issueDetails.Problem.coding !==undefined   ?
+                                            <option>{issueDetails.Problem.coding}</option>
+                                            : ""
+                                    }
+                                    {
+                                        issueDetails.Allergy.coding !== "" ?
+                                            <option>{issueDetails.Allergy.coding}</option>
+                                            : ""
+                                    }
+                                    {
+                                        issueDetails.Medication.coding !== "" ?
+                                            <option>{issueDetails.Medication.coding}</option>
+                                            : ""
+                                    }
+                                    {
+                                        issueDetails.Surgery.coding !== "" ?
+                                            <option>{issueDetails.Surgery.coding}</option>
+                                            : ""
+                                    }
+                                </>
+                                : ''
+                            }
                         </select>
                     </div>
-                    {/* <div className='col-md-4'>
-                        <Heading text="Link/Add Issues to This Visit" />
-                        <select className='form-control' multiple>
-                            {Array.isArray(issueDatas) && issueDatas.map((list) => (
-                                <option key={list.id} value={0}>{list.coding}</option>
-                            ))}
-                        </select>
-                    </div> */}
 
                     <div className='col-md-2 addvisitbtn_ mt-5'>
                         <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-plus"></i> Add Issue</button>
@@ -285,776 +374,37 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                                         <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#device" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Device</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#surgery  " type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Surgery</button>
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#surgery" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Surgery</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#dental " type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Dental</button>
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#dental" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Dental</button>
                                     </li>
                                 </ul>
                             </div>
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <div className='problemhead'>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <div>
-                                                    <select className='form-control' id='ddlproblems' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                                        <option value='asthma'>asthma</option>
-                                                        <option value='BCC'>BCC</option>
-                                                        <option value='Dermatochalasis'>Dermatochalasis</option>
-                                                        <option value='diabetes'>diabetes</option>
-                                                        <option value='Dry Eye'>Dry Eye</option>
-                                                        <option value='HTN'>HTN</option>
-                                                        <option value='hyperlipidemia'>hyperlipidemia</option>
-                                                        <option value='IDDM w/ BDR'>IDDM w/ BDR</option>
-                                                        <option value='Keratoconus'>Keratoconus</option>
-                                                        <option value='SCC'>SCC</option>
-                                                        <option value='POAG'>POAG</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                                        </div>
-
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                                                <input type="text" value={problem} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                                            </div>
-                                        </div>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                                        {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''}
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}><i class="bi bi-plus"></i> Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={handleIssueDetailsChange}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    <Problem issueDetailsData={issueDetailData} issueDetailss={issueDetails.Problem} id={1} />
                                 </div>
                                 {/* --------------------------Allergy Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade" id="allergy" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                                <div className='problemhead'>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <div>
-                                                    <select className='form-control' id='ddlproblems' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                                        <option value='asthma'>asthma</option>
-                                                        <option value='BCC'>BCC</option>
-                                                        <option value='Dermatochalasis'>Dermatochalasis</option>
-                                                        <option value='diabetes'>diabetes</option>
-                                                        <option value='Dry Eye'>Dry Eye</option>
-                                                        <option value='HTN'>HTN</option>
-                                                        <option value='hyperlipidemia'>hyperlipidemia</option>
-                                                        <option value='IDDM w/ BDR'>IDDM w/ BDR</option>
-                                                        <option value='Keratoconus'>Keratoconus</option>
-                                                        <option value='SCC'>SCC</option>
-                                                        <option value='POAG'>POAG</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                                        </div>
-
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                                                <input type="text" value={problem} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                                            </div>
-                                        </div>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                                        {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''}
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={handleIssueDetailsChange}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                <div class="tab-pane fade" id="allergy" role="tabpanel" value='2' aria-labelledby="profile-tab" tabindex="0">
+                                    <Allergy issueDetailsData={issueDetailData} issueDetailss={issueDetails.Allergy} id={2} />
                                 </div>
                                 {/* --------------------------Medication Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade" id="medication" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                                <div className='problemhead'>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <div>
-                                                    <select className='form-control' id='ddlproblems' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                                        <option value='asthma'>asthma</option>
-                                                        <option value='BCC'>BCC</option>
-                                                        <option value='Dermatochalasis'>Dermatochalasis</option>
-                                                        <option value='diabetes'>diabetes</option>
-                                                        <option value='Dry Eye'>Dry Eye</option>
-                                                        <option value='HTN'>HTN</option>
-                                                        <option value='hyperlipidemia'>hyperlipidemia</option>
-                                                        <option value='IDDM w/ BDR'>IDDM w/ BDR</option>
-                                                        <option value='Keratoconus'>Keratoconus</option>
-                                                        <option value='SCC'>SCC</option>
-                                                        <option value='POAG'>POAG</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                                        </div>
-
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                                                <input type="text" value={problem} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                                            </div>
-                                        </div>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                                        {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''}
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={handleIssueDetailsChange}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                <div class="tab-pane fade" id="medication" role="tabpanel" value='3' aria-labelledby="contact-tab" tabindex="0">
+                                    <Medication issueDetailsData={issueDetailData} issueDetailss={issueDetails.Medication} id={3} />
                                 </div>
                                 {/* --------------------------Device Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade" id="device" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                                    <div className='problemhead'>
-                                        {/* <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <div>
-                                                    <select className='form-control' id='ddlproblems' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                                        <option value='asthma'>asthma</option>
-                                                        <option value='BCC'>BCC</option>
-                                                        <option value='Dermatochalasis'>Dermatochalasis</option>
-                                                        <option value='diabetes'>diabetes</option>
-                                                        <option value='Dry Eye'>Dry Eye</option>
-                                                        <option value='HTN'>HTN</option>
-                                                        <option value='hyperlipidemia'>hyperlipidemia</option>
-                                                        <option value='IDDM w/ BDR'>IDDM w/ BDR</option>
-                                                        <option value='Keratoconus'>Keratoconus</option>
-                                                        <option value='SCC'>SCC</option>
-                                                        <option value='POAG'>POAG</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                                        </div> */}
-
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                                                <input type="text" className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                                            </div>
-                                        </div>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                                        {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''}
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={handleIssueDetailsChange}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="tab-pane fade" id="device" role="tabpanel" value='4' aria-labelledby="contact-tab" tabindex="0">
+                                    <Device issueDetailsData={issueDetailData} issueDetailss={issueDetails.Device} id={4} />
                                 </div>
                                 {/* --------------------------Surgery Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade" id="surgery" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                                <div className='problemhead'>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <div>
-                                                    <select className='form-control' id='ddlproblems' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                                        <option value='asthma'>asthma</option>
-                                                        <option value='BCC'>BCC</option>
-                                                        <option value='Dermatochalasis'>Dermatochalasis</option>
-                                                        <option value='diabetes'>diabetes</option>
-                                                        <option value='Dry Eye'>Dry Eye</option>
-                                                        <option value='HTN'>HTN</option>
-                                                        <option value='hyperlipidemia'>hyperlipidemia</option>
-                                                        <option value='IDDM w/ BDR'>IDDM w/ BDR</option>
-                                                        <option value='Keratoconus'>Keratoconus</option>
-                                                        <option value='SCC'>SCC</option>
-                                                        <option value='POAG'>POAG</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                                        </div>
-
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                                                <input type="text" value={problem} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                                            </div>
-                                        </div>
-                                        <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                                        {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''}
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12'>
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={handleIssueDetailsChange} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={handleIssueDetailsChange}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                <div class="tab-pane fade" id="surgery" role="tabpanel" value='5' aria-labelledby="contact-tab" tabindex="0">
+                                    <Surgery issueDetailsData={issueDetailData} issueDetailss={issueDetails.Surgery} id={5} />
                                 </div>
                                 {/* --------------------------Dental Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade" id="dental" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                                <div className='problemhead'>
+                                    <div className='problemhead'>
                                         <div className='problemhead-inn'>
                                             <div className="col-12 mb-2">
                                                 <div>
@@ -1086,13 +436,13 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                                         <div className='problemhead-inn'>
                                             <div className="col-12 mb-2">
                                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
+                                                {/* <div>
                                                     <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
                                                         {issueDetails.coding !== "" ?
                                                             <option>{issueDetails.coding}</option>
                                                             : ''}
                                                     </select>
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                             <div class="d-inline-flex gap-2">
@@ -1209,7 +559,7 @@ const VisitDetails = ({ visitDetailsData, issueDetailData }) => {
                         <div class="modal-footer">
                             <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                                 <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
-                                <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancel</button>
+                                <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal_" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                             </div>
                         </div>
                     </div>

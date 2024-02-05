@@ -162,10 +162,99 @@ export default function PatientRegistration() {
     const [insuranceDetailsTertiary, setInsuranceDetailsTertiary] = useState();
     const [contactDetails, setContactDetails] = useState();
     const [visitDetails, setVisitDetails] = useState();
-    const [issueDetails, setIssueDetails] = useState();
+    const [issueDetails, setIssueDetails] = useState(
+        {
+            Problem: {
+                titleId: '',
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
+
+            Allergy: {
+                titleId: '',
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
+
+            Medication: {
+                titleId: '',
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
+            Device: {
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
+            Surgery: {
+                titleId: '',
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
+        }
+
+    );
     const [patientChoiceDetails, setPatientChoiceDetails] = useState();
     const [patientDetails, setPatientDetails] = useState();
-    const [statsJsonString, setStatsJsonString] = useState();
+    const [statsJsonString, setStatsJsonString] = useState({
+        ethinicityId: '',
+        languageId: '',
+        raceTypeId: '',
+        familySize: '',
+        financialReviewDate: '',
+        monthlyIncome: '',
+        homeless: '',
+        interpretter: '',
+        migrantseasonal: '',
+        referralSource: '',
+        vfc: '',
+        religion: '',
+    });
+    let [clearStatus, setClearStatus] = useState(0)
     const [sendFormPatientDetails, setSendFormPatientDetails] = useState({
         street: '',
         streetLine2: '',
@@ -189,7 +278,7 @@ export default function PatientRegistration() {
         employerName: '',
         address: '',
         addressLine2: '',
-        city: '0',
+        city: '',
         countryId: '0',
         stateId: '0',
         postalCode: '',
@@ -200,12 +289,9 @@ export default function PatientRegistration() {
         guardiansName: '',
         guardianrelationship: '',
         genderId: '',
-        guardianAddress: '0',
-        guardianMobileNo: '0',
-        guardianworkphone: '0',
-        guardianemail: '',
-        guardianemail: '',
-        guardianemail: '',
+        guardianAddress: '',
+        guardianMobileNo: '',
+        guardianworkphone: '',
     });
     const handleChangePatientDetails = (e) => {
         const { name, value } = e.target;
@@ -955,7 +1041,7 @@ export default function PatientRegistration() {
         console.log('insuranceDetailsSecondry', insuranceDetailsSecondry);
         console.log('insuranceDetailsTertiary', insuranceDetailsTertiary);
 
-        if (data.titleId.trim() !== "" && data.patientName.trim() !== ""
+        if (data.mobileNo.trim() !== "" && data.titleId.trim() !== "" && data.patientName.trim() !== ""
             && data.middleName.trim() !== '' && data.lastName.trim() !== ""
             && data.dob.trim() !== "" && data.genderId.trim() !== ""
             && data.genderidentityId.trim() !== ""
@@ -1001,8 +1087,12 @@ export default function PatientRegistration() {
         ) {
             return true
         }
+        else if (data.mobileNo.trim() === "") {
+            document.getElementById("errMobile").style.display = "block"
+            document.getElementById("errMobile").innerHTML = "Please insert mobile no"
+            return false
+        }
         else if (data.titleId.trim() === "") {
-            // alert("titleId")
             document.getElementById("errTitle").style.display = "block"
             document.getElementById("errTitle").innerHTML = "Please Select Title"
             return false
@@ -1391,7 +1481,51 @@ export default function PatientRegistration() {
         }
 
     }
+    let handleClear = () => {
+        console.log("Invoked")
+        setClearStatus(1)
+        setEmployerDetailsJsonString({
+            occupation: '',
+            industryId: '',
+            employerName: '',
+            address: '',
+            addressLine2: '',
+            city: '0',
+            countryId: '0',
+            stateId: '0',
+            postalCode: '',
+        })
+        setStatsJsonString({
+            ethinicityId: '',
+            languageId: '',
+            raceTypeId: '',
+            familySize: '',
+            financialReviewDate: '',
+            monthlyIncome: '',
+            homeless: '',
+            interpretter: '',
+            migrantseasonal: '',
+            referralSource: '',
+            vfc: '',
+            religion: '',
+        })
 
+        setRegistrationObj({
+            deceasedDate: '',
+            deceasedReason: '',
+            guardiansName: '',
+            guardianrelationship: '',
+            genderId: '',
+            guardianAddress: '',
+            guardianMobileNo: '',
+            guardianworkphone: '',
+            guardianemail: ''
+        })
+
+        document.getElementById('ddlDepartment').value = '';
+        document.getElementById('ddlDoctor').value = '';
+        document.getElementById('ddlRoomNo').value = '';
+    }
 
 
     let save = async () => {
@@ -1404,7 +1538,6 @@ export default function PatientRegistration() {
         tempArr.push(insuranceDetailsSecondry);
         tempArr.push(insuranceDetailsTertiary);
         // console.log('tempArr',)
-        console.log('patientDetails', patientDetails);
         console.log('contactDetails', contactDetails);
         console.log('visitDetails', visitDetails);
         console.log('patientChoiceDetails', patientChoiceDetails);
@@ -1416,8 +1549,10 @@ export default function PatientRegistration() {
         // var ob=[];
         // ob = [...patientDetails];
         // console.log('ob',ob)
+        console.log('patientDetails', patientDetails);
+
         var makeDataObj = {
-            ...patientDetails,
+
             ...contactDetails,
             ...patientChoiceDetails,
             ...registrationObj,
@@ -1425,18 +1560,19 @@ export default function PatientRegistration() {
             employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
             insuranceDetailsJsonString: JSON.stringify(tempArr),
             statsJsonString: JSON.stringify([statsJsonString]),
-            encounterDetailsJsonString: JSON.stringify([issueDetails]),
+            encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device]),
             clientID: clientID,
             userId: window.userId,
             "departmentId": ddlDepartment,
             "doctorId": ddlDoctor,
             "roomId": ddlRoomNo,
+            ...patientDetails,
 
         }
+        console.log("makeDataObj", makeDataObj);
         var sendDataObj = { ...makeDataObj, previousNamesJsonString: JSON.stringify(makeDataObj.previousNamesJsonString) }
 
-        console.log("makeDataObj", makeDataObj);
-        console.log("sendDataObj", sendDataObj);
+        // console.log("sendDataObj", sendDataObj);
         // return;
         if (respValidation) {
             const response = await InsertPatientDemographicData(sendDataObj);
@@ -1446,6 +1582,7 @@ export default function PatientRegistration() {
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
+                handleClear();
             }
             else {
                 setShowUnderProcess(0)
@@ -1767,7 +1904,7 @@ export default function PatientRegistration() {
                                         <span class="fieldse">{t("Patient_Details")}</span>
                                         <div className="inner-content">
                                             <div className="dflex regEqualColums1">
-                                                <PatientDetails patientDetailsData={setPatientDetails} onPriviousNamesAddButtonClick={showPreviousNamesPopUpHandle} isShowPriviousModal={showPreviousNamesPopUp} priviousNames={priviousNameList} />
+                                                <PatientDetails setClearStatus={setClearStatus} clearStatus={clearStatus} patientDetailsData={setPatientDetails} onPriviousNamesAddButtonClick={showPreviousNamesPopUpHandle} isShowPriviousModal={showPreviousNamesPopUp} priviousNames={priviousNameList} />
                                                 {/* <PatientDetails patientDetailsData={setPatientDetails} onPatientDetailsChange={handlerChange2} onPriviousNamesAddButtonClick={showPreviousNamesPopUpHandle} isShowPriviousModal={showPreviousNamesPopUp} priviousNames={priviousNameList} /> */}
                                             </div>
                                         </div>
@@ -1800,7 +1937,7 @@ export default function PatientRegistration() {
                                                 >
                                                     <div className="accordion-body">
                                                         <div className="dflex">
-                                                            <ContactDetails contactDetailsData={setContactDetails} />
+                                                            <ContactDetails contactDetailsData={setContactDetails} setClearStatus={setClearStatus} clearStatus={clearStatus} />
                                                             {/* <ContactDetails onContactDetailsChange={handlerChange2} setAdditionalAddressJsonString={setAdditionalAddressJsonString} /> */}
                                                         </div>
                                                     </div>
@@ -1833,16 +1970,9 @@ export default function PatientRegistration() {
                                                     id="choicesInfo"
                                                     className="accordion-collapse collapse show1"
                                                     data-bs-parent="#accordionExample"
-
                                                 >
                                                     <div className="accordion-body">
-
-
-
-                                                        <PattientChoices patientchoicesData={setPatientChoiceDetails} />
-
-
-
+                                                        <PattientChoices patientchoicesData={setPatientChoiceDetails} setClearStatus={setClearStatus} clearStatus={clearStatus} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1879,14 +2009,14 @@ export default function PatientRegistration() {
                                                         <div className="dflex">
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtOccupation" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Occupation")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtOccupation" placeholder={t("Enter_Occupation")} name='occupation' onChange={(e) => { handleemployerDetails("occupation", e.target.value) }} />
+                                                                <label htmlFor="txtOccupation" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Occupation")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.occupation} className="form-control form-control-sm" id="txtOccupation" placeholder={t("Enter_Occupation")} name='occupation' onChange={(e) => { handleemployerDetails("occupation", e.target.value) }} />
                                                                 {/* <input type="text" className="form-control form-control-sm" id="txtOccupation" placeholder={t("Enter_Occupation")} name='occupation' onChange={(e) => { handleemployerDetails("occupation", e.target.value) }} /> */}
                                                             </div>
 
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlIndustry" className="form-label"><img src={city} className='icnn' alt='' />{t("Industry")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlIndustry" aria-label=".form-select-sm example" name='industryId' onChange={(e) => { handleemployerDetails("industryId", e.target.value) }}>
+                                                                <select className="form-select form-select-sm" value={employerDetailsJsonString.industryId} id="ddlIndustry" aria-label=".form-select-sm example" name='industryId' onChange={(e) => { handleemployerDetails("industryId", e.target.value) }}>
                                                                     <option value="0" selected>Select Industry</option>
                                                                     {industryList && industryList.map((list) => {
                                                                         return (
@@ -1898,24 +2028,24 @@ export default function PatientRegistration() {
                                                             </div>
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtEmployerName" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Employer_Name")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtEmployerName" placeholder={t("Enter_Employer_Name")} name='employerName' onChange={(e) => { handleemployerDetails("employerName", e.target.value) }} />
+                                                                <label htmlFor="txtEmployerName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Employer_Name")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.employerName} className="form-control form-control-sm" id="txtEmployerName" placeholder={t("Enter_Employer_Name")} name='employerName' onChange={(e) => { handleemployerDetails("employerName", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtEmployerStreet" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Employer_Street")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtEmployerStreet" placeholder={t("Enter_Employer_Street")} name='address' onChange={(e) => { handleemployerDetails("address", e.target.value) }} />
+                                                                <label htmlFor="txtEmployerStreet" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Employer_Street")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.address} className="form-control form-control-sm" id="txtEmployerStreet" placeholder={t("Enter_Employer_Street")} name='address' onChange={(e) => { handleemployerDetails("address", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtEmployerStreetLine2" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Employer_Street_Line2")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtEmployerStreetLine2" placeholder={t("Enter_Employer_Street_Line2")} name='addressLine2' onChange={(e) => { handleemployerDetails("addressLine2", e.target.value) }} />
+                                                                <label htmlFor="txtEmployerStreetLine2" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Employer_Street_Line2")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.addressLine2} className="form-control form-control-sm" id="txtEmployerStreetLine2" placeholder={t("Enter_Employer_Street_Line2")} name='addressLine2' onChange={(e) => { handleemployerDetails("addressLine2", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtEmployerCity" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Employer_City")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtEmployerCity" placeholder={t("Enter_Employer_City")} name='city' onChange={(e) => { handleemployerDetails("city", e.target.value) }} />
+                                                                <label htmlFor="txtEmployerCity" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Employer_City")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.city} className="form-control form-control-sm" id="txtEmployerCity" placeholder={t("Enter_Employer_City")} name='city' onChange={(e) => { handleemployerDetails("city", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlEmployerCountry" className="form-label"><img src={city} className='icnn' alt='' />{t("Employer_Country")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlEmployerCountry" aria-label=".form-select-sm example" name='countryId' onChange={(e) => { handleemployerDetails("countryId", e.target.value) }}>
+                                                                <select value={employerDetailsJsonString.countryId} className="form-select form-select-sm" id="ddlEmployerCountry" aria-label=".form-select-sm example" name='countryId' onChange={(e) => { handleemployerDetails("countryId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Employer_Country")}</option>
                                                                     {countryList && countryList.map((list) => {
 
@@ -1929,7 +2059,7 @@ export default function PatientRegistration() {
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlEmployerState" className="form-label"><img src={city} className='icnn' alt='' />{t("Employer_State")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlEmployerState" aria-label=".form-select-sm example" name='stateId' onChange={(e) => { handleemployerDetails("stateId", e.target.value) }}>
+                                                                <select value={employerDetailsJsonString.stateId} className="form-select form-select-sm" id="ddlEmployerState" aria-label=".form-select-sm example" name='stateId' onChange={(e) => { handleemployerDetails("stateId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Employer_State")}</option>
                                                                     {stateList && stateList.map((list, index) => {
 
@@ -1942,8 +2072,8 @@ export default function PatientRegistration() {
                                                                 <small id="errEmployerState" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtEmployerZip" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Employer_Zip")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtEmployerZip" placeholder={t("Enter_Employer_Zip")} name='postalCode' onChange={(e) => { handleemployerDetails("postalCode", e.target.value) }} />
+                                                                <label htmlFor="txtEmployerZip" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Employer_Zip")}</label>
+                                                                <input type="text" value={employerDetailsJsonString.postalCode} className="form-control form-control-sm" id="txtEmployerZip" placeholder={t("Enter_Employer_Zip")} name='postalCode' onChange={(e) => { handleemployerDetails("postalCode", e.target.value) }} />
                                                             </div>
 
                                                         </div>
@@ -1983,8 +2113,8 @@ export default function PatientRegistration() {
                                                         <div className="dflex">
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlEthnicity" className="form-label">{t("Ethnicity_Name")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlEthnicity" aria-label=".form-select-sm example" name='ethinicityId' onChange={(e) => { handleStatsDetails("ethinicityId", e.target.value) }}>
+                                                                <label htmlFor="ddlEthnicity" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Ethnicity_Name")}</label>
+                                                                <select value={statsJsonString.ethinicityId} className="form-select form-select-sm" id="ddlEthnicity" aria-label=".form-select-sm example" name='ethinicityId' onChange={(e) => { handleStatsDetails("ethinicityId", e.target.value) }}>
                                                                     <option value="0">{t("Enter_Ethnicity_Name")}</option>
                                                                     {ethinicityList && ethinicityList.map((list) => {
                                                                         return (
@@ -1994,8 +2124,8 @@ export default function PatientRegistration() {
                                                                 </select>
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlPreferredLanguage" className="form-label">{t("Preferred_Language")}</label>
-                                                                <select className="form-select form-select-sm" id="ddlPreferredLanguage" aria-label=".form-select-sm example" name='languageId' onChange={(e) => { handleStatsDetails("languageId", e.target.value) }}>
+                                                                <label htmlFor="ddlPreferredLanguage" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Preferred_Language")}</label>
+                                                                <select value={statsJsonString.languageId} className="form-select form-select-sm" id="ddlPreferredLanguage" aria-label=".form-select-sm example" name='languageId' onChange={(e) => { handleStatsDetails("languageId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Preferred_Language")}</option>
                                                                     {languageList && languageList.map((list) => {
                                                                         return (
@@ -2006,8 +2136,8 @@ export default function PatientRegistration() {
                                                             </div>
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlRaceType" className="form-label">{t("Race_Type")}</label>
-                                                                <select className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" name='raceTypeId' onChange={(e) => { handleStatsDetails("raceTypeId", e.target.value) }}>
+                                                                <label htmlFor="ddlRaceType" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Race_Type")}</label>
+                                                                <select value={statsJsonString.raceTypeId} className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" name='raceTypeId' onChange={(e) => { handleStatsDetails("raceTypeId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Race_Type")}</option>
                                                                     {raceTypeList && raceTypeList.map((list) => {
                                                                         return (
@@ -2018,32 +2148,32 @@ export default function PatientRegistration() {
                                                             </div>
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtFamilySize" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Family_Size")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtFamilySize" placeholder={t("ENTER_Family_Size")} name='familySize' onChange={(e) => { handleStatsDetails("familySize", e.target.value) }} />
+                                                                <label htmlFor="txtFamilySize" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Family_Size")}</label>
+                                                                <input type="text" value={statsJsonString.familySize} className="form-control form-control-sm" id="txtFamilySize" placeholder={t("ENTER_Family_Size")} name='familySize' onChange={(e) => { handleStatsDetails("familySize", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtFinancialReviewDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Financial Review Date")}</label>
-                                                                <input type="date" className="form-control form-control-sm" id="txtFinancialReviewDate" placeholder={t("ENTER_Financial_Review_Date")} name='financialReviewDate' onChange={(e) => { handleStatsDetails("financialReviewDate", e.target.value) }} />
+                                                                <label htmlFor="txtFinancialReviewDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Financial Review Date")}</label>
+                                                                <input type="date" value={statsJsonString.financialReviewDate} className="form-control form-control-sm" id="txtFinancialReviewDate" placeholder={t("ENTER_Financial_Review_Date")} name='financialReviewDate' onChange={(e) => { handleStatsDetails("financialReviewDate", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtMonthlyIncome" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Monthly_Income")}</label>
-                                                                <input type="number" className="form-control form-control-sm" id="txtMonthlyIncome" placeholder={t("Enter_Monthly_Income")} name='monthlyIncome' onChange={(e) => { handleStatsDetails("monthlyIncome", e.target.value) }} />
+                                                                <label htmlFor="txtMonthlyIncome" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Monthly_Income")}</label>
+                                                                <input type="number" value={statsJsonString.monthlyIncome} className="form-control form-control-sm" id="txtMonthlyIncome" placeholder={t("Enter_Monthly_Income")} name='monthlyIncome' onChange={(e) => { handleStatsDetails("monthlyIncome", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtHomeless" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Homeless")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtHomeless" placeholder={t("Enter_Homeless")} name='homeless' onChange={(e) => { handleStatsDetails("homeless", e.target.value) }} />
+                                                                <label htmlFor="txtHomeless" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Homeless")}</label>
+                                                                <input type="text" value={statsJsonString.homeless} className="form-control form-control-sm" id="txtHomeless" placeholder={t("Enter_Homeless")} name='homeless' onChange={(e) => { handleStatsDetails("homeless", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtInterpreter" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Interpreter")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtInterpreter" placeholder={t("Enter_Interpreter")} name='interpretter' onChange={(e) => { handleStatsDetails("interpretter", e.target.value) }} />
+                                                                <label htmlFor="txtInterpreter" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Interpreter")}</label>
+                                                                <input type="text" value={statsJsonString.interpretter} className="form-control form-control-sm" id="txtInterpreter" placeholder={t("Enter_Interpreter")} name='interpretter' onChange={(e) => { handleStatsDetails("interpretter", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtMigrant" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("Migrant")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtMigrant" placeholder={t("Enter_Migrant")} name='migrantseasonal' onChange={(e) => { handleStatsDetails("migrantseasonal", e.target.value) }} />
+                                                                <label htmlFor="txtMigrant" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Migrant")}</label>
+                                                                <input type="text" value={statsJsonString.migrantseasonal} className="form-control form-control-sm" id="txtMigrant" placeholder={t("Enter_Migrant")} name='migrantseasonal' onChange={(e) => { handleStatsDetails("migrantseasonal", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlReferralSource" className="form-label">{t("Referral_Source")}</label>
-                                                                <select className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSource' onChange={(e) => { handleStatsDetails("referralSource", e.target.value) }}>
+                                                                <label htmlFor="ddlReferralSource" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Referral_Source")}</label>
+                                                                <select value={statsJsonString.referralSource} className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSource' onChange={(e) => { handleStatsDetails("referralSource", e.target.value) }}>
                                                                     <option value="0">{t("Select Referral Source")}</option>
                                                                     {referralList && referralList.map((list) => {
                                                                         return (
@@ -2054,8 +2184,8 @@ export default function PatientRegistration() {
                                                             </div>
 
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlVFC" className="form-label">{t("VFC")}</label>
-                                                                <select className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='vfc' onChange={(e) => { handleStatsDetails("vfc", e.target.value) }}>
+                                                                <label htmlFor="ddlVFC" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("VFC")}</label>
+                                                                <select value={statsJsonString.vfc} className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='vfc' onChange={(e) => { handleStatsDetails("vfc", e.target.value) }}>
                                                                     <option value="0">{t("Select_VFC")}</option>
                                                                     <option value="1">Unassigned</option>
                                                                     <option value="2">Eligible</option>
@@ -2064,8 +2194,8 @@ export default function PatientRegistration() {
                                                                 </select>
                                                             </div>
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="ddlReligion" className="form-label">{t("Religion")}</label>
-                                                                <select className="form-select form-select-sm selectwid" id="ddlReligion" aria-label=".form-select-sm example" name='religion' onChange={(e) => { handleStatsDetails("religion", e.target.value) }}>
+                                                                <label htmlFor="ddlReligion" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Religion")}</label>
+                                                                <select value={statsJsonString.religion} className="form-select form-select-sm selectwid" id="ddlReligion" aria-label=".form-select-sm example" name='religion' onChange={(e) => { handleStatsDetails("religion", e.target.value) }}>
                                                                     <option value="0">{t("Select_Religion")}</option>
                                                                     {religionList && religionList.map((list) => {
                                                                         return (
@@ -2109,7 +2239,7 @@ export default function PatientRegistration() {
                                                 >
                                                     <div className="accordion-body">
                                                         <div className="dflex">
-                                                            <InsuranceDetails onInsuranceDetailsChange={setInsuranceDetailsJsonString} getInsuranceDetailsPrimary={setInsuranceDetailsPrimary} getInsuranceDetailsSecondry={setInsuranceDetailsSecondry} getInsuranceDetailsTertiary={setInsuranceDetailsTertiary} />
+                                                            <InsuranceDetails setClearStatus={setClearStatus} clearStatus={clearStatus} onInsuranceDetailsChange={setInsuranceDetailsJsonString} getInsuranceDetailsPrimary={setInsuranceDetailsPrimary} getInsuranceDetailsSecondry={setInsuranceDetailsSecondry} getInsuranceDetailsTertiary={setInsuranceDetailsTertiary} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2147,13 +2277,13 @@ export default function PatientRegistration() {
                                                     <div className="accordion-body">
                                                         <div className="dflex">
                                                             <div className="col-2 mb-2">
-                                                                <label htmlFor="txtDateDeceased" className="form-label"><img src={identityIcon} className='icnn' alt='' />{t("Date Deceased")}</label>
-                                                                <input type="date" className="form-control form-control-sm" id="txtDateDeceased" placeholder={t("Date Deceased")} name='deceasedDate' onChange={(e) => { handlerChange2("deceasedDate", e.target.value) }} />
+                                                                <label htmlFor="txtDateDeceased" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Date Deceased")}</label>
+                                                                <input type="date" value={registrationObj.deceasedDate} className="form-control form-control-sm" id="txtDateDeceased" placeholder={t("Date Deceased")} name='deceasedDate' onChange={(e) => { handlerChange2("deceasedDate", e.target.value) }} />
                                                                 <small id="errDateDeceased" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="txtReasonDeceased" className="form-label"><img src={identityIcon} className='icnn' alt='' />{t("Reason Deceased")}</label>
-                                                                <input type="text" className="form-control form-control-sm" id="txtReasonDeceased" placeholder={t("Reason Deceased")} name='deceasedReason' onChange={(e) => { handlerChange2("deceasedReason", e.target.value) }} />
+                                                                <input type="text" value={registrationObj.deceasedReason} className="form-control form-control-sm" id="txtReasonDeceased" placeholder={t("Reason Deceased")} name='deceasedReason' onChange={(e) => { handlerChange2("deceasedReason", e.target.value) }} />
                                                                 <small id="errReasonDeceased" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                             </div>
                                                         </div>
@@ -2190,7 +2320,7 @@ export default function PatientRegistration() {
 
                                                 >
                                                     <div className="accordion-body">
-                                                        <VisitDetails visitDetailsData={setVisitDetails} issueDetailData={setIssueDetails} />
+                                                        <VisitDetails visitDetailsData={setVisitDetails} issueDetailData={setIssueDetails} issueDetails={issueDetails} />
 
                                                     </div>
                                                 </div>
@@ -2211,12 +2341,12 @@ export default function PatientRegistration() {
                                             <div className="dflex">
                                                 <div className="col-2">
                                                     <label htmlFor="txtGuardianName" className="form-label"><img src={ageIcon} className='icnn' />{t("NAME")}</label>
-                                                    <input type="Name" className="form-control form-control-sm" id="txtGuardianName" placeholder={t("Name")} name='guardiansName' onChange={(e) => { handlerChange2("guardiansName", e.target.value) }} />
+                                                    <input type="Name" value={registrationObj.guardiansName} className="form-control form-control-sm" id="txtGuardianName" placeholder={t("Name")} name='guardiansName' onChange={(e) => { handlerChange2("guardiansName", e.target.value) }} />
                                                 </div>
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtPatientRelationship" className="form-label"><img src={IconPatientRelation} className='icnn' />{t("Select_Relation_Relationship_To_Patient")}</label>
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
-                                                    <select className="form-select form-select-sm" id="ddlRelationToPat" aria-label=".form-select-sm example" name='guardianrelationship' onChange={(e) => { handlerChange2("guardianrelationship", e.target.value) }} >
+                                                    <select value={registrationObj.guardianrelationship} className="form-select form-select-sm" id="ddlRelationToPat" aria-label=".form-select-sm example" name='guardianrelationship' onChange={(e) => { handlerChange2("guardianrelationship", e.target.value) }} >
                                                         <option value="0">{t("Select_Relation")}</option>
                                                         {guardianRelationList && guardianRelationList.map((list) => {
                                                             return (
@@ -2230,7 +2360,7 @@ export default function PatientRegistration() {
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtGaurdianGender" className="form-label"><img src={IconPatientRelation} className='icnn' />{t("Select Gaurdian Gender")}</label>
                                                     {/* <input type="text" className="form-control form-control-sm" id="txtRelationshipToPatient" placeholder="Enter Relationship" name='guardianRelationToPatient' value={guardianRelationToPatient} onChange={handlerChange} /> */}
-                                                    <select className="form-select form-select-sm" id="ddlGaurdian_Gender" aria-label=".form-select-sm example" name='genderId' onChange={(e) => { handlerChange2("genderId", e.target.value) }} >
+                                                    <select value={registrationObj.genderId} className="form-select form-select-sm" id="ddlGaurdian_Gender" aria-label=".form-select-sm example" name='genderId' onChange={(e) => { handlerChange2("genderId", e.target.value) }} >
                                                         <option value="0">{t("Select Gaurdian Gender")}</option>
                                                         {genderList && genderList.map((list) => {
                                                             return (
@@ -2242,21 +2372,21 @@ export default function PatientRegistration() {
 
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtPatientRelationAddress" className="form-label"><img src={addressIcon} className='icnn' />{t("Address")}</label>
-                                                    <input type="text" className="form-control form-control-sm" id="txtPatientRelationAddress" placeholder={t("Enter_Address")} name='guardianAddress' onChange={(e) => { handlerChange2("guardianAddress", e.target.value) }} />
+                                                    <input type="text" value={registrationObj.guardianAddress} className="form-control form-control-sm" id="txtPatientRelationAddress" placeholder={t("Enter_Address")} name='guardianAddress' onChange={(e) => { handlerChange2("guardianAddress", e.target.value) }} />
                                                 </div>
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtPatientRelationMobNo" className="form-label"><img src={smartphone} className='icnn' />{t("MOBILE_NUMBER")}</label>
-                                                    <input type="number" className="form-control form-control-sm" id="txtPatientRelationMobNo" placeholder={t("Mobile_Number")} name='guardianMobileNo' onChange={(e) => { handlerChange2("guardianMobileNo", e.target.value) }} />
+                                                    <input type="number" value={registrationObj.guardianMobileNo} className="form-control form-control-sm" id="txtPatientRelationMobNo" placeholder={t("Mobile_Number")} name='guardianMobileNo' onChange={(e) => { handlerChange2("guardianMobileNo", e.target.value) }} />
                                                 </div>
 
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtPatientRelationWorkPhone" className="form-label"><img src={smartphone} className='icnn' />{t("Work_Phone")}</label>
-                                                    <input type="number" className="form-control form-control-sm" id="txtPatientRelationMobNo" placeholder={t("Work_Phone")} name='guardianworkphone' onChange={(e) => { handlerChange2("guardianworkphone", e.target.value) }} />
+                                                    <input type="number" value={registrationObj.guardianworkphone} className="form-control form-control-sm" id="txtPatientRelationMobNo" placeholder={t("Work_Phone")} name='guardianworkphone' onChange={(e) => { handlerChange2("guardianworkphone", e.target.value) }} />
                                                 </div>
 
                                                 <div className="col-2 mb-2">
-                                                    <label htmlFor="txtPatientRelationEmail" className="form-label"><img src={smartphone} className='icnn' />{t("Email")}</label>
-                                                    <input type="email" className="form-control form-control-sm" id="txtPatientRelationEmail" placeholder={t("ENTER_EMAIL_ID")} name='guardianemail' onChange={(e) => { handlerChange2("guardianemail", e.target.value) }} />
+                                                    <label htmlFor="txtPatientRelationEmail" className="form-label"><img src={emailIcon} className='icnn' />{t("Email")}</label>
+                                                    <input type="email" value={registrationObj.guardianemail} className="form-control form-control-sm" id="txtPatientRelationEmail" placeholder={t("ENTER_EMAIL_ID")} name='guardianemail' onChange={(e) => { handlerChange2("guardianemail", e.target.value) }} />
                                                 </div>
                                             </div>
                                         </div>
@@ -2425,7 +2555,7 @@ export default function PatientRegistration() {
                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnSave' onClick={saveButtonObjCheck}><img src={saveButtonIcon} className='icnn' />{t("Save")}</button></> : ''}
                                                             {isEdit === true ? <button type="button" className="btn btn-save btn-save-fill btn-sm  me-1" id='btnUpdate' onClick={handleUpdate}><img src={saveButtonIcon} className='icnn' />{t("UPDATE")}</button> : ''}
                                                             {showEdit === true ? <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnEdit' onClick={handleEdit}><img src={clearIcon} className='icnn' />{t("Edit")}</button> : ''}
-                                                            <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnClear' onClick={clear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                                            <button type="button" className="btn btn-save btnbluehover btn-sm  me-1" id='btnClear' onClick={handleClear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
                                                         </div>
                                                 }
                                                 {/* <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={prinData}>Last Print<i className="fa-solid fa-print ms-1" style={{ color: '#002F75', cursor: 'pointer' }} ></i></button>
@@ -2456,33 +2586,33 @@ export default function PatientRegistration() {
                     <div className="modal-dialog" style={{ maxWidth: '60vw' }}>
                         <div className="modal-content p-0">
                             <div className="modal-header">
-                                <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Patient List On This Mobile No.</h1>
+                                <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Add Previous Name</h1>
                                 <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title='Close Window' onClick={() => { setShowPreviousNamesPopUp(false) }}><i className="fa fa-times"></i></button>
                             </div>
                             <div className="modal-body p-0_">
                                 <div className="dflex">
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNamePrefix" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNamePrefix")}</label>
+                                        <label htmlFor="txtPreviousNamePrefix" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNamePrefix")}</label>
                                         <input type="text" className="form-control form-control-sm" id="txtPreviousNamePrefix" placeholder={t("ENTER_Previous_Name_Prefix")} name='previousNamePrefix' />
                                     </div>
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNameFirst" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNameFirst")}</label>
+                                        <label htmlFor="txtPreviousNameFirst" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNameFirst")}</label>
                                         <input type="text" className="form-control form-control-sm" id="txtPreviousNameFirst" placeholder={t("ENTER_Previous_Name_First")} name='previousNameFirst' />
                                     </div>
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNameMiddle" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNameMiddle")}</label>
+                                        <label htmlFor="txtPreviousNameMiddle" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNameMiddle")}</label>
                                         <input type="text" className="form-control form-control-sm" id="txtPreviousNameMiddle" placeholder={t("ENTER_Previous_Name_Middle")} name='previousNameMiddle' />
                                     </div>
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNameLast" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNameLast")}</label>
+                                        <label htmlFor="txtPreviousNameLast" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNameLast")}</label>
                                         <input type="text" className="form-control form-control-sm" id="txtPreviousNameLast" placeholder={t("ENTER_Previous_Name_Last")} name='previousNameLast' />
                                     </div>
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNameSuffix" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNameSuffix")}</label>
+                                        <label htmlFor="txtPreviousNameSuffix" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNameSuffix")}</label>
                                         <input type="text" className="form-control form-control-sm" id="txtPreviousNameSuffix" placeholder={t("ENTER_Previous_Name_Suffix")} name='previousNameSuffix' />
                                     </div>
                                     <div className="col-2 mb-2">
-                                        <label htmlFor="txtPreviousNameEndDate" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreviousNameEndDate")}</label>
+                                        <label htmlFor="txtPreviousNameEndDate" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PreviousNameEndDate")}</label>
                                         <input type="date" className="form-control form-control-sm" id="txtPreviousNameEndDate" placeholder={t("ENTER_Previous_Name_End_Date")} name='previousNameEndDate' />
                                     </div>
                                     <div className="col-2 mb-2">

@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 import GetStateList from '../../../API/GET/GetStateList'
 import GetCityList from '../../../API/GET/GetCityList';
 import GetCountryList from '../../../API/GET/GetCountryList';
-const ContactDetails = ({ contactDetailsData }) => {
-// const ContactDetails = ({ initialContactDetails, onContactDetailsChange }) => {
+const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => {
+    // const ContactDetails = ({ initialContactDetails, onContactDetailsChange }) => {
     let [cityList, setCityList] = useState([]);
     let [cityListAdd, setCityListAdd] = useState([]);
     let [stateList, setStateList] = useState([]);
@@ -21,16 +21,16 @@ const ContactDetails = ({ contactDetailsData }) => {
     const [contactDetails, setContactDetails] = useState({
         address: '',
         addressLine2: '',
-        countryId:'',
-        stateId:'',
-        cityId:'',
+        countryId: '',
+        stateId: '',
+        cityId: '',
         zip: '',
         mothersName: '',
         emergencyContact: '',
         emergencyPhone: '',
         phoneHome: '',
         workPhone: '',
-        mobileNo: '',
+        // mobileNo: '',
         emailID: '',
         trustedEmail: '',
         additionalAddressess: '[]',
@@ -39,9 +39,27 @@ const ContactDetails = ({ contactDetailsData }) => {
     useEffect(() => {
         getCountryList();
         contactDetailsData(contactDetails);
-        console.log('contactDetails',contactDetails)
-    }, [contactDetails,contactDetailsData]);
-    
+        console.log('contactDetails', contactDetails)
+        if (clearStatus === 1) {
+            setClearStatus(0)
+            setContactDetails({
+                address: '',
+                addressLine2: '',
+                countryId: '',
+                stateId: '',
+                cityId: '',
+                zip: '',
+                mothersName: '',
+                emergencyContact: '',
+                emergencyPhone: '',
+                phoneHome: '',
+                workPhone: '',
+                emailID: '',
+                trustedEmail: '',
+            })
+        }
+    }, [contactDetails, contactDetailsData,clearStatus]);
+
     let getCountryList = async () => {
         console.log('fetch country');
         let response = await GetCountryList();
@@ -56,9 +74,9 @@ const ContactDetails = ({ contactDetailsData }) => {
     let onChangeCountry = async () => {
         let countryID = document.getElementById('ddlCountry').value;
         getStateList(countryID);
-        setContactDetails((prevData)=>({
+        setContactDetails((prevData) => ({
             ...prevData,
-            countryId:countryID
+            countryId: countryID
         }))
     };
     let getStateList = async (val) => {
@@ -77,9 +95,9 @@ const ContactDetails = ({ contactDetailsData }) => {
         else {
             let data = await GetCityList(stateID);
             setCityList(data.responseValue);
-            setContactDetails((prevData)=>({
+            setContactDetails((prevData) => ({
                 ...prevData,
-                stateId:stateID
+                stateId: stateID
             }))
 
         }
@@ -195,7 +213,6 @@ const ContactDetails = ({ contactDetailsData }) => {
                         return (
                             <option value={list.id}>{list.countryName}</option>
                         )
-
                     })}
                 </select>
                 <small id="errCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -206,7 +223,7 @@ const ContactDetails = ({ contactDetailsData }) => {
             </div>
             <div className="col-2 mb-2">
                 <label htmlFor="ddlState" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("State")}</label>
-                <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='stateId' onChange={() => { getCityListByState(); }}  value={contactDetails.stateId}>
+                <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='stateId' onChange={() => { getCityListByState(); }} value={contactDetails.stateId}>
                     <option value="0">{t("Select_State")}</option>
                     {stateList && stateList.map((list, index) => {
 
@@ -264,15 +281,17 @@ const ContactDetails = ({ contactDetailsData }) => {
                 <label htmlFor="txtWorkPhone" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Work_Phone")}</label>
                 <input type="text" className="form-control form-control-sm" id="txtWorkPhone" placeholder={t("Enter_Work_Phone")} name='workPhone' value={contactDetails.workPhone} onChange={handleContactDetailsChange} />
                 <small id="errWorkPhone" className="form-text text-danger" style={{ display: 'none' }}></small>
-            </div><div className="col-2 mb-2">
+            </div>
+
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="txtMobileNo" className="form-label">
                     <img src={smartphone} className='icnn' alt='' />
                     {t("MOBILE_NUMBER")}</label>
                 <div className='lft'>
                     <select className="form-select form-select-sm" id='ddlCountryCode' aria-label=".form-select-sm example" style={{ borderRight: 'transparent', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', width: '80px', padding: '0 5px 0 5px' }}>
-                        {/* <option value='0'>+91</option> */}
+                        <option value='0'>+91</option>
                         {countryList && countryList.map((list, index) => {
-                            if (list.id === 1) {
+                            if (list.id === 101) {
                                 return (<option value={list.id} selected>{list.countryCode}</option>);
                             }
                             else {
@@ -281,16 +300,16 @@ const ContactDetails = ({ contactDetailsData }) => {
                                 );
 
                             }
-
                         })}
                     </select>
                     <input type="number" className="form-control form-control-sm" id="txtMobileNo" placeholder={t("Mobile_Number")} name='mobileNo' value={contactDetails.mobileNo} onChange={handleContactDetailsChange} style={{ borderLeft: 'transparent', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} />
                 </div>
-                {/* <button type="button" className="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalSetting"><i className="bi bi-gear-fill"></i></button> */}
-
+                <button type="button" className="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalSetting"><i className="bi bi-gear-fill"></i></button>
                 <small id="errMobile" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
-            </div><div className="col-2 mb-2">
+            </div> */}
+
+            <div className="col-2 mb-2">
                 <label htmlFor="txtEmailAddress" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("EMAIL_ID")}</label>
                 <input type="email" className="form-control form-control-sm" id="txtEmailAddress" placeholder={t("ENTER_EMAIL_ID")} name='emailID' value={contactDetails.emailID} onChange={handleContactDetailsChange} />
             </div><div className="col-2 mb-2">
@@ -300,7 +319,7 @@ const ContactDetails = ({ contactDetailsData }) => {
             <div className="dflex">
                 <div className="col-2 mb-2">
                     <label htmlFor="ddlEmpty" className="form-label"></label>
-                    <button type="button" class="form-control form-control-sm" id="addCity" onClick={handleAddInput}>Additonal Address<img src={emailIcon} className='icnn' alt='' /></button>
+                    <button type="button" class="form-control form-control-sm" id="addCity" onClick={handleAddInput}>Additonal Address <img src={emailIcon} className='icnn' alt='' /></button>
                 </div>
 
             </div>
