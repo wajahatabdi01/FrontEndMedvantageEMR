@@ -22,7 +22,7 @@ export default function ViewPlanRules() {
     let [updateBool, setUpdateBool] = useState(0)
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
-    let [planList, setPlanList] = useState([])
+    let [planList, setPlanList] = useState([]);
     let [sendForm, setSendForm] = useState({
         "userId": window.userId,
         "clientId": window.clientId,
@@ -50,7 +50,7 @@ export default function ViewPlanRules() {
     let [isShowToaster, setisShowToaster] = useState(0);
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
     // const [selectedPlanId, setSelectedPlanId] = useState('0');
-    const [selectedPlanId, setSelectedPlanId] = useState(0);
+    const [selectedPlanId, setSelectedPlanId] = useState();
 
 
 
@@ -87,6 +87,8 @@ export default function ViewPlanRules() {
             console.error("Error fetching data:", error);
         }
     };
+
+
 
     //Get All Rule
     let getAllRule = async () => {
@@ -162,15 +164,20 @@ export default function ViewPlanRules() {
     };
     //Handle Mapping Plan Rule
     let save = async () => {
-        let tempjson = {
-            // JsonPlanRuleDetails: JSON.stringify(selectedRules)
-            // JsonPlanRuleDetails: JSON.stringify(selectedRules.map(({ planId, ruleId }) => ({ planId, ruleId })))
-            JsonPlanRuleDetails: JSON.stringify(selectedRules.map(({ planId, ruleId }) => ({ planId, ruleId })))
-                .replace(/\\/g, '')
-        }
-        tempjson.JsonPlanRuleDetails = JSON.parse(tempjson.JsonPlanRuleDetails);
-        console.log("tempjson:", tempjson)
-        const response = await InsertPlanRule(tempjson);
+        let modifiedPayload = selectedRules.map(({ planId, ruleId }) => ({
+            planId: parseInt(planId),
+            ruleId: ruleId
+        }));
+
+
+        // let tempjson = {
+        //     // JsonPlanRuleDetails: JSON.stringify(selectedRules)
+        //     // JsonPlanRuleDetails: JSON.stringify(selectedRules.map(({ planId, ruleId }) => ({ planId, ruleId })))
+        //     JsonPlanRuleDetails: JSON.stringify(modifiedPayload).replace(/\\/g, '')
+        // }
+        //tempjson.JsonPlanRuleDetails = JSON.parse(tempjson.JsonPlanRuleDetails);
+        console.log("tempjson:", modifiedPayload)
+        const response = await InsertPlanRule(JSON.stringify(modifiedPayload));
         if (response.status === 1) {
             setShowUnderProcess(0);
             setTosterValue(0);
@@ -201,9 +208,9 @@ export default function ViewPlanRules() {
         setSendForm((prevData) => ({ ...prevData, [name]: value }));
 
         setSelectedPlanId(value);
-        setShowAddPlan(value !== '0');
+        // setShowAddPlan(value !== '0');
     };
- 
+
 
 
     //Save Plan
@@ -293,11 +300,15 @@ export default function ViewPlanRules() {
                                                             <label htmlFor="" className="form-label">Plan <span className="starMandatory">*</span></label>
                                                             <select className='form-select form-select-sm' id='planId' name='PlanId' disabled={showAddPlan === 1} onChange={handleChange}>
                                                                 <option value='0'>Select Plan</option>
-                                                                {planList && planList.length > 0 && planList.map(val => {
-                                                                    return (
-                                                                        <option value={val.id}>{val.name}</option>
-                                                                    );
-                                                                })}
+                                                                {planList && planList.length > 0 ? (
+                                                                    planList.map((val) => (
+                                                                        <option key={val.id} value={val.id}>
+                                                                            {val.name}
+                                                                        </option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option value='0'>No Plans Available</option>
+                                                                )}
                                                             </select>
                                                             {/* {planList && <DropdownWithSearch defaulNname="Select Plan" name="name" list={planList} valueName="id" displayName="name" editdata={editPlan} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />} */}
                                                         </div>
@@ -350,7 +361,7 @@ export default function ViewPlanRules() {
                                             </div>
                                         </div>
                                         {/* -------------------------------------Start Plan Rule Mapping Section---------------------------------------------- */}
-                                        {selectedPlanId !== '0' &&
+                                      
                                             <div className='PlanRuleMapping mt-2' >
                                                 {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
                                                 <div className="d-flex px-1">
@@ -369,6 +380,22 @@ export default function ViewPlanRules() {
                                                                     </div>
                                                                 </div>
                                                             ))}
+
+                                                          
+                                                            {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
+                                                                selectedRules.map((val) => (
+                                                                    <React.Fragment key={val.id}>
+                                                                        <div className="planrule">
+                                                                            <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                                            <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                                <i className="fa fa-minus"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </React.Fragment>
+                                                                ))
+                                                            ) : (
+                                                                <div>{selectedRules.length}</div>
+                                                            )}
                                                         </div>
                                                     </div>
                                                     <div className="planrulebrde flex-1">
@@ -392,7 +419,7 @@ export default function ViewPlanRules() {
                                                     </div>
                                                 </div>
                                                 <div className='row px-1 '>
-                                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                                    <div className="col-lg-4 col-md-4 col-sm-4">
                                                         <div className="mb-2 relative">
                                                             <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
                                                             <div>
@@ -421,7 +448,7 @@ export default function ViewPlanRules() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        }
+                                        
 
                                         {/* -------------------------------------End Plan Rule Mapping Section---------------------------------------------- */}
                                     </div>

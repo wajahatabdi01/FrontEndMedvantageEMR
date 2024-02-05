@@ -13,10 +13,12 @@ import IconPatientRelation from '../../../../assets/images/icons/IconPatientRela
 import stateIcon from '../../../../assets/images/icons/stateIcon.svg';
 import smartphone from '../../../../assets/images/icons/smartphone.svg';
 import Heading from '../../../../Component/Heading';
+import GetGender from '../../../API/GET/GetGender';
 
-const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChange, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary ,clearStatus, setClearStatus}) => {
+const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChange, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary, clearStatus, setClearStatus }) => {
     let [insuranceDetails, setInsuranceDetails] = useState();
     let [countryList, setCountryList] = useState([]);
+    let [genderList, setGenderList] = useState([]);
     let [providerList, setProviderList] = useState([]);
     let [relationList, setRelationList] = useState([]);
     let [stateListprimary, setStateListPrimary] = useState([]);
@@ -225,6 +227,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }
     }
 
+    let getAllGender = async () => {
+        const response = await GetGender();
+        if (response.status === 1) {
+            setGenderList(response.responseValue);
+        }
+    }
 
     let getCountryList = async () => {
         console.log('fetch country');
@@ -368,14 +376,14 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }))
     };
     useEffect(() => {
-        // getStateList();
+        getAllGender();
         getCountryList();
         getUserListByRoleId();
         getallRelation();
         getInsuranceDetailsPrimary(sendFormPrimary);
         getInsuranceDetailsSecondry(sendFormSecondary);
         getInsuranceDetailsTertiary(sendFormTri);
-        if (clearStatus === 1) { 
+        if (clearStatus === 1) {
             setClearStatus(0)
             setSendFormPrimary({
                 insuranceProviderId: '',
@@ -465,7 +473,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 isAcceptAssignment: '',
             })
         }
-    }, [sendFormPrimary, sendFormSecondary, sendFormTri, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary,clearStatus]);
+    }, [sendFormPrimary, sendFormSecondary, sendFormTri, getInsuranceDetailsPrimary, getInsuranceDetailsSecondry, getInsuranceDetailsTertiary, clearStatus]);
     const { t } = useTranslation();
     return (
         <>
@@ -566,11 +574,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlSex" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Sex")}</label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSex" aria-label=".form-select-sm example" name='genderId' value={sendFormPrimary.genderId} onChange={handlePrimary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">Male</option>
-                                    <option value="3">Female</option>
-                                    <option value="4">Trans</option>
-                                    <option value="5">Other</option>
+                                    <option value="0" selected>select</option>
+                                    {genderList && genderList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errSex" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -645,7 +654,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlCountry" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={onChangeCountryParimary}>
-                                <option value="0">{t("Select_Country")}</option>
+                                    <option value="0">{t("Select_Country")}</option>
                                     {/* <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={onChangeCountry}> */}
                                     {countryList && countryList.map((list) => {
                                         return (
@@ -809,11 +818,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlSexSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Sex")}</label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSexSecondary" aria-label=".form-select-sm example" name='genderId' value={sendFormSecondary.genderId} onChange={handleSecondry}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">Male</option>
-                                    <option value="3">Female</option>
-                                    <option value="4">Trans</option>
-                                    <option value="5">Other</option>
+                                    <option value="0" selected>select</option>
+                                    {genderList && genderList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errSexSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -1051,11 +1061,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <label htmlFor="ddlSexTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Sex")}</label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSexTertiary" aria-label=".form-select-sm example" name='genderId' value={sendFormTri.genderId} onChange={handleTertiary}>
-                                    <option value="1" selected>select</option>
-                                    <option value="2">Male</option>
-                                    <option value="3">Female</option>
-                                    <option value="4">Trans</option>
-                                    <option value="5">Other</option>
+                                    <option value="0" selected>select</option>
+                                    {genderList && genderList.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <small id="errSexTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
