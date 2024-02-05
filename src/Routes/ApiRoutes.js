@@ -379,7 +379,6 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
-                        <Route path='/searchRegisteredPatient/' element={<SearchRegisteredPatient />} />
                   </>
 
 
@@ -441,6 +440,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------Start Admin Routing----------------------- */}
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
+                        <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
                         <Route path="/buildingmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BuildingMaster />} name="BuildingMaster" />} />} />
                         <Route path="/floormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FloorMaster />} name="FloorMaster" />} />} />
                         <Route path="/caretakermaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CareTakerMaster />} name="CareTakerMaster" />} />} />
