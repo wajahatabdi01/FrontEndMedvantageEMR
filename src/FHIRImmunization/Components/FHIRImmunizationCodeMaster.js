@@ -12,6 +12,7 @@ import NoDataFound from '../../assets/images/icons/No data-rafiki.svg'
 
 
 export default function FHIRImmunizationCodeMaster(props) {
+    
 
   const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])

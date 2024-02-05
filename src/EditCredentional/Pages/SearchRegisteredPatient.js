@@ -128,10 +128,12 @@ function SearchRegisteredPatient() {
     }
 
     const handleClear=()=>{
+        getData(pageNumbers);
         setSearchByName('');
         setSelectedPatient('');
         setSelectedDate('');
         setRegisteredPatientList('');
+
     }
 
     const handleRedirect = async (key) => {
@@ -180,6 +182,7 @@ function SearchRegisteredPatient() {
 
     useEffect(() => {
         getAllNames();
+        getData(pageNumbers);
         // getAllDob();
     }, []);
     return (

@@ -14,6 +14,7 @@ import GetFHIRImmunizationSubstancerefusalReason from '../API/GET/GetFHIRImmuniz
 import GetFHIRImmunizationRoute from '../API/GET/GetFHIRImmunizationRoute';
 import GetFHIRNameandTitleofImmunizationAdministrator from '../API/GET/GetFHIRNameandTitleofImmunizationAdministrator';
 import { use } from 'i18next';
+import PostFHIRImmunization from '../API/POST/PostFHIRImmunization';
 
 
 export default function FHIRImmunization() {
@@ -134,6 +135,16 @@ export default function FHIRImmunization() {
       setPopUpId('');
     }
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const handleCriteriaValue = (modalId) => {
+    console.log('modalId jkhkhkhk : ', modalId)
+    setPopUpId(modalId);
+    const t = {
+      moduleId: modalId,
+    }
+    
+    setgetData(t);
+    setMakeData([...makeData, t])
+  }
 
   const handleSelectChange = (event, rowID) => {
     const value = event.target.value;
@@ -229,6 +240,8 @@ export default function FHIRImmunization() {
 
   }
 
+
+
   ///////////////////////////////////////////////// Function to get dropdown lists //////////////////////////////////////////
 
   const funToGetDropDownLists =  async () => {
@@ -282,11 +295,20 @@ export default function FHIRImmunization() {
   ////////////////////////////////////////////////////////////// To save data //////////////////////////////////////////////////////////////
 
   const handleSave = async () => {
-    console.log('makeData : ', makeData)
+  
     const getresponse = await dataMaker(makeData);
+   
     let tempArrList = [];
     const data = [...observationRow];
-    console.log('data afsfsfsg :', data )
+    let Date_VIS_Published;
+    let Date_VIS_Presented;
+    let investDropDown;
+    let investCodeTextF;
+    let investCodeName;
+    let ObservationCriteriaValueRowId;
+    let ObservationCriteriaValueRow;
+    let ObservationCriteria;
+   
     for(var i =0; i<getresponse.length; i++)
     {      
       if(getresponse[i].moduleId === 'immunizationCode')
@@ -294,7 +316,7 @@ export default function FHIRImmunization() {
         const investigationArr = getresponse[i].data;   
         let investMaker = '';
         let investCodeText = '';  
-        for(var j=0; j < investigationArr.length; j++)
+        for(let j=0; j < investigationArr.length; j++)
           { investMaker=investMaker.length === 0 ? investigationArr[j].dropdownName +':'+investigationArr[j].code  : investMaker +';'+investigationArr[j].dropdownName +':'+investigationArr[j].code;
             investCodeText =  investCodeText.length === 0 ? (investigationArr[j].codeText  ? investigationArr[j].codeText : '') : investCodeText +'|'+(investigationArr[j].codeText  ? investigationArr[j].codeText : '');}
           var investConCat = investMaker + ' ' + investCodeText;          
@@ -304,46 +326,105 @@ export default function FHIRImmunization() {
         const investigationArr = getresponse[i].data;  
         let investMakerResaon = '';
         let investCodeTextReason = '';  
-        for(var k=0; k < investigationArr.length; k++)
+        for(let k=0; k < investigationArr.length; k++)
           { investMakerResaon=investMakerResaon.length === 0 ? investigationArr[k].dropdownName +':'+investigationArr[k].code  : investMakerResaon +';'+investigationArr[k].dropdownName +':'+investigationArr[k].code;
           investCodeTextReason =  investCodeTextReason.length === 0 ? (investigationArr[k].codeText  ? investigationArr[k].codeText : '') : investCodeTextReason +'|'+(investigationArr[k].codeText  ? investigationArr[k].codeText : '');}
           var investConCatReason = investMakerResaon + ' ' + investCodeTextReason;
       }
-    }
 
-    // for(let b = 0; b<getresponse.length; b++){
-    //   for (let a =0; a< data.length; a++){
-    //     console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh : ', data[b][a])
-    //     const ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[i].rowID).value;
-    //     const ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[i].rowID);
-    //     const ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
-    //     const CVX_Code = document.getElementById('CVX_CodeId' + data[i].rowID).value;
-    //     const Date_VIS_Published = document.getElementById('Date_VIS_Published_Id' + data[i].rowID).value;
-    //     const Date_VIS_Presented = document.getElementById('Date_VIS_PresentedId' + data[i].rowID).value;
-    //     let arrDynamic = getresponse[a][b].data;
-    //     console.log('arrDynamic : ', arrDynamic)
-    //   }
-    // }
-
-   
-    
-    console.log('getresponse length:', getresponse.length);
-    console.log('data length:', data.length);
-    
-    for (let b = 0; b < getresponse.length; b++) {
-        console.log('data[b] length:', data[b].length);
-    
-        for (let a = 0; a < data[b].length; a++) {
-            console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh : ', data[b][a]);
-            // Rest of your code here
-            let arrDynamic = getresponse[b][a].data;
-            console.log('arrDynamic : ', arrDynamic);
-        }
     }
     
+    for(let c=0; c<observationRow.length;c++)
+    {
+    
+      for (let b = 0; b < getresponse.length; b++) {
+        var investMakerD = '';
+        var investCodeTextD = '';  
+        var investCodeCVXD = '';
+        
 
-    return;
+        if(getresponse[b].moduleId === 'CVX_CodeId'+observationRow[c].rowID)
+        {
+          const investigationArr = getresponse[b].data;
+            
+        for(let j=0; j < investigationArr.length; j++)
+          
+          { investMakerD=investigationArr[j].dropdownName;
+            investCodeCVXD = investigationArr[j].code;
+            investCodeTextD =  investigationArr[j].codeText;}
+
+             ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[c].rowID).value;
+             Date_VIS_Published = document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value ? document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value: '';
+             ObservationCriteriaValueRow = ''
+          Date_VIS_Presented = document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value ? document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value : '';
+          investDropDown = investMakerD;
+         investCodeName = investCodeCVXD;
+         investCodeTextF = investCodeTextD;
+          
+        }      
+        if(getresponse[b].moduleId === 'SNOMED-CTCodeId'+observationRow[c].rowID)
+        {
+          const investigationArr = getresponse[b].data;
+        for(let j=0; j < investigationArr.length; j++)
+        { investMakerD=investigationArr[j].dropdownName;
+          investCodeCVXD = investigationArr[j].code;
+          investCodeTextD =  investigationArr[j].codeText;}
+           ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[c].rowID).value;
+           investDropDown = investMakerD;
+           ObservationCriteriaValueRow = '';
+         investCodeName = investCodeCVXD;
+         investCodeTextF = investCodeTextD;
+         Date_VIS_Published = null;
+         Date_VIS_Presented = null;                  
+        } 
+        if(getresponse[b].moduleId === 'ObservationCriteriaValueID'+observationRow[c].rowID)
+        {
+         
+          const investigationArr = getresponse[b].data;
+        // for(let j=0; j < investigationArr.length; j++)
+        // { investMakerD=investigationArr[j].dropdownName;
+        //   investCodeCVXD = investigationArr[j].code;
+        //   investCodeTextD =  investigationArr[j].codeText;}
+           ObservationCriteria = document.getElementById('ObservationCriteriaValueID' + data[c].rowID).value;
+             ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[c].rowID);
+             ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
+           investDropDown = '';
+         investCodeName = '';
+         investCodeTextF = '';
+         Date_VIS_Published = null;
+         Date_VIS_Presented = null;                  
+        } 
+        
+        //var ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[c].rowID).value;
+       
+        //  var Date_VIS_Published = document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value ? document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value: '';
+        
+        //  var Date_VIS_Presented = document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value ? document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value : '';
+        
+      //  var ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[c].rowID);
+      //  var ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
+      //  var investDropDown = investMakerD;
+      //  var investCodeName = investCodeCVXD;
+      //  var investCodeTextF = investCodeTextD;
+       
+      
+      
+      }
+      tempArrList.push({
+        imo_criteria : ObservationCriteria,
+        imo_criteria_value : ObservationCriteriaValueRow ?ObservationCriteriaValueRow : '',
+        imo_vis_date_published : Date_VIS_Published ? Date_VIS_Published : 'Date Not Given',
+        imo_vis_date_presented : Date_VIS_Presented ? Date_VIS_Presented : 'date not given',
+        imo_codetype : investDropDown ?investDropDown: 'not available',
+        imo_code : investCodeName?investCodeName : 'not available',
+        imo_codetext : investCodeTextF ?investCodeTextF : 'Description not available' ,
+      })
+      
+    }
        const finalObjInvestAndReason = {
+        uhid:'UHID00143',
+        clientId: 176,
+        userId : 12,
         cvx_code : investConCat,
         reasonCode: investConCatReason,
         administeredDate : sendForm.DatenTimeAdministered,
@@ -360,11 +441,18 @@ export default function FHIRImmunization() {
         completionStatus: sendForm.CompletionStatus,
         refusalReason : sendForm.SubstanceRefusalReason,
         orderingProvider : sendForm.ImmunizationOrderingProvider,
-        note: sendForm.Notes
+        note: sendForm.Notes,
+        jsonObservationCriteriaDetails : JSON.stringify(tempArrList)
 
        }
 
-       console.log('finalObj : ', finalObjInvestAndReason)
+       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
+       if(saveObj.status === 1){
+        alert('Data saved of Immunization')
+      }
+      else{
+        alert('Data Not saved')
+      }
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
@@ -543,10 +631,10 @@ export default function FHIRImmunization() {
                                 {selectedValues[observeList.rowID] === '2' && (
                                   <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                   <label htmlFor="ObservationCriteriaValue" className="form-label">Observation Criteria Value</label>
-                                  <select name="" className='form-select form-select-sm' id={"ObservationCriteriaValueID" + observeList.rowID}>
+                                  <select name="" className='form-select form-select-sm' id={"ObservationCriteriaValueID" + observeList.rowID} onChange={()=>{handleCriteriaValue("ObservationCriteriaValueID" + observeList.rowID)}}>
                                     <option value="0">--Select Criteria--</option>
                                     {getImmunizationObservationCriteria && getImmunizationObservationCriteria.map((criteriaList, criteriaInd) => {
-                                      return(<option value={criteriaList.id}>{criteriaList.name}</option>)
+                                      return(<option value={criteriaList.id}>{criteriaList.title}</option>)
                                     })}
                                   </select>
                                   </div>
@@ -671,8 +759,8 @@ export default function FHIRImmunization() {
 
 
               {/* <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} /> */}
-              {PopUpId === 'immunizationCode' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> : 
-              PopUpId === 'ReasonId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataReason} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> :''}
+              {PopUpId === 'immunizationCode' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={false}/> : 
+              PopUpId === 'ReasonId' ? <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataReason} defaultData={makeData} modalID={PopUpId} isMultiple={false}/> :''}
             </div>
           </div>
         </div>
@@ -690,7 +778,7 @@ export default function FHIRImmunization() {
                 </button>
                 {observationRow && observationRow.map((observelist, observeInd) => (
                   PopUpId === 'CVX_CodeId' + observelist.rowID ?
-                    <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} isMultiple={true}/>
+                    <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} isMultiple={false}/>
                    : ''
                 ))}
               </div>
@@ -711,7 +799,7 @@ export default function FHIRImmunization() {
                 </button>
                 {observationRow && observationRow.map((observelist, observeInd) => (
                   PopUpId === 'SNOMED-CTCodeId' + observelist.rowID ?
-                    <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} isMultiple={true}/>
+                    <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} isMultiple={false}/>
                    : ''
                 ))}
               </div>
