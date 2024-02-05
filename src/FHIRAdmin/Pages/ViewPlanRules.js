@@ -397,7 +397,7 @@ export default function ViewPlanRules() {
                                                               </React.Fragment>
                                                           ))
                                                       ) : (
-                                                          <div>{selectedRules && selectedRules.length}</div>
+                                                          <div>No rule selected</div>
                                                       )}
                                                   </div>
                                               </div>
