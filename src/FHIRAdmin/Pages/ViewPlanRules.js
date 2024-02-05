@@ -14,18 +14,20 @@ import SuccessToster from '../../Component/SuccessToster'
 import AlertToster from '../../Component/AlertToster'
 import DropdownWithSearch from '../../Component/DropdownWithSearch'
 import PostViewPlanRules from '../API/ViewPlanRules/PostViewPlanRules'
+import GetAddRule from '../API/AddRule/GetAddRule'
+import GetRuleByPlanId from '../API/ViewPlanRules/GetRuleByPlanId'
+import InsertPlanRule from '../API/ViewPlanRules/InsertPlanRule'
 export default function ViewPlanRules() {
     document.body.dir = i18n.dir();
     let [updateBool, setUpdateBool] = useState(0)
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
-    let [planList, setPlanList] = useState('')
+    let [planList, setPlanList] = useState([])
     let [sendForm, setSendForm] = useState({
         "userId": window.userId,
         "clientId": window.clientId,
         name: ''
     })
-
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
@@ -36,14 +38,21 @@ export default function ViewPlanRules() {
     const { t } = useTranslation();
 
     let [editPlan, setEditPlan] = useState('');
+    let [ruleList, setRuleList] = useState('');
+
     let [clearDropdown, setClearDropdown] = useState(0);
 
     const [showAddPlan, setShowAddPlan] = useState(0);
     const [selectedRules, setSelectedRules] = useState([]);
     const [availableRules, setAvailableRules] = useState([]);
+    const [tempAvailableRules, setTempAvailableRules] = useState([]);
     let [showAlertToster, setShowAlertToster] = useState(0);
     let [isShowToaster, setisShowToaster] = useState(0);
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
+    // const [selectedPlanId, setSelectedPlanId] = useState('0');
+    const [selectedPlanId, setSelectedPlanId] = useState(0);
+
+
 
     const handleAddNewPlanClick = () => {
         setShowAddPlan(1);
@@ -58,45 +67,7 @@ export default function ViewPlanRules() {
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
-
-
-    //Static Rules
-    let ruleList = [
-        { id: 1, rule: "Cancer Screening: Pap Smear1" },
-        { id: 2, rule: "Cancer Screening: Pap Smear2" },
-        { id: 3, rule: "Cancer Screening: Pap Smear3" },
-        { id: 4, rule: "Cancer Screening: Pap Smear4" },
-        { id: 5, rule: "Cancer Screening: Pap Smear5" },
-        { id: 6, rule: "Cancer Screening: Pap Smear6" },
-        { id: 7, rule: "Cancer Screening: Pap Smear7" },
-        { id: 9, rule: "Cancer Screening: Pap Smear9" },
-        { id: 8, rule: "Cancer Screening: Pap Smear8" },
-        { id: 10, rule: "Cancer Screening: Pap Smear10" },
-        { id: 11, rule: "Cancer Screening: Pap Smear11" },
-        { id: 12, rule: "Cancer Screening: Pap Smear12" },
-        { id: 13, rule: "Cancer Screening: Pap Smear13" },
-        { id: 14, rule: "Cancer Screening: Pap Smear14" },
-    ];
-
-    const handleAddRule = (rule) => {
-        if (!selectedRules.find((selectedRule) => selectedRule.id === rule.id)) {
-            setSelectedRules([...selectedRules, rule]);
-            setAvailableRules(availableRules.filter((availableRule) => availableRule.id !== rule.id));
-        }
-    };
-
-    const handleRemoveRule = (rule) => {
-        setSelectedRules(selectedRules.filter((selectedRule) => selectedRule.id !== rule.id));
-        setAvailableRules([...availableRules, rule]);
-    };
-    //HandleChange
-    let handleChange = async (e) => {
-        setEditPlan("")
-        const { name, value } = e.target;
-        setSendForm((prevData) => ({ ...prevData, [name]: value }));
-
-    }
-    //Get All Plan
+    //Get All Plan    
     let getplan = async () => {
         try {
             let getResponse = await GetViewPlanRules();
@@ -107,6 +78,7 @@ export default function ViewPlanRules() {
                 setShowErrMessage(getResponse.responseValue);
                 setShowLoder(0);
                 setShowAlertToster(1);
+                getAllRule();
                 setTimeout(() => {
                     setShowAlertToster(0);
                 }, 1500);
@@ -114,7 +86,125 @@ export default function ViewPlanRules() {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+    };
+
+    //Get All Rule
+    let getAllRule = async () => {
+        try {
+            let getResponse = await GetAddRule();
+            if (getResponse.status === 1) {
+                const responseData = getResponse.responseValue;
+                if (Array.isArray(responseData)) {
+                    setAvailableRules(responseData);
+                    setTempAvailableRules(responseData);
+                } else {
+                    console.error("Invalid data structure:", responseData);
+                }
+            } else {
+                console.error("Failed to fetch data:", getResponse.responseValue);
+                setShowErrMessage(getResponse.responseValue);
+                // setShowLoder(0);
+                // setShowAlertToster(1);
+                // setTimeout(() => {
+                //     setShowAlertToster(0);
+                // }, 1500);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     }
+    //Get Selected Rule
+    let getselectedRule = async (selectedPlanId) => {
+        try {
+            let getResponse = await GetRuleByPlanId(selectedPlanId);
+            if (getResponse.status === 1) {
+                const responseData = getResponse.responseValue[0];
+                const jsonPlanRuleMappingResult = JSON.parse(responseData.jsonPlanRuleMappingResult);
+                setSelectedRules(jsonPlanRuleMappingResult);
+            } else {
+                console.error("Failed to fetch data:", getResponse.responseValue);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    //Handle Add Rule
+    const handleAddRule = (rule) => {
+        let temp = {
+            planId: selectedPlanId,
+            ruleId: rule.id,
+            ruleTitle: rule.title,
+        }
+        setSelectedRules((prev) => ([...prev, temp]));
+        let avilableIndex = tempAvailableRules.findIndex(val => val.ruleId === rule.id)
+        if (avilableIndex) {
+            let temprules = [...tempAvailableRules]
+            temprules.splice(avilableIndex, 1)
+            setTempAvailableRules(temprules)
+        }
+    };
+
+    // Handle Remove Rule
+    const handleRemoveRule = (rule) => {
+        let avilableIndex = selectedRules.findIndex(val => val.id === rule.ruleId)
+        if (avilableIndex) {
+            let temp = {
+                planId: selectedPlanId,
+                id: rule.ruleId,
+                title: rule.ruleTitle,
+            }
+            setTempAvailableRules((prev) => ([...prev, temp]))
+            let temprules = [...selectedRules]
+            temprules.splice(avilableIndex, 1)
+            setSelectedRules(temprules)
+        }
+    };
+    //Handle Mapping Plan Rule
+    let save = async () => {
+        let tempjson = {
+            // JsonPlanRuleDetails: JSON.stringify(selectedRules)
+            // JsonPlanRuleDetails: JSON.stringify(selectedRules.map(({ planId, ruleId }) => ({ planId, ruleId })))
+            JsonPlanRuleDetails: JSON.stringify(selectedRules.map(({ planId, ruleId }) => ({ planId, ruleId })))
+                .replace(/\\/g, '')
+        }
+        tempjson.JsonPlanRuleDetails = JSON.parse(tempjson.JsonPlanRuleDetails);
+        console.log("tempjson:", tempjson)
+        const response = await InsertPlanRule(tempjson);
+        if (response.status === 1) {
+            setShowUnderProcess(0);
+            setTosterValue(0);
+            setShowToster(1);
+            setTosterMessage("Data Saved Successfully.!");
+            setTimeout(() => {
+                setShowToster(0);
+                HandleCancelNewPlan();
+                handleClear();
+                getplan();
+            }, 1500)
+        }
+        else {
+            setShowUnderProcess(0);
+            setTosterValue(1);
+            setShowToster(1);
+            setTosterMessage(response.responseValue);
+            setTimeout(() => {
+                setShowToster(0);
+            }, 1500)
+        }
+    }
+
+    //HandleChang
+    const handleChange = async (e) => {
+        setEditPlan("");
+        const { name, value } = e.target;
+        setSendForm((prevData) => ({ ...prevData, [name]: value }));
+
+        setSelectedPlanId(value);
+        setShowAddPlan(value !== '0');
+    };
+ 
+
 
     //Save Plan
     const handlerSave = async () => {
@@ -140,7 +230,6 @@ export default function ViewPlanRules() {
                     handleClear();
                     getplan();
                 }, 1500)
-
             }
             else {
                 setShowUnderProcess(0);
@@ -154,23 +243,37 @@ export default function ViewPlanRules() {
         }
     }
 
+
     //Handel Clear
     const handleClear = (value) => {
         setUpdateBool(0);
-        // setClearDropdown(value);
         setEditPlan(0);
         setSendForm({
             "userId": window.userId,
             "clientId": window.clientId,
             name: ''
-        })
-        document.getElementById("name").value = "";
-    }
+        });
+        if (document.getElementById("name")) {
+            document.getElementById("name").value = "";
+        }
+    };
 
     useEffect(() => {
-        setAvailableRules(ruleList);
+        if (Array.isArray(ruleList)) {
+            setAvailableRules(ruleList);
+        } else {
+            console.error("Invalid data structure for ruleList:", ruleList);
+        }
         getplan();
+        getAllRule();
+        getselectedRule();
     }, [])
+
+    useEffect(() => {
+        if (selectedPlanId !== '0') {
+            getselectedRule(selectedPlanId);
+        }
+    }, [selectedPlanId]);
 
     return (
         <>
@@ -190,12 +293,11 @@ export default function ViewPlanRules() {
                                                             <label htmlFor="" className="form-label">Plan <span className="starMandatory">*</span></label>
                                                             <select className='form-select form-select-sm' id='planId' name='PlanId' disabled={showAddPlan === 1} onChange={handleChange}>
                                                                 <option value='0'>Select Plan</option>
-                                                                {planList && planList.map((val) => {
+                                                                {planList && planList.length > 0 && planList.map(val => {
                                                                     return (
                                                                         <option value={val.id}>{val.name}</option>
-                                                                    )
+                                                                    );
                                                                 })}
-
                                                             </select>
                                                             {/* {planList && <DropdownWithSearch defaulNname="Select Plan" name="name" list={planList} valueName="id" displayName="name" editdata={editPlan} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />} */}
                                                         </div>
@@ -248,80 +350,79 @@ export default function ViewPlanRules() {
                                             </div>
                                         </div>
                                         {/* -------------------------------------Start Plan Rule Mapping Section---------------------------------------------- */}
-
-                                        <div className='PlanRuleMapping mt-2' style={{ display: 'none' }}>
-                                            {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
-                                            <div className="d-flex px-1">
-                                                <div className="planrulebrde flex-1">
-                                                    <div className='rulesec'>
-                                                        <div><span className='rulecount'>{selectedRules.length}</span> rule already in plan</div>
-                                                        <div>Remove all rules from plan</div>
-                                                    </div>
-                                                    <div className='allrules'>
-                                                        {selectedRules.map((rule) => (
-                                                            <div className="planrule" key={rule.id}>
-                                                                <div className="plantxt">{rule.rule}</div>
-                                                                <div className="planicon" onClick={() => handleRemoveRule(rule)}>
-                                                                    <i className="fa fa-minus"></i>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="planrulebrde flex-1">
-                                                    <div className='rulesec'>
-                                                        <div className='ruleserch'>
-                                                            <input type='text' className='form-control' placeholder={t("Search")} />
-                                                            <span className="rulesericon"><i class="fas fa-search"></i></span>
+                                        {selectedPlanId !== '0' &&
+                                            <div className='PlanRuleMapping mt-2' >
+                                                {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
+                                                <div className="d-flex px-1">
+                                                    <div className="planrulebrde flex-1">
+                                                        <div className='rulesec'>
+                                                            <div><span className='rulecount'>{selectedRules.length}</span> Rule already in plan</div>
+                                                            <div>Remove all rules from plan</div>
                                                         </div>
-                                                        <div>Add all rules to plan</div>
-                                                    </div>
-                                                    <div className='allrules'>
+                                                        <div className='allrules'>
 
-                                                        {availableRules.map((val) => {
-                                                            return (
+                                                            {selectedRules.map((val) => (
                                                                 <div className="planrule" key={val.id}>
-                                                                    <div className="plantxt">{val.rule}</div>
+                                                                    <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                                    <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                        <i className="fa fa-minus"></i>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                    <div className="planrulebrde flex-1">
+                                                        <div className='rulesec'>
+                                                            <div className='ruleserch'>
+                                                                <input type='text' className='form-control' placeholder={t("Search")} />
+                                                                <span className="rulesericon"><i className="fas fa-search"></i></span>
+                                                            </div>
+                                                            <div>Add rules to plan</div>
+                                                        </div>
+                                                        <div className='allrules'>
+                                                            {tempAvailableRules.map((val) => (
+                                                                <div className="planrule" key={val.id}>
+                                                                    <div className="plantxt" val={val.id}>{val.title}</div>
                                                                     <div className="planicon" onClick={() => handleAddRule(val)}>
                                                                         <i className="fa fa-plus"></i>
                                                                     </div>
                                                                 </div>
-                                                            );
-                                                        })}
-
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className='row px-1 '>
-                                                <div className="col-lg-12 col-md-12 col-sm-12">
-                                                    <div className="mb-2 relative">
-                                                        <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
-                                                        <div>
-                                                            {showUnderProcess === 1 ? <TosterUnderProcess /> :
-                                                                <>
-                                                                    {showToster === 1 ?
-                                                                        <Toster value={tosterValue} message={tosterMessage} />
+                                                <div className='row px-1 '>
+                                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                                        <div className="mb-2 relative">
+                                                            <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
+                                                            <div>
+                                                                {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                                                                    <>
+                                                                        {showToster === 1 ?
+                                                                            <Toster value={tosterValue} message={tosterMessage} />
 
-                                                                        : <div>
-                                                                            {updateBool === 0 ?
-                                                                                <>
-                                                                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                                                                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
-                                                                                </>
-                                                                                :
-                                                                                <>
-                                                                                    <button type="button" className="btn btn-save btn-sm mb-1 me-1">{t("UPDATE")}</button>
-                                                                                    <button type="button" className="btn btn-clear btn-sm mb-1">{t("Cancel")}</button>
-                                                                                </>
-                                                                            }
-                                                                        </div>}
-                                                                </>
-                                                            }
+                                                                            : <div>
+                                                                                {updateBool === 0 ?
+                                                                                    <>
+                                                                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                                                                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
+                                                                                    </>
+                                                                                    :
+                                                                                    <>
+                                                                                        <button type="button" className="btn btn-save btn-sm mb-1 me-1">{t("UPDATE")}</button>
+                                                                                        <button type="button" className="btn btn-clear btn-sm mb-1">{t("Cancel")}</button>
+                                                                                    </>
+                                                                                }
+                                                                            </div>}
+                                                                    </>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
+
                                         {/* -------------------------------------End Plan Rule Mapping Section---------------------------------------------- */}
                                     </div>
                                 </div>
@@ -337,7 +438,6 @@ export default function ViewPlanRules() {
                     isShowToaster === 1 ?
                         <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
                 }
-
                 {
                     showAlertToster === 1 ?
                         <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
