@@ -9815,3 +9815,7 @@ span.saveb img {
   margin-bottom: 10px;
   border: 0;
 }
+
+.multiSelectContainer input {
+  font-size: 13px;
+}

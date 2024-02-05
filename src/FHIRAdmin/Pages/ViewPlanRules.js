@@ -22,7 +22,7 @@ export default function ViewPlanRules() {
     let [updateBool, setUpdateBool] = useState(0)
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('')
-    let [planList, setPlanList] = useState('')
+    let [planList, setPlanList] = useState([])
     let [sendForm, setSendForm] = useState({
         "userId": window.userId,
         "clientId": window.clientId,
@@ -49,7 +49,8 @@ export default function ViewPlanRules() {
     let [showAlertToster, setShowAlertToster] = useState(0);
     let [isShowToaster, setisShowToaster] = useState(0);
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
-    const [selectedPlanId, setSelectedPlanId] = useState('0');
+    // const [selectedPlanId, setSelectedPlanId] = useState('0');
+    const [selectedPlanId, setSelectedPlanId] = useState(0);
 
 
 
@@ -202,6 +203,7 @@ export default function ViewPlanRules() {
         setSelectedPlanId(value);
         setShowAddPlan(value !== '0');
     };
+ 
 
 
     //Save Plan
@@ -240,6 +242,7 @@ export default function ViewPlanRules() {
             }
         }
     }
+
 
     //Handel Clear
     const handleClear = (value) => {
@@ -290,7 +293,7 @@ export default function ViewPlanRules() {
                                                             <label htmlFor="" className="form-label">Plan <span className="starMandatory">*</span></label>
                                                             <select className='form-select form-select-sm' id='planId' name='PlanId' disabled={showAddPlan === 1} onChange={handleChange}>
                                                                 <option value='0'>Select Plan</option>
-                                                                {planList && planList.map((val) => {
+                                                                {planList && planList.length > 0 && planList.map(val => {
                                                                     return (
                                                                         <option value={val.id}>{val.name}</option>
                                                                     );
