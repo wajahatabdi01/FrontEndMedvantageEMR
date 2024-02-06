@@ -284,10 +284,11 @@ export default function AssignMenu(props) {
     let id = e.target.id
     let checked = e.target.checked
     let tempmenuList = [...menuList]
-    console.log("menuList", menuList, id)
+    console.log("menuList", menuList, id, selectedHead)
     let searchResult = []
     menuList.map((val, ind) => {
       sendData.map((v) => {
+        console.log("val.headId", val.headId, val)
         if (val.headId.toString() !== selectedHead.toString()) {
           if (val.id.toString() === id.toString()) {
             if (val.subMenu.length !== 0) {

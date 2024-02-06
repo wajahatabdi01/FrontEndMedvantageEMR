@@ -151,8 +151,7 @@ export default function ViewPlanRules() {
     // };
 
     const handleAddRule = (rule) => {
-        const isRuleAlreadyAdded = selectedRules.some((addedRule) => addedRule.ruleId === rule.id);
-
+        const isRuleAlreadyAdded = selectedRules && selectedRules.some((addedRule) => addedRule.ruleId === rule.id);
         if (!isRuleAlreadyAdded) {
             let temp = {
                 planId: selectedPlanId,
