@@ -133,18 +133,38 @@ export default function ViewPlanRules() {
     };
 
     //Handle Add Rule
+    // const handleAddRule = (rule) => {
+    //     let temp = {
+    //         planId: selectedPlanId,
+    //         ruleId: rule.id,
+    //         ruleTitle: rule.title,
+    //     }
+    //     setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
+    //     let avilableIndex = tempAvailableRules.findIndex(val => val.id === rule.id)
+    //     if (avilableIndex !== -1) {
+    //         let temprules = [...tempAvailableRules]
+    //         temprules.splice(avilableIndex, 1)
+    //         setTempAvailableRules(temprules)
+    //     }
+    // };
+    // Handle Add Rule
     const handleAddRule = (rule) => {
-        let temp = {
-            planId: selectedPlanId,
-            ruleId: rule.id,
-            ruleTitle: rule.title,
-        }
-        setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
-        let avilableIndex = tempAvailableRules.findIndex(val => val.id === rule.id)
-        if (avilableIndex !== -1) {
-            let temprules = [...tempAvailableRules]
-            temprules.splice(avilableIndex, 1)
-            setTempAvailableRules(temprules)
+        const ruleExists = selectedRules.some((selectedRule) => selectedRule.ruleId === rule.id);
+        if (!ruleExists) {
+            const temp = {
+                planId: selectedPlanId,
+                ruleId: rule.id,
+                ruleTitle: rule.title,
+            };
+            setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
+            const avilableIndex = tempAvailableRules.findIndex((val) => val.id === rule.id);
+            if (avilableIndex !== -1) {
+                const temprules = [...tempAvailableRules];
+                temprules.splice(avilableIndex, 1);
+                setTempAvailableRules(temprules);
+            }
+        } else {
+            console.log("Rule already exists in selectedRules");
         }
     };
 
@@ -420,22 +440,32 @@ export default function ViewPlanRules() {
                                                             <div>Add rules to plan</div>
                                                         </div>
                                                         <div className='allrules'>
-                                                            {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
+                                                            {/* {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
                                                                 <div className="planrule" key={val.id}>
                                                                     <div className="plantxt" val={val.id}>{val.title}</div>
                                                                     <div className="planicon" onClick={() => handleAddRule(val)}>
                                                                         <i className="fa fa-plus"></i>
                                                                     </div>
                                                                 </div>
-                                                            ))}
-                                                            {/* {tempAvailableRules.map((val) => (
-                                                          <div className="planrule" key={val.id}>
-                                                              <div className="plantxt" val={val.id}>{val.title}</div>
-                                                              <div className="planicon" onClick={() => handleAddRule(val)}>
-                                                                  <i className="fa fa-plus"></i>
-                                                              </div>
-                                                          </div>
-                                                      ))} */}
+                                                            ))} */}
+                                                            {tempAvailableRules
+                                                                .filter(
+                                                                    (val) =>
+                                                                        !selectedRules ||
+                                                                        (val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                                                                            !selectedRules.some(
+                                                                                (selectedRule) => selectedRule.ruleId === val.id
+                                                                            ))
+                                                                )
+                                                                .map((val) => (
+                                                                    <div className="planrule" key={val.id}>
+                                                                        <div className="plantxt" val={val.id}>{val.title}</div>
+                                                                        <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                            <i className="fa fa-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+
                                                         </div>
                                                     </div>
                                                 </div>
