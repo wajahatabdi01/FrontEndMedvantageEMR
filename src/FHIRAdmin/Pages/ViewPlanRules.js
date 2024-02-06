@@ -61,6 +61,7 @@ export default function ViewPlanRules() {
     };
     const HandleCancelNewPlan = () => {
         setShowAddPlan(0);
+        document.getElementById('errplan').style.display = "block";
         // handleClear();
     };
 
@@ -241,7 +242,7 @@ export default function ViewPlanRules() {
         }
     }
 
-    //HandleChang
+    //HandleChange
     const handleChange = async (e) => {
         let selectedRule = document.getElementById("planId").value
         console.log("selectedRule", selectedRule)
@@ -252,12 +253,14 @@ export default function ViewPlanRules() {
         setSelectedPlanId(value);
         // setShowAddPlan(value !== '0');
     };
+
+    //HandlePlanChange
     const handleChangeAddPlan = async (e) => {
         setShowData(0);
         const { name, value } = e.target;
+        document.getElementById('errplan').style.display = "none";
         setSendForm((prevData) => ({ ...prevData, [name]: value }));
         setSelectedPlanId(value);
-        // setShowAddPlan(value !== '0');
     };
 
 
