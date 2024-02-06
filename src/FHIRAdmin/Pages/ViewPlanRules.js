@@ -56,6 +56,7 @@ export default function ViewPlanRules() {
 
     const handleAddNewPlanClick = () => {
         setShowAddPlan(1);
+        setShowData(0);
         document.getElementById("planId").value = 0;
     };
     const HandleCancelNewPlan = () => {
@@ -132,26 +133,64 @@ export default function ViewPlanRules() {
     };
 
     //Handle Add Rule
+    // const handleAddRule = (rule) => {
+    //     let temp = {
+    //         planId: selectedPlanId,
+    //         ruleId: rule.id,
+    //         ruleTitle: rule.title,
+    //     }
+    //     setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
+    //     let avilableIndex = tempAvailableRules.findIndex(val => val.id === rule.id)
+    //     if (avilableIndex !== -1) {
+    //         let temprules = [...tempAvailableRules]
+    //         temprules.splice(avilableIndex, 1)
+    //         setTempAvailableRules(temprules)
+    //     }
+    // };
+    // Handle Add Rule
     const handleAddRule = (rule) => {
-        let temp = {
-            planId: selectedPlanId,
-            ruleId: rule.id,
-            ruleTitle: rule.title,
-        }
-        // setSelectedRules((prev) => ([...prev, temp]));
-        setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
-        let avilableIndex = tempAvailableRules.findIndex(val => val.ruleId === rule.id)
-        if (avilableIndex) {
-            let temprules = [...tempAvailableRules]
-            temprules.splice(avilableIndex, 1)
-            setTempAvailableRules(temprules)
+        if (rule && rule.id && rule.title) {
+            if (!selectedRules) {
+                setSelectedRules([]);
+            }
+
+            const isRuleAlreadyAdded = Array.isArray(selectedRules) &&
+                selectedRules.some(
+                    (selectedRule) => selectedRule.ruleId === rule.id
+                );
+
+            if (!isRuleAlreadyAdded) {
+                let temp = {
+                    planId: selectedPlanId,
+                    ruleId: rule.id,
+                    ruleTitle: rule.title,
+                };
+                setSelectedRules((prev) =>
+                    Array.isArray(prev) ? [...prev, temp] : [temp]
+                );
+
+                const avilableIndex = Array.isArray(tempAvailableRules) &&
+                    tempAvailableRules.findIndex(
+                        (val) => val.id === rule.id
+                    );
+
+                if (avilableIndex !== -1 && Array.isArray(tempAvailableRules)) {
+                    let temprules = [...tempAvailableRules];
+                    temprules.splice(avilableIndex, 1);
+                    setTempAvailableRules(temprules);
+                }
+            } else {
+                console.log("Rule is already added");
+            }
+        } else {
+            console.error("Invalid rule object:", rule);
         }
     };
 
     // Handle Remove Rule
     const handleRemoveRule = (rule) => {
-        let avilableIndex = selectedRules.findIndex(val => val.id === rule.ruleId)
-        if (avilableIndex) {
+        let avilableIndex = selectedRules.findIndex(val => val.ruleId === rule.ruleId)
+        if (avilableIndex !== -1) {
             let temp = {
                 planId: selectedPlanId,
                 id: rule.ruleId,
@@ -204,8 +243,8 @@ export default function ViewPlanRules() {
 
     //HandleChang
     const handleChange = async (e) => {
-       let selectedRule = document.getElementById("planId").value
-       console.log("selectedRule",selectedRule)
+        let selectedRule = document.getElementById("planId").value
+        console.log("selectedRule", selectedRule)
         setShowData(selectedRule);
         setEditPlan("");
         const { name, value } = e.target;
@@ -213,7 +252,13 @@ export default function ViewPlanRules() {
         setSelectedPlanId(value);
         // setShowAddPlan(value !== '0');
     };
-
+    const handleChangeAddPlan = async (e) => {
+        setShowData(0);
+        const { name, value } = e.target;
+        setSendForm((prevData) => ({ ...prevData, [name]: value }));
+        setSelectedPlanId(value);
+        // setShowAddPlan(value !== '0');
+    };
 
 
     //Save Plan
@@ -267,6 +312,16 @@ export default function ViewPlanRules() {
             document.getElementById("name").value = "";
         }
     };
+
+    //Cancel rulemapping
+    const handleCancel = async () => {
+        setUpdateBool(0);
+        setEditPlan(0);
+        setShowData(0);
+        document.getElementById("planId").value = 0;
+        setShowAddPlan(0);
+        handleClear();
+    }
 
     useEffect(() => {
         if (Array.isArray(ruleList)) {
@@ -334,7 +389,8 @@ export default function ViewPlanRules() {
                                                             <div className="col-md-6 col-sm-12">
                                                                 <div className="mb-2 me-2">
                                                                     <label htmlFor="" className="form-label">Plan Name <span className="starMandatory">*</span></label>
-                                                                    <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChange} />
+                                                                    {/* <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChange} /> */}
+                                                                    <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChangeAddPlan} />
                                                                     <small id="errplan" className="invalid-feedback" style={{ display: 'none' }}></small>
                                                                 </div>
                                                             </div>
@@ -365,17 +421,17 @@ export default function ViewPlanRules() {
                                         </div>
                                         {/* -------------------------------------Start Plan Rule Mapping Section---------------------------------------------- */}
                                         {showData === 0 ?
-                                          '':  <div className='PlanRuleMapping mt-2' >
-                                          {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
-                                          <div className="d-flex px-1">
-                                              <div className="planrulebrde flex-1">
-                                                  <div className='rulesec'>
-                                                      <div><span className='rulecount'>{selectedRules && selectedRules.length}</span> Rule already in plan</div>
-                                                      <div>Remove all rules from plan</div>
-                                                  </div>
-                                                  <div className='allrules'>
+                                            '' : <div className='PlanRuleMapping mt-2' >
+                                                {/* <div className='statusRule px-1'><span className='ruleStattxt'>Status: Active </span><span className=''>Deactivate</span></div> */}
+                                                <div className="d-flex px-1">
+                                                    <div className="planrulebrde flex-1">
+                                                        <div className='rulesec'>
+                                                            <div><span className='rulecount'>{selectedRules && selectedRules.length}</span> Rule already in plan</div>
+                                                            <div>Remove all rules from plan</div>
+                                                        </div>
+                                                        <div className='allrules'>
 
-                                                      {/* {selectedRules && selectedRules.map((val) => (
+                                                            {/* {selectedRules && selectedRules.map((val) => (
                                                           <div className="planrule" key={val.id}>
                                                               <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
                                                               <div className="planicon" onClick={() => handleRemoveRule(val)}>
@@ -385,81 +441,86 @@ export default function ViewPlanRules() {
                                                       ))} */}
 
 
-                                                      {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
-                                                          selectedRules.map((val) => (
-                                                              <React.Fragment key={val.id}>
-                                                                  <div className="planrule">
-                                                                      <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
-                                                                      <div className="planicon" onClick={() => handleRemoveRule(val)}>
-                                                                          <i className="fa fa-minus"></i>
-                                                                      </div>
-                                                                  </div>
-                                                              </React.Fragment>
-                                                          ))
-                                                      ) : (
-                                                          <div>No rule selected</div>
-                                                      )}
-                                                  </div>
-                                              </div>
-                                              <div className="planrulebrde flex-1">
-                                                  <div className='rulesec'>
-                                                      <div className='ruleserch'>
-                                                          <input type='text' className='form-control' placeholder={t("Search")} value={searchTerm} onChange={handleSearch}/>
-                                                          <span className="rulesericon"><i className="fas fa-search"></i></span>
-                                                      </div>
-                                                      <div>Add rules to plan</div>
-                                                  </div>
-                                                  <div className='allrules'>
-                                                      {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
-                                                          <div className="planrule" key={val.id}>
-                                                              <div className="plantxt" val={val.id}>{val.title}</div>
-                                                              <div className="planicon" onClick={() => handleAddRule(val)}>
-                                                                  <i className="fa fa-plus"></i>
-                                                              </div>
-                                                          </div>
-                                                      ))}
-                                                      {/* {tempAvailableRules.map((val) => (
-                                                          <div className="planrule" key={val.id}>
-                                                              <div className="plantxt" val={val.id}>{val.title}</div>
-                                                              <div className="planicon" onClick={() => handleAddRule(val)}>
-                                                                  <i className="fa fa-plus"></i>
-                                                              </div>
-                                                          </div>
-                                                      ))} */}
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className='row px-1 '>
-                                              <div className="col-lg-4 col-md-4 col-sm-4">
-                                                  <div className="mb-2 relative">
-                                                      <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
-                                                      <div>
-                                                          {showUnderProcess === 1 ? <TosterUnderProcess /> :
-                                                              <>
-                                                                  {showToster === 1 ?
-                                                                      <Toster value={tosterValue} message={tosterMessage} />
+                                                            {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
+                                                                selectedRules.map((val) => (
+                                                                    <React.Fragment key={val.id}>
+                                                                        <div className="planrule">
+                                                                            <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                                            <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                                <i className="fa fa-minus"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </React.Fragment>
+                                                                ))
+                                                            ) : (
+                                                                <div>No rule selected</div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className="planrulebrde flex-1">
+                                                        <div className='rulesec'>
+                                                            <div className='ruleserch'>
+                                                                <input type='text' className='form-control' placeholder={t("Search")} value={searchTerm} onChange={handleSearch} />
+                                                                <span className="rulesericon"><i className="fas fa-search"></i></span>
+                                                            </div>
+                                                            <div>Add rules to plan</div>
+                                                        </div>
+                                                        <div className='allrules'>
+                                                            {/* {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
+                                                                <div className="planrule" key={val.id}>
+                                                                    <div className="plantxt" val={val.id}>{val.title}</div>
+                                                                    <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                        <i className="fa fa-plus"></i>
+                                                                    </div>
+                                                                </div>
+                                                            ))} */}
+                                                            {tempAvailableRules
+                                                                .filter(
+                                                                    (val) =>
+                                                                        !selectedRules ||
+                                                                        (val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                                                                            !selectedRules.some(
+                                                                                (selectedRule) => selectedRule.ruleId === val.id
+                                                                            ))
+                                                                )
+                                                                .map((val) => (
+                                                                    <div className="planrule" key={val.id}>
+                                                                        <div className="plantxt" val={val.id}>{val.title}</div>
+                                                                        <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                            <i className="fa fa-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
 
-                                                                      : <div>
-                                                                          {updateBool === 0 ?
-                                                                              <>
-                                                                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                                                                                  <button type="button" className="btn btn-clear btn-sm mb-1 me-1" ><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
-                                                                              </>
-                                                                              :
-                                                                              <>
-                                                                                  <button type="button" className="btn btn-save btn-sm mb-1 me-1">{t("UPDATE")}</button>
-                                                                                  <button type="button" className="btn btn-clear btn-sm mb-1">{t("Cancel")}</button>
-                                                                              </>
-                                                                          }
-                                                                      </div>}
-                                                              </>
-                                                          }
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className='row px-1 '>
+                                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                                        <div className="mb-2 relative">
+                                                            <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
+                                                            <div>
+                                                                {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                                                                    <>
+                                                                        {showToster === 1 ?
+                                                                            <Toster value={tosterValue} message={tosterMessage} />
+
+                                                                            : <div>
+                                                                                <>
+                                                                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                                                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleCancel}><img src={clearIcon} className='icnn' alt='' />{t("Cancel")}</button>
+                                                                                </>
+
+                                                                            </div>
+                                                                        }
+                                                                    </>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
 
 
 
