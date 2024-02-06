@@ -1,6 +1,6 @@
 let GetAllDob = async(query)=>{
     
-    let url = window.fhiropenEMR + "/api/PatientRegistration/GetAllPatientDOBForFHIR?dob="+query;
+    let url = window.AppbaseUrl + "/api/PatientRegistration/GetAllPatientDOBForFHIR?dob="+query;
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let response = "";
     await fetch(url, {
