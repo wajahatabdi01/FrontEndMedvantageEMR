@@ -1,5 +1,5 @@
 async function GetAllRelations(data) {
-    let url = window.fhiropenEMR + "/api/RelationshipMaster/GetAllRelations";
+    let url = window.AppbaseUrl + "/api/RelationshipMaster/GetAllRelations";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

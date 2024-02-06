@@ -1,5 +1,5 @@
 async function GetAllGuardianRelation(data) {
-    let url = window.fhirAdminEMR + "/api/GuardianRelationMaster/GetAllGuardianRelationMaster";
+    let url = window.AdminbaseUrl + "/api/GuardianRelationMaster/GetAllGuardianRelationMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

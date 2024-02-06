@@ -10,11 +10,14 @@ import "./Code/LanguageManage.js"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-// local
+// New local For FHIR
 
-window.AppbaseUrl = "http://172.16.61.31:7082"
-window.AdminbaseUrl = "http://172.16.61.31:7083"
-window.UserbaseUrl = "http://172.16.61.31:7084"
+window.AppbaseUrl = "http://192.168.11.101:6082"
+window.AdminbaseUrl = "http://192.168.11.101:6083"
+window.UserbaseUrl = "http://192.168.11.101:6084"
+
+// End For FHIR
+
 window.BillingbaseUrl = "http://172.16.61.31:7088"
 window.OTBaseURL = "http://172.16.61.31:7091/api/"
 window.BloodbaseUrl = "http://172.16.61.31:7092/"
@@ -40,9 +43,11 @@ window.CounsellingUrl = "http://172.16.61.31:7102/"
 window.LogBaseUrl = "http://172.16.61.31:7089/"
 // window.supportTicketUploadMediaBaseUrl = "http://23.236.54.179:127"
 window.supportTicketUploadMediaBaseUrl = "http://192.168.8.2:7088"
-window.fhiropenEMR = "http://192.168.11.101:6082"
-window.fhirAdminEMR = "http://192.168.11.101:6083"
-window.fhirUserEMR = "http://192.168.11.101:6084"
+
+///////
+// window.fhiropenEMR = "http://192.168.11.101:6082"
+// window.fhirAdminEMR = "http://192.168.11.101:6083"
+// window.fhirUserEMR = "http://192.168.11.101:6084"
 window.fhiropenEMRLab = "http://192.168.11.101:6088"
 
 

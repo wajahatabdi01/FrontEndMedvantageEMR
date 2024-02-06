@@ -1,5 +1,5 @@
 async function GetProblemList(data) {
-    let url = window.fhiropenEMR + "/api/KnowMedApis/GetProblemList";
+    let url = window.AppbaseUrl + "/api/KnowMedApis/GetProblemList";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,
