@@ -1,5 +1,5 @@
 async function GetAllIssueOutCome(data) {
-    let url = window.fhiropenEMR + "/api/IssueOutComeMaster/GetAllIssueOutCome";
+    let url = window.AppbaseUrl + "/api/IssueOutComeMaster/GetAllIssueOutCome";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

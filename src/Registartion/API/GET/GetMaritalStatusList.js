@@ -1,5 +1,5 @@
 let GetMaritalStatusList=async()=>{
-    const url= window.fhiropenEMR+"/api/MaritalstatusMaster/GetAllMaritalstatus";
+    const url= window.AppbaseUrl+"/api/MaritalstatusMaster/GetAllMaritalstatus";
     const head={'content-type':'application/json','accept':'*/*',}
     let data={};
     let response= await fetch(url,{

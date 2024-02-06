@@ -1,5 +1,5 @@
 async function GetAllSurgeryIssueList(data) {
-    let url = window.fhiropenEMR + "/api/FHIRsurgeryIssueListMaster/GetAllSurgeryIssueList";
+    let url = window.AppbaseUrl + "/api/FHIRsurgeryIssueListMaster/GetAllSurgeryIssueList";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -25,6 +25,7 @@ function SearchRegisteredPatient() {
     let [registeredPatientList, setRegisteredPatientList] = useState([]);
     let [pageNumbers, setPageNumber] = useState(1);
     let [searchByName, setSearchByName] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
     let [searchByNameList, setSearchByNameList] = useState([])
     let [searchByDob, setSearchByDob] = useState('')
     let [searchByDobList, setSearchByDobList] = useState([])
@@ -60,6 +61,10 @@ function SearchRegisteredPatient() {
             setSearchByDobList(response.responseValue);
         }
     }
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
     const handleSearchPatientName = (searchValue) => {
         setSelectedPatient('');
         setSearchByName(searchValue);
@@ -244,7 +249,7 @@ function SearchRegisteredPatient() {
                             <div className='handlser'>
                                 <Heading text="Registered Patient List" />
                                 <div style={{ position: 'relative' }}>
-                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
+                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={searchTerm} onChange={handleSearch} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span>
                                 </div>
                             </div>

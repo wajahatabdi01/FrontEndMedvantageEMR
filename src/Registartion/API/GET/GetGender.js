@@ -1,5 +1,5 @@
 async function GetGender(data) {
-    let url = window.fhirAdminEMR+ "/api/GenderMaster/GetAllGenderMaster";
+    let url = window.AdminbaseUrl+ "/api/GenderMaster/GetAllGenderMaster";
     let head = { "Content-Type": "application/JSON", accept : '*/*' };
 
 

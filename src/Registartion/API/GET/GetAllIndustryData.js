@@ -1,5 +1,5 @@
 async function GetAllIndustryData(data) {
-    let url = window.fhiropenEMR + "/api/FHIRIndustryMaster/GetAllIndustryData";
+    let url = window.AppbaseUrl + "/api/FHIRIndustryMaster/GetAllIndustryData";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -42,7 +42,7 @@ export default function AssignMenu(props) {
 
   let handleHeadChange = async (e, data) => {
     let value = parseInt(e.target.value)
-    // //console.log("acsadds", e.target.value)
+    // console.log("acsadds", e.target.value)
     setSelectedHead(value)
     let response = await GetMenuByHeadId(value)
 
@@ -62,10 +62,11 @@ export default function AssignMenu(props) {
         let t = [...temp]
         if (sendData.length !== 0) {
           let findHead = sendData.filter(v => v.headId.toString() === value.toString())
+          console.log("findHead", findHead, sendData)
           if (findHead.length !== 0) {
             temp.map((val, ind) => {
 
-              // //console.log("headdata", findHead, sendData, value)
+              // console.log("headdata", findHead, sendData, value)
               let findParentId = []
               if (val.subMenu.length !== 0) {
                 val.subMenu.map((vl) => {
@@ -81,10 +82,10 @@ export default function AssignMenu(props) {
                 findParentId = sendData.filter(v => v.menuId.toString() === val.id.toString())
 
               }
-              // //console.log("findParentId", findParentId, sendData, val)
+              // console.log("findParentId", findParentId, sendData, val)
 
               if (findParentId.length > 0) {
-                //console.log("find Data", findParentId, val.subMenu)
+                console.log("find Data", findParentId, val.subMenu)
                 if (findParentId.length === val.subMenu.length) {
                   t[ind].parentChecked = true;
 
@@ -283,36 +284,60 @@ export default function AssignMenu(props) {
     let id = e.target.id
     let checked = e.target.checked
     let tempmenuList = [...menuList]
-    //console.log("menuList", menuList, id)
+    console.log("menuList", menuList, id)
     let searchResult = []
     menuList.map((val, ind) => {
       sendData.map((v) => {
-        if (val.id.toString() === id.toString()) {
-          if (val.subMenu.length !== 0) {
-            val.subMenu.map((vv) => {
-              if (v.menuId.toString() === vv.id.toString()) {
-                //console.log("vvvv", v)
+        if (val.headId.toString() !== selectedHead.toString()) {
+          if (val.id.toString() === id.toString()) {
+            if (val.subMenu.length !== 0) {
+              val.subMenu.map((vv) => {
+                if (v.menuId.toString() === vv.id.toString()) {
+                  // console.log("vvvv", v)
+                  searchResult.push(v)
+                }
+              })
+
+            }
+            else {
+              if (v.menuId.toString() === id.toString()) {
+                // console.log("vvvv", v)
                 searchResult.push(v)
               }
-            })
-
-          }
-          else {
-            if (v.menuId.toString() === id.toString()) {
-              //console.log("vvvv", v)
-              searchResult.push(v)
             }
-          }
 
+          }
+        }
+        else if (val.headId.toString() === selectedHead.toString()) {
+        console.log("headid ", val.headId.toString(), selectedHead.toString())
+
+          if (val.id.toString() === id.toString()) {
+            if (val.subMenu.length !== 0) {
+              val.subMenu.map((vv) => {
+                if (v.menuId.toString() === vv.id.toString() && v.headId.toString()  === selectedHead.toString()) {
+                  // console.log("vvvv", v)
+                  searchResult.push(v)
+                }
+              })
+
+            }
+            else {
+              if (v.menuId.toString() === id.toString() && v.headId.toString()  === selectedHead.toString()) {
+                // console.log("vvvv", v)
+                searchResult.push(v)
+              }
+            }
+
+          }
         }
 
       })
       // searchResult.push()
     })
     // let searchResult = sendData.filter(v => v.menuId.toString() === id.toString())
-    //console.log("searchResult", searchResult)
+    console.log("searchResult", searchResult)
     let tempsendfinal = []
-    // //console.log("senddata", sendData, searchResult, id)
+    // console.log("senddata", sendData, searchResult, id)
 
     if (searchResult.length === 0) {
 
@@ -337,7 +362,7 @@ export default function AssignMenu(props) {
               tempmenuList[ind].subMenu[i]["saveChecked"] = true
               tempmenuList[ind].subMenu[i]["modifyChecked"] = true
               tempmenuList[ind].subMenu[i]["deleteChecked"] = true
-              // // //console.log("check", tempmenuList)
+              // // console.log("check", tempmenuList)
               tempsendfinal.push(row)
               document.getElementById(v.id).checked = true
               document.getElementById(v.id + "Save").checked = true
@@ -369,9 +394,10 @@ export default function AssignMenu(props) {
 
     }
     else {
+      console.log("searchResult", searchResult)
       let allIndex = SearchIndexAll(menuList, "id", id)
-      //console.log("id", id, allIndex)
-      //console.log("senddata", sendData, menuList)
+      console.log("id", id, allIndex)
+      console.log("senddata", sendData)
       if (allIndex.length !== 0) {
         let temp = sendData
         menuList.map((val, ind) => {
@@ -390,25 +416,27 @@ export default function AssignMenu(props) {
           }
         })
         let temps = []
-        // //console.log("old data", sendData)
         let flag = 0
+        console.log("old data", sendData, menuList)
         menuList.map((val, ind) => {
           if (val.id.toString() === id.toString()) {
             sendData.map((v, inds) => {
               if (val.subMenu.length !== 0) {
                 val.subMenu.map((vv) => {
-                  if (v.menuId.toString() === vv.id.toString()) {
+                  if (v.menuId.toString() === vv.id.toString() && v.headId.toString() === val.headId.toString()) {
                     delete temp[inds]
                   }
                 })
               }
               else {
                 if (flag === 0) {
+                  if (v.menuId.toString() === val.id.toString() && v.headId.toString() === val.headId.toString()) {
+                    delete temp[inds]
+                    flag = 1
+                    console.log("menuList", val, inds)
+                  }
 
-                  delete temp[inds]
-                  flag = 1
                 }
-                //console.log("menuList", val)
               }
             })
 
@@ -419,12 +447,12 @@ export default function AssignMenu(props) {
 
 
         // sendData.map((val, ind) => {
-        //   // //console.log("cdscsdcsdcscs", val.parentId.toString() === id.toString(), val.parentId.toString(), id.toString())
+        //   // console.log("cdscsdcsdcscs", val.parentId.toString() === id.toString(), val.parentId.toString(), id.toString())
         //   if (val.menuId.toString() !== id.toString()) {
         //     temp.push(val)
         //   }
         // })
-        //console.log("new data", temp.filter(n => n))
+        console.log("new data", temp.filter(n => n))
         setSendData([...temp.filter(n => n)])
         props.setMenuData([...temp.filter(n => n)])
         setMenuList(tempmenuList)
@@ -432,7 +460,7 @@ export default function AssignMenu(props) {
       else {
         tempmenuList[allIndex[0]]["parentChecked"] = false
         let temp = [...sendData]
-        // // //console.log("cdscsdcsdcsdcsd", sendData.filter((v, i) => { // //console.log(tempmenuList[allIndex[0]].id, v) }))
+        // // console.log("cdscsdcsdcsdcsd", sendData.filter((v, i) => { // console.log(tempmenuList[allIndex[0]].id, v) }))
         temp = sendData.filter((v, i) => { return tempmenuList[allIndex[0]].id.toString() !== v.menuId.toString() })
         setSendData([...temp])
         props.setMenuData([...temp])
@@ -453,7 +481,7 @@ export default function AssignMenu(props) {
     let lenOfSaveSubMenu = []
     if (searchResult.length === 0) {
       menuList.map((val, ind) => {
-        // // //console.log("found", val.id, parseInt(id))
+        // // console.log("found", val.id, parseInt(id))
         if (val.id === parseInt(parentid)) {
           lenOfSubMenu = val.subMenu.length
           val.subMenu.map((v, i) => {
@@ -612,9 +640,14 @@ export default function AssignMenu(props) {
               }
             }
             else {
+
+
               newData[0]["parentId"] = v.id
+
+
             }
           })
+
           // delete newData[ind]["headId"]
           // delete newData[ind]["menuId"]
           // delete newData[ind]["id"]
@@ -663,10 +696,9 @@ export default function AssignMenu(props) {
           // delete newData[0]["menuId"]
           // delete newData[0]["id"]
         }
-        //console.log("csdcscsdcds", props.editedMenutData)
 
 
-        // //console.log("data", ...props.editedMenutData)
+        // console.log("data", ...props.editedMenutData)
         document.getElementById("headIds").value = props.editedMenutData[0].headId
         setSendData([...props.editedMenutData])
         props.setMenuData([...props.editedMenutData])
