@@ -252,7 +252,13 @@ export default function ViewPlanRules() {
         setSelectedPlanId(value);
         // setShowAddPlan(value !== '0');
     };
-
+    const handleChangeAddPlan = async (e) => {
+        setShowData(0);
+        const { name, value } = e.target;
+        setSendForm((prevData) => ({ ...prevData, [name]: value }));
+        setSelectedPlanId(value);
+        // setShowAddPlan(value !== '0');
+    };
 
 
     //Save Plan
@@ -383,7 +389,8 @@ export default function ViewPlanRules() {
                                                             <div className="col-md-6 col-sm-12">
                                                                 <div className="mb-2 me-2">
                                                                     <label htmlFor="" className="form-label">Plan Name <span className="starMandatory">*</span></label>
-                                                                    <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChange} />
+                                                                    {/* <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChange} /> */}
+                                                                    <input type="text" className="form-control form-control-sm" id="name" name='name' placeholder={t("Enter Plan")} onChange={handleChangeAddPlan} />
                                                                     <small id="errplan" className="invalid-feedback" style={{ display: 'none' }}></small>
                                                                 </div>
                                                             </div>
