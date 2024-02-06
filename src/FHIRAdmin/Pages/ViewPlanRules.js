@@ -404,13 +404,13 @@ export default function ViewPlanRules() {
                                               <div className="planrulebrde flex-1">
                                                   <div className='rulesec'>
                                                       <div className='ruleserch'>
-                                                          <input type='text' className='form-control' placeholder={t("Search")} />
+                                                          <input type='text' className='form-control' placeholder={t("Search")} value={searchTerm} onChange={handleSearch}/>
                                                           <span className="rulesericon"><i className="fas fa-search"></i></span>
                                                       </div>
                                                       <div>Add rules to plan</div>
                                                   </div>
                                                   <div className='allrules'>
-                                                      {tempAvailableRules.map((val) => (
+                                                      {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
                                                           <div className="planrule" key={val.id}>
                                                               <div className="plantxt" val={val.id}>{val.title}</div>
                                                               <div className="planicon" onClick={() => handleAddRule(val)}>
@@ -418,6 +418,14 @@ export default function ViewPlanRules() {
                                                               </div>
                                                           </div>
                                                       ))}
+                                                      {/* {tempAvailableRules.map((val) => (
+                                                          <div className="planrule" key={val.id}>
+                                                              <div className="plantxt" val={val.id}>{val.title}</div>
+                                                              <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                  <i className="fa fa-plus"></i>
+                                                              </div>
+                                                          </div>
+                                                      ))} */}
                                                   </div>
                                               </div>
                                           </div>
