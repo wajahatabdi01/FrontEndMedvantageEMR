@@ -1,5 +1,5 @@
 async function ParseDocument(data){
-    const url = window.fhiropenEMR + '/api/ParseDocument/ParseDocument';
+    const url = window.AppbaseUrl + '/api/ParseDocument/ParseDocument';
     // const head = { accept : '*/*'};
 
     const response = await fetch(url, {

@@ -1,5 +1,5 @@
 async function GetLabNotificationReportData(CategoryId) {
-    let url = window.fhiropenEMRLab+"/api/FHIRInvestigation/GetMicroAndPathoAndRadioData?CategoryId="+CategoryId;
+    let url = window.AppbaseUrl+"/api/FHIRInvestigation/GetMicroAndPathoAndRadioData?CategoryId="+CategoryId;
     let head = {"Content-Type":"application/JSON", accept : "*/*"}
     let data = {}
     let response = await fetch(url, {

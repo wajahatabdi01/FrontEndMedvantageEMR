@@ -3703,7 +3703,7 @@ span.rulecount {
 .planrule:hover {
   background: #1d4999;
   color: #fff;
-  cursor: move;
+  cursor: pointer;
 }
 
 .diet-btn {

@@ -1,5 +1,5 @@
 const PostFHIRImmunization = async(params)=>{
-  let url = window.fhiropenEMR+"/api/FHIRImmunization/InsertImmunization";
+  let url = window.AppbaseUrl+"/api/FHIRImmunization/InsertImmunization";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {

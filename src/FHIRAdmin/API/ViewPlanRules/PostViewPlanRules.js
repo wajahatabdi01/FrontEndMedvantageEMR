@@ -1,5 +1,6 @@
 const PostViewPlanRules = async (params) => {
-    let url = window.fhiropenEMR + "/api/FHIRPlanMaster/InsertPlan";
+    // let url = window.fhiropenEMR + "/api/FHIRPlanMaster/InsertPlan";
+    let url = window.AppbaseUrl + "/api/FHIRPlanMaster/InsertPlan";
     let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
     let responsonse = "";
     await fetch(url, {
