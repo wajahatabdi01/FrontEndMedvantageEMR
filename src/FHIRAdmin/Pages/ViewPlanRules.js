@@ -149,22 +149,41 @@ export default function ViewPlanRules() {
     // };
     // Handle Add Rule
     const handleAddRule = (rule) => {
-        const ruleExists = selectedRules.some((selectedRule) => selectedRule.ruleId === rule.id);
-        if (!ruleExists) {
-            const temp = {
-                planId: selectedPlanId,
-                ruleId: rule.id,
-                ruleTitle: rule.title,
-            };
-            setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
-            const avilableIndex = tempAvailableRules.findIndex((val) => val.id === rule.id);
-            if (avilableIndex !== -1) {
-                const temprules = [...tempAvailableRules];
-                temprules.splice(avilableIndex, 1);
-                setTempAvailableRules(temprules);
+        if (rule && rule.id && rule.title) {
+            if (!selectedRules) {
+                setSelectedRules([]);
+            }
+
+            const isRuleAlreadyAdded = Array.isArray(selectedRules) &&
+                selectedRules.some(
+                    (selectedRule) => selectedRule.ruleId === rule.id
+                );
+
+            if (!isRuleAlreadyAdded) {
+                let temp = {
+                    planId: selectedPlanId,
+                    ruleId: rule.id,
+                    ruleTitle: rule.title,
+                };
+                setSelectedRules((prev) =>
+                    Array.isArray(prev) ? [...prev, temp] : [temp]
+                );
+
+                const avilableIndex = Array.isArray(tempAvailableRules) &&
+                    tempAvailableRules.findIndex(
+                        (val) => val.id === rule.id
+                    );
+
+                if (avilableIndex !== -1 && Array.isArray(tempAvailableRules)) {
+                    let temprules = [...tempAvailableRules];
+                    temprules.splice(avilableIndex, 1);
+                    setTempAvailableRules(temprules);
+                }
+            } else {
+                console.log("Rule is already added");
             }
         } else {
-            console.log("Rule already exists in selectedRules");
+            console.error("Invalid rule object:", rule);
         }
     };
 
