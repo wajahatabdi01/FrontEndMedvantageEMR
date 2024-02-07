@@ -25,6 +25,9 @@ function SearchRegisteredPatient() {
     let [registeredPatientList, setRegisteredPatientList] = useState([]);
     let [pageNumbers, setPageNumber] = useState(1);
     let [searchByName, setSearchByName] = useState('')
+    let [patientCountdata, setPatientCountData] = useState('')
+    let [socialSecurityNo, setSocialSecurityNo] = useState('')
+    let [externalId, setExternalId] = useState('')
     const [searchTerm, setSearchTerm] = useState('');
     let [searchByNameList, setSearchByNameList] = useState([])
     let [searchByDob, setSearchByDob] = useState('')
@@ -41,9 +44,10 @@ function SearchRegisteredPatient() {
     const [selectedDate, setSelectedDate] = useState('');
     const pageSize = 15;
     let getData = async (pageNumbers) => {
-        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, selectedDate);
+        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, socialSecurityNo, selectedDate, externalId);
         if (response.status === 1) {
-            setRegisteredPatientList(response.responseValue);
+            setRegisteredPatientList(response.responseValue.searchResult);
+            setPatientCountData(response.responseValue.totalCount)
         }
         window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
@@ -117,6 +121,10 @@ function SearchRegisteredPatient() {
 
     }
 
+    const handlePageChange = (newPageNumber) => {
+        setPageNumber(newPageNumber);
+    };
+
     let nextPage = () => {
         setPageNumber(pageNumbers + 1)
         getData(pageNumbers)
@@ -138,7 +146,8 @@ function SearchRegisteredPatient() {
         setSelectedPatient('');
         setSelectedDate('');
         setRegisteredPatientList('');
-
+        setSocialSecurityNo('');
+        setExternalId('');
     }
 
     const handleRedirect = async (key) => {
@@ -184,6 +193,24 @@ function SearchRegisteredPatient() {
             // setPatientProfilePopup(1)
         }
     }
+    let handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        if (name === "socialSecurityNo") {
+            setSocialSecurityNo(value)
+        }
+        if (name === "externalId") {
+            setExternalId(value)
+        }
+        console.log("SocialSecurityNo", value)
+    }
+
+    // Calculate start index and last index based on page number and page size
+    const startIndex = (pageNumbers - 1) * pageSize + 1;
+    // const endIndex = Math.min(startIndex + pageSize - 1, registeredPatientList.length - 1);
+    const endIndex = Math.min(startIndex + registeredPatientList.length - 1);
+
 
     useEffect(() => {
         getAllNames();
@@ -212,15 +239,13 @@ function SearchRegisteredPatient() {
                                             })}
                                     </div>
                                 </div>
-                                <div className="mb-2 me-2">
+                                {/* <div className="mb-2 me-2">
                                     <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by Home Phone" name="bedName" onChange={"handleChange"} />
-                                </div>
+                                </div> */}
                                 <div className="mb-2 me-2">
-                                    <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by SSN" name="bedName" onChange={"handleChange"} />
+                                    <input type="text" value={socialSecurityNo} className="form-control form-control-sm" id="socialSecurityNo" placeholder="search by SSN" name="socialSecurityNo" onChange={handleChange} />
                                 </div>
-                                <div className="mb-2 me-2">
-                                    <input type="date" onChange={handleDateChange} value={selectedDate} className="form-control form-control-sm" id="date" name='date' />
-                                </div>
+
                                 {/* <div className="mb-2 me-2">
                                     <input type="text" value={selectedDob === '' ? searchByDob : selectedDob} onChange={(e) => { handleSearchByDob(e.target.value) }} className="form-control form-control-sm" id="bedName" placeholder="search by Date of Birth" name="bedName" />
                                     <div className="box-container" id='ddlDataContainerForDob' style={{ display: 'none' }} >
@@ -235,7 +260,10 @@ function SearchRegisteredPatient() {
                                     </div>
                                 </div> */}
                                 <div className="mb-2 me-2">
-                                    <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by External ID" name="bedName" onChange={"handleChange"} />
+                                    <input type="text" value={externalId} className="form-control form-control-sm" id="externalId" placeholder="search by External ID" name="externalId" onChange={handleChange} />
+                                </div>
+                                <div className="mb-2 me-2">
+                                    <input type="date" onChange={handleDateChange} value={selectedDate} className="form-control form-control-sm" id="date" name='date' />
                                 </div>
                                 <div className="mb-2 relative">
                                     <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
@@ -260,56 +288,55 @@ function SearchRegisteredPatient() {
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Full Name</th>
                                             <th>SSN</th>
-                                            <th>Date of Birth</th>
                                             <th>External ID</th>
+                                            <th>Date of Birth</th>
                                             <th style={{ "width": "10%" }} className="text-center">{t("Action")}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {registeredPatientList && registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
+                                        {registeredPatientList && Array.isArray(registeredPatientList) && registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
                                             const adjustedIndex = ind + (pageNumbers - 1) * pageSize + 1;
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{adjustedIndex}</td>
                                                     <td>{val.patientName}</td>
-                                                    <td>{val.ssn}</td>
-                                                    <td>{val.dob}</td>
-                                                    <td>{val.externalID}</td>
+                                                    <td>{val.socialSecurityNo}</td>
+                                                    <td>{val.externalId}</td>
+                                                    <td>{val.dob.substring(0, 10)}</td>
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
                                                                 <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
                                                             </div>
-
                                                         </div>
                                                     </td>
                                                 </tr>
                                             );
                                         })}
 
+
                                     </tbody>
                                 </TableContainer>
                                 {/* ---------------------------Pagination-------------------------- */}
-                                <div className='paginationcount'>
-                                    <div className='showingcount'>Showing <span>1</span> to <span>15</span> out of <span>2000</span></div>
-                                    <div className='paginationSearch'>
-                                        <nav aria-label="...">
-                                            <ul class="pagination">
-                                                <li class="page-item ">
-                                                    <a class="page-link" href="#" onClick={previousPage}>Previous</a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
-                                                {/* <li class="page-item active" aria-current="page">
-                                                <span class="page-link">2</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li> */}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" onClick={nextPage}>Next</a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
+                                {patientCountdata && patientCountdata.map((data) => {
+                                    return (<div className='paginationcount'>
+                                        <div className='showingcount'>Showing <span>{startIndex}</span> to <span>{endIndex}</span> out of <span>{data.patientCount}</span></div>
+                                        <div className='paginationSearch'>
+                                            <nav aria-label="...">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers - 1); getData(pageNumbers-1) }} disabled={pageNumbers === 1}>Previous</button>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
+                                                    <li class="page-item">
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers + 1); getData(pageNumbers+1) }}>Next</button>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>)
+                                })}
+
 
                                 {/* ---------------------------End Pagination-------------------------- */}
                                 {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
