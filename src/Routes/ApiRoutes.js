@@ -441,6 +441,8 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
                         <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
+                        <Route path="/addrule/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddRule />} name="AddRule" />} />} />
+                        <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ViewPlanRules />} name="ViewPlanRules" />} />} />
                         <Route path="/buildingmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BuildingMaster />} name="BuildingMaster" />} />} />
                         <Route path="/floormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FloorMaster />} name="FloorMaster" />} />} />
                         <Route path="/caretakermaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CareTakerMaster />} name="CareTakerMaster" />} />} />
@@ -866,8 +868,8 @@ export default function ApiRoutes() {
 
 
                   {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
-                  <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} />
-                  <Route path="/Viewplanrules/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} />
+                  {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
+                  {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 

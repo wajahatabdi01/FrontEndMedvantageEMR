@@ -40,12 +40,12 @@ function SearchRegisteredPatient() {
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const pageSize = 15;
-    let getData = async (pageNumbers) => {       
+    let getData = async (pageNumbers) => {
         const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, selectedDate);
         if (response.status === 1) {
             setRegisteredPatientList(response.responseValue);
         }
-        window.sessionStorage.setItem("PatientDetails",JSON.stringify(response.responseValue));
+        window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
 
     let getAllNames = async (query) => {
@@ -128,11 +128,11 @@ function SearchRegisteredPatient() {
         }
     };
 
-    const handleDateChange=(e)=>{
-       setSelectedDate(e.target.value)
+    const handleDateChange = (e) => {
+        setSelectedDate(e.target.value)
     }
 
-    const handleClear=()=>{
+    const handleClear = () => {
         getData(pageNumbers);
         setSearchByName('');
         setSelectedPatient('');
@@ -145,12 +145,12 @@ function SearchRegisteredPatient() {
         // const menuDetails = taskDetails.menuData;
         let resp = await GetPatientDetailsByUHID(key);
 
-       
+
         if (resp.status === 1) {
             let deptmenu = await GetMenuByDepartmentIdAndUserId(resp.responseValue[0].deptId);
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
-            if(deptResponse){
+            if (deptResponse) {
                 if (deptmenu.status === 1) {
                     window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
                         resp.responseValue,
@@ -175,7 +175,7 @@ function SearchRegisteredPatient() {
                     window.open('/prescriptionipd/')
                 }
             }
-            else{
+            else {
 
                 console.error('Something went wrong..');
             }
@@ -266,7 +266,7 @@ function SearchRegisteredPatient() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {registeredPatientList && registeredPatientList.map((val, ind) => {
+                                        {registeredPatientList && registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
                                             const adjustedIndex = ind + (pageNumbers - 1) * pageSize + 1;
                                             return (
                                                 <tr key={val.id}>
@@ -278,7 +278,7 @@ function SearchRegisteredPatient() {
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
-                                                                <img src={viewIcon} onClick={()=>{handleRedirect(val.uhID)}} alt='' />
+                                                                <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
                                                             </div>
 
                                                         </div>
@@ -290,23 +290,27 @@ function SearchRegisteredPatient() {
                                     </tbody>
                                 </TableContainer>
                                 {/* ---------------------------Pagination-------------------------- */}
-                                <div className='paginationSearch'>
-                                    <nav aria-label="...">
-                                        <ul class="pagination">
-                                            <li class="page-item ">
-                                                <a class="page-link" href="#" onClick={previousPage}>Previous</a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
-                                            {/* <li class="page-item active" aria-current="page">
+                                <div className='paginationcount'>
+                                    <div className='showingcount'>Showing <span>1</span> to <span>15</span> out of <span>2000</span></div>
+                                    <div className='paginationSearch'>
+                                        <nav aria-label="...">
+                                            <ul class="pagination">
+                                                <li class="page-item ">
+                                                    <a class="page-link" href="#" onClick={previousPage}>Previous</a>
+                                                </li>
+                                                <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
+                                                {/* <li class="page-item active" aria-current="page">
                                                 <span class="page-link">2</span>
                                             </li>
                                             <li class="page-item"><a class="page-link" href="#">3</a></li> */}
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" onClick={nextPage}>Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#" onClick={nextPage}>Next</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
+
                                 {/* ---------------------------End Pagination-------------------------- */}
                                 {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
                                 <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">

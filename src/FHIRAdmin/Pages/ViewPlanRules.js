@@ -61,6 +61,8 @@ export default function ViewPlanRules() {
     };
     const HandleCancelNewPlan = () => {
         setShowAddPlan(0);
+        // document.getElementById('errplan').style.display = "none";
+      
         // handleClear();
     };
 
@@ -147,60 +149,57 @@ export default function ViewPlanRules() {
     //         setTempAvailableRules(temprules)
     //     }
     // };
-    // Handle Add Rule
+
     const handleAddRule = (rule) => {
-        if (rule && rule.id && rule.title) {
-            if (!selectedRules) {
-                setSelectedRules([]);
+        const isRuleAlreadyAdded = selectedRules && selectedRules.some((addedRule) => addedRule.ruleId === rule.id);
+        if (!isRuleAlreadyAdded) {
+            let temp = {
+                planId: selectedPlanId,
+                ruleId: rule.id,
+                ruleTitle: rule.title,
             }
+            setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
 
-            const isRuleAlreadyAdded = Array.isArray(selectedRules) &&
-                selectedRules.some(
-                    (selectedRule) => selectedRule.ruleId === rule.id
-                );
-
-            if (!isRuleAlreadyAdded) {
-                let temp = {
-                    planId: selectedPlanId,
-                    ruleId: rule.id,
-                    ruleTitle: rule.title,
-                };
-                setSelectedRules((prev) =>
-                    Array.isArray(prev) ? [...prev, temp] : [temp]
-                );
-
-                const avilableIndex = Array.isArray(tempAvailableRules) &&
-                    tempAvailableRules.findIndex(
-                        (val) => val.id === rule.id
-                    );
-
-                if (avilableIndex !== -1 && Array.isArray(tempAvailableRules)) {
-                    let temprules = [...tempAvailableRules];
-                    temprules.splice(avilableIndex, 1);
-                    setTempAvailableRules(temprules);
-                }
-            } else {
-                console.log("Rule is already added");
+            let availableIndex = tempAvailableRules.findIndex((val) => val.id === rule.id);
+            if (availableIndex !== -1) {
+                let tempRules = [...tempAvailableRules];
+                tempRules.splice(availableIndex, 1);
+                setTempAvailableRules(tempRules);
             }
-        } else {
-            console.error("Invalid rule object:", rule);
         }
     };
 
+ 
+
     // Handle Remove Rule
+    // const handleRemoveRule = (rule) => {
+    //     let avilableIndex = selectedRules.findIndex(val => val.ruleId === rule.ruleId)
+    //     if (avilableIndex !== -1) {
+    //         let temp = {
+    //             planId: selectedPlanId,
+    //             id: rule.ruleId,
+    //             title: rule.ruleTitle,
+    //         }
+    //         setTempAvailableRules((prev) => ([...prev, temp]))
+    //         let temprules = [...selectedRules]
+    //         temprules.splice(avilableIndex, 1)
+    //         setSelectedRules(temprules)
+    //     }
+    // };
     const handleRemoveRule = (rule) => {
-        let avilableIndex = selectedRules.findIndex(val => val.ruleId === rule.ruleId)
-        if (avilableIndex !== -1) {
+        const availableIndex = tempAvailableRules.findIndex((val) => val.id === rule.ruleId);
+    
+        if (availableIndex === -1) {
             let temp = {
-                planId: selectedPlanId,
                 id: rule.ruleId,
                 title: rule.ruleTitle,
-            }
-            setTempAvailableRules((prev) => ([...prev, temp]))
-            let temprules = [...selectedRules]
-            temprules.splice(avilableIndex, 1)
-            setSelectedRules(temprules)
+            };
+    
+            setTempAvailableRules((prev) => [...prev, temp]);
         }
+    
+        let tempRules = selectedRules.filter((val) => val.ruleId !== rule.ruleId);
+        setSelectedRules(tempRules);
     };
     //Handle Mapping Plan Rule
     let save = async () => {
@@ -241,23 +240,26 @@ export default function ViewPlanRules() {
         }
     }
 
-    //HandleChang
+    //HandleChange
     const handleChange = async (e) => {
         let selectedRule = document.getElementById("planId").value
         console.log("selectedRule", selectedRule)
         setShowData(selectedRule);
         setEditPlan("");
+        getAllRule();
         const { name, value } = e.target;
         setSendForm((prevData) => ({ ...prevData, [name]: value }));
         setSelectedPlanId(value);
         // setShowAddPlan(value !== '0');
     };
+
+    //HandlePlanChange
     const handleChangeAddPlan = async (e) => {
         setShowData(0);
         const { name, value } = e.target;
+        document.getElementById('errplan').style.display = "none";
         setSendForm((prevData) => ({ ...prevData, [name]: value }));
         setSelectedPlanId(value);
-        // setShowAddPlan(value !== '0');
     };
 
 
@@ -330,7 +332,7 @@ export default function ViewPlanRules() {
             console.error("Invalid data structure for ruleList:", ruleList);
         }
         getplan();
-        getAllRule();
+        // getAllRule();
         getselectedRule();
     }, [])
 
@@ -432,13 +434,13 @@ export default function ViewPlanRules() {
                                                         <div className='allrules'>
 
                                                             {/* {selectedRules && selectedRules.map((val) => (
-                                                          <div className="planrule" key={val.id}>
-                                                              <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
-                                                              <div className="planicon" onClick={() => handleRemoveRule(val)}>
-                                                                  <i className="fa fa-minus"></i>
-                                                              </div>
-                                                          </div>
-                                                      ))} */}
+                                                                <div className="planrule" key={val.id}>
+                                                                    <div className="plantxt" val={val.ruleId}>{val.ruleTitle}</div>
+                                                                    <div className="planicon" onClick={() => handleRemoveRule(val)}>
+                                                                        <i className="fa fa-minus"></i>
+                                                                    </div>
+                                                                </div>
+                                                            ))} */}
 
 
                                                             {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
@@ -474,14 +476,12 @@ export default function ViewPlanRules() {
                                                                     </div>
                                                                 </div>
                                                             ))} */}
+
                                                             {tempAvailableRules
-                                                                .filter(
-                                                                    (val) =>
-                                                                        !selectedRules ||
-                                                                        (val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                                                                            !selectedRules.some(
-                                                                                (selectedRule) => selectedRule.ruleId === val.id
-                                                                            ))
+                                                                .filter((val) => !selectedRules || (val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                                                                    !selectedRules.some(
+                                                                        (selectedRule) => selectedRule.ruleId === val.id
+                                                                    ))
                                                                 )
                                                                 .map((val) => (
                                                                     <div className="planrule" key={val.id}>
@@ -491,7 +491,6 @@ export default function ViewPlanRules() {
                                                                         </div>
                                                                     </div>
                                                                 ))}
-
                                                         </div>
                                                     </div>
                                                 </div>
