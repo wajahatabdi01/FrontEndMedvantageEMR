@@ -4534,6 +4534,15 @@ label.labelPageIndex {
   margin-top: 50px;
 }
 
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 20px; /* Adjust as needed */
+  margin-right: 20px; /* Adjust as needed */
+}
+
+
 
 /* this css will most important when get requirment for more responsive */
 /* .dynamicBoxContainer {
