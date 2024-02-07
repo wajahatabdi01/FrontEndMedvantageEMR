@@ -15,6 +15,8 @@ import GetFHIRImmunizationRoute from '../API/GET/GetFHIRImmunizationRoute';
 import GetFHIRNameandTitleofImmunizationAdministrator from '../API/GET/GetFHIRNameandTitleofImmunizationAdministrator';
 import { use } from 'i18next';
 import PostFHIRImmunization from '../API/POST/PostFHIRImmunization';
+import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
+import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 
 
 export default function FHIRImmunization() {
@@ -34,6 +36,7 @@ export default function FHIRImmunization() {
   const [getImmunizationSubstancerefusalReason, setImmunizationSubstancerefusalReason] = useState([]);
   const [getImmunizationRoute, setImmunizationRoute] = useState([]);
   const [getImmunizationAdministrator, setImmunizationAdministrator] = useState([]);
+  const [getAllImmunizationDataList, setAllImmunizationDataList] = useState([]);
 
   const [selectedValues, setSelectedValues] = useState({});
 
@@ -84,17 +87,6 @@ export default function FHIRImmunization() {
     ]);
   };
 
-  const handleDeleteCarePlanRow = (index, key) => {
-    let tempArr = [];
-    const data = [...observationRow];
-    if (data.length === 1) {
-      return;
-    }
-    
-    data.splice(index, 1);
-    setObservationRow(data)
-  }
-
   const funToShowObservation = () => {
     setShowObservation(!showObservation)
   }
@@ -136,7 +128,6 @@ export default function FHIRImmunization() {
     }
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleCriteriaValue = (modalId) => {
-    console.log('modalId jkhkhkhk : ', modalId)
     setPopUpId(modalId);
     const t = {
       moduleId: modalId,
@@ -282,11 +273,18 @@ export default function FHIRImmunization() {
       setImmunizationRoute(ImmunizationRouteRes.responseValue)
     }
     const AdministratorRes = await GetFHIRNameandTitleofImmunizationAdministrator();
-    if(AdministrationSiteRes.status === 1) {
+    if(AdministratorRes.status === 1) {
       setImmunizationAdministrator(AdministratorRes.responseValue);
     }
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
+    const funGetAllImmunizationData = async () => {
+      const getAllImmunizationDataRes = await GetAllImmunizationData('UHID00143');
+      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
+    }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   
   ///////////////////////////////////////////////////////////// Make data for sending in handle save function /////////////////////////////////////////////////////////////////////
@@ -392,11 +390,6 @@ export default function FHIRImmunization() {
         if(getresponse[b].moduleId === 'ObservationCriteriaValueID'+observationRow[c].rowID)
         {
          
-          //const investigationArr = getresponse[b].data;
-        // for(let j=0; j < investigationArr.length; j++)
-        // { investMakerD=investigationArr[j].dropdownName;
-        //   investCodeCVXD = investigationArr[j].code;
-        //   investCodeTextD =  investigationArr[j].codeText;}
            ObservationCriteria = document.getElementById('ObservationCriteriaValueID' + data[c].rowID).value;
              ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[c].rowID);
              ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
@@ -405,22 +398,7 @@ export default function FHIRImmunization() {
          investCodeTextF = '';
          Date_VIS_Published = null;
          Date_VIS_Presented = null;                  
-        } 
-        
-        //var ObservationCriteria = document.getElementById('ObservationCriteriaID' + data[c].rowID).value;
-       
-        //  var Date_VIS_Published = document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value ? document.getElementById('Date_VIS_Published_Id' + data[c].rowID).value: '';
-        
-        //  var Date_VIS_Presented = document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value ? document.getElementById('Date_VIS_PresentedId' + data[c].rowID).value : '';
-        
-      //  var ObservationCriteriaValueRowId = document.getElementById('ObservationCriteriaValueID' + data[c].rowID);
-      //  var ObservationCriteriaValueRow = ObservationCriteriaValueRowId ? ObservationCriteriaValueRowId.value : '';
-      //  var investDropDown = investMakerD;
-      //  var investCodeName = investCodeCVXD;
-      //  var investCodeTextF = investCodeTextD;
-       
-      
-      
+        }  
       }
       tempArrList.push({
         imo_criteria : ObservationCriteria,
@@ -433,46 +411,78 @@ export default function FHIRImmunization() {
       })
       
     }
-       const finalObjInvestAndReason = {
-        uhid:'UHID00143',
-        clientId: 176,
-        userId : 12,
-        cvxCode : investConCat,
-        reasonCode: investConCatReason,
-        administeredDate : sendForm.DatenTimeAdministered,
-        amountAdministeredUnit : sendForm.AmountAdministeredUnit,
-        amountAdministered : sendForm.AmountAdministered,
-        expirationDate : sendForm.ExpirationDate,
-        visDate : sendForm.DateofVISStatement,
-        manufacturer : sendForm.ImmunizationManufacturer,
-        lotNumber : sendForm.ImmunizationLotNumber,
-        dateImmunizationInformationStatementsGiven : sendForm.ImmunizationStatements,
-        administeredBy : sendForm.NameAndTitleofImmunizationAdministrator ,
-        route : sendForm.Route,
-        administrationSite : sendForm.AdministrationSite,
-        informationSource : sendForm.InformationSource,
-        completionStatus: sendForm.CompletionStatus,
-        refusalReason : sendForm.SubstanceRefusalReason,
-        orderingProvider : sendForm.ImmunizationOrderingProvider,
-        note: sendForm.Notes,
-        jsonObservationCriteriaDetails : JSON.stringify(tempArrList)
-
+       if(!investConCat)
+       {
+        alert('Please select Immunization Code.');
+        return;
        }
-       console.log('finalObjInvestAndReason : ', finalObjInvestAndReason  )
-       
-       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
-       if(saveObj.status === 1){
-        alert('Data saved of Immunization')
-      }
-      else{
-        alert('Data Not saved')
-      }
+       else{
+        const finalObjInvestAndReason = {
+          uhid:'UHID00143',
+          clientId: 176,
+          userId : 12,
+          cvxCode : investConCat,
+          reasonCode: investConCatReason,
+          administeredDate : sendForm.DatenTimeAdministered,
+          amountAdministeredUnit : sendForm.AmountAdministeredUnit,
+          amountAdministered : sendForm.AmountAdministered,
+          expirationDate : sendForm.ExpirationDate,
+          visDate : sendForm.DateofVISStatement,
+          manufacturer : sendForm.ImmunizationManufacturer,
+          lotNumber : sendForm.ImmunizationLotNumber,
+          dateImmunizationInformationStatementsGiven : sendForm.ImmunizationStatements,
+          administeredById : sendForm.IDofImmunizationAdministrator.split(':')[0],
+          administeredBy : sendForm.IDofImmunizationAdministrator.split(':')[1],
+          route : sendForm.Route,
+          administrationSite : sendForm.AdministrationSite,
+          informationSource : sendForm.InformationSource,
+          completionStatus: sendForm.CompletionStatus,
+          refusalReason : sendForm.SubstanceRefusalReason,
+          orderingProvider : sendForm.ImmunizationOrderingProvider,
+          note: sendForm.Notes,
+          jsonObservationCriteriaDetails : JSON.stringify(tempArrList)
+  
+         }
+         
+         const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
+         if(saveObj.status === 1)
+         {
+          alert('Data saved of Immunization');
+          funGetAllImmunizationData();
+         }
+        else
+         {
+          alert('Data Not saved')
+         }
+       }
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////// Delete the specific row from the immunization list on page ///////////////////////////////
+  const deleteImmunizationListData = async (rowId) => {
+    const deleteRowRes = await DeleteImmunizationByRowId(rowId);
+    if(deleteRowRes.status === 1){
+      funGetAllImmunizationData();
+    }
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleClear = () => {
+    document.getElementById('immunizationCode').value = '';
+    document.getElementById('ReasonId').value = '';
+    sendForm.DatenTimeAdministered = ''; sendForm.AmountAdministeredUnit = 0; sendForm.AmountAdministered = ''; sendForm.ExpirationDate =''; sendForm.ImmunizationManufacturer = 0;
+    sendForm.ImmunizationLotNumber = 0; sendForm.ImmunizationStatements = ''; sendForm.DateofVISStatement = '';sendForm.Route = 0; sendForm.AdministrationSite = 0; sendForm.InformationSource = 0;
+    sendForm.CompletionStatus = 0; sendForm.SubstanceRefusalReason = 0; sendForm.ImmunizationOrderingProvider = 0; sendForm.Notes = ''
+    // document.getElementById('dateId').value = '';
+    // document.getElementById('amountId').value = '';
+    // document.getElementById('amountUnitID').value = 0;
+    setMakeData([])
+  }
   
 
   useEffect(() => {  
     funToGetDropDownLists();
+    funGetAllImmunizationData();
   },[])
   return (
     <>
@@ -535,20 +545,21 @@ export default function FHIRImmunization() {
                             <label htmlFor="DateTime" className="form-label">Date Immunization Information Statements Given</label>
                             <input  id="ImmunizationDateId" type="date" className="form-control form-control-sm" name="ImmunizationStatements" value={sendForm.ImmunizationStatements} onChange={handleChange}/>  
                           </div>
-                          <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
+                          {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Immunization" className="form-label">Name and Title of Immunization Administrator</label>
                             <input  id="ImmunizationAdministratorId" type="text" className="form-control form-control-sm" name="NameAndTitleofImmunizationAdministrator" value={sendForm.NameAndTitleofImmunizationAdministrator} onChange={handleChange} />  
-                          </div>
-                          <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 text-center'>
+                          </div> */}
+                          {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 text-center'>
                             <label htmlFor="Immunization" className="form-label"><b>or choose</b></label>
-                            {/* <input  id="ImmunizationAdministratorId" type="text" className="form-control form-control-sm" name="ImmunizationAdministratorName" onChange={''} />   */}
-                          </div>
+                            <input  id="ImmunizationAdministratorId" type="text" className="form-control form-control-sm" name="ImmunizationAdministratorName" onChange={''} />  
+                          </div> */}
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
-                            <label htmlFor="LotNumber" className="form-label"></label>
+                            <label htmlFor="LotNumber" className="form-label">Name and Title of Immunization Administrator</label>
                             <select name="IDofImmunizationAdministrator" className='form-select form-select-sm' id="AdministratorID" value={sendForm.IDofImmunizationAdministrator} onChange={handleChange}>
                               <option value="0">--Select Administrator--</option>
                               {getImmunizationAdministrator && getImmunizationAdministrator.map((adminList, adminInd) =>{
-                                return(<option value={adminList.id}>{adminList.name}</option>)
+                                
+                                return(<option value={adminList.id + ':' + adminList.title}>{adminList.title}</option>)
                                 
                               })}
                               
@@ -589,7 +600,7 @@ export default function FHIRImmunization() {
                             <select name="CompletionStatus" className='form-select form-select-sm' id="CompletionID" value={sendForm.CompletionStatus} onChange={handleChange}>
                               <option value="0">--Select Status--</option>
                               {getImmunizationCompletionStatus && getImmunizationCompletionStatus.map((statusList, statusInd) => {
-                                return(<option value={statusList.id}>{statusList.name}</option>)
+                                return(<option value={statusList.id}>{statusList.title}</option>)
                               })}
                             </select> 
                           </div>
@@ -598,7 +609,7 @@ export default function FHIRImmunization() {
                             <select name="SubstanceRefusalReason" className='form-select form-select-sm' id="SubstanceID" value={sendForm.SubstanceRefusalReason} onChange={handleChange}>
                               <option value="0">--Select Refusal--</option>
                               {getImmunizationSubstancerefusalReason && getImmunizationSubstancerefusalReason.map((reasonList, reasonInd) => {
-                                return(<option value={reasonList.id}>{reasonList.name}</option>)
+                                return(<option value={reasonList.id}>{reasonList.title}</option>)
                               })}
                             </select> 
                           </div>
@@ -716,7 +727,7 @@ export default function FHIRImmunization() {
                                
                                   <>
                                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 " >Print Record (HTML)</button>
-                                    <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={''} >Clear</button>
+                                    <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handleClear} >Clear</button>
                                   </>
                                 
                               </div>
@@ -754,8 +765,57 @@ export default function FHIRImmunization() {
                     <th>Notes</th>
                     <th>Completion Status</th>
                     <th>Error</th>
+                    <th>Action</th>
                     </tr>
                   </thead>
+                  <tbody>
+                  {getAllImmunizationDataList && getAllImmunizationDataList.map((immunizationList, ind) => {
+                    return(
+                      <>
+                      <tr key={immunizationList.id}>
+                      <td className="text-center" style={{ "width": "5%" }}>{ind + 1}</td>
+                        <td>{immunizationList.cvx_code}</td>
+                        <td>{immunizationList.administered_date}</td>
+                        <td>{immunizationList.amount_administered}</td>
+                        <td>{immunizationList.expiration_date}</td>
+                        <td>{immunizationList.manufacturerName}</td>
+                        <td>{immunizationList.lot_number}</td>
+                        <td>{immunizationList.administered_by}</td>
+                        <td>{immunizationList.education_date}</td>
+                        <td>{immunizationList.route}</td>
+                        <td>{immunizationList.administration_site}</td>
+                        <td>{immunizationList.note}</td>
+                        <td>{immunizationList.completionTitle}</td>
+                        <td>{immunizationList.completion_status}</td>
+                        <td>
+                          <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={() => {deleteImmunizationListData(immunizationList.id)}}>
+                            <img src={deleteIcon} className='icnn' alt='' /> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </>
+                    )
+                  })}
+                    {/* <td className="text-center" style={{ "width": "5%" }}>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>
+                      <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" >
+                        <img src={deleteIcon} className='icnn' alt='' /> Delete
+                      </button>
+                    </td> */}
+                  </tbody>
                 </table>
               </div>
             </div>
