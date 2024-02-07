@@ -1,5 +1,5 @@
 async function GetAllReferralSourceData(data) {
-    let url = window.fhiropenEMR + "/api/FHIRReferralSourceMaster/GetAllReferralSourceData";
+    let url = window.AppbaseUrl + "/api/FHIRReferralSourceMaster/GetAllReferralSourceData";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -1,5 +1,5 @@
 async function GetAllReligionData(data) {
-    let url = window.fhiropenEMR + "/api/FHIRReligionMaster/GetAllReligionData";
+    let url = window.AppbaseUrl + "/api/FHIRReligionMaster/GetAllReligionData";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

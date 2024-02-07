@@ -1,5 +1,5 @@
 const GetDepartmentByID = async (key) => {
-    const url = `${window.fhirAdminEMR}/api/DepartmentMaster/GetDepartmentMasterById?id=${key}`;
+    const url = `${window.AppbaseUrl}/api/DepartmentMaster/GetDepartmentMasterById?id=${key}`;
     const headers = {
         'Content-Type': 'application/json',
         'accept': '*/*',

@@ -1,5 +1,5 @@
 async function GetAllSexualOrientation(data) {
-    let url = window.fhiropenEMR + "/api/FHIRSexualOrientation/GetAllSexualOrientation";
+    let url = window.AppbaseUrl + "/api/FHIRSexualOrientation/GetAllSexualOrientation";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

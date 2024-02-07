@@ -283,7 +283,7 @@ export default function UserMaster(props) {
             <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-12">
               <div className="mb-2">
                 <img src={IconUserId} className="icnn" alt="" />
-                <label htmlFor="designationId" className="form-label">{t("Designation_Name")}<span className="starMandatory">*</span> </label>
+                <label htmlFor="designationId" className="form-label">{t("Select Designation")}<span className="starMandatory">*</span> </label>
                 <select name='designationId' id="designationId" onChange={handleOnChange} className="form-select form-select-sm" aria-label=".form-select-sm example">
                   <option value="-1">{t("All_Designation_List")}</option>
                   {designationList && designationList.map((val, index) => {

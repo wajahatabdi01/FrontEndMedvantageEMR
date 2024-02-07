@@ -1,5 +1,5 @@
 let InsertEncounter =async(encounterDataObj)=>{
-    let url= window.fhiropenEMR + "/FHIREncounter/InsertEncounter";
+    let url= window.AppbaseUrl + "/FHIREncounter/InsertEncounter";
    const head={'Content-Type': 'application/json-patch+json','accept':'*/*',};
    let data={};
    let response= await fetch(url,{
