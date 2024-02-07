@@ -381,8 +381,7 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
-                        {/* <Route path='/classification/' element={<Classification />} /> */}
-                        <Route path='/occurence/' element={<Occurence />} />
+
                   </>
 
 
@@ -446,6 +445,7 @@ export default function ApiRoutes() {
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
                         <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
                         <Route path="/classification/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Classification />} name="Classification" />} />} />
+                        <Route path="/occurence/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Occurence />} name="Occurence" />} />} />
                         <Route path="/addrule/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddRule />} name="AddRule" />} />} />
                         <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ViewPlanRules />} name="ViewPlanRules" />} />} />
                         <Route path="/buildingmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BuildingMaster />} name="BuildingMaster" />} />} />

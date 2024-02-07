@@ -11,73 +11,76 @@ import Toster from '../../../Component/Toster'
 import i18n from "i18next";
 
 function Classification() {
-  let [bedData, setBeddata] = useState([])
-  let [classificationList, setClassificationList] = useState([])
-  let [updateBool, setUpdateBool] = useState(0)
-  let [sendForm, setSendForm] = useState({
-    name : '',
-    code : ''
-  })
-  let [loder, setLoder] = useState(1)
-  let [rowId, setRowId] = useState('')
-  let [textName,setTextName] = useState("");
-  let [showUnderProcess, setShowUnderProcess] = useState(0)
-  let [showToster, setShowToster] = useState(0)
-  let [tosterMessage, setTosterMessage] = useState("")
-  let [tosterValue, setTosterValue] = useState(0)
-  const [searchTerm, setSearchTerm] = useState('');
-  const { t } = useTranslation();
-  let [content, setContent] = useState('');
+    let [bedData, setBeddata] = useState([])
+    let [classificationList, setClassificationList] = useState([])
+    let [updateBool, setUpdateBool] = useState(0)
+    let [sendForm, setSendForm] = useState({
+        name: '',
+        code: ''
+    })
+    let [loder, setLoder] = useState(1)
+    let [rowId, setRowId] = useState('')
+    let [textName, setTextName] = useState("");
+    let [showUnderProcess, setShowUnderProcess] = useState(0)
+    let [showToster, setShowToster] = useState(0)
+    let [tosterMessage, setTosterMessage] = useState("")
+    let [tosterValue, setTosterValue] = useState(0)
+    const [searchTerm, setSearchTerm] = useState('');
+    const { t } = useTranslation();
+    let [content, setContent] = useState('');
 
-  const getClassification = async()=> {
-    let response = await GetClassificationFile();  
-       if(response.status === 1){
-         setClassificationList(response.responseValue);
-        // console.log('test' , response.responseValue)
-       }
-   }
+    const getClassification = async () => {
+        let response = await GetClassificationFile();
+        if (response.status === 1) {
+            setClassificationList(response.responseValue);
+            // console.log('test' , response.responseValue)
+        }
+    }
 
-  const handlechange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-   setSendForm((sendForm)=>({
-    ...sendForm,
-    [name]:value
-   }))
-  };
- 
-  
-  const handleSubmit = async () => {
-    // if (resp.status === 1) {
-     
-      handleClear();
-    
-  };
-
-   let handleUpdate = ()=> {
-    setUpdateBool();
-   }
-
-   const handleClear = ()=> {
-    setTextName("");
-    setUpdateBool();
-   }
-
-   let handleDelete = ()=> {
-
-   }
+    const handlechange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setSendForm((sendForm) => ({
+            ...sendForm,
+            [name]: value
+        }))
+    };
 
 
-   useEffect(() => {
+    const handleSubmit = async () => {
+        // if (resp.status === 1) {
 
-    getClassification()
-  
-  }, []);
-  
+        handleClear();
 
-  return (
-   <>
-     <section className="main-content pt-3 mt-5">
+    };
+
+    let handleSearch = (event) => {
+        setSearchTerm(event.target.value)
+    }
+    let handleUpdate = () => {
+        setUpdateBool();
+    }
+
+    const handleClear = () => {
+        setTextName("");
+        setUpdateBool();
+    }
+
+    let handleDelete = () => {
+
+    }
+
+
+    useEffect(() => {
+
+        getClassification()
+
+    }, []);
+
+
+    return (
+        <>
+            <section className="main-content pt-3 mt-5">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">
@@ -91,8 +94,8 @@ function Classification() {
                                             <input type="name" className="form-control form-control-sm" id="name" value={sendForm.name} placeholder={t("Enter Name")} name="name" onChange={handlechange} />
                                         </div>
                                         <div>
-                                          <label htmlFor="code" className="form-label">{t("Code")}<span className="starMandatory"></span></label>
-                                          <input type="text"  className="form-control form-control-sm" id="Code" value={sendForm.code} placeholder={t("Enter Code")} name="code" onChange={handlechange}/>
+                                            <label htmlFor="code" className="form-label">{t("Code")}<span className="starMandatory"></span></label>
+                                            <input type="text" className="form-control form-control-sm" id="Code" value={sendForm.code} placeholder={t("Enter Code")} name="code" onChange={handlechange} />
                                         </div>
 
                                         <div className="mb-2 relative">
@@ -129,7 +132,7 @@ function Classification() {
                                 <Heading text={t("Classification")} />
                                 {/* <Heading text={content} /> */}
                                 <div style={{ position: 'relative' }}>
-                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={"searchTerm"} onChange={"handleSearch"} />
+                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={searchTerm} onChange={handleSearch} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span>
                                 </div>
                             </div>
@@ -183,7 +186,7 @@ function Classification() {
 
                                 <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
                                 <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">{t("Delete")}</button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -315,7 +318,7 @@ function Classification() {
 
             </section>
         </>
-  )
+    )
 }
 
 export default Classification;

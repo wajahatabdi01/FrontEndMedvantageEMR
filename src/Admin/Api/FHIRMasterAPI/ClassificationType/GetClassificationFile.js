@@ -1,5 +1,5 @@
 async function GetClassificationFile(data) {
-    let url = window.fhiropenEMR+"/api/FHIRClassificationTypeMaster/GetAll";
+    let url = window.AppbaseUrl+"/api/FHIRClassificationTypeMaster/GetAll";
     let head = { "Content-Type": "application/JSON", accept : '*/*' };
  
   let response = fetch(url, {

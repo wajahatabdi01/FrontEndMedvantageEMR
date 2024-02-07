@@ -60,6 +60,9 @@ function Occurence() {
     const handleDelete = ()=> {
 
     }
+    const handleSearch = (event)=>{
+        setSearchTerm(event.target.value)
+    }
 
      useEffect (()=>{
         getOccurence()
@@ -120,7 +123,7 @@ function Occurence() {
                                 <Heading text={t("")} />
                                 {/* <Heading text={content} /> */}
                                 <div style={{ position: 'relative' }}>
-                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={"searchTerm"} onChange={"handleSearch"} />
+                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={searchTerm} onChange={handleSearch} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span>
                                 </div>
                             </div>

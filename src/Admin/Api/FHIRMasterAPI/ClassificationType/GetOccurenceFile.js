@@ -1,5 +1,5 @@
 async function GetOccurenceFile (data){
-    let url = window.fhiropenEMR+"/api/FHIRIssueOccurenceMaster/GetAllIssueOccurence";
+    let url = window.AppbaseUrl+"/api/FHIRIssueOccurenceMaster/GetAllIssueOccurence";
     let head = {"Content-Type": "application/JSON", accept : '*/*'};
 
     let response = fetch(url, {
