@@ -348,6 +348,8 @@ import AddRule from '../FHIRAdmin/Pages/AddRule';
 import ViewPlanRules from '../FHIRAdmin/Pages/ViewPlanRules';
 import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
 import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
+import Classification from '../Admin/Pages/FHIRMaster/Classification';
+import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
 
 export default function ApiRoutes() {
 
@@ -379,6 +381,8 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
+                        {/* <Route path='/classification/' element={<Classification />} /> */}
+                        <Route path='/occurence/' element={<Occurence />} />
                   </>
 
 
@@ -441,6 +445,7 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
                         <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
+                        <Route path="/classification/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Classification />} name="Classification" />} />} />
                         <Route path="/buildingmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BuildingMaster />} name="BuildingMaster" />} />} />
                         <Route path="/floormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FloorMaster />} name="FloorMaster" />} />} />
                         <Route path="/caretakermaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CareTakerMaster />} name="CareTakerMaster" />} />} />
