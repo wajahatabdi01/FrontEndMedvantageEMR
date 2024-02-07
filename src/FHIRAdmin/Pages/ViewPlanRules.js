@@ -62,7 +62,7 @@ export default function ViewPlanRules() {
     const HandleCancelNewPlan = () => {
         setShowAddPlan(0);
         // document.getElementById('errplan').style.display = "none";
-      
+
         // handleClear();
     };
 
@@ -169,7 +169,7 @@ export default function ViewPlanRules() {
         }
     };
 
- 
+
 
     // Handle Remove Rule
     // const handleRemoveRule = (rule) => {
@@ -188,16 +188,16 @@ export default function ViewPlanRules() {
     // };
     const handleRemoveRule = (rule) => {
         const availableIndex = tempAvailableRules.findIndex((val) => val.id === rule.ruleId);
-    
+
         if (availableIndex === -1) {
             let temp = {
                 id: rule.ruleId,
                 title: rule.ruleTitle,
             };
-    
+
             setTempAvailableRules((prev) => [...prev, temp]);
         }
-    
+
         let tempRules = selectedRules.filter((val) => val.ruleId !== rule.ruleId);
         setSelectedRules(tempRules);
     };
@@ -429,7 +429,12 @@ export default function ViewPlanRules() {
                                                     <div className="planrulebrde flex-1">
                                                         <div className='rulesec'>
                                                             <div><span className='rulecount'>{selectedRules && selectedRules.length}</span> Rule already in plan</div>
-                                                            <div>Remove all rules from plan</div>
+                                                            {/* {selectedRules && Array.isArray(selectedRules) && selectedRules.length > 0 ? (
+                                                                <div><span className='rulecount'>{selectedRules.length}</span> Rule already in plan</div>
+                                                            ) : (
+                                                                <div><span className='rulecount'>0</span> rule selected</div>
+                                                            )} */}
+                                                            <div>Remove rules from plan</div>
                                                         </div>
                                                         <div className='allrules'>
 
