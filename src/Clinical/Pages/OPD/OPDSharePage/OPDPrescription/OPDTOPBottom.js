@@ -9,6 +9,7 @@ import OPDMedicationPopUp from './FHIROPDPopUp/OPDMedicationPopUp'
 import OPDDevicePopUp from './FHIROPDPopUp/OPDDevicePopUp'
 import SuccessToster from '../../../../../Component/SuccessToster'
 import OPDSurgeryPopUp from './FHIROPDPopUp/OPDSurgeryPopUp'
+import FHIRFamilyHistoryEdit from '../../../../../EditCredentional/Pages/FHIRFamilyHistoryEdit'
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -133,7 +134,7 @@ export default function OPDTOPBottom(props) {
 
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span>{t("Family History")} </span>
+                <span data-bs-toggle="modal" data-bs-target="#familyHistory">{t("Family History")} </span>
 
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
@@ -247,6 +248,28 @@ export default function OPDTOPBottom(props) {
 
             </div>
             {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
+            {/* -----------------------------------------------------------------------Start FHIR Family History --------------------------------------------- */}
+
+            <div className="modal fade" id="familyHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Family History</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
+                                    <FHIRFamilyHistoryEdit />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* -----------------------------------------------------------------------End FHIR Family History --------------------------------------------- */}
 
             {
                 showToster === 1 ?

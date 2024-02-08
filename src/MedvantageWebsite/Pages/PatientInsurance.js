@@ -47,13 +47,10 @@ export default function PatientInsurance() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(8);
-  const totalSteps = 8;
+  const totalSteps = 9;
 
   const handleSubmit = () => {
-    if (step < totalSteps) {
-      setStep(step + 1);
-      
-    }
+    
    
     
     };
@@ -71,7 +68,7 @@ export default function PatientInsurance() {
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box  ">
             <div className="row col-12 registration-heading mt-5 pt-5">Patient Registration</div> 
             <div className="px-5">
-               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+            <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
          {step === 8 && (
            <div className="registration-form-box">
@@ -396,7 +393,7 @@ export default function PatientInsurance() {
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 already-has-acc">If you already have an account<span className="ms-1 login-already-acc pointer"><a className="login-already-acc" href="/PatientLogin/">LOGIN</a></span></div>
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 d-flex justify-content-end">
                         <div>
-                          <button type="button" className="btn btn-clear btn-sm mb-1 me-1"><i class="bi bi-chevron-double-left me-2"></i>Previous</button>
+                          <Link to ="/Patientgurdiandetail/"><button type="button" className="btn btn-clear btn-sm mb-1 me-1"><i class="bi bi-chevron-double-left me-2"></i>Previous</button></Link>
                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSubmit}><img src={saveButtonIcon} className='icnn' alt=""/>Save</button>
                         </div>
                     </div>

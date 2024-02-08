@@ -55,7 +55,7 @@ export default function PatientSignUp() {
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box">
             <div className="row col-12 registration-heading mt-5 pt-5">Patient Registration</div>
             <div className="px-5">
-               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
            
            

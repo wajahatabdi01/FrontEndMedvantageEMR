@@ -38,7 +38,8 @@ export default function PatientMisc() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(6);
-  const totalSteps = 8;
+  const [showNextForm, setShowNextForm] = useState(false);
+  const totalSteps = 9;
 
   const handleNext = () => {
     if (step < totalSteps) {
@@ -59,10 +60,10 @@ export default function PatientMisc() {
    <>
      <div className="med-Patient-login-wrapper">
         <div className="Patient-registration-content-wrapper px-5">
-            <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 px-5">
+            <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 ">
             <div className="row col-12 registration-heading">Patient Registration</div> 
             <div className="px-5">
-               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+            <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
             {step === 6 && (
                  <div className="registration-form-box">
