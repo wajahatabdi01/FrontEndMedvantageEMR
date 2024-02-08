@@ -1,7 +1,8 @@
 async function GetProblemList() {
 
     // let url = window.AppbaseUrl + `/api/KnowMedApis/GetProblemList?userId=${window.userId}`;
-    let url = window.AppbaseUrl + `/api/KnowMedApis/GetProblemList?userId=${window.userId}`;
+    // let url = window.AppbaseUrl + `/api/KnowMedApis/GetProblemList?userId=${window.userId}`;
+    let url = window.AppbaseUrl + `/api/KnowMedApis/GetProblemList`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}
     let response = fetch(url, {

@@ -8,7 +8,7 @@ import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
 
-function OPDDevicePopUp({setShowToster}) {
+function OPDDevicePopUp({ setShowToster }) {
     let [device, setDevice] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -66,6 +66,7 @@ function OPDDevicePopUp({setShowToster}) {
     }
 
     const handleTitleInputChange = (e) => {
+        document.getElementById("errTitleDev").style.display = "none";
         setDevice(e.target.value);
         setCodingSelected(false);
         const { name, value } = e.target;
@@ -84,6 +85,7 @@ function OPDDevicePopUp({setShowToster}) {
     }
 
     let handleIssueDetailsChange = (e) => {
+        document.getElementById("errbegindatedev").style.display = "none";
         const { name, value } = e.target;
         setDeviceData((prevIssueDetails) => ({
             ...prevIssueDetails,
@@ -132,33 +134,45 @@ function OPDDevicePopUp({setShowToster}) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitleDev").style.display = "none";
+        document.getElementById("errbegindatedev").style.display = "none";
     }
 
     let handleSaveIssues = async () => {
-        let pobj = {
-            uhid: activePatient,
-            encounterDetailsJsonString: JSON.stringify([deviceData]),
-            clientId: window.clientId,
-            userId: window.userId
+        if (deviceData.title === '' || deviceData.title === undefined || deviceData.title === null) {
+            document.getElementById("errTitleDev").innerHTML = "Please enter title";
+            document.getElementById("errTitleDev").style.display = "block";
         }
-        console.log("pobj", pobj)
-        // return;
-        const response = await InsertEncounter(pobj);
-        if (response.status === 1) {
-            setShowUnderProcess(0);
-            setShowToster(4)
-            setTimeout(() => {
-                setShowToster(0);
-            }, 2000)
-            handleClear();
+        if (deviceData.beginDateTime === '' || deviceData.beginDateTime === undefined || deviceData.beginDateTime === null) {
+            document.getElementById("errbegindatedev").innerHTML = "Please select begin date";
+            document.getElementById("errbegindatedev").style.display = "block";
         }
         else {
-            setShowUnderProcess(0)
-            setShowAlertToster(1)
-            setShowMessage(response.responseValue)
-            setTimeout(() => {
-                setShowToster(0)
-            }, 2000)
+            let pobj = {
+                uhid: activePatient,
+                encounterDetailsJsonString: JSON.stringify([deviceData]),
+                clientId: window.clientId,
+                userId: window.userId
+            }
+            console.log("pobj", pobj)
+            // return;
+            const response = await InsertEncounter(pobj);
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(4)
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+                handleClear();
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
         }
     }
 
@@ -188,13 +202,15 @@ function OPDDevicePopUp({setShowToster}) {
 
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
-                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
+                        <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
                         <input type="text" value={deviceData.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
+                        <small id="errTitleDev" className="form-text text-danger" style={{ display: 'none' }}></small>
+
                     </div>
                 </div>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
-                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
+                        <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
                         <div>
                             <select value={deviceData && deviceData.coding} className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
                                 {deviceData && deviceData.coding !== "" ?
@@ -212,11 +228,13 @@ function OPDDevicePopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
+                            <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
                             <input type="date" value={deviceData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                            <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
+                            </small>
                         </div>
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>End Date and Time</></label>
                             <input type="date" value={deviceData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
                             <div className='mt-2' style={{ float: 'inline-end' }}>
                                 <span className='font-monospace fst-italic'>(leave blank if still active)</span>
@@ -228,7 +246,7 @@ function OPDDevicePopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Classification Type</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={deviceData.classificationTypeId} className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
@@ -243,7 +261,7 @@ function OPDDevicePopUp({setShowToster}) {
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Occurrence</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={deviceData.occurrenceId} className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
@@ -259,7 +277,7 @@ function OPDDevicePopUp({setShowToster}) {
                         </div>
 
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Verification Status</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={deviceData.verificationStatusId} className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
@@ -278,7 +296,7 @@ function OPDDevicePopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Outcome</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={deviceData.outcomeId} className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
@@ -293,7 +311,7 @@ function OPDDevicePopUp({setShowToster}) {
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Destination</></label>
                             <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={deviceData.destination} onChange={handleIssueDetailsChange} />
                         </div>
                     </div>
@@ -301,11 +319,11 @@ function OPDDevicePopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
                             <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={deviceData.referredby} onChange={handleIssueDetailsChange} />
                         </div>
                         <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Comments</></label>
                             <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={deviceData.comments} onChange={handleIssueDetailsChange}></textarea>
                         </div>
                     </div>
@@ -314,11 +332,11 @@ function OPDDevicePopUp({setShowToster}) {
             </div>
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
+                    <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal_" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
                     <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                 </div>
             </div>
-           
+
         </>
     )
 }
