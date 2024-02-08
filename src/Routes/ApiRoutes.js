@@ -379,7 +379,7 @@ export default function ApiRoutes() {
                         <Route path='/confirmidentity/' element={<ConfirmIdentityLayout />} />
                         <Route path='/forgotpassword/' element={<ForgotPasswordLayout />} />
                         <Route path='/registration' element={<LayoutVerifyEmail />} />
-                        <Route path='/PatientRegistration/' element={<LayoutPatientSignup/>} />
+                        <Route path='/registeraspatient/' element={<LayoutPatientSignup/>} />
                         <Route path='/PatientContact/' element={<LayoutPatientContact/>} />
                         <Route path='/PatientChoices/' element={<LayoutPatientChoices/>} />
                         <Route path='/Patientemployerdetail/' element={<LayoutPatientEmployerDetails/>} />

@@ -82,7 +82,7 @@ export default function LoginAsPatient() {
                   <button className="btn btn-primary btnLogin" type="button" >Sign In</button>
                 </div>
 
-                <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/PatientRegistration/">Sign up</a></div>
+                <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/registeraspatient/">Sign up</a></div>
                 {/* <div className="mt-3"> <span>Are you a Patient?</span> <a href="/PatientLogin/">Sign In</a></div> */}
 
 

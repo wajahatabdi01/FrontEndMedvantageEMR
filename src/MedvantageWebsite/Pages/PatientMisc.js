@@ -35,11 +35,25 @@ import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
 
 
 export default function PatientMisc() {
-    const [step, setStep] = useState(1);
-    const totalSteps = 8;
+  const navigate = useNavigate();
 
+  const [step, setStep] = useState(6);
+  const totalSteps = 8;
 
-
+  const handleNext = () => {
+    if (step < totalSteps) {
+      setStep(step + 1);
+      navigate("/Patientgurdiandetail/"); 
+    }
+   
+    
+    };
+  
+    const handlePrevious = () => {
+      if (step > 1) {
+        setStep(step - 1);
+      }
+    }
 
     return (
    <>
@@ -47,8 +61,10 @@ export default function PatientMisc() {
         <div className="Patient-registration-content-wrapper px-5">
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 px-5">
             <div className="row col-12 registration-heading">Patient Registration</div> 
-            <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
-            {step === 1 && (
+            <div className="px-5">
+               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+              </div> 
+            {step === 6 && (
                  <div className="registration-form-box">
                 <div className='form-info-heading'>Misc</div>
                 <div className="row px-4 pt-4 patient-form-fields pb-4">
@@ -71,8 +87,8 @@ export default function PatientMisc() {
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 already-has-acc">If you already have an account<span className="ms-1 login-already-acc pointer"><a className="login-already-acc" href="/PatientLogin/">LOGIN</a></span></div>
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 d-flex justify-content-end">
                         <div>
-                            <button type="button" className="btn btn-clear btn-sm mb-1 me-1"><i class="bi bi-chevron-double-left me-2"></i><Link className="text-decoration-none" to="/Patientstatsdetail/">Previous</Link></button>
-                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><i class="bi bi-chevron-double-right me-2"></i><Link className="text-white text-decoration-none" to="/Patientgurdiandetail/">Next</Link> </button>
+                            <button type="button" className="btn btn-clear btn-sm mb-1 me-1"><i class="bi bi-chevron-double-left me-2"></i><Link className="text-decoration-none" to="/Patientstatsdetail/" onClick={handlePrevious}>Previous</Link></button>
+                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleNext}><i class="bi bi-chevron-double-right me-2" ></i>Next </button>
                         </div>
                     </div>
                   </div>

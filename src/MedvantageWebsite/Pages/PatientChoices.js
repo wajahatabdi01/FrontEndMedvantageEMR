@@ -33,12 +33,30 @@ import protection from '../../assets/images/icons/protection.svg';
 import teamcare from '../../assets/images/icons/teamcare.svg';
 import downArrow from '../../assets/images/icons/downArrow.svg';
 import patientcategory from '../../assets/images/icons/patientcategory.svg';
+import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
 import {Link} from "react-router-dom";
 
 
 export default function PatientChoices() {
+  const navigate = useNavigate();
 
+  const [step, setStep] = useState(3);
+  const totalSteps = 8;
 
+  const handleNext = () => {
+    if (step < totalSteps) {
+      setStep(step + 1);
+      navigate("/Patientemployerdetail/"); 
+    }
+   
+    
+    };
+  
+    const handlePrevious = () => {
+      if (step > 1) {
+        setStep(step - 1);
+      }
+    }
 
 
     return (
@@ -47,7 +65,10 @@ export default function PatientChoices() {
         <div className="Patient-registration-content-wrapper px-5 align-items-center">
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box  ">
             <div className="row col-12 registration-heading mt-5 pt-5">Patient Registration</div> 
-
+            <div className="px-5">
+               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+              </div> 
+           {step === 3 && (
              <div className="registration-form-box">
                 <div className='form-info-heading'>Choices</div>
                 <div className="row px-4 pt-4 patient-form-fields">
@@ -361,12 +382,14 @@ export default function PatientChoices() {
                  
 
              </div>
+           )}
+            
              <div className="row px-4 pt-4 mb-5 pb-5">
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 already-has-acc">If you already have an account<span className="ms-1 login-already-acc pointer"><a className="login-already-acc" href="/PatientLogin/">LOGIN</a></span></div>
                     <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 d-flex justify-content-end">
                         <div>
                            <Link className="text-white text-decoration-none" to="/PatientContact/"><button type="button" className="btn btn-clear btn-sm mb-1 me-1"><i class="bi bi-chevron-double-left me-2"></i>Previous</button></Link>
-                            <Link className="text-white text-decoration-none" to="/Patientemployerdetail/"><button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><i class="bi bi-chevron-double-right me-2"></i>Next</button></Link>
+                           <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleNext}><i class="bi bi-chevron-double-right me-2"></i>Next</button>
                         </div>
                     </div>
                   </div>
