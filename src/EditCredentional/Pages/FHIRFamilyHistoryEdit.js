@@ -147,7 +147,8 @@ for(var j=0; j < modalIDs.length; j++){
   return sendDataArr;
  }
   return (
-    <section className="main-content mt-5 pt-3" style={{marginLeft:'0px'}}>
+    
+    <>
       <div className="container-fluid">
         <div className="row">
           <div className="col-12 mt-2">
@@ -224,6 +225,7 @@ for(var j=0; j < modalIDs.length; j++){
                     </div>
                 </div>
       :''}
-    </section>
+      </>
+    
   )
 }

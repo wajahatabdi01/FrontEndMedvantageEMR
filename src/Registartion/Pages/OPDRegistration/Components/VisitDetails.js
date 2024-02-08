@@ -14,7 +14,7 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     // console.log("issueValue", issueValue);
     let [problem, setProblem] = useState('');
-    // let[issueDetails,setIssueDetails]=useState()
+    let[issueDetailss,setIssueDetailss]=useState()
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
@@ -175,15 +175,15 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     }
 
     let handleSelectProblem = () => {
-        //const selectProblem = document.getElementById("ddlproblems").value;
+        // const selectProblem = document.getElementById("ddlproblems").value;
         // const selectedProblem = selectProblem.options[selectProblem.selectedIndex].text
-        // setProblem(selectProblem);
-        // setCoding(selectProblem);
-        // console.log('selectProblem', selectProblem)
+        // setProblem(selectedProblem);
+        // setCoding(selectedProblem);
+        // console.log('selectProblem', selectedProblem)
         // setCodingSelected(true);
-        // setIssueDetails((prev) => ({
+        // setIssueDetailss((prev) => ({
         //     ...prev,
-        //     title: selectProblem,
+        //     title: selectedProblem,
         //     coding: selectProblem,
         // }))
     }
@@ -436,13 +436,13 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                                         <div className='problemhead-inn'>
                                             <div className="col-12 mb-2">
                                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                {/* <div>
+                                                <div>
                                                     <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
                                                         {issueDetails.coding !== "" ?
                                                             <option>{issueDetails.coding}</option>
                                                             : ''}
                                                     </select>
-                                                </div> */}
+                                                </div>
 
                                             </div>
                                             <div class="d-inline-flex gap-2">

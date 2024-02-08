@@ -348,12 +348,23 @@ import AddRule from '../FHIRAdmin/Pages/AddRule';
 import ViewPlanRules from '../FHIRAdmin/Pages/ViewPlanRules';
 import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
 import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
+import LoginAsPatient from '../Login/PatientLogin/LoginAsPatient';
+import LayoutPatientSignup from '../MedvantageWebsite/Layouts/LayoutPatientSignup';
+import LayoutPatientContact from '../MedvantageWebsite/Layouts/LayoutPatientContact';
+import LayoutPatientChoices from '../MedvantageWebsite/Layouts/LayoutPatientChoices';
+import LayoutPatientEmployerDetails from '../MedvantageWebsite/Layouts/LayoutPatientEmployerDetails';
+import LayoutPatientStatsDetails from '../MedvantageWebsite/Layouts/LayoutPatientStatsDetails';
+import LayoutPatientMisc from '../MedvantageWebsite/Layouts/LayoutPatientMisc';
+import LayoutPatientGuradian from '../MedvantageWebsite/Layouts/LayoutPatientGuradian';
+import LayoutPatientInsuranceDetails from '../MedvantageWebsite/Layouts/LayoutPatientInsuranceDetails';
 import Classification from '../Admin/Pages/FHIRMaster/Classification';
 import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
 import FHIRClassMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassMaster';
 import FHIRTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeMaster';
 import FHIRSensitivityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSensitivityMaster';
 import FHIRDischargeDispositionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRDischargeDispositionMaster';
+import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
+import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 
 export default function ApiRoutes() {
 
@@ -372,9 +383,18 @@ export default function ApiRoutes() {
                         <Route path='/confirmidentity/' element={<ConfirmIdentityLayout />} />
                         <Route path='/forgotpassword/' element={<ForgotPasswordLayout />} />
                         <Route path='/registration' element={<LayoutVerifyEmail />} />
+                        <Route path='/registeraspatient/' element={<LayoutPatientSignup/>} />
+                        <Route path='/PatientContact/' element={<LayoutPatientContact/>} />
+                        <Route path='/PatientChoices/' element={<LayoutPatientChoices/>} />
+                        <Route path='/Patientemployerdetail/' element={<LayoutPatientEmployerDetails/>} />
+                        <Route path='/Patientstatsdetail/' element={<LayoutPatientStatsDetails/>} />
+                        <Route path='/Patientmisc/' element={<LayoutPatientMisc/>} />
+                        <Route path='/Patientgurdiandetail/' element={<LayoutPatientGuradian/>} />
+                        <Route path='/Patientinsurancedetail/' element={<LayoutPatientInsuranceDetails/>} />
                         <Route path='/verify-otp' element={<LayoutVerifyOtp />} />
                         <Route path='/deathcertificate/' element={<DeathCertificate />} />
                         <Route path="/login/" element={<Login />} />
+                        <Route path="/PatientLogin/" element={<LoginAsPatient />} />
                         <Route path='/verifyUHID/' element={<VerifyUHID />} />
                         <Route path='/patientData/' element={<PatientData />} />
                         <Route path='/patientCCDAData/' element={<PatientCCDAData />} />
@@ -890,6 +910,10 @@ export default function ApiRoutes() {
                   <Route path="/fhirimmunization/" element={<ProtectedRoutes Compnent={<FHIRImmunization />} />} />
                   <Route path="/fhirimmunizationcodemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRImmunizationCodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage Immunization SEction----------------------------------------- */}
+                  {/* -----------------------------------Start Medvantage Prescription SEction----------------------------------------- */}
+                  <Route path="/fhiraddprescription/" element={<ProtectedRoutes Compnent={<FHIRAddPrescription />} />} />
+                  <Route path="/fhirprescreptionlist/" element={<ProtectedRoutes Compnent={<FHIRPrescreptionList />} />} />
+                  {/* -----------------------------------End Medvantage Prescription SEction----------------------------------------- */}
             </Routes>
 
       )

@@ -2439,6 +2439,17 @@ input[type=number] {
   background-position: center center;
   background-attachment: fixed;
 }
+.med-Patient-login-wrapper {
+  height: 100vh;
+  background-image: url(../images/LoginPage/patientregistration-bg.png);
+  /* background-image: url(../images/LoginPage/Group 8145.png);        */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-position: center center;
+  background-attachment: fixed;
+}
 
 .login-img {
   margin-top: 100px;
@@ -2504,6 +2515,9 @@ input[type=number] {
 .login-text-btn {
   position: relative;
 }
+.patient-login-text-btn {
+  position: relative;
+}
 
 
 .login-text-btn input[type="text"],
@@ -2516,6 +2530,30 @@ input[type=number] {
   font-size: 14px;
   padding: 12px 25px;
   font-style: italic;
+}
+.patient-login-text-btn input[type="text"],
+.patient-login-text-btn input[type="password"] {
+  background-color: #EFF3FF;
+  outline: none;
+  border: none;
+  width: 100%;
+  border-radius: 28px;
+  font-size: 14px;
+  padding: 12px 25px;
+  font-style: italic;
+  
+}
+.patient-login-text-btn ::placeholder {
+  top: 483px;
+  left: 1192px;
+  width: 125px;
+  height: 23px;
+  /* UI Properties */
+  text-align: left;
+  font: normal normal normal 13px/25px Poppins;
+  letter-spacing: -0.06px;
+  color: #6F85A5;
+  opacity: 1;
 }
 
 .login-text-btn input[type="text"]:focus,
@@ -4533,6 +4571,15 @@ label.labelPageIndex {
 .mt-50px {
   margin-top: 50px;
 }
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 20px; /* Adjust as needed */
+  margin-right: 20px; /* Adjust as needed */
+}
+
 
 
 /* this css will most important when get requirment for more responsive */
@@ -9816,6 +9863,344 @@ span.saveb img {
   border: 0;
 }
 
+/* Patient-side-medvantage-css */
+/* .medvantage-patient-heading{
+  position: absolute;
+  top: 156px;
+  left: 1269px;
+  width: 81px;
+  height: 28px;
+  text-align: left;
+  letter-spacing: 1.29px;
+  color: #1D4999;
+  opacity: 1;
+  text-transform: uppercase;
+  font: normal normal bold 15px/20px Bebas Neue;
+} */
+
+.horizontal-line {
+  position: relative;
+  width: 89%;
+  border: 0.2px solid #1D4999;
+  margin: auto;
+  height: 0px;
+  /* background-color: #000; */
+  /* margin: 20px 0; */
+  margin-bottom: 25px;
+  margin-top: 25px;
+  /* opacity: 0.5; */
+  opacity: 0.24;
+}
+.continue-with-uhid{
+  font: normal normal normal 13px/23px Poppins;
+  letter-spacing: -0.06px;
+  color: #2B2B2B;
+  opacity: 1;
+  position: absolute;
+  top: 11%;
+  right: 35%;
+  transform: translateY(50%);
+  text-align: center;
+  margin: auto;
+  background: #fafcff;
+  /* padding: 5px; */
+  padding-top: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+
+.Patient-registration-content-wrapper {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  /* width: 1852px; */
+  height: 800px; 
+  
+  border-radius: 40px;
+
+  border-radius: 40px;
+  position: absolute;
+  min-height: 100px;
+  max-width: 1636px;
+  /* border: 1px solid red; */
+  left: 50%;
+  top: 20%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  width: 100%;
+  transform: translate(-50%, -15%);
+}
+
+.patient-registration-main-box{
+  /* border: 1px solid black; */
+  /* padding-bottom : 50px; */
+      position: absolute;
+}
+.registration-heading{
+  width: 380px;
+  /* height: 53px; */
+  text-align: center;
+  font: normal normal 600 30px/57px Poppins;
+  letter-spacing: -0.15px;
+  color: #303030;
+  opacity: 1;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.registration-form-box{
+  transition: opacity 0.5s ease;
+  top: 324px;
+left: 221px;
+/* width: 1479px; */
+/* height: 492px; */
+background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 1px solid #ECECEC;
+opacity: 1;
+}
+
+.form-info-heading{
+    margin-top: 10px;
+    padding: 25px;
+    top: 359px;
+    left: 251px;
+    width: 93px;
+    height: 31px;
+    text-align: left;
+    font: normal normal 600 18px/33px Poppins;
+    letter-spacing: 0px;
+    color: #1D4999;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+}
+
+.label-icons{
+top: 414px;
+left: 251px;
+width: 13px;
+height: 16px;
+/* background: transparent url('img/Path 50113.png') 0% 0% no-repeat padding-box; */
+opacity: 1;
+}
+
+.patient-form-fields input::placeholder{
+  color: #929292;
+  font-style: italic;
+}
+.patient-form-fields input{
+  font-style: italic;
+  color: #929292;
+  border-radius: 0px;
+  height: 35px;
+  border: 1px solid #DCDCDC;
+}
+.patient-form-fields select{
+  color: #929292;
+  font-style: italic;
+  border-radius: 0px;
+  height: 38px;
+  border: 1px solid #DCDCDC;
+}
+
+
+.label-text{
+
+  font-size: 14px;
+  font-weight: 400;
+  color: #546788;
+  margin-bottom: 3px;
+}
+
+.already-has-acc{
+
+  top: 869px;
+  left: 222px;
+  /* width: 303px; */
+  /* height: 22px; */
+  text-align: left;
+  font-size: 14px;
+  font: normal normal medium 16px/22px Poppins;
+  letter-spacing: 0px;
+  /* color: #FC7349; */
+  /* text-transform: uppercase; */
+  opacity: 1;
+  color: #3e3e3e;
+}
+.login-already-acc{
+  top: 869px;
+  left: 222px;
+  font-weight: 500;
+  text-align: left;
+  font-size: 14px;
+  font: normal normal medium 16px/22px Poppins;
+  letter-spacing: 0px;
+  color: #FC7349;
+  text-transform: uppercase;
+  opacity: 1;
+  text-decoration : none;
+ 
+}
+.dropdownimg{
+  position: absolute;
+  top: 35%;
+  right: 2%;
+  transform: translateY(-50%);
+  margin: 0.375rem;
+  pointer-events: none;
+  width: 12px;
+}
+.downarrowwithplus{
+  position: absolute;
+  top: 35%;
+  right: 14%;
+  transform: translateY(-50%);
+  margin: 0.375rem;
+  pointer-events: none;
+  width: 12px;
+}
+.dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.plus-button-container {
+  position: relative;
+  display: flex;
+  align-items: center; 
+}
+
+.plus-button {
+  font-weight: 600;
+  position: absolute;
+  right: 0;
+  top: 38%;
+  transform: translateY(75%);
+  background-color: #d9e0f1;
+  color: #546788;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  z-index: 1;
+
+  border: 1px solid #DCDCDC;
+}
+
+.horizontal-line-contact{
+  position: relative;
+  width: 95%;
+  border: 1px solid #E1E1E1;
+  margin: auto;
+  height: 0px;
+  
+  margin-bottom: 12px;
+  margin-top: 20px;
+  
+  opacity: 0.5;
+}
+.another-address-head{
+  display: flex;
+  align-items: center;
+  
+  color: #546788;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 45px
+}
+.another-address-head img {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+.col-overwrite{
+  width: 20%
+}
+
+
+/* MultiStep Form Progress bar CSS */
+
+.multistep-form-progressBar{
+  border-radius: 0px;
+  background-color: #7DC855;
+}
+
+.current-step-progressbar{
+  
+  top: 20%;
+    transform: translateY(58%);
+    padding-left: 7px;
+    padding-right: 7px;
+    font-size: 15px;
+    color: white;
+    position: absolute;
+   
+    background: #d0d0d0;
+    width: 24px;
+    height: 23px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+
+.progress-bar-container {
+    display: flex;
+    width: 95%;
+    transform: translateY(-40%);
+    position: absolute;
+    justify-content: space-between;
+}
+
+.step-marker {
+  transform: translateX(-50%);
+  width: 24px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: #D1D1D1;
+  border: 2px solid #D1D1D1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.last-step{
+  background-color: transparent;
+  border: none;
+}
+.formstepName{
+  position: absolute;
+  transform: translateX(-50%);
+
+left: 50%;
+width: 40px;
+height: 25px;
+text-align: left;
+font: italic normal 300 14px/27px Poppins;
+letter-spacing: 0px;
+color: #4D4D4D;
+opacity: 1;
+  /* color: black */
+}
+
+.completed .step-marker {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}
+
+.main-progressbar{
+  height: 2px !important;
+}
+
+.custom-step-count{
+
+}
 .multiSelectContainer input {
   font-size: 13px;
 }

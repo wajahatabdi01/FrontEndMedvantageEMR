@@ -361,6 +361,7 @@ export default function Login() {
                 </div>
 
                 <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/registration">Sign up</a></div>
+                <div className="mt-3 dontHaveAcc"> <span>Are you a Patient?</span> <a href="/PatientLogin/">Sign In</a></div>
 
 
                 <div className="weRespect">We respect your privacy we hate spam as much as you do.</div>
