@@ -61,7 +61,7 @@ export default function FHIRCarePlan(props) {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].code
+      temp = data[i].code
     }
 
     document.getElementById(modalID).value = temp
@@ -209,7 +209,7 @@ export default function FHIRCarePlan(props) {
   },[])
 
   return (
-    <section className="main-content mt-5 pt-3" style={customStyle}>
+    <>
       <div className="container-fluid">
         <div className="row">
           <div className="col-12">
@@ -334,13 +334,14 @@ export default function FHIRCarePlan(props) {
               <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
 
 
-              <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} />
+              <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={false} />
               {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
             </div>
           </div>
         </div>
         : ''}
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
-    </section>
+      </>
+    
   )
 }

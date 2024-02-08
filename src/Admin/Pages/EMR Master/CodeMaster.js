@@ -104,8 +104,8 @@ export const CodeMaster = (props) => {
     }
 
     let getDataDetail = (id, code, codeText) => {
-        
-        const targetInputBox = document.getElementById("chckBoxId" + id).checked;
+      
+        const targetInputBox = document.getElementById("chckBoxId" + code).checked;
         
         if (targetInputBox === false) {
             let temp = [...arrToFwd];
@@ -129,7 +129,7 @@ export const CodeMaster = (props) => {
 
 
             });
-            
+       
             props.SelectedData(temp, props.modalID)
             setArrToFwd([...temp])
         }
@@ -224,7 +224,7 @@ export const CodeMaster = (props) => {
                                                 return (                                                  
                                                     <>
                                                     <tr key={bindList.code}>
-                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.id : 'chckBoxId'} id={'chckBoxId' + bindList.id}
+                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.code : 'chckBoxId'} id={'chckBoxId' + bindList.code}
                                                             role={props.isMultiple === true ? 'switch' : ''}
                                                             defaultChecked=
                                                             {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?

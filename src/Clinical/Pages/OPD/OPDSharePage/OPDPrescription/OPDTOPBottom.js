@@ -10,6 +10,8 @@ import OPDDevicePopUp from './FHIROPDPopUp/OPDDevicePopUp'
 import SuccessToster from '../../../../../Component/SuccessToster'
 import OPDSurgeryPopUp from './FHIROPDPopUp/OPDSurgeryPopUp'
 import FHIRFamilyHistoryEdit from '../../../../../EditCredentional/Pages/FHIRFamilyHistoryEdit'
+import FHIRCarePlan from '../../../../../FHIRCarePlan/Pages/FHIRCarePlan';
+import FHIRImmunization from '../../../../../FHIRImmunization/Pages/FHIRImmunization';
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -36,6 +38,7 @@ export default function OPDTOPBottom(props) {
 
     // let [saveData, setSavedata] = useState()
 
+    const activePatient = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
 
     let handleClick = (val, name, id, categoryType) => {
 
@@ -130,15 +133,19 @@ export default function OPDTOPBottom(props) {
 
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span>{t("Care Plan")} </span>
+                <span data-bs-toggle="modal" data-bs-target="#carePlan">{t("Care Plan")} </span>
 
             </div>
-            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+            {/* <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
                 <span data-bs-toggle="modal" data-bs-target="#familyHistory">{t("Family History")} </span>
 
+            </div> */}
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#familyHistoryID">{t("Family History")} </span>
+
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span>{t("Immunization")} </span>
+                <span data-bs-toggle="modal" data-bs-target="#ImmunizationPop">{t("Immunization")} </span>
 
             </div>
 
@@ -250,7 +257,7 @@ export default function OPDTOPBottom(props) {
             {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
             {/* -----------------------------------------------------------------------Start FHIR Family History --------------------------------------------- */}
 
-            <div className="modal fade" id="familyHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" id="familyHistoryID" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                     <div className="modal-content ">
                         <div className="modal-header">
@@ -262,7 +269,7 @@ export default function OPDTOPBottom(props) {
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
                                     {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                                    <FHIRFamilyHistoryEdit />
+                                    <FHIRFamilyHistoryEdit patientUhid = {activePatient}/>
                                 </div>
                             </div>
                         </div>
@@ -270,6 +277,51 @@ export default function OPDTOPBottom(props) {
                 </div>
             </div>
             {/* -----------------------------------------------------------------------End FHIR Family History --------------------------------------------- */}
+            
+            {/* -----------------------------------------------------------------------Start Care Plan --------------------------------------------- */}
+
+            <div className="modal fade" id="carePlan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Care Plan</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
+                                    <FHIRCarePlan patientUhid = {activePatient}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* -----------------------------------------------------------------------End Care Plan --------------------------------------------- */}
+            {/* -----------------------------------------------------------------------Start Immunization Plan --------------------------------------------- */}
+
+            <div className="modal fade" id="ImmunizationPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Immunization</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
+                                    <FHIRImmunization patientUhid = {activePatient}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* -----------------------------------------------------------------------End Immunization Plan --------------------------------------------- */}
 
             {
                 showToster === 1 ?
