@@ -350,6 +350,10 @@ import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
 import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
 import Classification from '../Admin/Pages/FHIRMaster/Classification';
 import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
+import FHIRClassMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassMaster';
+import FHIRTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeMaster';
+import FHIRSensitivityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSensitivityMaster';
+import FHIRDischargeDispositionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRDischargeDispositionMaster';
 
 export default function ApiRoutes() {
 
@@ -510,6 +514,10 @@ export default function ApiRoutes() {
                         <Route path="/languageconversionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LanguageConversionMaster />} name="LanguageConversionMaster" />} />} />
                         <Route path="/logdetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogDetails />} name="LogDetails" />} />} />
                         <Route path="/organdepartmentmapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OrganDepartmentMapping />} name="OrganDepartmentMapping" />} />} />
+                        <Route path="/fhirclassmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRClassMaster/>} name="FHIRClassMaster" />} />} />
+                        <Route path="/fhirtypemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRTypeMaster />} name="FHIRTypeMaster" />} />} />
+                        <Route path="/fhirsensitivitymaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRSensitivityMaster />} name="FHIRSensitivityMaster" />} />} />
+                        <Route path="/fhirdischargedispositionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRDischargeDispositionMaster />} name="FHIRDischargeDispositionMaster" />} />} />
                   </>
                   {/* End Here */}
 
