@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import OPDPhysicalExamination from './PopUp/OPDPhysicalExamination'
-import OPDAllergiesPopUP from './PopUp/OPDAllergiesPopUP'
 import { useSelector } from 'react-redux'
-import OPDDynamicSideBar from './PopUp/OPDDynamicSideBar'
-import SaveOPDData from '../../../../../Code/SaveOPDData'
-import OPDHistorySideBar from './PopUp/OPDHistorySideBar'
 import AlertToster from '../../../../../Component/AlertToster';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
-import Allergy from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Allergy'
-import Problem from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Problem'
 import OPDProblemPopUp from './FHIROPDPopUp/OPDProblemPopUp'
 import OPDAllergyPopUp from './FHIROPDPopUp/OPDAllergyPopUp'
 import OPDMedicationPopUp from './FHIROPDPopUp/OPDMedicationPopUp'
