@@ -37,6 +37,9 @@ export default function OPDTOPBottom(props) {
     let [activetab, setActivetab] = useState(-1)
     let [message, setMessage] = useState("")
     let [showToster, setShowToster] = useState("")
+    let [showAlertToster, setShowAlertToster] = useState(0)
+    let [showMessage, setShowMessage] = useState(0)
+
     // let [saveData, setSavedata] = useState()
 
 
@@ -157,7 +160,7 @@ export default function OPDTOPBottom(props) {
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDProblemPopUp />
+                                    <OPDProblemPopUp setShowToster={setShowToster}/>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +181,7 @@ export default function OPDTOPBottom(props) {
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDAllergyPopUp />
+                                    <OPDAllergyPopUp setShowToster={setShowToster} />
                                 </div>
                             </div>
                         </div>
@@ -199,7 +202,7 @@ export default function OPDTOPBottom(props) {
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDMedicationPopUp />
+                                    <OPDMedicationPopUp setShowToster={setShowToster} />
                                 </div>
                             </div>
                         </div>
@@ -220,7 +223,7 @@ export default function OPDTOPBottom(props) {
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDDevicePopUp />
+                                    <OPDDevicePopUp setShowToster={setShowToster} />
                                 </div>
                             </div>
                         </div>
@@ -242,7 +245,7 @@ export default function OPDTOPBottom(props) {
                             <div class="tab-content" id="myTabContent">
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDSurgeryPopUp />
+                                    <OPDSurgeryPopUp setShowToster={setShowToster}/>
                                 </div>
                             </div>
                         </div>
@@ -254,13 +257,45 @@ export default function OPDTOPBottom(props) {
 
             {
                 showToster === 1 ?
-                    <SuccessToster handle={setShowToster} message="Problem Saved SuccessFully !!" /> : ""
+                    <SuccessToster handle={setShowToster} message="Problem Saved SuccessFully !!"/> : ""
+            }
+            {
+                showToster === 2 ?
+                    <SuccessToster handle={setShowToster} message="Allergy Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 3 ?
+                    <SuccessToster handle={setShowToster} message="Medication Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 4 ?
+                    <SuccessToster handle={setShowToster} message="Device Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 5 ?
+                    <SuccessToster handle={setShowToster} message="Surgery Saved SuccessFully !!" /> : ""
             }
 
-            {/* {
+            {
                 showAlertToster === 1 ?
                     <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
-            } */}
+            }
+            {
+                showAlertToster === 2 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 3 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 4 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 5 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
         </>
     )
 }

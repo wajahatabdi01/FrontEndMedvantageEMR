@@ -8,7 +8,7 @@ import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
 
-function OPDDevicePopUp() {
+function OPDDevicePopUp({setShowToster}) {
     let [device, setDevice] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -20,7 +20,6 @@ function OPDDevicePopUp() {
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
     let [tosterValue, setTosterValue] = useState(0);
-    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
 
@@ -147,7 +146,7 @@ function OPDDevicePopUp() {
         const response = await InsertEncounter(pobj);
         if (response.status === 1) {
             setShowUnderProcess(0);
-            setShowToster(1)
+            setShowToster(4)
             setTimeout(() => {
                 setShowToster(0);
             }, 2000)

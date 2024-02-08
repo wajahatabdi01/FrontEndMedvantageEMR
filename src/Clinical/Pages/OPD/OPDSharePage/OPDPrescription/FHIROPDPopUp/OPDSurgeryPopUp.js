@@ -8,7 +8,7 @@ import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 import GetAllSurgeryIssueList from '../../../../../../Registartion/API/GET/GetAllSurgeryIssueList';
 
-function OPDSurgeryPopUp() {
+function OPDSurgeryPopUp({setShowToster}) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -20,7 +20,6 @@ function OPDSurgeryPopUp() {
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
     let [tosterValue, setTosterValue] = useState(0);
-    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
 
@@ -152,11 +151,12 @@ function OPDSurgeryPopUp() {
             userId: window.userId
         }
         console.log("pobj", pobj)
-        // return;
+        setShowToster(5)
+        return;
         const response = await InsertEncounter(pobj);
         if (response.status === 1) {
             setShowUnderProcess(0);
-            setShowToster(1)
+            setShowToster(5)
             setTimeout(() => {
                 setShowToster(0);
             }, 2000)
@@ -329,15 +329,6 @@ function OPDSurgeryPopUp() {
                     <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                 </div>
             </div>
-            {
-                    showToster === 1 ?
-                        <SuccessToster handle={setShowToster} message="Problem Saved SuccessFully !!" /> : ""
-                }
-
-                {
-                    showAlertToster === 1 ?
-                        <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
-                }
         </>
   )
 }

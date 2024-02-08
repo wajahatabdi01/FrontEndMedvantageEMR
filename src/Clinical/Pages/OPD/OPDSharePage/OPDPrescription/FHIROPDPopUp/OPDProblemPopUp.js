@@ -8,7 +8,7 @@ import InsertEncounter from '../../../../../../Registartion/API/POST/InsertEncou
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 
-function OPDProblemPopUp() {
+function OPDProblemPopUp({setShowToster}) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -20,7 +20,7 @@ function OPDProblemPopUp() {
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
     let [tosterValue, setTosterValue] = useState(0);
-    let [showToster, setShowToster] = useState(0)
+    // let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
 
@@ -152,6 +152,7 @@ function OPDProblemPopUp() {
             userId: window.userId
         }
         console.log("pobj", pobj)
+        // return;
         const response = await InsertEncounter(pobj);
         if (response.status === 1) {
             setShowUnderProcess(0);
@@ -328,15 +329,7 @@ function OPDProblemPopUp() {
                     <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                 </div>
             </div>
-            {
-                    showToster === 1 ?
-                        <SuccessToster handle={setShowToster} message="Problem Saved SuccessFully !!" /> : ""
-                }
-
-                {
-                    showAlertToster === 1 ?
-                        <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
-                }
+            
         </>
     )
 }
