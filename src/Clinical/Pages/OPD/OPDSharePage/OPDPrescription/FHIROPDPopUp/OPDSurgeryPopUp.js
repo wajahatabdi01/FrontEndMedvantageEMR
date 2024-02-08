@@ -144,6 +144,8 @@ function OPDSurgeryPopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errBeginDateTimeSurgery").style.display = "none";
+        document.getElementById("errTitleSurgery").style.display = "none";
     }
 
     let handleSaveIssues = async () => {

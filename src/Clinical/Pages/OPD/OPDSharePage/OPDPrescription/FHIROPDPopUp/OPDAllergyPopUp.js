@@ -144,6 +144,8 @@ function OPDAllergyPopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitles").style.display = "none";
+        document.getElementById("errBegindate").style.display = "none";
     }
 
     let handleSaveIssues = async () => {

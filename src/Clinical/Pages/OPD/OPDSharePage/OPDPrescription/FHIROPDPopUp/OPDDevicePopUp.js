@@ -134,6 +134,8 @@ function OPDDevicePopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitleDev").style.display = "none";
+        document.getElementById("errbegindatedev").style.display = "none";
     }
 
     let handleSaveIssues = async () => {

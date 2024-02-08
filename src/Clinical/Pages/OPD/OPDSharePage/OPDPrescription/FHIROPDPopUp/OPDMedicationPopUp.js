@@ -144,6 +144,8 @@ function OPDMedicationPopUp({setShowToster}) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitleMed").style.display = "none";
+        document.getElementById("errBeginDateTimeMed").style.display = "none";
     }
 
     let handleSaveIssues = async () => {

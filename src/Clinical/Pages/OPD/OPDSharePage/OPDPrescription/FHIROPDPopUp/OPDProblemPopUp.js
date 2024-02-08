@@ -145,6 +145,8 @@ function OPDProblemPopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitle").style.display = "none";
+        document.getElementById("errbegindate").style.display = "none";
     }
 
     let handleSaveIssues = async () => {
