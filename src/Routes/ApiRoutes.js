@@ -348,6 +348,15 @@ import AddRule from '../FHIRAdmin/Pages/AddRule';
 import ViewPlanRules from '../FHIRAdmin/Pages/ViewPlanRules';
 import FHIRImmunization from '../FHIRImmunization/Pages/FHIRImmunization';
 import FHIRImmunizationCodeMaster from '../FHIRImmunization/Components/FHIRImmunizationCodeMaster';
+import LoginAsPatient from '../Login/PatientLogin/LoginAsPatient';
+import LayoutPatientSignup from '../MedvantageWebsite/Layouts/LayoutPatientSignup';
+import LayoutPatientContact from '../MedvantageWebsite/Layouts/LayoutPatientContact';
+import LayoutPatientChoices from '../MedvantageWebsite/Layouts/LayoutPatientChoices';
+import LayoutPatientEmployerDetails from '../MedvantageWebsite/Layouts/LayoutPatientEmployerDetails';
+import LayoutPatientStatsDetails from '../MedvantageWebsite/Layouts/LayoutPatientStatsDetails';
+import LayoutPatientMisc from '../MedvantageWebsite/Layouts/LayoutPatientMisc';
+import LayoutPatientGuradian from '../MedvantageWebsite/Layouts/LayoutPatientGuradian';
+import LayoutPatientInsuranceDetails from '../MedvantageWebsite/Layouts/LayoutPatientInsuranceDetails';
 import Classification from '../Admin/Pages/FHIRMaster/Classification';
 import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
 import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
@@ -370,9 +379,18 @@ export default function ApiRoutes() {
                         <Route path='/confirmidentity/' element={<ConfirmIdentityLayout />} />
                         <Route path='/forgotpassword/' element={<ForgotPasswordLayout />} />
                         <Route path='/registration' element={<LayoutVerifyEmail />} />
+                        <Route path='/registeraspatient/' element={<LayoutPatientSignup/>} />
+                        <Route path='/PatientContact/' element={<LayoutPatientContact/>} />
+                        <Route path='/PatientChoices/' element={<LayoutPatientChoices/>} />
+                        <Route path='/Patientemployerdetail/' element={<LayoutPatientEmployerDetails/>} />
+                        <Route path='/Patientstatsdetail/' element={<LayoutPatientStatsDetails/>} />
+                        <Route path='/Patientmisc/' element={<LayoutPatientMisc/>} />
+                        <Route path='/Patientgurdiandetail/' element={<LayoutPatientGuradian/>} />
+                        <Route path='/Patientinsurancedetail/' element={<LayoutPatientInsuranceDetails/>} />
                         <Route path='/verify-otp' element={<LayoutVerifyOtp />} />
                         <Route path='/deathcertificate/' element={<DeathCertificate />} />
                         <Route path="/login/" element={<Login />} />
+                        <Route path="/PatientLogin/" element={<LoginAsPatient />} />
                         <Route path='/verifyUHID/' element={<VerifyUHID />} />
                         <Route path='/patientData/' element={<PatientData />} />
                         <Route path='/patientCCDAData/' element={<PatientCCDAData />} />

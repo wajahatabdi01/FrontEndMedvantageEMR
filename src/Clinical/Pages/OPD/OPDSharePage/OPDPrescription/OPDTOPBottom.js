@@ -7,11 +7,19 @@ import SaveOPDData from '../../../../../Code/SaveOPDData'
 import OPDHistorySideBar from './PopUp/OPDHistorySideBar'
 import AlertToster from '../../../../../Component/AlertToster';
 import { useTranslation } from 'react-i18next';
-import  i18n from "i18next";
+import i18n from "i18next";
+import Allergy from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Allergy'
+import Problem from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Problem'
+import OPDProblemPopUp from './FHIROPDPopUp/OPDProblemPopUp'
+import OPDAllergyPopUp from './FHIROPDPopUp/OPDAllergyPopUp'
+import OPDMedicationPopUp from './FHIROPDPopUp/OPDMedicationPopUp'
+import OPDDevicePopUp from './FHIROPDPopUp/OPDDevicePopUp'
+import SuccessToster from '../../../../../Component/SuccessToster'
+import OPDSurgeryPopUp from './FHIROPDPopUp/OPDSurgeryPopUp'
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     let [activeBox, setActiveBox] = useState()
     // let [showPhysicalExamination, setShowPhysicalExamination] = useState()
@@ -29,7 +37,10 @@ export default function OPDTOPBottom(props) {
     let [activetab, setActivetab] = useState(-1)
     let [message, setMessage] = useState("")
     let [showToster, setShowToster] = useState("")
+    let [showAlertToster, setShowAlertToster] = useState(0)
+    let [showMessage, setShowMessage] = useState(0)
 
+    // let [saveData, setSavedata] = useState()
 
 
     let handleClick = (val, name, id, categoryType) => {
@@ -69,7 +80,7 @@ export default function OPDTOPBottom(props) {
                         let key = Object.keys(val)
 
                         if (key[0] === "patientCategoryResult") {
-                            
+
                             setPatientCategoryResult(val.patientCategoryResult)
                         }
                         // else if (key[0] === "patientExaminationResult") {
@@ -98,91 +109,192 @@ export default function OPDTOPBottom(props) {
         setData()
     }, [patientsendData])
 
-
-
     return (
         <>
-            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer' onClick={() => { handleClick(setShowAlergies(7)) }}>
-                <span>{t("Allergies")} </span>
-                {/* {activeBox === 2 ? checkHtml : ""} */}
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer '>
+                <span data-bs-toggle="modal" data-bs-target="#problem" >{t("Problem")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#allergy">{t("Allergy")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#medication">{t("Medication")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#device">{t("Device")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#surgery">{t("Surgery")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span>{t("Dental")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span>{t("Care Plan")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span>{t("Family History")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span>{t("Immunization")} </span>
+
             </div>
 
-            {patientCategoryResult && patientCategoryResult.map((value, index) => {
-                return (
-                    <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' style={{ whiteSpace: "nowrap", backgroundColor: `${index === activetab ? categoryType === 1 ? "#1d4999" : "white" : "white"}` }} onClick={() => { handleClick(1, value.categoryName, value.categoryId, 1); setActivetab(index); }}>
-                        <span style={{ color: `${index === activetab ? categoryType === 1 ? "white" : "#1d4999" : "#1d4999"}` }}>{value.categoryName}</span>
-                        {value.isDataExists === 1 ? <i className="fa-sharp fa-solid fa-circle-check"></i> : ""}
+            {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
+            <div className="modal fade" id="problem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Problem</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <OPDProblemPopUp setShowToster={setShowToster}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                )
-            })}
-
-            {patientHistoryCategoryResultExistance && patientHistoryCategoryResultExistance.map((value, index) => {
-                return (
-                    <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' style={{ whiteSpace: "nowrap", backgroundColor: `${index === activetab ? categoryType === 2 ? "#1d4999" : "white" : "white"}` }} onClick={() => { handleClick(1, value.categoryName, value.categoryId, 2); setActivetab(index); }}>
-                        <span style={{ color: `${index === activetab ? categoryType === 2 ? "white" : "#1d4999" : "#1d4999"}` }}>{value.categoryName}</span>
-                        {value.isDataExists === 1 ? <i className="fa-sharp fa-solid fa-circle-check"></i> : ""}
+                </div>
+            </div>
+            {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
+            
+            {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
+            <div className="modal fade" id="allergy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Allergy</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <OPDAllergyPopUp setShowToster={setShowToster} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                )
-            })}
+                </div>
+            </div>
+            {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
+            
+            {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
+            <div className="modal fade" id="medication" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Medication</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <OPDMedicationPopUp setShowToster={setShowToster} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
+           
+            {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
+            <div className="modal fade" id="device" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Device</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <OPDDevicePopUp setShowToster={setShowToster} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <>
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(2)}}>
-                <span>PEHx</span>
-                {activeBox === 2?checkHtml:""}
             </div>
-            <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(3)}}>
-                <span>PCHx</span>
-                {activeBox === 3?checkHtml:""}
+            {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
+           
+            {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
+            <div className="modal fade" id="surgery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Surgery</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <OPDSurgeryPopUp setShowToster={setShowToster}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(4)}}>
-                <span>PHRHx</span>
-                {activeBox === 4?checkHtml:""}
-            </div>
-            <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(5)}}>
-                <span>Social Hx</span>
-                {activeBox === 5?checkHtml:""}
-            </div> */}
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(6)}}>
-                <span>FHx</span>
-                {activeBox === 6?checkHtml:""}
-            </div> */}
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={() => { handleClick(7) }}>
-                <span>Allergies</span>
-                {activeBox === 7 ? checkHtml : ""}
-            </div> */}
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(8)}}>
-                <span>Medication</span>
-                {activeBox === 8?checkHtml:""}
-            </div> */}
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(9)}}>
-                <span>Physical Examination</span>
-                {activeBox === 9?checkHtml:""}
-            </div> */}
-                {/* <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(10)}}>
-                <span>OBs Hx</span>
-                {activeBox === 10?checkHtml:""}
-            </div>
-            <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(11)}}>
-                <span>Menstrual Hx</span>
-                {activeBox === 11?checkHtml:""}
-            </div>
-            <div className='opdvitalbottom d-flex gap-2 align-items-center pointer' onClick={()=>{handleClick(12)}}>
-                <span>GYN Hx</span>
-                {activeBox === 12?checkHtml:""}
-            </div> */}
-            </>
+            {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
+
             {
-                showDynamicSideBar === 1 ? <OPDDynamicSideBar name={nameDynamicSidebar} id={categoryId} fun={handleClick} categoryType={categoryType} /> : ""
+                showToster === 1 ?
+                    <SuccessToster handle={setShowToster} message="Problem Saved SuccessFully !!"/> : ""
             }
             {
-                showHistorySideBar === 1 ? <OPDHistorySideBar name={nameDynamicSidebar} id={categoryId} fun={handleClick} categoryType={categoryType} /> : ""
+                showToster === 2 ?
+                    <SuccessToster handle={setShowToster} message="Allergy Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 3 ?
+                    <SuccessToster handle={setShowToster} message="Medication Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 4 ?
+                    <SuccessToster handle={setShowToster} message="Device Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 5 ?
+                    <SuccessToster handle={setShowToster} message="Surgery Saved SuccessFully !!" /> : ""
             }
 
             {
-                showAlergies === 7 ? <OPDAllergiesPopUP val={1} fun={() => { setShowAlergies(-1) }} /> : ""
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
             }
             {
-                showToster === 1 ? < AlertToster handle={setShowToster} message={message} /> : ""
+                showAlertToster === 2 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 3 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 4 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+            }
+            {
+                showAlertToster === 5 ?
+                    <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
             }
         </>
     )
