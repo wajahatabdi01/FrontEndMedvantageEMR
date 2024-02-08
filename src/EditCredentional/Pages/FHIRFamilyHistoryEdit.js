@@ -26,16 +26,18 @@ export default function FHIRFamilyHistoryEdit(props) {
 
   let SelectedData =(data,modalID)=>{ 
     
-   
+   console.log('data : ',data);
+   console.log('modalID : ',modalID);
     let t ={
       moduleId:modalID,
       data:data
     }
+
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
     for(var i =0; i<data.length; i++){
-      temp += " "+ data[i].id
+      temp += " "+ data[i].code
     }
     
     document.getElementById(modalID).value = temp
@@ -130,7 +132,7 @@ for(var j=0; j < modalIDs.length; j++){
           const dd = dataArray[l].data;
           var tempObj="";
           for(var k=0; k < dd.length; k++){
-            tempObj=tempObj.length === 0 ? [dd[k].dropdownId] +':'+dd[k].id  : tempObj +","+ [dd[k].dropdownId] +':'+ dd[k].id
+            tempObj=tempObj.length === 0 ? [dd[k].dropdownId] +':'+dd[k].code  : tempObj +","+ [dd[k].dropdownId] +':'+ dd[k].code
           }
           sendDataArr.push({
             code:modalIDs[j].code,

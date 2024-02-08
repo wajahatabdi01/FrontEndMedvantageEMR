@@ -357,6 +357,10 @@ import LayoutPatientStatsDetails from '../MedvantageWebsite/Layouts/LayoutPatien
 import LayoutPatientMisc from '../MedvantageWebsite/Layouts/LayoutPatientMisc';
 import LayoutPatientGuradian from '../MedvantageWebsite/Layouts/LayoutPatientGuradian';
 import LayoutPatientInsuranceDetails from '../MedvantageWebsite/Layouts/LayoutPatientInsuranceDetails';
+import Classification from '../Admin/Pages/FHIRMaster/Classification';
+import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
+import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
+import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 
 export default function ApiRoutes() {
 
@@ -397,7 +401,7 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
-                        <Route path='/searchRegisteredPatient/' element={<SearchRegisteredPatient />} />
+
                   </>
 
 
@@ -459,6 +463,11 @@ export default function ApiRoutes() {
                   {/* -----------------------------Start Admin Routing----------------------- */}
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
+                        <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
+                        <Route path="/classification/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Classification />} name="Classification" />} />} />
+                        <Route path="/occurence/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Occurence />} name="Occurence" />} />} />
+                        <Route path="/addrule/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddRule />} name="AddRule" />} />} />
+                        <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ViewPlanRules />} name="ViewPlanRules" />} />} />
                         <Route path="/buildingmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BuildingMaster />} name="BuildingMaster" />} />} />
                         <Route path="/floormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FloorMaster />} name="FloorMaster" />} />} />
                         <Route path="/caretakermaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CareTakerMaster />} name="CareTakerMaster" />} />} />
@@ -884,8 +893,8 @@ export default function ApiRoutes() {
 
 
                   {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
-                  <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} />
-                  <Route path="/Viewplanrules/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} />
+                  {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
+                  {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 
@@ -893,6 +902,10 @@ export default function ApiRoutes() {
                   <Route path="/fhirimmunization/" element={<ProtectedRoutes Compnent={<FHIRImmunization />} />} />
                   <Route path="/fhirimmunizationcodemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRImmunizationCodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage Immunization SEction----------------------------------------- */}
+                  {/* -----------------------------------Start Medvantage Prescription SEction----------------------------------------- */}
+                  <Route path="/fhiraddprescription/" element={<ProtectedRoutes Compnent={<FHIRAddPrescription />} />} />
+                  <Route path="/fhirprescreptionlist/" element={<ProtectedRoutes Compnent={<FHIRPrescreptionList />} />} />
+                  {/* -----------------------------------End Medvantage Prescription SEction----------------------------------------- */}
             </Routes>
 
       )

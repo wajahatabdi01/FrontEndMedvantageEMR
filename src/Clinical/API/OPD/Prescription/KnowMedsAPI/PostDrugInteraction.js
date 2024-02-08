@@ -1,7 +1,7 @@
 async function PostDrugInteraction(sendData) {
 
     // let url = window.AppbaseUrl + `/api/ADRReport/getDrugIntraction`;
-    let url = window.fhiropenEMR + `/api/ADRReport/getDrugIntraction`;
+    let url = window.AppbaseUrl + `/api/ADRReport/getDrugIntraction`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}
     let responsonse = "";

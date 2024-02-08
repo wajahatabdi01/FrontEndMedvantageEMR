@@ -1,7 +1,8 @@
 
 const POSTFHIRCarePlan = async(params)=>{
-  let url = window.fhiropenEMR+"/api/FHIRCarePlan/InsertCarePlanData";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
+  // let url = window.fhiropenEMR+"/api/FHIRCarePlan/InsertCarePlanData";
+  let url = window.AppbaseUrl+"/api/FHIRCarePlan/InsertCarePlanData";
   let responsonse = "";
   await fetch(url, {
       method: "POST",

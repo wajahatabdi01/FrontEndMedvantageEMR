@@ -25,6 +25,10 @@ function SearchRegisteredPatient() {
     let [registeredPatientList, setRegisteredPatientList] = useState([]);
     let [pageNumbers, setPageNumber] = useState(1);
     let [searchByName, setSearchByName] = useState('')
+    let [patientCountdata, setPatientCountData] = useState('')
+    let [socialSecurityNo, setSocialSecurityNo] = useState('')
+    let [externalId, setExternalId] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
     let [searchByNameList, setSearchByNameList] = useState([])
     let [searchByDob, setSearchByDob] = useState('')
     let [searchByDobList, setSearchByDobList] = useState([])
@@ -39,12 +43,13 @@ function SearchRegisteredPatient() {
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const pageSize = 15;
-    let getData = async (pageNumbers) => {       
-        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, selectedDate);
+    let getData = async (pageNumbers) => {
+        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, socialSecurityNo, selectedDate, externalId);
         if (response.status === 1) {
-            setRegisteredPatientList(response.responseValue);
+            setRegisteredPatientList(response.responseValue.searchResult);
+            setPatientCountData(response.responseValue.totalCount)
         }
-        window.sessionStorage.setItem("PatientDetails",JSON.stringify(response.responseValue));
+        window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
 
     let getAllNames = async (query) => {
@@ -60,6 +65,10 @@ function SearchRegisteredPatient() {
             setSearchByDobList(response.responseValue);
         }
     }
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
     const handleSearchPatientName = (searchValue) => {
         setSelectedPatient('');
         setSearchByName(searchValue);
@@ -112,6 +121,10 @@ function SearchRegisteredPatient() {
 
     }
 
+    const handlePageChange = (newPageNumber) => {
+        setPageNumber(newPageNumber);
+    };
+
     let nextPage = () => {
         setPageNumber(pageNumbers + 1)
         getData(pageNumbers)
@@ -123,27 +136,30 @@ function SearchRegisteredPatient() {
         }
     };
 
-    const handleDateChange=(e)=>{
-       setSelectedDate(e.target.value)
+    const handleDateChange = (e) => {
+        setSelectedDate(e.target.value)
     }
 
-    const handleClear=()=>{
+    const handleClear = () => {
+        getData(pageNumbers);
         setSearchByName('');
         setSelectedPatient('');
         setSelectedDate('');
         setRegisteredPatientList('');
+        setSocialSecurityNo('');
+        setExternalId('');
     }
 
     const handleRedirect = async (key) => {
         // const menuDetails = taskDetails.menuData;
         let resp = await GetPatientDetailsByUHID(key);
 
-       
+
         if (resp.status === 1) {
             let deptmenu = await GetMenuByDepartmentIdAndUserId(resp.responseValue[0].deptId);
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
-            if(deptResponse){
+            if (deptResponse) {
                 if (deptmenu.status === 1) {
                     window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
                         resp.responseValue,
@@ -168,7 +184,7 @@ function SearchRegisteredPatient() {
                     window.open('/prescriptionipd/')
                 }
             }
-            else{
+            else {
 
                 console.error('Something went wrong..');
             }
@@ -177,9 +193,28 @@ function SearchRegisteredPatient() {
             // setPatientProfilePopup(1)
         }
     }
+    let handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        if (name === "socialSecurityNo") {
+            setSocialSecurityNo(value)
+        }
+        if (name === "externalId") {
+            setExternalId(value)
+        }
+        console.log("SocialSecurityNo", value)
+    }
+
+    // Calculate start index and last index based on page number and page size
+    const startIndex = (pageNumbers - 1) * pageSize + 1;
+    // const endIndex = Math.min(startIndex + pageSize - 1, registeredPatientList.length - 1);
+    const endIndex = Math.min(startIndex + registeredPatientList.length - 1);
+
 
     useEffect(() => {
         getAllNames();
+        getData(pageNumbers);
         // getAllDob();
     }, []);
     return (
@@ -204,15 +239,13 @@ function SearchRegisteredPatient() {
                                             })}
                                     </div>
                                 </div>
-                                <div className="mb-2 me-2">
+                                {/* <div className="mb-2 me-2">
                                     <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by Home Phone" name="bedName" onChange={"handleChange"} />
-                                </div>
+                                </div> */}
                                 <div className="mb-2 me-2">
-                                    <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by SSN" name="bedName" onChange={"handleChange"} />
+                                    <input type="text" value={socialSecurityNo} className="form-control form-control-sm" id="socialSecurityNo" placeholder="search by SSN" name="socialSecurityNo" onChange={handleChange} />
                                 </div>
-                                <div className="mb-2 me-2">
-                                    <input type="date" onChange={handleDateChange} value={selectedDate} className="form-control form-control-sm" id="date" name='date' />
-                                </div>
+
                                 {/* <div className="mb-2 me-2">
                                     <input type="text" value={selectedDob === '' ? searchByDob : selectedDob} onChange={(e) => { handleSearchByDob(e.target.value) }} className="form-control form-control-sm" id="bedName" placeholder="search by Date of Birth" name="bedName" />
                                     <div className="box-container" id='ddlDataContainerForDob' style={{ display: 'none' }} >
@@ -227,7 +260,10 @@ function SearchRegisteredPatient() {
                                     </div>
                                 </div> */}
                                 <div className="mb-2 me-2">
-                                    <input type="email" className="form-control form-control-sm" id="bedName" placeholder="search by External ID" name="bedName" onChange={"handleChange"} />
+                                    <input type="text" value={externalId} className="form-control form-control-sm" id="externalId" placeholder="search by External ID" name="externalId" onChange={handleChange} />
+                                </div>
+                                <div className="mb-2 me-2">
+                                    <input type="date" onChange={handleDateChange} value={selectedDate} className="form-control form-control-sm" id="date" name='date' />
                                 </div>
                                 <div className="mb-2 relative">
                                     <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
@@ -241,7 +277,7 @@ function SearchRegisteredPatient() {
                             <div className='handlser'>
                                 <Heading text="Registered Patient List" />
                                 <div style={{ position: 'relative' }}>
-                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
+                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} value={searchTerm} onChange={handleSearch} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span>
                                 </div>
                             </div>
@@ -252,53 +288,56 @@ function SearchRegisteredPatient() {
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Full Name</th>
                                             <th>SSN</th>
-                                            <th>Date of Birth</th>
                                             <th>External ID</th>
+                                            <th>Date of Birth</th>
                                             <th style={{ "width": "10%" }} className="text-center">{t("Action")}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {registeredPatientList && registeredPatientList.map((val, ind) => {
+                                        {registeredPatientList && Array.isArray(registeredPatientList) && registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
                                             const adjustedIndex = ind + (pageNumbers - 1) * pageSize + 1;
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{adjustedIndex}</td>
                                                     <td>{val.patientName}</td>
-                                                    <td>{val.ssn}</td>
-                                                    <td>{val.dob}</td>
-                                                    <td>{val.externalID}</td>
+                                                    <td>{val.socialSecurityNo}</td>
+                                                    <td>{val.externalId}</td>
+                                                    <td>{val.dob.substring(0, 10)}</td>
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
-                                                                <img src={viewIcon} onClick={()=>{handleRedirect(val.uhID)}} alt='' />
+                                                                <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
                                                             </div>
-
                                                         </div>
                                                     </td>
                                                 </tr>
                                             );
                                         })}
 
+
                                     </tbody>
                                 </TableContainer>
                                 {/* ---------------------------Pagination-------------------------- */}
-                                <div className='paginationSearch'>
-                                    <nav aria-label="...">
-                                        <ul class="pagination">
-                                            <li class="page-item ">
-                                                <a class="page-link" href="#" onClick={previousPage}>Previous</a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
-                                            {/* <li class="page-item active" aria-current="page">
-                                                <span class="page-link">2</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li> */}
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" onClick={nextPage}>Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                {patientCountdata && patientCountdata.map((data) => {
+                                    return (<div className='paginationcount'>
+                                        <div className='showingcount'>Showing <span>{startIndex}</span> to <span>{endIndex}</span> out of <span>{data.patientCount}</span></div>
+                                        <div className='paginationSearch'>
+                                            <nav aria-label="...">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers - 1); getData(pageNumbers-1) }} disabled={pageNumbers === 1}>Previous</button>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
+                                                    <li class="page-item">
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers + 1); getData(pageNumbers+1) }}>Next</button>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>)
+                                })}
+
+
                                 {/* ---------------------------End Pagination-------------------------- */}
                                 {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
                                 <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">

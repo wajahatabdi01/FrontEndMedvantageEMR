@@ -101,6 +101,7 @@ export default function AssignDeaprtment(props) {
 
     setSelectedHead(value)
     let departmentListTemp = await getDepartment(value)
+    console.log("departmentListTemp",departmentListTemp)
     setTimeout(() => {
       if (value !== -1) {
         let sendData = data

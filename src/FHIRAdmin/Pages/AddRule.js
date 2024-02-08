@@ -78,7 +78,7 @@ export default function AddRule() {
     //Handle Change
     let handleChange = async (e) => {
         const { name, value, checked } = e.target;
-
+        document.getElementById('errTitle').style.display = "none";
         if (name === "active") {
             setSendForm((prevData) => ({
                 ...prevData,
@@ -174,7 +174,7 @@ export default function AddRule() {
                 setTimeout(() => {
                     setShowToster(0);
                     handleClear();
-                }, 1500)
+                }, 2000)
             }
             else {
                 setShowUnderProcess(0);

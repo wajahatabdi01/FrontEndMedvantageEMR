@@ -1,6 +1,6 @@
 let GetAllSearchByName = async(query)=>{
     
-    let url = window.fhiropenEMR + "/api/PatientRegistration/GetAllPatientNamesForFHIR?patientName="+query;
+    let url = window.AppbaseUrl + "/api/PatientRegistration/GetAllPatientNamesForFHIR?patientName="+query;
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let response = "";
     await fetch(url, {

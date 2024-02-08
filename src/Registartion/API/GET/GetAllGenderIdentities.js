@@ -1,5 +1,5 @@
 async function GetAllGenderIdentities(data) {
-    let url = window.fhirAdminEMR + "/api/FHIRGenderIdentity/GetAllGenderIdentities";
+    let url = window.AdminbaseUrl + "/api/FHIRGenderIdentity/GetAllGenderIdentities";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

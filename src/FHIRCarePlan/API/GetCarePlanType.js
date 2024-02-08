@@ -1,5 +1,6 @@
 async function GetCarePlanType() {
-  let url = window.fhiropenEMR+"/api/FHIRCarePlanTypeMaster/GetAllCarePlanType";
+  // let url = window.fhiropenEMR+"/api/FHIRCarePlanTypeMaster/GetAllCarePlanType";
+  let url = window.AppbaseUrl+"/api/FHIRCarePlanTypeMaster/GetAllCarePlanType";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

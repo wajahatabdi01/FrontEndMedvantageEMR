@@ -1,5 +1,5 @@
 let GetRaceType =async(stateID)=>{
-    const url= window.fhiropenEMR+"/api/KnowMedApis/GetRaceList";
+    const url= window.AppbaseUrl+"/api/KnowMedApis/GetRaceList";
     const head={'content-type':'application/json','accept':'*/*',}
     let data={};
     let response= await fetch(url,{
