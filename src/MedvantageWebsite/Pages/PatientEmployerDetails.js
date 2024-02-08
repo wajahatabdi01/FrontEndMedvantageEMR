@@ -37,7 +37,7 @@ export default function PatientEmployerDetails() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(4);
-  const totalSteps = 8;
+  const totalSteps = 9;
 
   const handleNext = () => {
     if (step < totalSteps) {
@@ -62,7 +62,7 @@ export default function PatientEmployerDetails() {
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 ">
             <div className="row col-12 registration-heading">Patient Registration</div> 
             <div className="px-5">
-               <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} />
+            <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
        {step === 4 && (
            <div className="registration-form-box">

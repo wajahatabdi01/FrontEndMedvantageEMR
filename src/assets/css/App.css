@@ -9952,6 +9952,7 @@ span.saveb img {
   display: flex;
 }
 .registration-form-box{
+  transition: opacity 0.5s ease;
   top: 324px;
 left: 221px;
 /* width: 1479px; */
@@ -10153,18 +10154,38 @@ opacity: 1;
 }
 
 .step-marker {
- 
-  bottom: -25px;
   transform: translateX(-50%);
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 23px;
   border-radius: 50%;
-  background-color: #fff;
-  border: 2px solid #ccc;
+  background-color: #D1D1D1;
+  border: 2px solid #D1D1D1;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.last-step{
+  background-color: transparent;
+  border: none;
+}
+.formstepName{
+  position: absolute;
+  transform: translateX(-50%);
+
+left: 50%;
+width: 40px;
+height: 25px;
+text-align: left;
+font: italic normal 300 14px/27px Poppins;
+letter-spacing: 0px;
+color: #4D4D4D;
+opacity: 1;
+  /* color: black */
 }
 
 .completed .step-marker {
