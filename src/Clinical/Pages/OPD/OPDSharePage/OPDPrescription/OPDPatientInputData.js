@@ -947,9 +947,9 @@ export default function OPDPatientInputData(props) {
                                         </div>
 
                                         <div className="col-md-1 d-flex justify-content-end align-items-center">
-                                            <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            {/* <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                 <img src={plus} className="icnn" alt="" />
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
 
