@@ -23,6 +23,7 @@ import { getPatientData } from '../../../../../Reduce/OPD/PatientData'
 import DownKey, { UpKey } from "../../../../../Code/ListSelect"
 import plus from '../../../../../assets/images/icons/icons8-plus-30.png'
 import MedicalProblem from '../../../../../FHIRClinical/Pages/Clinical/MedicalProblem'
+import Medication from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Medication'
 // import Autocomplete from '../../../../Code/AutoComplete'
 
 
@@ -326,7 +327,7 @@ export default function OPDPatientInputData(props) {
                 // else if (name === "physicalData") {
                 //     // setPhysicalExaminationValue(value)
                 //     let t = 0
-                
+
                 //     row["problemId"] = 0
                 //     row["problemName"] = value
                 //     row["pdmId"] = 6
@@ -422,7 +423,7 @@ export default function OPDPatientInputData(props) {
                 //     }
                 // })
                 // if (t === 0) {
-                
+
                 //     setSendData([...data, row])
 
                 //     setSymptomsData([...symptomsData, row])
@@ -513,11 +514,11 @@ export default function OPDPatientInputData(props) {
             setSendData([...temp])
             setIsProvisionalDiagnosis(true)
         }
-       
+
     }
 
     let handleRemove = (ind, problemId, name) => {
-        
+
 
 
         try {
@@ -526,7 +527,7 @@ export default function OPDPatientInputData(props) {
             let tempphysicalData = [...physicalData]
             let tempSenddata = [...sendData]
             let flag = 0
-            
+
 
             if (name === "symptomsData") {
                 sendData.map((val, ind) => {
@@ -536,7 +537,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 symptomsData.map((val, inde) => {
-                    
+
                     if (val.pdmId === 2 && val.problemId === problemId) {
                         tempsymptomsData.splice(inde, 1)
                         return
@@ -552,7 +553,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 physicalData.map((val, inde) => {
-                    
+
                     if (val.pdmId === 6 && val.problemId === problemId) {
                         tempphysicalData.splice(inde, 1)
                         return
@@ -567,7 +568,7 @@ export default function OPDPatientInputData(props) {
                     }
                 })
                 consultantData.map((val, inde) => {
-                    
+
                     if (val.pdmId === 4 && val.problemId === problemId) {
                         tempconsultantData.splice(inde, 1)
                         return
@@ -616,7 +617,7 @@ export default function OPDPatientInputData(props) {
 
 
             // })
-            
+
             setSymptomsData(tempsymptomsData)
             setConsultantData(tempconsultantData)
             setPhysicalData(tempphysicalData)
@@ -692,7 +693,7 @@ export default function OPDPatientInputData(props) {
                                     }
                                 })
                             }
-                            
+
                             // setSendVitals(val.jsonVital)
                         }
                         else if (key[0] === "disable") {
@@ -861,7 +862,7 @@ export default function OPDPatientInputData(props) {
                 // else if (name === "physicalData") {
                 //     // setPhysicalExaminationValue(value)
                 //     let t = 0
-                
+
                 //     row["problemId"] = 0
                 //     row["problemName"] = value
                 //     row["pdmId"] = 6
@@ -933,7 +934,7 @@ export default function OPDPatientInputData(props) {
                                 </div>
                                 <div className='p-2 m-0 col-sm-9 col-12'>
 
-                                    
+
                                     {/* <input autoComplete="off" type="text" className='text-box-opd ' placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress} disabled={disable === 1 ? true : false} />
                                     <div className='d-flex justify-content-end flex-wrap'>
                                     <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2"><img src={plus} className='icnn' alt='' /></button>
@@ -941,18 +942,18 @@ export default function OPDPatientInputData(props) {
 
                                     <div className="input-container col-md-12 row">
                                         <div className='col-md-11'>
-                                        <input autoComplete="off"    type="text"   className="text-box-opd" placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress}
-                                            disabled={disable === 1 ? true : false}/>
+                                            <input autoComplete="off" type="text" className="text-box-opd" placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress}
+                                                disabled={disable === 1 ? true : false} />
                                         </div>
-                                        
-                                    <div className="col-md-1 d-flex justify-content-end align-items-center">
-                                        <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                             <img src={plus} className="icnn" alt="" />
-                                        </button>
-                                     </div>
+
+                                        <div className="col-md-1 d-flex justify-content-end align-items-center">
+                                            {/* <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                <img src={plus} className="icnn" alt="" />
+                                            </button> */}
+                                        </div>
                                     </div>
 
-                                     
+
                                     {showSearchBoxProblem === 1 ?
                                         <div id="symptomsDataListdiv" className='position-absolute opdmedicationsearchbox'>
                                             <ul id="symptomsDataList">
@@ -1164,156 +1165,10 @@ export default function OPDPatientInputData(props) {
                     <div className="modal-content ">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Medical Problem</h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
                         </div>
                         <div className="modal-body">
-                            <div className="problemhead">
-                                <div className='problemhead-inn'>
-                                    <div className="col-12 mb-2">
-                                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Type: Problem</b></label>
-                                        <input type="text" className="form-control form-control-sm" style={{ height: '8em' }}/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Active Issue: Codes</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='issueCodes' id='issueCodes' >
-                                                        {/* {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''} */}
-                                                            <option value='0'>Test</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            
-                                        </div>
-                            <div className='problemhead-inn'>
-                                            <div className="col-12 mb-2">
-                                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
-                                                <div>
-                                                    <select className='form-control' style={{ height: '8em' }} multiple name='Coding' id='Coding' >
-                                                        {/* {issueDetails.coding !== "" ?
-                                                            <option>{issueDetails.coding}</option>
-                                                            : ''} */}
-                                                            <option value='0'>Test</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="d-inline-flex gap-2">
-                                                <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }}>Add</button>
-                                                <button type="button" class="btn btn-secondary btn-sm" onClick={''}>Remove</button>
-                                            </div>
-                                            
-                                        </div>
-                                        <div className='col-12 mt-2'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={''} />
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                                    <input type="date" className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={''} />
-                                                    <div className='mt-2' style={{ float: 'inline-end' }}>
-                                                        <span className='font-monospace fst-italic'>(leave blank if still active)</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='col-12 mt-2'>
-                                            <div className="row">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={''} >
-                                                            <option value="0" selected>Select Classification</option>
-                                                            {/* {classificationList && classificationList.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })} */}
-                                                            <option value='0'>list.name</option>
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={''} >
-                                                            <option value="0" selected>Select Occurrence</option>
-                                                            {/* {occurencelist && occurencelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })} */}
-                                                            <option value='0'>list.name</option>
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={''} >
-                                                            <option value="0" selected>Select Status</option>
-                                                            {/* {statuslist && statuslist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })} */}
-                                                            <option value='0'>list.name</option>
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12 mt-2'>
-                                            <div className="row">
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
-                                                    {/* <sup style={{ color: "red" }}>*</sup> */}
-                                                    <div className='d-flex gap-3' >
-                                                        <select className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={''} >
-                                                            <option value="0" selected>Select Outcome</option>
-                                                            {/* {outComelist && outComelist.map((list) => {
-                                                                return (
-                                                                    <option value={list.id}>{list.name}</option>
-                                                                )
-                                                            })} */}
-                                                            <option value='0'>list.name</option>
-                                                        </select>
-                                                    </div>
-                                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                                </div>
-                                                <div className="col-6 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
-                                                    <input type="text" className="form-control form-control-sm" id="destination" name='destination' onChange={''} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='col-12 mt-2' >
-                                            <div className="row">
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                                    <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' onChange={''} />
-                                                </div>
-                                                <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
-                                                    <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} onChange={''}></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <Medication/>
                         </div>
                         <div class="modal-footer">
                             <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
@@ -1322,7 +1177,7 @@ export default function OPDPatientInputData(props) {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
