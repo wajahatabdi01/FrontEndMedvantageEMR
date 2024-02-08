@@ -128,10 +128,10 @@ export default function OPDTOPBottom(props) {
                 <span data-bs-toggle="modal" data-bs-target="#surgery">{t("Surgery")} </span>
 
             </div>
-            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+            {/* <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
                 <span>{t("Dental")} </span>
 
-            </div>
+            </div> */}
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
                 <span data-bs-toggle="modal" data-bs-target="#carePlan">{t("Care Plan")} </span>
 
