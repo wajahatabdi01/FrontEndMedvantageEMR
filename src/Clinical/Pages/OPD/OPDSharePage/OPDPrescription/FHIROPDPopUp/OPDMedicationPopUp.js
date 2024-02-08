@@ -215,7 +215,7 @@ function OPDMedicationPopUp({setShowToster}) {
 
                     </div>
                     <div class="d-inline-flex gap-2">
-                        <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { "handleOpenModal"('coding') }}><i class="bi bi-plus"></i> Add</button>
+                        <button type="button" disabled class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { "handleOpenModal"('coding') }}><i class="bi bi-plus"></i> Add</button>
                         <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
                     </div>
                 </div>
