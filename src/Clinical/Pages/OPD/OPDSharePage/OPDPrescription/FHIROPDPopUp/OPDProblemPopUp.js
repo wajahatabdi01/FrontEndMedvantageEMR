@@ -7,7 +7,8 @@ import GetAllClassification from '../../../../../../Registartion/API/GET/GetAllC
 import InsertEncounter from '../../../../../../Registartion/API/POST/InsertEncounter';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-
+import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
+import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 function OPDProblemPopUp({ setShowToster }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
@@ -345,13 +346,18 @@ function OPDProblemPopUp({ setShowToster }) {
                 </div>
 
             </div>
-            <div class="modal-footer">
+            {/* <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal_" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
                     <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                 </div>
+            </div> */}
+            <div class="modal-footer">
+                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt=''/> Save</button>
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt=''/> Clear</button>
+                </div>
             </div>
-
         </>
     )
 }
