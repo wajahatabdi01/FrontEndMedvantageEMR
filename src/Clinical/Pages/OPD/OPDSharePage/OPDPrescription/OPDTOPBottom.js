@@ -14,6 +14,7 @@ import FHIRCarePlan from '../../../../../FHIRCarePlan/Pages/FHIRCarePlan';
 import FHIRImmunization from '../../../../../FHIRImmunization/Pages/FHIRImmunization';
 import OPDRecordDisclosurePopUp from './FHIROPDPopUp/OPDRecordDisclosurePopUp';
 import OPDPatientMessagePopUp from './FHIROPDPopUp/OPDPatientMessagePopUp';
+import OPDViewDiscloserRecord from './FHIROPDPopUp/OPDViewDiscloserRecord';
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -151,7 +152,7 @@ export default function OPDTOPBottom(props) {
 
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span data-bs-toggle="modal" data-bs-target="#disclosure">{t("Record Disclosure")} </span>
+                <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle">{t("Record Disclosure")} </span>
 
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
@@ -267,7 +268,7 @@ export default function OPDTOPBottom(props) {
             {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
 
             {/* --------------------------------------------------------------Record Disclosure PopUp Begin--------------------------------------------------- */}
-            <div className="modal fade" id="disclosure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+            {/* <div className="modal fade" id="disclosure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                 <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                     <div className="modal-content ">
                         <div className="modal-header">
@@ -275,9 +276,9 @@ export default function OPDTOPBottom(props) {
                             <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
                         </div>
                         <div className="modal-body">
-                            <div class="tab-content" id="myTabContent">
-                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                            <div class="tab-content" id="myTabContent"> */}
+            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+            {/* <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
                                     <OPDRecordDisclosurePopUp />
                                 </div>
                             </div>
@@ -285,9 +286,37 @@ export default function OPDTOPBottom(props) {
                     </div>
                 </div>
 
+            </div> */}
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Record Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+                        <div class="modal-body">
+                        <OPDRecordDisclosurePopUp />
+                        </div>
+                        {/* <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+                        </div> */}
+                    </div>
+                </div>
             </div>
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">View Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+                        <div class="modal-body">
+                        <OPDViewDiscloserRecord/>
+                        </div>
+                        {/* <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Delete</button>
+                        </div> */}
+                    </div>
+                </div>
+            </div>
+
             {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
-            {/* --------------------------------------------------------------Record Disclosure PopUp Begin--------------------------------------------------- */}
+            {/* --------------------------------------------------------------Patient Message PopUp Begin--------------------------------------------------- */}
             <div className="modal fade" id="Message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                 <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                     <div className="modal-content ">
@@ -307,7 +336,7 @@ export default function OPDTOPBottom(props) {
                 </div>
 
             </div>
-            {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
+            {/* --------------------------------------------------------------Patient Message PopUp End--------------------------------------------------- */}
 
             {/* -----------------------------------------------------------------------Start FHIR Family History --------------------------------------------- */}
 

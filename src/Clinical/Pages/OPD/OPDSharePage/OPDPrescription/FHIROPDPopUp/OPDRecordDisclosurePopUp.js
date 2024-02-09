@@ -49,7 +49,7 @@ function OPDRecordDisclosurePopUp() {
             </div>
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={"handleSaveIssues"}><img src={saveButtonIcon} className='icnn' alt=''/> Save</button>
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" ><img src={saveButtonIcon} className='icnn' alt=''/> Save</button>
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={"handleClear"}><img src={clearIcon} className='icnn' alt=''/> Clear</button>
                 </div>
             </div>
