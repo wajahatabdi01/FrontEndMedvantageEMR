@@ -9,12 +9,13 @@ import Allergy from '../IssuesPopUpComponents/Allergy';
 import Medication from '../IssuesPopUpComponents/Medication';
 import Device from '../IssuesPopUpComponents/Device';
 import Surgery from '../IssuesPopUpComponents/Surgery';
-
+import saveButtonIcon from '../../../../assets/images/icons/saveButton.svg';
+import clearIcon from '../../../../assets/images/icons/clear.svg';
 const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     // console.log("issueValue", issueValue);
     let [problem, setProblem] = useState('');
-    let[issueDetailss,setIssueDetailss]=useState()
+    let [issueDetailss, setIssueDetailss] = useState()
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
@@ -317,7 +318,7 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                             {issueDetails !== undefined ?
                                 <>
                                     {
-                                        issueDetails.Problem.coding !==undefined   ?
+                                        issueDetails.Problem.coding !== undefined ?
                                             <option>{issueDetails.Problem.coding}</option>
                                             : ""
                                     }
@@ -556,10 +557,16 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        {/* <div class="modal-footer">
                             <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                                 <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
                                 <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal_" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
+                            </div>
+                        </div> */}
+                        <div class="modal-footer">
+                            <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                             </div>
                         </div>
                     </div>

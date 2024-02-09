@@ -7,8 +7,9 @@ import InsertEncounter from '../../../../../../Registartion/API/POST/InsertEncou
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
-
-function OPDAllergyPopUp({setShowToster}) {
+import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
+import clearIcon from '../../../../../../assets/images/icons/clear.svg';
+function OPDAllergyPopUp({ setShowToster }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -43,7 +44,7 @@ function OPDAllergyPopUp({setShowToster}) {
     let getAllBrandList = async () => {
         const response = await GetBrandList();
         if (response.status === 1) {
-            const slicedProblemList =response.responseValue.slice(0,100)
+            const slicedProblemList = response.responseValue.slice(0, 100)
             setBrandList(slicedProblemList);
         }
     }
@@ -74,6 +75,7 @@ function OPDAllergyPopUp({setShowToster}) {
     }
 
     const handleTitleInputChange = (e) => {
+        document.getElementById("errTitles").style.display = "none";
         setAllery(e.target.value);
         setCodingSelected(false);
         const { name, value } = e.target;
@@ -92,6 +94,7 @@ function OPDAllergyPopUp({setShowToster}) {
     }
 
     let handleIssueDetailsChange = (e) => {
+        document.getElementById("errBegindate").style.display = "none";
         const { name, value } = e.target;
         setAllergyData((prevIssueDetails) => ({
             ...prevIssueDetails,
@@ -100,6 +103,7 @@ function OPDAllergyPopUp({setShowToster}) {
     }
 
     let handleSelectProblem = () => {
+        document.getElementById("errTitles").style.display = "none";
         const ddlProblems = document.getElementById("ddlAllergy");
         const ddlAllergyId = document.getElementById("ddlAllergy").value;
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
@@ -126,7 +130,7 @@ function OPDAllergyPopUp({setShowToster}) {
         }));
     };
 
-    let handleClear =()=>{
+    let handleClear = () => {
         setAllergyData({
             titleId: '',
             title: '',
@@ -141,33 +145,45 @@ function OPDAllergyPopUp({setShowToster}) {
             outcomeId: '0',
             destination: ''
         })
+        document.getElementById("errTitles").style.display = "none";
+        document.getElementById("errBegindate").style.display = "none";
     }
 
     let handleSaveIssues = async () => {
-        let pobj = {
-            uhid: activePatient,
-            encounterDetailsJsonString: JSON.stringify([allergyData]),
-            clientId: window.clientId,
-            userId: window.userId
+        if (allergyData.title === '' || allergyData.title === undefined || allergyData.title === null) {
+            document.getElementById("errTitles").innerHTML = "Please enter title";
+            document.getElementById("errTitles").style.display = "block";
         }
-        console.log("pobj", pobj)
-        // return;
-        const response = await InsertEncounter(pobj);
-        if (response.status === 1) {
-            setShowUnderProcess(0);
-            setShowToster(2)
-            setTimeout(() => {
-                setShowToster(0);
-            }, 2000)
-            handleClear();
+        if (allergyData.beginDateTime === '' || allergyData.beginDateTime === undefined || allergyData.beginDateTime === null) {
+            document.getElementById("errBegindate").innerHTML = "Please select begin date";
+            document.getElementById("errBegindate").style.display = "block";
         }
         else {
-            setShowUnderProcess(0)
-            setShowAlertToster(1)
-            setShowMessage(response.responseValue)
-            setTimeout(() => {
-                setShowToster(0)
-            }, 2000)
+            let pobj = {
+                uhid: activePatient,
+                encounterDetailsJsonString: JSON.stringify([allergyData]),
+                clientId: window.clientId,
+                userId: window.userId
+            }
+            console.log("pobj", pobj)
+            // return;
+            const response = await InsertEncounter(pobj);
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(2)
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+                handleClear();
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
         }
     }
 
@@ -178,8 +194,8 @@ function OPDAllergyPopUp({setShowToster}) {
         getAllVarificationStatus();
         getClassificationlist();
     }, [])
-  return (
-    <>
+    return (
+        <>
             <div className='problemhead'>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
@@ -198,13 +214,16 @@ function OPDAllergyPopUp({setShowToster}) {
 
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
-                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
+                        <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
                         <input type="text" value={allergyData.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
+                        <small id="errTitles" className="form-text text-danger" style={{ display: 'none' }}>
+                    </small>
                     </div>
+                    
                 </div>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
-                        <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
+                        <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
                         <div>
                             <select value={allergyData && allergyData.coding} className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
                                 {allergyData && allergyData.coding !== "" ?
@@ -222,11 +241,13 @@ function OPDAllergyPopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
+                            <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
                             <input type="date" value={allergyData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                            <small id="errBegindate" className="form-text text-danger" style={{ display: 'none' }}>
+                            </small>
                         </div>
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>End Date and Time</></label>
                             <input type="date" value={allergyData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
                             <div className='mt-2' style={{ float: 'inline-end' }}>
                                 <span className='font-monospace fst-italic'>(leave blank if still active)</span>
@@ -238,7 +259,7 @@ function OPDAllergyPopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Classification Type</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Classification Type</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={allergyData.classificationTypeId} className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={handleIssueDetailsChange} >
@@ -253,7 +274,7 @@ function OPDAllergyPopUp({setShowToster}) {
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Occurrence</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Occurrence</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={allergyData.occurrenceId} className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
@@ -269,7 +290,7 @@ function OPDAllergyPopUp({setShowToster}) {
                         </div>
 
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Verification Status</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={allergyData.verificationStatusId} className="form-select form-select-sm" id="verificationStatusId" aria-label=".form-select-sm example" name='verificationStatusId' onChange={handleIssueDetailsChange} >
@@ -288,7 +309,7 @@ function OPDAllergyPopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Outcome</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={allergyData.outcomeId} className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
@@ -303,7 +324,7 @@ function OPDAllergyPopUp({setShowToster}) {
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-6 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Destination</></label>
                             <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={allergyData.destination} onChange={handleIssueDetailsChange} />
                         </div>
                     </div>
@@ -311,25 +332,31 @@ function OPDAllergyPopUp({setShowToster}) {
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
                             <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={allergyData.referredby} onChange={handleIssueDetailsChange} />
                         </div>
                         <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Comments</></label>
                             <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={allergyData.comments} onChange={handleIssueDetailsChange}></textarea>
                         </div>
                     </div>
                 </div>
 
             </div>
+            {/* <div class="modal-footer">
+                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal_" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
+                    <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
+                </div>
+            </div> */}
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
-                    <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt=''/> Save</button>
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt=''/> Clear</button>
                 </div>
             </div>
         </>
-  )
+    )
 }
 
 export default OPDAllergyPopUp

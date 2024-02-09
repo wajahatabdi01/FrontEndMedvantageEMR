@@ -19,7 +19,7 @@ import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
 import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 
 
-export default function FHIRImmunization() {
+export default function FHIRImmunization(props) {
 
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -76,6 +76,8 @@ export default function FHIRImmunization() {
   ]);
   
   const customStyle = { marginLeft: '0px' };
+  const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -169,7 +171,7 @@ export default function FHIRImmunization() {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].code
+      temp = data[i].code
     }
 
     document.getElementById(modalID).value = temp
@@ -188,7 +190,7 @@ export default function FHIRImmunization() {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].code
+      temp = data[i].code
     }
     document.getElementById(modalID).value = temp
 
@@ -206,7 +208,7 @@ export default function FHIRImmunization() {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].code
+      temp = data[i].code
     }
 
     document.getElementById(modalID).value = temp
@@ -224,7 +226,7 @@ export default function FHIRImmunization() {
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp += " " + data[i].code
+      temp = data[i].code
     }
 
     document.getElementById(modalID).value = temp
@@ -418,9 +420,9 @@ export default function FHIRImmunization() {
        }
        else{
         const finalObjInvestAndReason = {
-          uhid:'UHID00143',
-          clientId: 176,
-          userId : 12,
+          uhid:props.patientUhid,
+          clientId: clientID,
+          userId : userId,
           cvxCode : investConCat,
           reasonCode: investConCatReason,
           administeredDate : sendForm.DatenTimeAdministered,
@@ -485,8 +487,8 @@ export default function FHIRImmunization() {
     funGetAllImmunizationData();
   },[])
   return (
-    <>
-      <section className="main-content mt-5 pt-3">
+    
+      <>
         <div className='container-fluid'>
           <div className="row">
             <div className='col-12'>
@@ -882,7 +884,7 @@ export default function FHIRImmunization() {
         ) : ''}
 
 {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
-      </section>
-    </>
+</>
+    
   )
 }
