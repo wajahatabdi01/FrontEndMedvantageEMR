@@ -343,6 +343,10 @@ export default function OPDTOPBottom(props) {
                 showToster === 5 ?
                     <SuccessToster handle={setShowToster} message="Surgery Saved SuccessFully !!" /> : ""
             }
+            {
+                showToster === 6 ?
+                    <SuccessToster handle={setShowToster} message="History Saved SuccessFully !!" /> : ""
+            }
 
             {
                 showAlertToster === 1 ?

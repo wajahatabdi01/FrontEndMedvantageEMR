@@ -102,6 +102,7 @@ export default function FHIRFamilyHistoryEdit(props) {
           setShowToster(6);
           // setTosterMessage('Data Saved !');
           setTimeout(() => {
+            funClearData();
             setShowToster(0)
           },1000)
         }
@@ -152,6 +153,15 @@ for(var j=0; j < modalIDs.length; j++){
  
   return sendDataArr;
  }
+
+ const funClearData = async () => {
+  document.getElementById('mdlFatherID').value = '';
+  document.getElementById('mdlMotherID').value = '';
+  document.getElementById('siblingsID').value = '';
+  document.getElementById('spouseID').value = '';
+  document.getElementById('offSpringID').value = '';
+  setMakeData([])
+ } 
   return (
     
     <>
