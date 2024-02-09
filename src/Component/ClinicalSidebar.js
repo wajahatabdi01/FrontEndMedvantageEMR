@@ -93,7 +93,7 @@ export default function ClinicalSidebar() {
             <div className="offcanvas-header offcanvas-header-custome">
 
                 <div className='offcanvas-logo-username'>
-                    <div className='offcanvas-logoBorderBottom p-2'>
+                    <div className='offcanvas-logoBorderBottom p-2' style={{borderBottom: '0px'}}>
                         <img src={MaskGroup} className="logoLeft" />
                         <div className='offcanvas-logo '>
                             <Link to="/dashboard/"> <img src={OffcanvasLogo} className="OffcanvasLogo" /></Link>

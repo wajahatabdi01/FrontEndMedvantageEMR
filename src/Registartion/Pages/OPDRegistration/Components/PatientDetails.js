@@ -259,7 +259,7 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 <small id="errPatientFirstName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-2 mb-2">
-                <label htmlFor="txtPatientMiddleName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientMiddleName")}</label><sup style={{ color: "red" }}>*</sup>
+                <label htmlFor="txtPatientMiddleName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientMiddleName")}</label>
                 <input type="text" className="form-control form-control-sm" id="txtPatientMiddleName" placeholder={t("Enter_Patient_Middle_Name")} name='middleName' value={patientDetails.middleName} onChange={handlePatientDetailsChange} />
                 <small id="errPatientMiddleName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>

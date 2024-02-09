@@ -50,9 +50,8 @@ export default function PatientInsurance() {
   const totalSteps = 9;
 
   const handleSubmit = () => {
-    
+    navigate("/PatientPortalDashboard/")
    
-    
     };
   
     const handlePrevious = () => {
