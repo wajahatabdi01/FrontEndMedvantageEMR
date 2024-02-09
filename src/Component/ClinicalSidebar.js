@@ -122,15 +122,15 @@ export default function ClinicalSidebar() {
                         <li className="singleList">
                             <Link to="/dashboard/" className="nav-link  px-3 sidebar-link active">
                                 <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
-                                <span>Dashboard</span>
+                                <span>Personal Dashboard</span>
                             </Link>
                         </li>
-                        <li className="singleList">
+                        {/* <li className="singleList">
                             <Link to="/bedMaster/" className="nav-link  px-3 sidebar-link">
                                 <span className="me-2"><img src={admin} alt="" className="navLinkicon" /></span>
                                 <span>Admin</span>
                             </Link>
-                        </li>
+                        </li> */}
                         {/* <li className="singleList">
                             <Link to="/opdRegistration/" className="nav-link  px-3 sidebar-link">
                                 <span className="me-2"><img src={uhidNavLinkicon} alt="" className="navLinkicon" /></span>
@@ -144,37 +144,37 @@ export default function ClinicalSidebar() {
                                     <img src={registrationIcon} alt="" className="navLinkicon" />
                                 </span>
 
-                                <span>Registration</span>
+                                <span>Appointment</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
                             <div className="collapse custome-collapse" id="Schedule">
                                 <ul className="navbar-nav ps-3">
-                                    <li>
+                                    {/* <li>
                                         <Link to="/opdRegistration/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
                                             <span>Patient Registration</span>
                                         </Link>
-                                    </li>
+                                    </li> */}
 
-                                    <li>
+                                    {/* <li>
                                         <Link to="/admitPatient/" className="nav-link">
                                             <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
                                             <span>Admit Patient</span>
                                         </Link>
-                                    </li>
+                                    </li> */}
 
-                                    <li>
+                                    {/* <li>
                                         <Link href="/citymaster" className="nav-link">
                                             <span> <img src={CityMasterIcon} alt="" className="icnn" /></span>
                                             <span>City Master</span>
                                         </Link>
-                                    </li>
-                                    <li>
+                                    </li> */}
+                                    {/* <li>
                                         <Link to="/healthCard/" className="nav-link">
                                             <span> <img src={HealthCardIcon} alt="" className="icnn" /></span>
                                             <span>Health Card</span>
                                         </Link>
-                                    </li>
+                                    </li> */}
 
                                 </ul>
                             </div>
