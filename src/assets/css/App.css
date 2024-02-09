@@ -10194,6 +10194,11 @@ opacity: 1;
   color: #fff;
 }
 
+.step-marker.completed {
+  background-color: #7DC855; 
+  border-color: #7DC855; 
+}
+
 .main-progressbar{
   height: 2px !important;
 }
@@ -10220,4 +10225,17 @@ opacity: 1;
   font-weight: 600;
   text-decoration: underline;
 }
+
+.tick-completed { 
+  text-align: center;
+  color: white;
+  background-color: #7DC855;
+  padding: 5px;
+  border-radius: 50%;
+  width: 24px;
+  height: 23px; 
+}
+
+
+
 
