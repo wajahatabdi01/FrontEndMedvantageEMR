@@ -28,7 +28,7 @@ export default function PatientSignUp() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
-  const totalSteps = 8;
+  const totalSteps = 9;
 
   const handleNext = () => {
     if (step < totalSteps) {
