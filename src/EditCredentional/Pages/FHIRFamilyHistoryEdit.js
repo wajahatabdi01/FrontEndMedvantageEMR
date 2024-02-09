@@ -19,6 +19,7 @@ export default function FHIRFamilyHistoryEdit(props) {
   let [tosterValue, setTosterValue] = useState(0);
   let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
+  let [showAlertToster, setShowAlertToster] = useState(0)
 
   let getUhid = props.patientUhid;
   
@@ -26,21 +27,23 @@ export default function FHIRFamilyHistoryEdit(props) {
 
   let SelectedData =(data,modalID)=>{ 
     
-   console.log('data : ',data);
-   console.log('modalID : ',modalID);
-    let t ={
-      moduleId:modalID,
-      data:data
+    let t = {
+      moduleId: modalID,
+      data: data
     }
-
+    
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
-    for(var i =0; i<data.length; i++){
-      temp += " "+ data[i].code
+    for (var i = 0; i < data.length; i++) {
+      temp = data[i].code
     }
     
-    document.getElementById(modalID).value = temp
+    setTimeout(()=>{
+
+      document.getElementById(modalID).value = temp
+    }, 600)
+      
     
 }
  const handleOpenModal=(modalID)=>{
@@ -81,37 +84,40 @@ export default function FHIRFamilyHistoryEdit(props) {
   //    }
   // }
   
-  const getresponse = await dataMaker(makeData);
+  if(makeData.length !== 0){
+    const getresponse = await dataMaker(makeData);
   let objSave = {
     uhid:getUhid,
     jsonData : JSON.stringify(getresponse)
   }
 
  
-  
-
   if(objSave !== '' && objSave !== undefined){
     let saveResponse = await PostFHIRFamilyHistoryEdit(objSave);
     if(saveResponse.status === 1)
         {
           
           setShowUnderProcess(0);
-          setTosterValue(0);
-          setShowToster(1);
-          setTosterMessage('Data Saved !');
+          // setTosterValue(0);
+          setShowToster(6);
+          // setTosterMessage('Data Saved !');
           setTimeout(() => {
             setShowToster(0)
           },1000)
         }
         else{
           setShowUnderProcess(0);
-          setShowToster(1);
+          setShowAlertToster(1)
           setTosterMessage(saveResponse.responseValue);
-          setTosterValue(1);
+          //setTosterValue(1);
           setTimeout(() => {
             setShowToster(0);
           },1000)
         }
+  }
+  }
+  else{
+    alert('Please fill atleast one of the history!');
   }
   
  }
@@ -166,7 +172,10 @@ for(var j=0; j < modalIDs.length; j++){
                     <th style={{borderBottom: 'none', paddingTop:'10px'}}>Father : </th>
                     <th style={{borderBottom:'none', paddingTop:'10px'}}><input type='text' value='F' className='form-control form-control-sm' style={{maxWidth:'250px'}} readOnly/></th>
                     <th style={{borderBottom: 'none', paddingTop:'10px'}}>Diagnosis Code : </th>
-                    <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id={"mdlFatherID"}  style={{maxWidth:'250px'}} placeholder='Enter Codes'  onClick={()=>{handleOpenModal('mdlFatherID')}}/></th>
+                    {/* <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id='mdlFatherID'  style={{maxWidth:'250px'}} placeholder='Enter Codes'  onClick={()=>{handleOpenModal('mdlFatherID')}}/></th> */}
+                    <th style={{borderBottom: 'none', paddingTop:'10px'}}>
+                    <input  id="mdlFatherID" type="text" className="form-control form-control-sm" name="mdlFatherID" placeholder= "Enter Code" style={{maxWidth:'250px'}} onClick={()=> {handleOpenModal('mdlFatherID')}}/>
+                    </th>
                     {/* <th style={{borderBottom: 'none', paddingTop:'10px'}}><input type='text' className='form-control form-control-sm' id={"fatherID"} style={{maxWidth:'250px'}} placeholder='Enter Codes' data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#codesModal" /></th> */}
                   </tr>
                   <tr>
@@ -219,7 +228,7 @@ for(var j=0; j < modalIDs.length; j++){
                         <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
                            
 
-                            <CodeMaster style={customStyle} SelectedData = {SelectedData} defaultData={makeData} modalID={PopUpId}/> 
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={false}/> 
                            {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>

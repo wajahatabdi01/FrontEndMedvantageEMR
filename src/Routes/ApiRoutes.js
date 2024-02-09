@@ -355,10 +355,15 @@ import LayoutPatientChoices from '../MedvantageWebsite/Layouts/LayoutPatientChoi
 import LayoutPatientEmployerDetails from '../MedvantageWebsite/Layouts/LayoutPatientEmployerDetails';
 import LayoutPatientStatsDetails from '../MedvantageWebsite/Layouts/LayoutPatientStatsDetails';
 import LayoutPatientMisc from '../MedvantageWebsite/Layouts/LayoutPatientMisc';
+import LayoutPatientPortalDashboard from '../PatientPortal/Layout/LayoutPatientPotalDashboard';
 import LayoutPatientGuradian from '../MedvantageWebsite/Layouts/LayoutPatientGuradian';
 import LayoutPatientInsuranceDetails from '../MedvantageWebsite/Layouts/LayoutPatientInsuranceDetails';
 import Classification from '../Admin/Pages/FHIRMaster/Classification';
 import Occurence from '../Admin/Pages/FHIRMaster/Occurence';
+import FHIRClassMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassMaster';
+import FHIRTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeMaster';
+import FHIRSensitivityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSensitivityMaster';
+import FHIRDischargeDispositionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRDischargeDispositionMaster';
 import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
 import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 
@@ -403,9 +408,17 @@ export default function ApiRoutes() {
                         <Route path='/taskMaster/' element={<TaskMaster />} />
 
                   </>
+                    {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
 
+                    <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
+                    
+                    {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
                   {/* -----------------------------End Website Routing----------------------- */}
+
+
+
+
                   {/* -----------------------------Start SuperAdmin Routing----------------------- */}
                   <>
                         <Route path="/superadmin/" element={<SuperAdminLogin />} />
@@ -530,6 +543,10 @@ export default function ApiRoutes() {
                         <Route path="/languageconversionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LanguageConversionMaster />} name="LanguageConversionMaster" />} />} />
                         <Route path="/logdetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogDetails />} name="LogDetails" />} />} />
                         <Route path="/organdepartmentmapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OrganDepartmentMapping />} name="OrganDepartmentMapping" />} />} />
+                        <Route path="/fhirclassmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRClassMaster/>} name="FHIRClassMaster" />} />} />
+                        <Route path="/fhirtypemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRTypeMaster />} name="FHIRTypeMaster" />} />} />
+                        <Route path="/fhirsensitivitymaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRSensitivityMaster />} name="FHIRSensitivityMaster" />} />} />
+                        <Route path="/fhirdischargedispositionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRDischargeDispositionMaster />} name="FHIRDischargeDispositionMaster" />} />} />
                   </>
                   {/* End Here */}
 
