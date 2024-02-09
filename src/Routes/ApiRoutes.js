@@ -355,6 +355,7 @@ import LayoutPatientChoices from '../MedvantageWebsite/Layouts/LayoutPatientChoi
 import LayoutPatientEmployerDetails from '../MedvantageWebsite/Layouts/LayoutPatientEmployerDetails';
 import LayoutPatientStatsDetails from '../MedvantageWebsite/Layouts/LayoutPatientStatsDetails';
 import LayoutPatientMisc from '../MedvantageWebsite/Layouts/LayoutPatientMisc';
+import LayoutPatientPortalDashboard from '../PatientPortal/Layout/LayoutPatientPotalDashboard';
 import LayoutPatientGuradian from '../MedvantageWebsite/Layouts/LayoutPatientGuradian';
 import LayoutPatientInsuranceDetails from '../MedvantageWebsite/Layouts/LayoutPatientInsuranceDetails';
 import Classification from '../Admin/Pages/FHIRMaster/Classification';
@@ -403,9 +404,17 @@ export default function ApiRoutes() {
                         <Route path='/taskMaster/' element={<TaskMaster />} />
 
                   </>
+                    {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
 
+                    <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
+                    
+                    {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
                   {/* -----------------------------End Website Routing----------------------- */}
+
+
+
+
                   {/* -----------------------------Start SuperAdmin Routing----------------------- */}
                   <>
                         <Route path="/superadmin/" element={<SuperAdminLogin />} />
