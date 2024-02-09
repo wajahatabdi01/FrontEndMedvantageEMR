@@ -3,6 +3,9 @@ import TosterUnderProcess from '../../Component/TosterUnderProcess';
 import Toster from '../../Component/Toster';
 import Select from 'react-select';
 import Loder from '../../Component/Loader';
+import exampleUser from '../../assets/images/dashboard/patientPortalDashboard/exampleUser.png'
+import user from '../../assets/images/dashboard/patientPortalDashboard/portalusericon.png'
+import dob from '../../assets/images/dashboard/patientPortalDashboard/dob.png'
 
 
 export default function PatientPortalDashboard() {
@@ -18,47 +21,19 @@ export default function PatientPortalDashboard() {
               <div className="med-box">
 
                 <div className="inner-content">
-                <div className='fieldsett-in col-md-12'>
-                <div className='fieldsett'>
-                  <span className='fieldse'>Bill Reports</span>
-                  <div className='row'>
+                <div className='fieldsett-in col-md-6 d-flex flex-wrap portal-user-details-box'>
+                <div>
+                  <img src={exampleUser} alt=""/>
+                </div>
 
-                 
-                    <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">From<span className="starMandatory">*</span></label>
-                      <input id="ddalarmtime" type="date" className="form-control form-control-sm" name="fromdate"  />
-                      <small id="errfrom" className="form-text text-danger" style={{ display: 'none' }}></small>
-                    </div>
-                    <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">To<span className="starMandatory">*</span></label>
-                      <input  id="ddwarningviewtime" type="date" className="form-control form-control-sm" name="todate" />
-                      <small id="errtodate" className="form-text text-danger" style={{ display: 'none' }}></small>
-                    </div>
-
-                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3" id="paymentModediv">
-                    <label for="PaymentMode" class="form-label">
-                      <img  alt=''/> Bill Type{" "}
-                      
-                    </label>
-                    <select id="Payment"
-                      class="form-control form-control-sm"
-                    
-                    >
-                      <option value="0" selected>All</option>
-                      <option value="1">
-                        By Cash
-                      </option>
-                      <option value="2">Credit</option>
-                      <option value="3">Advance</option>
-               
-                      {/* <option value={0}>By Online Payment</option> */}
-                    </select>
+                <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 ps-2 ms-2">
+                  <div className="portal-user-name">Shiv Mishra</div>
+                  <div className="d-flex justify-content-between">
+                    <div><img src={user} />Male</div>
+                    <div><img src={dob} />10-feb-2000(24yr)</div>
+                    <div><img src={user} />Male</div>
                   </div>
-
-
-
-                  </div>
-                  </div>
+                </div>
                   </div>
                 </div>
 

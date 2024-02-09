@@ -10220,3 +10220,19 @@ opacity: 1;
   font-weight: 600;
   text-decoration: underline;
 }
+
+/* Started Patient Portal Dashboard CSS */
+
+.portal-user-name{
+  
+  width: 131px;
+  height: 28px;
+  text-align: left;
+  font: normal normal 600 18px/30px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
+}
+.portal-user-details-box{
+  padding-top: 10px;
+}

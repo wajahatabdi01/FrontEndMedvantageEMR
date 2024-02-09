@@ -38,7 +38,13 @@ export default function LoginAsPatient() {
 
  
 
-
+  const handleLogin = () => {
+    setLoder(1); // Assuming setLoader is a function to set loader state
+    setTimeout(() => {
+      navigate("/PatientPortalDashboard/");
+    }, 1000); // Adjust the delay time as needed
+  };
+  
   
 
 
@@ -79,7 +85,7 @@ export default function LoginAsPatient() {
                 </div>
 
                 <div className="d-grid">
-                  <button className="btn btn-primary btnLogin" type="button" >Sign In</button>
+                  <button className="btn btn-primary btnLogin"  type="button" onClick={handleLogin} >Sign In</button>
                 </div>
 
                 <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/registeraspatient/">Sign up</a></div>
