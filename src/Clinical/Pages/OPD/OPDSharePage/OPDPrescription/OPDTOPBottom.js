@@ -14,6 +14,7 @@ import FHIRCarePlan from '../../../../../FHIRCarePlan/Pages/FHIRCarePlan';
 import FHIRImmunization from '../../../../../FHIRImmunization/Pages/FHIRImmunization';
 import OPDRecordDisclosurePopUp from './FHIROPDPopUp/OPDRecordDisclosurePopUp';
 import OPDPatientMessagePopUp from './FHIROPDPopUp/OPDPatientMessagePopUp';
+import OPDViewDiscloserRecord from './FHIROPDPopUp/OPDViewDiscloserRecord';
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -289,7 +290,7 @@ export default function OPDTOPBottom(props) {
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Patient Message</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Record Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
                         <div class="modal-body">
                         <OPDRecordDisclosurePopUp />
                         </div>
@@ -302,13 +303,14 @@ export default function OPDTOPBottom(props) {
             <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Patient Message</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">View Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
                         <div class="modal-body">
-                            Hide this modal and show the first with the button below.
+                        <OPDViewDiscloserRecord/>
                         </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-                        </div>
+                        {/* <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Delete</button>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -423,6 +425,10 @@ export default function OPDTOPBottom(props) {
             {
                 showToster === 5 ?
                     <SuccessToster handle={setShowToster} message="Surgery Saved SuccessFully !!" /> : ""
+            }
+            {
+                showToster === 6 ?
+                    <SuccessToster handle={setShowToster} message="History Saved SuccessFully !!" /> : ""
             }
 
             {

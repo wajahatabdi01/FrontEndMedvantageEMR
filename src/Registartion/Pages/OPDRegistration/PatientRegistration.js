@@ -1042,7 +1042,7 @@ export default function PatientRegistration() {
         console.log('insuranceDetailsTertiary', insuranceDetailsTertiary);
 
         if (data.mobileNo.trim() !== "" && data.titleId.trim() !== "" && data.patientName.trim() !== ""
-            && data.middleName.trim() !== '' && data.lastName.trim() !== ""
+            && data.lastName.trim() !== ""
             && data.dob.trim() !== "" && data.genderId.trim() !== ""
             && data.genderidentityId.trim() !== ""
             && insuranceDetailsPrimary.insuranceProviderId.trim() !== ""
@@ -1102,11 +1102,11 @@ export default function PatientRegistration() {
             document.getElementById("errPatientFirstName").innerHTML = "Please enter first name"
             return false
         }
-        else if (data.middleName.trim() === "") {
-            document.getElementById("errPatientMiddleName").style.display = "block"
-            document.getElementById("errPatientMiddleName").innerHTML = "Please enter middle name"
-            return false
-        }
+        // else if (data.middleName.trim() === "") {
+        //     document.getElementById("errPatientMiddleName").style.display = "block"
+        //     document.getElementById("errPatientMiddleName").innerHTML = "Please enter middle name"
+        //     return false
+        // }
         else if (data.lastName.trim() === "") {
             document.getElementById("errPatientLastName").style.display = "block"
             document.getElementById("errPatientLastName").innerHTML = "Please enter last name"
