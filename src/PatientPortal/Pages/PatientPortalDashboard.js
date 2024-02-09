@@ -8,6 +8,12 @@ import user from '../../assets/images/dashboard/patientPortalDashboard/portaluse
 import dob from '../../assets/images/dashboard/patientPortalDashboard/dob.png'
 import location from '../../assets/images/dashboard/patientPortalDashboard/location-pin.png'
 import symtomicon from '../../assets/images/dashboard/patientPortalDashboard/symtomicon.png'
+import medicine from '../../assets/images/dashboard/patientPortalDashboard/medicine1.png'
+import medicine1 from '../../assets/images/dashboard/patientPortalDashboard/medicine1.png'
+import medicine5 from '../../assets/images/dashboard/patientPortalDashboard/medicine5.png'
+import medicine2 from '../../assets/images/dashboard/patientPortalDashboard/medicine2.png'
+import medicine3 from '../../assets/images/dashboard/patientPortalDashboard/medicine3.png'
+import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medicine4.png'
 
 
 export default function PatientPortalDashboard() {
@@ -219,24 +225,82 @@ const handleadmissionhistory=()=>{
 
 
 
-          <div className="row">
+          <div className="row pt-3">
             <div className="col-4">
             <div className="med-box">
                <div className="inner-content">
-                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-                <div className="portal-user-name mb-1">Medication</div>
-                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
+                <div className="portal-user-name mb-1 ms-3">Medication</div>
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
                  <div>
-                     <div>Inha-Respule-Duolin - 500mg</div>
-                    <div>Once in a day</div>
+                     <div className="medicine-detail"><img src={medicine1} className="me-2"/>Inha-Respule-Duolin - 500mg</div>
+                    <div className="note-detail ms-4 ps-3">Once in a day</div>
                  </div>
-                 <div>
+                 <div className="medicine-duration">
                   10 Days
                  </div>
                  
                  
+                 
 
                       </div>
+                      <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                 <div>
+                     <div className="medicine-detail"><img src={medicine5} className="me-2"/>Inha-Respule-Duolin - 500mg</div>
+                    <div className="note-detail ms-4 ps-3">Once in a day</div>
+                 </div>
+                 <div className="medicine-duration">
+                  10 Days
+                 </div>
+                 
+                 
+                 
+
+                      </div>
+                      <div class="horizontal-line-dignosis mb-1 mt-1"></div>
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                 <div>
+                     <div className="medicine-detail"><img src={medicine2} className="me-2"/>Inha-Respule-Duolin - 500mg</div>
+                    <div className="note-detail ms-4 ps-3">Once in a day</div>
+                 </div>
+                 <div className="medicine-duration">
+                  10 Days
+                 </div>
+                 
+                 
+                 
+
+                      </div>
+                      <div class="horizontal-line-dignosis mb-1"></div>
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                 <div>
+                     <div className="medicine-detail"><img src={medicine3} className="me-2"/>Inha-Respule-Duolin - 500mg</div>
+                    <div className="note-detail ms-4 ps-3">Once in a day</div>
+                 </div>
+                 <div className="medicine-duration">
+                  10 Days
+                 </div>
+                 
+                 
+                 
+
+                      </div>
+                      <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12  mb-3 d-flex justify-content-between px-2">
+                 <div>
+                     <div className="medicine-detail"><img src={medicine4} className="me-2"/>Inha-Respule-Duolin - 500mg</div>
+                    <div className="note-detail ms-4 ps-3">Once in a day</div>
+                 </div>
+                 <div className="medicine-duration">
+                  10 Days
+                 </div>
+                 
+                 
+                 
+
+                      </div>
+                      
                 </div>
                 
                
