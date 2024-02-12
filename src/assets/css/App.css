@@ -10390,8 +10390,7 @@ span.saveb img {
   letter-spacing: 0px;
   color: #A2A2A2;
 }
-
-.note-detail-highlight {
+.note-detail-highlight{
 
   text-align: left;
   font: italic normal normal 11px/20px Poppins;
@@ -10471,96 +10470,3 @@ span.saveb img {
   width: 10px;
   height: 10px;
 }
-
-.btn-profile {
-
-
-  background: #EFF3FF 0% 0% no-repeat padding-box;
-  min-width: 80px;
-
-  border: 1px solid #1D499929;
-  border-radius: 5px;
-
-  text-align: left;
-  font: normal normal medium 18px/27px Poppins;
-  letter-spacing: 0px;
-  color: #1D4999;
-  opacity: 1;
-}
-
-.btn-profile:hover {
-
-  border: 1px solid #002f75;
-
-  background: #EFF3FF 0% 0% no-repeat padding-box;
-  color: #002f75;
-}
-
-.btn-Appoint {
-
-  min-width: 80px;
-  border-radius: 5px;
-  background: #1D4999 0% 0% no-repeat padding-box;
-
-}
-
-.btn-Appoint-fill {
-  text-align: left;
-  font: normal normal medium 18px/27px Poppins;
-  letter-spacing: 0px;
-  color: #FFFFFF;
-  opacity: 1;
-}
-
-.btn-Appoint-fill:hover {
-  color: white;
-  background: var(--primary-color);
-}
-
-.locationtext1{
-  text-align: left;
-font: italic normal 300 14px/22px Poppins;
-letter-spacing: 0px;
-color: #A2A2A2;
-text-transform: capitalize;
-opacity: 1;
-}
-
-.DoctQualtext{
-  
-  text-align: left;
-  font: normal normal normal 16px/25px Poppins;
-  letter-spacing: 0px;
-  color: #7B7B7B;
-  opacity: 1;
-}
-
-.DoctFeed{
-  text-align: left;
-font: italic normal normal 14px/22px Poppins;
-letter-spacing: 0px;
-color: #A2A2A2;
-text-transform: capitalize;
-opacity: 1;
-}
-
-.DoctNametext{
-  
-  text-align: left;
-  font: normal normal 16px/25px Poppins;
-  letter-spacing: 0px;
-  color: #7B7B7B;
-  opacity: 1;
-  color: #4969a3;
-}
-
-.ratingStar{
-  color: #FFA119;
-opacity: 1;
-}
-
-.ratingStar1{
-  color: #B4B5C3 ;
-opacity: 1;
-}
-

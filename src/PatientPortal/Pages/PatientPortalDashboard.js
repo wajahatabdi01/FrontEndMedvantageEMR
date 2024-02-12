@@ -8,6 +8,12 @@ import user from '../../assets/images/dashboard/patientPortalDashboard/portaluse
 import dob from '../../assets/images/dashboard/patientPortalDashboard/dob.png'
 import location from '../../assets/images/dashboard/patientPortalDashboard/location-pin.png'
 import symtomicon from '../../assets/images/dashboard/patientPortalDashboard/symtomicon.png'
+import medicine from '../../assets/images/dashboard/patientPortalDashboard/medicine1.png'
+import medicine1 from '../../assets/images/dashboard/patientPortalDashboard/medicine1.png'
+import medicine5 from '../../assets/images/dashboard/patientPortalDashboard/medicine5.png'
+import medicine2 from '../../assets/images/dashboard/patientPortalDashboard/medicine2.png'
+import medicine3 from '../../assets/images/dashboard/patientPortalDashboard/medicine3.png'
+import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medicine4.png'
 
 
 export default function PatientPortalDashboard() {
@@ -30,7 +36,7 @@ const handleadmissionhistory=()=>{
      <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
           <div className="row">
-           <div className="col-7">
+           <div className="col-xxl-7 col-xl-12 col-lg-12 col-md-12">
                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
               <div className="med-box">
 
@@ -124,9 +130,6 @@ const handleadmissionhistory=()=>{
                   <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
                   H/O RTA 1 day back with no H/O LOC, ENT Bleed, Vomiting, Seizure
                   </div>
-                
-               
-
 
                 </div>
                   </div>
@@ -135,10 +138,10 @@ const handleadmissionhistory=()=>{
               </div>
             </div>
            </div>
-           <div className="col-5">
+           <div className="col-xxl-5 col-xl-12 col-lg-12 col-md-12">
   
             <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-              <div className="med-box">
+              <div className="med-box custom-medbox-medication">
 
                 <div className="inner-content">
                 <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
@@ -219,25 +222,184 @@ const handleadmissionhistory=()=>{
 
 
 
-          <div className="row">
-            <div className="col-4">
-            <div className="med-box">
+          <div className="row pt-3">
+            <div className="col xxl-4 col-xl-4 col-lg-12 col-md-12">
+            <div className="med-box custom-medbox">
                <div className="inner-content">
-                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-                <div className="portal-user-name mb-1">Medication</div>
-                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-                 <div>
-                     <div>Inha-Respule-Duolin - 500mg</div>
-                    <div>Once in a day</div>
-                 </div>
-                 <div>
-                  10 Days
-                 </div>
-                 
-                 
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
+                   <div className="portal-user-name mb-2 ms-1">Medication</div>
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                        <div className="medicine-detail">
+                          <div><img src={medicine1} className="me-2" alt=""/></div>
+                           <div>
+                              Inha-Respule-Duolin - 500mg
+                                <div className="note-detail-dosage">Once in a day</div>
+                                  </div>
+                                    </div>
+                                   <div className="medicine-duration">
+                                        10 Days
+                                           </div>
+                                            </div>
+                  
+                                         <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                            <div className="medicine-detail">
+                              <div><img src={medicine5} className="me-2" alt=""/></div>
+                            <div>
+                               Cre-Respule-Duolin - 500Mg
+                                <div className="note-detail-dosage">Once in a day</div>
+                                  </div>
+                                    </div>
+                                    <div className="medicine-duration">
+                                    20 Days
+                                         </div>
+                                        </div>
+                                     <div class="horizontal-line-dignosis mb-1 mt-1"></div>
+                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                          <div className="medicine-detail">
+                              <div><img src={medicine4} className="me-2" alt=""/></div>
+                                   <div>
+                                    Inha-Respule-Duolin - 500mg
+                                      <div className="note-detail-dosage">Once in a day</div>
+                                       </div>
+                                          </div>
+                                         <div className="medicine-duration">
+                                            20 Days
+                                            </div>
+                                               </div>
 
-                      </div>
+                                      <div class="horizontal-line-dignosis mb-1"></div>
+
+                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="medicine-detail">
+                                <div><img src={medicine3} className="me-2" alt=""/></div>
+                                         <div>
+                                          Cap-Respule-Duolin - 500Mg
+                                           <div className="note-detail-dosage">Once in a day</div>
+                                              </div>
+                                               </div>
+                                             <div className="medicine-duration">
+                                                 19 Days
+                                                    </div>
+                                                        </div>
+                                   <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+
+                                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+
+                                   <div className="medicine-detail">
+                                         <div><img src={medicine2} className="me-2" alt=""/></div>
+                                            <div>
+                                                Inj-Respule-Duolin - 500mg
+                                                <div className="note-detail-dosage">Once in a day</div>
+                                                 </div>
+                                                   </div>
+                                                 <div className="medicine-duration">
+                                                   15 Days
+                                                     </div>
+                                                       </div>
+                                                       </div>
+                
+               
                 </div>
+                </div>
+            </div>
+
+            <div className="col xxl-3 col-xl-3 col-lg-12 col-md-12">
+            <div className="med-box custom-medbox">
+               <div className="inner-content">
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
+                   <div className="portal-user-name mb-2 ms-1">Investigation</div>
+
+                   
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">Blood Sugar (Random)</div>
+                           <div className="investigation-measurement">118 mg/dl
+                                           </div>
+
+                             </div>
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">Neutrophils</div>
+                           <div className="investigation-measurement-per">84 %
+                                           </div>
+
+                             </div>
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">Platelet Count</div>
+                           <div className="investigation-measurement">2.4 Lakh
+                                           </div>
+
+                             </div>
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">HCV</div>
+                           <div className="investigation-measurement-per">0.04
+                                           </div>
+
+                             </div>
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">HbsAg-Interpretation</div>
+                           <div className="investigation-measurement">Non-Reactive
+                                           </div>
+
+                             </div>
+                   
+                   
+                     
+                 
+                                
+                                        
+        
+                           </div>
+                
+               
+                </div>
+                </div>
+            </div>
+            <div className="col xxl-5 col-xl-5 col-lg-12 col-md-12">
+            <div className="med-box custom-medbox">
+               <div className="inner-content">
+                <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
+                   <div className="portal-user-name mb-2 ms-1">Insurance Summary</div>
+
+                   
+                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                           <div className="insurance-profile">Insurance Profile</div>
+                           <div className="insurance-profile-details">Auto Insurance / Auto Insurance HMO / HMO</div>
+                             </div>   
+        
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-2 insurance-box d-flex justify-content-between">
+  
+                      <div >
+                             <div className="insurance-type">Primary Insurance</div>
+                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
+                             <div className="insurance-type-detail">STATE FARM</div>
+                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                      </div>
+                      <div className="pe-5">
+                             <div className="insurance-type">Secondary Insurance</div>
+                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
+                             <div className="insurance-type-detail">STATE FARM</div>
+                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                      </div>
+
+                  </div>
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-2 insurance-box d-flex justify-content-between">
+  
+                      <div>
+                             <div className="insurance-type">Tertiary Insurance</div>
+                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
+                             <div className="insurance-type-detail">STATE FARM</div>
+                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                      </div>
+                      <div className="pe-5">
+                             <div className="insurance-type">Responsible Party</div>
+                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
+                             <div className="insurance-type-detail">STATE FARM</div>
+                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                      </div>
+
+                  </div>
+                   
+                           </div>
                 
                
                 </div>

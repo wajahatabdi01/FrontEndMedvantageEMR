@@ -450,6 +450,7 @@ export default function FHIRImmunization(props) {
          if(saveObj.status === 1)
          {
           alert('Data saved of Immunization');
+          handleClear();
           funGetAllImmunizationData();
          }
         else
@@ -475,10 +476,57 @@ export default function FHIRImmunization(props) {
     sendForm.DatenTimeAdministered = ''; sendForm.AmountAdministeredUnit = 0; sendForm.AmountAdministered = ''; sendForm.ExpirationDate =''; sendForm.ImmunizationManufacturer = 0;
     sendForm.ImmunizationLotNumber = 0; sendForm.ImmunizationStatements = ''; sendForm.DateofVISStatement = '';sendForm.Route = 0; sendForm.AdministrationSite = 0; sendForm.InformationSource = 0;
     sendForm.CompletionStatus = 0; sendForm.SubstanceRefusalReason = 0; sendForm.ImmunizationOrderingProvider = 0; sendForm.Notes = ''
-    // document.getElementById('dateId').value = '';
-    // document.getElementById('amountId').value = '';
-    // document.getElementById('amountUnitID').value = 0;
     setMakeData([])
+    // Clear input values for observationRow
+    for (let i = 0; i < observationRow.length; i++) {
+  const rowID = observationRow[i].rowID;
+  const observationCriteriaID = 'ObservationCriteriaID' + rowID;
+  const observationCriteriaValueID = 'ObservationCriteriaValueID' + rowID;
+  const cvxCodeId = 'CVX_CodeId' + rowID;
+  const dateVisPublishedId = 'Date_VIS_Published_Id' + rowID;
+  const dateVisPresentedId = 'Date_VIS_PresentedId' + rowID;
+  const snomedCTCodeId = 'SNOMED-CTCodeId' + rowID;
+
+  document.getElementById(observationCriteriaID).value = '1'; // Reset Observation Criteria to 'Unassigned'
+  
+  // Check if CVX Code field exists before accessing it
+  const observationCriteriaValueIDField = document.getElementById(observationCriteriaValueID);
+  if (observationCriteriaValueIDField) {
+    observationCriteriaValueIDField.value = 0; // Clear CVX Code
+  }
+
+  // Check if CVX Code field exists before accessing it
+  const cvxCodeField = document.getElementById(cvxCodeId);
+  if (cvxCodeField) {
+    cvxCodeField.value = ''; // Clear CVX Code
+  }
+
+  // Clear Date VIS Published field if it exists
+  const dateVisPublishedField = document.getElementById(dateVisPublishedId);
+  if (dateVisPublishedField) {
+    dateVisPublishedField.value = ''; // Clear Date VIS Published
+  }
+
+  // Clear Date VIS Presented field if it exists
+  const dateVisPresentedField = document.getElementById(dateVisPresentedId);
+  if (dateVisPresentedField) {
+    dateVisPresentedField.value = ''; // Clear Date VIS Presented
+  }
+
+  // Clear SNOMED-CT Code field if it exists
+  const snomedCTCodeField = document.getElementById(snomedCTCodeId);
+  if (snomedCTCodeField) {
+    snomedCTCodeField.value = ''; // Clear SNOMED-CT Code
+  }
+    }
+
+    setObservationRow([
+      {
+        rowID: 1,
+        observationCriteria: '1', // '1' corresponds to "Unassigned"
+      }
+    ]);
+
   }
   
 
@@ -642,6 +690,7 @@ export default function FHIRImmunization(props) {
                                 <span className='fieldse'>Observation Results</span>
                                 {observationRow && observationRow.map((observeList, ind) => {
                                   const isLastRow = ind === observationRow.length - 1; // Check if it's the last row
+                                  
                                   return(
                                     <div className="row">
                                 <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
