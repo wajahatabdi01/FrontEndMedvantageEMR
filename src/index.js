@@ -15,10 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 window.AppbaseUrl = "http://192.168.11.101:6082"
 window.AdminbaseUrl = "http://192.168.11.101:6083"
 window.UserbaseUrl = "http://192.168.11.101:6084"
+window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
 
 // End For FHIR
 
-window.BillingbaseUrl = "http://172.16.61.31:7088"
+window.BillingbaseUrl = "http://192.168.11.101:6088"
 window.OTBaseURL = "http://172.16.61.31:7091/api/"
 window.BloodbaseUrl = "http://172.16.61.31:7092/"
 window.LabServicebaseUrl = "http://172.16.61.31:7090"

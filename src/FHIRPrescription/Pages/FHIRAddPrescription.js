@@ -3,22 +3,29 @@ import React, { useEffect, useState } from 'react';
 import plus from '../../assets/images/icons/icons8-plus-30.png'
 import DropdownWithSearch from '../../Component/DropdownWithSearch';
 import GetBrandList from '../../Clinical/API/KnowMedsAPI/GetBrandList';
+import GetUserListByRoleId from '../../Registartion/API/GET/GetUserListByRoleId';
+import FHIRGetAllForm from '../API/GET/FHIRGetAllForm';
+import GetAllRoute from '../API/GET/GetAllRoute';
+import GetAllInterval from '../API/GET/GetAllInterval';
 
 
-export default function FHIRAddPrescription() {
+export default function FHIRAddPrescription(props) {
 
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0)
   const [editName, setEditName] = useState("");
   const [isChecked, setIsChecked] = useState(true);
-  // const [sendForm, setSendForm] = useState({ "userId": window.userId, "clientId": window.clientId });
+  const [providerList, setProviderList] = useState([]);
+  const [getFormList, setFormList] = useState([]);
+  const [getIntervalList, setIntervalList] = useState([]);
+  const [getRouteList, setRouteList] = useState([]);
   const [sendForm, setSendForm] = useState({ "userId": window.userId, "clientId": window.clientId,
       currentlyActive: true,
       ePrescription:false,
       checkedDrug:false,
       ControlledSubstance: false,
       startingdate:'',
-      providerName:'',
+      providerName:0,
       exampleRadios:'default',
       QuantityName:'',
       medicineStrength:'',
@@ -36,13 +43,44 @@ export default function FHIRAddPrescription() {
 
   //const [editBrand, setEditBrand] = useState("")
 
+  const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
+
   const getAllBrandList = async () => 
   {
     const response = await GetBrandList();
     if (response.status === 1) {
         const slicedProblemList =response.responseValue.slice(0,100);
-        console.log('slicedProblemList : ',slicedProblemList)
         setBrandList(slicedProblemList);
+    }
+  }
+
+  const getProviderList = async () => {
+    const dataToProvider = {
+      roleId : 2,
+      clientID : clientID
+    }
+    const providerRes = await GetUserListByRoleId(dataToProvider);
+    setProviderList(providerRes.responseValue);
+  }
+
+  const getAllFromList = async () => 
+  {
+    const formRes = await FHIRGetAllForm();
+    setFormList(formRes.responseValue);
+  }
+
+  const getAllRouteList = async () => {
+    const routeRes = await GetAllRoute();
+    if(routeRes.status === 1){
+      setRouteList(routeRes.responseValue);
+    }
+  }
+
+  const getAllIntervalList = async () => {
+    const intervalRes = await GetAllInterval();
+    if(intervalRes.status === 1){
+      setIntervalList(intervalRes.responseValue);
     }
   }
 
@@ -58,7 +96,6 @@ export default function FHIRAddPrescription() {
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    console.log("name", name, "value", value)
     setEditName("")
     //setEditBrand("")
     setSendForm(sendForm => ({
@@ -69,7 +106,6 @@ export default function FHIRAddPrescription() {
 
 ////////////// to clear data in medicine search//////////////////
 let handleClearMedicineSearch = (value) => {
-  console.log(value)
   setClearDropdown(value)
   setEditName("")
   //setEditBrand("")
@@ -82,22 +118,23 @@ let handleClearMedicineSearch = (value) => {
 //////////////////////////////// Final Save /////////////////////////
 const handleSave = async () =>{
   const objjj = {
-    currentlyActive : sendForm.currentlyActive,
-    startingdate : sendForm.startingdate,
-    providerName : sendForm.providerName,
+    Uhid: props.patientUhid,
+    CurrentlyActive : sendForm.currentlyActive,
+    StartingDate : sendForm.startingdate,
+    ProviderId : sendForm.providerName,
     exampleRadios : sendForm.exampleRadios,
-    QuantityName: sendForm.QuantityName,
-    medicineStrength : sendForm.medicineStrength,
-    medicineUnit : sendForm.medicineUnit,
-    RefillsUnit : sendForm.RefillsUnit,
-    oftabletsName : sendForm.oftabletsName,
-    DirectionsName : sendForm.DirectionsName,
-    formName : sendForm.formName,
-    routeName : sendForm.routeName,
-    FrequencyName : sendForm.FrequencyName,
-    Notes : sendForm.Notes,
-    addToList : sendForm.addToList,
-    ReasonName : sendForm.ReasonName,
+    Quantity: sendForm.QuantityName,
+    Size : sendForm.medicineStrength,
+    Unit : sendForm.medicineUnit,
+    Refills : sendForm.RefillsUnit,
+    PerRefill : sendForm.oftabletsName,
+    Dosage : sendForm.DirectionsName,
+    Form : sendForm.formName,
+    Route : sendForm.routeName,
+    Interval : sendForm.FrequencyName,
+    Note : sendForm.Notes,
+    Medication : sendForm.addToList,
+    Substitute : sendForm.ReasonName,
     medicineName : sendForm.brandList
   }
   console.log('objjjjjjjjjjjjjjj : ', objjj)
@@ -105,6 +142,10 @@ const handleSave = async () =>{
 
 useEffect(() =>{
   getAllBrandList();
+  getProviderList();
+  getAllFromList();
+  getAllRouteList();
+  getAllIntervalList();
 }, [])
 
   return (
@@ -145,7 +186,15 @@ useEffect(() =>{
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>
                             <label htmlFor="Code" className="form-label">Provider</label>
-                            <input  id="providerID" type="text" className="form-control form-control-sm" name="providerName" placeholder= "Enter Provider" value={sendForm.providerName} onChange={handleChangeText} />
+                            {/* <input  id="providerID" type="text" className="form-control form-control-sm" name="providerName" placeholder= "Enter Provider" value={sendForm.providerName} onChange={handleChangeText} /> */}
+                            <select name="providerName" className='form-select form-select-sm' id="providerID" value={sendForm.providerName} onChange={handleChangeText} >
+                              <option value="0">--Select Provider--</option>
+                              {providerList && providerList.map((prList, ind) =>{
+                                return(
+                                  <option value={prList.id}>{prList.name}</option>
+                                )
+                              })}
+                            </select>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>                          
                             <div><label htmlFor="checkedDrug" className="form-label">Drug</label> </div>
@@ -153,14 +202,14 @@ useEffect(() =>{
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseDefault">Use Default</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value={sendForm.exampleRadios = 'default'} onChange={handleChangeText} checked/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value='default' onChange={handleChangeText} checked={sendForm.exampleRadios === 'default'}/> 
                               </div>
                               </div>
 
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseRxNorm">Use RxNorm</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value={sendForm.exampleRadios = 'RxNorm'} onChange={handleChangeText}/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value='RxNorm' onChange={handleChangeText} checked={sendForm.exampleRadios === 'RxNorm'}/> 
                               </div>
                               </div>
 
@@ -168,7 +217,7 @@ useEffect(() =>{
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseRxCUI">Use RxCUI</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI"  value={sendForm.exampleRadios = 'RxCUI'} onChange={handleChangeText}/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI"  value='RxCUI' onChange={handleChangeText} checked={sendForm.exampleRadios === 'RxCUI'}/> 
                               </div>
                               </div>
 
@@ -200,9 +249,8 @@ useEffect(() =>{
                               <div>
                               <label htmlFor="Code" className="form-label">Refills</label>
                             <select name="RefillsUnit" className='form-select form-select-sm' id="RefillsID" value={sendForm.RefillsUnit}  onChange={handleChangeText} >
-                              <option value="0">mm/gg</option>
-                              <option value="1">mm/CC</option>
-                              <option value="2">mm</option>
+                              <option value="0">--Select Refills--</option>
+                              
                             </select>
                               </div>
                               <div>
@@ -221,11 +269,14 @@ useEffect(() =>{
                                     <input  id="DirectionsID" type="text" className="form-control form-control-sm" name="DirectionsName" placeholder= "Enter Directions" value={sendForm.DirectionsName} onChange={handleChangeText} />
                                   </div>
                                   <div>
-                                    <label htmlFor="Code" className="form-label">Type</label>
+                                    <label htmlFor="Code" className="form-label">Form</label>
                                     <select name="formName" className='form-select form-select-sm' id="formID" value={sendForm.formName}  onChange={handleChangeText} >
-                                      <option value="0">mm/gg</option>
-                                      <option value="1">mm/CC</option>
-                                      <option value="2">mm</option>
+                                      <option value="0">--Select Form--</option>
+                                      {getFormList && getFormList.map((list, ind) => {
+                                        return(
+                                          <option value={list.id}>{list.name}</option>
+                                        )
+                                      })}
                                     </select>
                                   </div>
                                 </div>
@@ -234,19 +285,24 @@ useEffect(() =>{
                               <div className="col">
                                 <div className="d-flex gap-2">
                                   <div>
-                                  <label htmlFor="Code" className="form-label">Area</label>
+                                  <label htmlFor="Code" className="form-label">Route</label>
                                   <select name="routeName" className='form-select form-select-sm' id="routeID" value={sendForm.routeName}  onChange={handleChangeText} >
-                                    <option value="0">mm/gg</option>
-                                    <option value="1">mm/CC</option>
-                                    <option value="2">mm</option>
+                                    <option value="0">--Select Route--</option>
+                                    {getRouteList && getRouteList.map((routeList, ind) =>{
+                                      return(
+                                        <option value={routeList.id}>{routeList.name}</option>)
+                                    })}
                                   </select>
                                   </div>
                                   <div>
                                   <label htmlFor="Code" className="form-label">Frequency</label>
                                   <select name="FrequencyName" className='form-select form-select-sm' id="FrequencyID" value={sendForm.FrequencyName}  onChange={handleChangeText} >
-                                    <option value="0">mm/gg</option>
-                                    <option value="1">mm/CC</option>
-                                    <option value="2">mm</option>
+                                    <option value="0">--Select Frequency--</option>
+                                    {getIntervalList && getIntervalList.map((intList, ind) => {
+                                      return(
+                                        <option value={intList.id}>{intList.name}</option>
+                                    )
+                                    })}
                                   </select>
                                   </div>
                                 </div>
@@ -264,13 +320,13 @@ useEffect(() =>{
                               <div>
                                 <div class="form-check">
                                   <label class="form-label" for="UseDefault">No</label>
-                                  <input class="form-check-input" type="radio" name="addToList" id="No" value={sendForm.addToList = 'No'} onChange={handleChangeText} checked/> 
+                                  <input class="form-check-input" type="radio" name="addToList" id="No" value='No' onChange={handleChangeText} checked={sendForm.addToList === 'No'}/> 
                               </div>
                               </div>
                               <div>
                                 <div class="form-check">
                                   <label class="form-label" for="UseRxNorm">Yes</label>
-                                  <input class="form-check-input" type="radio" name="addToList" id="Yes" value={sendForm.addToList = 'Yes'} onChange={handleChangeText}/> 
+                                  <input class="form-check-input" type="radio" name="addToList" id="Yes" value='Yes' onChange={handleChangeText} checked={sendForm.addToList === 'Yes'}/> 
                               </div>
                               </div>
                             </div>

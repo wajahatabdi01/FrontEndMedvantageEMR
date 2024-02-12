@@ -36,24 +36,23 @@ export default function FHIRClassMaster() {
   let [rowId, setRowId] = useState(0);
   let [sendForm, setSendForm] = useState({
     "userId": window.userId,
-    "clientId": window.clientId, 
     name: '',
     code: ''
   })
 
   //Handle Change
   let handleChange = (e) => {
-    clearValidationErrMessage();  
+    clearValidationErrMessage();
     let name = e.target.name;
     let value = e.target.value;
     setSendForm(sendForm => ({
-        ...sendForm,
-        [name]: value
+      ...sendForm,
+      [name]: value
     }))
-}
+  }
 
   //Doctor Departmernt Unit Mapping
-  const getDoctorUnitMapping = async () => {
+  const getClass = async () => {
     setShowLoder(1);
     const response = await GetFHIRClassMaster();
     if (response.status === 1) {
@@ -87,7 +86,7 @@ export default function FHIRClassMaster() {
     }
   }
 
- 
+
 
 
   //Handle Save
@@ -105,11 +104,11 @@ export default function FHIRClassMaster() {
         setShowUnderProcess(0);
         setTosterValue(0);
         setShowToster(1);
-        setTosterMessage("Data Saved Successfully..");
+        setTosterMessage("Data Saved Successfully.");
         setTimeout(() => {
           setShowToster(0);
           handleClear();
-          getDoctorUnitMapping();
+          getClass();
 
         }, 1500)
       }
@@ -127,19 +126,18 @@ export default function FHIRClassMaster() {
 
   //Handle Button Change
   let handleUpdate = async (id, name, code, userId) => {
-    console.log("id", id)
     setUpdateBool(1)
     setSendForm(sendForm => ({
-        ...sendForm,
-        "Id": id,
-        "name": name,
-        "code": code,
-        "userId": window.UserId,
+      ...sendForm,
+      "Id": id,
+      "name": name,
+      "code": code,
+      "userId": window.userId,
     }))
 
     document.getElementById("name").value = name;
     document.getElementById("code").value = code;
-}
+  }
 
   //Handle Update
   const handlerUpdate = async () => {
@@ -147,13 +145,12 @@ export default function FHIRClassMaster() {
       document.getElementById('errName').innerHTML = "Class name is required";
       document.getElementById('errName').style.display = "block";
     }
-   
+
     else {
       setShowUnderProcess(1);
       const response = await PutFHIRClassMaster({
         ...sendForm,
       });
-      console.log('save Response', response);
       if (response.status === 1) {
         setShowUnderProcess(0);
         setTosterValue(0);
@@ -162,7 +159,7 @@ export default function FHIRClassMaster() {
         setTimeout(() => {
           setShowToster(0);
           handleClear();
-          getDoctorUnitMapping();
+          getClass();
 
         }, 1500)
       }
@@ -181,8 +178,8 @@ export default function FHIRClassMaster() {
   //Handle Delete
   const handleDelete = async () => {
     setShowLoder(1);
-    let obj={
-      id:rowId,
+    let obj = {
+      id: rowId,
     }
     const response = await DeleteFHIRClassMaster(obj);
     if (response.status === 1) {
@@ -191,7 +188,7 @@ export default function FHIRClassMaster() {
       setShowSuccessMsg("Deleted Successfully")
       setTimeout(() => {
         setisShowToaster(0);
-        getDoctorUnitMapping();
+        getClass();
       }, 1500)
       handleClear();
     }
@@ -214,14 +211,14 @@ export default function FHIRClassMaster() {
   const handleClear = (value) => {
     clearValidationErrMessage();
     setUpdateBool(0);
-    setSendForm({ "userId": window.userId, "clientId": window.clientId, "name": '', "code": '', })  
+    setSendForm({ "userId": window.userId, "name": '', "code": '' })
     document.getElementById("name").value = "";
     document.getElementById("code").value = "";
   }
 
   useEffect(() => {
-    getDoctorUnitMapping();
-    
+    getClass();
+
   }, []);
 
   return (
@@ -239,9 +236,8 @@ export default function FHIRClassMaster() {
                 </div>
                 <div className="col-2 mb-2 me-2">
                   <label htmlFor="code" className="form-label">Code<span className="starMandatory"></span></label>
-                  <input type="text" name="code" id="code" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Code")} />                
+                  <input type="text" name="code" id="code" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Code")} />
                 </div>
-              
 
 
                 <div className="mb-2 relative">
@@ -299,7 +295,7 @@ export default function FHIRClassMaster() {
                           <td>{val.code}</td>
                           <td>
                             <div className="action-button">
-                              <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => { handleUpdate(val.id, val.name, val.code,val.userId) }} /></div>
+                              <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => { handleUpdate(val.id, val.name, val.code, val.userId) }} /></div>
                               <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={deleteBtnIcon} className='' alt='' onClick={() => { setRowId(val.id) }} />
                               </div>
                             </div>
