@@ -130,9 +130,6 @@ const handleadmissionhistory=()=>{
                   <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
                   H/O RTA 1 day back with no H/O LOC, ENT Bleed, Vomiting, Seizure
                   </div>
-                
-               
-
 
                 </div>
                   </div>
