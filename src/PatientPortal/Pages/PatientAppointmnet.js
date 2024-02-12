@@ -8,6 +8,8 @@ import doctorIcon from '../../assets/images/dashboard/Web 1920 – 13/Mask Group
 import locationIcon from '../../assets/images/dashboard/location-pin.svg'
 import clockIcon from '../../assets/images/dashboard/Layer 2 (1).svg'
 import medAssicon from '../../assets/images/icons/medical-assistance.svg'
+import doctorIcon1 from '../../assets/images/dashboard/Web 1920 – 13/Mask Group 136.png'
+import doctorIcon2 from '../../assets/images/dashboard/Web 1920 – 13/Mask Group 134.png'
 
 function PatientAppointmnet() {
 
@@ -78,7 +80,7 @@ function PatientAppointmnet() {
 
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
+                                            <div className="d-flex mx-1 mt-1">
                                                 <div><img src={doctorIcon} alt="" /></div>
 
 
@@ -110,8 +112,8 @@ function PatientAppointmnet() {
                                    
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
-                                                <div><img src={doctorIcon} alt="" /></div>
+                                            <div className="d-flex mx-1 mt-1">
+                                                <div><img src={doctorIcon1} alt="" /></div>
 
 
                                                 <div class=''>
@@ -141,8 +143,8 @@ function PatientAppointmnet() {
 
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
-                                                <div><img src={doctorIcon} alt="" /></div>
+                                            <div className="d-flex mx-1 mt-1">
+                                                <div><img src={doctorIcon2} alt="" /></div>
 
 
                                                 <div class=''>
@@ -172,8 +174,8 @@ function PatientAppointmnet() {
 
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
-                                                <div><img src={doctorIcon} alt="" /></div>
+                                            <div className="d-flex mx-1 mt-1">
+                                                <div><img src={doctorIcon1} alt="" /></div>
 
 
                                                 <div class=''>
@@ -203,8 +205,8 @@ function PatientAppointmnet() {
 
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
-                                                <div><img src={doctorIcon} alt="" /></div>
+                                            <div className="d-flex mx-1 mt-1">
+                                                <div><img src={doctorIcon2} alt="" /></div>
 
 
                                                 <div class=''>
@@ -234,7 +236,7 @@ function PatientAppointmnet() {
 
                                     <tr>
                                         <td>
-                                            <div className="d-flex mx-2">
+                                            <div className="d-flex mx-1 mt-1">
                                                 <div><img src={doctorIcon} alt="" /></div>
 
 
