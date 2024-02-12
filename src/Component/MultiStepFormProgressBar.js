@@ -31,7 +31,7 @@ const MultiStepFormProgressBar = ({ currentStep, totalSteps, stepNames }) => {
           <div key={index + 1} className={`step-marker ${index + 1 <= currentStep ? 'completed' : ''} ${index + 1 === totalSteps ? 'last-step' : ''}`}>
             {index + 1 !== totalSteps && (
               <>
-                {index < currentStep ? <span className="tick tick-completed">&#10003;</span> : <div>{index + 1}</div>}
+                {index < currentStep ? <span className="tick tick-completed"><i class="bi bi-check"></i></span> : <div>{index + 1}</div>}
               </>
             )}
             {stepNames && stepNames[index] && <div className="step-heading mt-5 pt-2 formstepName">{stepNames[index]}</div>}
