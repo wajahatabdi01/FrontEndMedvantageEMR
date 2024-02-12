@@ -241,7 +241,7 @@ export default function FHIRCarePlan(props) {
                     <>
                       <div className="row mb-2">
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
-                          <label className='form-label'>Code :</label>
+                          <label className='form-label'>Code :<span className="starMandatory">*</span></label>
                           <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} />
                           {/* <span>{carePlan.rowID}</span> */}
                         </div>

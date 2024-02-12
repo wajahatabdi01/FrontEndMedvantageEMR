@@ -19,7 +19,7 @@ import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
 import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 
 
-export default function FHIRImmunization(props) {
+export default function FHIRImmunization({setShowToster}) {
 
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -37,6 +37,8 @@ export default function FHIRImmunization(props) {
   const [getImmunizationRoute, setImmunizationRoute] = useState([]);
   const [getImmunizationAdministrator, setImmunizationAdministrator] = useState([]);
   const [getAllImmunizationDataList, setAllImmunizationDataList] = useState([]);
+
+  const [showUnderProcess, setShowUnderProcess] = useState(0);
 
   const [selectedValues, setSelectedValues] = useState({});
 
@@ -78,6 +80,7 @@ export default function FHIRImmunization(props) {
   const customStyle = { marginLeft: '0px' };
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -283,7 +286,7 @@ export default function FHIRImmunization(props) {
 
   /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
     const funGetAllImmunizationData = async () => {
-      const getAllImmunizationDataRes = await GetAllImmunizationData('UHID00143');
+      const getAllImmunizationDataRes = await GetAllImmunizationData(activePatient);
       setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -420,7 +423,7 @@ export default function FHIRImmunization(props) {
        }
        else{
         const finalObjInvestAndReason = {
-          uhid:props.patientUhid,
+          uhid:activePatient,
           clientId: clientID,
           userId : userId,
           cvxCode : investConCat,
@@ -449,13 +452,27 @@ export default function FHIRImmunization(props) {
          const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
          if(saveObj.status === 1)
          {
-          alert('Data saved of Immunization');
-          handleClear();
+          
+          
           funGetAllImmunizationData();
+          setShowUnderProcess(0);
+          // setTosterValue(0);
+          setShowToster(7);
+          // setTosterMessage('Data Saved !');
+          setTimeout(() => {
+            handleClear();
+            setShowToster(0)
+          },1000)
          }
         else
          {
-          alert('Data Not saved')
+          // setShowUnderProcess(0);
+          // setShowAlertToster(1)
+          // setTosterMessage(saveResponse.responseValue);
+          // setTimeout(() => {
+          //   setShowToster(0);
+          // },1000)
+          alert('Data Not Saved');
          }
        }
   }
