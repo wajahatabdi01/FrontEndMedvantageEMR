@@ -460,12 +460,31 @@ export default function PatientRegistration() {
     }
     let handlerChange2 = (e, value) => {
         console.log('value', value);
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        if (e === "deceasedDate") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
+        const isValidInputEmail = (input) => /^[a-zA-Z0-9\S]*$/.test(input);
+        if (e === "guardianemail" && !isValidInputEmail(value)) {
+            return;
+        }
         setRegistrationObj((prevPatientDetails) => ({
             ...prevPatientDetails,
             [e]: value,
         }));
     }
     let handleemployerDetails = (e, value) => {
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        if (!isValidInput(value)) {
+            return;
+        }
         setEmployerDetailsJsonString((prevData) => ({
             ...prevData,
             [e]: value
@@ -477,7 +496,21 @@ export default function PatientRegistration() {
     }
 
     let handleStatsDetails = (e, value) => {
-        setStatsJsonString((prevPatientDetails) => ({
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+
+        if (e === "financialReviewDate") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } 
+        else 
+        {
+            if (!isValidInput(value)) 
+            {
+                return;
+            }
+        } setStatsJsonString((prevPatientDetails) => ({
             ...prevPatientDetails,
             [e]: value,
         }))
@@ -2386,7 +2419,11 @@ export default function PatientRegistration() {
 
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtPatientRelationEmail" className="form-label"><img src={emailIcon} className='icnn' />{t("Email")}</label>
-                                                    <input type="email" value={registrationObj.guardianemail} className="form-control form-control-sm" id="txtPatientRelationEmail" placeholder={t("ENTER_EMAIL_ID")} name='guardianemail' onChange={(e) => { handlerChange2("guardianemail", e.target.value) }} />
+                                                    <input type="email" value={registrationObj.guardianemail} className="form-control form-control-sm" id="txtPatientRelationEmail" placeholder={t("ENTER_EMAIL_ID")} name='guardianemail' onKeyPress={(e) => {
+                                                        if (e.key === ' ') {
+                                                            e.preventDefault();
+                                                        }
+                                                    }} onChange={(e) => { handlerChange2("guardianemail", e.target.value) }} />
                                                 </div>
                                             </div>
                                         </div>
@@ -2469,7 +2506,7 @@ export default function PatientRegistration() {
                                         <div className="inner-content">
                                             <div className="dflex row1">
                                                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
-                                                    <label htmlFor="ddlDepartment" className="form-label"><img src={medicalAssistance} className='icnn' />{t("Department")}</label><sup style={{ color: "red" }}>*</sup>
+                                                    <label htmlFor="ddlDepartment" className="form-label"><img src={medicalAssistance} className='icnn' />{t("Department")}<span class="starMandatory">*</span></label>
                                                     <select className="form-select form-select-sm selectwid_" id="ddlDepartment" onChange={() => { getDdlListByDeptID(1) }} aria-label=".form-select-sm example">
                                                         <option value="0">{t("Select_Department")}</option>
                                                         {deparetmentList && deparetmentList.map((list, ind) => {
@@ -2496,7 +2533,7 @@ export default function PatientRegistration() {
                                                     </div> */}
 
                                                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
-                                                    <label htmlFor="ddlDoctor" className="form-label"><img src={medicalAssistance} className='icnn' />{t("Doctor/Consultant")}</label><sup style={{ color: "red" }}>*</sup>
+                                                    <label htmlFor="ddlDoctor" className="form-label"><img src={medicalAssistance} className='icnn' />{t("Doctor/Consultant")}<span class="starMandatory">*</span></label>
                                                     <select className="form-select form-select-sm" id="ddlDoctor" name='doctor' onChange={getSelectedDoctor} aria-label=".form-select-sm example">
                                                         <option value="0">{t("selectDoctor")}</option>
                                                         {/* {doctorList && doctorList.map((list) => {
@@ -2514,7 +2551,7 @@ export default function PatientRegistration() {
                                                     <small id="errDoctor" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                 </div>
                                                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
-                                                    <label htmlFor="ddlRoomNo" className="form-label"><img src={roomIcon} className='icnn' />{t("Room_Number")}</label><sup style={{ color: "red" }}>*</sup>
+                                                    <label htmlFor="ddlRoomNo" className="form-label"><img src={roomIcon} className='icnn' />{t("Room_Number")}<span class="starMandatory">*</span></label>
                                                     <select className="form-select form-select-sm" id="ddlRoomNo" onChange={getSelectedRoom} aria-label=".form-select-sm example">
                                                         <option value="0">{t("Select_Room")}</option>
                                                         {roomList && roomList.map((list, ind) => {

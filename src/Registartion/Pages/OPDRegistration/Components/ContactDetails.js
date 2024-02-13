@@ -58,7 +58,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                 trustedEmail: '',
             })
         }
-    }, [contactDetails, contactDetailsData,clearStatus]);
+    }, [contactDetails, contactDetailsData, clearStatus]);
 
     let getCountryList = async () => {
         console.log('fetch country');
@@ -136,12 +136,26 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
 
     const handleContactDetailsChange = (e) => {
         const { name, value } = e.target;
+        // Function to check for alphanumeric characters and no spaces
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        // Function to check for alphanumeric characters and allow special characters but no spaces
+        const isValidInputEmail = (input) => /^[a-zA-Z0-9\S]*$/.test(input);
+
+        if (name==="emailID" || name==="trustedEmail") {
+            if (!isValidInputEmail(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
         setContactDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
         }));
-        // onContactDetailsChange(name, value);
     };
+
 
     const handleContactDetailsAdditionalChange = (e, index) => {
         const { name, value } = e.target;
@@ -267,19 +281,19 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                 <small id="errMotherName" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtEmergencyContact" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Emergency_Contact")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtEmergencyContact" placeholder={t("Enter_Emergency_Contact")} name='emergencyContact' value={contactDetails.emergencyContact} onChange={handleContactDetailsChange} />
+                <input type="number" className="form-control form-control-sm" id="txtEmergencyContact" placeholder={t("Enter_Emergency_Contact")} name='emergencyContact' value={contactDetails.emergencyContact} onChange={handleContactDetailsChange} />
                 <small id="errEmergencyContact" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtEmergencyPhone" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Emergency_Phone")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtEmergencyPhone" placeholder={t("Enter_Emergency_Phone")} name='emergencyPhone' value={contactDetails.emergencyPhone} onChange={handleContactDetailsChange} />
+                <input type="number" className="form-control form-control-sm" id="txtEmergencyPhone" placeholder={t("Enter_Emergency_Phone")} name='emergencyPhone' value={contactDetails.emergencyPhone} onChange={handleContactDetailsChange} />
                 <small id="errEmergencyPhone" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtHomePhone" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Home_Phone")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtHomePhone" placeholder={t("Enter_Home_Phone")} name='phoneHome' value={contactDetails.phoneHome} onChange={handleContactDetailsChange} />
+                <input type="number" className="form-control form-control-sm" id="txtHomePhone" placeholder={t("Enter_Home_Phone")} name='phoneHome' value={contactDetails.phoneHome} onChange={handleContactDetailsChange} />
                 <small id="errHomePhone" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtWorkPhone" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Work_Phone")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtWorkPhone" placeholder={t("Enter_Work_Phone")} name='workPhone' value={contactDetails.workPhone} onChange={handleContactDetailsChange} />
+                <input type="number" className="form-control form-control-sm" id="txtWorkPhone" placeholder={t("Enter_Work_Phone")} name='workPhone' value={contactDetails.workPhone} onChange={handleContactDetailsChange} />
                 <small id="errWorkPhone" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
 
@@ -311,10 +325,18 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
 
             <div className="col-2 mb-2">
                 <label htmlFor="txtEmailAddress" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("EMAIL_ID")}</label>
-                <input type="email" className="form-control form-control-sm" id="txtEmailAddress" placeholder={t("ENTER_EMAIL_ID")} name='emailID' value={contactDetails.emailID} onChange={handleContactDetailsChange} />
+                <input type="email" className="form-control form-control-sm" id="txtEmailAddress" placeholder={t("ENTER_EMAIL_ID")} name='emailID' onKeyPress={(e) => {
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                    }
+                }} value={contactDetails.emailID} onChange={handleContactDetailsChange} />
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtEmailDirect" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("EMAIL_ID_Email_Direct")}</label>
-                <input type="email" className="form-control form-control-sm" id="txtEmailDirect" placeholder={t("ENTER_EMAIL_ID_Email_Direct")} name='trustedEmail' value={contactDetails.trustedEmail} onChange={handleContactDetailsChange} />
+                <input type="email" className="form-control form-control-sm" id="txtEmailDirect" placeholder={t("ENTER_EMAIL_ID_Email_Direct")} name='trustedEmail' onKeyPress={(e) => {
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                    }
+                }} value={contactDetails.trustedEmail} onChange={handleContactDetailsChange} />
             </div>
             <div className="dflex">
                 <div className="col-2 mb-2">

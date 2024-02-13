@@ -27,6 +27,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     let [stateListSESecondry, setStateListSESecondry] = useState([]);
     let [stateListTertiary, setStateListTertiary] = useState([]);
     let [stateListSETertiary, setStateListSETertiary] = useState([]);
+    const today = new Date().toISOString().split('T')[0];
     let [sendFormPrimary, setSendFormPrimary] = useState(
         {
             insuranceProviderId: '',
@@ -150,6 +151,18 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityprimary").style.display = "none"
         document.getElementById("errSECity").style.display = "none"
         const { name, value } = e.target;
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+
+        if (name === "effectiveDate" || name === "dob") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
         setSendFormPrimary((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
@@ -178,6 +191,17 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCitySecondary").style.display = "none"
         document.getElementById("errSECitySecondary").style.display = "none"
         const { name, value } = e.target;
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        if (name === "effectiveDate" || name === "dob") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
         setSendFormSecondary((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
@@ -205,6 +229,18 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityTertiary").style.display = "none"
         document.getElementById("errSECityTertiary").style.display = "none"
         const { name, value } = e.target;
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+
+        if (name === "effectiveDate" || name === "dob") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
         setSendFormTri((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
@@ -483,7 +519,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className="col-md-4 mb-2">
                     <div className='d-flex flex-wrap gap-3' >
                         <div style={{ width: '250px' }}>
-                            <label htmlFor="ddlPrimary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Primary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlPrimary" className="form-label relative"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Primary Insurance Provider")}<span class="starMandatory">*</span></label>
                             <select className="form-select form-select-sm" id="ddlPrimary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormPrimary.insuranceProviderId} onChange={handlePrimary}>
                                 <option value="0">{t("Select_Provider")}</option>
                                 {providerList && providerList.map((list) => {
@@ -503,13 +539,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPlanName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPlanName" className="form-label relative"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPlanName" placeholder={t("Enter Plan Name")} name='planName' value={sendFormPrimary.planName} onChange={handlePrimary} />
                             <small id="errPlanName" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-3 mb-2">
-                            <label htmlFor="txtSubscriber" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriber" className="form-label relative"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-1'>
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriber" name='subscriber1' value={sendFormPrimary.subscriber1} onChange={handlePrimary} />
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriber1" name='subscriber2' value={sendFormPrimary.subscriber2} onChange={handlePrimary} />
@@ -519,7 +555,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-1 mb-2">
-                            <label htmlFor="txtEffectiveDate" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtEffectiveDate" className="form-label relative"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}<span class="starMandatory">*</span></label>
                             <div className='d-flex'>
                                 <input type="date" className="form-control form-control-sm" id="txtEffectiveDate" placeholder={t("Enter Effective Date")} name='effectiveDate' value={sendFormPrimary.effectiveDate} onChange={handlePrimary} />
                             </div>
@@ -527,7 +563,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlRelationship" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlRelationship" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationship" aria-label=".form-select-sm example" name='relationshipId' value={sendFormPrimary.relationshipId} onChange={handlePrimary} >
                                     <option value="0" selected>Select Relation</option>
@@ -542,14 +578,14 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPolicyNumber" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPolicyNumber" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPolicyNumber" placeholder={t("Enter Policy Number")} name='policyNumber' value={sendFormPrimary.policyNumber} onChange={handlePrimary} />
                             <small id="errPolicyNumber" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtDOB" className="form-label"><img src={calendar} className='icnn' alt='' />{t("DOB")}</label>
-                            <input type="date" className="form-control form-control-sm" id="txtDOB" placeholder={t("Enter Policy Number")} name='dob' value={sendFormPrimary.dob} onChange={handlePrimary} />
+                            <input type="date" max={today} className="form-control form-control-sm" id="txtDOB" placeholder={t("Enter Policy Number")} name='dob' value={sendFormPrimary.dob} onChange={handlePrimary} />
                             <small id="errDOB" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                     </div>
@@ -565,7 +601,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div> */}
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubscriberEmployer" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriberEmployer" className="form-label relative"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSubscriberEmployer" placeholder={t("Enter Subscriber Employer")} name='subscriberEmployer' value={sendFormPrimary.subscriberEmployer} onChange={handlePrimary} />
                             <small id="errSubscriberEmployer" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -586,20 +622,20 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEAddress" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEAddress" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}<span class="starMandatory">*</span></label>
                             <textarea name="seAddress" id="txtSEAddress" className="form-control form-control-sm" rows="1" placeholder={t("Enter SE Address")} value={sendFormPrimary.seAddress} onChange={handlePrimary}></textarea>
                             <small id="errSEAddress" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine1" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine1" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine1" id="txtSubsciberAddressLine1" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line1")} value={sendFormPrimary.subscriberAddressLine1} onChange={handlePrimary}></textarea>
                             <small id="errSubsciberAddressLine1" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine2" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine2" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine2" id="txtSubsciberAddressLine2" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line2")} value={sendFormPrimary.subscriberAddressLine2} onChange={handlePrimary}></textarea>
                             <small id="errSubsciberAddressLine2" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -609,18 +645,18 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSECity" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSECity" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSECity" placeholder={t("Enter SE City")} name='seCity' value={sendFormPrimary.seCity} onChange={handlePrimary} />
                             <small id="errSECity" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtCity" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtCity" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtCity" placeholder={t("Enter City")} name='city' value={sendFormPrimary.city} onChange={handlePrimary} />
                             <small id="errCityprimary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountry" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSECountry" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSECountry" aria-label=".form-select-sm example" name='seCountryId' value={sendFormPrimary.seCountryId} onChange={onChangeCountrySEPrimary} >
                                     <option value="0">{t("Select_Country")}</option>
@@ -636,7 +672,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSEState" className="form-label"><img src={city} className='icnn' alt='' />{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSEState" className="form-label"><img src={city} className='icnn' alt='' />{t("SE State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEState" aria-label=".form-select-sm example" name='seStateId' value={sendFormPrimary.seStateId} onChange={handlePrimary}>
                                     <option value="0">{t("Select_State")}</option>
@@ -651,7 +687,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountry" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlCountry" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlCountry" aria-label=".form-select-sm example" name='countryId' value={sendFormPrimary.countryId} onChange={onChangeCountryParimary}>
                                     <option value="0">{t("Select_Country")}</option>
@@ -666,7 +702,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlState" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlState" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='stateId' value={sendFormPrimary.stateId} onChange={handlePrimary}>
                                     <option value="0">{t("Select_State")}</option>
@@ -681,13 +717,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starmandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCode" placeholder={t("Enter SE Zip Code")} name='seZipCode' value={sendFormPrimary.seZipCode} onChange={handlePrimary} />
                             <small id="errSEZipCode" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCode" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormPrimary.zipCode} onChange={handlePrimary} />
                             <small id="errZipCode" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -702,12 +738,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errcopay" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtGroupNumber" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtGroupNumber" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtGroupNumber" placeholder={t("Enter Group Number")} name='groupNumber' value={sendFormPrimary.groupNumber} onChange={handlePrimary} />
                             <small id="errGroupNumber" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlAcceptAssignment" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlAcceptAssignment" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlAcceptAssignment" aria-label=".form-select-sm example" name='isAcceptAssignment' value={sendFormPrimary.isAcceptAssignment} onChange={handlePrimary} >
                                     <option value="" selected>select</option>
@@ -727,7 +763,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className="col-md-4 mb-2">
                     <div className='d-flex flex-wrap gap-3' >
                         <div style={{ width: '250px' }}>
-                            <label htmlFor="ddlSecondary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Secondary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSecondary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Secondary Insurance Provider")}<span class="starMandatory">*</span></label>
                             <select className="form-select form-select-sm" id="ddlSecondary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormSecondary.insuranceProviderId} onChange={handleSecondry}>
                                 <option value="0">{t("Select_Provider")}</option>
                                 {providerList && providerList.map((list) => {
@@ -747,13 +783,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPlanNameSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPlanNameSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPlanNameSecondary" placeholder={t("Enter Plan Name")} name='planName' value={sendFormSecondary.planName} onChange={handleSecondry} />
                             <small id="errPlanNameSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-3 mb-2">
-                            <label htmlFor="txtSubscriberSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriberSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-1'>
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriberSecondary" name='subscriber1' value={sendFormSecondary.subscriber1} onChange={handleSecondry} />
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriber1Secondary" name='subscriber2' value={sendFormSecondary.subscriber2} onChange={handleSecondry} />
@@ -763,7 +799,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-1 mb-2">
-                            <label htmlFor="txtEffectiveDateSecondary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtEffectiveDateSecondary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}<span class="starMandatory">*</span></label>
                             <div className='d-flex'>
                                 <input type="date" className="form-control form-control-sm" id="txtEffectiveDateSecondary" placeholder={t("Enter Effective Date")} name='effectiveDate' value={sendFormSecondary.effectiveDate} onChange={handleSecondry} />
                             </div>
@@ -771,7 +807,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlRelationshipSecondary" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlRelationshipSecondary" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationshipSecondary" aria-label=".form-select-sm example" name='relationshipId' value={sendFormSecondary.relationshipId} onChange={handleSecondry}>
                                     <option value="0" selected>Select Relation</option>
@@ -786,14 +822,14 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPolicyNumberSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPolicyNumberSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPolicyNumberSecondary" placeholder={t("Enter Policy Number")} name='policyNumber' value={sendFormSecondary.policyNumber} onChange={handleSecondry} />
                             <small id="errPolicyNumberSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtDOBSecondary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("DOB")}</label>
-                            <input type="date" className="form-control form-control-sm" id="txtDOBSecondary" placeholder={t("Enter Policy Number")} name='dob' value={sendFormSecondary.dob} onChange={handleSecondry} />
+                            <input type="date" max={today} className="form-control form-control-sm" id="txtDOBSecondary" placeholder={t("Enter Policy Number")} name='dob' value={sendFormSecondary.dob} onChange={handleSecondry} />
                             <small id="errDOBSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                     </div>
@@ -809,7 +845,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div> */}
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubscriberEmployerSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriberEmployerSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSubscriberEmployerSecondary" placeholder={t("Enter Subscriber Employer")} name='subscriberEmployer' value={sendFormSecondary.subscriberEmployer} onChange={handleSecondry} />
                             <small id="errSubscriberEmployerSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -830,20 +866,20 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEAddressSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEAddressSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}<span class="starMandatory">*</span></label>
                             <textarea name="seAddress" id="txtSEAddressSecondary" className="form-control form-control-sm" rows="1" placeholder={t("Enter SE Address")} value={sendFormSecondary.seAddress} onChange={handleSecondry}></textarea>
                             <small id="errSEAddressSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine1Secondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine1Secondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine1" id="txtSubsciberAddressLine1Secondary" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line1")} value={sendFormSecondary.subscriberAddressLine1} onChange={handleSecondry}></textarea>
                             <small id="errSubsciberAddressLine1Secondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine2Secondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine2Secondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine2" id="txtSubsciberAddressLine2Secondary" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line2")} value={sendFormSecondary.subscriberAddressLine2} onChange={handleSecondry}></textarea>
                             <small id="errSubsciberAddressLine2Secondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -853,17 +889,17 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSECitySecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSECitySecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSECitySecondary" placeholder={t("Enter SE City")} name='seCity' value={sendFormSecondary.seCity} onChange={handleSecondry} />
                             <small id="errSECitySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtCitySecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtCitySecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtCitySecondary" placeholder={t("Enter City")} name='city' value={sendFormSecondary.city} onChange={handleSecondry} />
                             <small id="errCitySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountrySecondary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSECountrySecondary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSECountrySecondary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormSecondary.seCountryId} onChange={onChangeCountrySESecondry} >
                                     <option value="0">{t("Select_Country")}</option>
@@ -879,7 +915,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errSECountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSEStateSecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSEStateSecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEStateSecondary" aria-label=".form-select-sm example" name='seStateId' value={sendFormSecondary.seStateId} onChange={handleSecondry}>
                                     <option value="0">{t("Select_State")}</option>
@@ -893,7 +929,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errSEStateSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountrySecondary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlCountrySecondary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlCountrySecondary" aria-label=".form-select-sm example" name='countryId' value={sendFormSecondary.countryId} onChange={onChangeCountrySecondry}>
                                     <option value="0">{t("Select_Country")}</option>
@@ -909,7 +945,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errCountrySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlStateSecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlStateSecondary" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlStateSecondary" aria-label=".form-select-sm example" name='stateId' value={sendFormSecondary.stateId} onChange={handleSecondry}>
                                     <option value="0">{t("Select_State")}</option>
@@ -924,13 +960,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEZipCodeSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEZipCodeSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeSecondary" placeholder={t("Enter SE Zip Code")} name='seZipCode' value={sendFormSecondary.seZipCode} onChange={handleSecondry} />
                             <small id="errSEZipCodeSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtZipCodeSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtZipCodeSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeSecondary" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormSecondary.zipCode} onChange={handleSecondry} />
                             <small id="errZipCodeSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -945,12 +981,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errcopaySecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtGroupNumberSecondary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtGroupNumberSecondary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtGroupNumberSecondary" placeholder={t("Enter Group Number")} name='groupNumber' value={sendFormSecondary.groupNumber} onChange={handleSecondry} />
                             <small id="errGroupNumberSecondary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlAcceptAssignmentSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlAcceptAssignmentSecondary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlAcceptAssignmentSecondary" aria-label=".form-select-sm example" name='isAcceptAssignment' value={sendFormSecondary.isAcceptAssignment} onChange={handleSecondry}>
                                     <option value="" selected>select</option>
@@ -970,7 +1006,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className="col-md-4 mb-2">
                     <div className='d-flex flex-wrap gap-3' >
                         <div style={{ width: '250px' }}>
-                            <label htmlFor="ddlTertiary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Tertiary Insurance Provider")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlTertiary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Tertiary Insurance Provider")}<span class="starMandatory">*</span></label>
                             <select className="form-select form-select-sm" id="ddlTertiary" aria-label=".form-select-sm example" name='insuranceProviderId' value={sendFormTri.insuranceProviderId} onChange={handleTertiary} >
                                 <option value="0">{t("Select_Provider")}</option>
                                 {providerList && providerList.map((list) => {
@@ -990,13 +1026,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPlanNameTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPlanNameTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Plan Name")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPlanNameTertiary" placeholder={t("Enter Plan Name")} name='planName' value={sendFormTri.planName} onChange={handleTertiary} />
                             <small id="errPlanNameTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-3 mb-2">
-                            <label htmlFor="txtSubscriberTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriberTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-1'>
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriberTertiary" name='subscriber1' value={sendFormTri.subscriber1} onChange={handleTertiary} />
                                 <input type="text" className="form-control form-control-sm" id="txtSubscriber1Tertiary" name='subscriber2' value={sendFormTri.subscriber2} onChange={handleTertiary} />
@@ -1006,7 +1042,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-1 mb-2">
-                            <label htmlFor="txtEffectiveDateTertiary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtEffectiveDateTertiary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Effective Date")}<span class="starMandatory">*</span></label>
                             <div className='d-flex'>
                                 <input type="date" className="form-control form-control-sm" id="txtEffectiveDateTertiary" placeholder={t("Enter Effective Date")} name='effectiveDate' value={sendFormTri.effectiveDate} onChange={handleTertiary} />
                             </div>
@@ -1014,7 +1050,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><img src={IconPatientRelation} className='icnn' alt='' />{t("Relationship")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlRelationshipTertiary" aria-label=".form-select-sm example" name='relationshipId' value={sendFormTri.relationshipId} onChange={handleTertiary} >
                                     <option value="0" selected>Select Relation</option>
@@ -1029,14 +1065,14 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtPolicyNumberTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtPolicyNumberTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Policy Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtPolicyNumberTertiary" placeholder={t("Enter Policy Number")} name='policyNumber' value={sendFormTri.policyNumber} onChange={handleTertiary} />
                             <small id="errPolicyNumberTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
                             <label htmlFor="txtDOBTertiary" className="form-label"><img src={calendar} className='icnn' alt='' />{t("DOB")}</label>
-                            <input type="date" className="form-control form-control-sm" id="txtDOBTertiary" placeholder={t("Enter Policy Number")} name='dob' value={sendFormTri.dob} onChange={handleTertiary} />
+                            <input type="date" max={today} className="form-control form-control-sm" id="txtDOBTertiary" placeholder={t("Enter Policy Number")} name='dob' value={sendFormTri.dob} onChange={handleTertiary} />
                             <small id="errDOBTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                     </div>
@@ -1052,7 +1088,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div> */}
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubscriberEmployerTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubscriberEmployerTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subscriber Employer")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSubscriberEmployerTertiary" placeholder={t("Enter Subscriber Employer")} name='subscriberEmployer' value={sendFormTri.subscriberEmployer} onChange={handleTertiary} />
                             <small id="errSubscriberEmployerTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -1073,20 +1109,20 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEAddressTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEAddressTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Address")}<span class="starMandatory">*</span></label>
                             <textarea name="seAddress" id="txtSEAddressTertiary" className="form-control form-control-sm" rows="1" placeholder={t("Enter SE Address")} value={sendFormTri.seAddress} onChange={handleTertiary}></textarea>
                             <small id="errSEAddressTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine1Tertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine1Tertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line1")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine1" id="txtSubsciberAddressLine1Tertiary" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line 1")} value={sendFormTri.subscriberAddressLine1} onChange={handleTertiary}></textarea>
                             <small id="errSubsciberAddressLine1Tertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSubsciberAddressLine2Tertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSubsciberAddressLine2Tertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Subsciber Address Line2")}<span class="starMandatory">*</span></label>
                             <textarea name="subscriberAddressLine2" id="txtSubsciberAddressLine2Tertiary" className="form-control form-control-sm" rows="1" placeholder={t("Enter Subsciber Address Line 2")} value={sendFormTri.subscriberAddressLine2} onChange={handleTertiary}></textarea>
                             <small id="errSubsciberAddressLine2Tertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -1096,17 +1132,17 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSECityTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSECityTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("SE City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSECityTertiary" placeholder={t("Enter SE City")} name='seCity' value={sendFormTri.seCity} onChange={handleTertiary} />
                             <small id="errSECityTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtCityTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtCityTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("City")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtCityTertiary" placeholder={t("Enter City")} name='city' value={sendFormTri.city} onChange={handleTertiary} />
                             <small id="errCityTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSECountryTertiary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSECountryTertiary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSECountryTertiary" aria-label=".form-select-sm example" name='seCountryId' value={sendFormTri.seCountryId} onChange={onChangeCountrySETertiary}>
                                     <option value="0">{t("Select_Country")}</option>
@@ -1120,7 +1156,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errSECountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlSEStateTertiary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlSEStateTertiary" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("SE State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='seStateId' value={sendFormTri.seStateId} onChange={handleTertiary}>
                                     <option value="0">{t("Select_State")}</option>
@@ -1134,7 +1170,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errSEStateTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlCountryTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("Country")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlCountryTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("Country")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlCountryTertiary" aria-label=".form-select-sm example" name='countryId' value={sendFormTri.countryId} onChange={onChangeCountryTertiary}>
                                     <option value="0">{t("Select_Country")}</option>
@@ -1148,7 +1184,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errCountryTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlStateTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlStateTertiary" className="form-label"><img src={city} className='icnn' alt='' />{t("State")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlStateTertiary" aria-label=".form-select-sm example" name='stateId' value={sendFormTri.stateId} onChange={handleTertiary}>
                                     <option value="0">{t("Select_State")}</option>
@@ -1163,13 +1199,13 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEZipCodeTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtSEZipCodeTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeTertiary" placeholder={t("Enter SE Zip Code")} name='seZipCode' value={sendFormTri.seZipCode} onChange={handleTertiary} />
                             <small id="errSEZipCodeTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtZipCodeTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtZipCodeTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCodeTertiary" placeholder={t("Enter Zip Code")} name='zipCode' value={sendFormTri.zipCode} onChange={handleTertiary} />
                             <small id="errZipCodeTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -1184,12 +1220,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                             <small id="errcopayTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtGroupNumberTertiary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="txtGroupNumberTertiary" className="form-label"><i class="bi bi-people-fill" style={{ color: '#546788' }}></i> {t("Group Number")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtGroupNumberTertiary" placeholder={t("Enter Group Number")} name='groupNumber' value={sendFormTri.groupNumber} onChange={handleTertiary} />
                             <small id="errGroupNumberTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="ddlAcceptAssignmentTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}</label><sup style={{ color: "red" }}>*</sup>
+                            <label htmlFor="ddlAcceptAssignmentTertiary" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Accept Assignment")}<span class="starMandatory">*</span></label>
                             <div className='d-flex gap-3' >
                                 <select className="form-select form-select-sm" id="ddlAcceptAssignmentTertiary" aria-label=".form-select-sm example" name='isAcceptAssignment' value={sendFormTri.isAcceptAssignment} onChange={handleTertiary}>
                                     <option value="" selected>select</option>
