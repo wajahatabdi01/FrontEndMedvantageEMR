@@ -6,9 +6,13 @@ import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg'
 import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg'
 import GetRecordDiscloser from '../../../../../API/OPDRecordDiscloser/GetRecordDiscloser';
 import PostRecordDiscloser from '../../../../../API/OPDRecordDiscloser/PostRecordDiscloser';
+import { useTranslation } from 'react-i18next';
+import i18n from "i18next";
 function OPDRecordDisclosurePopUp({ setShowToster }) {
+    let[rowId,setRowId]=useState('')
     let [recordList, setRecordList] = useState([])
     let [date, setDate] = useState('');
+    const { t } = useTranslation();
     let [discloserId, setDiscloserId] = useState('');
     let [searchTearm, setSearchTerm] = useState('');
     let [showUnderProcess, setShowUnderProcess] = useState(0);
@@ -72,7 +76,8 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
         const response = await PostRecordDiscloser(obj);
         if (response.status === 1) {
             setShowUnderProcess(0);
-            setShowToster(1)
+            setShowToster(8)
+            handleClear();
             getAllRecords();
             setTimeout(() => {
                 setShowToster(0);
@@ -90,20 +95,23 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
     }
 
     let handleClear = () => {
-
+        setDate('');
+        setDiscloserId('');
+        setRecipientOfDisclosure('');
+        setDescriptionOfTheDisclosure('');
     }
     useEffect(() => {
         getAllRecords();
     }, []);
     return (
         <>
-            <div className='problemhead'>
+            <div className='problemhead' style={{height:'49vh',overflowY:'auto'}}>
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-12 mb-2">
                             {/* <label for="bedName" class="form-label relative">Date<span class="starMandatory">*</span></label> */}
                             <label for="bedName" class="form-label relative">Date</label>
-                            <input type="date" className="form-control form-control-sm" id="beginDateTime" name='disclosureDate' onChange={handleChange} />
+                            <input type="date" value={date} className="form-control form-control-sm" id="beginDateTime" name='disclosureDate' onChange={handleChange} />
                             <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
                             </small>
                         </div>
@@ -116,7 +124,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Type of Disclosure</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" id="typeOfDisclosure" aria-label=".form-select-sm example" name='typeOfDisclosure' onChange={handleChange} >
+                                <select className="form-select form-select-sm" value={discloserId} id="typeOfDisclosure" aria-label=".form-select-sm example" name='typeOfDisclosure' onChange={handleChange} >
                                     <option value="0" selected>Select Outcome</option>
                                     <option value="1" >Test</option>
                                     <option value="2" >Test</option>
@@ -130,17 +138,17 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                     <div className="row">
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label">Recipient of the Disclosure</label>
-                            <input type="text" className="form-control form-control-sm mt-1" id="recipientOfDisclosure" name='recipientOfDisclosure' onChange={handleChange} />
+                            <input type="text" value={recipientOfDisclosure} className="form-control form-control-sm mt-1" id="recipientOfDisclosure" name='recipientOfDisclosure' onChange={handleChange} />
                         </div>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label">Description of the Disclosure</label>
-                            <textarea className='mt-1 form-control' id="descriptionOfTheDisclosure" name="descriptionOfTheDisclosure" rows="3" cols="40" style={{ height: '121px' }} onChange={handleChange}></textarea>
+                            <textarea value={descriptionOfTheDisclosure} className='mt-1 form-control' id="descriptionOfTheDisclosure" name="descriptionOfTheDisclosure" rows="3" cols="40" style={{ height: '121px' }} onChange={handleChange}></textarea>
                         </div>
                     </div>
 
                     <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end mt-2">
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-target="#exampleModalToggle2_" data-bs-toggle="modal_" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={"handleClear"}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
+                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                     </div>
                 </div>
             </div>
@@ -155,7 +163,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                             <span className="tblsericon"><i class="fas fa-search"></i></span>
                         </div>
                     </div>
-                    <div className="med-table-section mt-3" style={{ "height": "74vh" }}>
+                    <div className="med-table-section mt-3" style={{ "height": "25vh" }}>
                         <table className="med-table border_ striped">
                             <thead>
                                 <tr>
@@ -179,7 +187,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                                             <td>
                                                 <div className="action-button">
                                                     <div data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" title="Edit Row"><img src={IconEdit} alt='' /></div>
-                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} alt='' /></div>
+                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#staticBackdrop"><img src={IconDelete} onClick={() => { setRowId(list.id) }} alt='' /></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -191,6 +199,26 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                     </div>
                 </div>
             </div>
+
+              {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                    <div className="modal-dialog modalDelete">
+                        <div className="modal-content">
+
+                            <div className="modal-body modelbdy text-center">
+                                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                                <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
+                                <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                            </div>
+                            <div className="modal-footer1 text-center">
+
+                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
+                                <button type="button" className="btn-delete popBtnDelete" onClick={"handleDeleteRow"} data-bs-dismiss="modal">{t("Delete")}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
         </>
     )
 }

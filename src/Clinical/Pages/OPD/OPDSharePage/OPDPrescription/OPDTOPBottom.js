@@ -294,11 +294,11 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-dialog modal-dialog-scrollable1 modal-lg">
                     <div class="modal-content">
                         <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Record Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
-                        <div class="modal-body">
-                        <OPDRecordDisclosurePopUp />
+                        <div class="modal-body" style={{height:'84vh'}}>
+                        <OPDRecordDisclosurePopUp  setShowToster={setShowToster}/>
                         </div>
                         {/* <div class="modal-footer">
                             <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
@@ -321,7 +321,7 @@ export default function OPDTOPBottom(props) {
             {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
             {/* --------------------------------------------------------------Patient Message PopUp Begin--------------------------------------------------- */}
             <div className="modal fade" id="Message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                <div className=" modal-dialog modal-dialog-scrollable1 modal-lg">
                     <div className="modal-content ">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Patient Message</h1>
