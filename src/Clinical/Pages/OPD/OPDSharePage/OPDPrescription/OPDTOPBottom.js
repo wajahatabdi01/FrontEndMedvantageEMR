@@ -459,6 +459,10 @@ export default function OPDTOPBottom(props) {
                 showToster === 7 ?
                     <SuccessToster handle={setShowToster} message="Immunization Saved SuccessFully !!" /> : ""
             }
+            {
+                showToster === 8 ?
+                    <SuccessToster handle={setShowToster} message="Record Saved SuccessFully !!" /> : ""
+            }
 
             {
                 showAlertToster === 1 ?
