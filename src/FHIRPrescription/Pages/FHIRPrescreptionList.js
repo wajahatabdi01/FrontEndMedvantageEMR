@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import plus from '../../assets/images/icons/icons8-plus-30.png';
 import editIcon from '../../assets/images/icons/icons8-pencil-30.png';
 import deleteIcon from '../../assets/images/icons/icons8-delete-30.png'
+import FHIRGetAllPrescriptionListByUHID from '../API/GET/FHIRGetAllPrescriptionListByUHID';
 
 export default function FHIRPrescreptionList() {
+
+  const [prescreptionList, setPrescreptionList] = useState([]);
+const funGetAllList = async () => {
+  const listRes = await FHIRGetAllPrescriptionListByUHID(JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid);
+  if(listRes.status === 1){
+
+    setPrescreptionList(listRes.responseValue)
+  }
+}
+useEffect(() => {
+  funGetAllList();
+}, [])
   return (
-    <section className="main-content mt-5 pt-3">
-      <div className='container-fluid'>
+    
+      <>
+        <div className='container-fluid'>
         <div className="row">
           <div className='col-12'>
              <div className='med-box'>
@@ -35,20 +49,20 @@ export default function FHIRPrescreptionList() {
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td >
-                                    <input type='checkbox' className='form-check text-center' />
-                                  </td>
-                                  <td>Doloracin with Lidocaine</td>
-                                  <td>1432537</td>
-                                  <td>2023-12-29</td>
-                                  <td>2023-12-29</td>
-                                  <td>1 in tablet b.i.d.</td>
-                                  <td>10</td>
-                                  <td>250 mg/1cc </td>
-                                  <td>0</td>
-                                  <td>Administrator Administrator</td>
-                                  <td>
+                              {prescreptionList && prescreptionList.map((list, ind) => {
+                                return(
+                                  <tr>
+                                  <td>{ind + 1}</td>
+                                    <td>{list.drug}</td>
+                                    <td>{list.rxnorm_drugcode}</td>
+                                    <td>{list.start_date}</td>
+                                    <td>{list.start_date}</td>
+                                    <td>{list.dosage}</td>
+                                    <td>{list.quantity}</td>
+                                    <td>{list.unit}</td>
+                                    <td>{list.refills}</td>
+                                    <td>{list.provider_id}</td>
+                                    <td>
                                   <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" >
                             <img src={deleteIcon} className='icnn' alt='' /> Delete
                           </button>
@@ -56,29 +70,9 @@ export default function FHIRPrescreptionList() {
                                       <img src={editIcon} className='icnn' alt='' /> Edit
                                     </button>
                                   </td>
-                                </tr>
-                                <tr>
-                                  <td >
-                                    <input type='checkbox' className='form-check text-center' />
-                                  </td>
-                                  <td>Doloracin with Lidocaine</td>
-                                  <td>1432537</td>
-                                  <td>2023-12-29</td>
-                                  <td>2023-12-29</td>
-                                  <td>1 in tablet b.i.d.</td>
-                                  <td>10</td>
-                                  <td>250 mg/1cc </td>
-                                  <td>0</td>
-                                  <td>Administrator Administrator</td>
-                                  <td>
-                                  <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" >
-                            <img src={deleteIcon} className='icnn' alt='' /> Delete
-                          </button>
-                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>
-                                      <img src={editIcon} className='icnn' alt='' /> Edit
-                                    </button>
-                                  </td>
-                                </tr>
+                                  </tr>
+                                )
+                              })}
                               </tbody>
                             </table>                            
                           </div>
@@ -86,7 +80,8 @@ export default function FHIRPrescreptionList() {
 
                         <div className="col-12">
                         <div className='d-flex justify-content-end'>                                
-                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 mt-2" ><img src={plus} className='icnn' alt="" />Add</button>
+                                  <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 mt-2" data-bs-toggle="modal" data-bs-target="#PrescriptionPop">
+                                  <img src={plus} className='icnn' alt="" />Add</button>
                               </div>
                         </div>
                         </div>
@@ -98,6 +93,27 @@ export default function FHIRPrescreptionList() {
             </div>
           </div>
         </div>
-    </section>
+
+        {/* ////////////////////////////////////////// MODAL /////////////////////////////////////// */}
+        <div className="modal fade" id="PrescriptionPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Problem</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    HElloooooooooooooooooooooooooo
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </>
+    
   )
 }

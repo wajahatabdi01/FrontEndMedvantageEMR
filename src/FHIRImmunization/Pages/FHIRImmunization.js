@@ -287,7 +287,9 @@ export default function FHIRImmunization({setShowToster}) {
   /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
     const funGetAllImmunizationData = async () => {
       const getAllImmunizationDataRes = await GetAllImmunizationData(activePatient);
-      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
+      if(getAllImmunizationDataRes.status === 1) {
+        setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
+      }
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
