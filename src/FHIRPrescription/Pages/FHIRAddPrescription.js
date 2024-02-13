@@ -48,7 +48,7 @@ export default function FHIRAddPrescription(props) {
   // const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  //const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
 
   const getAllBrandList = async () => 
   {
@@ -150,7 +150,7 @@ const handleSave = async () =>{
   else{
 
     const finalObj = {
-      uhid: 'UHID00143',
+      uhid: activePatient,
       currentlyActive : sendForm.currentlyActive,
       startingDate : sendForm.startingdate,
       providerId : sendForm.providerName,
@@ -172,11 +172,11 @@ const handleSave = async () =>{
       rxnormDrugCode : '1432537',
       clientId : clientID
     }
-    console.log('final obj : ', finalObj)
-    return;
+    
     const finalSave = await FHIRPostAddPrescreption(finalObj);
     if(finalSave.status === 1)
     {
+      alert('Data Saved')
       handleClear();
     }
   }

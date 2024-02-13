@@ -16,6 +16,7 @@ import OPDRecordDisclosurePopUp from './FHIROPDPopUp/OPDRecordDisclosurePopUp';
 import OPDPatientMessagePopUp from './FHIROPDPopUp/OPDPatientMessagePopUp';
 import OPDViewDiscloserRecord from './FHIROPDPopUp/OPDViewDiscloserRecord';
 import FHIRAddPrescription from '../../../../../FHIRPrescription/Pages/FHIRAddPrescription';
+import FHIRPrescreptionList from '../../../../../FHIRPrescription/Pages/FHIRPrescreptionList';
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -422,7 +423,7 @@ export default function OPDTOPBottom(props) {
                                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                 <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
                                     {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                                    <FHIRAddPrescription setShowToster={setShowToster} />
+                                    <FHIRPrescreptionList setShowToster={setShowToster} />
                                 </div>
                             </div>
                         </div>
