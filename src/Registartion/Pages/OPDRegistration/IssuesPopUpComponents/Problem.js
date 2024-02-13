@@ -20,7 +20,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     let [getData, setgetData] = useState([]);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
-    const [txtCoding, setTxtCoding] = useState('');
+    const [txtCoding, setTxtCoding] = useState([]);
 
     const handleTitleInputChange = (e) => {
         setProblem(e.target.value);
@@ -44,13 +44,29 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     };
 
     let handleRemove = () => {
-        // setCoding('');
-        // issueDetailsData((issueDetailss) => ({
-        //     ...issueDetailss,
-        //     Problem: {
-        //         'coding': '',
-        //     }
-        // }));
+        const tempAr=txtCoding;
+        let tempData=[];
+        let tempNew = "";
+        for(var i=0; i < tempAr.length; i++){
+            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
+            if(!document.getElementById("ddlCoding"+i).checked){
+                tempData.push(tempAr[i])
+            }
+        }
+        for(var i=0; i < tempAr.length; i++){
+            document.getElementById("ddlCoding"+i).checked = false;
+        }
+        for (var j = 0; j < tempData.length; j++) {
+            tempNew +=  tempData[j]+';';
+        }
+        let tempissueDetailNew ={
+            ...issueDetailss,
+            coding:tempNew
+        }
+        console.log("tempissueDetailNew", tempissueDetailNew) 
+        issueDetailsData((prev) => ({ ...prev, "Problem":tempissueDetailNew}));
+        setTxtCoding(tempData);
+        
     }
 
     let handleIssueDetailsChange = (e) => {
@@ -142,12 +158,14 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         // issueDetailss.forEach(element => {
         //     element["coding"] = temp
         // });
-        issueDetailss ={
+        let issueDetail ={
             ...issueDetailss,
             coding:temp
         }
-        console.log('issueDetailss',issueDetailss)
-        setTxtCoding(temp)
+        console.log("issueDetailss", issueDetailss) 
+        issueDetailsData((prev) => ({ ...prev, "Problem":issueDetail}));
+        const splitData = temp.split(';').slice(0,-1);
+        setTxtCoding(splitData);
       }
     useEffect(() => {
         getAllProblem();
@@ -159,7 +177,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         // console.log("issueDetailss", issueDetailss)
         // setIssueDetails(issueDetailss.Problem)
         // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
-        console.log("issueDetailss", issueDetailss)
 
     }, [issueDetailsData]);
     return (
@@ -193,13 +210,37 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
                             <div>
-                                {/* <select value={issueDetailss.coding} className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                    {issueDetailss && issueDetailss.coding !== "" ?
-                                         <option>{'ICD10:' + issueDetailss.coding}</option>
+                               
+                                {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list,i)=>{
+                                            return(
+                                                <option value={list}>{list}</option>
+                                            )
+                                        })
+                                         
                                         : ''}
                                 </select> */}
+                                <div  className='form-control' style={{ height: '8em',overflow: 'auto' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list,i)=>{
+                                            return(
+                                                <>
+                                                <span>
+                                                    <input type='checkbox' style={{marginRight:'5px'}} id={'ddlCoding'+i} />{list}
+                                                </span>
+                                                <br />
+                                                </>
+                                            )
+                                        })
+                                         
+                                        : ''}
+                                </div>
+                                {
                                 
-                                <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span>
+                                console.log('txtCoding',txtCoding)
+                                }
+                                {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                             </div>
 
                         </div>
