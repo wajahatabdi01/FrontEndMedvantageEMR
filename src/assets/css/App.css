@@ -3551,7 +3551,8 @@ span.placef {
   font-size: 11px;
 }
 
-.custom-modal .modal-header {
+.custom-
+ .modal-header {
   background: var(--primary-color);
   padding: 5px 10px;
   /* color: #fff; */
@@ -10472,6 +10473,22 @@ span.saveb img {
   height: 10px;
 }
 
+span.Appoin {
+  text-align: left;
+  font: normal normal 600 21px/32px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
+  position: absolute;
+  top: -16px;
+  left: 19px;
+  /* background: #fff; */
+  background: var(--primary-bg-btn-text-color);
+  padding: 0px 10px;
+
+
+}
+
 .btn-profile {
   background: #EFF3FF 0% 0% no-repeat padding-box;
   border: 1px solid #1D499929;
@@ -10508,7 +10525,7 @@ span.saveb img {
 
 .locationtext1 {
   text-align: left;
-  font: italic normal 300 14px/22px Poppins;
+  font: italic normal 300 12px/20px Poppins;
   letter-spacing: 0px;
   color: #A2A2A2;
   text-transform: capitalize;
@@ -10517,13 +10534,13 @@ span.saveb img {
 
 .DoctQualtext {
   text-align: left;
-  font: normal normal normal 16px/25px Poppins;
+  font: normal normal normal 14px/23px Poppins;
   letter-spacing: 0px;
   color: #7B7B7B;
   opacity: 1;
 }
 
-.DoctNametext{
+.DoctNametext {
   text-align: left;
   font: normal normal 500 16px/25px Poppins;
   letter-spacing: 0px;
@@ -10531,11 +10548,186 @@ span.saveb img {
   opacity: 1;
 }
 
-.ratingStar{
+.ratingStar {
   color: #FFA119;
-opacity: 1;
+  opacity: 1;
 }
-.ratingStar1{
+
+.ratingStar1 {
   color: #B4B5C3;
   opacity: 1;
+}
+
+.Appoint {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #1D4999;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.textBoxAppoint {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: var(--bs-border-radius);
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  text-align: left;
+  font: italic normal 300 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #929292;
+  opacity: 1;
+}
+
+.tableHead-1 {
+  text-align: left;
+  font: normal normal 600 21px/32px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  /* background: #fff; */
+  background: var(--primary-bg-btn-text-color);
+  align-items: center;
+  padding: 5px 5px;
+}
+
+.modalBookAppoint-header{
+  
+ 
+height: 63px;
+
+background: #1D4999 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+
+.btnModalAppointClose{
+  display: flex;
+  outline: none;
+  border: none;
+  background: #F44336;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: white;
+  color: black;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.modalPopUpTextHeader{
+ padding-right: 3%;
+ padding-top: 18px;
+ width: 250px;
+ height: 28px;
+/* UI Properties */
+text-align: center;
+font: normal normal 600 20px/30px Poppins;
+letter-spacing: 0px;
+color: #FFFFFF;
+opacity: 1;
+
+}
+
+.modalImagePop{
+  padding-top: 7px;
+padding-left: 2px;
+width: 134px;
+height: 134px;
+}
+
+.custom-line{
+  width: 95%;
+}
+
+.chooseText{
+
+font: normal normal medium 20px/27px Poppins;
+letter-spacing: 0px;
+color: #546788;
+opacity: 1;
+}
+
+.ddSpace{
+  top: 523px;
+left: 600px;
+width: 57px;
+height: 58px;
+background: #EFF3FF 0% 0% no-repeat padding-box;
+border-radius: 10px;
+opacity: 1;
+}
+.ddSpace:hover{
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+}
+
+.dayNtext{
+text-align: center;
+font: normal normal normal 14px/22px Poppins;
+letter-spacing: 0px;
+color: #8BA5D5;
+text-transform: capitalize;
+opacity: 1;
+}
+
+.dtText{
+  text-align: center;
+font: normal normal normal 16px/22px Poppins;
+letter-spacing: 0px;
+color: #546788;
+text-transform: capitalize;
+opacity: 1;
+}
+
+.mortxt{
+  width: 58px;
+  height: 20px;
+  text-align: left;
+  font: normal normal normal 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+
+.dtSpace{
+  top: 624px;
+left: 523px;
+width: 90px;
+height: 39px;
+background: #F5F5F5 0% 0% no-repeat padding-box;
+border-radius: 20px;
+opacity: 1;
+}
+
+.dtSpace:hover{
+  background: #F5F5F5 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+}
+
+.timeText{
+
+width: 45px;
+height: 23px;
+/* UI Properties */
+text-align: left;
+font: normal normal normal 14px/22px Poppins;
+letter-spacing: 0.42px;
+color: #595959;
+opacity: 1;
 }
