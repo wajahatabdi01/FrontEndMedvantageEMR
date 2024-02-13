@@ -31,22 +31,20 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     const handleTagsChange = (movies) => {
         setSelectedPriviousNames(movies);
     };
-    // const [tags, setTags] = React.useState([
-    //     { id: 'Thailand', text: 'Thailand' },
-    //     { id: 'India', text: 'India' },
-    //     { id: 'Vietnam', text: 'Vietnam' },
-    //     { id: 'Turkey', text: 'Turkey' }
-    //   ]);
-    //   useEffect(() => {
-    //     // Transform the previousNames array into the desired format
-    //     const newTags = priviousNames.map((name) => ({
-    //       id: name,
-    //       text: name,
-    //     }));
-    // console.log(priviousNames);
-    //     // Set the state with the newTags array
-    //     setOptions(newTags);
-    //   }, []); 
+    const [characterValidation, setCharacterValidation] = useState({
+        patientName: '',
+        middleName: '',
+        lastName: '',
+        nameSuffix: '',
+        birthFirstName: '',
+        birthMiddleName: '',
+        birthLastName: '',
+        externalId: '',
+        socialSecurityNo: '',
+        driversLicense: '',
+        billingNote: '',
+    });
+    const today = new Date().toISOString().split('T')[0];
     let getCountryList = async () => {
         console.log('fetch country');
         let response = await GetCountryList();
@@ -161,8 +159,42 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             }
         }
     }
+
     const handlePatientDetailsChange = (e) => {
+        console.log('characterValidation', characterValidation)
         const { name, value } = e.target;
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+
+        if (name === "dob") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
+        if (value.length > 25) {
+            setCharacterValidation((prev) => ({ [name]: 'Maximum character limit reached.' }));
+            return false;
+        }
+        else {
+            setCharacterValidation(
+                {
+                    patientName: '',
+                    middleName: '',
+                    lastName: '',
+                    nameSuffix: '',
+                    birthFirstName: '',
+                    birthMiddleName: '',
+                    birthLastName: '',
+                    socialSecurityNo: '',
+                    driversLicense: '',
+                    billingNote: '',
+                }
+            )
+        }
         if (name === "mobileNo") {
             const checkLength = value;
             console.log("hfhfhhffhf", checkLength)
@@ -175,7 +207,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                     const key = value;
                     getPatientDetailsByMobileNumber(key);
                 }
-
             }
         }
         document.getElementById("errMobile").style.display = "none"
@@ -217,9 +248,9 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     return (
         <>
             <div className="col-1 mb-2">
-                <label htmlFor="txtMobileNo" className="form-label">
+                <label htmlFor="txtMobileNo" className="form-label relative">
                     <img src={smartphone} className='icnn' alt='' />
-                    {t("MOBILE_NUMBER")}</label><sup style={{ color: "red" }}>*</sup>
+                    {t("MOBILE_NUMBER")}<span class="starMandatory">*</span></label>
 
                 <div className='lft'>
                     <select className="form-select form-select-sm" id='ddlCountryCode' aria-label=".form-select-sm example" style={{ borderRight: 'transparent', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', width: '80px', padding: '0 5px 0 5px' }}>
@@ -236,14 +267,16 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                         })}
                     </select>
                     <input type="number" className="form-control form-control-sm" id="txtMobileNo" placeholder={t("Mobile_Number")} name='mobileNo' value={patientDetails.mobileNo} onChange={handlePatientDetailsChange} style={{ borderLeft: 'transparent', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} />
+
+
                 </div>
                 {/* <button type="button" className="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalSetting"><i className="bi bi-gear-fill"></i></button> */}
                 <small id="errMobile" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
             <div className="col-1 mb-2">
-                <label htmlFor="ddlTitle" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("PatientTitle")}</label>
-                <sup style={{ color: "red" }}>*</sup>
+                <label htmlFor="ddlTitle" className="form-label relative"><img src={ageIcon} className='icnn' alt='' />{t("PatientTitle")}                <span class="starMandatory">*</span>
+                </label>
                 <select className="form-select form-select-sm" id="ddlTitle" aria-label=".form-select-sm example" name='titleId' value={patientDetails.titleId} onChange={handlePatientDetailsChange}>
                     <option value="0" selected>Select Title</option>
                     {titleList && titleList.map((list) => {
@@ -254,18 +287,21 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 </select>
                 <small id="errTitle" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
-                <label htmlFor="txtPatientFirstName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientFirstName")}</label><sup style={{ color: "red" }}>*</sup>
-                <input type="text" className="form-control form-control-sm" id="txtPatientFirstName" placeholder={t("Enter_Patient_First_Name")} name='patientName' value={patientDetails.patientName} onChange={handlePatientDetailsChange} />
+                <label htmlFor="txtPatientFirstName" className="form-label relative"><img src={patientOPD} className='icnn' alt='' />{t("PatientFirstName")}<span class="starMandatory">*</span></label>
+                <input type="text" className={`form-control form-control-sm ${characterValidation.patientName ? 'is-invalid' : ''}`} id="txtPatientFirstName" placeholder={t("Enter_Patient_First_Name")} name='patientName' value={patientDetails.patientName} onChange={handlePatientDetailsChange} />
+                {characterValidation.patientName && <div className="invalid-feedback">{characterValidation.patientName}</div>}
                 <small id="errPatientFirstName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtPatientMiddleName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientMiddleName")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtPatientMiddleName" placeholder={t("Enter_Patient_Middle_Name")} name='middleName' value={patientDetails.middleName} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.middleName ? 'is-invalid' : ''}`} id="txtPatientMiddleName" placeholder={t("Enter_Patient_Middle_Name")} name='middleName' value={patientDetails.middleName} onChange={handlePatientDetailsChange} />
+                {characterValidation.middleName && <div className="invalid-feedback">{characterValidation.middleName}</div>}
                 <small id="errPatientMiddleName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-2 mb-2">
-                <label htmlFor="txtPatientLastName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientLastName")}</label><sup style={{ color: "red" }}>*</sup>
-                <input type="text" className="form-control form-control-sm" id="txtPatientLastName" placeholder={t("Enter_Patient_Last_Name")} name='lastName' value={patientDetails.lastName} onChange={handlePatientDetailsChange} />
+                <label htmlFor="txtPatientLastName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("PatientLastName")}<span class="starMandatory">*</span></label>
+                <input type="text" className={`form-control form-control-sm ${characterValidation.lastName ? 'is-invalid' : ''}`} id="txtPatientLastName" placeholder={t("Enter_Patient_Last_Name")} name='lastName' value={patientDetails.lastName} onChange={handlePatientDetailsChange} />
+                {characterValidation.lastName && <div className="invalid-feedback">{characterValidation.lastName}</div>}
                 <small id="errPatientLastName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
@@ -278,17 +314,20 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             </div> */}
             <div className="col-2 mb-2">
                 <label htmlFor="txtBirthFirstName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BirthFirstName")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtBirthFirstName" placeholder={t("Enter_Birth_First_Name")} name='birthFirstName' value={patientDetails.birthFirstName} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.birthFirstName ? 'is-invalid' : ''}`} id="txtBirthFirstName" placeholder={t("Enter_Birth_First_Name")} name='birthFirstName' value={patientDetails.birthFirstName} onChange={handlePatientDetailsChange} />
+                {characterValidation.birthFirstName && <div className="invalid-feedback">{characterValidation.birthFirstName}</div>}
                 <small id="errBirthFirstName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtBirthMiddleName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BirthMiddleName")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtBirthMiddleName" placeholder={t("Enter_Birth_Middle_Name")} name='birthMiddleName' value={patientDetails.birthMiddleName} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.birthMiddleName ? 'is-invalid' : ''}`} id="txtBirthMiddleName" placeholder={t("Enter_Birth_Middle_Name")} name='birthMiddleName' value={patientDetails.birthMiddleName} onChange={handlePatientDetailsChange} />
+                {characterValidation.birthMiddleName && <div className="invalid-feedback">{characterValidation.birthMiddleName}</div>}
                 <small id="errBirthMiddleName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtBirthLastName" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BirthLastName")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtBirthLastName" placeholder={t("Enter_Birth_Last_Name")} name='birthLastName' value={patientDetails.birthLastName} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.birthLastName ? 'is-invalid' : ''}`} id="txtBirthLastName" placeholder={t("Enter_Birth_Last_Name")} name='birthLastName' value={patientDetails.birthLastName} onChange={handlePatientDetailsChange} />
+                {characterValidation.birthLastName && <div className="invalid-feedback">{characterValidation.birthLastName}</div>}
                 <small id="errBirthLastName" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
@@ -299,8 +338,8 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 </small>
             </div> */}
             <div className="col-2 mb-2 relative">
-                <label htmlFor="txtDob" className="form-label"><img src={calendar} className='icnn' alt='' />{t("Date_of_Birth")}</label><sup style={{ color: "red" }}>*</sup>
-                <input type="date" className="form-control form-control-sm" id="txtDob" name='dob' value={patientDetails.dob} onChange={handlePatientDetailsChange} />
+                <label htmlFor="txtDob" className="form-label "><img src={calendar} className='icnn' alt='' />{t("Date_of_Birth")}<span class="starMandatory">*</span></label>
+                <input type="date" className="form-control form-control-sm" max={today} id="txtDob" name='dob' value={patientDetails.dob} onChange={handlePatientDetailsChange} />
                 <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
 
@@ -318,19 +357,22 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
 
             <div className="col-2 mb-2">
                 <label htmlFor="txtExternalID" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Patient_ExternalID")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtExternalID" placeholder={t("Enter_Patient_ExternalID")} name='externalId' value={patientDetails.externalId} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.externalId ? 'is-invalid' : ''}`} id="txtExternalID" placeholder={t("Enter_Patient_ExternalID")} name='externalId' value={patientDetails.externalId} onChange={handlePatientDetailsChange} />
+                {characterValidation.externalId && <div className="invalid-feedback">{characterValidation.externalId}</div>}
                 <small id="errExternalID" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
             <div className="col-2 mb-2">
                 <label htmlFor="txtSS" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Patient_Social_Security_Number")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtSS" placeholder={t("Enter_Social_Security_Number")} name='socialSecurityNo' value={patientDetails.socialSecurityNo} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.socialSecurityNo ? 'is-invalid' : ''}`} id="txtSS" placeholder={t("Enter_Social_Security_Number")} name='socialSecurityNo' value={patientDetails.socialSecurityNo} onChange={handlePatientDetailsChange} />
+                {characterValidation.socialSecurityNo && <div className="invalid-feedback">{characterValidation.socialSecurityNo}</div>}
                 <small id="errSS" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
             <div className="col-2 mb-2">
                 <label htmlFor="txtLicense" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Patient_License")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtLicense" placeholder={t("Enter_License")} name='driversLicense' value={patientDetails.driversLicense} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.driversLicense ? 'is-invalid' : ''}`} id="txtLicense" placeholder={t("Enter_License")} name='driversLicense' value={patientDetails.driversLicense} onChange={handlePatientDetailsChange} />
+                {characterValidation.driversLicense && <div className="invalid-feedback">{characterValidation.driversLicense}</div>}
                 <small id="errLicense" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div><div className="col-1 mb-2">
@@ -346,13 +388,14 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 <small id="errMaritalStatus" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div><div className="col-2 mb-2">
                 <label htmlFor="txtBillingNote" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("BillingNote")}</label>
-                <input type="text" className="form-control form-control-sm" id="txtBillingNote" placeholder={t("Enter_BillingNote")} name='billingNote' value={patientDetails.billingNote} onChange={handlePatientDetailsChange} />
+                <input type="text" className={`form-control form-control-sm ${characterValidation.billingNote ? 'is-invalid' : ''}`} id="txtBillingNote" placeholder={t("Enter_BillingNote")} name='billingNote' value={patientDetails.billingNote} onChange={handlePatientDetailsChange} />
+                {characterValidation.billingNote && <div className="invalid-feedback">{characterValidation.billingNote}</div>}
                 <small id="errBillingNote" className="form-text text-danger" style={{ display: 'none' }}>
                 </small>
             </div>
 
             <div className="col-2 mb-2">
-                <label htmlFor="ddlGender" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender")}</label><sup style={{ color: "red" }}>*</sup>
+                <label htmlFor="ddlGender" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender")}<span class="starMandatory">*</span></label>
                 <select className="form-select form-select-sm" id="ddlGender" aria-label=".form-select-sm example" name='genderId' value={patientDetails.genderId} onChange={handlePatientDetailsChange}>
                     <option value="0">{t("Select_Gender")}</option>
 
@@ -368,7 +411,7 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
 
 
             <div className="col-2 mb-2">
-                <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender Identity")}</label><sup style={{ color: "red" }}>*</sup>
+                <label htmlFor="ddlGenderIdentity" className="form-label"><img src={genderIcon} className='icnn' alt='' />{t("Gender Identity")}<span class="starMandatory">*</span></label>
                 <select className="form-select form-select-sm" id="ddlGenderIdentity" aria-label=".form-select-sm example" name='genderidentityId' value={patientDetails.genderidentityId} onChange={handlePatientDetailsChange}>
                     <option value="0">{t("Select Gender Identity")}</option>
                     {getPatientGenderIdentities && getPatientGenderIdentities.map((val, ind) => {

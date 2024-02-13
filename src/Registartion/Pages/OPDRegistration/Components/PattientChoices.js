@@ -14,11 +14,23 @@ import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
 const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) => {
     let [providerList, setProviderList] = useState([]);
     let [categoryList, setcategoryList] = useState([]);
-    const [choicesList, setChoicesList] = useState([{ id: 1, name: 'Yes' }, { id: 0, name: 'No' }]);
+    const [choicesList, setChoicesList] = useState([{ id: 1, name: 'Yes' }, { id: 2, name: 'No' }]);
     const { t } = useTranslation();
+
     const handlePattientChoicesChange = (e) => {
         document.getElementById("errProvider").style.display = "none"
         const { name, value } = e.target;
+        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        if (name === "provideSinceDate" || name==="immRegStatEffdate" || name==="publCodeEffDate" || name==="protIndiEffdate") {
+            if (!isValidInputDate(value)) {
+                return;
+            }
+        } else {
+            if (!isValidInput(value)) {
+                return;
+            }
+        }
         setPatientchoicesList((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
@@ -109,7 +121,7 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
                 careTeamFacility: '',
             })
         }
-    }, [patientchoicesList, patientchoicesData,clearStatus]);
+    }, [patientchoicesList, patientchoicesData, clearStatus]);
     return (
         <div className="dflex">
             <div className="col-2 mb-2">
@@ -290,9 +302,10 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
                 </select>
                 <small id="errAllow_Patient_Portal" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
-            <div className="col-2 mb-2">
-                <label htmlFor="txtPreventAPIAccess" className="form-label"><img src={emailIcon} className='icnn' alt='' />{t("PreventAPIAccess")}</label>
-                <input type="checkbox" className="form-control form-control-sm" id="chkPreventAPIAccess" name='preventAPIAccess' value={patientchoicesList.preventAPIAccess} onChange={handlePattientChoicesChange} />
+            <div className="col-2 mb-2 mt-4">
+                <label htmlFor="txtPreventAPIAccess" className="form-label"><img src={"emailIcon"} className='icnn' alt='' />{t("PreventAPIAccess")}</label>
+                {/* <input type="checkbox" disabled className="form-control form-control-sm" id="chkPreventAPIAccess" name='preventAPIAccess' value={patientchoicesList.preventAPIAccess} onChange={handlePattientChoicesChange} /> */}
+                <input class="form-check-input checkbox " style={{ marginLeft: '12px' }} type="checkbox" value={''} id="defaultCheck1" />
             </div>
 
             <div className="col-2 mb-2">

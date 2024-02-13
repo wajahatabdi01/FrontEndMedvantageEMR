@@ -300,20 +300,17 @@ export default function OPDTOPBottom(props) {
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            {/* <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">View Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
                         <div class="modal-body">
                         <OPDViewDiscloserRecord/>
                         </div>
-                        {/* <div class="modal-footer">
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Delete</button>
-                        </div> */}
+                      
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
             {/* --------------------------------------------------------------Patient Message PopUp Begin--------------------------------------------------- */}
