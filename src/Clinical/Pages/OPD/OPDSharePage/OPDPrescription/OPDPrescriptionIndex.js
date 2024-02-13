@@ -612,6 +612,12 @@ export default function OPDPrescriptionIndex(props) {
                 </div>
                 : <ConfirmModal bool={showPopUp} close={handlePopUp} getdata={getdata} />}
 
+
+
+
+
+
+               
         </>
         // <>
         // ffdfs</>
