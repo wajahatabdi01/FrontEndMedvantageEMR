@@ -9,7 +9,7 @@ import PostRecordDiscloser from '../../../../../API/OPDRecordDiscloser/PostRecor
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 function OPDRecordDisclosurePopUp({ setShowToster }) {
-    let[rowId,setRowId]=useState('')
+    let [rowId, setRowId] = useState('')
     let [recordList, setRecordList] = useState([])
     let [date, setDate] = useState('');
     const { t } = useTranslation();
@@ -105,45 +105,35 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
     }, []);
     return (
         <>
-            <div className='problemhead' style={{height:'49vh',overflowY:'auto'}}>
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-12 mb-2">
-                            {/* <label for="bedName" class="form-label relative">Date<span class="starMandatory">*</span></label> */}
-                            <label for="bedName" class="form-label relative">Date</label>
-                            <input type="date" value={date} className="form-control form-control-sm" id="beginDateTime" name='disclosureDate' onChange={handleChange} />
-                            <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
-                            </small>
-                        </div>
+            <div className='problemhead' style={{ height: '50vh', overflowY: 'scroll',overflowX:'hidden' }}>
+                <div className='row'>
+                    <div className="col-12 mb-2">
+                        {/* <label for="bedName" class="form-label relative">Date<span class="starMandatory">*</span></label> */}
+                        <label for="bedName" class="form-label relative">Date</label>
+                        <input type="date" value={date} className="form-control form-control-sm" id="beginDateTime" name='disclosureDate' onChange={handleChange} />
+                        <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
+                        </small>
                     </div>
-                </div>
 
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-12 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Type of Disclosure</></label>
-                            {/* <sup style={{ color: "red" }}>*</sup> */}
-                            <div className='d-flex gap-3' >
-                                <select className="form-select form-select-sm" value={discloserId} id="typeOfDisclosure" aria-label=".form-select-sm example" name='typeOfDisclosure' onChange={handleChange} >
-                                    <option value="0" selected>Select Outcome</option>
-                                    <option value="1" >Test</option>
-                                    <option value="2" >Test</option>
-                                </select>
-                            </div>
-                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                    <div className="col-12 mb-2">
+                        <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Type of Disclosure</></label>
+                        {/* <sup style={{ color: "red" }}>*</sup> */}
+                        <div className='d-flex gap-3' >
+                            <select className="form-select form-select-sm" value={discloserId} id="typeOfDisclosure" aria-label=".form-select-sm example" name='typeOfDisclosure' onChange={handleChange} >
+                                <option value="0" selected>Select Outcome</option>
+                                <option value="1" >Test</option>
+                                <option value="2" >Test</option>
+                            </select>
                         </div>
+                        <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
-                </div>
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label">Recipient of the Disclosure</label>
-                            <input type="text" value={recipientOfDisclosure} className="form-control form-control-sm mt-1" id="recipientOfDisclosure" name='recipientOfDisclosure' onChange={handleChange} />
-                        </div>
-                        <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label">Description of the Disclosure</label>
-                            <textarea value={descriptionOfTheDisclosure} className='mt-1 form-control' id="descriptionOfTheDisclosure" name="descriptionOfTheDisclosure" rows="3" cols="40" style={{ height: '121px' }} onChange={handleChange}></textarea>
-                        </div>
+                    <div className="col-12 mb-2">
+                        <label htmlFor="txtPatientRelationAddress" className="form-label">Recipient of the Disclosure</label>
+                        <input type="text" value={recipientOfDisclosure} className="form-control form-control-sm mt-1" id="recipientOfDisclosure" name='recipientOfDisclosure' onChange={handleChange} />
+                    </div>
+                    <div className="col-12 mb-2">
+                        <label htmlFor="txtPatientRelationAddress" className="form-label">Description of the Disclosure</label>
+                        <textarea value={descriptionOfTheDisclosure} className='mt-1 form-control' id="descriptionOfTheDisclosure" name="descriptionOfTheDisclosure" style={{ height: '110px' }} onChange={handleChange}></textarea>
                     </div>
 
                     <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end mt-2">
@@ -163,7 +153,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                             <span className="tblsericon"><i class="fas fa-search"></i></span>
                         </div>
                     </div>
-                    <div className="med-table-section mt-3" style={{ "height": "25vh" }}>
+                    <div className="med-table-section mt-3" style={{ "height": "24vh" }}>
                         <table className="med-table border_ striped">
                             <thead>
                                 <tr>
@@ -200,25 +190,25 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
                 </div>
             </div>
 
-              {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
-              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
-                    <div className="modal-dialog modalDelete">
-                        <div className="modal-content">
+            {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                <div className="modal-dialog modalDelete">
+                    <div className="modal-content">
 
-                            <div className="modal-body modelbdy text-center">
-                                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
-                                <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
-                                <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
-                            </div>
-                            <div className="modal-footer1 text-center">
+                        <div className="modal-body modelbdy text-center">
+                            <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                            <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
+                            <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                        </div>
+                        <div className="modal-footer1 text-center">
 
-                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
-                                <button type="button" className="btn-delete popBtnDelete" onClick={"handleDeleteRow"} data-bs-dismiss="modal">{t("Delete")}</button>
-                            </div>
+                            <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
+                            <button type="button" className="btn-delete popBtnDelete" onClick={"handleDeleteRow"} data-bs-dismiss="modal">{t("Delete")}</button>
                         </div>
                     </div>
                 </div>
-                {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
+            </div>
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
         </>
     )
 }
