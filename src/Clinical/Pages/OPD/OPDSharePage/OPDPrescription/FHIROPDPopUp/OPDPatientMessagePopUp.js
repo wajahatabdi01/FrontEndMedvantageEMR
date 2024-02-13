@@ -4,7 +4,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 function OPDPatientMessagePopUp() {
     return (
         <>
-            <div className='problemhead'>
+            <div className='problemhead' style={{height:'49vh',overflowY:'auto'}}>
                 <label htmlFor="ddlRelationshipTertiary" className="form-label" style={{ color: '#1d4999' }}>Add New Message</label>
                 <div className='col-12'>
                     <div className="row">

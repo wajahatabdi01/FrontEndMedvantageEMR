@@ -7,6 +7,8 @@ import GetUserListByRoleId from '../../Registartion/API/GET/GetUserListByRoleId'
 import FHIRGetAllForm from '../API/GET/FHIRGetAllForm';
 import GetAllRoute from '../API/GET/GetAllRoute';
 import GetAllInterval from '../API/GET/GetAllInterval';
+import FHIRPostAddPrescreption from '../API/POST/FHIRPostAddPrescreption';
+import clear from '../../assets/images/icons/clear.svg'
 
 
 export default function FHIRAddPrescription(props) {
@@ -14,19 +16,18 @@ export default function FHIRAddPrescription(props) {
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0)
   const [editName, setEditName] = useState("");
-  const [isChecked, setIsChecked] = useState(true);
   const [providerList, setProviderList] = useState([]);
   const [getFormList, setFormList] = useState([]);
   const [getIntervalList, setIntervalList] = useState([]);
   const [getRouteList, setRouteList] = useState([]);
   const [sendForm, setSendForm] = useState({ "userId": window.userId, "clientId": window.clientId,
-      currentlyActive: true,
+      currentlyActive: 1,
       ePrescription:false,
       checkedDrug:false,
       ControlledSubstance: false,
       startingdate:'',
       providerName:0,
-      exampleRadios:'default',
+      exampleRadios:0,
       QuantityName:'',
       medicineStrength:'',
       medicineUnit:0,
@@ -37,14 +38,17 @@ export default function FHIRAddPrescription(props) {
       routeName:0,
       FrequencyName:0,
       Notes:'',
-      addToList:'No',
+      addToList:0,
       ReasonName:0
     })
 
   //const [editBrand, setEditBrand] = useState("")
 
-  const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  // const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  // const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
 
   const getAllBrandList = async () => 
   {
@@ -84,13 +88,30 @@ export default function FHIRAddPrescription(props) {
     }
   }
 
-  const handleChangeText=(e)=>{
-    const {name,value}= e.target;
-       setSendForm((arr)=>({
-        ...arr,
-          [name]:value
-       })); 
+  const handleChangeText = (e) => {
+    const { name, value, type, checked } = e.target;
+    console.log('namee : ', name)
+    // If the input is a checkbox, handle it differently
+    if (type === 'checkbox') {
+        // If the checkbox is checked, set the value to 1, otherwise set it to 0
+        const currentlyActive = checked ? 1 : 0;
+
+        setSendForm((prevState) => ({
+            ...prevState,
+            [name]: currentlyActive
+        }));
+    } else {
+        setSendForm((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
     }
+    document.getElementById('errDate').style.display = 'none';
+    
+
+    
+}
+
 
   //Handle Change
   const handleChange = (e) => {
@@ -102,6 +123,7 @@ export default function FHIRAddPrescription(props) {
         ...sendForm,
         [name]: value
     }))
+    document.getElementById('errDrug').style.display = 'none';
 }
 
 ////////////// to clear data in medicine search//////////////////
@@ -117,28 +139,77 @@ let handleClearMedicineSearch = (value) => {
 
 //////////////////////////////// Final Save /////////////////////////
 const handleSave = async () =>{
-  const objjj = {
-    Uhid: props.patientUhid,
-    CurrentlyActive : sendForm.currentlyActive,
-    StartingDate : sendForm.startingdate,
-    ProviderId : sendForm.providerName,
-    exampleRadios : sendForm.exampleRadios,
-    Quantity: sendForm.QuantityName,
-    Size : sendForm.medicineStrength,
-    Unit : sendForm.medicineUnit,
-    Refills : sendForm.RefillsUnit,
-    PerRefill : sendForm.oftabletsName,
-    Dosage : sendForm.DirectionsName,
-    Form : sendForm.formName,
-    Route : sendForm.routeName,
-    Interval : sendForm.FrequencyName,
-    Note : sendForm.Notes,
-    Medication : sendForm.addToList,
-    Substitute : sendForm.ReasonName,
-    medicineName : sendForm.brandList
+  if(sendForm.startingdate=== ""){
+    document.getElementById('errDate').innerHTML = "Please select date."
+    document.getElementById('errDate').style.display = "block"
   }
-  console.log('objjjjjjjjjjjjjjj : ', objjj)
+  else if(!sendForm.brandList){
+    document.getElementById('errDrug').innerHTML = "Please select drug."
+    document.getElementById('errDrug').style.display = "block"
+  }
+  else{
+
+    const finalObj = {
+      uhid: activePatient,
+      currentlyActive : sendForm.currentlyActive,
+      startingDate : sendForm.startingdate,
+      providerId : sendForm.providerName,
+      drugId : sendForm.exampleRadios,
+      quantity: sendForm.QuantityName,
+      size : sendForm.medicineStrength,
+      unit : sendForm.medicineUnit,
+      refills : sendForm.RefillsUnit,
+      perRefill : sendForm.oftabletsName,
+      dosage : sendForm.DirectionsName,
+      form : sendForm.formName.split(':')[0],
+      route : sendForm.routeName,
+      interval : sendForm.FrequencyName,
+      note : sendForm.Notes,
+      medication : sendForm.addToList,
+      substitute : sendForm.ReasonName,
+      drug : sendForm.brandList + ' ' + sendForm.medicineStrength + ' ' + sendForm.medicineUnit + ' ' + sendForm.routeName + ' ' + sendForm.formName.split(':')[1],
+      userId : userId,
+      rxnormDrugCode : '1432537',
+      clientId : clientID
+    }
+    
+    const finalSave = await FHIRPostAddPrescreption(finalObj);
+    if(finalSave.status === 1)
+    {
+      alert('Data Saved')
+      handleClear();
+    }
+  }
 }
+
+const handleClear = () =>{
+  
+  //document.getElementById('currentlyActiveID').value = 1;
+  setSendForm({"userId": window.userId, "clientId": window.clientId,
+  currentlyActive: 1,
+  ePrescription:false,
+  checkedDrug:false,
+  ControlledSubstance: false,
+  startingdate:'',
+  providerName:0,
+  exampleRadios:0,
+  QuantityName:'',
+  medicineStrength:'',
+  medicineUnit:0,
+  RefillsUnit:0,
+  oftabletsName:'',
+  DirectionsName:'',
+  formName:0,
+  routeName:0,
+  FrequencyName:0,
+  Notes:'',
+  addToList:0,
+  ReasonName:0})
+
+  
+  
+}
+
 
 useEffect(() =>{
   getAllBrandList();
@@ -149,7 +220,8 @@ useEffect(() =>{
 }, [])
 
   return (
-    <section className="main-content mt-5 pt-3">
+    
+      <>
       <div className='container-fluid'>
         <div className="row">
           <div className='col-12'>
@@ -164,7 +236,7 @@ useEffect(() =>{
                           <div className=" col-12 row ms-1">
                             <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2 form-check'>
                               <label htmlFor="Administration" className="form-label">Currently Active</label>
-                              <input className="form-check-input" type="checkbox" id="currentlyActiveID" defaultChecked={true} role='switch' name="currentlyActive" value={sendForm.currentlyActive} onChange={handleChangeText}/> 
+                              <input className="form-check-input" type="checkbox" id="currentlyActiveID" checked={sendForm.currentlyActive === 1 ? true:false} role='switch' name="currentlyActive" value={sendForm.currentlyActive} onChange={handleChangeText}/> 
                             </div>
                             {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2 form-check'>
                               <label htmlFor="E-Prescription?" className="form-label">E-Prescription?</label>
@@ -182,7 +254,9 @@ useEffect(() =>{
                           <div className=" col-12 row">
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>
                             <label htmlFor="Code" className="form-label">Starting Date<span className="starMandatory">*</span></label>
-                            <input  id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
+                           <input  id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
+                           <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}> 
+                            </small>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>
                             <label htmlFor="Code" className="form-label">Provider</label>
@@ -202,14 +276,14 @@ useEffect(() =>{
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseDefault">Use Default</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value='default' onChange={handleChangeText} checked={sendForm.exampleRadios === 'default'}/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value={0} onChange={handleChangeText} checked={sendForm.exampleRadios == 0}/> 
                               </div>
                               </div>
 
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseRxNorm">Use RxNorm</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value='RxNorm' onChange={handleChangeText} checked={sendForm.exampleRadios === 'RxNorm'}/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value={1} onChange={handleChangeText} checked={sendForm.exampleRadios == 1}/> 
                               </div>
                               </div>
 
@@ -217,16 +291,18 @@ useEffect(() =>{
                               <div>
                                 <div className="form-check">
                                   <label className="form-label" for="UseRxCUI">Use RxCUI</label>
-                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI"  value='RxCUI' onChange={handleChangeText} checked={sendForm.exampleRadios === 'RxCUI'}/> 
+                                  <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI"  value={2} onChange={handleChangeText} checked={sendForm.exampleRadios == 2}/> 
                               </div>
                               </div>
 
                             </div>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>
-                            <label htmlFor="Code" className="form-label">Drug Search</label>
+                            <label htmlFor="Code" className="form-label">Drug Search<span className="starMandatory">*</span></label>
                             {/* <input  id="DrugSearchID" type="text" className="form-control form-control-sm" name="DrugSearchID" placeholder= "Enter Drug" onClick={''} /> */}
-                            {brandList && <DropdownWithSearch defaulNname='Search Medicine' name="brandList" list={brandList} valueName="id" displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch} />}
+                            {brandList && <DropdownWithSearch defaulNname='Search Medicine' name="brandList" list={brandList} valueName="name" displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch} />}
+                            <small id="errDrug" className="form-text text-danger" style={{ display: 'none' }}> 
+                            </small>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2'>
                             <label htmlFor="Code" className="form-label">Quantity</label>
@@ -274,7 +350,7 @@ useEffect(() =>{
                                       <option value="0">--Select Form--</option>
                                       {getFormList && getFormList.map((list, ind) => {
                                         return(
-                                          <option value={list.id}>{list.name}</option>
+                                          <option value={list.id +":"+ list.name}>{list.name}</option>
                                         )
                                       })}
                                     </select>
@@ -290,7 +366,7 @@ useEffect(() =>{
                                     <option value="0">--Select Route--</option>
                                     {getRouteList && getRouteList.map((routeList, ind) =>{
                                       return(
-                                        <option value={routeList.id}>{routeList.name}</option>)
+                                        <option value={routeList.name +':'+routeList.id}>{routeList.name}</option>)
                                     })}
                                   </select>
                                   </div>
@@ -320,13 +396,13 @@ useEffect(() =>{
                               <div>
                                 <div class="form-check">
                                   <label class="form-label" for="UseDefault">No</label>
-                                  <input class="form-check-input" type="radio" name="addToList" id="No" value='No' onChange={handleChangeText} checked={sendForm.addToList === 'No'}/> 
+                                  <input class="form-check-input" type="radio" name="addToList" id="No" value={0} onChange={handleChangeText} checked={sendForm.addToList == 0}/> 
                               </div>
                               </div>
                               <div>
                                 <div class="form-check">
                                   <label class="form-label" for="UseRxNorm">Yes</label>
-                                  <input class="form-check-input" type="radio" name="addToList" id="Yes" value='Yes' onChange={handleChangeText} checked={sendForm.addToList === 'Yes'}/> 
+                                  <input class="form-check-input" type="radio" name="addToList" id="Yes" value={1} onChange={handleChangeText} checked={sendForm.addToList == 1}/> 
                               </div>
                               </div>
                             </div>
@@ -347,12 +423,10 @@ useEffect(() =>{
                               <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSave}>
                                 <img src={plus} className='icnn' alt='' /> Save
                               </button>
-                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>
+                              <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" onClick={handleClear}><img src={clear} className='icnn' alt='' />Clear</button>
+                              {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>
                                 <img src={plus} className='icnn' alt='' /> Add
-                              </button>
-                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>
-                                <img src={plus} className='icnn' alt='' /> Add
-                              </button>
+                              </button> */}
                               </div>
                             </div>
                           </div>
@@ -368,6 +442,7 @@ useEffect(() =>{
           </div>
         </div>
       </div>
-    </section>
+      </>
+    
   )
 }
