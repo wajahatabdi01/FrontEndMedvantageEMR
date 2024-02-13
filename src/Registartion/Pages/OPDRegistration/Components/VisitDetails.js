@@ -307,40 +307,55 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                 <div className='row'>
                     <div className='col-md-3'>
                         <Heading text="Reason for Visit" />
-                        <textarea className='form-control' id="w3review" rows="3" cols="40" name="reasonforVisit" onChange={handleVisitDetailsChange}></textarea>
+                        <textarea className='form-control' id="w3review" rows="5" style={{height:'8rem'}} cols="40" name="reasonforVisit" onChange={handleVisitDetailsChange}></textarea>
                     </div>
                     <div className='col-md-4'>
                         <Heading text="Link/Add Issues to This Visit" />
                         {
                             console.log("prblem", issueDetails.Problem)
                         }
-                        <select className='form-control' multiple>
+                        <div className='form-control' style={{height:'8rem',overflow:'auto'}}>
                             {issueDetails !== undefined ?
                                 <>
                                     {
                                         issueDetails.Problem.coding !== undefined ?
-                                            <option>{issueDetails.Problem.coding}</option>
-                                            : ""
+                                        issueDetails.Problem.coding.split(';').map((li,i)=>{
+                                            return(<><span>{li}</span> <br /></>)
+                                        })
+                                        : ""
+                                    }
+                                     {
+                                        issueDetails.Allergy.coding !== undefined ?
+                                        issueDetails.Allergy.coding.split(';').map((li,i)=>{
+                                            return(<><span>{li}</span> <br /></>)
+                                        })
+                                        : ""
                                     }
                                     {
-                                        issueDetails.Allergy.coding !== "" ?
-                                            <option>{issueDetails.Allergy.coding}</option>
-                                            : ""
+                                        issueDetails.Medication.coding !== undefined ?
+                                        issueDetails.Medication.coding.split(';').map((li,i)=>{
+                                            return(<><span>{li}</span> <br /></>)
+                                        })
+                                        : ""
                                     }
                                     {
-                                        issueDetails.Medication.coding !== "" ?
-                                            <option>{issueDetails.Medication.coding}</option>
-                                            : ""
+                                        issueDetails.Device.coding !== undefined ?
+                                        issueDetails.Device.coding.split(';').map((li,i)=>{
+                                            return(<><span>{li}</span> <br /></>)
+                                        })
+                                        : ""
                                     }
-                                    {
-                                        issueDetails.Surgery.coding !== "" ?
-                                            <option>{issueDetails.Surgery.coding}</option>
-                                            : ""
+                                     {
+                                        issueDetails.Surgery.coding !== undefined ?
+                                        issueDetails.Surgery.coding.split(';').map((li,i)=>{
+                                            return(<><span>{li}</span> <br /></>)
+                                        })
+                                        : ""
                                     }
                                 </>
                                 : ''
                             }
-                        </select>
+                        </div>
                     </div>
 
                     <div className='col-md-2 addvisitbtn_ mt-5'>
