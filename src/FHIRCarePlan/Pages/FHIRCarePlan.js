@@ -148,8 +148,9 @@ export default function FHIRCarePlan(props) {
 
   const handleSave =async () => {
     const getresponse = await dataMaker(makeData);
-   
-    let tempArrList = [];
+    if(carePlanRow.length === getresponse.length)
+    {
+      let tempArrList = [];
     const data = [...carePlanRow];
     
 
@@ -190,18 +191,37 @@ export default function FHIRCarePlan(props) {
       uhid : props.patientUhid,
       clientId: clientID,
       jsonCarePlanData : JSON.stringify(tempArrList)
-    }
-   
-    
+    }   
     const saveObj = await POSTFHIRCarePlan(finalObj);
     
       if(saveObj.status === 1){
-        alert('Data saved of care plan')
+        alert('Data saved of care plan');
+        handleClear();
       }
       else{
         alert('Data Not saved')
       }
-    
+    }
+    else{
+      alert('Please select the code.');
+    }
+  
+  }
+
+  ////////////////////////////// to clear the fields //////////////////////////////
+  const handleClear = () =>{
+   
+    for(let i = 0; i<carePlanRow.length; i++){
+      document.getElementById('careDateID' + carePlanRow[i].rowID).value = '';
+      document.getElementById('careTypeID' + carePlanRow[i].rowID).value = 0;
+      document.getElementById('careDescriptionID' + carePlanRow[i].rowID).value =''
+      document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID).value = '';
+      document.getElementById('reasonStatusID' + carePlanRow[i].rowID).value = 0;
+      document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID).value = '';
+      document.getElementById('reasonEndDateID' + carePlanRow[i].rowID).value = '';
+      document.getElementById('codeInputID' + carePlanRow[i].rowID).value = '';
+    }
+    setMakeData([]);
   }
 
   useEffect(() => {
@@ -221,7 +241,7 @@ export default function FHIRCarePlan(props) {
                     <>
                       <div className="row mb-2">
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
-                          <label className='form-label'>Code :</label>
+                          <label className='form-label'>Code :<span className="starMandatory">*</span></label>
                           <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} />
                           {/* <span>{carePlan.rowID}</span> */}
                         </div>
@@ -315,7 +335,7 @@ export default function FHIRCarePlan(props) {
                 <div className="whitebg" style={{ padding: '3px' }}>
                   <div className="d-flex gap-2 mt-2 samplebtnn">
                     <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
-                    {/* <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" ><img src={clear} className='icnn' alt='' />Clear</button> */}
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" onClick={handleClear}><img src={clear} className='icnn' alt='' />Clear</button>
                   </div>
                 </div>
               </div>

@@ -197,7 +197,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         }
         if (name === "mobileNo") {
             const checkLength = value;
-            console.log("hfhfhhffhf", checkLength)
             if (checkLength.toString().length > 10) {
                 return false;
             }

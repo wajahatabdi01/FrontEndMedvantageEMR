@@ -8,7 +8,7 @@ import PostFHIRFamilyHistoryEdit from '../API/PostFHIRFamilyHistoryEdit'
 import TosterUnderProcess from '../../Component/TosterUnderProcess'
 import Toster from '../../Component/Toster'
 
-export default function FHIRFamilyHistoryEdit(props) {
+export default function FHIRFamilyHistoryEdit({setShowToster}) {
 
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [PopUpId, setPopUpId] = useState('');
@@ -17,14 +17,14 @@ export default function FHIRFamilyHistoryEdit(props) {
   let [getData, setgetData]  = useState([]);
   let [showUnderProcess, setShowUnderProcess] = useState(0);
   let [tosterValue, setTosterValue] = useState(0);
-  let [showToster, setShowToster] = useState(0);
+  // let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
   let [showAlertToster, setShowAlertToster] = useState(0)
 
-  let getUhid = props.patientUhid;
+  // let getUhid = props.patientUhid;
   
   const customStyle={marginLeft:'0px'};
-
+  let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   let SelectedData =(data,modalID)=>{ 
     
     let t = {
@@ -87,7 +87,7 @@ export default function FHIRFamilyHistoryEdit(props) {
   if(makeData.length !== 0){
     const getresponse = await dataMaker(makeData);
   let objSave = {
-    uhid:getUhid,
+    uhid:activePatient,
     jsonData : JSON.stringify(getresponse)
   }
 
@@ -102,6 +102,7 @@ export default function FHIRFamilyHistoryEdit(props) {
           setShowToster(6);
           // setTosterMessage('Data Saved !');
           setTimeout(() => {
+            funClearData();
             setShowToster(0)
           },1000)
         }
@@ -152,6 +153,15 @@ for(var j=0; j < modalIDs.length; j++){
  
   return sendDataArr;
  }
+
+ const funClearData = async () => {
+  document.getElementById('mdlFatherID').value = '';
+  document.getElementById('mdlMotherID').value = '';
+  document.getElementById('siblingsID').value = '';
+  document.getElementById('spouseID').value = '';
+  document.getElementById('offSpringID').value = '';
+  setMakeData([])
+ } 
   return (
     
     <>
@@ -205,12 +215,7 @@ for(var j=0; j < modalIDs.length; j++){
                 </thead>
               </TableContainer>
               <div className="d-flex  gap-2 mt-3 samplebtnnFHIR">
-              {showUnderProcess === 1 ? <><TosterUnderProcess /></> :
-                            showToster === 1 ? <Toster value={tosterValue} message={tosterMessage} /> : <>
-                            <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
-
-                              </>
-                              }
+              <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
               </div>
             </div>
 
