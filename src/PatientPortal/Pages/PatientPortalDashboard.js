@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import TosterUnderProcess from '../../Component/TosterUnderProcess';
 import Toster from '../../Component/Toster';
 import Select from 'react-select';
 import Loder from '../../Component/Loader';
+import editBtnIcon from '../../assets/images/icons/edit.svg';
 import exampleUser from '../../assets/images/dashboard/patientPortalDashboard/exampleUser.png'
 import user from '../../assets/images/dashboard/patientPortalDashboard/portalusericon.png'
 import dob from '../../assets/images/dashboard/patientPortalDashboard/dob.png'
@@ -17,6 +19,7 @@ import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medi
 
 
 export default function PatientPortalDashboard() {
+  const navigate = useNavigate()
 
   const [Opdhistory, setOpdhistory] = useState(1)
   const [admissionHistory, setadmissionHistory] = useState(0)
@@ -28,6 +31,9 @@ const handleOpdhistory=()=>{
 const handleadmissionhistory=()=>{
   setadmissionHistory(1);
   setOpdhistory(0)
+}
+const handleEditData= async()=>{
+  navigate('/registeraspatient/')
 }
 
 
@@ -47,7 +53,10 @@ const handleadmissionhistory=()=>{
                 </div>
 
                 <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8 ps-2 ms-2">
-                  <div className="portal-user-name mb-1">Shiv Mishra</div>
+                  <div className="portal-user-name d-flex mb-1 justify-content-between">
+                    <div>Shiv Mishra</div>
+                    <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
+                    </div>
                   <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-12 d-flex justify-content-between">
                     <div className="user-personal-details"><img src={user} className="me-1" alt="" />Male</div>
                     <div className="user-personal-details"><img src={dob} className="me-1" alt="" />10 feb 2000(24yr)</div>

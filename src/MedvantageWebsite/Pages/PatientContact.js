@@ -29,9 +29,35 @@ import downArrow from '../../assets/images/icons/downArrow.svg';
 import plusbtn from '../../assets/images/icons/plusbtn.svg';
 import email from '../../assets/images/icons/email (2).svg';
 import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
 
 
 export default function PatientContact() {
+  const [PatientData, setPatientData] = useState()
+  const [sendForm, setsendForm] = useState({
+    address: '',
+    addressLine2: '',
+    cityId: '',
+    stateId: '',
+    postalCode: '',
+    mothersName: '',
+    emergencyContact: '',
+    emergencyPhone: '',
+    phone_home: '',
+    workPhone: '',
+    mobileNo: '',
+    emailID: '',
+    trustedEmail: '',
+  })
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setPatientData(prevData => ({
+        ...prevData,
+        [name]: value
+    }));
+  };
+
 
   const navigate = useNavigate();
 
@@ -53,6 +79,18 @@ export default function PatientContact() {
       }
     }
 
+    const Patientdata = async()=>{
+      let data = await GetPatientData()
+      if(data.status === 1){
+       setPatientData(data.responseValue.patientregistration[0])
+       console.log("Patientdata>>" , data.responseValue.patientregistration)
+      }
+     }
+     
+     useEffect(() => {
+       Patientdata()
+     }, [])
+
 
     return (
    <>
@@ -73,11 +111,11 @@ export default function PatientContact() {
 
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address" value={PatientData && PatientData.address} name="firstName" />
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address Line 2 <span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address Line 2" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address Line 2" value={PatientData && PatientData.addressLine2} name="firstName" />
                    </div>
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
@@ -88,9 +126,9 @@ export default function PatientContact() {
                             <label for="PaymentMode" class="form-label label-text"><img  src={location} className="label-icons me-2" alt=''/>City<span class="starMandatory position-static">*</span></label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" value={PatientData&&PatientData.cityId}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">Lucknow</option>
+                              <option value="6092">Lucknow</option>
                               <option value="2">Siwan</option>
                               <option value="3">Patna</option>
                               <option value="4">Mumbai</option>
@@ -108,9 +146,9 @@ export default function PatientContact() {
                             <label for="PaymentMode" class="form-label label-text"><img  src={title} className="label-icons me-2" alt=''/>State<span class="starMandatory position-static">*</span></label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" value={PatientData&&PatientData.stateId}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">Uttar Pradesh</option>
+                              <option value="113">Uttar Pradesh</option>
                               <option value="2">Delhi</option>
                               <option value="3">Bihar</option>
                               <option value="4">Maharastra</option>
@@ -132,12 +170,12 @@ export default function PatientContact() {
                          </div>
                             <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country<span class="starMandatory position-static">*</span></label>
                             <div class="dropdown-wrapper">
-                         <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                         <img src={downArrow} className="downarrowwithplus" alt="" />
+                            <select class="form-control form-control-sm" value={PatientData&&PatientData.countryId}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">India</option>
+                              <option value="3">India</option>
                               <option value="2">Pakistan</option>
-                              <option value="3">Sri Lanka</option>
+                              <option value="1">Sri Lanka</option>
                               <option value="4">USA</option>
                             </select>
                             </div>
@@ -146,23 +184,23 @@ export default function PatientContact() {
                         </div> 
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={lady} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mother's Name <span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Mother's Name" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Mother's Name" value={PatientData&&PatientData.mothersname} name="firstName" />
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Emergency Contact<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Emergency Contact" name="firstName" />
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.emergencyContact} placeholder="Enter Emergency Contact" name="firstName" />
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Emergency Phone<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Emergency Phone Number" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.emergencyPhone} placeholder="Enter Emergency Phone Number" name="firstName" />
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Home Number <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Home Number" name="firstName" />
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.phone_home} placeholder="Enter Home Number" name="firstName" />
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-2">
                    <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Number<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Last Name" name="firstName" />
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.workPhone} placeholder="Enter Birth Last Name" name="firstName" />
                    </div>
 
                    {/* <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
@@ -226,15 +264,15 @@ export default function PatientContact() {
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mobile Number <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Mobile Number" name="firstName" />
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.mobileNo} placeholder="Enter Mobile Number" name="firstName" />
                    </div>
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Contact Email<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Contact Email" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName" value={PatientData&&PatientData.emailID} placeholder="Enter Contact Email" name="firstName" />
                    </div>
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                    <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Trusted Email<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Trusted Email" name="firstName" />
+                   <input type="text"class="form-control form-control-sm" id="firstName"  value={PatientData&&PatientData.trustedEmail} placeholder="Enter Trusted Email" name="firstName" />
                    </div>
 
 

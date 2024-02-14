@@ -2324,8 +2324,9 @@ input[type=number] {
   font-weight: 600;
 } */
 .heading {
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: poppins;
   padding: 7px 5px 0 5px;
   color: var(--primary-color);
   /* background-color: #fff; */
@@ -10238,10 +10239,10 @@ opacity: 1;
   text-align: center;
   color: white;
   background-color: #7DC855;
-  padding: 5px;
+  /* padding: 5px; */
   border-radius: 50%;
   width: 24px;
-  height: 23px; 
+  /* height: 23px;  */
 }
 
 
@@ -10273,7 +10274,7 @@ opacity: 1;
   opacity: 1;
 }
 .patien-basic-details{
-  width: 600px;
+  /* width: 600px; */
   display: flex;
   justify-content: space-between;
   height: 72px;
@@ -10511,4 +10512,44 @@ opacity: 1;
 
 .insurance-box{
   height: 83px;
+}
+
+.custom::placeholder {
+text-align: left;
+font: italic normal 300 9px/21px Poppins;
+letter-spacing: 0px;
+color: #929292;
+opacity: 1;
+border-radius: 0px;
+}
+.med-table-appointment-list{
+  text-align: left;
+  font: normal normal  13px/27px Poppins;
+  letter-spacing: 1px;
+  color: #546788;
+  opacity: 1;
+  white-space: nowrap;
+  padding: 5px 4px;
+}
+
+.doctors-name{
+  text-align: justify;
+color : #2d8af5;
+font: normal normal 500 13px/27px Poppins;
+}
+
+.doctors-eduction{
+  text-align: justify;
+  transform: translateY(-35%);
+  font: normal normal  11px Poppins;
+  
+}
+.doctor-image{
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+}
+.doctor-image img{
+  width: 36px;
+  height: 36px;
 }
