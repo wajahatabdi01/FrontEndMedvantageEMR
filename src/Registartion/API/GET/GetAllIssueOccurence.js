@@ -1,5 +1,5 @@
 async function GetAllIssueOccurence(data) {
-    let url = window.AppbaseUrl + "/api/FHIRIssueOccurenceMaster/GetAllIssueOccurence";
+    let url = window.AppbaseUrl + "/api/FHIRIssueOccurenceMaster/GetAllFHIRIssueOccurence";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -18,7 +18,7 @@ const Device = ({ issueDetailss, issueDetailsData, id }) => {
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
-   
+    const [txtCoding, setTxtCoding] = useState('');
     const customStyle = { marginLeft: '0px' };
     const handleTitleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,17 +39,34 @@ const Device = ({ issueDetailss, issueDetailsData, id }) => {
     };
 
     let handleRemove = () => {
-        setCoding('');
-        issueDetailsData((prevIssueDetails) => ({
-            ...prevIssueDetails,
-            'coding': '',
-        }));
+        const tempAr=txtCoding;
+        let tempData=[];
+        let tempNew = "";
+        for(var i=0; i < tempAr.length; i++){
+            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
+            if(!document.getElementById("ddlCoding"+i).checked){
+                tempData.push(tempAr[i])
+            }
+        }
+        for(var i=0; i < tempAr.length; i++){
+            document.getElementById("ddlCoding"+i).checked = false;
+        }
+        for (var j = 0; j < tempData.length; j++) {
+            tempNew +=  tempData[j]+';';
+        }
+        let tempissueDetailNew ={
+            ...issueDetailss,
+            coding:tempNew
+        }
+        console.log("tempissueDetailNew", tempissueDetailNew) 
+        issueDetailsData((prev) => ({ ...prev, "Device":tempissueDetailNew}));
+        setTxtCoding(tempData);
+        
     }
 
     let handleIssueDetailsChange = (e) => {
         const { name, value } = e.target;
                 let temp = { ...issueDetailss }
-
         temp[name] = value
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Device": t }));
@@ -101,9 +118,22 @@ const Device = ({ issueDetailss, issueDetailsData, id }) => {
         setMakeData([...makeData, t])
         let temp = ""
         for (var i = 0; i < data.length; i++) {
-          temp += " " + data[i].code
+          temp +=  data[i].dropdownName +':'+ data[i].code +';'
         }
         // document.getElementById(modalID).value = temp
+        console.log('temp',temp);
+        
+        // issueDetailss.forEach(element => {
+        //     element["coding"] = temp
+        // });
+        let issueDetail ={
+            ...issueDetailss,
+            coding:temp
+        }
+        console.log("issueDetailss", issueDetailss) 
+        issueDetailsData((prev) => ({ ...prev, "Device":issueDetail}));
+        const splitData = temp.split(';').slice(0,-1);
+        setTxtCoding(splitData);
       }
 
     useEffect(() => {
@@ -129,12 +159,36 @@ const Device = ({ issueDetailss, issueDetailsData, id }) => {
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
                         <div>
-                            <select className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                {issueDetailss && issueDetailss.coding !== "" ?
-                                    <option>{'ICD10:' + issueDetailss.coding}</option>
-                                    : ''}
-                            </select>
-                        </div>
+                                {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list,i)=>{
+                                            return(
+                                                <option value={list}>{list}</option>
+                                            )
+                                        })
+                                         
+                                        : ''}
+                                </select> */}
+                                <div className='form-control' style={{ height: '8em', overflow: 'auto' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list, i) => {
+                                            return (
+                                                <>
+                                                    <span>
+                                                        <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    </span>
+                                                    <br />
+                                                </>
+                                            )
+                                        })
+
+                                        : ''}
+                                </div>
+                                {
+                                    console.log('txtCoding', txtCoding)
+                                }
+                                {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
+                            </div>
 
                     </div>
                     <div class="d-inline-flex gap-2">

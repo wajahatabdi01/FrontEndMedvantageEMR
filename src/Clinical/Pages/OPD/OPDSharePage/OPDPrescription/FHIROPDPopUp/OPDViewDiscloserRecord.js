@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg'
 import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg'
 import Heading from '../../../../../../Component/Heading'
+import GetRecordDiscloser from '../../../../../API/OPDRecordDiscloser/GetRecordDiscloser'
 function OPDViewDiscloserRecord() {
+    let [recordList, setRecordList] = useState([])
+    let getAllRecords = async () => {
+        let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        const response = await GetRecordDiscloser(activePatient);
+        if (response.status === 1) {
+            setRecordList(response.responseValue);
+        }
+    }
+    useEffect(() => {
+        getAllRecords();
+    }, []);
+
     return (
         <>
-            <div className="col-12 mt-1">
+              <div className="col-12 mt-1">
                 <div className='handlser'>
                     <Heading text="Disclosure List" />
                     {/* <Heading text={content} /> */}
@@ -27,33 +40,23 @@ function OPDViewDiscloserRecord() {
                             </tr>
                         </thead>
                         <tbody>
-
-                            <tr>
-                                <td className="text-center">{1}</td>
-                                <td>Test</td>
-                                <td>Health Care Operations</td>
-                                <td>2024-02-09 11:09:00</td>
-                                <td>Administrator Administrator</td>
-                                <td>
-                                    <div className="action-button">
-                                        <div data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" title="Edit Row"><img src={IconEdit} alt='' /></div>
-                                        <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} alt='' /></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="text-center">{2}</td>
-                                <td>Test</td>
-                                <td>Health Care Operations</td>
-                                <td>2024-02-09 11:09:00</td>
-                                <td>Administrator Administrator</td>
-                                <td>
-                                    <div className="action-button">
-                                        <div data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" title="Edit Row"><img src={IconEdit} alt='' /></div>
-                                        <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} alt='' /></div>
-                                    </div>
-                                </td>
-                            </tr>
+                            {recordList && recordList.map((list, ind) => {
+                                return (
+                                    <tr key={list.id}>
+                                        <td className="text-center">{ind + 1}</td>
+                                        <td>{list.providerName}</td>
+                                        <td>{list.typeOfDisclosure}</td>
+                                        <td>{list.descriptionOfTheDisclosure}</td>
+                                        <td>{list.providerName}</td>
+                                        <td>
+                                            <div className="action-button">
+                                                <div data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" title="Edit Row"><img src={IconEdit} alt='' /></div>
+                                                <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} alt='' /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
 
                         </tbody>
                     </table>

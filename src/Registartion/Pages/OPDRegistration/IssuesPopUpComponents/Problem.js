@@ -20,6 +20,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     let [getData, setgetData] = useState([]);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
+    const [txtCoding, setTxtCoding] = useState([]);
 
     const handleTitleInputChange = (e) => {
         setProblem(e.target.value);
@@ -43,13 +44,29 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     };
 
     let handleRemove = () => {
-        // setCoding('');
-        // issueDetailsData((issueDetailss) => ({
-        //     ...issueDetailss,
-        //     Problem: {
-        //         'coding': '',
-        //     }
-        // }));
+        const tempAr=txtCoding;
+        let tempData=[];
+        let tempNew = "";
+        for(var i=0; i < tempAr.length; i++){
+            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
+            if(!document.getElementById("ddlCoding"+i).checked){
+                tempData.push(tempAr[i])
+            }
+        }
+        for(var i=0; i < tempAr.length; i++){
+            document.getElementById("ddlCoding"+i).checked = false;
+        }
+        for (var j = 0; j < tempData.length; j++) {
+            tempNew +=  tempData[j]+';';
+        }
+        let tempissueDetailNew ={
+            ...issueDetailss,
+            coding:tempNew
+        }
+        console.log("tempissueDetailNew", tempissueDetailNew) 
+        issueDetailsData((prev) => ({ ...prev, "Problem":tempissueDetailNew}));
+        setTxtCoding(tempData);
+        
     }
 
     let handleIssueDetailsChange = (e) => {
@@ -66,7 +83,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
-        setCoding(selectProblem);
+       // setCoding(selectProblem);
         console.log('selectProblem', selectProblem);
         setCodingSelected(true);
         const { name, value } = e.target;
@@ -74,7 +91,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         temp["issueTypeId"] = id
         temp[name] = value
         temp["title"] = selectProblem
-        temp["coding"] = selectProblem
+        //temp["coding"] = selectProblem
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Problem": t }));
         console.log(issueDetailss)
@@ -133,9 +150,22 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         setMakeData([...makeData, t])
         let temp = ""
         for (var i = 0; i < data.length; i++) {
-          temp += " " + data[i].code
+          temp +=  data[i].dropdownName +':'+ data[i].code +';'
         }
         // document.getElementById(modalID).value = temp
+        console.log('temp',temp);
+        
+        // issueDetailss.forEach(element => {
+        //     element["coding"] = temp
+        // });
+        let issueDetail ={
+            ...issueDetailss,
+            coding:temp
+        }
+        console.log("issueDetailss", issueDetailss) 
+        issueDetailsData((prev) => ({ ...prev, "Problem":issueDetail}));
+        const splitData = temp.split(';').slice(0,-1);
+        setTxtCoding(splitData);
       }
     useEffect(() => {
         getAllProblem();
@@ -147,7 +177,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         // console.log("issueDetailss", issueDetailss)
         // setIssueDetails(issueDetailss.Problem)
         // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
-        console.log("issueDetailss", issueDetailss)
 
     }, [issueDetailsData]);
     return (
@@ -181,11 +210,37 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
                             <div>
-                                <select value={issueDetailss.coding} className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                    {issueDetailss && issueDetailss.coding !== "" ?
-                                        <option>{'ICD10:' + issueDetailss.coding}</option>
+                               
+                                {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list,i)=>{
+                                            return(
+                                                <option value={list}>{list}</option>
+                                            )
+                                        })
+                                         
                                         : ''}
-                                </select>
+                                </select> */}
+                                <div  className='form-control' style={{ height: '8em',overflow: 'auto' }} multiple name='coding' id='coding' >
+                                    {txtCoding && txtCoding.length > 0 ?
+                                        txtCoding.map((list,i)=>{
+                                            return(
+                                                <>
+                                                <span>
+                                                    <input type='checkbox' style={{marginRight:'5px'}} id={'ddlCoding'+i} />{list}
+                                                </span>
+                                                <br />
+                                                </>
+                                            )
+                                        })
+                                         
+                                        : ''}
+                                </div>
+                                {
+                                
+                                console.log('txtCoding',txtCoding)
+                                }
+                                {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                             </div>
 
                         </div>
