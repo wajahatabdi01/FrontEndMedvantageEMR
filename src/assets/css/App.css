@@ -10893,3 +10893,7 @@ opacity: 1;
 .insurance-box{
   height: 83px;
 }
+
+.plus-button-data{
+  transform: translateY(70%);
+}
