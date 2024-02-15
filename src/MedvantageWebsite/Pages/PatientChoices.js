@@ -41,9 +41,50 @@ import {Link} from "react-router-dom";
 export default function PatientChoices() {
   const navigate = useNavigate();
   const [PatientData, setPatientData] = useState()
+  const [sendForm, setsendForm] = useState({
+
+    providerID: '',
+    provider_since_date:  '',
+    referring_Provider: '',
+    pharmacy_id:  '',
+    leave_message_with : '',
+    hipaa_notice:  '',
+    hipaa_voice:  '',
+    allowSMS: '',
+    allow_mail_message : '',
+    hipaa_allowemail:  '',
+    allow_imm_reg_use: '',
+    Immun_Registry_status_Date: '',
+    allow_imm_info_share: '',
+    allow_health_info_ex: '',
+    allow_patient_portal: '',
+    prevent_api_access: false,
+    public_code: '',
+    public_code_effective_date: '',
+    protection_indicator: '',
+    protec_indicator_date: '',
+    care_team: '',
+    Care_Team_Status: '',
+    Care_Team_facility: '',
+    patient_category: '',
+
+  })
 
   const [step, setStep] = useState(3);
   const totalSteps = 9;
+
+
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setsendForm(prevData => ({
+        ...prevData,
+        [name]: value
+    }));
+  };
+
+
+  
 
   const handleNext = () => {
     if (step < totalSteps) {
@@ -64,8 +105,36 @@ export default function PatientChoices() {
     const Patientdata = async()=>{
       let data = await GetPatientData()
       if(data.status === 1){
-       setPatientData(data.responseValue.patientregistration[0])
-       console.log("Patientdata>>" , data.responseValue.patientregistration)
+        const patientRegistrationData = data.responseValue.patientregistration[0];
+                  console.log("Patientdata>>", patientRegistrationData);
+                  setPatientData(patientRegistrationData);
+
+                  setsendForm({
+                    providerID: patientRegistrationData.providerID,
+                    provider_since_date:  patientRegistrationData.provider_since_date,
+                    referring_Provider: '',
+                    pharmacy_id:  patientRegistrationData.pharmacy_id,
+                    leave_message_with : patientRegistrationData.leave_message_with,
+                    hipaa_notice:  patientRegistrationData.hipaa_notice,
+                    hipaa_voice:  patientRegistrationData.hipaa_voice,
+                    allowSMS: patientRegistrationData.allowSMS,
+                    allow_mail_message : patientRegistrationData.allow_mail_message,
+                    hipaa_allowemail:  patientRegistrationData.hipaa_allowemail,
+                    allow_imm_reg_use: patientRegistrationData.allow_imm_reg_use,
+                    Immun_Registry_status_Date: patientRegistrationData.Immun_Registry_status_Date,
+                    allow_imm_info_share: patientRegistrationData.allow_imm_info_share,
+                    allow_health_info_ex: patientRegistrationData.allow_health_info_ex,
+                    allow_patient_portal: patientRegistrationData.allow_patient_portal,
+                    prevent_api_access: patientRegistrationData.prevent_api_access,
+                    public_code: patientRegistrationData.publicity_code,
+                    public_code_effective_date: patientRegistrationData.publ_code_eff_date,
+                    protection_indicator: patientRegistrationData.protect_indicator,
+                    protec_indicator_date: patientRegistrationData.prot_indi_effdate,
+                    care_team: patientRegistrationData.care_team_provider,
+                    Care_Team_Status: patientRegistrationData.care_team_status,
+                    Care_Team_facility: patientRegistrationData.care_team_facility,
+                    patient_category: patientRegistrationData.categoryId,
+                  })
       }
      }
      
@@ -91,10 +160,10 @@ export default function PatientChoices() {
                  <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                 <div class="" id="paymentModediv">
-                    <label for="PaymentMode" class="form-label label-text"><img  src={provider} className="label-icons me-2" alt=''/>Provider<span class="starMandatory position-static">*</span></label>
+                    <label for="PaymentMode" class="form-label label-text"><img  src={provider} className="label-icons me-2" alt=''/>Provider</label>
                     <div class="dropdown-wrapper">
                      <img src={downArrow} className="dropdownimg" alt=""/>
-                    <select class="form-control form-control-sm" value={PatientData&&PatientData.providerID}>
+                    <select class="form-control form-control-sm" value={sendForm.providerID} name='providerID' onChange={handleOnChange}>
                       <option value="0" selected>Unassigned</option>
                       <option value="153">Demo</option>
                       <option value="2">Example</option>
@@ -106,16 +175,16 @@ export default function PatientChoices() {
                 </div>
 
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Providing Since<span class="starMandatory position-static">*</span></label>
-                   <input type="date"class="form-control form-control-sm" value={PatientData&&PatientData.provider_since_date} id="firstName" placeholder="Enter First Name" name="firstName" />
+                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Providing Since</label>
+                   <input type="date"class="form-control form-control-sm" value={PatientData&&PatientData.provider_since_date} id="firstName" placeholder="Enter First Name" name="provider_since_date" onChange={handleOnChange}/>
                    </div>
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={refer} className="label-icons me-2" alt=''/>Referring Provider<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={refer} className="label-icons me-2" alt=''/>Referring Provider</label>
                             <div class="dropdown-wrapper">
                              <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" value={sendForm.referring_Provider} name='referring_Provider' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -128,10 +197,10 @@ export default function PatientChoices() {
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={Pharmacy} className="label-icons me-2" alt=''/>Pharmacy<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={Pharmacy} className="label-icons me-2" alt=''/>Pharmacy</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.pharmacy_id}>
+                            <select class="form-control form-control-sm" value={sendForm.pharmacy_id} name='pharmacy_id' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -144,10 +213,10 @@ export default function PatientChoices() {
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={hippa} className="label-icons me-2" alt=''/>HIPPA Notice Received<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={hippa} className="label-icons me-2" alt=''/>HIPPA Notice Received</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData && PatientData.hipaa_notice}>
+                            <select class="form-control form-control-sm" value={sendForm.hipaa_notice} name='hipaa_notice' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -160,10 +229,10 @@ export default function PatientChoices() {
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={voice} className="label-icons me-2" alt=''/>Allow Voice Message<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={voice} className="label-icons me-2" alt=''/>Allow Voice Message</label>
                             <div class="dropdown-wrapper">
                              <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData && PatientData.hipaa_voice}>
+                            <select class="form-control form-control-sm" value={sendForm.hipaa_voice}  name='hipaa_voice' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -174,20 +243,20 @@ export default function PatientChoices() {
                                  
                         </div>
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={messages} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Leave Message With<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Leave Message With" name="firstName" />
+                   <img  src={messages} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Leave Message With</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Leave Message With" value={sendForm.leave_message_with} name="leave_message_with" onChange={handleOnChange} />
                    </div>
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Allow Mail Message<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Allow Mail Message" name="firstName" />
+                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Allow Mail Message</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Allow Mail Message" value={sendForm.allow_mail_message} name="allow_mail_message" onChange={handleOnChange}/>
                    </div>
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={messages} className="label-icons me-2" alt=''/>Allow SMS<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={messages} className="label-icons me-2" alt=''/>Allow SMS</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.allowSMS}>
+                            <select class="form-control form-control-sm" value={sendForm.allowSMS} name='allowSMS' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -200,10 +269,10 @@ export default function PatientChoices() {
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.hipaa_allowemail}>
+                            <select class="form-control form-control-sm" value={sendForm.hipaa_allowemail} name='hipaa_allowemail' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -216,10 +285,10 @@ export default function PatientChoices() {
                         <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Immunization Registry<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={medal} className="label-icons me-2" alt=''/>Allow Immunization Registry</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.allow_imm_reg_use}>
+                            <select class="form-control form-control-sm" value={sendForm.allow_imm_reg_use} name='allow_imm_reg_use' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -232,10 +301,10 @@ export default function PatientChoices() {
                         <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Immunization info sharing<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={medal} className="label-icons me-2" alt=''/>Allow Immunization info sharing</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.allow_imm_info_share}>
+                            <select class="form-control form-control-sm" value={sendForm.allow_imm_info_share} name='allow_imm_info_share' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -250,10 +319,10 @@ export default function PatientChoices() {
                        <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Health Info. Exchange<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={healthinfo} className="label-icons me-2" alt=''/>Allow Health Info. Exchange</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.allow_health_info_ex}>
+                            <select class="form-control form-control-sm" value={sendForm.allow_health_info_ex} name='allow_health_info_ex' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -268,10 +337,10 @@ export default function PatientChoices() {
                         <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Patient Portal<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={portal} className="label-icons me-2" alt=''/>Allow Patient Portal</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm" value={PatientData&&PatientData.allow_patient_portal}>
+                            <select class="form-control form-control-sm" value={sendForm.allow_patient_portal} name='allow_patient_portal' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -285,15 +354,15 @@ export default function PatientChoices() {
 
 
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Immun. Registry status Date<span class="starMandatory position-static">*</span></label>
-                   <input type="date"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Middle Name" name="firstName" />
+                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Immun. Registry status Date</label>
+                   <input type="date"class="form-control form-control-sm" id="firstName"  name="Immun_Registry_status_Date" value={sendForm.Immun_Registry_status_Date} onChange={handleOnChange} />
                    </div>
 
                    <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-6 px-1 ms-4 d-flex align-items-center justify-content-center regularCheck">
                       <div className="d-flex column-gap-3 mt-2 me-3">
                         <label htmlFor="apiPrevent" className="form-label label-text">Prevent API Access<span className="starMandatory"></span></label>
                         <div className="form-check">
-                          <input  id="apiPrevent" name="apiPrevent" className="form-check-input" type="checkbox" style={{height: '15px'}} />
+                          <input  id="apiPrevent" name="prevent_api_access" className="form-check-input" type="checkbox" value={sendForm.prevent_api_access}  onChange={handleOnChange} style={{height: '15px'}} />
                         </div>
 
                       </div>
@@ -301,10 +370,10 @@ export default function PatientChoices() {
                     <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={publicCode} className="label-icons me-2" alt=''/>Public Code</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='public_code' value={sendForm.public_code} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -316,17 +385,17 @@ export default function PatientChoices() {
                         </div>
 
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Publicity Code Effective Date<span class="starMandatory position-static">*</span></label>
-                   <input type="date"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Middle Name" name="firstName" />
+                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Publicity Code Effective Date</label>
+                   <input type="date"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Middle Name" name="public_code_effective_date"  value={sendForm.public_code_effective_date} onChange={handleOnChange}/>
                    </div>
               
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={protection} className="label-icons me-2" alt=''/>Protection Indicator</label>
                             <div class="dropdown-wrapper">
-                         <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm">
+                           <img src={downArrow} className="dropdownimg" alt=""/>
+                            <select class="form-control form-control-sm" value={sendForm.protection_indicator} name="protection_indicator" onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -338,14 +407,14 @@ export default function PatientChoices() {
                         </div>
 
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Protec. Indicator effect. date<span class="starMandatory position-static">*</span></label>
-                   <input type="date"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Last Name" name="firstName" />
+                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Protec. Indicator effect. date</label>
+                   <input type="date"class="form-control form-control-sm" id="firstName"  name="protec_indicator_date" value={sendForm.protec_indicator_date} onChange={handleOnChange} />
                    </div>
 
 
                 <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-2">
-                   <img  src={teamcare} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Care Team (Provider)<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Name" name="firstName" />
+                   <img  src={teamcare} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Care Team (Provider)</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Name" name="care_team" value={sendForm.care_team} onChange={handleOnChange} />
                    </div>
 
                   
@@ -353,10 +422,10 @@ export default function PatientChoices() {
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={teamcare} className="label-icons me-2" alt=''/>Care Team Status</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" value={sendForm.Care_Team_Status} name='Care_Team_Status' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>
@@ -368,18 +437,18 @@ export default function PatientChoices() {
                         </div>
 
                         <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={teamcare} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Care Team (Facility)<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Name" name="firstName" />
+                   <img  src={teamcare} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Care Team (Facility)</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Name" name="Care_Team_facility" value={sendForm.Care_Team_facility} onChange={handleOnChange} />
                    </div>
                         
 
                    <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={email} className="label-icons me-2" alt=''/>Allow Email<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={patientcategory} className="label-icons me-2" alt=''/>Patient Categories</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="dropdownimg" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" value={sendForm.patient_category} name='patient_category' onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Example</option>

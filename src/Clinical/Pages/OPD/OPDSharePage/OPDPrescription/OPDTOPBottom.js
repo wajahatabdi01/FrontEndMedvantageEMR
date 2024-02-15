@@ -17,6 +17,7 @@ import OPDPatientMessagePopUp from "./FHIROPDPopUp/OPDPatientMessagePopUp";
 import OPDViewDiscloserRecord from "./FHIROPDPopUp/OPDViewDiscloserRecord";
 import FHIRAddPrescription from "../../../../../FHIRPrescription/Pages/FHIRAddPrescription";
 import FHIRPrescreptionList from "../../../../../FHIRPrescription/Pages/FHIRPrescreptionList";
+import OPDLifeStyle from "./FHIROPDPopUp/OPDLifeStyle";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
@@ -80,9 +81,12 @@ export default function OPDTOPBottom(props) {
       let temp = window.sessionStorage.getItem("patientsendData")
         ? JSON.parse(window.sessionStorage.getItem("patientsendData"))
         : [];
+      // let activeUHID = window.sessionStorage.getItem("activePatient")
+      //   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+      //   : [];
       let activeUHID = window.sessionStorage.getItem("activePatient")
-        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : [];
+      ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+      : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
       temp.map((value, index) => {
         value.map((val, ind) => {
           if (value[0] === activeUHID) {
@@ -180,15 +184,17 @@ export default function OPDTOPBottom(props) {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span
           data-bs-toggle="modal"
-          data-bs-target="#PrescriptionPop"
-          onClick={() => {
-            setPrecription(1);
-          }}
+          data-bs-target="#PrescriptionPopList"
+          onClick={() => setPrecription(1)}
         >
           {t("Prescription")}{" "}
         </span>
       </div>
-
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#Lifestyle">
+          {t("LifeStyle")}{" "}
+        </span>
+      </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
       <div
         className="modal fade"
@@ -491,6 +497,22 @@ export default function OPDTOPBottom(props) {
                     </div>
                 </div>
             </div> */}
+      {/* --------------------------------------------------------------LifeStyle PopUp End--------------------------------------------------- */}
+
+      <div className="modal fade" id="Lifestyle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="staticBackdropLabe2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable1 modal-xl">
+          <div class="modal-content">
+            <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+            <div class="modal-body">
+              <OPDLifeStyle />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* --------------------------------------------------------------LifeStyle PopUp End--------------------------------------------------- */}
+
 
       {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
       {/* --------------------------------------------------------------Patient Message PopUp Begin--------------------------------------------------- */}
@@ -602,7 +624,7 @@ export default function OPDTOPBottom(props) {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
               <h1
@@ -651,7 +673,7 @@ export default function OPDTOPBottom(props) {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
               <h1
@@ -692,7 +714,7 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start Prescription Plan --------------------------------------------- */}
 
-      <div
+      {/* <div
         className="modal fade"
         id="PrescriptionPop"
         data-bs-backdrop="static"
@@ -701,7 +723,7 @@ export default function OPDTOPBottom(props) {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
               <h1
@@ -715,7 +737,7 @@ export default function OPDTOPBottom(props) {
                 className="btn-close_ btnModalClose"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={()=>{setPrecription(0)}}
+                
               >
                 <i className="fa fa-times"></i>
               </button>
@@ -730,20 +752,20 @@ export default function OPDTOPBottom(props) {
                   aria-labelledby="home-tab"
                   tabindex="0"
                 >
-                  {precription === 1 ? 
-                    <FHIRPrescreptionList setShowToster={setShowToster} setPrecription={setPrecription}/>
-                   : 
+                  {precription === 1 ?
+                    <FHIRPrescreptionList setShowToster={setShowToster} setPrecription={setPrecription} />
+                    :
                     ""
-                  
+
                   }
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div class="modal fade" id="myModal2" data-backdrop="static">
+      <div class="modal fade" id="PrescriptionPopList" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -753,13 +775,23 @@ export default function OPDTOPBottom(props) {
                 className="btn-close_ btnModalClose"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => {
+                  setPrecription(0);
+                }}
               >
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div class="container"></div>
             <div class="modal-body">
-              <FHIRAddPrescription setShowToster={setShowToster} />
+              {precription === 1 ? (
+                <FHIRAddPrescription
+                  setShowToster={setShowToster}
+                  setPrecription={setPrecription}
+                />
+              ) : (
+                ""
+              )}
             </div>
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>

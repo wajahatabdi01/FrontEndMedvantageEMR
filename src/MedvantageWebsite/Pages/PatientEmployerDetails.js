@@ -30,14 +30,40 @@ import plusbtn from '../../assets/images/icons/plusbtn.svg';
 import industry from '../../assets/images/icons/industry.svg';
 import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
 import email from '../../assets/images/icons/email (2).svg';
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
 
 
 export default function PatientEmployerDetails() {
 
   const navigate = useNavigate();
-
+  const [PatientData, setPatientData] = useState()
   const [step, setStep] = useState(4);
+  const [sendForm, setsendForm] = useState({
+    occupation : '',
+    industryId: '0',
+    employerName: '',
+    address: '',
+    addressLine2: '',
+    city: '0',
+    stateId: '0',
+    countryId: '0',
+    postalCode: '',
+    status: '0',
+  });
   const totalSteps = 9;
+
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setsendForm(prevData => ({
+        ...prevData,
+        [name]: value
+    }));
+  };
+
+
+
+
 
   const handleNext = () => {
     if (step < totalSteps) {
@@ -53,6 +79,40 @@ export default function PatientEmployerDetails() {
         setStep(step - 1);
       }
     }
+
+
+
+
+    const Patientdata = async()=>{
+      let data = await GetPatientData()
+      if(data.status === 1){
+        const patientRegistrationData = data.responseValue.patientemployerdetails[0];
+                  console.log("Patientdata>>", patientRegistrationData);
+                  setPatientData(patientRegistrationData);
+
+                  setsendForm({
+                    
+ 
+                      occupation : patientRegistrationData.occupation,
+                      industryId: patientRegistrationData.industryId,
+                      employerName: patientRegistrationData.employerName,
+                      address: patientRegistrationData.address,
+                      addressLine2: patientRegistrationData.addressLine2,
+                      city: patientRegistrationData.city,
+                      stateId: patientRegistrationData.stateId,
+                      countryId: patientRegistrationData.countryId,
+                      postalCode: patientRegistrationData.postalCode,
+                      status: patientRegistrationData.status,
+
+                  
+                  })
+      }
+     }
+
+   useEffect(() => {
+       Patientdata()
+     }, [])
+
 
 
     return (
@@ -72,20 +132,20 @@ export default function PatientEmployerDetails() {
                 
 
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="Occupation" class="form-label label-text">Occupation<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="Occupation" placeholder="Enter Occupation" name="firstName" />
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="Occupation" class="form-label label-text">Occupation </label>
+                   <input type="text"class="form-control form-control-sm" id="Occupation" placeholder="Enter Occupation" value={sendForm.occupation} name="occupation" onChange={handleOnChange}/>
                    </div>
 
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={industry} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Industry<span class="starMandatory position-static">*</span></label>
+                         <img  src={industry} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Industry </label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='industryId' value={sendForm.industryId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -99,30 +159,30 @@ export default function PatientEmployerDetails() {
                  
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Name<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="EmployerName" placeholder="Enter Employer Name" name="EmployerName" />
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Name </label>
+                   <input type="text"class="form-control form-control-sm" id="EmployerName" placeholder="Enter Employer Name" name="employerName" value={sendForm.employerName} onChange={handleOnChange}/>
                    </div>
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Address<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="EmployerAddress" placeholder="Enter Employer Address" name="EmployerAddress" />
+                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Address </label>
+                   <input type="text"class="form-control form-control-sm" id="EmployerAddress" placeholder="Enter Employer Address" name="address" value={sendForm.address} onChange={handleOnChange}/>
                    </div>
 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Address Line 2<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="EmployerAddress2" placeholder="Enter Employer Address " name="EmployerAddress" />
+                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Employer Address Line 2 </label>
+                   <input type="text"class="form-control form-control-sm" id="EmployerAddress2" placeholder="Enter Employer Address " name="addressLine2" value={sendForm.addressLine2} onChange={handleOnChange} />
                    </div>
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={location} className="label-icons me-2" alt=''/>City<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={location} className="label-icons me-2" alt=''/>City </label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='city' value={sendForm.city} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Lucknow</option>
                               <option value="2">Siwan</option>
@@ -137,12 +197,12 @@ export default function PatientEmployerDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={title} className="label-icons me-2" alt=''/>State<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={title} className="label-icons me-2" alt=''/>State </label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='stateId' value={sendForm.stateId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Uttar Pradesh</option>
                               <option value="2">Delhi</option>
@@ -155,8 +215,8 @@ export default function PatientEmployerDetails() {
                         </div> 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Postal Code" name="firstName" />
+                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code  </label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Postal Code" name="postalCode" value={sendForm.postalCode} onChange={handleOnChange}/>
                    </div>
 
                    
@@ -164,12 +224,12 @@ export default function PatientEmployerDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country </label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='countryId' value={sendForm.countryId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">India</option>
                               <option value="2">Pakistan</option>

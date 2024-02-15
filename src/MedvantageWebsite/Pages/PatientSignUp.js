@@ -51,7 +51,7 @@ export default function PatientSignUp() {
   
 const handleOnChange = (e) => {
   const { name, value } = e.target;
-  setPatientData(prevData => ({
+  setsendForm(prevData => ({
       ...prevData,
       [name]: value
   }));

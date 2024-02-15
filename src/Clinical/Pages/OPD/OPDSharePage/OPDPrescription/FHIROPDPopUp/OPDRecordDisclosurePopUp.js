@@ -22,12 +22,15 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
     let [showMessage, setShowMessage] = useState(0)
     let [recipientOfDisclosure, setRecipientOfDisclosure] = useState('');
     let [descriptionOfTheDisclosure, setDescriptionOfTheDisclosure] = useState('');
-    let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let providerName = window.sessionStorage.getItem("LoginData") ? JSON.parse(window.sessionStorage.getItem("LoginData")).name : ""
 
     let getAllRecords = async () => {
-        let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        const response = await GetRecordDiscloser(activePatient);
+        // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        const response = await GetRecordDiscloser(activeUHID);
         if (response.status === 1) {
             setRecordList(response.responseValue);
         }
@@ -62,7 +65,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
     let handleSave = async () => {
         console.log("Function Invoked")
         const obj = {
-            "uhid": activePatient,
+            "uhid": activeUHID,
             "disclosureDate": date,
             "typeOfDisclosure": discloserId,
             "recipientOfDisclosure": recipientOfDisclosure,
@@ -105,7 +108,7 @@ function OPDRecordDisclosurePopUp({ setShowToster }) {
     }, []);
     return (
         <>
-            <div className='problemhead' style={{ height: '50vh', overflowY: 'scroll',overflowX:'hidden' }}>
+            <div className='problemhead' style={{ height: '50vh', overflowY: 'scroll', overflowX: 'hidden' }}>
                 <div className='row'>
                     <div className="col-12 mb-2">
                         {/* <label for="bedName" class="form-label relative">Date<span class="starMandatory">*</span></label> */}

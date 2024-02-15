@@ -232,7 +232,7 @@ const handleEditData= async()=>{
 
 
           <div className="row pt-3">
-            <div className="col xxl-4 col-xl-4 col-lg-12 col-md-12">
+            <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
                <div className="inner-content">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
@@ -313,7 +313,7 @@ const handleEditData= async()=>{
                 </div>
             </div>
 
-            <div className="col xxl-3 col-xl-3 col-lg-12 col-md-12">
+            <div className="col-xxl-3 col-xl-3 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
                <div className="inner-content">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
@@ -363,7 +363,7 @@ const handleEditData= async()=>{
                 </div>
                 </div>
             </div>
-            <div className="col xxl-5 col-xl-5 col-lg-12 col-md-12">
+            <div className="col-xxl-5 col-xl-5 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
                <div className="inner-content">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
