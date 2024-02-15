@@ -232,9 +232,6 @@ const Surgery = ({issueDetailss, issueDetailsData, id}) => {
 
                                         : ''}
                                 </div>
-                                {
-                                    console.log('txtCoding', txtCoding)
-                                }
                                 {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                             </div>
 

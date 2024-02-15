@@ -5,71 +5,134 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import Heading from '../../../../../../Component/Heading';
 import TableContainer from '../../../../../../Component/TableContainer';
 import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingStatus';
-function OPDLifeStyle() {
+import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
+import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
+function OPDLifeStyle({ setShowToster }) {
     let [showLifeStyle, setShowLifestyle] = useState(1);
     let [smokingList, setSmokingList] = useState([]);
-    let [codes, setCodes] = useState('')
+    let [familyHistoryList, setFamilyHistoryList] = useState([]);
+    let [showUnderProcess, setShowUnderProcess] = useState(0);
+    let [tosterMessage, setTosterMessage] = useState("");
+    let [tosterValue, setTosterValue] = useState(0);
+    let [showAlertToster, setShowAlertToster] = useState(0)
+    let [showMessage, setShowMessage] = useState(0)
+    let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
+        window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let [tobaccoDetails, setTobaccoDetails] = useState({
         name: '',
         tobaccoId: '',
-        code: '',
+        tobaccoStatus: '',
+        code: "",
         date: '',
+        status: '',
     })
 
     let getAllSmokingStatus = async () => {
-
         const response = await GetAllSmokingStatus();
         if (response.status === 1) {
             setSmokingList(response.responseValue);
         }
     }
+    let getFamilyHistoryData = async () => {
+        const response = await GetFamilyHistoryData(activeUHID);
+        if (response.status === 1) {
+            setFamilyHistoryList(response.responseValue);
+        }
+        console.log("getFamilyHistoryData", response)
+    }
     const handleTobacco = (e) => {
+        const selectTobaccoId = document.getElementById("ddlTobaccoId").value;
+        const selectTobacco = document.getElementById("ddlTobaccoId");
+        const selectedTobacco = selectTobacco.options[selectTobacco.selectedIndex].text;
+        console.log("selectedTobacco", selectedTobacco);
+
         const { name, value } = e.target;
-        let temData="";
-        for(var i=0; i < smokingList.length; i++){
-            if(smokingList[i].id ==  value){
-                temData=smokingList[i].code;
+        let temData = "";
+        for (var i = 0; i < smokingList.length; i++) {
+            if (smokingList[i].id == value) {
+                temData = smokingList[i].code;
                 break;
             }
         }
-        console.log('temData',temData)
-        setCodes(temData);
-        setTobaccoDetails((prev) => ({
-            ...prev,
-            [name]: value,
-            code:codes
-        }))
-        console.log('smokingList',smokingList);
+
+        if (name === "tobaccoId") {
+            console.log('temData', name)
+            setTobaccoDetails((prev) => ({
+                ...prev,
+                [name]: value,
+                "code": temData,
+                "tobaccoStatus": selectedTobacco,
+            }))
+        }
+        else {
+            setTobaccoDetails((prev) => ({
+                ...prev,
+                [name]: value,
+            }))
+        }
+
+        console.log('smokingList', smokingList);
     }
 
     let handleEdit = () => {
         setShowLifestyle(0);
     }
-    let handleSave = () => {
+    let handleSave = async () => {
         // setShowLifestyle(1);
         const jsonTobaccoData = JSON.stringify([tobaccoDetails])
         console.log("jsonTobaccoData", jsonTobaccoData)
         const parsedTobaccoData = JSON.parse(jsonTobaccoData);
-        console.log("parsedTobaccoData", parsedTobaccoData)
-        const { name, tobaccoId, code, date } = parsedTobaccoData[0];
-        const formattedData = `${name}|${tobaccoId}|${code}|${date}`;
-        console.log("formattedData", formattedData);
-        return
-        let obj = {
-            tobaccoData: jsonTobaccoData
+        const { name, tobaccoId, tobaccoStatus, code, date } = parsedTobaccoData[0];
+        const tobaccoData = `${name}|${tobaccoId}|${tobaccoStatus}|${code}|${date}`;
+        console.log("tobaccoData", tobaccoData);
+        let sendData = {
+            "jsonData": "",
+            "rowId": 0,
+            "uhid": activeUHID,
+            "tobaccoData": tobaccoData,
+            "coffeeData": "",
+            "alcoholData": "",
+            "reactionalDrugsData": "",
+            "counsellingData": "",
+            "excercisePatternData": "",
+            "hazardousActivitiesData": "",
+            "sleepPatternsData": "",
+            "seatbeltUseData": "",
+            "clientId": window.clientId,
+            "userId": window.userId
         }
-        console.log("tobaccoData", obj)
+        console.log("sendData", sendData)
+        return
+        const response = await InsertLifeStyleData(sendData);
+        if (response.status === 1) {
+            setShowUnderProcess(0);
+            setShowToster(8)
+            setTimeout(() => {
+                setShowToster(0);
+            }, 2000)
+            // handleClear();
+        }
+        else {
+            setShowUnderProcess(0)
+            setShowAlertToster(1)
+            setShowMessage(response.responseValue)
+            setTimeout(() => {
+                setShowToster(0)
+            }, 2000)
+        }
     }
+
+
     let handleCancel = () => {
         setShowLifestyle(1);
     }
 
     useEffect(() => {
         getAllSmokingStatus();
+        getFamilyHistoryData();
     }, [])
     return (
         <>
-
             {showLifeStyle === 1 ?
                 <div className='lifestylelist'>
                     <div className="col-12 mt-2">
@@ -92,48 +155,56 @@ function OPDLifeStyle() {
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>Tobacco</td>
-                                        <td>jj</td>
-                                        <td>Unknown if ever smoked ( SNOMED-CT:266927001 )</td>
-                                        <td>NA</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Coffee</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alcohol</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Recreational Drugs</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Counseling</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Exercise Patterns</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hazardous Activities</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    {familyHistoryList && familyHistoryList.map((item, index) => {
+                                        const tobaccoListItem = item.tobacco.split('|');
+                                        return (
+                                            <>
+                                                <tr>
+                                                    <td>Tobacco</td>
+                                                    <td>{tobaccoListItem[0]}</td>
+                                                    <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
+                                                    <td>{tobaccoListItem[4]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Coffee</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Recreational Drugs</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Counseling</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Exercise Patterns</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Hazardous Activities</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </>
+                                        )
+                                    })}
+
 
                                 </tbody>
                             </TableContainer>
@@ -161,7 +232,7 @@ function OPDLifeStyle() {
                                             </div>
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="code" className="form-label">Tobacco Status<span className="starMandatory"></span></label>
-                                                <select className="form-select form-select-sm"  id="tobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
+                                                <select className="form-select form-select-sm" id="ddlTobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
                                                     <option value="0" selected>Select</option>
                                                     {smokingList && smokingList.map((list) => {
                                                         return (
@@ -174,9 +245,10 @@ function OPDLifeStyle() {
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
                                                 <div className='lifestyleStatus'>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                        <label class="form-check-label" for="inlineRadio1">Current </label>
+
+                                                <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1" />
+                                                        <label class="form-check-label" for="inlineRadio2">Current </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
@@ -194,7 +266,7 @@ function OPDLifeStyle() {
                                             </div>
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Code<span className="starMandatory"></span></label>
-                                                <input type="text" name="code" value={tobaccoDetails.code} id="code" className="lifestylecode form-control form-control-sm" onChange={"handleTobacco"} placeholder={t("Code")} readOnly />
+                                                <input type="text" name="code" value={tobaccoDetails.code} id="code" className="lifestylecode form-control form-control-sm" placeholder={t("Code")} readOnly />
                                             </div>
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>

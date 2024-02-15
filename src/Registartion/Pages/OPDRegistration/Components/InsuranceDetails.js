@@ -717,7 +717,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starmandatory">*</span></label>
+                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCode" placeholder={t("Enter SE Zip Code")} name='seZipCode' value={sendFormPrimary.seZipCode} onChange={handlePrimary} />
                             <small id="errSEZipCode" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>

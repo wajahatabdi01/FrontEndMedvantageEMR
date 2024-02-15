@@ -504,7 +504,7 @@ export default function OPDTOPBottom(props) {
           <div class="modal-content">
             <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
             <div class="modal-body">
-              <OPDLifeStyle />
+              <OPDLifeStyle  setShowToster={setShowToster}/>
             </div>
 
           </div>
@@ -855,6 +855,14 @@ export default function OPDTOPBottom(props) {
         <SuccessToster
           handle={setShowToster}
           message="Immunization Saved SuccessFully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 8 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Lifestyle Saved SuccessFully !!"
         />
       ) : (
         ""
