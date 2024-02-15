@@ -29,9 +29,35 @@ import downArrow from '../../assets/images/icons/downArrow.svg';
 import plusbtn from '../../assets/images/icons/plusbtn.svg';
 import email from '../../assets/images/icons/email (2).svg';
 import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
 
 
 export default function PatientContact() {
+  const [PatientData, setPatientData] = useState()
+  const [sendForm, setsendForm] = useState({
+    address: '',
+    addressLine2: '',
+    cityId: '',
+    stateId: '',
+    postalCode: '',
+    mothersName: '',
+    emergencyContact: '',
+    emergencyPhone: '',
+    phone_home: '',
+    workPhone: '',
+    mobileNo: '',
+    emailID: '',
+    trustedEmail: '',
+  })
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setsendForm(prevData => ({
+        ...prevData,
+        [name]: value
+    }));
+  };
+
 
   const navigate = useNavigate();
 
@@ -54,6 +80,37 @@ export default function PatientContact() {
     }
 
 
+
+    const Patientdata = async()=>{
+      let data = await GetPatientData()
+      if(data.status === 1){
+        const patientRegistrationData = data.responseValue.patientregistration[0];
+                  console.log("Patientdata>>", patientRegistrationData);
+                  setPatientData(patientRegistrationData);
+      
+                  setsendForm({
+                    address: patientRegistrationData.address,
+                    addressLine2: patientRegistrationData.addressLine2,
+                    cityId: patientRegistrationData.cityId,
+                    stateId: patientRegistrationData.stateId,
+                    postalCode: patientRegistrationData.postalCode,
+                    mothersName: patientRegistrationData.mothersName,
+                    emergencyContact: patientRegistrationData.emergencyContact,
+                    emergencyPhone: patientRegistrationData.emergencyPhone,
+                    phone_home: patientRegistrationData.phone_home,
+                    workPhone: patientRegistrationData.workPhone,
+                    mobileNo: patientRegistrationData.mobileNo,
+                    emailID: patientRegistrationData.emailID,
+                    trustedEmail: patientRegistrationData.trustedEmail,
+                });
+       }
+     }
+     
+     useEffect(() => {
+       Patientdata()
+     }, [])
+
+
     return (
    <>
      <div className="med-Patient-login-wrapper">
@@ -72,25 +129,25 @@ export default function PatientContact() {
                 
 
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address" name="firstName" />
+                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address" value={sendForm.address} name="address" onChange={handleOnChange}/>
                    </div>
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address Line 2 <span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address Line 2" name="firstName" />
+                   <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address Line 2 </label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Address Line 2" value={sendForm.addressLine2} name="addressLine2" onChange={handleOnChange}/>
                    </div>
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={location} className="label-icons me-2" alt=''/>City<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={location} className="label-icons me-2" alt=''/>City</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='cityId' value={sendForm.cityId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">Lucknow</option>
+                              <option value="6092">Lucknow</option>
                               <option value="2">Siwan</option>
                               <option value="3">Patna</option>
                               <option value="4">Mumbai</option>
@@ -103,14 +160,14 @@ export default function PatientContact() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={title} className="label-icons me-2" alt=''/>State<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={title} className="label-icons me-2" alt=''/>State</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='stateId' value={sendForm.stateId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">Uttar Pradesh</option>
+                              <option value="113">Uttar Pradesh</option>
                               <option value="2">Delhi</option>
                               <option value="3">Bihar</option>
                               <option value="4">Maharastra</option>
@@ -121,139 +178,77 @@ export default function PatientContact() {
                         </div> 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Postal Code" name="firstName" />
+                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code </label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Postal Code" value={sendForm.postalCode} name="postalCode" onChange={handleOnChange} />
                    </div>
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country</label>
                             <div class="dropdown-wrapper">
-                         <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                         <img src={downArrow} className="downarrowwithplus" alt="" />
+                            <select class="form-control form-control-sm" name='countryId' value={sendForm.countryId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
-                              <option value="1">India</option>
+                              <option value="3">India</option>
                               <option value="2">Pakistan</option>
-                              <option value="3">Sri Lanka</option>
+                              <option value="1">Sri Lanka</option>
                               <option value="4">USA</option>
                             </select>
                             </div>
-                          </div>
-                                 
+                          </div> 
                         </div> 
+
+
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={lady} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mother's Name <span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Mother's Name" name="firstName" />
+                   <img  src={lady} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mother's Name </label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Mother's Name" value={sendForm.mothersName} name="mothersname" onChange={handleOnChange} />
                    </div>
+
+
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Emergency Contact<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Emergency Contact" name="firstName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Emergency Contact</label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={sendForm.emergencyContact} placeholder="Enter Emergency Contact" name="emergencyContact" onChange={handleOnChange}/>
                    </div>
+
+
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Emergency Phone<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Emergency Phone Number" name="firstName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Emergency Phone</label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={sendForm.emergencyPhone} placeholder="Enter Emergency Phone Number" name="emergencyPhone" onChange={handleOnChange}/>
                    </div>
+
+
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Home Number <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Home Number" name="firstName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text"> Home Number </label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={sendForm.phone_home} placeholder="Enter Home Number" name="phone_home" onChange={handleOnChange} />
                    </div>
+
+
                 <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-2">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Number<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Birth Last Name" name="firstName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Number</label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={sendForm.workPhone} placeholder="Enter Work Number" name="workPhone" onChange={handleOnChange} />
                    </div>
-
-                   {/* <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                        
-                        <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={gender} className="label-icons me-2" alt=''/>Sex<span class="starMandatory position-static">*</span></label>
-                            <select class="form-control form-control-sm">
-                              <option value="0" selected>Unassigned</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>
-                              <option value="3">Transgender</option>
-                              <option value="4">Other</option>
-                            </select>
-                          </div>
-                                 
-                        </div>
-
-                   <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                        
-                        <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={gender} className="label-icons me-2" alt=''/>Gender Identity<span class="starMandatory position-static">*</span></label>
-                            <select class="form-control form-control-sm">
-                              <option value="0" selected>Unassigned</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>
-                              <option value="3">Transgender</option>
-                              <option value="4">Other</option>
-                            </select>
-                          </div>
-                                 
-                        </div>
-                   <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                        
-                        <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={gender} className="label-icons me-2" alt=''/>Sexual Orientation<span class="starMandatory position-static">*</span></label>
-                            <select class="form-control form-control-sm">
-                              <option value="0" selected>Unassigned</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>
-                              <option value="3">Transgender</option>
-                              <option value="4">Other</option>
-                            </select>
-                          </div>
-                                 
-                        </div>
-                   <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                        
-                        <div class="" id="paymentModediv">
-                            <label for="PaymentMode" class="form-label label-text"><img  src={maritalstatus} className="label-icons me-2" alt=''/>Martial Status<span class="starMandatory position-static">*</span></label>
-                            <select class="form-control form-control-sm">
-                              <option value="0" selected>Unassigned</option>
-                              <option value="1">Married</option>
-                              <option value="2">Unmarried</option>
-                            
-                            </select>
-                          </div>
-                                 
-                        </div> */}
 
 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mobile Number <span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Mobile Number" name="firstName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Mobile Number </label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" value={sendForm.mobileNo} placeholder="Enter Mobile Number" name="mobileNo" onChange={handleOnChange}/>
                    </div>
+
+
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Contact Email<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Contact Email" name="firstName" />
+                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Contact Email</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName" value={sendForm.emailID} placeholder="Enter Contact Email" name="emailID"  onChange={handleOnChange} />
                    </div>
+
+
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Trusted Email<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Trusted Email" name="firstName" />
+                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Trusted Email</label>
+                   <input type="text"class="form-control form-control-sm" id="firstName"  value={sendForm.trustedEmail} placeholder="Enter Trusted Email" name="trustedEmail" onChange={handleOnChange} />
                    </div>
-
-
-{/* 
-                        <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">User Defined<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter User Defined" name="firstName" />
-                   </div>
-                        <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={bill} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Billing Note<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Billing Note" name="firstName" />
-                   </div>
-                        <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Previous Names<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="firstName" placeholder="Enter Previous Name" name="firstName" />
-                   </div> */}
-
-
-
                 </div>
 
 

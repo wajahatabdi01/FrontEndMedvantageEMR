@@ -367,6 +367,7 @@ import FHIRDischargeDispositionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRD
 import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
 import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 import LayoutPatientAppointment from '../PatientPortal/Layout/LayoutPatientAppointment';
+import LayoutMyAppointment from '../PatientPortal/Layout/LayoutMyAppointment';
 
 export default function ApiRoutes() {
 
@@ -413,6 +414,7 @@ export default function ApiRoutes() {
 
                     <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
                     <Route path='/PatientAppointment/' element={<LayoutPatientAppointment/>}/>
+                    <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
