@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 
+import React, { useEffect, useState } from "react";
 import plus from "../../assets/images/icons/icons8-plus-30.png";
 import DropdownWithSearch from "../../Component/DropdownWithSearch";
 import GetBrandList from "../../Clinical/API/KnowMedsAPI/GetBrandList";
@@ -10,7 +10,6 @@ import GetAllInterval from "../API/GET/GetAllInterval";
 import FHIRPostAddPrescreption from "../API/POST/FHIRPostAddPrescreption";
 import clear from "../../assets/images/icons/clear.svg";
 import FHIRGetAllPrescriptionListByUHID from "../API/GET/FHIRGetAllPrescriptionListByUHID";
-
 import deleteIcon from "../../assets/images/icons/icons8-delete-30.png";
 import editIcon from "../../assets/images/icons/icons8-pencil-30.png";
 import FHIRDeletePrescriptionList from "../API/DELETE/FHIRDeletePrescriptionList";
@@ -57,14 +56,33 @@ export default function FHIRAddPrescription(props) {
 
   // const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   // const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-  const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
   let activeUHID = window.sessionStorage.getItem("activePatient")
   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
-  const getAllBrandList = async () => 
-  {
+
+  const funGetAllList = async () => {
+    console.log("calllllllllllllllleedddddddddddddddddd : ");
+    const listRes = await FHIRGetAllPrescriptionListByUHID(
+      activeUHID,
+      clientID
+    );
+    if (listRes.status === 1) {
+      console.log("listRes : ", listRes);
+      setPrescreptionList(listRes.responseValue);
+    }
+  };
+
+  const handleDelete = async (rowId) => {
+    const deleteRes = await FHIRDeletePrescriptionList(rowId);
+    if (deleteRes.status === 1) {
+      funGetAllList();
+    }
+  };
+
+  const getAllBrandList = async () => {
+    console.log("getAllBrandList");
     const response = await GetBrandList();
     if (response.status === 1) {
       const slicedProblemList = response.responseValue.slice(0, 100);
@@ -163,87 +181,209 @@ export default function FHIRAddPrescription(props) {
     //setUpdateBool(0)
   };
 
-//////////////////////////////// Final Save /////////////////////////
-const handleSave = async () =>{
-  if(sendForm.startingdate=== ""){
-    document.getElementById('errDate').innerHTML = "Please select date."
-    document.getElementById('errDate').style.display = "block"
-  }
-  else if(!sendForm.brandList){
-    document.getElementById('errDrug').innerHTML = "Please select drug."
-    document.getElementById('errDrug').style.display = "block"
-  }
-  else{
+  //////////////////////////////// Final Save /////////////////////////
+  const handleSave = async () => {
+    if (sendForm.startingdate === "") {
+      document.getElementById("errDate").innerHTML = "Please select date.";
+      document.getElementById("errDate").style.display = "block";
+    } else if (!sendForm.brandList) {
+      document.getElementById("errDrug").innerHTML = "Please select drug.";
+      document.getElementById("errDrug").style.display = "block";
+    } else {
+      const finalObj = {
+        uhid: activeUHID,
+        currentlyActive: sendForm.currentlyActive,
+        startingDate: sendForm.startingdate,
+        providerId: sendForm.providerName,
+        drugId: sendForm.exampleRadios,
+        quantity: sendForm.QuantityName,
+        size: sendForm.medicineStrength,
+        unit: sendForm.medicineUnit,
+        refills: sendForm.RefillsUnit,
+        perRefill: sendForm.oftabletsName,
+        dosage: sendForm.DirectionsName,
+        form: sendForm.formName,
+        route: sendForm.routeName,
+        interval: sendForm.FrequencyName,
+        note: sendForm.Notes,
+        medication: sendForm.addToList,
+        substitute: sendForm.ReasonName,
+        drug:
+          sendForm.brandList +
+          " " +
+          sendForm.medicineStrength +
+          " " +
+          sendForm.medicineUnit +
+          " " +
+          sendForm.routeName +
+          " " +
+          sendForm.formText,
+        userId: userId,
+        rxnormDrugCode: "1432537",
+        clientId: clientID,
+      };
+      const finalSave = await FHIRPostAddPrescreption(finalObj);
+      if (finalSave.status === 1) {
+        alert("Data Saved");
+        funGetAllList();
+        handleClear();
+      }
+    }
+  };
 
-    const finalObj = {
+  const handleClear = () => {
+    //document.getElementById('currentlyActiveID').value = 1;
+    setSendForm({
+      userId: window.userId,
+      clientId: window.clientId,
+      currentlyActive: 1,
+      ePrescription: false,
+      checkedDrug: false,
+      ControlledSubstance: false,
+      startingdate: "",
+      providerName: 0,
+      exampleRadios: 0,
+      QuantityName: "",
+      medicineStrength: "",
+      medicineUnit: 0,
+      RefillsUnit: 0,
+      oftabletsName: "",
+      DirectionsName: "",
+      formName: 0,
+      routeName: 0,
+      FrequencyName: 0,
+      Notes: "",
+      addToList: 0,
+      ReasonName: 0,
+    });
+  };
+
+  //////////////////////////////To Update the data ////////////////////////////////////////////
+  const handleUpdate = (
+    drug,
+    rowId,
+    startDate,
+    providerId,
+    drugId,
+    quantity,
+    size,
+    unit,
+    refills,
+    dosage,
+    form,
+    route,
+    interval,
+    note,
+    perRefill,
+    medication,
+    substitute
+  ) => {
+    setEditName(drug.split(" ")[0]);
+    setTheRowId(rowId);
+    setShowUpdate(1);
+    setShowSave(0);
+    //
+    const selectElement = document.getElementById("formID")
+      const selectedOption = selectElement.options[selectElement.selectedIndex];
+      console.log('selectedOption : ', selectedOption) 
+      //const selectedValue = selectedOption.value;
+      const selectedText = selectedOption.text;
+      console.log('selectedText : ', selectedText)
+    const startingDate = startDate.substring(0, startDate.indexOf(" "));
+    const [day, month, year] = startingDate.split("-");
+
+    // Create a new Date object using the components (Note: Month is 0-indexed in JavaScript)
+    const dateConvert = new Date(`${year}-${month}-${day}`);
+
+    // Get the formatted date in YYYY-MM-DD format
+    const formattedDate = dateConvert.toISOString().split("T")[0];
+
+    console.log(
+      "startingDate : ",
+      startingDate.substring(0, startingDate.indexOf(" "))
+    );
+    setSendForm((prev) => ({
+      ...prev,
+      currentlyActive: 1,
+      ePrescription: false,
+      checkedDrug: false,
+      ControlledSubstance: false,
+      startingdate: formattedDate,
+      providerName: providerId,
+      exampleRadios: drugId,
+      QuantityName: quantity,
+      medicineStrength: size,
+      medicineUnit: unit,
+      RefillsUnit: refills,
+      oftabletsName: perRefill,
+      DirectionsName: dosage,
+      formName: form,
+      routeName: route,
+      FrequencyName: interval,
+      Notes: note,
+      addToList: medication,
+      ReasonName: substitute,
+      selectedText : selectedText
+    }));
+    document.getElementById("formID").value = form;
+  };
+
+  const handleUpdateSave = async () => {
+    console.log('sendForm : ', sendForm);
+    return;
+    const finalObjUpdate = {
+      id: theRowId,
       uhid: activeUHID,
-      currentlyActive : sendForm.currentlyActive,
-      startingDate : sendForm.startingdate,
-      providerId : sendForm.providerName,
-      drugId : sendForm.exampleRadios,
+      currentlyActive: sendForm.currentlyActive,
+      startingDate: sendForm.startingdate,
+      providerId: sendForm.providerName,
+      drugId: sendForm.exampleRadios,
       quantity: sendForm.QuantityName,
-      size : sendForm.medicineStrength,
-      unit : sendForm.medicineUnit,
-      refills : sendForm.RefillsUnit,
-      perRefill : sendForm.oftabletsName,
-      dosage : sendForm.DirectionsName,
-      form : sendForm.formName.split(':')[0],
-      route : sendForm.routeName,
-      interval : sendForm.FrequencyName,
-      note : sendForm.Notes,
-      medication : sendForm.addToList,
-      substitute : sendForm.ReasonName,
-      drug : sendForm.brandList + ' ' + sendForm.medicineStrength + ' ' + sendForm.medicineUnit + ' ' + sendForm.routeName + ' ' + sendForm.formName.split(':')[1],
-      userId : userId,
-      rxnormDrugCode : '1432537',
-      clientId : clientID
+      size: sendForm.medicineStrength,
+      unit: sendForm.medicineUnit,
+      refills: sendForm.RefillsUnit,
+      perRefill: sendForm.oftabletsName,
+      dosage: sendForm.DirectionsName,
+      form: sendForm.formName,
+      route: sendForm.routeName,
+      interval: sendForm.FrequencyName,
+      note: sendForm.Notes,
+      medication: sendForm.addToList,
+      substitute: sendForm.ReasonName,
+      drug:
+        (sendForm.brandList ? sendForm.brandList : editName) +
+        " " +
+        sendForm.medicineStrength +
+        " " +
+        sendForm.medicineUnit +
+        " " +
+        sendForm.routeName +
+        " " +
+        sendForm.selectedText,
+      userId: userId,
+      rxnormDrugCode: "1432537",
+      clientId: clientID,
+    };
+    console.log("finalObjUpdate : ", finalObjUpdate);
+    return
+    const updateRes = await FHIRPutPrescription(finalObjUpdate);
+    if(updateRes.status === 1){
+      alert('Data updated successfully!');
+      handleClear(); funGetAllList(); setShowSave(1); setShowUpdate(0)
     }
-    
-    const finalSave = await FHIRPostAddPrescreption(finalObj);
-    if(finalSave.status === 1)
-    {
-      alert('Data Saved')
-      handleClear();
-    }
-  }
-}
+  };
 
-const handleClear = () =>{
-  
-  //document.getElementById('currentlyActiveID').value = 1;
-  setSendForm({"userId": window.userId, "clientId": window.clientId,
-  currentlyActive: 1,
-  ePrescription:false,
-  checkedDrug:false,
-  ControlledSubstance: false,
-  startingdate:'',
-  providerName:0,
-  exampleRadios:0,
-  QuantityName:'',
-  medicineStrength:'',
-  medicineUnit:0,
-  RefillsUnit:0,
-  oftabletsName:'',
-  DirectionsName:'',
-  formName:0,
-  routeName:0,
-  FrequencyName:0,
-  Notes:'',
-  addToList:0,
-  ReasonName:0})
+  useEffect(() => {
+    getProviderList();
+    funGetAllList();
+  }, []);
+  useEffect(() => {
+    getAllBrandList();
 
-  
-  
-}
-
-
-useEffect(() =>{
-  getAllBrandList();
-  getProviderList();
-  getAllFromList();
-  getAllRouteList();
-  getAllIntervalList();
-}, [])
+    getAllFromList();
+    getAllRouteList();
+    getAllIntervalList();
+  }, [props.setPrecription]);
 
   return (
     <>
