@@ -26,20 +26,19 @@ export default function OPDInvestigationProcedure(props) {
     let [searchShow, setSearchShow] = useState([])
 
     let activeUHID = window.sessionStorage.getItem("activePatient")
-  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
     let patientDeptId = window.sessionStorage.getItem("OPDPatientData")
-  ? JSON.parse(window.sessionStorage.getItem("OPDPatientData")).departmentId
-  : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")).deptId:[]
+        ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].departmentId
+        : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].deptId : []
+    console.log("patientDeptId", patientDeptId)
 
+    let patientDoctId = window.sessionStorage.getItem("OPDPatientData")
+        ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId
+        : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].doctorId : []
 
-  let patientDoctId = window.sessionStorage.getItem("OPDPatientData")
-  ? JSON.parse(window.sessionStorage.getItem("OPDPatientData")).doctorId
-  : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")).doctorId:[]
-
-  console.log("patientDeptId",patientDeptId)
-  console.log("patientDoctId",patientDoctId)
+    console.log("patientDoctId", patientDoctId)
 
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showLoder, setShowLoder] = useState(0);
@@ -70,6 +69,7 @@ export default function OPDInvestigationProcedure(props) {
     let [investname, setInvestname] = useState([])
 
     let handlechange = (e, cost, name, index) => {
+        console.log("showInvestigation", showInvestigation)
         try {
             let flag = 0
             let id = e.target.name
@@ -283,12 +283,14 @@ export default function OPDInvestigationProcedure(props) {
         setShowUnderProcess(1);
         var obj = {
             "uhid": activeUHID,
-            "doctorId":0,
+            "doctorId": patientDoctId,
             "deptId": patientDeptId,
-            "investigationResultJson": "investigationResultJson",
+            "investigationResultJson": JSON.stringify(sendData),
             "userId": window.userId,
             "clientId": window.clientId
         }
+        console.log("obj", obj)
+        // return;
         const response = await FHIRSavePatientInvestigation(obj);
         if (response.status === 1) {
             setShowUnderProcess(0);
@@ -363,18 +365,18 @@ export default function OPDInvestigationProcedure(props) {
                     </button> */}
 
                     {showUnderProcess === 1 ? <TosterUnderProcess /> :
-                            <>
-                                {showToster === 1 ?
-                                    <Toster value={tosterValue} message={tosterMessage} />
-                                    : <div>
-                                        <>
-                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                                            <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}><i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}</button>
-                                        </>
+                        <>
+                            {showToster === 1 ?
+                                <Toster value={tosterValue} message={tosterMessage} />
+                                : <div>
+                                    <>
+                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}><i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}</button>
+                                    </>
 
-                                    </div>}
-                            </>
-                        }
+                                </div>}
+                        </>
+                    }
                 </div>
             </div>
 
