@@ -7,7 +7,14 @@ import SaveOPDData from '../../../../../Code/SaveOPDData'
 import { useSelector } from 'react-redux'
 import Search from '../../../../../Code/Serach';
 import { useTranslation } from 'react-i18next';
+import saveButtonIcon from '../../../../../assets/images/icons/saveButton.svg';
 import i18n from "i18next";
+import SuccessToster from '../../../../../Component/SuccessToster'
+import AlertToster from '../../../../../Component/AlertToster'
+import TosterUnderProcess from '../../../../../Component/TosterUnderProcess'
+import Toster from '../../../../../Component/Toster'
+import Loader from '../../../../../Component/Loader'
+import FHIRSavePatientInvestigation from '../../../../API/FHIRPatirntInvestigation/FHIRSavePatientInvestigation'
 
 export default function OPDInvestigationProcedure(props) {
     document.body.dir = i18n.dir();
@@ -17,6 +24,33 @@ export default function OPDInvestigationProcedure(props) {
     let [total, setTotal] = useState(0)
     let [disable, setDisable] = useState(0)
     let [searchShow, setSearchShow] = useState([])
+
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+
+    let patientDeptId = window.sessionStorage.getItem("OPDPatientData")
+  ? JSON.parse(window.sessionStorage.getItem("OPDPatientData")).departmentId
+  : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")).deptId:[]
+
+
+  let patientDoctId = window.sessionStorage.getItem("OPDPatientData")
+  ? JSON.parse(window.sessionStorage.getItem("OPDPatientData")).doctorId
+  : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")).doctorId:[]
+
+  console.log("patientDeptId",patientDeptId)
+  console.log("patientDoctId",patientDoctId)
+
+    let [showUnderProcess, setShowUnderProcess] = useState(0);
+    let [showLoder, setShowLoder] = useState(0);
+    let [isShowToaster, setisShowToaster] = useState(0);
+    let [showAlertToster, setShowAlertToster] = useState(0);
+    let [showErrMessage, setShowErrMessage] = useState('');
+    let [showSuccessMsg, setShowSuccessMsg] = useState('');
+    let [updateBool, setUpdateBool] = useState(0);
+    let [showToster, setShowToster] = useState(0);
+    let [tosterMessage, setTosterMessage] = useState("");
+    let [tosterValue, setTosterValue] = useState(0);
 
     let [showInvestigation, setShowInvestigation] = useState([])
 
@@ -43,9 +77,9 @@ export default function OPDInvestigationProcedure(props) {
             let tempN = [...investname]
             if (temp.length != 0) {
                 sendData.map((val, ind) => {
-                  
+
                     if (val.itemId === parseInt(id)) {
-                        
+
                         showInvestigation[index].checked = 0
                         document.getElementById(id).checked = false
                         temp.splice(ind, 1)
@@ -141,7 +175,7 @@ export default function OPDInvestigationProcedure(props) {
 
                     tempitems[ind].checked = false
                 }
-                else{
+                else {
                     tempitems[ind].checked = false
                 }
             }
@@ -149,14 +183,14 @@ export default function OPDInvestigationProcedure(props) {
             // response.push(val)
         })
         setShowInvestigation([...tempitems])
-      
+
         setSearchShow([...tempitems])
         setTotal(total)
 
     }
 
     let handleSearch = (e) => {
-        
+
         try {
             if (e.target.value !== "") {
                 let searcresult = Search(searchShow, e.target.value)
@@ -182,7 +216,7 @@ export default function OPDInvestigationProcedure(props) {
                         // response.push(val)
                     })
                     setShowInvestigation(tempitems)
-                    
+
 
                 }
                 else {
@@ -203,7 +237,7 @@ export default function OPDInvestigationProcedure(props) {
                         // response.push(val)
                     })
                     setShowInvestigation(tempitems)
-                    
+
                 }
             }
             else {
@@ -237,11 +271,46 @@ export default function OPDInvestigationProcedure(props) {
             // response.push(val)
         })
         setShowInvestigation([...tempitems])
-        
+
         setSearchShow([...tempitems])
         setTotal(total)
         setSendData(investigationHistory)
     }
+
+    //Save Investigation
+    const handlesaveInvestigation = async () => {
+
+        setShowUnderProcess(1);
+        var obj = {
+            "uhid": activeUHID,
+            "doctorId":0,
+            "deptId": patientDeptId,
+            "investigationResultJson": "investigationResultJson",
+            "userId": window.userId,
+            "clientId": window.clientId
+        }
+        const response = await FHIRSavePatientInvestigation(obj);
+        if (response.status === 1) {
+            setShowUnderProcess(0);
+            setTosterValue(0);
+            setShowToster(1);
+            setTosterMessage("Data Saved Successfully.");
+            setTimeout(() => {
+                setShowToster(0);
+            }, 1500)
+        }
+        else {
+            setShowUnderProcess(0);
+            setTosterValue(1);
+            setShowToster(1);
+            setTosterMessage(response.responseValue);
+            setTimeout(() => {
+                setShowToster(0);
+            }, 1500)
+        }
+
+    }
+
     useEffect(() => {
         setData()
     }, [patientsendData])
@@ -285,17 +354,46 @@ export default function OPDInvestigationProcedure(props) {
                 </TableContainer>
             </div>
 
-
             <div className='opdorder border-topp'>
                 <div className='totalod'>  {t("Total Investigation Charge")}: <span>{total}</span></div>
-                <div className='resetpodinvest'>
-                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" style={{ width: "100px" }} onClick={() => { handleReset(); }}>
+                <div className='resetpodinvest relative'>
+                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}>
                         <i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}
-                    </button>
+                    </button> */}
+
+                    {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                            <>
+                                {showToster === 1 ?
+                                    <Toster value={tosterValue} message={tosterMessage} />
+                                    : <div>
+                                        <>
+                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                            <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}><i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}</button>
+                                        </>
+
+                                    </div>}
+                            </>
+                        }
                 </div>
             </div>
 
+            {
+                showLoder === 1 ? <Loader val={showLoder} /> : ""
+            }
+            {/* Toaster */}
+            {
+                isShowToaster === 1 ?
+                    <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
+            }
+
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
+
         </div>
+
 
     )
 }
