@@ -80,7 +80,10 @@ export default function FHIRImmunization({setShowToster}) {
   const customStyle = { marginLeft: '0px' };
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  let activeUHID = window.sessionStorage.getItem("activePatient")
+  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -286,7 +289,7 @@ export default function FHIRImmunization({setShowToster}) {
 
   /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
     const funGetAllImmunizationData = async () => {
-      const getAllImmunizationDataRes = await GetAllImmunizationData(activePatient);
+      const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID);
       if(getAllImmunizationDataRes.status === 1) {
         setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
       }
@@ -425,7 +428,7 @@ export default function FHIRImmunization({setShowToster}) {
        }
        else{
         const finalObjInvestAndReason = {
-          uhid:activePatient,
+          uhid:activeUHID,
           clientId: clientID,
           userId : userId,
           cvxCode : investConCat,

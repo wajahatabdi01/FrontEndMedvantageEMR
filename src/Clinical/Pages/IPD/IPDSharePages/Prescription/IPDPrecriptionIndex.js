@@ -16,9 +16,10 @@ import Loader from '../../../../../Component/Loader'
 import IPDPatientLabData from './IPDPatientLabData'
 import Search from '../../../../../Code/Serach'
 import { useLocation } from 'react-router-dom'
+import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
 
 
-export default function IPDPrecriptionIndex() {
+export default function IPDPrecriptionIndex(props) {
 
   let [loader, setLoader] = useState(1)
   let location = useLocation()
@@ -148,6 +149,7 @@ export default function IPDPrecriptionIndex() {
       <div className=" row">
         <div className='col-md-9 col-sm-12 plt'>
           <IPDTopVitals />
+          {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
           <IPDHistory />
           <IPDPatientComplaintConsultant />
           <IPDMedication getData={getOnlySpecificData} />

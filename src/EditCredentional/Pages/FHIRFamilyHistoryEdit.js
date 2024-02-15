@@ -24,7 +24,10 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
   // let getUhid = props.patientUhid;
   
   const customStyle={marginLeft:'0px'};
-  let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  let activeUHID = window.sessionStorage.getItem("activePatient")
+  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
   let SelectedData =(data,modalID)=>{ 
     
     let t = {
@@ -87,7 +90,7 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
   if(makeData.length !== 0){
     const getresponse = await dataMaker(makeData);
   let objSave = {
-    uhid:activePatient,
+    uhid:activeUHID,
     jsonData : JSON.stringify(getresponse)
   }
 

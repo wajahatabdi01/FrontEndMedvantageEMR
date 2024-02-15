@@ -5,9 +5,12 @@ import Heading from '../../../../../../Component/Heading'
 import GetRecordDiscloser from '../../../../../API/OPDRecordDiscloser/GetRecordDiscloser'
 function OPDViewDiscloserRecord() {
     let [recordList, setRecordList] = useState([])
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
     let getAllRecords = async () => {
-        let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        const response = await GetRecordDiscloser(activePatient);
+        // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        const response = await GetRecordDiscloser(activeUHID);
         if (response.status === 1) {
             setRecordList(response.responseValue);
         }

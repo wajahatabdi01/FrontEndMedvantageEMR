@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import store from '../../../../../Store'
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
+import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
 
 
 export default function IPDTopVitals(props) {
@@ -325,7 +326,10 @@ export default function IPDTopVitals(props) {
                     <i className='fa fa-eye'></i> View More
                 </button> */}
             </div>
+            <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
 
+                <OPDTOPBottom values={props.values} funh={props.funh} />
+            </div>
         </div>
     )
 }

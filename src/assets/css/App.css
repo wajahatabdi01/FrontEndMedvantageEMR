@@ -10731,3 +10731,24 @@ letter-spacing: 0.42px;
 color: #595959;
 opacity: 1;
 }
+
+.ModalFields {
+  display: flex;
+  gap: 15px;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.lifestyleStatus {
+  display: flex;
+  font-size: 14px;
+  justify-content: left;
+  align-items: center;
+}
+input.lifestylecode {
+  border-radius: 30px !important;
+}
+.ModalFields-inn label {
+  font-size: 13px !important;
+  color: #6b6b6b;
+}

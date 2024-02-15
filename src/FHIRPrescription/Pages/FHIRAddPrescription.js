@@ -48,8 +48,10 @@ export default function FHIRAddPrescription(props) {
   // const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId=JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-
+  // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  let activeUHID = window.sessionStorage.getItem("activePatient")
+  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
   const getAllBrandList = async () => 
   {
     const response = await GetBrandList();
@@ -150,7 +152,7 @@ const handleSave = async () =>{
   else{
 
     const finalObj = {
-      uhid: activePatient,
+      uhid: activeUHID,
       currentlyActive : sendForm.currentlyActive,
       startingDate : sendForm.startingdate,
       providerId : sendForm.providerName,
