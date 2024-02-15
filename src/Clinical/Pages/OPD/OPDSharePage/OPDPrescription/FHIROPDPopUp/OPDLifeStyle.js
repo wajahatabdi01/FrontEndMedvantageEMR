@@ -16,6 +16,7 @@ function OPDLifeStyle({ setShowToster }) {
     let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
+    let [rowId, setRowId] = useState(0);
     let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
         window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let [tobaccoDetails, setTobaccoDetails] = useState({
@@ -24,9 +25,8 @@ function OPDLifeStyle({ setShowToster }) {
         tobaccoStatus: '',
         code: "",
         date: '',
-        status: '',
+        lifestylestatus: '',
     })
-
     let getAllSmokingStatus = async () => {
         const response = await GetAllSmokingStatus();
         if (response.status === 1) {
@@ -38,12 +38,18 @@ function OPDLifeStyle({ setShowToster }) {
         if (response.status === 1) {
             setFamilyHistoryList(response.responseValue);
         }
-        console.log("getFamilyHistoryData", response)
+        let tt = response.responseValue.map((item, index) => {
+            const tobaccoListItem = item.tobacco.split('|');
+            return tobaccoListItem;
+        });
     }
     const handleTobacco = (e) => {
-        const selectTobaccoId = document.getElementById("ddlTobaccoId").value;
         const selectTobacco = document.getElementById("ddlTobaccoId");
         const selectedTobacco = selectTobacco.options[selectTobacco.selectedIndex].text;
+        const checkedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
+        const getRadio = checkedRadio ? checkedRadio.value : '';
+        // const getRadio = e.target.value;
+        console.log("Radio", getRadio)
         console.log("selectedTobacco", selectedTobacco);
 
         const { name, value } = e.target;
@@ -68,26 +74,57 @@ function OPDLifeStyle({ setShowToster }) {
             setTobaccoDetails((prev) => ({
                 ...prev,
                 [name]: value,
+                "lifestylestatus": getRadio
             }))
         }
 
         console.log('smokingList', smokingList);
     }
+    // Function to format date as "yyyy-MM-dd"
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
-    let handleEdit = () => {
+
+    let handleEdit = async () => {
         setShowLifestyle(0);
+        const response = await GetFamilyHistoryData(activeUHID);
+        if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
+            const tobaccoData = response.responseValue.map((item, index) => {
+                const tobaccoListItem = item.tobacco.split('|');
+                setRowId(item.id);
+                return tobaccoListItem;
+            });
+            const firstTobaccoItem = tobaccoData[0];
+            console.log("firstTobaccoItem", firstTobaccoItem)
+            const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
+            const lifestyleStatus = firstTobaccoItem[5];
+            setTobaccoDetails((prev) => ({
+                ...prev,
+                "name": firstTobaccoItem[0],
+                "tobaccoId": firstTobaccoItem[1],
+                "code": firstTobaccoItem[3],
+                "date": dateValue,
+                "lifestylestatus": lifestyleStatus,
+            }));
+        }
     }
+
     let handleSave = async () => {
-        // setShowLifestyle(1);
+        setShowLifestyle(1);
         const jsonTobaccoData = JSON.stringify([tobaccoDetails])
         console.log("jsonTobaccoData", jsonTobaccoData)
         const parsedTobaccoData = JSON.parse(jsonTobaccoData);
-        const { name, tobaccoId, tobaccoStatus, code, date } = parsedTobaccoData[0];
-        const tobaccoData = `${name}|${tobaccoId}|${tobaccoStatus}|${code}|${date}`;
+        const { name, tobaccoId, tobaccoStatus, code, date, lifestylestatus } = parsedTobaccoData[0];
+        const tobaccoData = `${name}|${tobaccoId}|${tobaccoStatus}|${code}|${date}|${lifestylestatus}`;
         console.log("tobaccoData", tobaccoData);
         let sendData = {
             "jsonData": "",
-            "rowId": 0,
+            "rowId": rowId,
             "uhid": activeUHID,
             "tobaccoData": tobaccoData,
             "coffeeData": "",
@@ -102,10 +139,11 @@ function OPDLifeStyle({ setShowToster }) {
             "userId": window.userId
         }
         console.log("sendData", sendData)
-        return
+        // return
         const response = await InsertLifeStyleData(sendData);
         if (response.status === 1) {
             setShowUnderProcess(0);
+            getFamilyHistoryData();
             setShowToster(8)
             setTimeout(() => {
                 setShowToster(0);
@@ -121,7 +159,6 @@ function OPDLifeStyle({ setShowToster }) {
             }, 2000)
         }
     }
-
 
     let handleCancel = () => {
         setShowLifestyle(1);
@@ -163,7 +200,7 @@ function OPDLifeStyle({ setShowToster }) {
                                                     <td>Tobacco</td>
                                                     <td>{tobaccoListItem[0]}</td>
                                                     <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
-                                                    <td>{tobaccoListItem[4]}</td>
+                                                    <td>{tobaccoListItem[5]}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Coffee</td>
@@ -232,7 +269,7 @@ function OPDLifeStyle({ setShowToster }) {
                                             </div>
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="code" className="form-label">Tobacco Status<span className="starMandatory"></span></label>
-                                                <select className="form-select form-select-sm" id="ddlTobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
+                                                <select value={tobaccoDetails.tobaccoId} className="form-select form-select-sm" id="ddlTobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
                                                     <option value="0" selected>Select</option>
                                                     {smokingList && smokingList.map((list) => {
                                                         return (
@@ -245,32 +282,33 @@ function OPDLifeStyle({ setShowToster }) {
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
                                                 <div className='lifestyleStatus'>
-
-                                                <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1" />
-                                                        <label class="form-check-label" for="inlineRadio2">Current </label>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'Current'} />
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                        <label class="form-check-label" for="inlineRadio2">Quit </label>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Quit' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'Quit'} />
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option3" />
-                                                        <label class="form-check-label" for="inlineRadio2">Never  </label>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Never' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'Never'} />
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option4" />
-                                                        <label class="form-check-label" for="inlineRadio2">N/A </label>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='N/A' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'N/A'} />
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Code<span className="starMandatory"></span></label>
                                                 <input type="text" name="code" value={tobaccoDetails.code} id="code" className="lifestylecode form-control form-control-sm" placeholder={t("Code")} readOnly />
                                             </div>
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="date" id="date" className="form-control form-control-sm" onChange={handleTobacco} />
+                                                <input type="date" value={tobaccoDetails.date} name="date" id="date" className="form-control form-control-sm" onChange={handleTobacco} />
                                             </div>
                                         </div>
                                     </div>
@@ -278,7 +316,18 @@ function OPDLifeStyle({ setShowToster }) {
                             </div>
                         </div>
                     </div>
-
+                    {/* <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Default checked radio
+                            </label>
+                    </div> */}
                     {/* ------------------------------------------------------------Coffee----------------------------------------------- */}
                     <div className='whitebg_'>
                         <div className="row">
