@@ -13,7 +13,7 @@ function OPDViewDiscloserRecord() {
         }
     }
     useEffect(() => {
-        getAllRecords()
+        getAllRecords();
     }, []);
 
     return (

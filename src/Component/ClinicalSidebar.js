@@ -149,12 +149,12 @@ export default function ClinicalSidebar() {
                             </a>
                             <div className="collapse custome-collapse" id="Schedule">
                                 <ul className="navbar-nav ps-3">
-                                    {/* <li>
-                                        <Link to="/opdRegistration/" className="nav-link">
+                                    <li>
+                                        <Link to="/myappointmentlist/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
-                                            <span>Patient Registration</span>
+                                            <span>My Appointment</span>
                                         </Link>
-                                    </li> */}
+                                    </li>
 
                                     {/* <li>
                                         <Link to="/admitPatient/" className="nav-link">
