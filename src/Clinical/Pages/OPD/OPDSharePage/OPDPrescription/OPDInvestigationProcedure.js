@@ -94,7 +94,7 @@ export default function OPDInvestigationProcedure(props) {
                 })
 
                 if (flag === 0) {
-                    let data = { "itemId": parseInt(id) }
+                    let data = { "itemId": parseInt(id), "itemName":name}
                     setTotal(total + cost)
                     setSendData([...sendData, data])
                     setInvestname([...investname, name])
