@@ -372,6 +372,7 @@ import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
 import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
 import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
+import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
 
 export default function ApiRoutes() {
@@ -424,6 +425,7 @@ export default function ApiRoutes() {
                     <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
                     <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
                     <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
+                    <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
