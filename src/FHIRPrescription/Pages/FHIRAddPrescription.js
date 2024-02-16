@@ -26,7 +26,8 @@ export default function FHIRAddPrescription(props) {
   const [getFormList, setFormList] = useState([]);
   const [getIntervalList, setIntervalList] = useState([]);
   const [getRouteList, setRouteList] = useState([]);
-  const [sendForm, setSendForm] = useState({userId: window.userId,clientId: window.clientId,currentlyActive: 1,ePrescription: false,checkedDrug: false,ControlledSubstance: false,startingdate: "",providerName: 0,exampleRadios: 0,QuantityName: "",medicineStrength: "",medicineUnit: 0,RefillsUnit: 0,oftabletsName: "",DirectionsName: "",formName: 0,routeName: 0,FrequencyName: 0,Notes: "",addToList: 0,ReasonName: 0,
+  const [sendForm, setSendForm] = useState({
+    userId: window.userId, clientId: window.clientId, currentlyActive: 1, ePrescription: false, checkedDrug: false, ControlledSubstance: false, startingdate: "", providerName: 0, exampleRadios: 0, QuantityName: "", medicineStrength: "", medicineUnit: 0, RefillsUnit: 0, oftabletsName: "", DirectionsName: "", formName: 0, routeName: 0, FrequencyName: 0, Notes: "", addToList: 0, ReasonName: 0,
   });
   const [prescreptionList, setPrescreptionList] = useState([]);
 
@@ -44,17 +45,17 @@ export default function FHIRAddPrescription(props) {
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
   let activeUHID = window.sessionStorage.getItem("activePatient")
-  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
   const funGetAllList = async () => {
-    console.log("calllllllllllllllleedddddddddddddddddd : ");
+    
     const listRes = await FHIRGetAllPrescriptionListByUHID(
       activeUHID,
       clientID
     );
     if (listRes.status === 1) {
-      console.log("listRes : ", listRes);
+     
       setPrescreptionList(listRes.responseValue);
     }
   };
@@ -67,11 +68,11 @@ export default function FHIRAddPrescription(props) {
   };
 
   const getAllBrandList = async () => {
-    console.log("getAllBrandList");
+    
     const response = await GetBrandList();
     if (response.status === 1) {
       const slicedProblemList = response.responseValue.slice(0, 100);
-      console.log("slicedProblemList : ", slicedProblemList);
+   
       setBrandList(slicedProblemList);
     }
   };
@@ -87,7 +88,7 @@ export default function FHIRAddPrescription(props) {
 
   const getAllFromList = async () => {
     const formRes = await FHIRGetAllForm();
-    console.log("formRes : ", formRes);
+   
     setFormList(formRes.responseValue);
   };
 
@@ -107,7 +108,7 @@ export default function FHIRAddPrescription(props) {
 
   const handleChangeText = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log("namee : ", name);
+   
     // If the input is a checkbox, handle it differently
     if (type === "checkbox") {
       // If the checkbox is checked, set the value to 1, otherwise set it to 0
@@ -122,7 +123,7 @@ export default function FHIRAddPrescription(props) {
       const selectedOption = selectElement.options[selectElement.selectedIndex];
       const selectedValue = selectedOption.value;
       const selectedText = selectedOption.text;
-      
+
       setSendForm((prevState) => ({
         ...prevState,
         "formName": selectedValue,
@@ -244,7 +245,7 @@ export default function FHIRAddPrescription(props) {
   };
 
   //////////////////////////////To Update the data ////////////////////////////////////////////
-  const handleUpdate = (drug,rowId,startDate,providerId,drugId,quantity,size,unit,refills,dosage,form,route,interval,note,perRefill,medication,substitute) => {
+  const handleUpdate = (drug, rowId, startDate, providerId, drugId, quantity, size, unit, refills, dosage, form, route, interval, note, perRefill, medication, substitute) => {
     setEditName(drug.split(" ")[0]);
     setTheRowId(rowId);
     setShowUpdate(1);
@@ -252,10 +253,10 @@ export default function FHIRAddPrescription(props) {
     //
     const selectElement = document.getElementById("formID")
       const selectedOption = selectElement.options[selectElement.selectedIndex];
-      console.log('selectedOption : ', selectedOption) 
+      
       //const selectedValue = selectedOption.value;
       const selectedText = selectedOption.text;
-      console.log('selectedText : ', selectedText)
+    
     const startingDate = startDate.substring(0, startDate.indexOf(" "));
     const [day, month, year] = startingDate.split("-");
 
@@ -265,10 +266,7 @@ export default function FHIRAddPrescription(props) {
     // Get the formatted date in YYYY-MM-DD format
     const formattedDate = dateConvert.toISOString().split("T")[0];
 
-    console.log(
-      "startingDate : ",
-      startingDate.substring(0, startingDate.indexOf(" "))
-    );
+  
     setSendForm((prev) => ({
       ...prev,
       currentlyActive: 1,
@@ -290,13 +288,13 @@ export default function FHIRAddPrescription(props) {
       Notes: note,
       addToList: medication,
       ReasonName: substitute,
-      selectedText : selectedText
+      selectedText: selectedText
     }));
     document.getElementById("formID").value = form;
   };
 
   const handleUpdateSave = async () => {
-    console.log('sendForm : ', sendForm);
+   
     
     const finalObjUpdate = {
       id: theRowId,
@@ -331,17 +329,17 @@ export default function FHIRAddPrescription(props) {
       rxnormDrugCode: "1432537",
       clientId: clientID,
     };
-    console.log("finalObjUpdate : ", finalObjUpdate);
+    
     
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
-    if(updateRes.status === 1){
+    if (updateRes.status === 1) {
       alert('Data updated successfully!');
       handleClear(); funGetAllList(); setShowSave(1); setShowUpdate(0)
     }
   };
 
   const handleSendPrescription = async (list) => {
-    console.log('send the list : ', list)
+   
     sendNotification(list)
   }
 
@@ -350,47 +348,46 @@ export default function FHIRAddPrescription(props) {
     let patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
     let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
     let data = {
-        "userId": window.userId,
-        "Uhid": activeUHID,
-        "medicineData": datas,
-        "patientName": patientname[0].patientName,
-        "doctorName": doctorName
+      "userId": window.userId,
+      "Uhid": activeUHID,
+      "medicineData": datas,
+      "patientName": patientname[0].patientName,
+      "doctorName": doctorName
     }
     let sendData = {
 
-        "id": 0,
-        "notificationTitle": "prescribe medicine",
-        "senderId": window.userId,
-        // "recieverId": 331,
-        "recieverId": 207,
-        "prescriptionDetails": JSON.stringify(data),
-        "comingFrom": "OPD",
-        "status": true,
-        "createdDate": sendForm.startingdate,
-        "isSent": true
+      "id": 0,
+      "notificationTitle": "prescribe medicine",
+      "senderId": window.userId,
+      // "recieverId": 331,
+      "recieverId": 207,
+      "prescriptionDetails": JSON.stringify(data),
+      "comingFrom": "OPD",
+      "status": true,
+      "createdDate": sendForm.startingdate,
+      "isSent": true
 
 
-        // "notificationTemplateId": 0,
-        // "notificationTitle": "prescribe medicine",
-        // "senderId": window.userId,
-        // "recieverId": 99,
-        // "isSent": 0,
-        // "responseValue": JSON.stringify(data),
-        // "isSystemGenerated": true,
-        // "status": true,
-        // "methodName": "receivePrescription"
+      // "notificationTemplateId": 0,
+      // "notificationTitle": "prescribe medicine",
+      // "senderId": window.userId,
+      // "recieverId": 99,
+      // "isSent": 0,
+      // "responseValue": JSON.stringify(data),
+      // "isSystemGenerated": true,
+      // "status": true,
+      // "methodName": "receivePrescription"
     }
-    console.log('the data : ', data);
-    console.log('the sendData : ', sendData);
+   
  
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-        // setShowtoster(1)
-        // setShowTosterMessage("Prescription sent to Pharmacy");
-        alert('Data Sent')
+      // setShowtoster(1)
+      // setShowTosterMessage("Prescription sent to Pharmacy");
+      alert('Data Sent')
     }
-}
+  }
 
   useEffect(() => {
     getProviderList();
@@ -696,7 +693,7 @@ export default function FHIRAddPrescription(props) {
                                       >
                                         Form
                                       </label>
-                                      {/* {console.log('sendForm onload',sendForm)} */}
+                                      
                                       <select
                                         name="formName"
                                         className="form-select form-select-sm"
@@ -917,8 +914,8 @@ export default function FHIRAddPrescription(props) {
           {/* //////////////////////////////////// Table ////////////////////////////////////// */}
 
           <div className="col-12 mt-2">
-            <div className="med-table-section" style={{ height: "80vh" }}>
-              <table className="med-table border_ striped">
+            <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
+              <table className="med-table border_ striped mt-3">
                 <thead style={{ zIndex: "0" }}>
                   <tr>
                     <th className="text-center" style={{ width: "5%" }}>
@@ -939,7 +936,7 @@ export default function FHIRAddPrescription(props) {
                 <tbody>
                   {prescreptionList &&
                     prescreptionList.map((list, ind) => {
-                      console.log("list : ", list);
+                      
                       return (
                         <tr>
                           <td>{ind + 1}</td>
@@ -985,14 +982,14 @@ export default function FHIRAddPrescription(props) {
                                   list.medication,
                                   list.substitute
                                 );
-                                console.log("Click");
+                               
                               }}
                             >
                               <img src={editIcon} className="icnn" alt="" />
                             </button>
                             <button type="button"
-                              className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Send Prescription" 
-                              onClick={() => {handleSendPrescription(list);}}
+                              className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Send Prescription"
+                              onClick={() => { handleSendPrescription(list); }}
                             ><img src={sendIcon} className="icnn" alt="" /></button>
                           </td>
                         </tr>

@@ -16,8 +16,6 @@ export default function FHIRPrescreptionList(props) {
     : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
     const listRes = await FHIRGetAllPrescriptionListByUHID(activeUHID, clientID);
     if (listRes.status === 1) {
-      console.log("calllllllllllllllleedddddddddddddddddd : ");
-      console.log("listRes : ", listRes);
       setPrescreptionList(listRes.responseValue);
     }
   };
@@ -29,9 +27,9 @@ export default function FHIRPrescreptionList(props) {
     }
   }
   useEffect(() => {
-    // console.log('activeUhid : ', activeUhid)
+
     funGetAllList();
-    console.log("Changesss", )
+    
   }, [props]);
   return (
     <>

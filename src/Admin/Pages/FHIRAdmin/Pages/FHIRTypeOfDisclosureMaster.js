@@ -14,14 +14,14 @@ import AlertToster from '../../../../Component/AlertToster';
 import Loader from '../../../../Component/Loader';
 import { t } from 'i18next';
 import Search from '../../../../Code/Serach';
-import PostFHIRSensitivityMaster from '../Api/FHIRSensitivityMaster/PostFHIRSensitivityMaster';
-import PutFHIRSensitivityMaster from '../Api/FHIRSensitivityMaster/PutFHIRSensitivityMaster';
-import DeleteFHIRSensitivityMaster from '../Api/FHIRSensitivityMaster/DeleteFHIRSensitivityMaster';
-import GetFHIRSensitivityMaster from '../Api/FHIRSensitivityMaster/GetFHIRSensitivityMaster';
+import GetFHIRTypeOfDisclosureMaster from '../Api/FHIRTypeOfDisclosureMaster/GetFHIRTypeOfDisclosureMaster';
+import PostFHIRTypeOfDisclosureMaster from '../Api/FHIRTypeOfDisclosureMaster/PostFHIRTypeOfDisclosureMaster';
+import PutFHIRTypeOfDisclosureMaster from '../Api/FHIRTypeOfDisclosureMaster/PutFHIRTypeOfDisclosureMaster';
+import DeleteFHIRTypeOfDisclosureMaster from '../Api/FHIRTypeOfDisclosureMaster/DeleteFHIRTypeOfDisclosureMaster';
 
-export default function FHIRSensitivityMaster() {
-  let [sensitivityList, setSensitivityList] = useState("")
-  let [sensitivityListMain, setSensitivityListMain] = useState("")
+export default function FHIRTypeOfDisclosureMaster() {
+  let [typeList, setTypeList] = useState("")
+  let [typeListMain, setTypeListMain] = useState("")
   let [showUnderProcess, setShowUnderProcess] = useState(0);
   let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
@@ -53,10 +53,10 @@ export default function FHIRSensitivityMaster() {
   //Get Data
   const getData = async () => {
     setShowLoder(1);
-    const response = await GetFHIRSensitivityMaster();
+    const response = await GetFHIRTypeOfDisclosureMaster();
     if (response.status === 1) {
-      setSensitivityList(response.responseValue);
-      setSensitivityListMain(response.responseValue)
+      setTypeList(response.responseValue);
+      setTypeListMain(response.responseValue)
       setShowLoder(0)
     }
     else {
@@ -71,17 +71,17 @@ export default function FHIRSensitivityMaster() {
 
   //handle search
   let handleSearch = (e) => {
-    let resp = Search(sensitivityListMain, e.target.value)
+    let resp = Search(typeListMain, e.target.value)
     if (e.target !== "") {
       if (resp.length !== 0) {
-        setSensitivityList(resp)
+        setTypeList(resp)
       }
       else {
-        setSensitivityList([])
+        setTypeList([])
       }
     }
     else {
-      setSensitivityList(sensitivityListMain)
+      setTypeList(typeListMain)
     }
   }
 
@@ -91,12 +91,12 @@ export default function FHIRSensitivityMaster() {
   //Handle Save
   const handlerSave = async () => {
     if (sendForm.name === '' || sendForm.name === null || sendForm.name === undefined) {
-      document.getElementById('errName').innerHTML = "Sensitivity name is required";
+      document.getElementById('errName').innerHTML = "Type name is required";
       document.getElementById('errName').style.display = "block";
     }
     else {
       setShowUnderProcess(1);
-      const response = await PostFHIRSensitivityMaster({
+      const response = await PostFHIRTypeOfDisclosureMaster({
         ...sendForm,
       });
       if (response.status === 1) {
@@ -141,13 +141,13 @@ export default function FHIRSensitivityMaster() {
   //Handle Update
   const handlerUpdate = async () => {
     if (sendForm.name === '' || sendForm.name === null || sendForm.name === undefined) {
-      document.getElementById('errName').innerHTML = "Sensitivity name is required";
+      document.getElementById('errName').innerHTML = "Type name is required";
       document.getElementById('errName').style.display = "block";
     }
 
     else {
       setShowUnderProcess(1);
-      const response = await PutFHIRSensitivityMaster({
+      const response = await PutFHIRTypeOfDisclosureMaster({
         ...sendForm,
       });
       if (response.status === 1) {
@@ -180,7 +180,7 @@ export default function FHIRSensitivityMaster() {
     let obj = {
       id: rowId,
     }
-    const response = await DeleteFHIRSensitivityMaster(obj);
+    const response = await DeleteFHIRTypeOfDisclosureMaster(obj);
     if (response.status === 1) {
       setShowLoder(0)
       setisShowToaster(1);
@@ -226,11 +226,11 @@ export default function FHIRSensitivityMaster() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <Heading text="Sensitivity Master" />
+              <Heading text="Type Of Disclosure Master" />
               <BoxContainer>
                 <div className="col-2 mb-2 me-2">
-                  <label htmlFor="name" className="form-label">Sensitivity Name<span className="starMandatory">*</span></label>
-                  <input type="text" name="name" id="name" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Sensitivity Name" )} />
+                  <label htmlFor="name" className="form-label">Type Name<span className="starMandatory">*</span></label>
+                  <input type="text" name="name" id="name" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Type Name" )} />
                   <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
                 </div>
                 <div className="col-2 mb-2 me-2">
@@ -268,7 +268,7 @@ export default function FHIRSensitivityMaster() {
             </div>
             <div className="col-12 mt-2">
               <div className='handlser'>
-                <Heading text="Sensitivity Master List" />
+                <Heading text="Type Of Disclosure Master List" />
                 <div style={{ position: 'relative' }}>
                   <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={handleSearch} />
                   <span className="tblsericon"><i class="fas fa-search"></i></span>
@@ -279,14 +279,14 @@ export default function FHIRSensitivityMaster() {
                   <thead>
                     <tr>
                       <th className="text-center" style={{ "width": "5%" }}>#</th>
-                      <th>Sensivity Name</th>
+                      <th>Type Name</th>
                       <th>Code</th>
                       <th style={{ "width": "10%" }} className="text-center">Action</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {sensitivityList && sensitivityList.map((val, ind) => {
+                    {typeList && typeList.map((val, ind) => {
                       return (
                         <tr key={val.id}>
                           <td className="text-center">{ind + 1}</td>
