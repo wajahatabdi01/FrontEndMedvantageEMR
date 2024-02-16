@@ -10307,8 +10307,18 @@ span.saveb img {
 
 /* Started patient-portal-dshboard Css */
 
-.portal-user-details-box {
-  padding-top: 10px;
+.portal-user-image img{
+  width : 119px;
+  margin: auto;
+}
+@media(max-width:1718px){
+  .portal-user-image img{
+    width: 113px;
+  }
+}
+.portal-user-image{
+  display: flex;
+  align-items: center;
 }
 
 .user-personal-details {
@@ -10334,9 +10344,9 @@ span.saveb img {
   opacity: 1;
 }
 .patien-basic-details{
-  /* width: 600px; */
+  justify-content: space-around;
   display: flex;
-  justify-content: space-between;
+
   height: 72px;
   background: #F3F6FF 0% 0% no-repeat padding-box;
   opacity: 0.78;
@@ -10346,7 +10356,8 @@ span.saveb img {
 
 .details-main-box {
   border-right: 2px solid #dedede;
-  padding-right: 14px;
+  padding-right: 42px;
+
 }
 
 .details-heading {
@@ -10920,6 +10931,8 @@ opacity: 1;
 
 
 /* Patient Portal Inbox Message CSS 14-02-2021*/
+
+
 
 .inboxheadingmain{
     background: transparent;
