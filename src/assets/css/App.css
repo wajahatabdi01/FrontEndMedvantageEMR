@@ -11182,6 +11182,7 @@ span.fontt {
 }
 
 .reason-input::placeholder {
+}
   .lft-mesg-part {
     overflow: auto;
     max-height: 772px;
@@ -11586,4 +11587,4 @@ span.fontt {
   .investigationbox {
     height: 34vh;
   }
-}
+
