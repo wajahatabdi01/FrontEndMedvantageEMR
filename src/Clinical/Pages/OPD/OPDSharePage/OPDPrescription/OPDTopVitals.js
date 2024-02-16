@@ -228,7 +228,7 @@ export default function OPDTopVitals(props) {
         <>
             <div className='row p-0 m-0 '>
                 <div className='optv d-flex gap-2 boxcontainer  cenn'>
-                    <div className={`optv1 d-flex fex-row justify-content-center align-items-center`} style={{ width: "94px" }}>
+                    <div className={`optv1 d-flex fex-row justify-content-center align-items-center`}>
 
                         <div className='cb'>
                             {/* <input type="radio" id='newPatient' name="vital-radio" value="1" disabled={disable === 1 ? true : false} checked /> */}
@@ -253,12 +253,12 @@ export default function OPDTopVitals(props) {
                                     <div className=' d-flex flex-row didd' style={{ width: "250px", border: "1px solid #E5E5E5", borderRadius: "5px", 'margin-bottom': '0px' }} >
                                         <div className="did-floating-label-content pe-2 ">
                                             <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "108px", border: "none" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                            <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                            <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                         </div>
                                         <div className='pt-2'>/&nbsp;</div>
                                         <div className="did-floating-label-content pe-2 didd">
                                             <input autoComplete="off" className="did-floating-input" id={'vitalId' + 6} type="number" style={{ maxWidth: "108px", border: "none" }} name={6} placeholder=" " value={sendVitals[2].vmValue != "" ? sendVitals[2].vmValue : ""} onChange={handleOnchange} />
-                                            <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' />{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
+                                            <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' alt=''/>{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
                                         </div>
 
                                     </div>
@@ -269,7 +269,7 @@ export default function OPDTopVitals(props) {
 
                                     <div className="did-floating-label-content pe-2 didd">
                                         <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "90px" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                     </div>
                                 )
                             }

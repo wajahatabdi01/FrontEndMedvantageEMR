@@ -1122,7 +1122,7 @@ export default function PatientRegistration() {
         }
         else if (data.mobileNo.trim() === "") {
             document.getElementById("errMobile").style.display = "block"
-            document.getElementById("errMobile").innerHTML = "Please insert mobile no"
+            document.getElementById("errMobile").innerHTML = "Please enter mobile no"
             return false
         }
         else if (data.titleId.trim() === "") {

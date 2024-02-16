@@ -370,6 +370,8 @@ import LayoutPatientAppointment from '../PatientPortal/Layout/LayoutPatientAppoi
 import LayoutMyAppointment from '../PatientPortal/Layout/LayoutMyAppointment';
 import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
 import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
+import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
+import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 
 export default function ApiRoutes() {
 
@@ -419,6 +421,7 @@ export default function ApiRoutes() {
                     <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
                     <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
                     <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
+                    <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 

@@ -30,8 +30,11 @@ function OPDMedicationPopUp({ setShowToster }) {
     const [txtCoding, setTxtCoding] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
-    let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-
+    // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+    
     let [medicationData, setMedicationData] = useState({
         titleId: '',
         title: '',
@@ -210,7 +213,7 @@ function OPDMedicationPopUp({ setShowToster }) {
         }
         else {
             let pobj = {
-                uhid: activePatient,
+                uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([medicationData]),
                 clientId: window.clientId,
                 userId: window.userId
@@ -298,10 +301,7 @@ function OPDMedicationPopUp({ setShowToster }) {
 
                                     : ''}
                             </div>
-                            {
-
-                                console.log('txtCoding', txtCoding)
-                            }
+                          
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 

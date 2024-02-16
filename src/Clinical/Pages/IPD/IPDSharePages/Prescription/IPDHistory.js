@@ -59,7 +59,7 @@ export default function IPDHistory() {
     }, [patientsendDataChange])
     return (
         <>
-            <div className='roww'>
+            <div className='roww' style={{display:'none'}}>
                 <div className={`d-flex flex-row gap-2 pt-2  pb-2 boxcontainer mt-2 boxs`} style={{ overflow: "auto" }}>
                     {patientCategoryResult && patientCategoryResult.map((value, index) => {
                         return (

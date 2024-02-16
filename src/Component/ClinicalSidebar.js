@@ -111,13 +111,6 @@ export default function ClinicalSidebar() {
                 </div> */}
                     <ul className='navbar-nav side-ul-list singleList' >
 
-                        {/* <li className="singleList">
-                        <div className="nav-link  px-3 sidebar-link selectSearch active ">
-                            <span className="me-3"><i className="bi bi-search mt-1 fs-5 navLinkicon"></i></span>
-                            <Select  value={SelectedRoutes} options={routeOptions} className=" create-select" placeholder = "Search Pages.." isSearchable={isSearchable} isClearable={isClearable} onChange={handleRouteChange} />
-                        </div>                       
-                        
-                        </li> */}
                       
                         <li className="singleList">
                             <Link to="/dashboard/" className="nav-link  px-3 sidebar-link active">
@@ -126,6 +119,7 @@ export default function ClinicalSidebar() {
                             </Link>
                         </li>
 
+                      
                         <li>
                             <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
                                 <span className="me-2">
@@ -148,27 +142,6 @@ export default function ClinicalSidebar() {
                                             <span>My Appointment</span>
                                         </Link>
                                     </li>
-
-                                    {/* <li>
-                                        <Link to="/admitPatient/" className="nav-link">
-                                            <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
-                                            <span>Admit Patient</span>
-                                        </Link>
-                                    </li> */}
-
-                                    {/* <li>
-                                        <Link href="/citymaster" className="nav-link">
-                                            <span> <img src={CityMasterIcon} alt="" className="icnn" /></span>
-                                            <span>City Master</span>
-                                        </Link>
-                                    </li> */}
-                                    {/* <li>
-                                        <Link to="/healthCard/" className="nav-link">
-                                            <span> <img src={HealthCardIcon} alt="" className="icnn" /></span>
-                                            <span>Health Card</span>
-                                        </Link>
-                                    </li> */}
-
                                 </ul>
                             </div>
                         </li>
@@ -179,9 +152,26 @@ export default function ClinicalSidebar() {
                                     <img src={registrationIcon} alt="" className="navLinkicon" />
                                 </span>
 
-                                <span>Documents</span>
+                                <span>Message</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
+                            <div className="collapse custome-collapse" id="Schedule">
+                                <ul className="navbar-nav ps-3">
+                                    <li>
+                                        <Link to="/messageinbox/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Inbox</span>
+                                        </Link>
+                                    </li>
+
+            
+                                </ul>
+                            </div>
+                        </li>
+
+                                <span>Documents</span>
+                                <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
+                        
                             <div className="collapse custome-collapse" id="Schedule">
                                 <ul className="navbar-nav ps-3">
                                     <li>
@@ -219,7 +209,8 @@ export default function ClinicalSidebar() {
 
                                 </ul>
                             </div>
-                        </li>
+                        
+                        
 
 
                    

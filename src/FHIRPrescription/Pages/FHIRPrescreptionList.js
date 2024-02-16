@@ -11,11 +11,10 @@ export default function FHIRPrescreptionList(props) {
   let [showToster, setShowToster] = useState("");
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const funGetAllList = async () => {
-    const activeUhid = JSON.parse(
-      window.sessionStorage.getItem("activePatient")
-    ).Uhid;
-
-    const listRes = await FHIRGetAllPrescriptionListByUHID(activeUhid, clientID);
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+    const listRes = await FHIRGetAllPrescriptionListByUHID(activeUHID, clientID);
     if (listRes.status === 1) {
       console.log("calllllllllllllllleedddddddddddddddddd : ");
       console.log("listRes : ", listRes);
