@@ -26,7 +26,8 @@ export default function FHIRAddPrescription(props) {
   const [getFormList, setFormList] = useState([]);
   const [getIntervalList, setIntervalList] = useState([]);
   const [getRouteList, setRouteList] = useState([]);
-  const [sendForm, setSendForm] = useState({userId: window.userId,clientId: window.clientId,currentlyActive: 1,ePrescription: false,checkedDrug: false,ControlledSubstance: false,startingdate: "",providerName: 0,exampleRadios: 0,QuantityName: "",medicineStrength: "",medicineUnit: 0,RefillsUnit: 0,oftabletsName: "",DirectionsName: "",formName: 0,routeName: 0,FrequencyName: 0,Notes: "",addToList: 0,ReasonName: 0,
+  const [sendForm, setSendForm] = useState({
+    userId: window.userId, clientId: window.clientId, currentlyActive: 1, ePrescription: false, checkedDrug: false, ControlledSubstance: false, startingdate: "", providerName: 0, exampleRadios: 0, QuantityName: "", medicineStrength: "", medicineUnit: 0, RefillsUnit: 0, oftabletsName: "", DirectionsName: "", formName: 0, routeName: 0, FrequencyName: 0, Notes: "", addToList: 0, ReasonName: 0,
   });
   const [prescreptionList, setPrescreptionList] = useState([]);
 
@@ -44,8 +45,8 @@ export default function FHIRAddPrescription(props) {
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
   let activeUHID = window.sessionStorage.getItem("activePatient")
-  ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
   const funGetAllList = async () => {
     
@@ -122,7 +123,7 @@ export default function FHIRAddPrescription(props) {
       const selectedOption = selectElement.options[selectElement.selectedIndex];
       const selectedValue = selectedOption.value;
       const selectedText = selectedOption.text;
-      
+
       setSendForm((prevState) => ({
         ...prevState,
         "formName": selectedValue,
@@ -244,7 +245,7 @@ export default function FHIRAddPrescription(props) {
   };
 
   //////////////////////////////To Update the data ////////////////////////////////////////////
-  const handleUpdate = (drug,rowId,startDate,providerId,drugId,quantity,size,unit,refills,dosage,form,route,interval,note,perRefill,medication,substitute) => {
+  const handleUpdate = (drug, rowId, startDate, providerId, drugId, quantity, size, unit, refills, dosage, form, route, interval, note, perRefill, medication, substitute) => {
     setEditName(drug.split(" ")[0]);
     setTheRowId(rowId);
     setShowUpdate(1);
@@ -287,7 +288,7 @@ export default function FHIRAddPrescription(props) {
       Notes: note,
       addToList: medication,
       ReasonName: substitute,
-      selectedText : selectedText
+      selectedText: selectedText
     }));
     document.getElementById("formID").value = form;
   };
@@ -331,7 +332,7 @@ export default function FHIRAddPrescription(props) {
     
     
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
-    if(updateRes.status === 1){
+    if (updateRes.status === 1) {
       alert('Data updated successfully!');
       handleClear(); funGetAllList(); setShowSave(1); setShowUpdate(0)
     }
@@ -347,46 +348,46 @@ export default function FHIRAddPrescription(props) {
     let patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
     let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
     let data = {
-        "userId": window.userId,
-        "Uhid": activeUHID,
-        "medicineData": datas,
-        "patientName": patientname[0].patientName,
-        "doctorName": doctorName
+      "userId": window.userId,
+      "Uhid": activeUHID,
+      "medicineData": datas,
+      "patientName": patientname[0].patientName,
+      "doctorName": doctorName
     }
     let sendData = {
 
-        "id": 0,
-        "notificationTitle": "prescribe medicine",
-        "senderId": window.userId,
-        // "recieverId": 331,
-        "recieverId": 207,
-        "prescriptionDetails": JSON.stringify(data),
-        "comingFrom": "OPD",
-        "status": true,
-        "createdDate": sendForm.startingdate,
-        "isSent": true
+      "id": 0,
+      "notificationTitle": "prescribe medicine",
+      "senderId": window.userId,
+      // "recieverId": 331,
+      "recieverId": 207,
+      "prescriptionDetails": JSON.stringify(data),
+      "comingFrom": "OPD",
+      "status": true,
+      "createdDate": sendForm.startingdate,
+      "isSent": true
 
 
-        // "notificationTemplateId": 0,
-        // "notificationTitle": "prescribe medicine",
-        // "senderId": window.userId,
-        // "recieverId": 99,
-        // "isSent": 0,
-        // "responseValue": JSON.stringify(data),
-        // "isSystemGenerated": true,
-        // "status": true,
-        // "methodName": "receivePrescription"
+      // "notificationTemplateId": 0,
+      // "notificationTitle": "prescribe medicine",
+      // "senderId": window.userId,
+      // "recieverId": 99,
+      // "isSent": 0,
+      // "responseValue": JSON.stringify(data),
+      // "isSystemGenerated": true,
+      // "status": true,
+      // "methodName": "receivePrescription"
     }
    
  
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-        // setShowtoster(1)
-        // setShowTosterMessage("Prescription sent to Pharmacy");
-        alert('Data Sent')
+      // setShowtoster(1)
+      // setShowTosterMessage("Prescription sent to Pharmacy");
+      alert('Data Sent')
     }
-}
+  }
 
   useEffect(() => {
     getProviderList();
@@ -913,8 +914,8 @@ export default function FHIRAddPrescription(props) {
           {/* //////////////////////////////////// Table ////////////////////////////////////// */}
 
           <div className="col-12 mt-2">
-            <div className="med-table-section" style={{ height: "80vh" }}>
-              <table className="med-table border_ striped">
+            <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
+              <table className="med-table border_ striped mt-3">
                 <thead style={{ zIndex: "0" }}>
                   <tr>
                     <th className="text-center" style={{ width: "5%" }}>
@@ -987,8 +988,8 @@ export default function FHIRAddPrescription(props) {
                               <img src={editIcon} className="icnn" alt="" />
                             </button>
                             <button type="button"
-                              className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Send Prescription" 
-                              onClick={() => {handleSendPrescription(list);}}
+                              className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Send Prescription"
+                              onClick={() => { handleSendPrescription(list); }}
                             ><img src={sendIcon} className="icnn" alt="" /></button>
                           </td>
                         </tr>
