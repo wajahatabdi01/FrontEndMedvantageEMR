@@ -373,6 +373,7 @@ import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
 import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
+import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
 
 export default function ApiRoutes() {
 
@@ -923,6 +924,7 @@ export default function ApiRoutes() {
 
 
                   {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
+                  <Route path="/fhirtypeofdisclosuremaster/" element={<ProtectedRoutes Compnent={<FHIRTypeOfDisclosureMaster />} />} />
                   {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
                   {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
