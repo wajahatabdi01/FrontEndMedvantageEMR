@@ -130,7 +130,7 @@ export default function PatientGuardianDetails() {
      <div className="med-Patient-login-wrapper">
         <div className="Patient-registration-content-wrapper px-5">
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 ">
-            <div className="row col-12 registration-heading">Patient Registration</div> 
+            <div className="row col-12 registration-heading">Demographic</div> 
             <div className="px-5">
             <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
@@ -142,7 +142,7 @@ export default function PatientGuardianDetails() {
                 
 
                  <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="Name" class="form-label label-text">Name<span class="starMandatory position-static">*</span></label>
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="Name" class="form-label label-text">Name</label>
                    <input type="text"class="form-control form-control-sm" id="Name" placeholder="Enter Name" name="guardiansname" value={sendForm.guardiansname} onChange={handleOnChange}/>
                    </div> 
 
@@ -152,7 +152,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                         <img  src={referal} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Relationship<span class="starMandatory position-static">*</span></label>
+                         <img  src={referal} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Relationship</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardianRelationId' value={sendForm.guardianRelationId} onChange={handleOnChange}>
@@ -172,7 +172,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                         <img  src={gender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Sex<span class="starMandatory position-static">*</span></label>
+                         <img  src={gender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Sex</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardiansex' value={sendForm.guardiansex} onChange={handleOnChange}>
@@ -193,7 +193,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                         <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address<span class="starMandatory position-static">*</span></label>
+                         <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardianAddress' value={sendForm.guardianAddress} onChange={handleOnChange}>
@@ -212,7 +212,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">City<span class="starMandatory position-static">*</span></label>
+                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">City</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardiancity' value={sendForm.guardiancity} onChange={handleOnChange}>
@@ -231,7 +231,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">State<span class="starMandatory position-static">*</span></label>
+                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">State</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardianstate' value={sendForm.guardianstate} onChange={handleOnChange}>
@@ -248,16 +248,16 @@ export default function PatientGuardianDetails() {
                  
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code<span class="starMandatory position-static">*</span></label>
+                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code</label>
                    <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Postal Code" name="guardianpostalcode" value={sendForm.guardianpostalcode} onChange={handleOnChange} />
                    </div>
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Phone<span class="starMandatory position-static">*</span></label>
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Phone</label>
                    <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Phone Number" name="guardianMobileNo" value={sendForm.guardianMobileNo} onChange={handleOnChange} />
                    </div>
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Phone<span class="starMandatory position-static">*</span></label>
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Phone</label>
                    <input type="number"class="form-control form-control-sm" id="Income" placeholder="Enter Work Phone" name="guardianworkphone" value={sendForm.guardianworkphone} onChange={handleOnChange}/>
                    </div>
 
@@ -268,7 +268,7 @@ export default function PatientGuardianDetails() {
                         <div class="plus-button-container">
                               <button class="plus-button">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
                             <select class="form-control form-control-sm" name='guardiancountry' value={sendForm.guardiancountry} onChange={handleOnChange}>
@@ -284,7 +284,7 @@ export default function PatientGuardianDetails() {
                         </div> 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email<span class="starMandatory position-static">*</span></label>
+                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email</label>
                    <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Email" name="guardianemail" value={sendForm.guardianemail} onChange={handleOnChange} />
                    </div>
 
