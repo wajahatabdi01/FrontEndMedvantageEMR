@@ -820,7 +820,7 @@ export default function FHIRImmunization({setShowToster}) {
             {/* ################################## Table that binds ######################################## */}
 
             <div className='col-12 mt-2'>
-              <div className='med-table-section' style={{ "height": "80vh" }}>
+              <div className='med-table-section' style={{ "height": "30vh", overflow:'auto' }}>
                 <table className='med-table border_ striped'>
                   <thead style={{ zIndex: '0' }}>
                     <tr>
