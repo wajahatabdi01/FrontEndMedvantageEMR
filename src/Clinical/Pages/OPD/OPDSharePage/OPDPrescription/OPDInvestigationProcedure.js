@@ -330,7 +330,7 @@ export default function OPDInvestigationProcedure(props) {
                     <img src={searchIcon} className='searchBarOPDIcon2' alt='' />
                 </div>
             </div>
-            <div className='overflow-auto' style={{ height: "28vh" }}>
+            <div className='overflow-auto' style={{ height: "25vh" }}>
                 <TableContainer>
                     <thead>
                         <th className='wrap-content'>{t("Investigation & Procedure")}</th>

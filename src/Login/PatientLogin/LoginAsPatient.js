@@ -88,7 +88,7 @@ export default function LoginAsPatient() {
                   <button className="btn btn-primary btnLogin"  type="button" onClick={handleLogin} >Sign In</button>
                 </div>
 
-                <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/registeraspatient/">Sign up</a></div>
+                {/* <div className="mt-3 dontHaveAcc"> <span>Don't have an account?</span> <a href="/registeraspatient/">Sign up</a></div> */}
                 {/* <div className="mt-3"> <span>Are you a Patient?</span> <a href="/PatientLogin/">Sign In</a></div> */}
 
 
@@ -121,11 +121,11 @@ export default function LoginAsPatient() {
 
                 <div className="input-fieldOTPWrapper">
                   <input type="number" id="n1" ref={inputElement} o autofocus />
-                  <input type="number" id="n2" disabled />
-                  <input type="number" id="n3" disabled  />
-                  <input type="number" id="n4" disabled  />
-                  <input type="number" id="n5" disabled  />
-                  <input type="number" id="n6" disabled   />
+                  <input type="number" id="n2" disabled/>
+                  <input type="number" id="n3" disabled />
+                  <input type="number" id="n4" disabled />
+                  <input type="number" id="n5" disabled />
+                  <input type="number" id="n6" disabled />
                 </div>
 
 

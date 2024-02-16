@@ -111,13 +111,6 @@ export default function ClinicalSidebar() {
                 </div> */}
                     <ul className='navbar-nav side-ul-list singleList' >
 
-                        {/* <li className="singleList">
-                        <div className="nav-link  px-3 sidebar-link selectSearch active ">
-                            <span className="me-3"><i className="bi bi-search mt-1 fs-5 navLinkicon"></i></span>
-                            <Select  value={SelectedRoutes} options={routeOptions} className=" create-select" placeholder = "Search Pages.." isSearchable={isSearchable} isClearable={isClearable} onChange={handleRouteChange} />
-                        </div>                       
-                        
-                        </li> */}
                       
                         <li className="singleList">
                             <Link to="/dashboard/" className="nav-link  px-3 sidebar-link active">
@@ -125,6 +118,7 @@ export default function ClinicalSidebar() {
                                 <span>Personal Dashboard</span>
                             </Link>
                         </li>
+
                       
                         <li>
                             <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
@@ -139,32 +133,15 @@ export default function ClinicalSidebar() {
                             <div className="collapse custome-collapse" id="Schedule">
                                 <ul className="navbar-nav ps-3">
                                     <li>
+                                        <Link to="/PatientAppointment/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Book Appointment</span>
+                                        </Link>
                                         <Link to="/myappointmentlist/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
                                             <span>My Appointment</span>
                                         </Link>
                                     </li>
-
-                                    {/* <li>
-                                        <Link to="/admitPatient/" className="nav-link">
-                                            <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
-                                            <span>Admit Patient</span>
-                                        </Link>
-                                    </li> */}
-
-                                    {/* <li>
-                                        <Link href="/citymaster" className="nav-link">
-                                            <span> <img src={CityMasterIcon} alt="" className="icnn" /></span>
-                                            <span>City Master</span>
-                                        </Link>
-                                    </li> */}
-                                    {/* <li>
-                                        <Link to="/healthCard/" className="nav-link">
-                                            <span> <img src={HealthCardIcon} alt="" className="icnn" /></span>
-                                            <span>Health Card</span>
-                                        </Link>
-                                    </li> */}
-
                                 </ul>
                             </div>
                         </li>
@@ -187,6 +164,29 @@ export default function ClinicalSidebar() {
                                         </Link>
                                     </li>
 
+            
+                                </ul>
+                            </div>
+                        </li>
+
+                                <span>Documents</span>
+                                <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
+                        
+                            <div className="collapse custome-collapse" id="Schedule">
+                                <ul className="navbar-nav ps-3">
+                                    <li>
+                                        <Link to="/hippadeclaration/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Hippa Declaration</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/medicalhistory/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Medical  History</span>
+                                        </Link>
+                                    </li>
+
                                     {/* <li>
                                         <Link to="/admitPatient/" className="nav-link">
                                             <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
@@ -209,138 +209,22 @@ export default function ClinicalSidebar() {
 
                                 </ul>
                             </div>
-                        </li>
+                        
+                        
 
-                        {/* <li className="singleList">
-                            <Link to="#" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={uhidNavLinkicon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Nutrianalyser</span>
-                            </Link>
-                        </li> */}
-                        <li className="singleList">
-                            <Link to="/surgerymaster/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={operationTheatreIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Operation Theatre</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="#" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={settingIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Setting</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/billing/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={billingIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Billing</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/SampleCollection" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={LaboratoryIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Laboratory</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/organmaster/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={InventoryIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Radiology</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/SampleRecieve/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={InventoryIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Microbiology</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/vaccinationChart/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={vaccinationChartIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Vaccination Chart</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/donorregistration/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={bloodBankIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Blood Bank</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/DieteticsPatientList" className="nav-link  px-3 sidebar-link">
-                            {/* <Link to="/foodIntake/" className="nav-link  px-3 sidebar-link"> */}
-                                <span className="me-2">
-                                    <img src={dieteticsIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Dietetics</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/itemcategorymaster/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={Inventory1Icon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Inventory</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/EnergyTypeMaster/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={BMSServicesIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>BMS Services</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/Maintenancedashboard/" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={MaintenanceIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Maintenance</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/SprintBacklog" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={SpringboardIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Springboard</span>
-                            </Link>
-                        </li>
+
+                   
+       
+    
+
+
+
+
+
+
                     
-                        <li className="singleList">
-                            <Link to="/patientventilatorassignipd" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={PatientonVentilatorIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Patient on Ventilator</span>
-                            </Link>
-                        </li>
-                        <li className="singleList">
-                            <Link to="/pharmacyPurchase" className="nav-link  px-3 sidebar-link">
-                                <span className="me-2">
-                                    <img src={PharmacyIcon} alt="" className="navLinkicon" />
-                                </span>
-                                <span>Pharmacy</span>
-                            </Link>
-                        </li>
+
+
  
                         {/* <li className="singleList"> 
                                         <Link to="/patientmedication" className="nav-link  px-3 sidebar-link">

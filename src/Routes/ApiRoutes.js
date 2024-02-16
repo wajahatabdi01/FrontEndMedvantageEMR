@@ -368,8 +368,11 @@ import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
 import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 import LayoutPatientAppointment from '../PatientPortal/Layout/LayoutPatientAppointment';
 import LayoutMyAppointment from '../PatientPortal/Layout/LayoutMyAppointment';
+import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
+import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
 import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
+import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
 
 export default function ApiRoutes() {
 
@@ -410,6 +413,7 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
+                        <Route path='/verification/' element={<VerificationStatus />} />
 
                   </>
                     {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
@@ -417,6 +421,8 @@ export default function ApiRoutes() {
                     <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
                     <Route path='/PatientAppointment/' element={<LayoutPatientAppointment/>}/>
                     <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
+                    <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
+                    <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
                     <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}

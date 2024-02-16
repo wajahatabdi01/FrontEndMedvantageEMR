@@ -26,7 +26,8 @@ function OPDLifeStyle({ setShowToster }) {
         code: "",
         date: '',
         lifestylestatus: '',
-    })
+    });
+    const[isShow,setisShow]=useState('');
     let getAllSmokingStatus = async () => {
         const response = await GetAllSmokingStatus();
         if (response.status === 1) {
@@ -38,21 +39,35 @@ function OPDLifeStyle({ setShowToster }) {
         if (response.status === 1) {
             setFamilyHistoryList(response.responseValue);
         }
-        let tt = response.responseValue.map((item, index) => {
-            const tobaccoListItem = item.tobacco.split('|');
-            return tobaccoListItem;
-        });
+        // let tt = response.responseValue.map((item, index) => {
+        //     const tobaccoListItem = item.tobacco.split('|');
+        //     return tobaccoListItem;
+        // });
     }
     const handleTobacco = (e) => {
+        const { name, value } = e.target;
+        console.log('dddd', e.target.value)
+         if(parseInt(value) === 1 || parseInt(value) === 2 || parseInt(value) === 7 || parseInt(value) === 8){
+            setisShow('Current');
+           // document.getElementById('current').checked=true;
+         }
+         else  if(parseInt(value) === 3){
+            setisShow('Quit');
+         }
+         else  if(parseInt(value) === 4){
+            setisShow('Never');
+         }
+         else  if(parseInt(value) === 5 || parseInt(value) === 6){
+            setisShow('N/A');
+         }
+         else{
+            setisShow('')
+         }
+         
         const selectTobacco = document.getElementById("ddlTobaccoId");
         const selectedTobacco = selectTobacco.options[selectTobacco.selectedIndex].text;
-        const checkedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
-        const getRadio = checkedRadio ? checkedRadio.value : '';
-        // const getRadio = e.target.value;
-        console.log("Radio", getRadio)
-        console.log("selectedTobacco", selectedTobacco);
-
-        const { name, value } = e.target;
+        // const checkedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
+        // const getRadio = checkedRadio ? checkedRadio.value : '';
         let temData = "";
         for (var i = 0; i < smokingList.length; i++) {
             if (smokingList[i].id == value) {
@@ -74,12 +89,18 @@ function OPDLifeStyle({ setShowToster }) {
             setTobaccoDetails((prev) => ({
                 ...prev,
                 [name]: value,
-                "lifestylestatus": getRadio
+                "lifestylestatus": isShow
             }))
         }
 
-        console.log('smokingList', smokingList);
+        //console.log('smokingList', smokingList);
     }
+    const handleRadioTobacco = (param,key)=>{
+        console.log('param',param);
+        document.getElementById("ddlTobaccoId").value=key;
+        setisShow(param);
+
+    } 
     // Function to format date as "yyyy-MM-dd"
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -95,24 +116,35 @@ function OPDLifeStyle({ setShowToster }) {
         const response = await GetFamilyHistoryData(activeUHID);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
             const tobaccoData = response.responseValue.map((item, index) => {
-                const tobaccoListItem = item.tobacco.split('|');
-                setRowId(item.id);
-                return tobaccoListItem;
+                if (item.tobacco) { // Check if item.tobacco is not null
+                    const tobaccoListItem = item.tobacco.split('|');
+                    setRowId(item.id);
+                    return tobaccoListItem;
+                } else {
+                    return null; // Handle the case where item.tobacco is null
+                }
             });
-            const firstTobaccoItem = tobaccoData[0];
-            console.log("firstTobaccoItem", firstTobaccoItem)
-            const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
-            const lifestyleStatus = firstTobaccoItem[5];
-            setTobaccoDetails((prev) => ({
-                ...prev,
-                "name": firstTobaccoItem[0],
-                "tobaccoId": firstTobaccoItem[1],
-                "code": firstTobaccoItem[3],
-                "date": dateValue,
-                "lifestylestatus": lifestyleStatus,
-            }));
+            const validTobaccoData = tobaccoData.filter(item => item !== null); // Filter out null items
+            if (validTobaccoData.length > 0) {
+                const firstTobaccoItem = validTobaccoData[0];
+                console.log("firstTobaccoItem", firstTobaccoItem)
+                const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
+                const lifestyleStatus = firstTobaccoItem[5];
+                setTobaccoDetails((prev) => ({
+                    ...prev,
+                    "name": firstTobaccoItem[0],
+                    "tobaccoId": firstTobaccoItem[1],
+                    "code": firstTobaccoItem[3],
+                    "date": dateValue,
+                    "lifestylestatus": lifestyleStatus,
+                }));
+            } else {
+                // Handle the case where there are no valid tobacco data
+                console.log("No valid tobacco data found");
+            }
         }
     }
+    
 
     let handleSave = async () => {
         setShowLifestyle(1);
@@ -190,60 +222,61 @@ function OPDLifeStyle({ setShowToster }) {
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     {familyHistoryList && familyHistoryList.map((item, index) => {
-                                        const tobaccoListItem = item.tobacco.split('|');
-                                        return (
-                                            <>
-                                                <tr>
-                                                    <td>Tobacco</td>
-                                                    <td>{tobaccoListItem[0]}</td>
-                                                    <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
-                                                    <td>{tobaccoListItem[5]}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Coffee</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alcohol</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Recreational Drugs</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Counseling</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Exercise Patterns</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Hazardous Activities</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </>
-                                        )
+                                        if (item.tobacco) {
+                                            const tobaccoListItem = item.tobacco.split('|');
+                                            return (
+                                                <>
+                                                    <tr>
+                                                        <td>Tobacco</td>
+                                                        <td>{tobaccoListItem[0]}</td>
+                                                        <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
+                                                        <td>{tobaccoListItem[5]}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Coffee</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Alcohol</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Recreational Drugs</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Counseling</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Exercise Patterns</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hazardous Activities</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </>
+                                            );
+                                        }
+                                        return null; // Return null if item.tobacco is null or undefined
                                     })}
-
-
                                 </tbody>
+
                             </TableContainer>
                             <div class="modal-footer">
                                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
@@ -282,6 +315,24 @@ function OPDLifeStyle({ setShowToster }) {
                                             <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
                                                 <div className='lifestyleStatus'>
+                                                    <div className="form-check form-check-inline">{console.log('isShow',isShow)}
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current'  checked={isShow === 'Current' ? true : false} onClick={()=>{handleRadioTobacco('Current')}}/>
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                    </div>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Quit'  checked={isShow === 'Quit' ? true : false} onClick={()=>{handleRadioTobacco('Quit')}}/>
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                    </div>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Never'  checked={isShow === 'Never' ? true : false} onClick={()=>{handleRadioTobacco('Never')}}/>
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                    </div>
+                                                    <div className="form-check form-check-inline">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='N/A'  checked={isShow === 'N/A' ? true : false} onClick={()=>{handleRadioTobacco('N/A')}}/>
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                    </div>
+                                                </div>
+                                                {/* <div className='lifestyleStatus'>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'Current'} />
                                                         <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
@@ -298,7 +349,7 @@ function OPDLifeStyle({ setShowToster }) {
                                                         <input className="form-check-input" type="radio" name="flexRadioDefault" value='N/A' onChange={handleTobacco} checked={tobaccoDetails.lifestylestatus === 'N/A'} />
                                                         <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
 
 
