@@ -10915,6 +10915,163 @@ opacity: 1;
   height: 83px;
 }
 
+
+/* Patient Portal Inbox Message CSS 14-02-2021*/
+
+.inboxheadingmain{
+    background: transparent;
+    /* box-shadow: 0px 9px 11px #1D499914; */
+    opacity: 1;
+    padding: 5px 5px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+.rightt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightt div {
+  background: #1D4999 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  padding: 5px 10px;
+ 
+}
+.rightt button {
+  background: none;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+}
+.rightt span {
+  margin: 0 5px;
+}
+.profile-details1{
+  display: flex; 
+  justify-content: space-between; 
+  gap: 7px;
+  cursor: pointer;
+}
+
+.doctr-profl {  
+  opacity: 1;
+  color: #9AACCB !important ;  
+  font-weight: 500 !important;
+}
+.profl-dated { 
+  font: italic normal 300 12px/20px Poppins;
+  letter-spacing: 0px;
+  color: #9DAECC;  
+  margin-right: 15px;
+}
+
+.inbox-headingg{
+font: normal normal 600 16px/25px Poppins;
+letter-spacing: 0px;
+color: #1D4999;
+opacity: 1;
+}
+span.fontt {
+  text-align: left;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
+  font-size: 14px;
+}
+.profile-txtmtr{
+text-align: left;
+font: normal normal normal 12px/21px Poppins;
+letter-spacing: 0px;
+color: #B2B2B2;
+opacity: 1;
+cursor: pointer;
+}
+.handsurgery { 
+  text-align: left;
+  font: italic normal 300 13px/21px Poppins;
+  letter-spacing: 0px;
+  color: #B2B2B2;
+  opacity: 1;
+}
+.handsurgery1 { 
+  text-align: left;
+  /* font: normal normal medium 15px/27px Poppins; */
+  letter-spacing: 0px;
+  color: #595959;
+  opacity: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+.subjectts {
+  color: #A2A2A2;
+  opacity: 1;
+  /* font-size: 14px; */
+  font: normal normal normal 13px/21px Poppins;
+}
+.inboxdiv-striped:nth-child(even) {
+  background-color: #F9FAFC; 
+}
+.signtxt {  
+  color: #595959; 
+  font-size: 15px;
+  font-weight: 500;
+}
+.dr-txt { 
+  color: #A2A2A2;  
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.messg-btnn button {
+  background: #EFF3FF;
+  border: 1px solid #1D499929;
+  border-radius: 5px;
+  font: normal normal normal 13px/25px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+.signfootr {
+  margin-top: 40px !important;
+}
+.messg-btnn {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  margin-top: 190px;
+  margin-bottom: 15px;
+}
+.arowlft i {
+  font-size: 22px;
+  color: #758FBC;
+}
+.messg-btnn button i {
+  opacity: 1;
+  color: #546788;
+  font-weight: 900;
+  font-size: 12px;
+}
+.custom-animation{
+  transition: 1s  ease-in-out;
+}
 .plus-button-data{
   transform: translateY(70%);
+}
+.lft-mesg-part {
+  overflow: auto;
+  max-height: 772px;
+  min-height: 430px;
+  width: 100%;
+  padding-bottom: 25px;
+}
+.rht-mesg-part {
+  overflow: auto;
+  height: 825px;
+  width: 100%;
 }
