@@ -94,7 +94,7 @@ export default function OPDInvestigationProcedure(props) {
                 })
 
                 if (flag === 0) {
-                    let data = { "itemId": parseInt(id) }
+                    let data = { "itemId": parseInt(id), "itemName":name}
                     setTotal(total + cost)
                     setSendData([...sendData, data])
                     setInvestname([...investname, name])
@@ -320,7 +320,7 @@ export default function OPDInvestigationProcedure(props) {
     // let callInvestigation = useMemo(Investigartiondata, [patientsendData])
 
     return (
-        <div className='p-0 boxcontainer mt-2 ' style={{ height: "412px" }}>
+        <div className='p-0 boxcontainer mt-2 investigationbox'>
             <div className='opdorder-in'>
                 <div className='opdorder'>
                     <Heading text={t("Order Investigation")} />
@@ -330,7 +330,7 @@ export default function OPDInvestigationProcedure(props) {
                     <img src={searchIcon} className='searchBarOPDIcon2' alt='' />
                 </div>
             </div>
-            <div className='overflow-auto' style={{ height: "28vh" }}>
+            <div className='overflow-auto' style={{ height: "25vh" }}>
                 <TableContainer>
                     <thead>
                         <th className='wrap-content'>{t("Investigation & Procedure")}</th>
@@ -356,7 +356,7 @@ export default function OPDInvestigationProcedure(props) {
                 </TableContainer>
             </div>
 
-            <div className='opdorder border-topp'>
+            <div className='opdorder border-topp suminvest'>
                 <div className='totalod'>  {t("Total Investigation Charge")}: <span>{total}</span></div>
                 <div className='resetpodinvest relative'>
                     {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>

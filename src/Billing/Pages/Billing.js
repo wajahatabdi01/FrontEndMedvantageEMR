@@ -168,12 +168,6 @@ export default function Billing() {
   }
 
 
-  
-
-
-  
-
-
 let GetPaymentModes = async()=>{
   let PaymentMode = await GetallPaymentMode()
   if(PaymentMode.status === 1){
@@ -190,7 +184,6 @@ let GetPaymentModes = async()=>{
   }
   
 
- 
 
   let handlePaymentMode = (e) => {
     let ddl = e.target.value;
@@ -244,7 +237,7 @@ let GetPaymentModes = async()=>{
       uhid: 0,
     }
     settotalSum(0)
- setSaveRow([RowData])
+//  setSaveRow([RowData])
     setBalanceAmount(0)
     setpayableAmount(0)
     setTotalAmount(0)
@@ -263,9 +256,23 @@ let GetPaymentModes = async()=>{
     setshowLimit(false);
   
     let data = await PatientDetail(UHID, 0);
-    let dt = data.responseValue[0];
-    setPatientDetails(dt);
-  
+    if(data.status === 1){
+      let dt = data.responseValue[0];
+      // setPatientDetails(dt);
+      let investigation = JSON.parse(dt.investigationId)
+      let tempinv = []
+      investigation && investigation.map((val, ind)=>{
+        let t = RowData
+        t.itemId = val.itemId
+        t.itemName = val.itemName
+        tempinv.push(t)
+      })
+      setTimeout(()=>{
+      console.log("dtdtdt", data.responseValue)
+
+        setSaveRow(tempinv)
+      }, 2000)
+    }
     let AdvanceDetails = await GetAllAdvanceDetails(UHID);
     if (AdvanceDetails.status === 1) {
       console.log('AdvanceDetails', AdvanceDetails);
@@ -456,6 +463,7 @@ console.log("Total Amount" , balanceAmount)
   let handleTabKey = async (e) => {
     if (e.key === "Tab") {
       setSaveRow([...saveRow, data]);
+
     }
   };
 
@@ -508,7 +516,7 @@ console.log("Total Amount" , balanceAmount)
     let amtAfterlessAdvance = amtAfterDiscount - advanceRs;
     let amtAfterAddBlnce = amtAfterlessAdvance + BalanceAmt;
 
-    let CreditLimitvalue = CreditLimit[0].remaining;
+    let CreditLimitvalue = CreditLimit[0]?.remaining;
     console.log(CreditLimitvalue)
 
     if(CreditLimitvalue > 0){
