@@ -372,6 +372,7 @@ import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
 import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
 import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
+import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
 
 export default function ApiRoutes() {
 
@@ -412,6 +413,7 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
+                        <Route path='/verification/' element={<VerificationStatus />} />
 
                   </>
                     {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}

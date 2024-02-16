@@ -8636,6 +8636,9 @@ a.nav-link.px-3.sidebar-link span {
 
 /*  `md` applies to small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
+  .investigationbox{
+    height: auto !important;
+  }
   .prt1 {
     margin-top: 5px
   }
@@ -11330,5 +11333,10 @@ flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
   background: #F9FAFC 0% 0% no-repeat padding-box;
-
+}
+.suminvest {
+  background: #fff;
+}
+.investigationbox{
+  height: 34vh;
 }
