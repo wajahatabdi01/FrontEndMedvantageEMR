@@ -44,26 +44,26 @@ const handleEditData= async()=>{
           <div className="row">
            <div className="col-xxl-7 col-xl-12 col-lg-12 col-md-12">
                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-              <div className="med-box">
+                  <div className="med-box">
 
                 <div className="inner-content">
-                <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
-                <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-3 me-3">
+                <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap ' style={{gap: '14px'}}>
+                <div className="">
                   <img src={exampleUser} alt=""/>
                 </div>
 
-                <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8 ps-2 ms-2">
+                <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8">
                   <div className="portal-user-name d-flex mb-1 justify-content-between">
                     <div>Shiv Mishra</div>
                     <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
                     </div>
-                  <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-12 d-flex justify-content-between">
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex" style={{gap: '18px'}}>
                     <div className="user-personal-details"><img src={user} className="me-1" alt="" />Male</div>
                     <div className="user-personal-details"><img src={dob} className="me-1" alt="" />10 feb 2000(24yr)</div>
                     <div className="user-personal-details"><img src={location} className="me-1" alt="" />Sarfarazganj,Hardoi,Lucknow</div>
                   </div>
                   
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 patien-basic-details mt-4 px-3">
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 patien-basic-details mt-4">
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Mobile No.</div>
                   <div className="details-content ">9786786898</div>
