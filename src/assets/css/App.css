@@ -3552,8 +3552,7 @@ span.placef {
   font-size: 11px;
 }
 
-.custom-
- .modal-header {
+.custom- .modal-header {
   background: var(--primary-color);
   padding: 5px 10px;
   /* color: #fff; */
@@ -8636,9 +8635,10 @@ a.nav-link.px-3.sidebar-link span {
 
 /*  `md` applies to small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
-  .investigationbox{
+  .investigationbox {
     height: auto !important;
   }
+
   .prt1 {
     margin-top: 5px
   }
@@ -10307,8 +10307,18 @@ span.saveb img {
 
 /* Started patient-portal-dshboard Css */
 
-.portal-user-details-box {
-  padding-top: 10px;
+.portal-user-image img{
+  width : 119px;
+  margin: auto;
+}
+@media(max-width:1718px){
+  .portal-user-image img{
+    width: 113px;
+  }
+}
+.portal-user-image{
+  display: flex;
+  align-items: center;
 }
 
 .user-personal-details {
@@ -10334,9 +10344,13 @@ span.saveb img {
   opacity: 1;
 }
 .patien-basic-details{
+  justify-content: space-around;
+}
+
+.patien-basic-details {
   /* width: 600px; */
   display: flex;
-  justify-content: space-between;
+
   height: 72px;
   background: #F3F6FF 0% 0% no-repeat padding-box;
   opacity: 0.78;
@@ -10346,7 +10360,8 @@ span.saveb img {
 
 .details-main-box {
   border-right: 2px solid #dedede;
-  padding-right: 14px;
+  padding-right: 42px;
+
 }
 
 .details-heading {
@@ -10605,16 +10620,16 @@ span.Appoin {
   padding: 5px 5px;
 }
 
-.modalBookAppoint-header{
-  
- 
-height: 63px;
+.modalBookAppoint-header {
 
-background: #1D4999 0% 0% no-repeat padding-box;
-opacity: 1;
+
+  height: 63px;
+
+  background: #1D4999 0% 0% no-repeat padding-box;
+  opacity: 1;
 }
 
-.btnModalAppointClose{
+.btnModalAppointClose {
   display: flex;
   outline: none;
   border: none;
@@ -10630,75 +10645,76 @@ opacity: 1;
   height: 22px;
   align-items: center;
   justify-content: center;
- 
-}
-
-.modalPopUpTextHeader{
- padding-right: 3%;
- padding-top: 18px;
- width: 250px;
- height: 28px;
-/* UI Properties */
-text-align: center;
-font: normal normal 600 20px/30px Poppins;
-letter-spacing: 0px;
-color: #FFFFFF;
-opacity: 1;
 
 }
 
-.modalImagePop{
+.modalPopUpTextHeader {
+  padding-right: 3%;
+  padding-top: 18px;
+  width: 250px;
+  height: 28px;
+  /* UI Properties */
+  text-align: center;
+  font: normal normal 600 20px/30px Poppins;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+
+}
+
+.modalImagePop {
   padding-top: 7px;
-padding-left: 2px;
-width: 134px;
-height: 134px;
+  padding-left: 2px;
+  width: 134px;
+  height: 134px;
 }
 
-.custom-line{
+.custom-line {
   width: 95%;
 }
 
-.chooseText{
+.chooseText {
 
-font: normal normal medium 20px/27px Poppins;
-letter-spacing: 0px;
-color: #546788;
-opacity: 1;
+  font: normal normal medium 20px/27px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
 }
 
-.ddSpace{
+.ddSpace {
   top: 523px;
-left: 600px;
-width: 57px;
-height: 58px;
-background: #EFF3FF 0% 0% no-repeat padding-box;
-border-radius: 10px;
-opacity: 1;
+  left: 600px;
+  width: 57px;
+  height: 58px;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
 }
-.ddSpace:hover{
+
+.ddSpace:hover {
   background: #EFF3FF 0% 0% no-repeat padding-box;
   border-radius: 10px;
 }
 
-.dayNtext{
-text-align: center;
-font: normal normal normal 14px/22px Poppins;
-letter-spacing: 0px;
-color: #8BA5D5;
-text-transform: capitalize;
-opacity: 1;
-}
-
-.dtText{
+.dayNtext {
   text-align: center;
-font: normal normal normal 16px/22px Poppins;
-letter-spacing: 0px;
-color: #546788;
-text-transform: capitalize;
-opacity: 1;
+  font: normal normal normal 14px/22px Poppins;
+  letter-spacing: 0px;
+  color: #8BA5D5;
+  text-transform: capitalize;
+  opacity: 1;
 }
 
-.mortxt{
+.dtText {
+  text-align: center;
+  font: normal normal normal 16px/22px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  text-transform: capitalize;
+  opacity: 1;
+}
+
+.mortxt {
   width: 58px;
   height: 20px;
   text-align: left;
@@ -10708,31 +10724,31 @@ opacity: 1;
   opacity: 1;
 }
 
-.dtSpace{
+.dtSpace {
   top: 624px;
-left: 523px;
-width: 90px;
-height: 39px;
-background: #F5F5F5 0% 0% no-repeat padding-box;
-border-radius: 20px;
-opacity: 1;
+  left: 523px;
+  width: 90px;
+  height: 39px;
+  background: #F5F5F5 0% 0% no-repeat padding-box;
+  border-radius: 20px;
+  opacity: 1;
 }
 
-.dtSpace:hover{
+.dtSpace:hover {
   background: #F5F5F5 0% 0% no-repeat padding-box;
   border-radius: 10px;
 }
 
-.timeText{
+.timeText {
 
-width: 45px;
-height: 23px;
-/* UI Properties */
-text-align: left;
-font: normal normal normal 14px/22px Poppins;
-letter-spacing: 0.42px;
-color: #595959;
-opacity: 1;
+  width: 45px;
+  height: 23px;
+  /* UI Properties */
+  text-align: left;
+  font: normal normal normal 14px/22px Poppins;
+  letter-spacing: 0.42px;
+  color: #595959;
+  opacity: 1;
 }
 
 .ModalFields {
@@ -10742,46 +10758,51 @@ opacity: 1;
   align-items: center;
   flex-wrap: wrap;
 }
+
 .lifestyleStatus {
   display: flex;
   font-size: 14px;
   justify-content: left;
   align-items: center;
 }
+
 input.lifestylecode {
   border-radius: 30px !important;
 }
+
 .ModalFields-inn label {
   font-size: 13px !important;
   color: #6b6b6b;
 }
-.insurance-type-detail{
 
-transform: translateY(-50%);
+.insurance-type-detail {
+
+  transform: translateY(-50%);
 
 
-text-align: left;
-font: normal normal 300 11px/20px Poppins;
-letter-spacing: 0px;
-color: #7B7B7B;
-opacity: 1;
+  text-align: left;
+  font: normal normal 300 11px/20px Poppins;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1;
 }
 
-.insurance-box{
+.insurance-box {
   height: 83px;
 }
 
 .custom::placeholder {
-text-align: left;
-font: italic normal 300 9px/21px Poppins;
-letter-spacing: 0px;
-color: #929292;
-opacity: 1;
-border-radius: 0px;
-}
-.med-table-appointment-list{
   text-align: left;
-  font: normal normal  13px/27px Poppins;
+  font: italic normal 300 9px/21px Poppins;
+  letter-spacing: 0px;
+  color: #929292;
+  opacity: 1;
+  border-radius: 0px;
+}
+
+.med-table-appointment-list {
+  text-align: left;
+  font: normal normal 13px/27px Poppins;
   letter-spacing: 1px;
   color: #546788;
   opacity: 1;
@@ -10789,24 +10810,26 @@ border-radius: 0px;
   padding: 5px 4px;
 }
 
-.doctors-name{
+.doctors-name {
   text-align: justify;
-color : #2d8af5;
-font: normal normal 500 13px/27px Poppins;
+  color: #2d8af5;
+  font: normal normal 500 13px/27px Poppins;
 }
 
-.doctors-eduction{
+.doctors-eduction {
   text-align: justify;
   transform: translateY(-35%);
-  font: normal normal  11px Poppins;
-  
+  font: normal normal 11px Poppins;
+
 }
-.doctor-image{
+
+.doctor-image {
   display: flex;
   align-items: center;
   margin-top: 3px;
 }
-.doctor-image img{
+
+.doctor-image img {
   width: 36px;
   height: 36px;
 }
@@ -10815,7 +10838,7 @@ font: normal normal 500 13px/27px Poppins;
 
 /* Patient dashboard bottom CSS */
 
-.medicine-detail{
+.medicine-detail {
   display: flex;
   justify-content: space-between;
   height: 30px;
@@ -10827,64 +10850,68 @@ font: normal normal 500 13px/27px Poppins;
   margin-bottom: 7px;
 }
 
-.medicine-duration{
+.medicine-duration {
 
-text-align: left;
-font: italic normal 300 14px/21px Poppins;
-letter-spacing: 0px;
-color: #2D8AF5;
-opacity: 1;
-}
-.investigation-name{
-
-height: 30px;
-text-align: left;
-font: normal normal 13px/25px Poppins;
-letter-spacing: 0px;
-color: #546788;
-opacity: 1;
+  text-align: left;
+  font: italic normal 300 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #2D8AF5;
+  opacity: 1;
 }
 
-.investigation-measurement{
- 
-height: 30px;
-text-align: left;
-font: italic normal normal 10px/18px Poppins;
-letter-spacing: 0px;
-color: #A2A2A2;
-opacity: 1;
-}
-.investigation-measurement-per{
+.investigation-name {
 
-height: 17px;
-text-align: left;
-font: italic normal normal 500 10px/18px Poppins;
-letter-spacing: 0px;
-color: #FC1B13;
-opacity: 1;
+  height: 30px;
+  text-align: left;
+  font: normal normal 13px/25px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
 }
 
-.custom-medbox{
+.investigation-measurement {
+
+  height: 30px;
+  text-align: left;
+  font: italic normal normal 10px/18px Poppins;
+  letter-spacing: 0px;
+  color: #A2A2A2;
+  opacity: 1;
+}
+
+.investigation-measurement-per {
+
+  height: 17px;
+  text-align: left;
+  font: italic normal normal 500 10px/18px Poppins;
+  letter-spacing: 0px;
+  color: #FC1B13;
+  opacity: 1;
+}
+
+.custom-medbox {
   min-height: 289px;
   max-height: 289px;
   overflow: auto;
 }
-.custom-medbox-medication{
+
+.custom-medbox-medication {
   min-height: 527px;
   max-height: 527px;
   overflow: auto;
 }
 
-.insurance-profile{
+.insurance-profile {
 
-height: 23px;
-text-align: left;
-font: italic normal normal 14px/20px Poppins;
-letter-spacing: 0px;
-color: #595959;
-opacity: 1;
+  height: 23px;
+  text-align: left;
+  font: italic normal normal 14px/20px Poppins;
+  letter-spacing: 0px;
+  color: #595959;
+  opacity: 1;
 }
-.insurance-profile-details{
+
+.insurance-profile-details {
 
   height: 20px;
   text-align: left;
@@ -10893,33 +10920,37 @@ opacity: 1;
   color: #7B7B7B;
   opacity: 1;
 }
-.insurance-type{
 
-height: 23px;
-text-align: left;
-font: italic normal normal 500 14px/20px Poppins;
-letter-spacing: 0px;
-color: #595959;
-opacity: 1;
-}
-.insurance-type-detail{
+.insurance-type {
 
-transform: translateY(-50%);
-
-
-text-align: left;
-font: normal normal 300 11px/20px Poppins;
-letter-spacing: 0px;
-color: #7B7B7B;
-opacity: 1;
+  height: 23px;
+  text-align: left;
+  font: italic normal normal 500 14px/20px Poppins;
+  letter-spacing: 0px;
+  color: #595959;
+  opacity: 1;
 }
 
-.insurance-box{
+.insurance-type-detail {
+
+  transform: translateY(-50%);
+
+
+  text-align: left;
+  font: normal normal 300 11px/20px Poppins;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1;
+}
+
+.insurance-box {
   height: 83px;
 }
 
 
 /* Patient Portal Inbox Message CSS 14-02-2021*/
+
+
 
 .inboxheadingmain{
     background: transparent;
@@ -10930,6 +10961,17 @@ opacity: 1;
     display: flex;
     justify-content: space-between;
 }
+.inboxheadingmain {
+  background: transparent;
+  /* box-shadow: 0px 9px 11px #1D499914; */
+  opacity: 1;
+  padding: 5px 5px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .rightt {
   display: flex;
   justify-content: end;
@@ -10944,42 +10986,47 @@ opacity: 1;
   color: #FFFFFF;
   opacity: 1;
   padding: 5px 10px;
- 
+
 }
+
 .rightt button {
   background: none;
   color: #fff;
   border: none;
   font-size: 14px;
 }
+
 .rightt span {
   margin: 0 5px;
 }
-.profile-details1{
-  display: flex; 
-  justify-content: space-between; 
+
+.profile-details1 {
+  display: flex;
+  justify-content: space-between;
   gap: 7px;
   cursor: pointer;
 }
 
-.doctr-profl {  
+.doctr-profl {
   opacity: 1;
-  color: #9AACCB !important ;  
+  color: #9AACCB !important;
   font-weight: 500 !important;
 }
-.profl-dated { 
+
+.profl-dated {
   font: italic normal 300 12px/20px Poppins;
   letter-spacing: 0px;
-  color: #9DAECC;  
+  color: #9DAECC;
   margin-right: 15px;
 }
 
-.inbox-headingg{
-font: normal normal 600 16px/25px Poppins;
-letter-spacing: 0px;
-color: #1D4999;
-opacity: 1;
+.inbox-headingg {
+  font: normal normal 600 16px/25px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
 }
+
 span.fontt {
   text-align: left;
   letter-spacing: 0px;
@@ -10987,22 +11034,25 @@ span.fontt {
   opacity: 1;
   font-size: 14px;
 }
-.profile-txtmtr{
-text-align: left;
-font: normal normal normal 12px/21px Poppins;
-letter-spacing: 0px;
-color: #B2B2B2;
-opacity: 1;
-cursor: pointer;
+
+.profile-txtmtr {
+  text-align: left;
+  font: normal normal normal 12px/21px Poppins;
+  letter-spacing: 0px;
+  color: #B2B2B2;
+  opacity: 1;
+  cursor: pointer;
 }
-.handsurgery { 
+
+.handsurgery {
   text-align: left;
   font: italic normal 300 13px/21px Poppins;
   letter-spacing: 0px;
   color: #B2B2B2;
   opacity: 1;
 }
-.handsurgery1 { 
+
+.handsurgery1 {
   text-align: left;
   /* font: normal normal medium 15px/27px Poppins; */
   letter-spacing: 0px;
@@ -11011,22 +11061,26 @@ cursor: pointer;
   font-size: 15px;
   font-weight: 500;
 }
+
 .subjectts {
   color: #A2A2A2;
   opacity: 1;
   /* font-size: 14px; */
   font: normal normal normal 13px/21px Poppins;
 }
+
 .inboxdiv-striped:nth-child(even) {
-  background-color: #F9FAFC; 
+  background-color: #F9FAFC;
 }
-.signtxt {  
-  color: #595959; 
+
+.signtxt {
+  color: #595959;
   font-size: 15px;
   font-weight: 500;
 }
-.dr-txt { 
-  color: #A2A2A2;  
+
+.dr-txt {
+  color: #A2A2A2;
   font-size: 13px;
   font-weight: 400;
 }
@@ -11040,9 +11094,11 @@ cursor: pointer;
   color: #546788;
   opacity: 1;
 }
+
 .signfootr {
   margin-top: 40px !important;
 }
+
 .messg-btnn {
   display: flex;
   justify-content: end;
@@ -11050,20 +11106,24 @@ cursor: pointer;
   margin-top: 190px;
   margin-bottom: 15px;
 }
+
 .arowlft i {
   font-size: 22px;
   color: #758FBC;
 }
+
 .messg-btnn button i {
   opacity: 1;
   color: #546788;
   font-weight: 900;
   font-size: 12px;
 }
-.custom-animation{
-  transition: 1s  ease-in-out;
+
+.custom-animation {
+  transition: 1s ease-in-out;
 }
-.plus-button-data{
+
+.plus-button-data {
   transform: translateY(70%);
 }
 
@@ -11072,161 +11132,484 @@ cursor: pointer;
 /* Documentation Css */
 
 
-.declaration-heading{
+.declaration-heading {
 
-text-align: left;
-font: normal normal 600 18px/33px Poppins;
-letter-spacing: 0px;
-color: #1D4999;
-opacity: 1;
+  text-align: left;
+  font: normal normal 600 18px/33px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  opacity: 1;
 }
 
-.declaration-line{
+.declaration-line {
   margin-bottom: 0px;
   margin-top: 0px;
   width: 100%;
   border-color: #cbcbcb;
-  
-}
-.declaration-time{
-  font: italic normal 300 12px Poppins;
-letter-spacing: 0px;
-color: #546788;
+
 }
 
-.declaration-top-text{
-  font: normal normal normal 13px/25px Poppins;
-letter-spacing: 0px;
-color: #7B7B7B;
-opacity: 1
+.declaration-time {
+  font: italic normal 300 12px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
 }
-.decalaration-practice-text{
+
+.declaration-top-text {
+  font: normal normal normal 13px/25px Poppins;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1
+}
+
+.decalaration-practice-text {
   font: normal normal 600 14px/33px Poppins;
 }
-.declaration-practice-list{
+
+.declaration-practice-list {
   font: normal normal normal 400 12px/25px Poppins;
-letter-spacing: 0px;
-color: #7B7B7B;
-opacity: 1;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1;
 }
-.declaration-practice-list::marker{
-  color: #2D8AF5 ;
+
+.declaration-practice-list::marker {
+  color: #2D8AF5;
   font-weight: bolder;
   font-size: 18px;
   margin: 0;
 }
 
-.patient-self-agreement-pname{
+.patient-self-agreement-pname {
   color: #546788;
-  font: normal normal  500 12px/33px Poppins;
+  font: normal normal 500 12px/33px Poppins;
   font-style: italic;
   /* height: 28px; */
 }
-.patient-details{
+
+.patient-details {
   text-align: left;
-font: normal normal normal 11px/21px Poppins;
-letter-spacing: 0px;
-color: #7B7B7B;
-opacity: 1;
+  font: normal normal normal 11px/21px Poppins;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1;
 }
-.declaration-check{
+
+.declaration-check {
   border-radius: 0px;
 }
-.reason-input{
+
+.reason-input {
   border: 1px solid #DCDCDC;
   height: 20px;
   width: 294px;
-  outline : none
-}
-.reason-input::placeholder{
-  font: italic normal 300 10px Poppins;
-  letter-spacing: 0px;
-  color: #929292;
-  opacity: 1;
+  outline: none
 }
 
-.medical-history-btn-active{
-  height: 28px;
-  background: #1D4999 0% 0% no-repeat padding-box;
-  border-radius: 5px;
-  opacity: 1;
-  border: none;
-  color: white;
-  padding: 8px;
-  padding-top: 0;
-  padding-bottom: 2px;
-font: normal normal 500 13px/25px Poppins;
-letter-spacing: 0px;
-color: white;
-opacity: 1;
+.reason-input::placeholder {
 }
-.medical-history-btn-inactive{
-  padding: 8px;
-  padding-top: 0;
-  padding-bottom: 2px;
-  height: 28px;
-  background: #EFF3FF 0% 0% no-repeat padding-box;
-  border: 1px solid #1D499929;
-  border-radius: 5px;
-  opacity: 1;
+  .lft-mesg-part {
+    overflow: auto;
+    max-height: 772px;
+    min-height: 430px;
+    width: 100%;
+    padding-bottom: 25px;
+  }
 
-font: normal normal  500 13px/25px Poppins;
-letter-spacing: 0px;
-color: #1D4999;
-opacity: 1;
-}
-.risk-factors-check{
-  font: normal normal normal 13px/39px Poppins;
-letter-spacing: 0px;
-color: #929292;
-opacity: 1;
-text-align : center;
-display : flex;
-align-items : center
+  .rht-mesg-part {
+    overflow: auto;
+    height: 825px;
+    width: 100%;
+  }
 
-}
+  .messg-popup {
+    display: flex;
+    gap: 10px;
+  }
 
-.custom-checkbox{
-  border: 1px solid #fc7349;
-}
-.lft-mesg-part {
-  overflow: auto;
-  max-height: 772px;
-  min-height: 430px;
-  width: 100%;
-  padding-bottom: 25px;
-}
-.rht-mesg-part {
-  overflow: auto;
-  height: 825px;
-  width: 100%;
-}
-.messg-popup {
-  display: flex;
-  gap: 10px;
-}
-.messg-popup-details {
-  /* width: 100%; */
-  flex: 1 1 auto;
-}
-.messg-popup-details label {
-  width: 100%;
-}
-.messg-popup-details input {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 1px solid #DCDCDC; 
-  width: 100%;
-  padding: 5px 5px;
-  text-align: left;
-font: italic normal 300 14px/21px Poppins;
-letter-spacing: 0px;
-color: #929292;
-opacity: 1;
-}
+  .messg-popup-details {
+    /* width: 100%; */
+    flex: 1 1 auto;
+  }
 
-.suminvest {
-  background: #fff;
-}
-.investigationbox{
-  height: 34vh;
-}
+  .messg-popup-details label {
+    width: 100%;
+  }
+
+  .messg-popup-details input {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #DCDCDC;
+    width: 100%;
+    padding: 5px 5px;
+    text-align: left;
+    font: italic normal 300 14px/21px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+    opacity: 1;
+  }
+
+
+  /* Medical History CSS */
+
+
+  .exam-input {
+    border: 1px solid #DCDCDC;
+    height: 20px;
+    width: 100%;
+    outline: none;
+    font: normal normal 500 10px Poppins;
+
+  }
+
+  .reason-input::placeholder {
+    font: italic normal 300 10px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+    opacity: 1;
+  }
+
+  .medical-history-btn-active {
+    height: 28px;
+    background: #1D4999 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    opacity: 1;
+    border: none;
+    color: white;
+    padding: 8px;
+    padding-top: 0;
+    padding-bottom: 2px;
+    font: normal normal 500 13px/25px Poppins;
+    letter-spacing: 0px;
+    color: white;
+    opacity: 1;
+  }
+
+  .medical-history-btn-inactive {
+    padding: 8px;
+    padding-top: 0;
+    padding-bottom: 2px;
+    height: 28px;
+    background: #EFF3FF 0% 0% no-repeat padding-box;
+    border: 1px solid #1D499929;
+    border-radius: 5px;
+    opacity: 1;
+
+    font: normal normal 500 13px/25px Poppins;
+    letter-spacing: 0px;
+    color: #1D4999;
+    opacity: 1;
+  }
+
+  .risk-factors-check {
+    font: normal normal normal 13px/39px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+    opacity: 1;
+    text-align: center;
+    display: flex;
+    align-items: center
+  }
+
+  .custom-checkbox {
+    border: 1px solid #fc7349;
+    margin: 0
+  }
+
+  .lft-mesg-part {
+    overflow: auto;
+    max-height: 772px;
+    min-height: 430px;
+    width: 100%;
+    padding-bottom: 25px;
+  }
+
+  .rht-mesg-part {
+    overflow: auto;
+    height: 825px;
+    width: 100%;
+  }
+
+  .messg-popup {
+    display: flex;
+    gap: 10px;
+  }
+
+  .messg-popup-details {
+    /* width: 100%; */
+    flex: 1 1 auto;
+  }
+
+  .messg-popup-details label {
+    width: 100%;
+  }
+
+  .messg-popup-details input {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #DCDCDC;
+    width: 100%;
+    padding: 5px 5px;
+    text-align: left;
+    font: italic normal 300 14px/21px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+    opacity: 1;
+  }
+
+
+
+  /* ......... */
+
+  .headingprivacy {
+    font: normal normal 600 16px/33px Poppins;
+    letter-spacing: 0px;
+    color: #1D4999;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+
+  }
+
+  .privacyhdrtext {
+    font: normal normal 600 15px/33px Poppins;
+    letter-spacing: 0px;
+    color: #595959;
+  }
+
+  span.ptn-dtails {
+    padding-left: 5px;
+    font: normal normal normal 12px/21px Poppins;
+    letter-spacing: 0px;
+    color: #7B7B7B;
+    opacity: 1;
+  }
+
+  .lft-details {
+    color: #546788;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: poppins;
+  }
+
+  .privacypara {
+    font: normal normal normal 15px/20px Poppins;
+    letter-spacing: 0px;
+    color: #7B7B7B;
+    opacity: 1;
+  }
+
+  .hedingprivacy {
+    color: #595959;
+    font-weight: 600;
+    opacity: 1;
+    font-size: 15px;
+  }
+
+  .commentdiv {
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 5px; */
+  }
+
+  .privacycomment {
+    width: 100%;
+    font-size: 14px;
+    color: #546788;
+    font-weight: 500;
+  }
+
+  .privacycomment input {
+    /* width: 100%; */
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    opacity: 1;
+    font-size: 12px !important;
+  }
+
+  .risk-factors-main-wrapper {
+    background: '#F9FAFC'
+  }
+
+  .custom-radio-btn {
+    font: normal normal normal 12px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+  }
+
+  .main-wrapper {
+    background: #F9FAFC 0% 0% no-repeat padding-box;
+    padding: 10px;
+  }
+
+  .exam-test-box {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  @media(max-width: 974px) {
+    .exam-test-box {
+      flex-direction: column;
+    }
+  }
+
+
+  .radio-btn-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  .title.px-2.title-medication {
+    background: transparent !important;
+  }
+
+  .exam-test-box-input {
+    flex-grow: 1;
+  }
+
+  .testexam {
+    flex: 1;
+  }
+
+  .exam-test-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .privacycomment input {
+    width: 100%;
+  }
+
+
+  .privacycomment2 input {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    opacity: 1;
+    font-size: 12px !important;
+  }
+
+  .privacycomment2 {
+    width: 100%;
+    color: #546788;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    gap: 5px;
+    padding: 3px 0;
+  }
+
+  .privacycomment3 {
+    /* width: 100%; */
+    color: #546788;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .privacycomment4 {
+    color: #546788;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .privacycomment5 {
+    color: #546788;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+
+  .privacycomment2 span {
+    text-align: left;
+    font: normal normal normal 12px/21px Poppins;
+    letter-spacing: 0px;
+    color: #7B7B7B;
+    opacity: 1;
+  }
+
+  .privacycomment {
+    width: 100%;
+    font-size: 14px;
+    color: #546788;
+    font-weight: 500;
+    display: flex;
+    gap: 5px;
+    margin: 5px 0;
+  }
+
+  .Commentpart {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .privacymaidiv {
+    /* overflow: auto; */
+    width: 100%;
+    /* max-height: 794px; */
+    min-height: 793px;
+  }
+
+  .privacycomment2 div {
+    flex-grow: 1;
+  }
+
+  .custom-radio-btn .form-check-input {
+    background: white;
+    border: 1px solid #FC7349;
+    box-sizing: border-box;
+
+  }
+
+  .custom-radio-btn .form-check-input:focus {
+    background: #FFA07A;
+  }
+
+  .exam-heading {
+
+    font: normal normal normal 600 13px/21px Poppins;
+    letter-spacing: 0px;
+    color: #595959;
+    opacity: 1;
+  }
+
+  .no-flex {
+    display: block;
+  }
+
+  .family-detail-heading {
+    font: normal normal normal 16px/25px Poppins;
+    letter-spacing: 0px;
+    color: #546788;
+    opacity: 1;
+  }
+
+  .family-input {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #DCDCDC;
+    padding: 5px;
+    outline: none;
+    flex-grow: 1;
+  }
+
+  .family-input::placeholder {
+    font: italic normal 300 11px/21px Poppins;
+    letter-spacing: 0px;
+    color: #929292;
+    opacity: 1;
+    padding: 10px;
+  }
+
+  .family-main-warpper {
+    display: flex;
+    flex-wrap: wrap;
+    background: #F9FAFC 0% 0% no-repeat padding-box;
+  }
+
+  .suminvest {
+    background: #fff;
+  }
+
+  .investigationbox {
+    height: 34vh;
+  }
+

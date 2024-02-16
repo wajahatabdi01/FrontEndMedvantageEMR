@@ -47,12 +47,12 @@ const handleEditData= async()=>{
                   <div className="med-box">
 
                 <div className="inner-content">
-                <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap ' style={{gap: '14px'}}>
-                <div className="">
+                <div className='portal-user-details-box col-md-12 d-flex flex-wrap ' style={{gap: '14px'}}>
+                <div className="portal-user-image">
                   <img src={exampleUser} alt=""/>
                 </div>
 
-                <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8">
+                <div className="col-xxl-10 col-xl-10  col-lg-10 col-md-12">
                   <div className="portal-user-name d-flex mb-1 justify-content-between">
                     <div>Shiv Mishra</div>
                     <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
@@ -63,7 +63,7 @@ const handleEditData= async()=>{
                     <div className="user-personal-details"><img src={location} className="me-1" alt="" />Sarfarazganj,Hardoi,Lucknow</div>
                   </div>
                   
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 patien-basic-details mt-4">
+                  <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4">
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Mobile No.</div>
                   <div className="details-content ">9786786898</div>

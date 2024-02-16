@@ -186,6 +186,12 @@ export default function ClinicalSidebar() {
                                             <span>Medical  History</span>
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/privacypolicy/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Privacy Policy</span>
+                                        </Link>
+                                    </li>
 
                                     {/* <li>
                                         <Link to="/admitPatient/" className="nav-link">
