@@ -3,7 +3,7 @@ const FHIRPutPrescription = async(params)=>{
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: head,
       body: JSON.stringify(params),
   }).then(res => res.json())
