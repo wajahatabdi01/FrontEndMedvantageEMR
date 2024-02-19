@@ -307,14 +307,14 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                 <div className='row'>
                     <div className='col-md-3'>
                         <Heading text="Reason for Visit" />
-                        <textarea className='form-control' id="w3review" rows="5" style={{height:'8rem'}} cols="40" name="reasonforVisit" onChange={handleVisitDetailsChange}></textarea>
+                        <textarea className='form-control' id="w3review" rows="5" name="reasonforVisit" onChange={handleVisitDetailsChange}></textarea>
                     </div>
                     <div className='col-md-4'>
                         <Heading text="Link/Add Issues to This Visit" />
                         {
                             console.log("prblem", issueDetails.Problem)
                         }
-                        <div className='form-control' style={{height:'8rem',overflow:'auto'}}>
+                        <div className='form-control'>
                             {issueDetails !== undefined ?
                                 <>
                                     {
