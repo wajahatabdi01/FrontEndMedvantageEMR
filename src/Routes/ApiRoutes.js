@@ -374,6 +374,9 @@ import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
+import LayoutDocumentHistory from '../PatientPortal/Layout/LayoutDocumentHistory';
+import LayoutSignature from '../PatientPortal/Layout/LayoutSignature';
+import LayoutDownloadChartedDocument from '../PatientPortal/Layout/LayoutDownloadChartedDocument';
 
 export default function ApiRoutes() {
 
@@ -418,15 +421,17 @@ export default function ApiRoutes() {
 
                   </>
                     {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
-
                     <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
                     <Route path='/PatientAppointment/' element={<LayoutPatientAppointment/>}/>
                     <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
                     <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
                     <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
+                      {/* -----------------------------new pages PatientPortalDashboard Routing----------------------- */}
                     <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
                     <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy/>}/>
-                    
+                    <Route path='/documenthistory/' element={<LayoutDocumentHistory/>}/>
+                    <Route path='/signature/' element={<LayoutSignature/>}/>
+                     <Route path='/DownloadChartedDocument/' element={<LayoutDownloadChartedDocument/>}/>
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
                   {/* -----------------------------End Website Routing----------------------- */}

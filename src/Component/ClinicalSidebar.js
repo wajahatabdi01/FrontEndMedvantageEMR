@@ -192,30 +192,30 @@ export default function ClinicalSidebar() {
                                             <span>Privacy Policy</span>
                                         </Link>
                                     </li>
-
-                                    {/* <li>
-                                        <Link to="/admitPatient/" className="nav-link">
-                                            <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
-                                            <span>Admit Patient</span>
+                                    <li>
+                                        <Link to="/documenthistory/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Document History</span>
                                         </Link>
-                                    </li> */}
-
-                                    {/* <li>
-                                        <Link href="/citymaster" className="nav-link">
-                                            <span> <img src={CityMasterIcon} alt="" className="icnn" /></span>
-                                            <span>City Master</span>
-                                        </Link>
-                                    </li> */}
-                                    {/* <li>
-                                        <Link to="/healthCard/" className="nav-link">
-                                            <span> <img src={HealthCardIcon} alt="" className="icnn" /></span>
-                                            <span>Health Card</span>
-                                        </Link>
-                                    </li> */}
+                                    </li>                                 
 
                                 </ul>
                             </div>
                         
+                            <li className="singleList">
+                            <Link to="/signature/" className="nav-link  px-3 sidebar-link active">
+                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
+                                <span>Signature</span>
+                            </Link>
+                        </li>
+  
+                        <li className="singleList">
+                            <Link to="/DownloadChartedDocument/" className="nav-link  px-3 sidebar-link active">
+                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
+                                <span>DownloadChartedDocument</span>
+                            </Link>
+                        </li>
+
                         
 
 
