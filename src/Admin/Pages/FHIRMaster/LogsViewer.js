@@ -1,20 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TableContainer from '../../../Component/TableContainer';
 import BoxContainer from '../../../Component/BoxContainer';
 import Heading from '../../../Component/Heading';
 import { t } from 'i18next';
 import GetAllSearchByName from '../../../EditCredentional/API/GetAllSearchByName';
-
+import GetUserList from '../../Api/Schedule/GET/GetUserList';
+import clearIcon from '../../../assets/images/icons/clear.svg';
 function LogsViewer() {
     const [selectedPatient, setSelectedPatient] = useState('');
     let [searchByName, setSearchByName] = useState('')
     let [filteredNameList, setFilteredNameList] = useState([]);
     let [searchByNameList, setSearchByNameList] = useState([])
+    let [userList, setUserList] = useState([])
 
     let getAllNames = async (query) => {
         const response = await GetAllSearchByName(query);
         if (response.status === 1) {
             setSearchByNameList(response.responseValue);
+        }
+    }
+    let getAllUsers = async () => {
+        const response = await GetUserList(window.clientId);
+        if (response.status === 1) {
+            setUserList(response.responseValue);
         }
     }
     const handleSearchPatientName = (searchValue) => {
@@ -41,6 +49,21 @@ function LogsViewer() {
         document.getElementById('ddlDataContainer').style.display = "none";
 
     }
+    let handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        // if (name === "socialSecurityNo") {
+        //     setSocialSecurityNo(value)
+        // }
+        // if (name === "externalId") {
+        //     setExternalId(value)
+        // }
+        // console.log("SocialSecurityNo", value)
+    }
+    useEffect(() => {
+        getAllUsers();
+    }, [])
     return (
         <>
             <section className="main-content mt-5 pt-3">
@@ -76,8 +99,74 @@ function LogsViewer() {
                                             })}
                                     </div>
                                 </div>
-                            </BoxContainer>
+                                <div className=" mb-2 me-2">
+                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><>User</></label>
+                                    <div className='d-flex gap-3' >
+                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={"handleIssueDetailsChange"} >
+                                            <option value="0" selected>Select User</option>
+                                            {userList && userList.map((list) => {
+                                                return (
+                                                    <option value={list.id}>{list.name}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                </div>
+                                <div className=" mb-2 me-2">
+                                    <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Name of Events</></label>
+                                    <div className='d-flex gap-3' >
+                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={"handleIssueDetailsChange"} >
+                                            <option value="0" selected>Select Event</option>
+                                            <option value="1">All</option>
+                                            <option value="2">add_list</option>
+                                            <option value="3">api</option>
+                                            <option value="4">checksum</option>
+                                            <option value="5">delete</option>
+                                            <option value="6">edit_list</option>
+                                            <option value="7">fee</option>
+                                            <option value="8">login</option>
+                                            <option value="9">login attempt</option>
+                                            <option value="10">logout</option>
+                                            <option value="11">order</option>
+                                            <option value="12">other</option>
+                                            <option value="13">patient</option>
+                                            <option value="14">patient-merge</option>
+                                            <option value="15">patient-record</option>
+                                            <option value="16">portalapi</option>
+                                            <option value="17">print</option>
+                                            <option value="18">qrda3</option>
+                                            <option value="19">scheduling</option>
+                                            <option value="20">security-administration</option>
+                                            <option value="21">uuid</option>
+                                            <option value="22">view</option>
+                                            <option value="23">disclosure</option>
 
+                                        </select>
+                                    </div>
+                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                </div>
+                                <div className=" mb-2 me-2">
+                                    <label htmlFor="ddlRelationshipTertiary" className="form-label">Type of Events</label>
+                                    <div className='d-flex gap-3' >
+                                        <select className="form-select form-select-sm" id="classificationTypeId" aria-label=".form-select-sm example" name='classificationTypeId' onChange={"handleIssueDetailsChange"} >
+                                            <option value="0" selected>Select Event</option>
+                                            <option value="1">All</option>
+                                            <option value="2">Query</option>
+                                            <option value="3">update</option>
+                                            <option value="4">insert</option>
+                                            <option value="5">delete</option>
+                                            <option value="6">replace</option>
+                                        </select>
+                                    </div>
+                                    <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                </div>
+                                <div className="mb-2 mt-4 relative ">
+                                    <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" >Show <i class="fa-regular fa-eye" style={{ color: "#ffffff" }}></i> </button>
+                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={"handleClear"}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                </div>
+                            </BoxContainer>
                         </div>
                         <div className="col-12 mt-3">
                             <div className="med-table-section" style={{ "height": "74vh" }}>
@@ -85,11 +174,16 @@ function LogsViewer() {
                                     <thead>
                                         <tr>
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                            <th>Full Name</th>
-                                            <th>SSN</th>
-                                            <th>External ID</th>
-                                            <th>Date of Birth</th>
-                                            <th style={{ "width": "10%" }} className="text-center">{t("Action")}</th>
+                                            <th>Date</th>
+                                            <th>Event</th>
+                                            <th>Category</th>
+                                            <th>User</th>
+                                            <th>Certificate User</th>
+                                            <th>Group</th>
+                                            <th>Patient ID</th>
+                                            <th>Success</th>
+                                            <th>API Logging</th>
+                                            <th>Comments</th>
                                         </tr>
                                     </thead>
                                     <tbody>
