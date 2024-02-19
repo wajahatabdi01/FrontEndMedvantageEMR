@@ -376,6 +376,7 @@ import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
 import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
 import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
+import AppRegistrationForm from '../Admin/Pages/FHIRMaster/AppRegistrationForm';
 
 export default function ApiRoutes() {
 
@@ -655,6 +656,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------Start Registration Routing---------------------- */}
                   <>
                         <Route path="/patientregistration/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistration />} name="patientregistration" />} />} />
+                        <Route path="/appregistrationform/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AppRegistrationForm />} name="appregistrationform" />} />} />
                         <Route path="/patientregistration&admit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistrationAndAdmit />} name="patientregistration" />} />} />
                         <Route path="/visitRevisitReport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<VisitRevisitReport />} name="patientregistration" />} />} />
                         <Route path="/opdPrint/" element={<ProtectedRoutes Compnent={<PrintOPDRegistrationSlip />} />} />
