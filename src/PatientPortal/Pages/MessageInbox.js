@@ -35,8 +35,7 @@ export default function MessageInbox() {
 
     const handleShowCompose = () => {
         setisShowCompose(1)
-    }
-   
+    }   
 
     return (
         <>
@@ -45,7 +44,7 @@ export default function MessageInbox() {
                     <div className="row">
                         <div className={`${ismsgRead === 1 ? 'col-md-6 col-sm-12 ' : 'col-md-12 col-sm-12 custom-animation'}`}>
                             <div className='med-box'>
-                                <div className='inner-content'>
+                                <div className='inner-content'> 
                                     <div className='inboxheadingmain mt-1'>
                                         <div className="inbox-headingg">Inbox Messages<span className='fontt'>(8/55)</span></div><div className='rightt'> <span> <img src={del_icon} alt="" /> <img src={refresh_icon} alt="" /></span>
                                             <div><img src={pencil_icon} alt="" /> <button type='button' onClick={handleShowCompose}> Compose</button> </div></div>
