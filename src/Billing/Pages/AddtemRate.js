@@ -220,6 +220,7 @@ export default function SurgeryMaster() {
         setitem(null)
         setRate('')
         setIsUpdateBtnShow(false);
+        setAllItemRateList([])
  
     }
 
@@ -294,8 +295,8 @@ export default function SurgeryMaster() {
                                     </div>
 
                                     <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3">
-                                        <label htmlFor="Code" className="form-label">Enter Rate<span className="starMandatory">*</span></label>
-                                        <input type="number" className="form-control form-control-sm" name="rate" value={rate} placeholder="Enter Company Name" onChange={handlerChange} />
+                                        <label htmlFor="Code" className="form-label">Item Rate<span className="starMandatory">*</span></label>
+                                        <input type="number" className="form-control form-control-sm" name="rate" value={rate} placeholder="Enter Item Rate" onChange={handlerChange} />
                                         <small id="errItemRate" className="form-text text-danger" style={{ display: 'none' }}></small>
                                     </div>
                                                 <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3 relative">
@@ -327,13 +328,13 @@ export default function SurgeryMaster() {
                         </div>
                         <div className="col-12 mt-3">
                             <div className="med-table-section" style={{ "height": "80vh" }}>
-                                <table className="med-table border_ striped_">
+                                <table className="med-table border_ striped">
                                     <thead style={{zIndex: '0'}}>
                                         <tr>
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                            <th>Company Name</th>
-                                            <th>Supplement Name</th>
-                                            <th>Rate</th>
+                                            <th>TPA Company Name</th>
+                                            <th>Item Name</th>
+                                            <th>Item Rate</th>
                                             {/* <th style={{ "width": "10%" }} className="text-center">Action</th> */}
                                         </tr>
                                     </thead>

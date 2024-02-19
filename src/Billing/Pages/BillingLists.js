@@ -120,17 +120,17 @@ const handlePaymentMode = (e)=>{
                 <div className="inner-content">
                 <div className='fieldsett-in col-md-12'>
                 <div className='fieldsett'>
-                  <span className='fieldse'>Bill Reports</span>
+                  <span className='fieldse'>Bill Report</span>
                   <div className='row'>
 
                  
                     <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">From<span className="starMandatory">*</span></label>
+                      <label htmlFor="Code" className="form-label">From<span className="starMandatory"></span></label>
                       <input value={FromDate} id="ddalarmtime" type="date" className="form-control form-control-sm" name="fromdate" onChange={handleOnChange} />
                       <small id="errfrom" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
                     <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">To<span className="starMandatory">*</span></label>
+                      <label htmlFor="Code" className="form-label">To<span className="starMandatory"></span></label>
                       <input value={ToDate} id="ddwarningviewtime" type="date" className="form-control form-control-sm" name="todate" onChange={handleOnChange}/>
                       <small id="errtodate" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
@@ -214,7 +214,7 @@ const handlePaymentMode = (e)=>{
                     <div
                       onClick={() => {ShowBillingDetails(index);}}
                     >
-                   <img src={view} alt='' title='claim'/>
+                   <img src={view} alt='' title='view'/>
                     </div>
                     <div  data-bs-title="Delete Row" data-bs-placement="bottom"    onClick={() => handlePrintBill(index)}><img src={imgPrint} style={{width: '20px'}} className='' alt='' />
                     </div>
@@ -321,10 +321,7 @@ const handlePaymentMode = (e)=>{
                             <td className='fw-bold'>Department :</td>
                             <td className='value' colSpan={3}>{billDetails.departName}</td>                           
                         </tr>
-                        <tr>
-                            <td className='fw-bold'>Consultant Name :</td>
-                            <td colSpan={3}><b>{billDetails.drName}</b></td>                            
-                        </tr>
+                     
                         </tbody>
                     </table>
 

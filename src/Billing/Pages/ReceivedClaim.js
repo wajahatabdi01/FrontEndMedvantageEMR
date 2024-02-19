@@ -8,6 +8,7 @@ import getAllTpaCompany from '../API/getAllTpaCompany';
 import TrackPolicyNo from '../API/TrackPolicyNo';
 import UpdateClaim from '../API/UpdateClaim';
 import statement from '../../assets/images/icons/statement.png';
+import AlertToster from "../../Component/AlertToster";
 
 
 
@@ -45,7 +46,8 @@ export default function ReceivedClaim() {
   const [ReceivedAmount, setReceivedAmount] = useState('');
   const [rowID, setrowID] = useState(0);
   const [rowReceivedAmount, setrowReceivedAmount] = useState('');
-  const [rowPendingAmount, setrowPendingAmount] = useState('');
+  let [showAlertToster, setShowAlertToster] = useState(0);
+  let [showMessage, setShowMeassage] = useState("");
   let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
 
 
@@ -85,7 +87,7 @@ export default function ReceivedClaim() {
             setShowLoder(0)
             setcompanyList(data.responseValue.map(Tpa=>({
                 value: Tpa.id,
-                label: Tpa.companyname
+                label: Tpa.companyname 
             })));
         }
         else {
@@ -93,12 +95,12 @@ export default function ReceivedClaim() {
          }
     }
   const GetClaimList = async(companyId)=>{
-    if(companyId != null){
-       let trackPolicy = await TrackPolicyNo(companyId.value , PolicyNo)
+
+       let trackPolicy = await TrackPolicyNo(companyId , PolicyNo)
     if(trackPolicy.status === 1 ){
       setTrackPolicyList(trackPolicy.responseValue)
       console.log("trackPolicy" , trackPolicy.responseValue)
-    }
+    
     }
    
   }
@@ -113,19 +115,24 @@ export default function ReceivedClaim() {
     setrowPolicyNo(IndexData.tpaReferenceNo)
     setrowAmount(IndexData.amount)
     setrowID(IndexData.id)
-    setrowPendingAmount(IndexData.pendingAmount)
     setrowReceivedAmount(IndexData.receivedAmount)
     console.log('index', IndexData)
   }
 
 
 const updateClaim = async()=>{
-
+if(ReceivedAmount < rowAmount ){
+setShowMeassage("Recieved Amount Should not be less than Requested Amount");
+setShowAlertToster(1)
+return
+}
   const obj ={
-    id : rowID,
+   
     userID: userID,
     receivedDate : claimDate,
-    receivedAmount : ReceivedAmount
+    receivedAmount : ReceivedAmount,
+    isCashless : 0,
+    uhid: rowUHID
   }
 
   console.log('obj' , obj)
@@ -152,7 +159,7 @@ const handleClear=()=>{
 
 
 useEffect(() => {
-  GetClaimList()
+  GetClaimList(0)
   setshowClaimModel(0);
   getAllTpaCompanyList()
 }, [])
@@ -170,12 +177,12 @@ useEffect(() => {
 
                  
                   <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                        <label htmlFor="ddlitem" className="form-label ">Company<span className="starMandatory">*</span></label>
+                        <label htmlFor="ddlitem" className="form-label ">Company<span className="starMandatory"></span></label>
                           <Select value={companyName} options={companyList} className=" create-select" id="serviceType" placeholder="Select TPA Company" isSearchable={isSearchable} isClearable={isClearable} onChange={selectedOption => handleSelectChange(selectedOption, "errCompany", setcompanyName)} />
                           <small id="errCompany" className="form-text text-danger" style={{ display: 'none' }}></small>
                          </div>
                     <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">Policy No<span className="starMandatory">*</span></label>
+                      <label htmlFor="Code" className="form-label">Policy Number<span className="starMandatory"></span></label>
                       <input value={PolicyNo} id="ddwarningviewtime" type="text" className="form-control form-control-sm" name="PolicyNo" placeholder='Enter Policy Number' onChange={handleOnChange}/>
                       <small id="errPolicyNo" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
@@ -221,6 +228,18 @@ useEffect(() => {
                   
                 
              {TrackPolicyList && TrackPolicyList.map((data,index)=>{
+      const claimDate = data.claimDate ? new Date(data.claimDate) : null;
+
+    const formatDate = (date) => {
+    if (!date) return '';
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}/${month}/${year} At ${hours}:${minutes}`;
+  };
+
               return(
                 <tr >
                <td className="text-center">{index + 1}</td>
@@ -229,13 +248,13 @@ useEffect(() => {
                 <td>{data.tpaReferenceNo}</td>
                 <td>{data.receivedAmount === null ? '0' : data.receivedAmount }</td>
                 <td>{data.pendingAmount}</td>
-                <td>{data.claimDate}</td>
+                <td>{formatDate(claimDate)}</td>
                 <td>
                   <div className="action-button">
                     <div
-                      onClick={() => {ShowClaimDetails(index);}}
+                      onClick={() => {ShowClaimDetails(index)}}
                     >
-                  <img src={statement}/>
+                    <img src={statement} alt="" title="Fill Claim Amount"/>
                     </div>
                    
                   </div>
@@ -319,14 +338,8 @@ useEffect(() => {
                                 <label htmlFor="Code"  className="form-label">Requested Amount<span className="starMandatory"></span></label>
                                 <input  type="text" id="amount" value={rowAmount} className="form-control form-control-sm mt-1" disabled />
                                 </div>
-                                <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
-                                <label htmlFor="Code"  className="form-label">Already Received Amount<span className="starMandatory"></span></label>
-                                <input  type="text" id="amount" value={rowReceivedAmount} className="form-control form-control-sm mt-1" disabled />
-                                </div>
-                                <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
-                                <label htmlFor="Code"  className="form-label">Pending Amount<span className="starMandatory"></span></label>
-                                <input  type="text" id="amount" value={rowPendingAmount} className="form-control form-control-sm mt-1" disabled />
-                                </div>
+                    
+          
 
                                 <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
                                 <label htmlFor="Code" className="form-label">Claim Date<span className="starMandatory"></span></label>
@@ -357,7 +370,11 @@ useEffect(() => {
 </div>
 
       </div>
-      
+      {showAlertToster === 1 ? (
+              <AlertToster message={showMessage} handle={setShowAlertToster} />
+            ) : (
+              ""
+            )}
     
 
   </div>
@@ -366,6 +383,8 @@ useEffect(() => {
 
 </div> :''
 }
+
+
 
    </>
   )
