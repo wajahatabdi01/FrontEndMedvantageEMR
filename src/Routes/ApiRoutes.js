@@ -375,6 +375,8 @@ import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
 import LayoutReportContent from '../PatientPortal/Layout/LayoutReportContent';
+import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
+import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
 
 export default function ApiRoutes() {
 
@@ -494,6 +496,7 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
                         <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
+                        <Route path="/logsViewer/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogsViewer />} name="LogsViewer" />} />} />
                         <Route path="/classification/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Classification />} name="Classification" />} />} />
                         <Route path="/occurence/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Occurence />} name="Occurence" />} />} />
                         <Route path="/addrule/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddRule />} name="AddRule" />} />} />
@@ -927,6 +930,7 @@ export default function ApiRoutes() {
 
 
                   {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
+                  <Route path="/fhirtypeofdisclosuremaster/" element={<ProtectedRoutes Compnent={<FHIRTypeOfDisclosureMaster />} />} />
                   {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
                   {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
