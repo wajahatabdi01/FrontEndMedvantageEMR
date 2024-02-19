@@ -196,7 +196,7 @@ export default function ClinicalSidebar() {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/documenthistory/" className="nav-link">
+                                        <Link to="/documenthistory/" className="nav-link ">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
                                             <span>Document History</span>
                                         </Link>
@@ -227,23 +227,25 @@ export default function ClinicalSidebar() {
                                         </Link>
                                        
                                     </li>
+                                    <li className="singleList">
+                                <Link to="/DownloadChartedDocument/" className="nav-link">
+                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
+                                <span>Download Charted Document</span>
+                            </Link>
+                        </li>
                                 </ul>
                             </div>
                         </li>
-                        
-                            <li className="singleList">
-                            <Link to="/signature/" className="nav-link  px-3 sidebar-link active">
+
+                        <li className="singleList">
+                            <Link to="/signature/"  className="nav-link  px-3 sidebar-link">
                                 <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
                                 <span>Signature</span>
                             </Link>
                         </li>
+                           
   
-                        <li className="singleList">
-                            <Link to="/DownloadChartedDocument/" className="nav-link  px-3 sidebar-link active">
-                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
-                                <span>DownloadChartedDocument</span>
-                            </Link>
-                        </li>
+                      
 
                         
 
