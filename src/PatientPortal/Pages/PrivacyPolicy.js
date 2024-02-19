@@ -1,4 +1,5 @@
 import React from 'react'
+import save from '../../assets/images/dashboard/save.svg';
 
 export default function PrivacyPolicy() {
     return (
@@ -43,23 +44,29 @@ export default function PrivacyPolicy() {
                                             </div>
                                         </div>
                                         <div className='Commentpart col-xxl-12 col-xl-12 col-lg-12 col-md-12'>
-                                            <div className='leftcomnt col-xxl-4 col-xl-4 col-lg-12 col-md-12'>                                                
-                                                    <div className='privacycomment2 mt-3'> Comments : <div><input type='text' placeholder='Enter Comments' /></div></div>    
-                                                    <div className='privacycomment2'> Do you authorize electronic signature : <span> <input type="checkbox" name="" value="" /></span></div>  
-                                                    <div className='privacycomment2'> Are you Primary Care Giver : <span className='privcyradio'> 
-                                                      <input type="radio" name="" value="" checked />  </span> Yes <span> <input type="radio" name="" value="" /></span> No </div>                                               
-                                                    <div className='privacycomment2'> Clinic Representative Signature Signed : <span> </span></div>                                             
+                                            <div className='leftcomnt col-xxl-4 col-xl-4 col-lg-12 col-md-12'>
+                                                <div className='privacycomment2 mt-3'> Comments : <div><input type='text' placeholder='Enter Comments' /></div></div>
+                                                <div className='privacycomment2'> Do you authorize electronic signature : <span> <input type="checkbox" name="" value="" /></span></div>
+                                                <div className='privacycomment2'> Are you Primary Care Giver : <span className='privcyradio'>
+                                                    <input type="radio" name="" value="" checked />  </span> Yes <span> <input type="radio" name="" value="" /></span> No </div>
+                                                <div className='privacycomment2'> Clinic Representative Signature Signed : <span> </span></div>
 
                                             </div>
-                                            <div className="leftcomnt col-xxl-6 col-xl-6 col-lg-12 col-md-12">                                              
-                                                    <div className='privacycomment2 mt-3'>Signature : <span>Saitiyapur Nijampur, Hardoi</span> </div>                                           
-                                                    <div className='privacycomment2'> Relationship to patient (f signed by a personal representative :
-                                                        <div> <input type='text' placeholder='Enter Relationship' /></div></div>      
-                                                    <div className='privacycomment2'> Date : <span> Saitiyapur Nijampur, Hardoi</span></div>
+                                            <div className="leftcomnt col-xxl-6 col-xl-6 col-lg-12 col-md-12">
+                                                <div className='privacycomment2 mt-3'>Signature : <span>Saitiyapur Nijampur, Hardoi</span> </div>
+                                                <div className='privacycomment2'> Relationship to patient (f signed by a personal representative :
+                                                    <div> <input type='text' placeholder='Enter Relationship' /></div></div>
+                                                <div className='privacycomment2'> Date : <span> Saitiyapur Nijampur, Hardoi</span></div>
 
                                             </div>
 
                                         </div>
+                                        <div class="col-xxl-12 col-xl-12 col-lg-4 col-md-6 mb-3 mt-4 d-flex align-items-end">
+                                            <div>
+                                                <button type="button" class="btn btn-save btn-save-fill btn-sm mb-1 me-1">
+                                                    <img src={save} alt="" /> Save</button>
+                                            </div>
+                                            </div>
                                     </div>
 
                                 </div>
