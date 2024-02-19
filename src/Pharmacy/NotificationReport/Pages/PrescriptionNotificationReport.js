@@ -34,7 +34,6 @@ export default function PrescriptionNotificationReport() {
       setNotificationList(resp.responseValue);
       setNotificationListSearch(resp.responseValue);
 
-      console.log('resp.responseValue', resp.responseValue);
     }
   };
 
@@ -42,7 +41,7 @@ export default function PrescriptionNotificationReport() {
     const dataRes = JSON.parse(param.prescriptionDetails);
     let dataParser = [];
     dataParser.push(dataRes);
-    console.log("param", dataParser[0])
+   
     setMedData(dataParser[0]);
     setNotificationId(param.id);
   };
@@ -196,7 +195,7 @@ export default function PrescriptionNotificationReport() {
 
                   <tbody>
                     {notificationListSearch && notificationListSearch.map((val, ind) => {
-                      console.log('val', val);
+                     
                       return (
                         <tr>
                           <td>{ind + 1}</td>
@@ -265,7 +264,7 @@ export default function PrescriptionNotificationReport() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {medData.medicineData && console.log("data", medData.medicineData)}
+                                  {/* {medData.medicineData && console.log("data", medData.medicineData)} */}
                                   {medData.medicineData && medData.medicineData.map((list, index) => {
                                     return (
                                       <tr>

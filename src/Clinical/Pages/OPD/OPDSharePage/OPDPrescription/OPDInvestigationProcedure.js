@@ -32,13 +32,13 @@ export default function OPDInvestigationProcedure(props) {
     let patientDeptId = window.sessionStorage.getItem("OPDPatientData")
         ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].departmentId
         : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].deptId : []
-    // console.log("patientDeptId", patientDeptId)
+   
 
     let patientDoctId = window.sessionStorage.getItem("OPDPatientData")
         ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId
         : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].doctorId : []
 
-    // console.log("patientDoctId", patientDoctId)
+    
 
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showLoder, setShowLoder] = useState(0);
@@ -69,7 +69,7 @@ export default function OPDInvestigationProcedure(props) {
     let [investname, setInvestname] = useState([])
 
     let handlechange = (e, cost, name, index) => {
-        // console.log("showInvestigation", showInvestigation)
+      
         try {
             let flag = 0
             let id = e.target.name
@@ -94,7 +94,7 @@ export default function OPDInvestigationProcedure(props) {
                 })
 
                 if (flag === 0) {
-                    let data = { "itemId": parseInt(id), "itemName":name}
+                    let data = { "itemId": parseInt(id), "itemName":name, "itemCost":cost}
                     setTotal(total + cost)
                     setSendData([...sendData, data])
                     setInvestname([...investname, name])
@@ -103,7 +103,7 @@ export default function OPDInvestigationProcedure(props) {
                 }
             }
             else {
-                let data = { "itemId": parseInt(id) }
+                let data = { "itemId": parseInt(id), "itemName":name, "itemCost":cost}
                 setTotal(total + cost)
                 setSendData([...sendData, data])
                 setInvestname([...investname, name])
@@ -289,7 +289,7 @@ export default function OPDInvestigationProcedure(props) {
             "deptId": patientDeptId,
             "investigationItemDetails": JSON.stringify(sendData),
         }
-        // console.log("obj", obj)
+   
         // return;
         const response = await FHIRSavePatientInvestigation(obj);
         if (response.status === 1) {

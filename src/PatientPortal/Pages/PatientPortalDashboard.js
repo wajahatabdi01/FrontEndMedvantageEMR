@@ -46,13 +46,13 @@ const handleEditData= async()=>{
                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
                   <div className="med-box">
 
-                <div className="inner-content">
-                <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap ' style={{gap: '14px'}}>
-                <div className="">
+                <div className="inner-content" style={{overflowX: 'auto'}}>
+                <div className='portal-user-details-box col-md-12 d-flex' style={{gap: '14px'}}>
+                <div className="portal-user-image">
                   <img src={exampleUser} alt=""/>
                 </div>
 
-                <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8">
+                <div className="col-xxl-10 col-xl-10  col-lg-11 col-md-12">
                   <div className="portal-user-name d-flex mb-1 justify-content-between">
                     <div>Shiv Mishra</div>
                     <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
@@ -63,16 +63,16 @@ const handleEditData= async()=>{
                     <div className="user-personal-details"><img src={location} className="me-1" alt="" />Sarfarazganj,Hardoi,Lucknow</div>
                   </div>
                   
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 patien-basic-details mt-4">
+                  <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4">
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Mobile No.</div>
                   <div className="details-content ">9786786898</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box" style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Email</div>
                   <div className="details-content">shivmishra@gmail.com</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box"  style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Blood Group</div>
                   <div className="details-content">AB+</div>
                  </div>
@@ -156,9 +156,12 @@ const handleEditData= async()=>{
                 <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
 
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 ">
-                  <div className="col-xxl-8 col-xl-8 col-lg-12 col-md-12 portal-user-name mb-1 patient-history-header-btn">
-                    <button className={`btn btn ${Opdhistory === 1 ? 'opd-history-btn me-2' : 'admission-history-btn me-2'}`} onClick={handleOpdhistory} style={{fontWeight: '700'}}>OPD Visit History</button>
+                  <div className="d-flex">
+                    <div className="portal-user-name mb-1 patient-history-header-btn">
+                       <button className={`btn btn ${Opdhistory === 1 ? 'opd-history-btn me-2' : 'admission-history-btn me-2'}`} onClick={handleOpdhistory} style={{fontWeight: '700'}}>OPD Visit History</button>
                     <button className={`btn btn ${admissionHistory === 1 ? 'opd-history-btn' : 'admission-history-btn'}`} onClick={handleadmissionhistory} style={{fontWeight: '700'}}>Admission History</button>
+                    </div>
+                   
                   </div>
              
                   <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mb-2 d-flex patient-history-list me-2 pt-2">
@@ -231,10 +234,10 @@ const handleEditData= async()=>{
 
 
 
-          <div className="row pt-3">
+          <div className="row pt-3" style={{rowGap: '15px'}}>
             <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content medication-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Medication</div>
                      <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
@@ -315,7 +318,7 @@ const handleEditData= async()=>{
 
             <div className="col-xxl-3 col-xl-3 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content investigation-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Investigation</div>
 
@@ -365,7 +368,7 @@ const handleEditData= async()=>{
             </div>
             <div className="col-xxl-5 col-xl-5 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content insurance-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Insurance Summary</div>
 
