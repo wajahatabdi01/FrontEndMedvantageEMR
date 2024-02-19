@@ -374,6 +374,7 @@ import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
+import LayoutReportContent from '../PatientPortal/Layout/LayoutReportContent';
 
 export default function ApiRoutes() {
 
@@ -426,6 +427,7 @@ export default function ApiRoutes() {
                     <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
                     <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
                     <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy/>}/>
+                    <Route path='/reportcontent/' element={<LayoutReportContent/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
