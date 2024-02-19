@@ -374,15 +374,12 @@ import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
-<<<<<<< HEAD
 import LayoutDocumentHistory from '../PatientPortal/Layout/LayoutDocumentHistory';
 import LayoutSignature from '../PatientPortal/Layout/LayoutSignature';
 import LayoutDownloadChartedDocument from '../PatientPortal/Layout/LayoutDownloadChartedDocument';
-=======
 import LayoutReportContent from '../PatientPortal/Layout/LayoutReportContent';
 import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
 import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
->>>>>>> cefdcba8693a22bb2e2eab33e4d26a42bde29177
 
 export default function ApiRoutes() {
 
