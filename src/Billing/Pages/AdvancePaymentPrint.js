@@ -1,35 +1,42 @@
 import React, {useState} from 'react'
 import { useEffect } from 'react';
 import mainlogo from '../../../src/assets/images/Navbar/offcanvas-logo.png'
-import '../../assets/css/CertificateCard.css'
+import EraLogo from '../../../src/assets/images/icons/EraLogo.png'
+import '../../assets/css/CertificateCard.css';
+import Vector from "../../assets/images/icons/Vector.svg";
+import Contact from "../../assets/images/icons/Contact.svg";
 
 
 
 export default function AdvancePaymentPrint() {    
 
    
-    let [AdvancePrint, setBillPrint] = useState();   
-    let [itmeDetailByBill, setItmeDetailByBill] = useState();
+    let [AdvancePrint, setAdvancePrint] = useState();   
+    const [clientData , setclientData] = useState()
 
-    var converter = require('number-to-words');
 
-    let getBillingDetails = () => {
+   
+
+    let GetDepositAmountDetails = () => {
         console.log('object show'); 
-        let data =JSON.parse(window.sessionStorage.getItem("PringBillingDetails"));      
-        // console.log('itemDitemD>datadata', data[0]);
-       setBillPrint(data[0]);
-       let itemD = JSON.parse(data[0].itemDetails);
-    console.log('itemDitemD>', itemD);
-       setItmeDetailByBill(itemD);
-     
+        let data =JSON.parse(window.sessionStorage.getItem("DepositAmountDetails"));      
+        setAdvancePrint(data);
     }
+
+    
+    const ClientData=()=>{
+        let data = JSON.parse(window.sessionStorage.getItem("LoginData")).clientdata;
+        console.log('ClientData' , data)
+        setclientData(data)
+      }
 
 
     useEffect(() => {
-        getBillingDetails(); 
-
+        GetDepositAmountDetails(); 
+        ClientData()
+     
         setTimeout(() => {
-            handlepritnt();
+       handlepritnt();
         }, 1200)
     }, []);
 
@@ -44,7 +51,7 @@ export default function AdvancePaymentPrint() {
 
     // useEffect(() => {
     //     console.log('this is useEffect>');
-        // getBillingDetails();         
+        // GetDepositAmountDetails();         
         // document.title = `Cash Bill: ${pDeatails}`; // Set the desired title here
 
         // setTimeout(() => {
@@ -55,7 +62,7 @@ export default function AdvancePaymentPrint() {
 
    
     let handlepritnt = () => {
-        document.title = 'Billing Slip';        
+        document.title = 'Deposit Amount Receipt';        
         window.print("");
         window.close();
 
@@ -65,163 +72,93 @@ export default function AdvancePaymentPrint() {
     return (
         <>
         { AdvancePrint && 
-            <div className="card-wrapper">  
+            <div className="card-wrapper main-content pt-5" style={{background: 'white'}}>  
             <div className='quater-border right-top'></div>
             <div className='quater-border left-bottom'></div>             
                 {/* ----------------Header Sec-------------- */}
-                <div className="dis-hed">
-                    <div className="discharge-logo">
-                        <div className="logo-main">
-                            <img src={mainlogo} />
-                        </div>
-                    </div>
-                    <div className="address-section">
-                        <div className='address'>K.No-3, Sarfarazganj, Hardoi road, Lucknow, UP-226003</div>
-                        <div className='email'>info@medvantage.com</div>
-                        <div className='phone'>+91-7795688088</div>                        
-                    </div> 
+              <div
+                className="dis-hed"
+                style={{
+                  height: "auto",
+                  padding: "8px",
+                  background: "rgb(245 245 245)",
+                  alignItems: "center",
+                }}
+              >
+                <div className="">
+                  <img
+                    src={clientData.logoUrl}
+                    alt="Company Logo"
+                    style={{width: "211px", }}
+                  />
                 </div>
+
+                <div className="CompanyDetailsHeading">
+                  <div className="companyNameChallan">
+                  {clientData.clientName}
+                  </div>
+                  <div className="companyLocation">
+                  {clientData.address}
+                  </div>
+                  <div className="companyContact">
+                    <img src={Vector} alt=""></img> {clientData.emailID}
+                    
+                    <img src={Contact} alt=""></img> {clientData.mobileNo}
+                  </div>
+                </div>
+                
+              </div>
            
             {/* -----------------------Patient's Details------------------- */}           
                
                 <div className="pat-dtls">
-                <div className='document-title'>Cash Bill Details</div>
+                <div className='Challanheading text-center mt-2'style={{fontSize: '17px'}}>Receipt</div>
 
-                
-                    <table className='table-certificate'>
-                        <tr>
-                            <td>Bill No</td>
-                            <td className='value'>{AdvancePrint.billNo}</td>
-                            <td>Bill Date</td>
-                            <td className='value'>{AdvancePrint.billDate}</td>
-                        </tr>
+                <div className="Challanheading mt-4" style={{fontSize: '14px'}}>Patient Details</div>
+                <div className='mt-2' style={{minHeight:'830px'}}>
+                    <table className='table-certificate border'>
+                      
                         <tr>
                             <td>UHID</td>                           
-                            <td className='value'>{AdvancePrint.uhId}</td>
-                            <td>CRNO</td>
-                            <td className='value'>{AdvancePrint.crNo}</td>
-                        </tr>
-                        <tr>
-                            <td>IPNO</td>
-                            <td className='value'>{AdvancePrint.ipNo}</td>
-                            <td>Gender</td>
-                            <td className='value'>{AdvancePrint.gender}</td>
-                        </tr>
-                        <tr>
-                            <td>Patient Name</td>
+                            <td className='value'>{AdvancePrint.uhid}</td>
+                            <td>Patient Name</td>                           
                             <td className='value'>{AdvancePrint.patientName}</td>
-                            <td>Age</td>
-                            <td className='value'>{AdvancePrint.age} {AdvancePrint.agetype}</td>
+
                         </tr>
                         <tr>
-                            <td>Patient Mobile No</td>
-                            <td className='value'>{AdvancePrint.mobileNo}</td>
-                            <td>Ward Name</td>
-                            <td className='value'>{AdvancePrint.wardName}</td>
+                            <td>Deposit Amount</td>
+                            <td className='value'>{AdvancePrint.patientAge}</td>
+                            <td>Gender</td>
+                            <td className='value'>{AdvancePrint.patientGender}</td>
+                        </tr>
+
+                        <div className="Challanheading mt-4" style={{fontSize: '14px'}}>Deposit Amount Details</div>
+
+                        <tr className='mt-2'>
+                            <td>Deposit Amount</td>
+                            <td className='value'>{AdvancePrint.advanceLimit}</td>
+                            <td>Deposited By</td>
+                            <td className='value'>{AdvancePrint.advanceSumitedBy}</td>
                         </tr>
                         <tr>
-                            <td>Department</td>
-                            <td className='value' colSpan={3}>{AdvancePrint.departName}</td>                           
-                        </tr>
-                        <tr>
-                            <td><b>Consultant Name</b></td>
-                            <td colSpan={3}><b>{AdvancePrint.drName}</b></td>                            
+                            <td>Contact No</td>
+                            <td className='value'>{AdvancePrint.contactNo}</td>
+                            <td>Payment Mode</td>
+                            <td className='value'>{AdvancePrint.Payment}</td>
                         </tr>
                     </table>
+                    </div>
                   
                     
                 </div>  
+
                     
                 
              
 
-                <div className="pat-dtls cert-top2"> 
-                <div className='document-title'>Test Details</div>
-                    <table className='table-certificate border'>
-                        <thead>
-                            <tr>
-                               <th className='text-center'>#</th>
-                               <th>Items</th>
-                                <th>Category</th> 
-                               <th className='text-right'>Charges (Rs)</th>
-                               <th className='text-center'>Qty.</th>
-                               <th className='text-right'>Dis. (Rs)</th>
-                               <th className='text-right'>Total Amt. (Rs)</th>
-                            </tr>
-                        </thead>
-                       
-                        <tbody>
-
-                        {itmeDetailByBill && itmeDetailByBill.map((val, ind) => {
-                        return(
-                           
-                           <tr key={ind}>
-                            <td className='text-center'>{ind + 1}</td>
-                            <td>{val.itemName}</td>
-                             <td></td> 
-                            <td className='text-right'>{val.itemCharge}</td>
-                            <td className='text-center'>{val.itemQuantity}</td>
-                            <td className='text-right'>{val.totalDiscount}</td>
-                            <td className='text-right'>{val.totalAmount}</td>
-                           </tr>                                          
- )
-})}
-                           <tr>
-                            <td colSpan={5} className='text-right'><b>Grand Total (Rs)</b></td>
-                            <td className='text-right'><b>{AdvancePrint.totalDiscountSum}</b></td>
-                            <td className='text-right'><b>{AdvancePrint.totalAmountSum}</b></td>
-                           </tr>
-                           
-                          
-                      
-                        </tbody>
-
-                    </table>
-                </div>
 
                 
-                <div className="pat-dtls cert-top2"> 
-                <div className='document-title'>Amount Details</div>
-                <table className='table-certificate border-bottom'>                      
-                 <tbody>
-                    <tr>
-                     <td style={{width:'50%'}}>Paid Amount(Rs)</td>
-                     <td className='value'>: {AdvancePrint.totalPaidAmount}</td>
-                    </tr>
-
-                    <tr>                        
-                     <td>Amount In Words</td>
-                     <td className='value' id='paidWords'>: {converter.toWords(AdvancePrint.totalPaidAmount)}</td>
-                    </tr>
-                    <tr>
-
-                     <td>Balance Amount(Rs) </td>
-                     <td className='value'>: {AdvancePrint.totalBalanceAmount}</td>
-                    </tr>
-               
-                    <tr>
-                     <td>TPA Reference No </td>
-                     <td className='value'>: {AdvancePrint.tpaReferenceNo === '' ? 'Not Applicable' : AdvancePrint.tpaReferenceNo }</td>
-                    </tr>
-
-                    <tr>
-                     <td>Payment Mode </td>
-                     <td className='value'>: {AdvancePrint.paymentMode == "1" ? 'By Cash' : 'Card' && AdvancePrint.paymentMode == "2" ? 'By Card' : 'Cash' && AdvancePrint.paymentMode == "3" ? "By Cheque" : 'Card' && AdvancePrint.paymentMode == "4" ? 'Online' : 'By Cheque'}</td>
-                    </tr>
-
-                    <tr>
-                     <td>Advance Balance Amount(Rs)</td>
-                     <td className='value'>: {AdvancePrint.advanceBalance}</td>
-                    </tr>
-
-                    <tr>
-                     <td>Discount by/ Narration</td>
-                     <td className='value'>:  {AdvancePrint.discountRemark}</td>
-                    </tr>
-
-                 </tbody>
-                </table>
-                </div>
+           
                 {/* ---------------------------Examination---------------------- */}
                 
                    
