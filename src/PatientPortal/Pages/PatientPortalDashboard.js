@@ -266,7 +266,7 @@ const GetChiefComplaintData = async()=>{
 
 
 
-          <div className="row pt-3" style={{rowGap: '15px'}}>
+          <div className="row pt-3 mb-4" style={{rowGap: '15px'}}>
             <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
                <div className="inner-content medication-inner">
