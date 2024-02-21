@@ -11864,15 +11864,17 @@ span.ptn-dtails {
 
 .documenthistorytbl {
   font-family: Poppins;
-  color: #546788;
+  color: #2599CE;
   text-transform: capitalize;
   width: auto;
+  max-width: -moz-fit-content;
   max-width: fit-content;
-  padding: 5px 15px;
+  padding: 1px 7px;
   background: #F1F9FC;
   border: 0.699999988079071px solid #2599CE;
   border-radius: 5px;
   font-size: 12px;
+  font-weight: 500;
 }
 .documenthistorytbl table td {
   color: #7B7B7B !important;
