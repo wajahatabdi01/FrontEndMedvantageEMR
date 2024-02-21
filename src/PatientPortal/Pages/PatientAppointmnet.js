@@ -634,7 +634,7 @@ function PatientAppointmnet() {
                                                            </div>
                                                            <div className='d-flex gap-5 mb-2'>
                                                             <div className='buinesshour-day'>Tuesday</div>
-                                                            <div className='buisnesshour-time text-danger'>closed</div>
+                                                            <div className='buisnesshour-time text-danger fw-bold'>closed</div>
                                                            </div>
                                                            <div className='d-flex gap-5 mb-2'>
                                                             <div className='buinesshour-day'>Wednesday</div>
