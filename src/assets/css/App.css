@@ -3233,7 +3233,8 @@ img.btl-icnn1 {
   color: var(--primary-bg-btn-text-color);
   font-size: 13px;
   border: 1px solid var(--primary-color);
-  padding: 5px 10px;
+  padding: 5px 16px;
+  border-radius: 3px;
 }
 
 .searchbtnn {
@@ -6047,17 +6048,14 @@ ul.ulnobullet .crud {
 
 
 .profile {
-  top: 416px;
-  left: 529px;
-  width: 119px;
-  height: 23px;
-  /* UI Properties */
-  color: var(--unnamed-color-546788);
-  text-align: left;
-  font: normal normal 600 16px/25px Poppins;
-  letter-spacing: 0px;
-  color: #546788;
   opacity: 1;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border: 1px solid #1D499929;
+  border-radius: 5px;
+  font: normal normal 600 14px/27px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  padding: 4px 16px;
 }
 
 .paragraph {
@@ -9921,18 +9919,45 @@ span.saveb img {
   font: normal normal bold 15px/20px Bebas Neue;
 } */
 
-.horizontal-line {
+/* .horizontal-line {
   position: relative;
   width: 89%;
   border: 0.2px solid #1D4999;
   margin: auto;
   height: 0px;
-  /* background-color: #000; */
-  /* margin: 20px 0; */
+  
   margin-bottom: 25px;
   margin-top: 25px;
-  /* opacity: 0.5; */
+  
   opacity: 0.24;
+} */
+
+
+.horizontal-line {
+  position: relative;
+  width: 89%; 
+  margin: auto;
+  height: 0px;
+  background-color: #0000003b; 
+  margin-bottom: 25px;
+  margin-top: 25px;
+  
+  height: 1px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.absText {
+  position: absolute;
+  top: -13px;
+  z-index: 1;
+  display: inline-block;
+  background: white;
+  font: normal normal normal 13px/23px Poppins;
+  letter-spacing: -0.06px;
+  color: #2B2B2B;
+  padding: 0 7px;
 }
 
 .horizontal-line-dignosis {
@@ -10307,15 +10332,15 @@ span.saveb img {
 
 /* Started patient-portal-dshboard Css */
 
-.portal-user-image img{
+/* .portal-user-image img{
   width : 119px;
   margin: auto;
-}
-@media(max-width:1718px){
+} */
+/* @media(max-width:1718px){
   .portal-user-image img{
     width: 113px;
   }
-}
+} */
 .portal-user-image{
   display: flex;
   align-items: center;
@@ -10496,7 +10521,7 @@ span.saveb img {
 
 span.Appoin {
   text-align: left;
-  font: normal normal 600 21px/32px Poppins;
+  font: normal normal 600 18px/32px Poppins;
   letter-spacing: 0px;
   color: #1D4999;
   opacity: 1;
@@ -10506,6 +10531,7 @@ span.Appoin {
   /* background: #fff; */
   background: var(--primary-bg-btn-text-color);
   padding: 0px 10px;
+ 
 
 
 }
@@ -10535,6 +10561,7 @@ span.Appoin {
   font: normal normal medium 18px/27px Poppins;
   letter-spacing: 0px;
   color: #FFFFFF;
+  padding: 8px 10px;
 
 }
 
@@ -10552,10 +10579,38 @@ span.Appoin {
   text-transform: capitalize;
   opacity: 1;
 }
-
+.doctor-interface-icn{
+  width: 12px;
+  height: 13px;
+  margin-right: 5px;
+}
+.doctor-fees{
+  color: #1d4999;
+  font-weight: 500;
+  font: normal normal 500 15px/22px Poppins;
+  display: flex;
+  align-items: center;
+}
+.doctor-action-main{
+   flex-wrap: nowrap;
+    overflow: auto;
+    min-width: 300px;
+    gap: 8px;
+}
+.doctor-address-main{
+  flex-wrap: nowrap;
+    overflow: auto;
+    min-width: 400px;
+}
+.doctor-details-main{
+  display: flex;
+  overflow: auto;
+  min-width: 400px;
+  gap: 10px;
+}
 .DoctQualtext {
   text-align: left;
-  font: normal normal normal 14px/23px Poppins;
+  font: normal normal normal 13px/23px Poppins;
   letter-spacing: 0px;
   color: #7B7B7B;
   opacity: 1;
@@ -10563,7 +10618,7 @@ span.Appoin {
 
 .DoctNametext {
   text-align: left;
-  font: normal normal 500 16px/25px Poppins;
+  font: normal normal 500 14px/25px Poppins;
   letter-spacing: 0px;
   color: #4d6ca5;
   opacity: 1;
@@ -10572,18 +10627,27 @@ span.Appoin {
 .ratingStar {
   color: #FFA119;
   opacity: 1;
+  font-size: 11px;
 }
 
 .ratingStar1 {
   color: #B4B5C3;
   opacity: 1;
+  font-size: 11px;
 }
 
 .Appoint {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #1D4999 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  /* background: #FFFFFF 0% 0% no-repeat padding-box; */
   border: 1px solid #1D4999;
-  border-radius: 10px;
+  border-radius: 5px;
   opacity: 1;
+  color: white;
+  font: normal normal 500 13px/27px Poppins;
+  padding: 4px 16px;
+  /* outline: none; */
+  border: none;
 }
 
 .textBoxAppoint {
@@ -10606,12 +10670,13 @@ span.Appoin {
   font: italic normal 300 14px/21px Poppins;
   letter-spacing: 0px;
   color: #929292;
+  border-radius : 0px;
   opacity: 1;
 }
 
 .tableHead-1 {
   text-align: left;
-  font: normal normal 600 21px/32px Poppins;
+  font: normal normal 600 18px/32px Poppins;
   letter-spacing: 0px;
   color: #1D4999;
   opacity: 1;
@@ -10652,46 +10717,132 @@ span.Appoin {
 }
 
 .modalPopUpTextHeader {
-  padding-right: 3%;
+  padding-left: 3%;
   padding-top: 18px;
-  width: 250px;
-  height: 28px;
-  /* UI Properties */
-  text-align: center;
+  /* width: 250px; */
+  /* height: 28px; */
+  /* text-align: center; */
   font: normal normal 600 20px/30px Poppins;
   letter-spacing: 0px;
   color: #FFFFFF;
   opacity: 1;
 
 }
-
+.profile-buttons-main{
+  display: flex;
+  gap: 43px;
+}
+.profile-btn-inactive{
+  border: none;
+  background: white;
+  font: normal normal 500 15px/27px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+.profile-btn-active{
+  border: none;
+  border-bottom: 2px solid #546788;
+  background: white;
+  font: normal normal 500 15px/27px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+.overviewheading{
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Poppins';
+  color: #3d3d3d;
+}
+.reviewstar{
+  color: #FFA119;
+  opacity: 1;
+  font-size: 14px;
+}
+.location-text{
+  font: italic normal 300 12px/22px Poppins;
+letter-spacing: 0px;
+color: #A2A2A2;
+text-transform: capitalize;
+opacity: 1;
+}
+.overview-text{
+  font: normal normal 12px/24px Poppins;
+}
+.review-text-box input{
+  height: 72px;
+  font-size: 16px;
+  text-align: justify;
+  border: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+}
+.buisnesshour-box {
+  padding: 16px;
+  font-size: 16px;
+  text-align: justify;
+  border: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+}
+.buinesshour-day{
+  font: normal normal 500 12px/20px Poppins;
+  letter-spacing: 0.36px;
+  color: #373737;
+  opacity: 1;
+  width: 75px;
+}
+.buisnesshour-time{
+  font: italic normal normal 11px/20px Poppins;
+letter-spacing: 0.36px;
+color: #A2A2A2;
+opacity: 1;
+}
 .modalImagePop {
-  padding-top: 7px;
-  padding-left: 2px;
-  width: 134px;
-  height: 134px;
+    padding-top: 7px;
+    padding-left: 2px;
+    width: 127px;
+    height: 132px;
 }
 
 .custom-line {
-  width: 95%;
+  min-width: 748px;
+  margin-bottom: 13px;
 }
 
 .chooseText {
-
-  font: normal normal medium 20px/27px Poppins;
+  font: normal normal 500 14px/27px Poppins;
   letter-spacing: 0px;
   color: #546788;
   opacity: 1;
 }
 
+.appointment-date-range{
+  font: normal normal 400 13px/20px Poppins;
+  letter-spacing: 0px;
+  color: #595959;
+}
+.appointment-date-range img{
+  width: 22px;
+  height: 22px;
+}
+
 .ddSpace {
-  top: 523px;
-  left: 600px;
-  width: 57px;
-  height: 58px;
+  width: 96px;
+  height: 39px;
   background: #EFF3FF 0% 0% no-repeat padding-box;
-  border-radius: 10px;
+  border-radius: 20px;
   opacity: 1;
+}
+.ddSpace-selected{
+  width: 96px;
+  height: 39px;
+  color: white;
+  background : #1D4999;
+  border-radius: 20px;
+}
+.booking-main-interface{
+  min-width: 661px;
+  overflow: auto;
 }
 
 .ddSpace:hover {
@@ -10700,17 +10851,46 @@ span.Appoin {
 }
 
 .dayNtext {
-  text-align: center;
-  font: normal normal normal 14px/22px Poppins;
-  letter-spacing: 0px;
+    text-align: center;
+    font: normal normal normal 12px/22px Poppins;
+    letter-spacing: 0px;
+    color: #8BA5D5;
+    text-transform: capitalize;
+    opacity: 1;
+}
+.appnt-day{
   color: #8BA5D5;
+  width: 57px;
+  height: 58px;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
+}
+.appnt-day-selected{
+  color: white;
+  font: normal normal 500 13px/22px Poppins;
+  letter-spacing: 0px;
   text-transform: capitalize;
   opacity: 1;
+}
+.appint-date{
+font: normal normal 500 13px/22px Poppins;
+letter-spacing: 0px;
+color: #546788;
+text-transform: capitalize;
+opacity: 1;
+}
+.choosedDay{
+  width: 57px;
+  height: 58px;
+  color: white;
+  background : #1D4999;
+  border-radius: 10px;
 }
 
 .dtText {
   text-align: center;
-  font: normal normal normal 16px/22px Poppins;
+  font: normal normal 500 14px/22px Poppins;
   letter-spacing: 0px;
   color: #546788;
   text-transform: capitalize;
@@ -10718,12 +10898,10 @@ span.Appoin {
 }
 
 .mortxt {
-  width: 58px;
-  height: 20px;
   text-align: left;
-  font: normal normal normal 14px/21px Poppins;
+  font: normal normal 500 13px/21px Poppins;
   letter-spacing: 0px;
-  color: #546788;
+  color: #3565b8;
   opacity: 1;
 }
 
@@ -10817,6 +10995,10 @@ input.lifestylecode {
   text-align: justify;
   color: #2d8af5;
   font: normal normal 500 13px/27px Poppins;
+}
+.DoctFeed{
+  font-style: italic;
+   color: #bbb8b8;
 }
 
 .doctors-eduction {
@@ -11220,10 +11402,14 @@ span.fontt {
 .reason-input {
   border: 1px solid #DCDCDC;
   height: 20px;
-  width: 294px;
+  width: 100%;
   outline: none
 }
-
+.doctor-booked-name{
+  overflow-x: auto;
+  min-width: 400px;
+  max-width: 400px;
+}
 .reason-input::placeholder {
 }
   .lft-mesg-part {
@@ -11359,6 +11545,9 @@ span.fontt {
 
   .messg-popup-details label {
     width: 100%;
+    color: #1d4999;
+    font-size: 13px;
+    font-weight: 400;
   }
 
   .messg-popup-details input {
@@ -11387,7 +11576,7 @@ span.fontt {
   }
 
   .privacyhdrtext {
-    font: normal normal 600 15px/33px Poppins;
+    font: normal normal 600 14px/33px Poppins;
     letter-spacing: 0px;
     color: #595959;
   }
@@ -11408,7 +11597,7 @@ span.fontt {
   }
 
   .privacypara {
-    font: normal normal normal 15px/20px Poppins;
+    font: normal normal normal 12px/20px Poppins;
     letter-spacing: 0px;
     color: #7B7B7B;
     opacity: 1;
@@ -11416,7 +11605,7 @@ span.fontt {
 
   .hedingprivacy {
     color: #595959;
-    font-weight: 600;
+    font-weight: 500;
     opacity: 1;
     font-size: 15px;
   }
@@ -11509,8 +11698,9 @@ span.fontt {
   .privacycomment2 {
     width: 100%;
     color: #546788;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
     display: flex;
     gap: 5px;
     padding: 3px 0;

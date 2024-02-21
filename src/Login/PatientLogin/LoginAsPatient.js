@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import PostApiLogin from '../API/PostApiLogin';
-import ValidationLogin from '../../Validation/Clinical/Login/ValidationLogin';
 import { useAsyncError, useNavigate } from 'react-router-dom';
 import Loder from '../../Component/Loader';
 import LoginImgLogo from '../../assets/images/LoginPage/RMD-Logo.png'
 import AlertToster from '../../Component/AlertToster';
 import medLogo from '../../assets/images/LoginPage/RMD-Logo-login.png';
-import POSTVerifyOtp from '../API/POSTVerifyOtp';
-import ForgotPasswordApp from '../../Component/ForgotPasswordApp';
-import PostChatCornCall from '../API/PostChatCornCall';
+
 
 export default function LoginAsPatient() {
 
@@ -60,17 +56,18 @@ export default function LoginAsPatient() {
             <div className="right-fill-content">
               <div className="login-img">
                 <img src={LoginImgLogo} alt="" />
-               
-                {/* <div className="medvantage-patient-heading">Patient</div> */}
               </div>
+              <div className="medvantage-patient-heading">Patient</div>
               {/* <div className="login-img"><img src='' alt="" /></div> */}
               <div className="welcome-text">Welcome to Medvantage</div>
               <div className="welcome-text-second">Login with your data that you entered during registration.</div>
 
               <div className="patient-login-text-btn mt-4">
                 <div className="mb-3"><input type="text" placeholder="Enter Mobile No." name="userName" onChange={handleChange} /></div>
-                <div class="horizontal-line"></div>
-                <div className='continue-with-uhid'>or continue with UHID</div>
+                <div class="horizontal-line">
+                  <div className='absText'>or continue with UHID</div>
+                </div>
+                {/* <div className='continue-with-uhid'>or continue with UHID</div> */}
                 <div className="patient-login-text-btn mb-2" style={{ position: 'relative' }}>
                   <input type="password" placeholder="Enter UHID" id="passwordLogin" name="password" onChange={handleChange} />
                   {/* <span className="showPasswordicon"><i className="bi bi-eye-fill" onClick={showHidePwd} id="eyeFill"></i></span> */}
