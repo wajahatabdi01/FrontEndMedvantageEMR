@@ -1,5 +1,5 @@
 let SaveItemMaster =async(obj)=>{
-    let url=window.BillingbaseUrl+"/api/ItemRate/InsertItemRate";
+    let url=window.BillingbaseUrl+"/api/ItemMaster/SaveItemMaster";
     const head={'Content-Type': 'application/json-patch+json','acept':'*/*',};
     let data={};
     let response= await fetch(url,{
