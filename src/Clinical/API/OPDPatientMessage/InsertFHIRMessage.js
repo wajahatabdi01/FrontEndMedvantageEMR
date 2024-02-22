@@ -1,6 +1,5 @@
-async function PostFHIRClassMaster(data) {
-    // let token = window.SuperAdminToken;
-    let url = window.AppbaseUrl + '/api/FHIRClassMaster/InsertFHIRClassMaster';
+async function InsertFHIRMessage(data) {
+    let url = window.AppbaseUrl + '/api/FHIRMessage/InsertMessage';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',
@@ -17,4 +16,4 @@ async function PostFHIRClassMaster(data) {
   
     return response;
   }
-  export default PostFHIRClassMaster;
+  export default InsertFHIRMessage;

@@ -17,6 +17,7 @@ import IPDPatientLabData from './IPDPatientLabData'
 import Search from '../../../../../Code/Serach'
 import { useLocation } from 'react-router-dom'
 import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
+import IPDInvestigation from './Popup/IPDInvestigation'
 
 
 export default function IPDPrecriptionIndex(props) {
@@ -150,20 +151,22 @@ export default function IPDPrecriptionIndex(props) {
         <div className='col-md-9 col-sm-12 plt'>
           <IPDTopVitals />
           {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
-          <IPDHistory />
-          <IPDPatientComplaintConsultant />
-          <IPDMedication getData={getOnlySpecificData} />
-          <IPDMedicationHistory />
+          {/* <IPDHistory /> */}
+          {/* <IPDPatientComplaintConsultant /> */}
+          {/* <IPDMedication getData={getOnlySpecificData} /> */}
+          {/* <IPDMedicationHistory /> */}
         </div>
         <div className='col-md-3 col-sm-12 prt'>
-          <IPDVentilator />
-          <IPDVentiBottom />
-          <IPDPatientLabData />
+          {/* <IPDVentilator /> */}
+          {/* <IPDVentiBottom /> */}
+          <IPDInvestigation />
+          
+          {/* <IPDPatientLabData /> */}
         </div>
       </div>
-      <div className='roww mt-2 ipdbrn'>
+      {/* <div className='roww mt-2 ipdbrn'>
         <BottomButtons getData={getData} />
-      </div>
+      </div> */}
       <Loader val={loader} />
     </>
   )

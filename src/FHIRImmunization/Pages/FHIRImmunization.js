@@ -18,6 +18,7 @@ import PostFHIRImmunization from '../API/POST/PostFHIRImmunization';
 import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
 import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 import IconDelete from '../../assets/images/icons/IconDelete.svg'
+import IconEdit from '../../assets/images/icons/IconEdit.svg'
 
 
 export default function FHIRImmunization({ setShowToster }) {
@@ -60,8 +61,8 @@ export default function FHIRImmunization({ setShowToster }) {
     CompletionStatus: 0,
     SubstanceRefusalReason: 0,
     ImmunizationOrderingProvider: 0,
-    Notes: ''
-
+    Notes: '',
+    id : 0
   })
 
   const [observationRow, setObservationRow] = useState([
@@ -81,6 +82,7 @@ export default function FHIRImmunization({ setShowToster }) {
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  
   // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -424,6 +426,7 @@ export default function FHIRImmunization({ setShowToster }) {
     }
     else {
       const finalObjInvestAndReason = {
+        id: sendForm.id > 0 ? sendForm.id : 0,
         uhid: activeUHID,
         clientId: clientID,
         userId: userId,
@@ -449,7 +452,9 @@ export default function FHIRImmunization({ setShowToster }) {
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
 
       }
-
+      
+      console.log('finalObjInvestAndReason : ', finalObjInvestAndReason);
+      return;
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
@@ -484,6 +489,45 @@ export default function FHIRImmunization({ setShowToster }) {
       funGetAllImmunizationData();
     }
   }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
+    const editImmunizationListData = async (list) => {
+      
+      console.log('theeee list : ', list)
+      const dateStringAdministered = list.administered_date;
+      const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
+      const dateStringExpired = list.expiration_date;
+      const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; const formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
+      const dateStringIS = list.education_date;
+      const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; const formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
+      const dateStringVIS = list.vis_date;
+      const partsVIS = dateStringVIS.split("-"); const dayVIS = partsIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsIS[2]; const formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
+      
+      setSendForm((prev) => ({
+        ...prev,
+          DatenTimeAdministered : formattedDate,
+           AmountAdministered : list.amount_administered,
+           ExpirationDate: formattedExpiryDate,
+           ImmunizationManufacturer: list.manufacturerId,
+           ImmunizationLotNumber: list.lot_number,
+          ImmunizationStatements: formattedEducationDate,
+          NameAndTitleofImmunizationAdministrator: list.administered_by_id,
+          IDofImmunizationAdministrator:  list.administered_by_id,
+          DateofVISStatement: formattedVISDate,
+          Route: list.route,
+          InformationSource: '',
+          AdministrationSite: list.administration_site,
+          CompletionStatus: list.completion_status,
+          SubstanceRefusalReason: 0,
+          ImmunizationOrderingProvider: 0,
+          Notes: '',
+          id : list.id
+
+
+
+      }))
+    }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleClear = () => {
@@ -790,10 +834,10 @@ export default function FHIRImmunization({ setShowToster }) {
                             <div>
 
                               <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
-                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={printIcon} className='icnn' alt="" />Print Record (PDF)</button>
+                              {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={printIcon} className='icnn' alt="" />Print Record (PDF)</button> */}
 
                               <>
-                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 " >Print Record (HTML)</button>
+                                {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 " >Print Record (HTML)</button> */}
                                 <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handleClear} >Clear</button>
                               </>
 
@@ -859,7 +903,9 @@ export default function FHIRImmunization({ setShowToster }) {
                               <img src={deleteIcon} className='icnn' alt='' />
                             </button> */}
                             <div className="action-button">
-                              <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div>
+                              {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
+                              <div onClick={() => { editImmunizationListData(immunizationList) }}><img src={IconEdit} alt='' title='Edit Immunization'/></div>
+                              <div onClick={() => { deleteImmunizationListData(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
                             </div>
                           </td>
                         </tr>

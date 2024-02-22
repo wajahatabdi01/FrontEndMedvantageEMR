@@ -18,6 +18,7 @@ import OPDViewDiscloserRecord from "./FHIROPDPopUp/OPDViewDiscloserRecord";
 import FHIRAddPrescription from "../../../../../FHIRPrescription/Pages/FHIRAddPrescription";
 import FHIRPrescreptionList from "../../../../../FHIRPrescription/Pages/FHIRPrescreptionList";
 import OPDLifeStyle from "./FHIROPDPopUp/OPDLifeStyle";
+import OPDPrescriptionIndex from "./OPDPrescriptionIndex";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
@@ -85,8 +86,8 @@ export default function OPDTOPBottom(props) {
       //   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
       //   : [];
       let activeUHID = window.sessionStorage.getItem("activePatient")
-      ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-      : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
       temp.map((value, index) => {
         value.map((val, ind) => {
           if (value[0] === activeUHID) {
@@ -124,27 +125,27 @@ export default function OPDTOPBottom(props) {
   return (
     <>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer ">
-        <span data-bs-toggle="modal" data-bs-target="#problem">
-          {t("Problem")}{" "}
-        </span>
+      <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem")}}>
+          {t("Problem")}
+      </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#allergy">
+        <span  onClick={() => { props.setActiveComponent("allergyId"); props.setShowTheButton(true); props.setIssueID(2); props.setHeadingName("Allergy")}}>
           {t("Allergy")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#medication">
+        <span onClick={() => { props.setActiveComponent("medicationId"); props.setShowTheButton(true); props.setIssueID(3); props.setHeadingName("Medication")}}>
           {t("Medication")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#device">
+        <span onClick={() => { props.setActiveComponent("deviceId"); props.setShowTheButton(true); props.setIssueID(4); props.setHeadingName("Device")}}>
           {t("Device")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#surgery">
+        <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery")}}>
           {t("Surgery")}{" "}
         </span>
       </div>
@@ -153,7 +154,7 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#carePlan">
+        <span data-bs-toggle="modal" data-bs-target="#carePlanId" >
           {t("Care Plan")}{" "}
         </span>
       </div>
@@ -182,11 +183,7 @@ export default function OPDTOPBottom(props) {
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span
-          data-bs-toggle="modal"
-          data-bs-target="#PrescriptionPopList"
-          onClick={() => setPrecription(1)}
-        >
+        <span data-bs-toggle="modal" data-bs-target="#PrescriptionPopList" onClick={() => setPrecription(1)}>
           {t("Prescription")}{" "}
         </span>
       </div>
@@ -196,195 +193,16 @@ export default function OPDTOPBottom(props) {
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
-      <div
-        className="modal fade"
-        id="problem"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
-                Problem
-              </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="problem"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
-                  <OPDProblemPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     
       {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
 
       {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
-      <div
-        className="modal fade"
-        id="allergy"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabe2"
-        aria-hidden="true"
-      >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
-                Allergy
-              </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="allergy"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
-                  <OPDAllergyPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
 
       {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
-      <div
-        className="modal fade"
-        id="medication"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabe2"
-        aria-hidden="true"
-      >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
-                Medication
-              </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="allergy"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
-                  <OPDMedicationPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
 
       {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
-      <div
-        className="modal fade"
-        id="device"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabe2"
-        aria-hidden="true"
-      >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
-                Device
-              </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="allergy"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
-                  <OPDDevicePopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
 
       {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
@@ -456,11 +274,13 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalToggle"
-        aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
         tabindex="-1"
+        aria-labelledby="exampleModalToggleLabel"
+        aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
           <div class="modal-content">
@@ -468,12 +288,7 @@ export default function OPDTOPBottom(props) {
               <h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Record Disclosure
               </h1>
-              <button
-                type="button"
-                class="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times"></i>
               </button>
             </div>
@@ -504,7 +319,7 @@ export default function OPDTOPBottom(props) {
           <div class="modal-content">
             <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
             <div class="modal-body">
-              <OPDLifeStyle  setShowToster={setShowToster}/>
+              <OPDLifeStyle setShowToster={setShowToster} />
             </div>
 
           </div>
@@ -525,37 +340,29 @@ export default function OPDTOPBottom(props) {
         aria-labelledby="staticBackdropLabe2"
         aria-hidden="true"
       >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
+              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Patient Message
               </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
+                {/* <div
                   class="tab-pane fade show active"
                   id="allergy"
                   role="tabpanel"
                   value="1"
                   aria-labelledby="home-tab"
                   tabindex="0"
-                >
-                  <OPDPatientMessagePopUp />
-                </div>
+                > */}
+                <OPDPatientMessagePopUp />
+                {/* </div> */}
               </div>
             </div>
           </div>
@@ -565,44 +372,21 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start FHIR Family History --------------------------------------------- */}
 
-      <div
-        className="modal fade"
-        id="familyHistoryID"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="familyHistoryID" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-lg">
           <div className="modal-content ">
             <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
+              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Family History
               </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="problem"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
+                <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
                   <FHIRFamilyHistoryEdit setShowToster={setShowToster} />
                 </div>
@@ -615,46 +399,23 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start Care Plan --------------------------------------------- */}
 
-      <div
-        className="modal fade"
-        id="carePlan"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="carePlanId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
+              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Care Plan
               </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="problem"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
+                <div class="tab-pane fade show active" id="careplan" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  <FHIRCarePlan patientUhid={activePatient} />
+                  <FHIRCarePlan patientUhid={activePatient} setShowCarePlan= {true}/>
                 </div>
               </div>
             </div>
@@ -664,44 +425,21 @@ export default function OPDTOPBottom(props) {
       {/* -----------------------------------------------------------------------End Care Plan --------------------------------------------- */}
       {/* -----------------------------------------------------------------------Start Immunization Plan --------------------------------------------- */}
 
-      <div
-        className="modal fade"
-        id="ImmunizationPop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="ImmunizationPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
+              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Immunization
               </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
-                  class="tab-pane fade show active"
-                  id="problem"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
+                <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
                   <FHIRImmunization setShowToster={setShowToster} />
                 </div>
@@ -714,84 +452,17 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start Prescription Plan --------------------------------------------- */}
 
-      {/* <div
-        className="modal fade"
-        id="PrescriptionPop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1
-                className="modal-title fs-5 text-white "
-                id="staticBackdropLabel"
-              >
-                Prescription
-              </h1>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                <div
-                  class="tab-pane fade show active"
-                  id="problem"
-                  role="tabpanel"
-                  value="1"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
-                >
-                  {precription === 1 ?
-                    <FHIRPrescreptionList setShowToster={setShowToster} setPrecription={setPrecription} />
-                    :
-                    ""
-
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       <div class="modal fade" id="PrescriptionPopList" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title text-white">Add Prescription</h4>
-              <button
-                type="button"
-                className="btn-close_ btnModalClose"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => {
-                  setPrecription(0);
-                }}
-              >
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setPrecription(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">
-              {precription === 1 ? (
-                <FHIRAddPrescription
-                  setShowToster={setShowToster}
-                  setPrecription={setPrecription}
-                />
-              ) : (
-                ""
-              )}
+            <div class="modal-body">{precription === 1 ? (  <FHIRAddPrescription    setShowToster={setShowToster}    setPrecription={setPrecription}  />) : (  "")}
             </div>
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>

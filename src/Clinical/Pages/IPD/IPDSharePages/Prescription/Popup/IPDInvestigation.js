@@ -11,6 +11,7 @@ import SaveIPDData from '../../../../../../Code/SaveIPDData';
 import { useTranslation } from 'react-i18next';
 import  i18n from "i18next";
 import { clear } from '@testing-library/user-event/dist/clear'
+import Heading from '../../../../../../Component/Heading'
 
 
 export default function IPDInvestigation(props) {
@@ -213,22 +214,15 @@ export default function IPDInvestigation(props) {
         setData()
     }, [patientsendDataChange])
     return (
-        <div className={`${props.showFun === 0 ? 'offcanvas' : "offcanvas show"}  offcanvas-end`} id="modalAntibiogram" data-bs-backdrop="static">
-            <div className="offcanvas-header d-flex justify-content-start gap-4  p-4 " style={{ borderBottom: "1px solid #C6C6C6", background: "#1D4999" }}>
-                <div className='d-flex justify-content-center align-items-center pointer' style={{ backgroundColor: "white", borderRadius: "50px", width: "24px", height: "24px" }} data-bs-dismiss="offcanvas" onClick={() => { props.modelCloseFun(0) }} aria-label="Close"><i className='fa fa-close ' ></i></div>
-                <h5 className="offcanvas-title text-white" id="allergiesLabel" > {t("ORDER_INVESTIGATION")} </h5>
-            </div>
-
-            <div className="offcanvas-body " >
-                <div className='p-0 boxcontainer'>
-                    <div className='row pb-3  m-0'>
-                        {/* <Heading text="Order Investigation" /> */}
-                        <div className={`col-12 p-0 position-relative`} >
-                            <input type='text' placeholder= {t("SEARCH_INVESTIGATION_AND_PROCEDURE")} className='searchBarOPD' onChange={handleSearch} />
-                            <img src={searchIcon} className='searchBarOPDIcon' alt='' />
-                        </div>
-                    </div>
-
+        <div className='p-0 boxcontainer mt-2 investigationbox'>
+            <div className='opdorder-in'>
+                <div className='opdorder'>
+                    <Heading text={t("Order Investigation")} />
+                </div>
+                <div className='opdserchinvest position-relative'>
+                    <input type='text' placeholder={t("Search Investigation & Procedure...")} className='searchBarOPD' onChange={handleSearch} />
+                    <img src={searchIcon} className='searchBarOPDIcon2' alt='' />
+                </div>
                     <div className='overflow-auto' style={{ height: "75vh" }}>
                         <TableContainer>
                             <thead>
@@ -275,10 +269,9 @@ export default function IPDInvestigation(props) {
                       </div>
                     </div>
 
-                </div>
-
-
             </div>
+
+
         </div>
     )
 }
