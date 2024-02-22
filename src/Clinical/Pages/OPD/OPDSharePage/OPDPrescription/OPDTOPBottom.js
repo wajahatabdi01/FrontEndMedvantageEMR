@@ -85,8 +85,8 @@ export default function OPDTOPBottom(props) {
       //   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
       //   : [];
       let activeUHID = window.sessionStorage.getItem("activePatient")
-      ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-      : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
       temp.map((value, index) => {
         value.map((val, ind) => {
           if (value[0] === activeUHID) {
@@ -456,11 +456,13 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalToggle"
-        aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
         tabindex="-1"
+        aria-labelledby="exampleModalToggleLabel"
+        aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
           <div class="modal-content">
@@ -504,7 +506,7 @@ export default function OPDTOPBottom(props) {
           <div class="modal-content">
             <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
             <div class="modal-body">
-              <OPDLifeStyle  setShowToster={setShowToster}/>
+              <OPDLifeStyle setShowToster={setShowToster} />
             </div>
 
           </div>
@@ -525,7 +527,7 @@ export default function OPDTOPBottom(props) {
         aria-labelledby="staticBackdropLabe2"
         aria-hidden="true"
       >
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
               <h1
@@ -546,16 +548,16 @@ export default function OPDTOPBottom(props) {
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div
+                {/* <div
                   class="tab-pane fade show active"
                   id="allergy"
                   role="tabpanel"
                   value="1"
                   aria-labelledby="home-tab"
                   tabindex="0"
-                >
-                  <OPDPatientMessagePopUp />
-                </div>
+                > */}
+                <OPDPatientMessagePopUp />
+                {/* </div> */}
               </div>
             </div>
           </div>

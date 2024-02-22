@@ -1,20 +1,23 @@
-async function PostFHIRClassMaster(data) {
-    // let token = window.SuperAdminToken;
-    let url = window.AppbaseUrl + '/api/FHIRClassMaster/InsertFHIRClassMaster';
+
+async function DeleteFHIRMessage(data) {
+
+    let url = window.AppbaseUrl + "/api/FHIRMessage/DeleteMessage";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',
     }
     let response =
       await fetch(url, {
-        method: 'POST',
+        method: 'DELETE',
         headers: head,
         body: JSON.stringify(data)
       })
         .then((res) => res.json())
         .then(data)
-      
+  
   
     return response;
   }
-  export default PostFHIRClassMaster;
+  export default DeleteFHIRMessage;
+
+
