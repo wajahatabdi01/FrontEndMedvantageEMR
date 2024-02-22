@@ -222,7 +222,6 @@ function OPDProblemPopUp({ setShowToster }) {
                 userId: window.userId
             }
             console.log("pobj", pobj)
-            // return;
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
                 setShowUnderProcess(0);
