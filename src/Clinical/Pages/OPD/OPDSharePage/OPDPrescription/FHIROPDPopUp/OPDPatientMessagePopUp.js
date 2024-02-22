@@ -304,7 +304,7 @@ function OPDPatientMessagePopUp() {
                                                         <td>{list.lastUpdated}</td>
                                                         <td>{list.updatedUserName}</td>
                                                         <td className="text-center">
-                                                            <div className="form-check ps-0" style={{minHeight:'auto !important'}}>
+                                                            <div className="form-check ps-0" style={{marginTop:'7px'}}>
                                                                 <input type="checkbox" id={`active-${list.id}`} checked={list.isActive === 1} readOnly />
                                                             </div>
                                                         </td>

@@ -18,6 +18,7 @@ import medicine3 from '../../assets/images/dashboard/patientPortalDashboard/medi
 import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medicine4.png'
 import GetPatientData from '../../PatientPortal/API/GetPatientData';
 import GetChiefComplaint from '../../PatientPortal/API/GetChiefComplaint';
+import GetPatientMedicationDetails from "../API/GetPatientMedicationDetails";
 
 
 export default function PatientPortalDashboard() {
@@ -26,6 +27,7 @@ export default function PatientPortalDashboard() {
   const [Opdhistory, setOpdhistory] = useState(1)
   const [PatientData, setPatientData] = useState()
   const [chiefComplainData, setchiefComplainData] = useState([])
+  const [MedicationDetails, setMedicationDetails] = useState([])
   const [admissionHistory, setadmissionHistory] = useState(0)
 
 const handleOpdhistory=()=>{
@@ -50,18 +52,30 @@ const Patientdata = async()=>{
   }
 
  }
+
+
 const GetChiefComplaintData = async()=>{
   let data = await GetChiefComplaint()
   if(data.status === 1){
       console.log("ChiefComplaint>>", data.responseValue);
       setchiefComplainData(data.responseValue);
   }
+  
 
+ }
+
+ const medicationDetails= async()=>{
+  let data = await GetPatientMedicationDetails()
+  if(data.status === 1){
+    setMedicationDetails(data.responseValue)
+    console.log('medications' ,data.responseValue )
+  }
  }
 
  useEffect(() => {
   Patientdata();
   GetChiefComplaintData()
+  medicationDetails()
 }, [])
 
   return (
@@ -272,75 +286,29 @@ const GetChiefComplaintData = async()=>{
                <div className="inner-content medication-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Medication</div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+
+                   {MedicationDetails && MedicationDetails.map((val,index)=>{
+                    return(
+                         <>
+                         
+                      <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
                         <div className="medicine-detail">
                           <div><img src={medicine1} className="me-2" alt=""/></div>
                            <div>
-                              Inha-Respule-Duolin - 500mg
-                                <div className="note-detail-dosage">Once in a day</div>
+                              {val.drug}
+                                <div className="note-detail-dosage">{val.dosage}</div>
                                   </div>
                                     </div>
                                    <div className="medicine-duration">
-                                        10 Days
+                                        {val.form} Days
                                            </div>
-                                            </div>
+                             </div>
                   
-                                         <div class="horizontal-line-dignosis mb-1  mt-1"></div>
-                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                            <div className="medicine-detail">
-                              <div><img src={medicine5} className="me-2" alt=""/></div>
-                            <div>
-                               Cre-Respule-Duolin - 500Mg
-                                <div className="note-detail-dosage">Once in a day</div>
-                                  </div>
-                                    </div>
-                                    <div className="medicine-duration">
-                                    20 Days
-                                         </div>
-                                        </div>
-                                     <div class="horizontal-line-dignosis mb-1 mt-1"></div>
-                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                          <div className="medicine-detail">
-                              <div><img src={medicine4} className="me-2" alt=""/></div>
-                                   <div>
-                                    Inha-Respule-Duolin - 500mg
-                                      <div className="note-detail-dosage">Once in a day</div>
-                                       </div>
-                                          </div>
-                                         <div className="medicine-duration">
-                                            20 Days
-                                            </div>
-                                               </div>
+                          <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+                         </>
+                    )
+                   })}
 
-                                      <div class="horizontal-line-dignosis mb-1"></div>
-
-                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="medicine-detail">
-                                <div><img src={medicine3} className="me-2" alt=""/></div>
-                                         <div>
-                                          Cap-Respule-Duolin - 500Mg
-                                           <div className="note-detail-dosage">Once in a day</div>
-                                              </div>
-                                               </div>
-                                             <div className="medicine-duration">
-                                                 19 Days
-                                                    </div>
-                                                        </div>
-                                   <div class="horizontal-line-dignosis mb-1  mt-1"></div>
-
-                                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-
-                                   <div className="medicine-detail">
-                                         <div><img src={medicine2} className="me-2" alt=""/></div>
-                                            <div>
-                                                Inj-Respule-Duolin - 500mg
-                                                <div className="note-detail-dosage">Once in a day</div>
-                                                 </div>
-                                                   </div>
-                                                 <div className="medicine-duration">
-                                                   15 Days
-                                                     </div>
-                                                       </div>
                                                        </div>
                 
                

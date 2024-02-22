@@ -1,8 +1,7 @@
 
 async function GetChiefComplaint (data) {
    
-  
-    let url =  window.AppbaseUrl+'/api/FHIREncounter/GetAllEncounters?Uhid=uhid00878&Issueid=1';
+    let url =  window.AppbaseUrl+'/api/FHIREncounter/GetAllEncounters?Uhid=UHID00877&Issueid=1';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',
