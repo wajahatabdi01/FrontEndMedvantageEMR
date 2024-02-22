@@ -11835,6 +11835,27 @@ span.ptn-dtails {
 .investigationbox {
   height: 34vh;
 }
+
+.tbl_Heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+.tbl_Heading h3 {
+  font-size: 17px;
+  color: #1d4999;
+  font-weight: 600;
+}
+.newptmsg label {
+  background: #1d4999;
+  color: #fff;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
     /* ...document history css.... */
 
 .documenthistorytbl {
