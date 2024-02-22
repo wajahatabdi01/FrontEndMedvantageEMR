@@ -17,6 +17,7 @@ import FHIRPutPrescription from "../API/PUT/FHIRPutPrescription";
 
 import sendIcon from '../../assets/images/icons/icons8-send-48.png'
 import InsertPrescriptionNotification from "../../Pharmacy/NotificationAPI/InsertPrescriptionNotification";
+import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
 
 export default function FHIRAddPrescription(props) {
   const [brandList, setBrandList] = useState([]);
@@ -37,6 +38,7 @@ export default function FHIRAddPrescription(props) {
 
   let [showToster, setShowtoster] = useState(0);
   let [showTosterMessage, setShowTosterMessage] = useState("");
+  
 
   //const [editBrand, setEditBrand] = useState("")
 
@@ -360,11 +362,11 @@ export default function FHIRAddPrescription(props) {
       "notificationTitle": "prescribe medicine",
       "senderId": window.userId,
       // "recieverId": 331,
-      "recieverId": 207,
+      "recieverId": 252,
       "prescriptionDetails": JSON.stringify(data),
       "comingFrom": "OPD",
       "status": true,
-      "createdDate": sendForm.startingdate,
+      // "createdDate": datas.startingDate,
       "isSent": true
 
 
@@ -385,13 +387,16 @@ export default function FHIRAddPrescription(props) {
     if (response.status === 1) {
       // setShowtoster(1)
       // setShowTosterMessage("Prescription sent to Pharmacy");
-      alert('Data Sent')
+      // alert('Data Sent')
     }
   }
+
+  
 
   useEffect(() => {
     getProviderList();
     funGetAllList();
+   
   }, []);
   useEffect(() => {
     getAllBrandList();
@@ -416,24 +421,10 @@ export default function FHIRAddPrescription(props) {
                         <div className="row">
                           <div className=" col-12 row ms-1">
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2 form-check">
-                              <label
-                                htmlFor="Administration"
-                                className="form-label"
-                              >
+                              <label htmlFor="Administration" className="form-label">
                                 Currently Active
                               </label>
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="currentlyActiveID"
-                                checked={
-                                  sendForm.currentlyActive === 1 ? true : false
-                                }
-                                role="switch"
-                                name="currentlyActive"
-                                value={sendForm.currentlyActive}
-                                onChange={handleChangeText}
-                              />
+                              <input className="form-check-input" type="checkbox" id="currentlyActiveID" checked={   sendForm.currentlyActive === 1 ? true : false } role="switch" name="currentlyActive" value={sendForm.currentlyActive} onChange={handleChangeText}/>
                             </div>
                             {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2 form-check'>
                               <label htmlFor="E-Prescription?" className="form-label">E-Prescription?</label>
@@ -454,32 +445,15 @@ export default function FHIRAddPrescription(props) {
                                 Starting Date
                                 <span className="starMandatory">*</span>
                               </label>
-                              <input
-                                id="startingdateID"
-                                type="date"
-                                className="form-control form-control-sm"
-                                name="startingdate"
-                                value={sendForm.startingdate}
-                                onChange={handleChangeText}
-                              />
-                              <small
-                                id="errDate"
-                                className="form-text text-danger"
-                                style={{ display: "none" }}
-                              ></small>
+                              <input id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText}/>
+                              <small id="errDate" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Provider
                               </label>
                               {/* <input  id="providerID" type="text" className="form-control form-control-sm" name="providerName" placeholder= "Enter Provider" value={sendForm.providerName} onChange={handleChangeText} /> */}
-                              <select
-                                name="providerName"
-                                className="form-select form-select-sm"
-                                id="providerID"
-                                value={sendForm.providerName}
-                                onChange={handleChangeText}
-                              >
+                              <select name="providerName" className="form-select form-select-sm" id="providerID" value={sendForm.providerName} onChange={handleChangeText}>
                                 <option value="0">--Select Provider--</option>
                                 {providerList &&
                                   providerList.map((prList, ind) => {
@@ -493,71 +467,35 @@ export default function FHIRAddPrescription(props) {
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <div>
-                                <label
-                                  htmlFor="checkedDrug"
-                                  className="form-label"
-                                >
+                                <label htmlFor="checkedDrug" className="form-label">
                                   Drug
                                 </label>{" "}
                               </div>
                               <div className="d-flex gap-3">
                                 <div>
                                   <div className="form-check">
-                                    <label
-                                      className="form-label"
-                                      for="UseDefault"
-                                    >
+                                    <label className="form-label" for="UseDefault">
                                       Use Default
                                     </label>
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="exampleRadios"
-                                      id="UseDefault"
-                                      value={0}
-                                      onChange={handleChangeText}
-                                      checked={sendForm.exampleRadios == 0}
-                                    />
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value={0} onChange={handleChangeText} checked={sendForm.exampleRadios == 0}/>
                                   </div>
                                 </div>
 
                                 <div>
                                   <div className="form-check">
-                                    <label
-                                      className="form-label"
-                                      for="UseRxNorm"
-                                    >
+                                    <label className="form-label" for="UseRxNorm">
                                       Use RxNorm
                                     </label>
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="exampleRadios"
-                                      id="UseRxNorm"
-                                      value={1}
-                                      onChange={handleChangeText}
-                                      checked={sendForm.exampleRadios == 1}
-                                    />
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value={1} onChange={handleChangeText} checked={sendForm.exampleRadios == 1}/>
                                   </div>
                                 </div>
 
                                 <div>
                                   <div className="form-check">
-                                    <label
-                                      className="form-label"
-                                      for="UseRxCUI"
-                                    >
+                                    <label className="form-label" for="UseRxCUI">
                                       Use RxCUI
                                     </label>
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="exampleRadios"
-                                      id="UseRxCUI"
-                                      value={2}
-                                      onChange={handleChangeText}
-                                      checked={sendForm.exampleRadios == 2}
-                                    />
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI" value={2} onChange={handleChangeText} checked={sendForm.exampleRadios == 2}/>
                                   </div>
                                 </div>
                               </div>
@@ -569,63 +507,27 @@ export default function FHIRAddPrescription(props) {
                               </label>
                               {/* <input  id="DrugSearchID" type="text" className="form-control form-control-sm" name="DrugSearchID" placeholder= "Enter Drug" onClick={''} /> */}
                               {brandList && (
-                                <DropdownWithSearch
-                                  defaulNname="Search Medicine"
-                                  name="brandList"
-                                  list={brandList}
-                                  valueName={"name"}
-                                  displayName="name"
-                                  editdata={editName}
-                                  getvalue={handleChange}
-                                  clear={clearDropdown}
-                                  clearFun={handleClearMedicineSearch}
-                                />
+                                <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"name"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
                               )}
-                              <small
-                                id="errDrug"
-                                className="form-text text-danger"
-                                style={{ display: "none" }}
-                              ></small>
+                              <small id="errDrug" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Quantity
                               </label>
-                              <input
-                                id="QuantityID"
-                                type="text"
-                                className="form-control form-control-sm"
-                                name="QuantityName"
-                                placeholder="Enter Quantity"
-                                value={sendForm.QuantityName}
-                                onChange={handleChangeText}
-                              />
+                              <input id="QuantityID" type="text" className="form-control form-control-sm" name="QuantityName" placeholder="Enter Quantity" value={sendForm.QuantityName} onChange={handleChangeText}/>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Medicine Strength
                               </label>
-                              <input
-                                id="medicinestrengthID"
-                                type="text"
-                                className="form-control form-control-sm"
-                                name="medicineStrength"
-                                placeholder="Enter Medicine"
-                                value={sendForm.medicineStrength}
-                                onChange={handleChangeText}
-                              />
+                              <input id="medicinestrengthID" type="text" className="form-control form-control-sm" name="medicineStrength" placeholder="Enter Medicine" value={sendForm.medicineStrength} onChange={handleChangeText}/>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Medicine Unit
                               </label>
-                              <select
-                                name="medicineUnit"
-                                className="form-select form-select-sm"
-                                id="medicineUnitID"
-                                value={sendForm.medicineUnit}
-                                onChange={handleChangeText}
-                              >
+                              <select name="medicineUnit" className="form-select form-select-sm" id="medicineUnitID" value={sendForm.medicineUnit} onChange={handleChangeText}>
                                 <option value="0">mm/gg</option>
                                 <option value="1">mm/CC</option>
                                 <option value="2">mm</option>
@@ -637,13 +539,7 @@ export default function FHIRAddPrescription(props) {
                                   <label htmlFor="Code" className="form-label">
                                     Refills
                                   </label>
-                                  <select
-                                    name="RefillsUnit"
-                                    className="form-select form-select-sm"
-                                    id="RefillsID"
-                                    value={sendForm.RefillsUnit}
-                                    onChange={handleChangeText}
-                                  >
+                                  <select name="RefillsUnit" className="form-select form-select-sm" id="RefillsID" value={sendForm.RefillsUnit} onChange={handleChangeText}>
                                     <option value="0">
                                       --Select Refills--
                                     </option>
@@ -653,15 +549,7 @@ export default function FHIRAddPrescription(props) {
                                   <label htmlFor="Code" className="form-label">
                                     # of tablets:
                                   </label>
-                                  <input
-                                    id="ofTabletsID"
-                                    type="text"
-                                    className="form-control form-control-sm"
-                                    name="oftabletsName"
-                                    placeholder="Enter Medicine"
-                                    value={sendForm.oftabletsName}
-                                    onChange={handleChangeText}
-                                  />
+                                  <input id="ofTabletsID" type="text" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText}/>
                                 </div>
                               </div>
                             </div>
@@ -670,37 +558,17 @@ export default function FHIRAddPrescription(props) {
                                 <div className="col">
                                   <div className="d-flex gap-2">
                                     <div>
-                                      <label
-                                        htmlFor="Code"
-                                        className="form-label"
-                                      >
+                                      <label htmlFor="Code" className="form-label">
                                         Directions
                                       </label>
-                                      <input
-                                        id="DirectionsID"
-                                        type="text"
-                                        className="form-control form-control-sm"
-                                        name="DirectionsName"
-                                        placeholder="Enter Directions"
-                                        value={sendForm.DirectionsName}
-                                        onChange={handleChangeText}
-                                      />
+                                      <input id="DirectionsID" type="text" className="form-control form-control-sm" name="DirectionsName" placeholder="Enter Directions" value={sendForm.DirectionsName} onChange={handleChangeText}/>
                                     </div>
                                     <div>
-                                      <label
-                                        htmlFor="Code"
-                                        className="form-label"
-                                      >
+                                      <label htmlFor="Code" className="form-label">
                                         Form
                                       </label>
                                       
-                                      <select
-                                        name="formName"
-                                        className="form-select form-select-sm"
-                                        id="formID"
-                                        value={sendForm.formName}
-                                        onChange={handleChangeText}
-                                      >
+                                      <select name="formName" className="form-select form-select-sm" id="formID" value={sendForm.formName} onChange={handleChangeText}>
                                         <option value="0">
                                           --Select Form--
                                         </option>
@@ -720,19 +588,10 @@ export default function FHIRAddPrescription(props) {
                                 <div className="col">
                                   <div className="d-flex gap-2">
                                     <div>
-                                      <label
-                                        htmlFor="Code"
-                                        className="form-label"
-                                      >
+                                      <label htmlFor="Code" className="form-label">
                                         Route
                                       </label>
-                                      <select
-                                        name="routeName"
-                                        className="form-select form-select-sm"
-                                        id="routeID"
-                                        value={sendForm.routeName}
-                                        onChange={handleChangeText}
-                                      >
+                                      <select name="routeName" className="form-select form-select-sm" id="routeID" value={sendForm.routeName} onChange={handleChangeText}>
                                         <option value="0">
                                           --Select Route--
                                         </option>
@@ -740,12 +599,7 @@ export default function FHIRAddPrescription(props) {
                                           getRouteList.map((routeList, ind) => {
                                             return (
                                               <option
-                                                value={
-                                                  routeList.name +
-                                                  ":" +
-                                                  routeList.id
-                                                }
-                                              >
+                                                value={routeList.name +":" +routeList.id}>
                                                 {routeList.name}
                                               </option>
                                             );
@@ -753,19 +607,10 @@ export default function FHIRAddPrescription(props) {
                                       </select>
                                     </div>
                                     <div>
-                                      <label
-                                        htmlFor="Code"
-                                        className="form-label"
-                                      >
+                                      <label htmlFor="Code" className="form-label">
                                         Frequency
                                       </label>
-                                      <select
-                                        name="FrequencyName"
-                                        className="form-select form-select-sm"
-                                        id="FrequencyID"
-                                        value={sendForm.FrequencyName}
-                                        onChange={handleChangeText}
-                                      >
+                                      <select name="FrequencyName" className="form-select form-select-sm" id="FrequencyID" value={sendForm.FrequencyName} onChange={handleChangeText}>
                                         <option value="0">
                                           --Select Frequency--
                                         </option>
@@ -790,21 +635,11 @@ export default function FHIRAddPrescription(props) {
                               <label htmlFor="Notes" className="form-label">
                                 Notes
                               </label>
-                              <textarea
-                                id="NotesId"
-                                type="text"
-                                className="form-control form-control-sm"
-                                name="Notes"
-                                value={sendForm.Notes}
-                                onChange={handleChangeText}
-                              />
+                              <textarea id="NotesId" type="text" className="form-control form-control-sm" name="Notes" value={sendForm.Notes} onChange={handleChangeText}/>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <div>
-                                <label
-                                  htmlFor="checkedDrug"
-                                  className="form-label"
-                                >
+                                <label htmlFor="checkedDrug" className="form-label">
                                   Add to Medication List
                                 </label>{" "}
                               </div>
@@ -814,15 +649,7 @@ export default function FHIRAddPrescription(props) {
                                     <label class="form-label" for="UseDefault">
                                       No
                                     </label>
-                                    <input
-                                      class="form-check-input"
-                                      type="radio"
-                                      name="addToList"
-                                      id="No"
-                                      value={0}
-                                      onChange={handleChangeText}
-                                      checked={sendForm.addToList == 0}
-                                    />
+                                    <input class="form-check-input" type="radio" name="addToList" id="No" value={0} onChange={handleChangeText} checked={sendForm.addToList == 0}/>
                                   </div>
                                 </div>
                                 <div>
@@ -830,15 +657,7 @@ export default function FHIRAddPrescription(props) {
                                     <label class="form-label" for="UseRxNorm">
                                       Yes
                                     </label>
-                                    <input
-                                      class="form-check-input"
-                                      type="radio"
-                                      name="addToList"
-                                      id="Yes"
-                                      value={1}
-                                      onChange={handleChangeText}
-                                      checked={sendForm.addToList == 1}
-                                    />
+                                    <input class="form-check-input" type="radio" name="addToList" id="Yes" value={1} onChange={handleChangeText} checked={sendForm.addToList == 1}/>
                                   </div>
                                 </div>
                               </div>
@@ -847,13 +666,7 @@ export default function FHIRAddPrescription(props) {
                               <label htmlFor="Code" className="form-label">
                                 Reason
                               </label>
-                              <select
-                                name="ReasonName"
-                                className="form-select form-select-sm"
-                                id="ReasonNameID"
-                                value={sendForm.ReasonName}
-                                onChange={handleChangeText}
-                              >
+                              <select name="ReasonName" className="form-select form-select-sm" id="ReasonNameID" value={sendForm.ReasonName} onChange={handleChangeText}>
                                 <option value="0">mm/gg</option>
                                 <option value="1">mm/CC</option>
                                 <option value="2">mm</option>
@@ -861,38 +674,20 @@ export default function FHIRAddPrescription(props) {
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2">
                               <div className="row align-items-center p-2">
-                                <label
-                                  htmlFor="ObservationCriteria"
-                                  className="form-label"
-                                ></label>
+                                <label htmlFor="ObservationCriteria" className="form-label"></label>
                                 <div className="d-flex">
-                                  <label
-                                    htmlFor="ObservationCriteria"
-                                    className="form-label"
-                                  ></label>
-                                  {showSave === 1 && <button
-                                    type="button"
-                                    className="btn btn-save btn-save-fill btn-sm mb-1 me-1"
-                                    onClick={handleSave}
-                                  >
+                                  <label htmlFor="ObservationCriteria" className="form-label"></label>
+                                  {showSave === 1 && <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSave}>
                                     <img src={plus} className="icnn" alt="" />{" "}
                                     Save
                                   </button>}
                                   {showUpdate === 1 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-save btn-save-fill btn-sm mb-1 me-1"
-                                      onClick={handleUpdateSave}
-                                    >
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleUpdateSave}>
                                       <img src={plus} className="icnn" alt="" />
                                       Update
                                     </button>
                                   )}
-                                  <button
-                                    type="button"
-                                    className="btn btn-clear btn-sm mb-1 me-1 btnbluehover"
-                                    onClick={handleClear}
-                                  >
+                                  <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" onClick={handleClear}>
                                     <img src={clear} className="icnn" alt="" />
                                     Clear
                                   </button>

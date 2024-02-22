@@ -24,6 +24,7 @@ import DownKey, { UpKey } from "../../../../../Code/ListSelect"
 import plus from '../../../../../assets/images/icons/icons8-plus-30.png'
 import MedicalProblem from '../../../../../FHIRClinical/Pages/Clinical/MedicalProblem'
 import Medication from '../../../../../Registartion/Pages/OPDRegistration/IssuesPopUpComponents/Medication'
+import OPDTOPBottom from './OPDTOPBottom'
 // import Autocomplete from '../../../../Code/AutoComplete'
 
 
@@ -921,8 +922,12 @@ export default function OPDPatientInputData(props) {
     return (
         <div className='p-0 m-0' >
             <div className={`d-flex flex-column gap-2`} >
-                <OPDTopVitals values={props.values} funh={props.funh} />
-                <div className={`row p-0 m-0 gap-2 gap-lg-0 `} >
+                {/* <OPDTopVitals values={props.values} funh={props.funh} /> */}
+                <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
+                <OPDTOPBottom values={props.values} funh={props.funh} />
+                </div>
+
+                {/* <div className={`row p-0 m-0 gap-2 gap-lg-0 `} >
                     <div className='col-12 p-0  boxcontainer'>
                         <div className='d-flex flex-column'>
                             <div className={`row p-0 m-0 opd-prescription-box `} >
@@ -935,11 +940,7 @@ export default function OPDPatientInputData(props) {
                                 <div className='p-2 m-0 col-sm-9 col-12'>
 
 
-                                    {/* <input autoComplete="off" type="text" className='text-box-opd ' placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress} disabled={disable === 1 ? true : false} />
-                                    <div className='d-flex justify-content-end flex-wrap'>
-                                    <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2"><img src={plus} className='icnn' alt='' /></button>
-                                    </div> */}
-
+                                   
                                     <div className="input-container col-md-12 row">
                                         <div className='col-md-11'>
                                             <input autoComplete="off" type="text" className="text-box-opd" placeholder={t("ENTER_CHIEF_COMPLAINTS")} name="symptomsData" id="symptomsData" onChange={(e) => { handleChnage(e) }} onKeyDown={handleKeyPress}
@@ -947,9 +948,7 @@ export default function OPDPatientInputData(props) {
                                         </div>
 
                                         <div className="col-md-1 d-flex justify-content-end align-items-center">
-                                            {/* <button type="button" className="btn btn-sm btn-save-fill mb-1 ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                <img src={plus} className="icnn" alt="" />
-                                            </button> */}
+                                            
                                         </div>
                                     </div>
 
@@ -999,23 +998,10 @@ export default function OPDPatientInputData(props) {
                                 </div>
                                 <div className='p-2 m-0 col-sm-9 col-12'>
                                     <input autoComplete="off" type="text" className='text-box-opd' style={{ height: "45px" }} placeholder={t('Enter History of Patient Illness')} value={physicalExaminationValue !== null ? physicalExaminationValue.problemName : ""} name="physicalData" id="physicalData" onChange={handleChnage} onKeyDown={handleKeyPress} disabled={disable === 1 ? true : false} />
-                                    {/* <div className='d-flex flex-wrap gap-2' style={{ overflowX: "auto", height: '40px' }}>
-
-                                        {
-                                            physicalData && physicalData.map((val, ind) => {
-                                                return (
-                                                    <div className='d-flex flex-row justify-content-center align-items-center gap-2 ps-2 pe-2 opdcancletab'>
-                                                        <label className=''>{val.problemName[0].toUpperCase() + val.problemName.slice(1, val.problemName.length).toLowerCase()}</label>
-                                                        <i className="fa-solid fa-xmark" onClick={() => { handleRemove(ind, val.problemId, "physicalData") }}></i>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div> */}
+                                    
 
                                 </div>
 
-                                {/* <div className='p-2 m-0 col-sm-2 col-4'>4</div> */}
                             </div>
                             <div className='row p-0 m-0 opd-prescription-box'>
                                 <div className='p-3 m-0  col-sm-3 col-12 img-text-box-back-opd'>
@@ -1074,68 +1060,12 @@ export default function OPDPatientInputData(props) {
                                     <div className='mantibio'><a href='##' data-bs-toggle="modal" data-bs-target="#modalAntibiogram"> <i className="bi bi-virus"></i> {t("Show Antibiogram")}</a></div>
                                     <div className='mantibio'><a href="##" onClick={() => { disable ? setDiagnosisSuggestionPopUP(0) : setDiagnosisSuggestionPopUP(1) }} > <i className="fa fa-stethoscope" aria-hidden="true" ></i>{t("Diagnosis Suggestion")}</a></div>
                                 </div>
-                                {/* onClick={symptomsData.length !== 0 ? () => { setDiagnosisSuggestionPopUP(1) } : ""} */}
-
-
-
-
-                                {/* <div className='p-2 m-0 col-sm-2 col-4 m-0 p-0'>
-                                    <div className='d-flex flex-column m-0 p-0'>
-                                        <span className='ps-2 mb-1 opdpatientcomplaintright' style={{ background: "red" }}>Allergies</span>
-                                        <span className='ps-2 mb-1 opdpatientcomplaintright' style={{ background: "#F29A16" }}>Follow up Case</span>
-                                    </div>
-                                </div> */}
+                              
                             </div>
                         </div>
                     </div>
-                    {/* <div className='col-12 col-lg-4 p-2 pt-2 pt-lg-0 boxcontainer' style={{ borderLeft: "10px solid #F2F6FE" }}>
-
-                        <Heading text="Abnormal Reports" />
-                        <div className='overflow-auto' style={{ height: "212px" }}>
-                            <TableContainer>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Serum Alkaline Phosphatase
-                                        </td>
-                                        <td style={{ color: "#2D8AF5" }}>219 U/L</td>
-                                    </tr>
-                                </tbody>
-                            </TableContainer>
-                        </div>
-
-                    </div> */}
-                </div>
+                  
+                </div> */}
             </div>
             {
 

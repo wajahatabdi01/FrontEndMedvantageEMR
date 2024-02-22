@@ -96,6 +96,7 @@ export default function Navbar(props) {
             connection.invoke("NewUserConnected", window.userId, 0).catch(err => console.log(err))
             connection.on("OnNewUserConnected", (message) => {
                 connection.on("commonNotification", (message) => {
+                    console.log("enter",message)
                     if (message.responseValue.recieverId === window.userId) {
                         tempnotification = message.responseValue
                         total += 1
@@ -147,8 +148,8 @@ export default function Navbar(props) {
 
     let handleShowPrescription = (param) => {
         setPrescription(JSON.parse(param.medicineData));
-        setUhid(param.UHID);
-        setPatientName(param.PatientName);
+        setUhid(param.Uhid);
+        setPatientName(param.patientName);
     };
 
 

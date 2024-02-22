@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 
-export default function TextEditor(props) {
+export default function MessageTextEditor(props) {
     let [format, setFormat] = useState([
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
@@ -15,13 +15,9 @@ export default function TextEditor(props) {
     ])
     let [module, setModule] = useState({
         toolbar: [
-            [{ 'header': [1, 2, 3, 4, 5, 6] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote',  "underline", "strike", "blockquote",
-            "list", "color", "bullet", "indent",
-            "link", "image", "align", "size",],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-
-            ['clean']
+           
+            ["color","link", "image", "align",'bold', 'italic',
+              "bullet",]
         ]
     })
 
