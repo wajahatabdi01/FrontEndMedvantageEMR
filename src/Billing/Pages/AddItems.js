@@ -13,6 +13,7 @@ import saveBtnIcon from '../../assets/images/icons/saveButton.svg';
 import clearBtnIcon from '../../assets/images/icons/clear.svg';
 import deleteBtnIcon from '../../assets/images/icons/delete.svg';
 import editBtnIcon from '../../assets/images/icons/edit.svg';
+import Heading from "../../Component/Heading";
 //Api Import
 import getItems from '../API/getItems';
 import SaveItemMaster from '../API/POST/SaveItems';
@@ -33,12 +34,16 @@ export default function SurgeryMaster() {
     let [tosterValue, setTosterValue] = useState(0)
     const [isClearable, setIsClearable] = useState(true);
     const [isSearchable, setIsSearchable] = useState(true);
+    const [searchInput, setsearchInput] = useState("");
 
     let handlerChange = async (e) => {
         document.getElementById('errItemTitile').style.display = "none";
         if (e.target.name === "itemName") {
             setitemName(e.target.value)
         }
+        else if (e.target.name  === 'searchBox') {
+            setsearchInput(e.target.value)
+          }
     }
 
     const handleSelectChange = (selectedOption, errorElementId, setSelectedFunction) => {
@@ -70,7 +75,7 @@ export default function SurgeryMaster() {
         document.getElementById('errItemTitile').style.display = "none";
   
 
-        if (itemName === '' || itemName === null || itemName === undefined) {
+        if (itemName.trim() === '' || itemName === null || itemName === undefined) {
             document.getElementById('errItemTitile').innerHTML = "Please Fill Item Name";
             document.getElementById('errItemTitile').style.display = "block";
             return false;
@@ -145,7 +150,7 @@ console.log('OBJ',obj);
                 setShowUnderProcess(0);
                 setTosterValue(0);
                 setShowToster(1);
-                setTosterMessage("Data Save Successfully!");
+                setTosterMessage("Data Updated Successfully!");
                 setTimeout(() => {
                     setShowToster(0);
                     handlerSaveUpdateClear();
@@ -277,11 +282,18 @@ console.log('OBJ',obj);
                             </div>
                         </div>
                         <div className="col-12 mt-3">
+                        <div className='handlser'>
+              <Heading text="Items List" />
+                <div style={{ position: 'relative' }}>
+                  <input type="text" name="searchBox" className='form-control form-control-sm' placeholder="Search" value={searchInput} onChange={handlerChange} />
+                  <span className="tblsericon"><i class="fas fa-search"></i></span>
+                </div>
+              </div>
                             <div className="med-table-section" style={{ "height": "80vh" }}>
-                                <table className="med-table border_ striped_">
+                                <table className="med-table border_ striped">
                                     <thead style={{zIndex: '0'}}>
                                         <tr>
-                                            <th className="text-center" style={{ "width": "5%" }}>S.No.</th>
+                                            <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Item Name</th>
                                             
                                             <th style={{ "width": "10%" }} className="text-center">Action</th>
@@ -289,7 +301,7 @@ console.log('OBJ',obj);
                                     </thead>
 
                                     <tbody>
-                                        {itemList && itemList.map((list, index) => {
+                                        {itemList && itemList.filter((val) => `${val.itemName}`.toLowerCase().includes(searchInput.toLowerCase())).sort((a, b) => a.itemName.localeCompare(b.itemName)).map((list, index) => {
                                             return (
                                                 <tr>
                                                     <td className="text-center">{index + 1}</td>

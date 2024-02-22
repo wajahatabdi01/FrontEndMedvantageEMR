@@ -1,7 +1,7 @@
 
-export default async function GetCreditLimitlist(){
+export default async function GetCreditLimitlist(UHID){
 
-    let URL = window.BillingbaseUrl + `/api/IssuanceDetail/GetAllIssuanceByUHID`;   
+    let URL = window.BillingbaseUrl + `/api/IssuanceDetail/GetAllIssuanceByUHID?Uhid=${UHID}`;   
     // let URL = window.BillingbaseUrl + `/api/ItemRate/GetAllItemRateByCompany`;  
     let head = {"Content-Type":"application/json", accept:'*/*'};
     let data = {}

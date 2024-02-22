@@ -2,8 +2,7 @@
 
 export default async function getPatientDetailByUhid(UHID,BillNo){    
     const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-    // let URL = window.BillingbaseUrl +`/api/Billing/getBillingPatientDetailsByUhId?uhId=${UHID}&billNo=${BillNo}&clientID=${clientID}`;
-    let URL = window.AppbaseUrl +`/api/PatientPersonalDashboard/GetPatientDetailsByUHID?uhId=${UHID}&billNo=${BillNo}&clientID=${clientID}`;
+    let URL = window.BillingbaseUrl +`/api/Billing/getBillingPatientDetailsByUhId?uhId=${UHID}&billNo=${BillNo}&clientID=${clientID}`;
     //  let URL = window.BillingbaseUrl +`/api/Billing/getBillingPatientDetailsByUhId?uhId=${UHID}&billNo=${BillNo}`;
     let head = {"Content-Type":"application/json", 'accept':'*/*'};
     

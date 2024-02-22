@@ -18,6 +18,7 @@ import PostFHIRImmunization from '../API/POST/PostFHIRImmunization';
 import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
 import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 import IconDelete from '../../assets/images/icons/IconDelete.svg'
+import IconEdit from '../../assets/images/icons/IconEdit.svg'
 
 
 export default function FHIRImmunization({ setShowToster }) {
@@ -60,8 +61,8 @@ export default function FHIRImmunization({ setShowToster }) {
     CompletionStatus: 0,
     SubstanceRefusalReason: 0,
     ImmunizationOrderingProvider: 0,
-    Notes: ''
-
+    Notes: '',
+    id : 0
   })
 
   const [observationRow, setObservationRow] = useState([
@@ -424,6 +425,7 @@ export default function FHIRImmunization({ setShowToster }) {
     }
     else {
       const finalObjInvestAndReason = {
+        id: sendForm.id > 0 ? sendForm.id : 0,
         uhid: activeUHID,
         clientId: clientID,
         userId: userId,
@@ -449,7 +451,7 @@ export default function FHIRImmunization({ setShowToster }) {
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
 
       }
-
+      
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
@@ -484,6 +486,12 @@ export default function FHIRImmunization({ setShowToster }) {
       funGetAllImmunizationData();
     }
   }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
+    const editImmunizationListData = async (list) => {
+      console.log('theeee list : ', list)
+    }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleClear = () => {
@@ -790,10 +798,10 @@ export default function FHIRImmunization({ setShowToster }) {
                             <div>
 
                               <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
-                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={printIcon} className='icnn' alt="" />Print Record (PDF)</button>
+                              {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}><img src={printIcon} className='icnn' alt="" />Print Record (PDF)</button> */}
 
                               <>
-                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 " >Print Record (HTML)</button>
+                                {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1 " >Print Record (HTML)</button> */}
                                 <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handleClear} >Clear</button>
                               </>
 
@@ -859,7 +867,9 @@ export default function FHIRImmunization({ setShowToster }) {
                               <img src={deleteIcon} className='icnn' alt='' />
                             </button> */}
                             <div className="action-button">
-                              <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div>
+                              {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
+                              <div onClick={() => { editImmunizationListData(immunizationList) }}><img src={IconEdit} alt='' title='Edit Immunization'/></div>
+                              <div onClick={() => { deleteImmunizationListData(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
                             </div>
                           </td>
                         </tr>

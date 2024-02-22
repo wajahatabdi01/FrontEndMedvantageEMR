@@ -132,7 +132,7 @@ export default function MyAppointment() {
                     <tr>
                         <td></td>
                         <td colspan={1}>
-                            <div className='d-flex flex-wrap'>
+                            <div className='d-flex flex-wrap doctor-booked-name'>
                                 <div className="doctor-image"><img src={doctorprofile} alt=""/></div>
                                 <div className='text-center ms-2'>
                                     <div className='doctors-name'>Dr Harshit Mehta</div>
@@ -141,7 +141,7 @@ export default function MyAppointment() {
                             </div>
                         </td>
                         <td>Sarfarazganj,Lucknow</td>
-                        <td>Mon 06, Nov 9:30AM</td>
+                        <td className="doctor-booked-name">Mon 06, Nov 9:30AM</td>
                         <td>500Rs</td>
                         <td>N/A</td>
                         <td>
@@ -161,7 +161,7 @@ export default function MyAppointment() {
                     <tr>
                         <td></td>
                         <td colspan={1}>
-                            <div className='d-flex flex-wrap'>
+                            <div className='d-flex flex-wrap doctor-booked-name'>
                                 <div className="doctor-image"><img src={doctor2} alt=""/></div>
                                 <div className='text-center ms-2'>
                                     <div className='doctors-name'>Dr Arun Gupta</div>
@@ -170,7 +170,7 @@ export default function MyAppointment() {
                             </div>
                         </td>
                         <td>Sarfarazganj,Lucknow</td>
-                        <td>Mon 06, Nov 9:30AM</td>
+                        <td className="doctor-booked-name">Mon 06, Nov 9:30AM</td>
                         <td>500Rs</td>
                         <td>N/A</td>
                         <td>
@@ -217,7 +217,7 @@ export default function MyAppointment() {
                     <tr>
                         <td></td>
                         <td colspan={1}>
-                            <div className='d-flex flex-wrap'>
+                            <div className='d-flex flex-wrap doctor-booked-name'>
                                 <div className="doctor-image"><img src={doctor1} alt=""/></div>
                                 <div className='text-center ms-2'>
                                     <div className='doctors-name'>Dr Harshit Mehta</div>
@@ -226,7 +226,7 @@ export default function MyAppointment() {
                             </div>
                         </td>
                         <td>Sarfarazganj,Lucknow</td>
-                        <td>Mon 06, Nov 9:30AM</td>
+                        <td className="doctor-booked-name">Mon 06, Nov 9:30AM</td>
                         <td>500Rs</td>
                         <td>N/A</td>
                         <td>
@@ -246,7 +246,7 @@ export default function MyAppointment() {
                         <td></td>
                         <td colspan={1}>
                             <div className='d-flex flex-wrap'>
-                                <div className="doctor-image"><img src={doctorprofile} alt=""/></div>
+                                <div className="doctor-image "><img src={doctorprofile} alt=""/></div>
                                 <div className='text-center ms-2'>
                                     <div className='doctors-name'>Dr Arun Gupta</div>
                                     <div className='doctors-eduction'>MBBS, Gastrologist</div>
@@ -254,7 +254,7 @@ export default function MyAppointment() {
                             </div>
                         </td>
                         <td>Sarfarazganj,Lucknow</td>
-                        <td>Mon 06, Nov 9:30AM</td>
+                        <td className="doctor-booked-name">Mon 06, Nov 9:30AM</td>
                         <td>500Rs</td>
                         <td>N/A</td>
                         <td>

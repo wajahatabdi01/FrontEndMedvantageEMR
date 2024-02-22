@@ -9,6 +9,7 @@ import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
 import GetIssueSubType from '../API/GetIssueSubType'
 import POSTFHIRCarePlan from '../API/POSTFHIRCarePlan'
 import GetCarePlanType from '../API/GetCarePlanType'
+import GetCarePlanByUhid from '../API/GetCarePlanByUhid'
 
 
 export default function FHIRCarePlan(props) {
@@ -31,6 +32,7 @@ export default function FHIRCarePlan(props) {
       reasonEndDate: '',
     },
   ]);
+  const [getCarePlanList,setCarePlanList] = useState([]);
 
 
   // const handleTextChange  =(e) =>{
@@ -41,6 +43,9 @@ export default function FHIRCarePlan(props) {
 
   const customStyle = { marginLeft: '0px' };
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const activeUHID = window.sessionStorage.getItem("activePatient")
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
   //////////////////////////////////////  TO Get Care Plan Type List ///////////////////////////////
 
@@ -171,7 +176,7 @@ export default function FHIRCarePlan(props) {
        var arr=getresponse[i].data;
        var maker="";
        var codeTextMaker= "";
-       for(var j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownId +':'+arr[j].id  : maker +','+arr[j].dropdownId +':'+arr[j].id;
+       for(var j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownName +':'+arr[j].code  : maker +','+arr[j].dropdownName +':'+arr[j].code;
                                           codeTextMaker =  codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker +'|'+arr[j].codeText;}
       tempArrList.push({
         date: date,
@@ -188,15 +193,19 @@ export default function FHIRCarePlan(props) {
    
     
     let finalObj = {
-      uhid : props.patientUhid,
+      uhid : activeUHID,
       clientId: clientID,
+      userId: window.userId,
       jsonCarePlanData : JSON.stringify(tempArrList)
     }   
+    
+   
     const saveObj = await POSTFHIRCarePlan(finalObj);
     
       if(saveObj.status === 1){
         alert('Data saved of care plan');
         handleClear();
+        getCarePlanListByUhid();
       }
       else{
         alert('Data Not saved')
@@ -224,9 +233,24 @@ export default function FHIRCarePlan(props) {
     setMakeData([]);
   }
 
+  const getCarePlanListByUhid = async () => { 
+    const getListRes = await GetCarePlanByUhid(activeUHID);
+    if(getListRes.status === 1){
+      setCarePlanList(getListRes.responseValue);
+    }
+  }
+
+
+  // useEffect(() => {
+  //   funGetCarePlanTypeList();
+  //   getCarePlanListByUhid();
+  // },[props.setShowCarePlan])
   useEffect(() => {
-    funGetCarePlanTypeList()
-  },[])
+    if (props.setShowCarePlan) {
+      funGetCarePlanTypeList();
+      getCarePlanListByUhid();
+    }
+  }, [props.setShowCarePlan]);
 
   return (
     <>
@@ -326,9 +350,7 @@ export default function FHIRCarePlan(props) {
             </div>
 
           </div>
-        </div>
-
-        <div className="col-12 mt-2">
+          <div className="col-12 mt-2">
           <div className="whitebg1">
             <div className="row">
               <div className="col-12">
@@ -342,6 +364,50 @@ export default function FHIRCarePlan(props) {
             </div>
           </div>
         </div>
+        <div className="col-12 mt-2">
+            <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
+              <table className="med-table border_ striped mt-3">
+                <thead style={{ zIndex: "0" }}>
+                  <tr>
+                    <th className="text-center" style={{ width: "5%" }}>
+                      #
+                    </th>
+                    <th>Date</th>
+                    <th>Code Type</th>
+                    <th>Codetext</th>
+                    <th>Description</th>
+                    <th>Care Plan Type</th>
+                    <th>Reason Code</th>
+                    <th>Reason Description</th>
+                    <th>Reason Recording Date</th>
+                    <th>Reason End Date</th>
+                    {/* <th>Action</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {getCarePlanList && getCarePlanList.map((list, ind) => {
+                    return(<>
+                      <tr key={list.id}>
+                        <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
+                        <td>{list.date}</td>
+                        <td>{list.code}</td>
+                        <td>{list.codetext?list.codetext:'Not Available'}</td>
+                        <td>{list.description}</td>
+                        <td>{list.typeName}</td>
+                        <td>{list.reason_code}</td>
+                        <td>{list.reason_description?list.reason_description:'Not Available'}</td>
+                        <td>{list.reason_date_low}</td>
+                        <td>{list.reason_date_high}</td>
+                      </tr>
+                    </>)
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        
       </div>
 
       {/* ------------------------------------------ Code Master popUp Start------------------------------------ */}

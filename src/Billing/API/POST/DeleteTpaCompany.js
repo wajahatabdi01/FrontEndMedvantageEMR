@@ -1,6 +1,6 @@
 let DeleteTpaCompany = async (obj) => {
  
-    const url = window.BloodbaseUrl + '/api/TpaCompany/DeleteCompany';
+    const url =  window.BillingbaseUrl + '/api/TpaCompany/DeleteCompany';
   let head = {'Content-Type':'application/json-patch+json','accept':'*/*',};
   let data = {};
   let response = await fetch(url, {

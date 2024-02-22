@@ -8,12 +8,17 @@ export default function TextEditor(props) {
     let [format, setFormat] = useState([
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list', 'bullet', 'indent', 'clean'
+        'list', 'bullet', 'indent', 'clean',
+        "underline", "strike", "blockquote",
+        "list", "color", "bullet", "indent",
+        "link", "image", "align", "size",
     ])
     let [module, setModule] = useState({
         toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote',  "underline", "strike", "blockquote",
+            "list", "color", "bullet", "indent",
+            "link", "image", "align", "size",],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
 
             ['clean']

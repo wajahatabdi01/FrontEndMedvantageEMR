@@ -1745,25 +1745,6 @@ button.btn.referbtn {
   border: 1px solid #ccc;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .saveprintipd {
   border: none;
   text-align: center;
@@ -3233,7 +3214,8 @@ img.btl-icnn1 {
   color: var(--primary-bg-btn-text-color);
   font-size: 13px;
   border: 1px solid var(--primary-color);
-  padding: 5px 10px;
+  padding: 5px 16px;
+  border-radius: 3px;
 }
 
 .searchbtnn {
@@ -5154,6 +5136,12 @@ span.satu img {
 
 ul.dropdown-menu.multistyl {
   min-width: 235px;
+  overflow-y: auto;
+  height: 30vh;
+  position: absolute;
+  /* inset: 0px auto auto 0px; */
+  /* margin: 0px; */
+  /* transform: translate(0px, 36px); */
 }
 
 nav.navbg {
@@ -6047,17 +6035,14 @@ ul.ulnobullet .crud {
 
 
 .profile {
-  top: 416px;
-  left: 529px;
-  width: 119px;
-  height: 23px;
-  /* UI Properties */
-  color: var(--unnamed-color-546788);
-  text-align: left;
-  font: normal normal 600 16px/25px Poppins;
-  letter-spacing: 0px;
-  color: #546788;
   opacity: 1;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border: 1px solid #1D499929;
+  border-radius: 5px;
+  font: normal normal 600 14px/27px Poppins;
+  letter-spacing: 0px;
+  color: #1D4999;
+  padding: 4px 16px;
 }
 
 .paragraph {
@@ -9921,18 +9906,45 @@ span.saveb img {
   font: normal normal bold 15px/20px Bebas Neue;
 } */
 
-.horizontal-line {
+/* .horizontal-line {
   position: relative;
   width: 89%;
   border: 0.2px solid #1D4999;
   margin: auto;
   height: 0px;
-  /* background-color: #000; */
-  /* margin: 20px 0; */
+  
   margin-bottom: 25px;
   margin-top: 25px;
-  /* opacity: 0.5; */
+  
   opacity: 0.24;
+} */
+
+
+.horizontal-line {
+  position: relative;
+  width: 89%; 
+  margin: auto;
+  height: 0px;
+  background-color: #0000003b; 
+  margin-bottom: 25px;
+  margin-top: 25px;
+  
+  height: 1px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.absText {
+  position: absolute;
+  top: -13px;
+  z-index: 1;
+  display: inline-block;
+  background: white;
+  font: normal normal normal 13px/23px Poppins;
+  letter-spacing: -0.06px;
+  color: #2B2B2B;
+  padding: 0 7px;
 }
 
 .horizontal-line-dignosis {
@@ -10346,14 +10358,11 @@ span.saveb img {
   opacity: 1;
 }
 
-.patien-basic-details {
-  justify-content: space-around;
-}
 
 .patien-basic-details {
-  /* width: 600px; */
+  width: 764px;
   display: flex;
-
+  justify-content: space-around;
   height: 72px;
   background: #F3F6FF 0% 0% no-repeat padding-box;
   opacity: 0.78;
@@ -10362,6 +10371,7 @@ span.saveb img {
 }
 
 .details-main-box {
+ 
   border-right: 2px solid #dedede;
   padding-right: 42px;
 
@@ -10441,6 +10451,8 @@ span.saveb img {
 }
 
 .patient-history-header-btn {
+  display: flex;
+  flex-wrap: nowrap;
   padding: 4px;
   background: #EFF4FF 0% 0% no-repeat padding-box;
   border-radius: 5px;
@@ -10496,7 +10508,7 @@ span.saveb img {
 
 span.Appoin {
   text-align: left;
-  font: normal normal 600 21px/32px Poppins;
+  font: normal normal 600 18px/32px Poppins;
   letter-spacing: 0px;
   color: #1D4999;
   opacity: 1;
@@ -10506,6 +10518,7 @@ span.Appoin {
   /* background: #fff; */
   background: var(--primary-bg-btn-text-color);
   padding: 0px 10px;
+ 
 
 
 }
@@ -10535,6 +10548,7 @@ span.Appoin {
   font: normal normal medium 18px/27px Poppins;
   letter-spacing: 0px;
   color: #FFFFFF;
+  padding: 8px 10px;
 
 }
 
@@ -10552,10 +10566,38 @@ span.Appoin {
   text-transform: capitalize;
   opacity: 1;
 }
-
+.doctor-interface-icn{
+  width: 12px;
+  height: 13px;
+  margin-right: 5px;
+}
+.doctor-fees{
+  color: #1d4999;
+  font-weight: 500;
+  font: normal normal 500 15px/22px Poppins;
+  display: flex;
+  align-items: center;
+}
+.doctor-action-main{
+   flex-wrap: nowrap;
+    overflow: auto;
+    min-width: 300px;
+    gap: 8px;
+}
+.doctor-address-main{
+  flex-wrap: nowrap;
+    overflow: auto;
+    min-width: 400px;
+}
+.doctor-details-main{
+  display: flex;
+  overflow: auto;
+  min-width: 400px;
+  gap: 10px;
+}
 .DoctQualtext {
   text-align: left;
-  font: normal normal normal 14px/23px Poppins;
+  font: normal normal normal 13px/23px Poppins;
   letter-spacing: 0px;
   color: #7B7B7B;
   opacity: 1;
@@ -10563,7 +10605,7 @@ span.Appoin {
 
 .DoctNametext {
   text-align: left;
-  font: normal normal 500 16px/25px Poppins;
+  font: normal normal 500 14px/25px Poppins;
   letter-spacing: 0px;
   color: #4d6ca5;
   opacity: 1;
@@ -10572,18 +10614,27 @@ span.Appoin {
 .ratingStar {
   color: #FFA119;
   opacity: 1;
+  font-size: 11px;
 }
 
 .ratingStar1 {
   color: #B4B5C3;
   opacity: 1;
+  font-size: 11px;
 }
 
 .Appoint {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #1D4999 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  /* background: #FFFFFF 0% 0% no-repeat padding-box; */
   border: 1px solid #1D4999;
-  border-radius: 10px;
+  border-radius: 5px;
   opacity: 1;
+  color: white;
+  font: normal normal 500 13px/27px Poppins;
+  padding: 4px 16px;
+  /* outline: none; */
+  border: none;
 }
 
 .textBoxAppoint {
@@ -10606,12 +10657,13 @@ span.Appoin {
   font: italic normal 300 14px/21px Poppins;
   letter-spacing: 0px;
   color: #929292;
+  border-radius : 0px;
   opacity: 1;
 }
 
 .tableHead-1 {
   text-align: left;
-  font: normal normal 600 21px/32px Poppins;
+  font: normal normal 600 18px/32px Poppins;
   letter-spacing: 0px;
   color: #1D4999;
   opacity: 1;
@@ -10652,46 +10704,132 @@ span.Appoin {
 }
 
 .modalPopUpTextHeader {
-  padding-right: 3%;
+  padding-left: 3%;
   padding-top: 18px;
-  width: 250px;
-  height: 28px;
-  /* UI Properties */
-  text-align: center;
+  /* width: 250px; */
+  /* height: 28px; */
+  /* text-align: center; */
   font: normal normal 600 20px/30px Poppins;
   letter-spacing: 0px;
   color: #FFFFFF;
   opacity: 1;
 
 }
-
+.profile-buttons-main{
+  display: flex;
+  gap: 43px;
+}
+.profile-btn-inactive{
+  border: none;
+  background: white;
+  font: normal normal 500 15px/27px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+.profile-btn-active{
+  border: none;
+  border-bottom: 2px solid #546788;
+  background: white;
+  font: normal normal 500 15px/27px Poppins;
+  letter-spacing: 0px;
+  color: #546788;
+  opacity: 1;
+}
+.overviewheading{
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Poppins';
+  color: #3d3d3d;
+}
+.reviewstar{
+  color: #FFA119;
+  opacity: 1;
+  font-size: 14px;
+}
+.location-text{
+  font: italic normal 300 12px/22px Poppins;
+letter-spacing: 0px;
+color: #A2A2A2;
+text-transform: capitalize;
+opacity: 1;
+}
+.overview-text{
+  font: normal normal 11px/24px Poppins;
+}
+.review-text-box input{
+  height: 72px;
+  font-size: 16px;
+  text-align: justify;
+  border: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+}
+.buisnesshour-box {
+  padding: 16px;
+  font-size: 16px;
+  text-align: justify;
+  border: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+}
+.buinesshour-day{
+  font: normal normal 500 12px/20px Poppins;
+  letter-spacing: 0.36px;
+  color: #373737;
+  opacity: 1;
+  width: 75px;
+}
+.buisnesshour-time{
+  font: italic normal normal 11px/20px Poppins;
+letter-spacing: 0.36px;
+color: #A2A2A2;
+opacity: 1;
+}
 .modalImagePop {
-  padding-top: 7px;
-  padding-left: 2px;
-  width: 134px;
-  height: 134px;
+    padding-top: 7px;
+    padding-left: 2px;
+    width: 127px;
+    height: 132px;
 }
 
 .custom-line {
-  width: 95%;
+  min-width: 748px;
+  margin-bottom: 13px;
 }
 
 .chooseText {
-
-  font: normal normal medium 20px/27px Poppins;
+  font: normal normal 500 14px/27px Poppins;
   letter-spacing: 0px;
   color: #546788;
   opacity: 1;
 }
 
+.appointment-date-range{
+  font: normal normal 400 13px/20px Poppins;
+  letter-spacing: 0px;
+  color: #595959;
+}
+.appointment-date-range img{
+  width: 22px;
+  height: 22px;
+}
+
 .ddSpace {
-  top: 523px;
-  left: 600px;
-  width: 57px;
-  height: 58px;
+  width: 96px;
+  height: 39px;
   background: #EFF3FF 0% 0% no-repeat padding-box;
-  border-radius: 10px;
+  border-radius: 20px;
   opacity: 1;
+}
+.ddSpace-selected{
+  width: 96px;
+  height: 39px;
+  color: white;
+  background : #1D4999;
+  border-radius: 20px;
+}
+.booking-main-interface{
+  min-width: 661px;
+  overflow: auto;
 }
 
 .ddSpace:hover {
@@ -10700,17 +10838,46 @@ span.Appoin {
 }
 
 .dayNtext {
-  text-align: center;
-  font: normal normal normal 14px/22px Poppins;
-  letter-spacing: 0px;
+    text-align: center;
+    font: normal normal normal 12px/22px Poppins;
+    letter-spacing: 0px;
+    color: #8BA5D5;
+    text-transform: capitalize;
+    opacity: 1;
+}
+.appnt-day{
   color: #8BA5D5;
+  width: 57px;
+  height: 58px;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
+}
+.appnt-day-selected{
+  color: white;
+  font: normal normal 500 13px/22px Poppins;
+  letter-spacing: 0px;
   text-transform: capitalize;
   opacity: 1;
+}
+.appint-date{
+font: normal normal 500 13px/22px Poppins;
+letter-spacing: 0px;
+color: #546788;
+text-transform: capitalize;
+opacity: 1;
+}
+.choosedDay{
+  width: 57px;
+  height: 58px;
+  color: white;
+  background : #1D4999;
+  border-radius: 10px;
 }
 
 .dtText {
   text-align: center;
-  font: normal normal normal 16px/22px Poppins;
+  font: normal normal 500 14px/22px Poppins;
   letter-spacing: 0px;
   color: #546788;
   text-transform: capitalize;
@@ -10718,12 +10885,10 @@ span.Appoin {
 }
 
 .mortxt {
-  width: 58px;
-  height: 20px;
   text-align: left;
-  font: normal normal normal 14px/21px Poppins;
+  font: normal normal 500 13px/21px Poppins;
   letter-spacing: 0px;
-  color: #546788;
+  color: #3565b8;
   opacity: 1;
 }
 
@@ -10818,6 +10983,10 @@ input.lifestylecode {
   color: #2d8af5;
   font: normal normal 500 13px/27px Poppins;
 }
+.DoctFeed{
+  font-style: italic;
+   color: #bbb8b8;
+}
 
 .doctors-eduction {
   text-align: justify;
@@ -10840,6 +11009,11 @@ input.lifestylecode {
 
 
 /* Patient dashboard bottom CSS */
+.medication-inner{
+  overflow: auto;
+  min-width: 505px;
+  max-width: 375px
+}
 
 .medicine-detail {
   display: flex;
@@ -10860,6 +11034,16 @@ input.lifestylecode {
   letter-spacing: 0px;
   color: #2D8AF5;
   opacity: 1;
+}
+.investigation-inner{
+   overflow: auto;
+    min-width: 377px;
+    max-width: 375px;
+}
+.insurance-inner{
+  overflow: auto;
+  min-width: 627px;
+  max-width: 660px
 }
 
 .investigation-name {
@@ -10954,7 +11138,6 @@ input.lifestylecode {
 /* Patient Portal Inbox Message CSS 14-02-2021*/
 
 
-
 .inboxheadingmain {
   background: transparent;
   /* box-shadow: 0px 9px 11px #1D499914; */
@@ -10964,6 +11147,7 @@ input.lifestylecode {
   display: flex;
   justify-content: space-between;
 }
+
 
 .inboxheadingmain {
   background: transparent;
@@ -11206,10 +11390,16 @@ span.fontt {
 .reason-input {
   border: 1px solid #DCDCDC;
   height: 20px;
-  width: 294px;
+  width: 100%;
   outline: none
 }
-
+.doctor-booked-name{
+  overflow-x: auto;
+  min-width: 400px;
+  max-width: 400px;
+}
+.reason-input::placeholder {
+}
 .reason-input::placeholder {}
 
 .lft-mesg-part {
@@ -11343,6 +11533,12 @@ span.fontt {
   flex: 1 1 auto;
 }
 
+  .messg-popup-details label {
+    width: 100%;
+    color: #1d4999;
+    font-size: 13px;
+    font-weight: 400;
+  }
 .messg-popup-details label {
   width: 100%;
 }
@@ -11393,6 +11589,19 @@ span.ptn-dtails {
   font-family: poppins;
 }
 
+  .privacypara {
+    font: normal normal normal 12px/20px Poppins;
+    letter-spacing: 0px;
+    color: #7B7B7B;
+    opacity: 1;
+  }
+
+  .hedingprivacy {
+    color: #595959;
+    font-weight: 500;
+    opacity: 1;
+    font-size: 15px;
+  }
 .privacypara {
   font: normal normal normal 15px/20px Poppins;
   letter-spacing: 0px;
@@ -11492,6 +11701,16 @@ span.ptn-dtails {
   font-size: 12px !important;
 }
 
+  .privacycomment2 {
+    width: 100%;
+    color: #546788;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    display: flex;
+    gap: 5px;
+    padding: 3px 0;
+  }
 .privacycomment2 {
   width: 100%;
   color: #546788;
@@ -11616,42 +11835,187 @@ span.ptn-dtails {
 .investigationbox {
   height: 34vh;
 }
+    /* ...document history css.... */
 
-span.starMandatory1 {
-  color: red;
-  font-size: 17px;
-  position: absolute;
-  font-weight: 600;
-  padding: 0px 2px;
+.documenthistorytbl {
+  font-family: Poppins;
+  color: #2599CE;
+  text-transform: capitalize;
+  width: auto;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 1px 7px;
+  background: #F1F9FC;
+  border: 1px solid #2599CE;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.documenthistorytbl table td {
+  color: #7B7B7B !important;
+  text-transform: capitalize; 
+  background: #fff;     
+  line-height: 3;
+  font-family: Poppins;
 }
 
-.newptmsg label {
-  background: #1d4999;
-  padding: 3px 7px;
-  border-radius: 3px;
+.dochistry thead th {  
+  border-bottom: none !important;
+  padding: 15px 0!important;
+  font-size: 14px !important;
+  
+}
+
+.dochistry tbody td {
+  padding: 15px 0 !important;
+}
+.sign-box {
+  background: #F9FAFC 0% 0% no-repeat padding-box;
+  border: 1px solid #ECECEC;
+  opacity: 1;
+  width: 100%;
+  height: 395px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.signn {
   font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 7px;
+  color: #546788;
 }
-
-.tbl_Heading {
+.download-profl {
+  letter-spacing: 0px;
+  color: #595959;
+  opacity: 1;
+  font-size: 14px;
+  font-family: 'Poppins';
+  font-weight: 500;
+}
+.download-date {
+  font-family: 'Poppins';
+  letter-spacing: 0px;
+  color: #7A7A7A;
+ font-size: 11px;
+}
+.download-profile {
   display: flex;
   justify-content: space-between;
-  /* background: #dee4f3 !important; */
+  flex-wrap: wrap;
   align-items: center;
-  padding: 0px 7px;
-  /* border-radius: 3px; */
-  margin-bottom: 10px;
 }
-.tbl_Heading h3 {
-  font-size: 15px;
-  padding: 0;
-  margin: 0;
-  color: #1d4999;
+/* Report CSS started */
+.report-main-box{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-.msgspantr td span {
+.report-btn-main{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.record-name{
+text-align: left;
+font: normal normal 600 17px/30px Poppins;
+letter-spacing: 0px;
+color: #1D4999;
+opacity: 1;
+}
+
+.report-description{
+text-align: left;
+font: normal normal normal 13px/25px Poppins;
+letter-spacing: 0px;
+color: #7B7B7B;
+opacity: 1;
+}
+
+.check-box-action{
+  color: #546788;
+  font-style: italic;
+  font-size: 14px;
+}
+.general-report-btn{
+  width: 166px;
+  height: 40px;
+  background: #EFF3FF 0% 0% no-repeat padding-box;
+  border: 1px solid #CDD7EF;
+  border-radius: 5px;
+  opacity: 1;
+  font: normal normal 600 15px/27px Poppins;
+  letter-spacing: 0pxd;
+  color: #1D4999;
+}
+
+.report-download-btn{
+width: 118px;
+height: 40px;
+background: #1D4999 0% 0% no-repeat padding-box;
+border-radius: 5px;
+opacity: 1;
+font: normal normal 500 15px/27px Poppins;
+letter-spacing: 0px;
+border: 1px solid #1D4999;
+color: #FFFFFF;
+opacity: 1;
+}
+
+.report-line{
+  position: relative;
   width: 100%;
-  display: inline-block;
+  border: 0.2px solid #cacaca;
+  margin: auto;
+  height: 0px;
+  opacity: 0.24;
+}
+.check-all{
+    color: #2D8AF5;
+    font-size: 13px;
+    font-style: italic;
+    text-decoration: underline;
+    font-weight: 400;
+    cursor: pointer;
+}
+.clear-all{
+    color: #FE3535;
+    font-size: 13px;
+    font-style: italic;
+    text-decoration: underline;
+    font-weight: 400;
+    cursor: pointer;
+}
+.medical-active{
+  font: normal normal normal 13px/39px Poppins;
+  letter-spacing: 0px;
+  color: #7B7B7B;
+  opacity: 1;
+  font-style: italic;
+
+}
+.form-inner {
+  background: #fff;
+  padding: 10px 15px;
+}
+
+.app-inner {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  align-items: center;
+}
+
+.applcn-main {
+  display: flex;
+  gap: 30px;
+  justify-content: left;
+  align-items: center;
+}
+
+.btnfooter {
+  background: #fff;
+  display: flex;
+  align-items: end;
+  padding: 10px;
 }

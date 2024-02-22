@@ -143,7 +143,8 @@ text-transform: uppercase;
 
 .document-title {
     color: #0C3681;
-    font-size: 20px;
+    /* font-size: 18px; */
+    font-size: 16px;
     font-weight: 600;
     /* text-align: center; */
     margin-top: 10px;
@@ -413,6 +414,7 @@ ol.cert-ol li {
     background-size: cover;
     background-position: bottom;   
 }
+
 .healthCardContainerInner .headerText {    
     color: white;
     font-size: 12px;
@@ -422,6 +424,7 @@ ol.cert-ol li {
     text-align: center;
     padding-top: 10px;
 }
+
 .healthCardContainerInner .cardLogo img{
    width: 65%;
 }
@@ -456,7 +459,6 @@ ol.cert-ol li {
 }
 
 
-
 .tableHeaderFooter {
     page-break-after: always;
     width: 100%;
@@ -474,3 +476,204 @@ ol.cert-ol li {
 .tableHeaderFooter tfoot  {
     display: table-footer-group;
 }
+
+.tableWhiteSmoke{
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+.whiteSmokeheader{
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.tableWhiteSmoke thead{
+    background-color: whitesmoke;
+    /* height: 2rem;     */
+}
+
+.tableWhiteSmoke thead th{ 
+    padding: 5px 3px;   
+    border: 1px solid #B2B3B3;
+    text-align: left;    
+    color: #000;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tableWhiteSmoke tbody td{ 
+    padding: 4px 3px;
+    font-size: 11px;
+    color: #434242;
+    vertical-align: top;
+    border: 1px solid #B2B3B3;
+}
+
+.tableWhiteSmoke tbody td.innerTitle{ 
+    padding: 5px 3px;
+    font-size: 12px;
+    font-weight: 600;   
+}
+
+.remarkText{
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/* Challan Receipt CSS */
+.CompanyDetailsHeading{
+    display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  }
+  .companyNameChallan{
+    color: #000;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    text-align: right;
+    line-height: normal;
+  }
+  .companyLocation{
+    color:  #000;
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  }
+  .companyContact{
+    color:  #000;
+  
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  }
+  
+  .Challanheading{
+    color: #000;  
+  font-family: Lato;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  }  
+
+
+  .Challandetails {
+    display: flex;
+    /* padding: 6px; */
+    flex-direction: row;
+    align-items: flex-start;
+    /* gap: 16px; */
+    align-self: stretch;
+    justify-content: space-between;
+    border: 1px solid #B2B3B3;
+}
+ 
+
+  .challanDispatchedTable{
+    color: #000;
+    leading-trim: both;
+    
+    text-edge: cap;
+    font-family: Lato;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+}
+  
+  /* .dispatchedfrom{
+    color:  #434242;   
+    font-family: Lato;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  } */
+  /* .dispatchLocation{
+    color: var(--black, #000);
+  font-family: Lato;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+  } */
+
+  .containerDetails{
+    color:  #6a6a6a;
+/*   
+  font-family: Lato; */
+  font-size: 10px;
+  font-style: normal;
+  /* font-weight: 600; */
+  line-height: normal;
+  /* text-transform: uppercase; */
+  }
+  .challanTableHead{
+    color:  #000;
+
+  font-family: Lato;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  }
+  .forCt{
+    color: #000;
+  
+  font-family: Lato;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+  }
+  .challanSign{
+    color: #000;
+  text-align: center;
+  width: 17rem;
+  font-family: Lato;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background-color: #EBECEC;
+  padding: 6px 0px;
+  }
+  
+  /* Deposit Amount Receipt CSS */
+  
+  .address-oragnisation{
+    color:  #000;
+  
+  font-family: Lato;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  }
+  .contact-email-phone{
+    color:  #000;
+  display: flex;
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  justify-content: end;
+  }
+
+
+
+
+

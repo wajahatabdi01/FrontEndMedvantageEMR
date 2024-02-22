@@ -43,6 +43,7 @@ export default function SurgeryMaster() {
     let [tosterValue, setTosterValue] = useState(0)
     const [isClearable, setIsClearable] = useState(true);
     const [isSearchable, setIsSearchable] = useState(true);
+    let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
 
     let handlerChange = async (e) => {
         document.getElementById('errCompany').style.display = "none";
@@ -105,6 +106,16 @@ export default function SurgeryMaster() {
             document.getElementById('errCompany').style.display = "block";
             return false;
         }
+        if ( tpaContact !== "" && tpaContact.length !== 10) {
+            document.getElementById('errCompanyContact').innerHTML = "Contact Number is not 10 digit long";
+            document.getElementById('errCompanyContact').style.display = "block";
+            return false
+        }
+        if (contactPersonPhone !== "" && contactPersonPhone.length !== 10) {
+            document.getElementById('errContactNo').innerHTML = "Contact Number is not 10 digit long";
+            document.getElementById('errContactNo').style.display = "block";
+            return false
+        }
        
         else {
             setShowUnderProcess(1);
@@ -116,7 +127,7 @@ export default function SurgeryMaster() {
                 tpaContact:tpaContact,
                 contactPersonPhone:contactPersonPhone,
                 status: true,
-                userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
+                userId: userID
             }
             let data = await SaveTpaCompany(obj);
 console.log('OBJ',obj);
@@ -125,10 +136,12 @@ console.log('OBJ',obj);
                 setTosterValue(0);
                 setShowToster(1);
                 setTosterMessage("Data Save Successfully!");
+                
+                    getAllItemList();
+                    handlerSaveUpdateClear();
                 setTimeout(() => {
                     setShowToster(0);
-                    handlerSaveUpdateClear();
-                    getAllItemList();
+                   
 
                 }, 2000)
             }
@@ -165,12 +178,21 @@ console.log('OBJ',obj);
         
         document.getElementById('errCompany').style.display = "none";
 
-        if (companyName === '' || companyName === null || companyName === undefined) {
+        if (companyName.trim() === '' || companyName === null || companyName === undefined) {
             document.getElementById('errCompany').innerHTML = "Please Fill Item Name";
             document.getElementById('errCompany').style.display = "block";
             return false;
         }
-
+        if (tpaContact !== "" &&  tpaContact.length !== 10) {
+            document.getElementById('errCompanyContact').innerHTML = "Contact Number is not valid";
+            document.getElementById('errCompanyContact').style.display = "block";
+            return
+        }
+        if ( contactPersonPhone.trim() !== "" && contactPersonPhone.length !== 10) {
+            document.getElementById('errContactNo').innerHTML = "Contact Number is not valid";
+            document.getElementById('errContactNo').style.display = "block";
+            return false
+        }
         setShowUnderProcess(1);
 
         var obj = {
@@ -182,7 +204,7 @@ console.log('OBJ',obj);
             tpaContact:tpaContact,
             contactPersonPhone:contactPersonPhone,
             status: true,
-            userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
+            userId: userID
         }
           console.log('obj update', obj);
              let data = await UpdateTpaCompany(obj);
@@ -190,11 +212,12 @@ console.log('OBJ',obj);
                 setShowUnderProcess(0);
                 setTosterValue(0);
                 setShowToster(1);
-                setTosterMessage("Data Save Successfully!");
+                setTosterMessage("Data Updated Successfully!");
+                   handlerSaveUpdateClear();
+                    getAllItemList();
                 setTimeout(() => {
                     setShowToster(0);
-                    handlerSaveUpdateClear();
-                    getAllItemList();
+                 
 
                 }, 2000)
             }
@@ -214,6 +237,8 @@ console.log('OBJ',obj);
     let handlerClear = async () => {
        
         document.getElementById('errCompany').innerHTML = "";
+        document.getElementById('errCompanyContact').innerHTML = "";
+        document.getElementById('errContactNo').style.display = "none";
 
         setcompanyName('');
         setTPACode('');   
@@ -229,6 +254,8 @@ console.log('OBJ',obj);
         // document.getElementById('errSurgeryTitile').style.display = "none";
         // document.getElementById('errDisease').innerHTML = "";
         document.getElementById('errCompany').style.display = "none";
+        document.getElementById('errCompanyContact').style.display = "none";
+        document.getElementById('errContactNo').style.display = "none";
         setcompanyName('');
         setTPACode('');   
         settpaContact('');
@@ -242,9 +269,11 @@ console.log('OBJ',obj);
     let getRowID = (id) => {
         setRowID(id);
     }
+
+
     let deleteRow = async () => {
-        const userID = JSON.parse(window.sessionStorage.getItem('LoginData')).userId;
-        var obj = {
+     
+        const obj = {
         id: rowID,
         userID: userID
         }
@@ -257,10 +286,12 @@ console.log('OBJ',obj);
             setShowToster(1);
             setTosterValue(0);
             setTosterMessage("Data Deleted Successfully!");
+            getAllItemList();
+            handlerSaveUpdateClear();
             setTimeout(() => {
                 setShowToster(0);
-                handlerSaveUpdateClear();
-                getAllItemList();
+                
+               
             }, 2000)
         }
         else {
@@ -307,28 +338,30 @@ console.log('OBJ',obj);
                                                 </div>
 
                                                 <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3">
-                                                    <label htmlFor="Code" className="form-label">TPA Code <span className="starMandatory"></span></label>
-                                                    <input type="text" className="form-control form-control-sm" name="tPACode" value={tPACode} placeholder="Enter Company Name" onChange={handlerChange} />
+                                                    <label htmlFor="Code" className="form-label">Company Code <span className="starMandatory"></span></label>
+                                                    <input type="text" className="form-control form-control-sm" name="tPACode" value={tPACode} placeholder="Enter Company Code" onChange={handlerChange} />
                                                 </div>
 
                                                 <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3">
                                                     <label htmlFor="Code" className="form-label">Address<span className="starMandatory"></span></label>
-                                                    <input type="text" className="form-control form-control-sm" name="address" value={address} placeholder="Enter Company Name" onChange={handlerChange} />
+                                                    <input type="text" className="form-control form-control-sm" name="address" value={address} placeholder="Enter Address" onChange={handlerChange} />
                                                 </div>
 
                                                 <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3">
-                                                    <label htmlFor="Code" className="form-label">TPA Contact<span className="starMandatory"></span></label>
-                                                    <input type="text" className="form-control form-control-sm" name="tpaContact" value={tpaContact} placeholder="Enter Company Name" onChange={handlerChange} />
+                                                    <label htmlFor="Code" className="form-label">TPA Company Contact No.<span className="starMandatory"></span></label>
+                                                    <input type="number" className="form-control form-control-sm" name="tpaContact" value={tpaContact} placeholder="Enter TPA Company Contact No." onChange={handlerChange} />
+                                                    <small id="errCompanyContact" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                 </div>
 
                                                 <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3">
                                                     <label htmlFor="Code" className="form-label">Contact Person<span className="starMandatory"></span></label>
-                                                    <input type="text" className="form-control form-control-sm" name="contactPerson" value={contactPerson} placeholder="Enter Company Name" onChange={handlerChange} />
+                                                    <input type="text" className="form-control form-control-sm" name="contactPerson" value={contactPerson} placeholder="Enter Contact Person" onChange={handlerChange} />
                                                 </div>
 
                                                 <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3">
                                                     <label htmlFor="Code" className="form-label">Contact Person Number<span className="starMandatory"></span></label>
-                                                    <input type="text" className="form-control form-control-sm" name="contactPersonPhone" value={contactPersonPhone} placeholder="Enter Company Name" onChange={handlerChange} />
+                                                    <input type="number" className="form-control form-control-sm" name="contactPersonPhone" value={contactPersonPhone} placeholder="Contact Person Number" onChange={handlerChange} />
+                                                    <small id="errContactNo" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                     
                                                 </div>
 
@@ -361,10 +394,10 @@ console.log('OBJ',obj);
                         </div>
                         <div className="col-12 mt-3">
                             <div className="med-table-section" style={{ "height": "80vh" }}>
-                                <table className="med-table border_ striped_">
+                                <table className="med-table border_ striped">
                                     <thead style={{zIndex: '0'}}>
                                         <tr>
-                                            <th className="text-center" style={{ "width": "5%" }}>S.No.</th>
+                                            <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Company Name</th>
                                             <th>Company Code</th>
                                             <th>Contact</th>
@@ -381,11 +414,11 @@ console.log('OBJ',obj);
                                                 <tr>
                                                     <td className="text-center">{index + 1}</td>
                                                     <td>{list.companyname}</td>
-                                                    <td>{list.tpaCode}</td>
-                                                    <td>{list.tpaContact}</td>
-                                                    <td>{list.address}</td>
-                                                    <td>{list.contactPerson}</td>
-                                                    <td>{list.contactPersonPhone}</td>
+                                                    <td>{list.tpaCode == "" ? '---' : list.tpaCode}</td>
+                                                    <td>{list.tpaContact == "" ? '---' : list.tpaContact}</td>
+                                                    <td>{list.address == "" ? '---' : list.address}</td>
+                                                    <td>{list.contactPerson == "" ? '---' : list.contactPerson }</td>
+                                                    <td>{list.contactPersonPhone == "" ? '---' : list.contactPersonPhone}</td>
                                                     <td>
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => { edit(list) }}/></div>

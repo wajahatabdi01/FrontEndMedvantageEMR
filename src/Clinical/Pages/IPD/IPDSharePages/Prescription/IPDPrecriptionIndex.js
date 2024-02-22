@@ -147,23 +147,23 @@ export default function IPDPrecriptionIndex(props) {
   return (
     <>
       <div className=" row">
-        <div className='col-md-9 col-sm-12 plt'>
+        <div className='col-md-12 col-sm-12 plt'>
           <IPDTopVitals />
           {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
-          <IPDHistory />
-          <IPDPatientComplaintConsultant />
-          <IPDMedication getData={getOnlySpecificData} />
-          <IPDMedicationHistory />
+          {/* <IPDHistory /> */}
+          {/* <IPDPatientComplaintConsultant /> */}
+          {/* <IPDMedication getData={getOnlySpecificData} /> */}
+          {/* <IPDMedicationHistory /> */}
         </div>
-        <div className='col-md-3 col-sm-12 prt'>
+        {/* <div className='col-md-3 col-sm-12 prt'>
           <IPDVentilator />
           <IPDVentiBottom />
           <IPDPatientLabData />
-        </div>
+        </div> */}
       </div>
-      <div className='roww mt-2 ipdbrn'>
+      {/* <div className='roww mt-2 ipdbrn'>
         <BottomButtons getData={getData} />
-      </div>
+      </div> */}
       <Loader val={loader} />
     </>
   )

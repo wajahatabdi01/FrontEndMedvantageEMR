@@ -2,6 +2,7 @@ import React,{ useEffect, useState } from 'react'
 import Loder from '../../Component/Loader';
 import TosterUnderProcess from '../../Component/TosterUnderProcess';
 import Toster from '../../Component/Toster';
+import view from '../../assets/images/icons/view.svg';
 import saveButtonIcon from '../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../assets/images/icons/clear.svg';
 import deleteBtnIcon from '../../assets/images/icons/delete.svg';
@@ -166,7 +167,7 @@ useEffect(() => {
                       <th>Policy Number</th>
                       <th>Claimed Amount</th>
                       <th>Claimed Date | Time</th>
-                     
+                      <th className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -182,15 +183,15 @@ useEffect(() => {
                 <td>{data.amount}</td>
                 <td>{data.claimDate}</td>
                 <td>
-                  {/* <div className="action-button">
+                  <div className="action-button">
                     <div
                       onClick={() => {ShowBillingDetails(index);}}
                     >
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                 <img src={view} alt=""/>
                     </div>
                     <div  data-bs-title="Delete Row" data-bs-placement="bottom"    onClick={() => handlePrintBill(index)}><img src={imgPrint} style={{width: '20px'}} className='' alt='' />
                     </div>
-                  </div> */}
+                  </div>
                 </td>
               </tr>
               )

@@ -241,7 +241,7 @@ export default function MedicalHistory() {
                         <div className="declaration-heading">Family History</div>
                           </div> 
 
-                         <div className='family-main-warpper'>
+                         <div className='family-main-warpper' style={{overflow: 'auto'}}>
                                    <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-12"> 
                           <div className="main-wrapper">
                           <div className='testexam'>

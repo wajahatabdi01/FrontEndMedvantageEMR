@@ -2,11 +2,17 @@ import React, { useEffect } from "react";
 import OffcanvasLogo from '../assets/images/Navbar/offcanvas-logo.png'
 import MaskGroup from "../assets/images/Navbar/MaskGroup.png"
 import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Select from 'react-select';
 
 //Icons
-import dashboardIcon from "../assets/images/icons/dashboard.svg";
+import dashboardIcon from "../assets/images/dashboard/patientPortalDashboard/patientportal.svg";
+import appointment from "../assets/images/dashboard/patientPortalDashboard/Appointment.svg";
+import messageicn from "../assets/images/dashboard/patientPortalDashboard/messageicn.svg";
+import documenticn from "../assets/images/dashboard/patientPortalDashboard/documenticn.svg";
+import reposticn from "../assets/images/dashboard/patientPortalDashboard/reposticn.svg";
+import sign from "../assets/images/dashboard/patientPortalDashboard/sign.svg";
+import inbox from "../assets/images/dashboard/patientPortalDashboard/inbox.svg";
 import registrationIcon from "../assets/images/icons/registration1.svg";
 import admin from "../assets/images/icons/admin.svg";
 import admitPatientIcon from "../assets/images/icons/admitPatient.svg";
@@ -96,7 +102,7 @@ export default function ClinicalSidebar() {
                     <div className='offcanvas-logoBorderBottom p-2' style={{borderBottom: '0px'}}>
                         <img src={MaskGroup} className="logoLeft" />
                         <div className='offcanvas-logo '>
-                            <Link to="/dashboard/"> <img src={OffcanvasLogo} className="OffcanvasLogo" /></Link>
+                            <Link to="/PatientPortalDashboard/"> <img src={OffcanvasLogo} className="OffcanvasLogo" /></Link>
                         </div>
                     </div>
                     {/* <h5 className="offcanvas-title text-uppercase user-name text-center pt-3" id="offcanvasExampleLabel">UserName</h5> */}
@@ -113,7 +119,7 @@ export default function ClinicalSidebar() {
 
                       
                         <li className="singleList">
-                            <Link to="/dashboard/" className="nav-link  px-3 sidebar-link active">
+                            <Link to="/PatientPortalDashboard/" className="nav-link  px-3 sidebar-link active">
                                 <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
                                 <span>Personal Dashboard</span>
                             </Link>
@@ -124,7 +130,7 @@ export default function ClinicalSidebar() {
                             <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={appointment} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Appointment</span>
@@ -146,22 +152,22 @@ export default function ClinicalSidebar() {
                             </div>
                         </li>
                         <li>
-                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#message" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={messageicn} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Message</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
-                            <div className="collapse custome-collapse" id="Schedule">
+                            <div className="collapse custome-collapse" id="message">
                                 <ul className="navbar-nav ps-3">
                                     <li>
-                                        <Link to="/messageinbox/" className="nav-link">
-                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                        <NavLink to="/messageinbox/" className="nav-link" activeClassName="active">
+                                            <span> <img src={inbox} alt="" className="icnn" /></span>
                                             <span>Inbox</span>
-                                        </Link>
+                                        </NavLink>
                                     </li>
 
             
@@ -169,53 +175,84 @@ export default function ClinicalSidebar() {
                             </div>
                         </li>
 
+                        <li>
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#document" aria-expanded="false">
+                                <span className="me-2">
+                                    {/* <i className="bi bi-alarm"></i> */}
+                                    <img src={documenticn} alt="" className="navLinkicon" />
+                                </span>
+
                                 <span>Documents</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
-                        
-                            <div className="collapse custome-collapse" id="Schedule">
+                            </a>
+                            <div className="collapse custome-collapse" id="document">
                                 <ul className="navbar-nav ps-3">
                                     <li>
                                         <Link to="/hippadeclaration/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
                                             <span>Hippa Declaration</span>
                                         </Link>
-                                    </li>
-                                    <li>
                                         <Link to="/medicalhistory/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
-                                            <span>Medical  History</span>
+                                            <span>Medical History</span>
                                         </Link>
-                                    </li>
-                                    <li>
                                         <Link to="/privacypolicy/" className="nav-link">
                                             <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
                                             <span>Privacy Policy</span>
                                         </Link>
                                     </li>
-
-                                    {/* <li>
-                                        <Link to="/admitPatient/" className="nav-link">
-                                            <span> <img src={admitPatientIcon} alt="" className="icnn" /></span>
-                                            <span>Admit Patient</span>
+                                    <li>
+                                        <Link to="/documenthistory/" className="nav-link ">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Document History</span>
                                         </Link>
-                                    </li> */}
-
-                                    {/* <li>
-                                        <Link href="/citymaster" className="nav-link">
-                                            <span> <img src={CityMasterIcon} alt="" className="icnn" /></span>
-                                            <span>City Master</span>
-                                        </Link>
-                                    </li> */}
-                                    {/* <li>
-                                        <Link to="/healthCard/" className="nav-link">
-                                            <span> <img src={HealthCardIcon} alt="" className="icnn" /></span>
-                                            <span>Health Card</span>
-                                        </Link>
-                                    </li> */}
+                                    </li>                                 
 
                                 </ul>
                             </div>
+                        </li>
                         
+                       
+
+                            <li>
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#report" aria-expanded="false">
+                                <span className="me-2">
+                                    {/* <i className="bi bi-alarm"></i> */}
+                                    <img src={reposticn} alt="" className="navLinkicon" />
+                                </span>
+
+                                <span>Reports</span>
+                                <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
+                            </a>
+                            <div className="collapse custome-collapse" id="report">
+                                <ul className="navbar-nav ps-3">
+                                    <li>
+                                        <Link to="/reportcontent/" className="nav-link">
+                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                            <span>Report Content</span>
+                                        </Link>
+                                       
+                                    </li>
+                                    <li className="singleList">
+                                <Link to="/DownloadChartedDocument/" className="nav-link">
+                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
+                                <span>Download Charted Document</span>
+                            </Link>
+                        </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li className="singleList">
+                            <Link to="/signature/"  className="nav-link  px-3 sidebar-link">
+                                <span className="me-2"><img src={sign} alt="" className="navLinkicon" /></span>
+                                <span>Signature</span>
+                            </Link>
+                        </li>
+                           
+  
+                      
+
                         
 
 

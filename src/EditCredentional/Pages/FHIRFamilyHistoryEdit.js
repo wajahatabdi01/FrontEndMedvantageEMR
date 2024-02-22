@@ -25,6 +25,7 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
   
   const customStyle={marginLeft:'0px'};
   // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+  const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   let activeUHID = window.sessionStorage.getItem("activePatient")
   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
@@ -91,7 +92,10 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
     const getresponse = await dataMaker(makeData);
   let objSave = {
     uhid:activeUHID,
-    jsonData : JSON.stringify(getresponse)
+    jsonData : JSON.stringify(getresponse),
+    clientId : clientID,
+    userId : window.userId
+  
   }
 
  

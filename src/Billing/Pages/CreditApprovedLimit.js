@@ -76,7 +76,7 @@ const handleUpdateApproveCredit = async(index)=>{
   let RowIndex = CreditApproveList[index]
 
     const obj = {
-id : RowIndex.id,
+   id : RowIndex.id,
   currentStatus: 1,
     }
     console.log(obj)
@@ -102,6 +102,13 @@ const handleUpdateHoldCredit = async(index)=>{
       GetApprovedList()
     }
 }
+
+const handleSearch = async()=>{
+  let List = await GetCreditLimitlist(UHID)
+  if(List.status === 1){
+    setCreditApproveList(List.responseValue)
+  }
+}
   return (
     <>
         <section className="main-content mt-5 pt-3">
@@ -119,7 +126,7 @@ const handleUpdateHoldCredit = async(index)=>{
 
                     <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3" id="paymentModediv">
                     <label for="PaymentMode" class="form-label">
-                      <img src={imgPaymentMode} alt=''/>Status Type{" "}
+                      Status Type
                       
                     </label>
                     <select id="Payment"
@@ -132,7 +139,7 @@ const handleUpdateHoldCredit = async(index)=>{
                         Approved
                       </option>
                       <option value="2">Hold</option>
-                      =
+               
                
                       {/* <option value={0}>By Online Payment</option> */}
                     </select>
@@ -153,7 +160,7 @@ const handleUpdateHoldCredit = async(index)=>{
                           :
                           <div>
                       
-                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" ><i class="bi bi-search mx-2"></i>Search</button>
+                              <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSearch} ><i class="bi bi-search mx-2"></i>Search</button>
                               <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear} ><img src={clearIcon} className='icnn' />Clear</button>
                    
                      
@@ -206,9 +213,9 @@ const handleUpdateHoldCredit = async(index)=>{
                     <div className= {data.currentStatus == 2 ? 'd-block' : data.currentStatus == 1 ? 'd-none' : ''}
                       onClick={() => {handleUpdateApproveCredit(index);}}
                     >
-                   <img src={active} alt='' title='activate' />
+                   <img src={active} alt='' title='Activate' />
                     </div>
-                    <div className= {data.currentStatus == 1 ? 'd-block' : data.currentStatus == 2 ? 'd-none' : ''} data-bs-title="Delete Row" data-bs-placement="bottom"><img src={hold} alt='' title='hold'   onClick={() => {handleUpdateHoldCredit(index);}}/>
+                    <div className= {data.currentStatus == 1 ? 'd-block' : data.currentStatus == 2 ? 'd-none' : ''} data-bs-title="Delete Row" data-bs-placement="bottom"><img src={hold} alt='' title='Hold'   onClick={() => {handleUpdateHoldCredit(index);}}/>
                     </div>
                   </div>
                 </td>
