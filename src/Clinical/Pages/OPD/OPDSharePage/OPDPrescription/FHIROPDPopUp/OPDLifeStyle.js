@@ -70,7 +70,11 @@ function OPDLifeStyle({ setShowToster }) {
         }
     }
     let getFamilyHistoryData = async () => {
-        const response = await GetFamilyHistoryData(activeUHID);
+        const param={
+            Uhid:activeUHID,
+            HistoryType:2
+        }
+        const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
             setFamilyHistoryList(response.responseValue);
         }
