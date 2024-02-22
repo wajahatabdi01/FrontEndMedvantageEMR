@@ -452,9 +452,6 @@ export default function FHIRImmunization({ setShowToster }) {
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
 
       }
-      
-      console.log('finalObjInvestAndReason : ', finalObjInvestAndReason);
-      return;
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
@@ -516,17 +513,15 @@ export default function FHIRImmunization({ setShowToster }) {
           IDofImmunizationAdministrator:  list.administered_by_id,
           DateofVISStatement: formattedVISDate,
           Route: list.route,
-          InformationSource: '',
+          InformationSource: list.information_source,
           AdministrationSite: list.administration_site,
           CompletionStatus: list.completion_status,
-          SubstanceRefusalReason: 0,
-          ImmunizationOrderingProvider: 0,
-          Notes: '',
+          SubstanceRefusalReason: list.refusal_reason,
+          ImmunizationOrderingProvider: list.ordering_provider,
+          Notes: list.note,
           id : list.id
-
-
-
       }))
+      document.getElementById('immunizationCode').value = list.cvx_code;
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
