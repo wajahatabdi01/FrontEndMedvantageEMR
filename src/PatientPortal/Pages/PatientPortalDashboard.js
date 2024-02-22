@@ -16,12 +16,16 @@ import medicine5 from '../../assets/images/dashboard/patientPortalDashboard/medi
 import medicine2 from '../../assets/images/dashboard/patientPortalDashboard/medicine2.png'
 import medicine3 from '../../assets/images/dashboard/patientPortalDashboard/medicine3.png'
 import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medicine4.png'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
+import GetChiefComplaint from '../../PatientPortal/API/GetChiefComplaint';
 
 
 export default function PatientPortalDashboard() {
   const navigate = useNavigate()
 
   const [Opdhistory, setOpdhistory] = useState(1)
+  const [PatientData, setPatientData] = useState()
+  const [chiefComplainData, setchiefComplainData] = useState([])
   const [admissionHistory, setadmissionHistory] = useState(0)
 
 const handleOpdhistory=()=>{
@@ -37,11 +41,34 @@ const handleEditData= async()=>{
 }
 
 
+const Patientdata = async()=>{
+  let data = await GetPatientData()
+  if(data.status === 1){
+    const patientRegistrationData = data.responseValue.patientregistration[0];
+      console.log("Patientdata>>", patientRegistrationData);
+     setPatientData(patientRegistrationData);
+  }
+
+ }
+const GetChiefComplaintData = async()=>{
+  let data = await GetChiefComplaint()
+  if(data.status === 1){
+      console.log("ChiefComplaint>>", data.responseValue);
+      setchiefComplainData(data.responseValue);
+  }
+
+ }
+
+ useEffect(() => {
+  Patientdata();
+  GetChiefComplaintData()
+}, [])
+
   return (
     <>
      <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
-          <div className="row">
+          <div className="row pt-2">
            <div className="col-xxl-7 col-xl-12 col-lg-12 col-md-12">
                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
                   <div className="med-box">
@@ -53,36 +80,36 @@ const handleEditData= async()=>{
                 </div>
 
                 <div className="col-xxl-10 col-xl-10  col-lg-11 col-md-12">
-                  <div className="portal-user-name d-flex mb-1 justify-content-between">
-                    <div>Shiv Mishra</div>
+                  <div className="portal-user-name d-flex mb-1 justify-content-between mt-2">
+                    <div>{PatientData && PatientData.patientName}</div>
                     <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
                     </div>
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex" style={{gap: '18px'}}>
-                    <div className="user-personal-details"><img src={user} className="me-1" alt="" />Male</div>
-                    <div className="user-personal-details"><img src={dob} className="me-1" alt="" />10 feb 2000(24yr)</div>
-                    <div className="user-personal-details"><img src={location} className="me-1" alt="" />Sarfarazganj,Hardoi,Lucknow</div>
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex ms-1" style={{gap: '18px'}}>
+                    <div className="user-personal-details"><img src={user} className="me-1" alt="" />{PatientData && PatientData.genderId == 1 ? 'Male' : 'Female'}</div>
+                    <div className="user-personal-details"><img src={dob} className="me-1" alt="" />{PatientData && PatientData.dob}</div>
+                    <div className="user-personal-details"><img src={location} className="me-1" alt="" />{PatientData && PatientData.address + "," + PatientData.addressLine2}</div>
                   </div>
                   
-                  <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4">
+                  <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4 mb-2">
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Mobile No.</div>
-                  <div className="details-content ">9786786898</div>
+                  <div className="details-content ">{PatientData && PatientData.mobileNo}</div>
                  </div>
                  <div className="details-main-box" style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Email</div>
-                  <div className="details-content">shivmishra@gmail.com</div>
+                  <div className="details-content">{PatientData && PatientData.emailID}</div>
                  </div>
                  <div className="details-main-box"  style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Blood Group</div>
-                  <div className="details-content">AB+</div>
+                  <div className="details-content">{PatientData && PatientData.bloodGroupId}</div>
                  </div>
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Height</div>
-                  <div className="details-content">168cm</div>
+                  <div className="details-content">{PatientData && PatientData.height}</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box p-0" style={{border: 'none'}}>
                   <div className="details-heading mb-1">Weight</div>
-                  <div className="details-content">65kg</div>
+                  <div className="details-content">{PatientData && PatientData.weight}</div>
                  </div>
                   </div>
 
@@ -136,9 +163,14 @@ const handleEditData= async()=>{
 
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
                   <div className="cheif-complain-box mb-1">Chief Complaints/Medical History</div>
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
-                  H/O RTA 1 day back with no H/O LOC, ENT Bleed, Vomiting, Seizure
+                  {chiefComplainData && chiefComplainData.map((val,index)=>{
+                    return (
+                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
+                         {val.encounterTitle} 
                   </div>
+                    )
+                  })}
+                 
 
                 </div>
                   </div>
@@ -234,7 +266,7 @@ const handleEditData= async()=>{
 
 
 
-          <div className="row pt-3" style={{rowGap: '15px'}}>
+          <div className="row pt-3 mb-4" style={{rowGap: '15px'}}>
             <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
                <div className="inner-content medication-inner">

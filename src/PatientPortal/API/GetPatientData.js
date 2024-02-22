@@ -2,7 +2,7 @@
 async function GetPatientData (data) {
    
   
-      let url ='http://192.168.11.101:6082/api/FHIRDemographicData/GetPatientDemographicDataByPid?Uhid=UHID00877';
+      let url = window.AppbaseUrl + '/api/FHIRDemographicData/GetPatientDemographicDataByPid?Uhid=UHID00877';
       let head = {
         'Content-Type': 'application/JSON',
         accept: '*/*',

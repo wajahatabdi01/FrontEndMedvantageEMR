@@ -2,11 +2,17 @@ import React, { useEffect } from "react";
 import OffcanvasLogo from '../assets/images/Navbar/offcanvas-logo.png'
 import MaskGroup from "../assets/images/Navbar/MaskGroup.png"
 import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Select from 'react-select';
 
 //Icons
-import dashboardIcon from "../assets/images/icons/dashboard.svg";
+import dashboardIcon from "../assets/images/dashboard/patientPortalDashboard/patientportal.svg";
+import appointment from "../assets/images/dashboard/patientPortalDashboard/Appointment.svg";
+import messageicn from "../assets/images/dashboard/patientPortalDashboard/messageicn.svg";
+import documenticn from "../assets/images/dashboard/patientPortalDashboard/documenticn.svg";
+import reposticn from "../assets/images/dashboard/patientPortalDashboard/reposticn.svg";
+import sign from "../assets/images/dashboard/patientPortalDashboard/sign.svg";
+import inbox from "../assets/images/dashboard/patientPortalDashboard/inbox.svg";
 import registrationIcon from "../assets/images/icons/registration1.svg";
 import admin from "../assets/images/icons/admin.svg";
 import admitPatientIcon from "../assets/images/icons/admitPatient.svg";
@@ -124,7 +130,7 @@ export default function ClinicalSidebar() {
                             <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={appointment} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Appointment</span>
@@ -146,22 +152,22 @@ export default function ClinicalSidebar() {
                             </div>
                         </li>
                         <li>
-                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#message" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={messageicn} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Message</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
-                            <div className="collapse custome-collapse" id="Schedule">
+                            <div className="collapse custome-collapse" id="message">
                                 <ul className="navbar-nav ps-3">
                                     <li>
-                                        <Link to="/messageinbox/" className="nav-link">
-                                            <span> <img src={userpatientRegistrationIcon} alt="" className="icnn" /></span>
+                                        <NavLink to="/messageinbox/" className="nav-link" activeClassName="active">
+                                            <span> <img src={inbox} alt="" className="icnn" /></span>
                                             <span>Inbox</span>
-                                        </Link>
+                                        </NavLink>
                                     </li>
 
             
@@ -170,16 +176,16 @@ export default function ClinicalSidebar() {
                         </li>
 
                         <li>
-                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#document" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={documenticn} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Documents</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
-                            <div className="collapse custome-collapse" id="Schedule">
+                            <div className="collapse custome-collapse" id="document">
                                 <ul className="navbar-nav ps-3">
                                     <li>
                                         <Link to="/hippadeclaration/" className="nav-link">
@@ -209,16 +215,16 @@ export default function ClinicalSidebar() {
                        
 
                             <li>
-                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#Schedule" aria-expanded="false">
+                            <a href="##" className="nav-link px-3 sidebar-link" data-bs-toggle="collapse" data-bs-target="#report" aria-expanded="false">
                                 <span className="me-2">
                                     {/* <i className="bi bi-alarm"></i> */}
-                                    <img src={registrationIcon} alt="" className="navLinkicon" />
+                                    <img src={reposticn} alt="" className="navLinkicon" />
                                 </span>
 
                                 <span>Reports</span>
                                 <span className="right-icon ms-auto"><i className="bi bi-chevron-down"></i></span>
                             </a>
-                            <div className="collapse custome-collapse" id="Schedule">
+                            <div className="collapse custome-collapse" id="report">
                                 <ul className="navbar-nav ps-3">
                                     <li>
                                         <Link to="/reportcontent/" className="nav-link">
@@ -239,7 +245,7 @@ export default function ClinicalSidebar() {
 
                         <li className="singleList">
                             <Link to="/signature/"  className="nav-link  px-3 sidebar-link">
-                                <span className="me-2"><img src={dashboardIcon} alt="" className="navLinkicon" /></span>
+                                <span className="me-2"><img src={sign} alt="" className="navLinkicon" /></span>
                                 <span>Signature</span>
                             </Link>
                         </li>

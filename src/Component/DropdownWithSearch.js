@@ -102,7 +102,7 @@ export default function DropdownWithSearch(props) {
                     <input type="text" placeholder="Search.." id="myInput" onChange={handleSearch} />
                     {/* <AutoComplete suggestions={dataList} searchKey="departmentName" /> */}
 
-                    <ul id="searchdrop" className='wrap' style={{ height: "200px", background: '#fff', listStyleType: "none", margin: 0, paddingLeft: "10px" }}>
+                    <ul id="searchdrop" className='wrap' style={{ height: "200px", background: '#fff', listStyleType: "none", margin: 0, paddingLeft: "10px",cursor:'pointer' }}>
                         <li className='selected'></li>
                         {dataList && dataList.map((value, index) => {
                             return (
