@@ -17,6 +17,7 @@ import IPDPatientLabData from './IPDPatientLabData'
 import Search from '../../../../../Code/Serach'
 import { useLocation } from 'react-router-dom'
 import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
+import IPDInvestigation from './Popup/IPDInvestigation'
 
 
 export default function IPDPrecriptionIndex(props) {
@@ -147,7 +148,7 @@ export default function IPDPrecriptionIndex(props) {
   return (
     <>
       <div className=" row">
-        <div className='col-md-12 col-sm-12 plt'>
+        <div className='col-md-9 col-sm-12 plt'>
           <IPDTopVitals />
           {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
           {/* <IPDHistory /> */}
@@ -155,11 +156,13 @@ export default function IPDPrecriptionIndex(props) {
           {/* <IPDMedication getData={getOnlySpecificData} /> */}
           {/* <IPDMedicationHistory /> */}
         </div>
-        {/* <div className='col-md-3 col-sm-12 prt'>
-          <IPDVentilator />
-          <IPDVentiBottom />
-          <IPDPatientLabData />
-        </div> */}
+        <div className='col-md-3 col-sm-12 prt'>
+          {/* <IPDVentilator /> */}
+          {/* <IPDVentiBottom /> */}
+          <IPDInvestigation />
+          
+          {/* <IPDPatientLabData /> */}
+        </div>
       </div>
       {/* <div className='roww mt-2 ipdbrn'>
         <BottomButtons getData={getData} />
