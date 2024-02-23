@@ -477,7 +477,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 1 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Problem Saved SuccessFully !!"
+          message="Problem saved successFully !!"
         />
       ) : (
         ""
@@ -485,7 +485,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 2 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Allergy Saved SuccessFully !!"
+          message="Allergy saved successFully !!"
         />
       ) : (
         ""
@@ -493,7 +493,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 3 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Medication Saved SuccessFully !!"
+          message="Medication saved successFully !!"
         />
       ) : (
         ""
@@ -501,7 +501,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 4 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Device Saved SuccessFully !!"
+          message="Device saved successFully !!"
         />
       ) : (
         ""
@@ -509,7 +509,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 5 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Surgery Saved SuccessFully !!"
+          message="Surgery saved successFully !!"
         />
       ) : (
         ""
@@ -517,7 +517,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 6 ? (
         <SuccessToster
           handle={setShowToster}
-          message="History Saved SuccessFully !!"
+          message="History saved successFully !!"
         />
       ) : (
         ""
@@ -525,7 +525,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 7 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Immunization Saved SuccessFully !!"
+          message="Immunization saved successFully !!"
         />
       ) : (
         ""
@@ -533,7 +533,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 8 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Lifestyle Saved SuccessFully !!"
+          message="Lifestyle saved successFully !!"
         />
       ) : (
         ""
