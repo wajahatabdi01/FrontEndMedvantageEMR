@@ -252,11 +252,9 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
     }
 
     let getAllEncounter = async () => {
-        const obj = {
-            Uhid: activeUHID,
-            Issueid: 1
-        }
-        const response = await FHIRGetEncounterByUHIDandIssueID(obj.Uhid,obj.Issueid)
+        const uhid = activeUHID
+        const issueID = 1
+        const response = await FHIRGetEncounterByUHIDandIssueID(uhid, issueID)
         if (response.status === 1) {
             setEncounterList(response.responseValue)
         }
@@ -272,12 +270,12 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
             document.getElementById("errbegindate").style.display = "block";
         }
         else {
-            let Updatepobj = {
-                EncounterDetailsJsonString: JSON.stringify([problemData]),
-            }
-            console.log("Updatepobj", Updatepobj)
+            // let Updatepobj = {
+            //     EncounterDetailsJsonString: JSON.stringify([problemData]),
+            // }
+            // console.log("Updatepobj", Updatepobj)
             // return;
-            const response = await UpdateEncounter(Updatepobj);
+            const response = await UpdateEncounter(JSON.stringify([problemData]));
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
@@ -312,6 +310,7 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
         getAllEncounter();
         setProblemData({
             id: rowId,
+            issueTypeId:1,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',

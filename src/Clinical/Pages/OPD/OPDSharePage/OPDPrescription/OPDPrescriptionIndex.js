@@ -650,7 +650,7 @@ export default function OPDPrescriptionIndex(props) {
 
     }, [])
 
-    let handleUpdate = (encounterId,encounterTitle, encounterBeginDate, encounterEndDate,encounterReferredBy,encounterCoding,classificationTypeId,occurrenceId,verificationStatusId,outcomeId,encounterComments,encounterDestination,titleId) => {
+    let handleUpdate = (encounterId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationTypeId, occurrenceId, verificationStatusId, outcomeId, encounterComments, encounterDestination, titleId) => {
         setUpdateBool(1)
         setRowId(encounterId)
         setEncounterTitle(encounterTitle);
@@ -747,7 +747,19 @@ export default function OPDPrescriptionIndex(props) {
                                                         <td>{list.outComeName}</td>
                                                         <td>
                                                             <div className="action-button">
-                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId,list.encounterTitle, list.encounterBeginDate, list.encounterEndDate,list.encounterReferredBy,list.encounterCoding,list.classificationTypeId,list.occurrenceId,list.verificationStatusId,list.outcomeId,list.encounterComments,list.encounterDestination,list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                {getIssueID === 1 ?
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    :
+                                                                    getIssueID === 2 ?
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    : ''
+                                                                    }
+
+
+
+                                                                     {/* {getIssueID === 2 ?
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    : ''} */}
                                                                 <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
                                                             </div>
                                                         </td>
@@ -775,7 +787,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Problem
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID();  }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                         {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
