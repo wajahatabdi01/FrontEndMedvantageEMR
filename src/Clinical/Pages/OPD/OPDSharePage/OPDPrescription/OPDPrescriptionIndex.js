@@ -751,11 +751,11 @@ export default function OPDPrescriptionIndex(props) {
                                                                     <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
                                                                     :
                                                                     getIssueID === 2 ?
-                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                    : ''
-                                                                    }
+                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                        : ''
+                                                                }
 
-                                                                     {/* {getIssueID === 2 ?
+                                                                {/* {getIssueID === 2 ?
                                                                     <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
                                                                     : ''} */}
                                                                 <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
@@ -844,7 +844,24 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDAllergyPopUp setShowToster={setShowToster} />
+                                                <OPDAllergyPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId} />
                                             </div>
                                         </div>
                                     </div>

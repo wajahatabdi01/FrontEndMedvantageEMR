@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
+function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -36,9 +36,9 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
     const [encounterList, setEncounterList] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
-    
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
     let [allergyData, setAllergyData] = useState({
         titleId: '',
         title: '',
@@ -215,7 +215,7 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
         }
         else {
             let pobj = {
-                uhid: activeUHID, 
+                uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([allergyData]),
                 clientId: window.clientId,
                 userId: window.userId
@@ -252,16 +252,12 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
             document.getElementById("errbegindate").style.display = "block";
         }
         else {
-            let Updatepobj = {
-                EncounterDetailsJsonString: JSON.stringify([allergyData]),
-            }
-            console.log("Updatepobj", Updatepobj)
-            // return;
-            const response = await UpdateEncounter(Updatepobj);
+            const response = await UpdateEncounter(JSON.stringify([allergyData]));
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
-                getAllEncounter();
+                getAllEncoutersAsPerIssueID();
+                setUpdateBool(0)
                 handleClear();
                 setTimeout(() => {
                     setShowToster(0);
@@ -278,16 +274,6 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
         }
     }
 
-    let getAllEncounter = async () => {
-        const obj = {
-            Uhid: activeUHID,
-            Issueid: 2
-        }
-        const response = await FHIRGetEncounterByUHIDandIssueID(obj.Uhid,obj.Issueid)
-        if (response.status === 1) {
-            setEncounterList(response.responseValue)
-        }
-    }
 
     function convertDateFormat(dateString) {
         // Split the date string by "-"
@@ -301,9 +287,9 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-        getAllEncounter();
         setAllergyData({
             id: rowId,
+            issueTypeId: 2,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
@@ -383,7 +369,7 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
 
                                     : ''}
                             </div>
-                         
+
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 
@@ -500,16 +486,10 @@ function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
             </div>
             {/* <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-save btn-save-fill btn-lg " data-bs-dismiss="modal_" onClick={handleSaveIssues}><i class="bi bi-check-lg"></i> Save</button>
-                    <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
-                </div>
-            </div> */}
-            <div class="modal-footer">
-                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
-            </div>
+            </div> */}
 
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
