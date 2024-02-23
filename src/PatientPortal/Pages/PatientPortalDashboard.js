@@ -105,7 +105,7 @@ const GetChiefComplaintData = async()=>{
                   </div>
                   
                   <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4 mb-2">
-                 <div className="details-main-box">
+                 <div className="details-main- box">
                   <div className="details-heading mb-1">Mobile No.</div>
                   <div className="details-content ">{PatientData && PatientData.mobileNo}</div>
                  </div>
@@ -115,15 +115,15 @@ const GetChiefComplaintData = async()=>{
                  </div>
                  <div className="details-main-box"  style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Blood Group</div>
-                  <div className="details-content">{PatientData && PatientData.bloodGroupId}</div>
+                  <div className="details-content">{PatientData && PatientData.bloodGroupId == null ? 'NA' : PatientData && PatientData.bloodGroupId}</div>
                  </div>
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Height</div>
-                  <div className="details-content">{PatientData && PatientData.height}</div>
+                  <div className="details-content">{PatientData && PatientData.height == 0 ? 'NA' :PatientData && PatientData.height }</div>
                  </div>
                  <div className="details-main-box p-0" style={{border: 'none'}}>
                   <div className="details-heading mb-1">Weight</div>
-                  <div className="details-content">{PatientData && PatientData.weight}</div>
+                  <div className="details-content">{PatientData && PatientData.weight == 0 ? 'NA' :PatientData &&  PatientData.weight}</div>
                  </div>
                   </div>
 

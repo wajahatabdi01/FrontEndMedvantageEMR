@@ -20,6 +20,7 @@ import locationimg from '../../assets/images/dashboard/patientPortalDashboard/lo
 
 
 function PatientAppointmnet() {
+    const currentDate = new Date()
     let [isShowIssueModel, setIsShowIssueModel] = useState(0);
     let [bookingDate, setsetbookingDate] = useState([]);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState(null); 
@@ -30,8 +31,13 @@ function PatientAppointmnet() {
     const [location, setlocation] = useState(false); 
     const [reviews, setreviews] = useState(false); 
     const [buisnesshour, setbuisnesshour] = useState(false); 
+    const [appointmentmonth, setappointmentmonth] = useState(currentDate.getMonth()); 
+    const [appointmentyear, setappointmentyear] = useState(currentDate.getFullYear()); 
     
-    
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
 
     const bookingdates = [
         {'days' : 'Mon' , 'date' : '30'},
@@ -110,6 +116,23 @@ function PatientAppointmnet() {
         setreviews(false)
     }
 
+
+    const handleMonthChange = (newMonth) => {
+
+        if (newMonth < 0) {
+          setappointmentmonth(11);
+          setappointmentyear(appointmentyear - 1);
+        }
+
+        else if (newMonth > 11) {
+            setappointmentmonth(0);
+            setappointmentyear(appointmentyear + 1);
+        }
+ 
+        else {
+            setappointmentmonth(newMonth);
+        }
+      };
     return (
         <section className='main-content mt-5 pt-3'>
             <div className='container-fluid'>
@@ -451,7 +474,7 @@ function PatientAppointmnet() {
                                                     <div className='d-flex justify-content-between align-items-center'>
                                                         <div className='chooseText'>Choose Date & Time</div>
                                                         <div className='align-items-end appointment-date-range'>
-                                                            <img src={calenIcon} alt="" className='mb-1' style={{width: "14px"}} /> Nov 2023  <img src={leftArrIcon} alt="" /> <img src={rightArrIcon} alt="" />
+                                                            <img src={calenIcon} alt="" className='mb-1 me-1' style={{width: "14px"}} />{monthNames[appointmentmonth]} {appointmentyear}<img src={leftArrIcon} alt="" className="ms-1" style={{cursor: 'pointer'}} onClick={() => handleMonthChange(appointmentmonth - 1)}/> <img src={rightArrIcon} alt=""  onClick={() => handleMonthChange(appointmentmonth + 1)} style={{cursor: 'pointer'}} />
                                                         </div>
 
                                                     </div>
