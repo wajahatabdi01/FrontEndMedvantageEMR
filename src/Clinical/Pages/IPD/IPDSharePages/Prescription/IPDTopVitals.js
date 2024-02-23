@@ -345,7 +345,7 @@ export default function IPDTopVitals(props) {
                 </div>
                 )}
             </div> */}
-            <div className='col-md-9 col-sm-12 plt1'>
+            <div className='col-md-12 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
                                  <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton = {setShowTheButton} setIssueID = {setIssueID} setHeadingName = {setHeadingName}/>

@@ -1,14 +1,14 @@
 
-async function GetChiefComplaint (data) {
-   
-    let url =  window.AppbaseUrl+'/api/FHIREncounter/GetAllEncounters?Uhid=UHID00877&Issueid=1';
+async function DeleteFHIRMessage(data) {
+
+    let url = window.AppbaseUrl + "/api/FHIRMessage/DeleteMessage";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',
     }
     let response =
       await fetch(url, {
-        method: 'GET',
+        method: 'DELETE',
         headers: head,
         body: JSON.stringify(data)
       })
@@ -18,5 +18,6 @@ async function GetChiefComplaint (data) {
   
     return response;
   }
-  export default GetChiefComplaint;
-  
+  export default DeleteFHIRMessage;
+
+

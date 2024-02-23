@@ -82,6 +82,7 @@ export default function FHIRImmunization({ setShowToster }) {
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  
   // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -451,7 +452,6 @@ export default function FHIRImmunization({ setShowToster }) {
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
 
       }
-      
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
@@ -490,7 +490,38 @@ export default function FHIRImmunization({ setShowToster }) {
 
   //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
     const editImmunizationListData = async (list) => {
+      
       console.log('theeee list : ', list)
+      const dateStringAdministered = list.administered_date;
+      const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
+      const dateStringExpired = list.expiration_date;
+      const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; const formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
+      const dateStringIS = list.education_date;
+      const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; const formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
+      const dateStringVIS = list.vis_date;
+      const partsVIS = dateStringVIS.split("-"); const dayVIS = partsIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsIS[2]; const formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
+      
+      setSendForm((prev) => ({
+        ...prev,
+          DatenTimeAdministered : formattedDate,
+           AmountAdministered : list.amount_administered,
+           ExpirationDate: formattedExpiryDate,
+           ImmunizationManufacturer: list.manufacturerId,
+           ImmunizationLotNumber: list.lot_number,
+          ImmunizationStatements: formattedEducationDate,
+          NameAndTitleofImmunizationAdministrator: list.administered_by_id,
+          IDofImmunizationAdministrator:  list.administered_by_id,
+          DateofVISStatement: formattedVISDate,
+          Route: list.route,
+          InformationSource: list.information_source,
+          AdministrationSite: list.administration_site,
+          CompletionStatus: list.completion_status,
+          SubstanceRefusalReason: list.refusal_reason,
+          ImmunizationOrderingProvider: list.ordering_provider,
+          Notes: list.note,
+          id : list.id
+      }))
+      document.getElementById('immunizationCode').value = list.cvx_code;
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
