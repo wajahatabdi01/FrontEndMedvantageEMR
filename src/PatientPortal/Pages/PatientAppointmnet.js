@@ -20,6 +20,7 @@ import locationimg from '../../assets/images/dashboard/patientPortalDashboard/lo
 
 
 function PatientAppointmnet() {
+    const currentDate = new Date()
     let [isShowIssueModel, setIsShowIssueModel] = useState(0);
     let [bookingDate, setsetbookingDate] = useState([]);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState(null); 
@@ -30,8 +31,13 @@ function PatientAppointmnet() {
     const [location, setlocation] = useState(false); 
     const [reviews, setreviews] = useState(false); 
     const [buisnesshour, setbuisnesshour] = useState(false); 
+    const [appointmentmonth, setappointmentmonth] = useState(currentDate.getMonth()); 
+    const [appointmentyear, setappointmentyear] = useState(currentDate.getFullYear()); 
     
-    
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
 
     const bookingdates = [
         {'days' : 'Mon' , 'date' : '30'},
@@ -110,6 +116,23 @@ function PatientAppointmnet() {
         setreviews(false)
     }
 
+
+    const handleMonthChange = (newMonth) => {
+
+        if (newMonth < 0) {
+          setappointmentmonth(11);
+          setappointmentyear(appointmentyear - 1);
+        }
+
+        else if (newMonth > 11) {
+            setappointmentmonth(0);
+            setappointmentyear(appointmentyear + 1);
+        }
+ 
+        else {
+            setappointmentmonth(newMonth);
+        }
+      };
     return (
         <section className='main-content mt-5 pt-3'>
             <div className='container-fluid'>
@@ -451,7 +474,7 @@ function PatientAppointmnet() {
                                                     <div className='d-flex justify-content-between align-items-center'>
                                                         <div className='chooseText'>Choose Date & Time</div>
                                                         <div className='align-items-end appointment-date-range'>
-                                                            <img src={calenIcon} alt="" className='mb-1' style={{width: "14px"}} /> Nov 2023  <img src={leftArrIcon} alt="" /> <img src={rightArrIcon} alt="" />
+                                                            <img src={calenIcon} alt="" className='mb-1 me-1' style={{width: "14px"}} />{monthNames[appointmentmonth]} {appointmentyear}<img src={leftArrIcon} alt="" className="ms-1" style={{cursor: 'pointer'}} onClick={() => handleMonthChange(appointmentmonth - 1)}/> <img src={rightArrIcon} alt=""  onClick={() => handleMonthChange(appointmentmonth + 1)} style={{cursor: 'pointer'}} />
                                                         </div>
 
                                                     </div>
@@ -602,7 +625,10 @@ function PatientAppointmnet() {
                                                     )}
                                                     {location && (
                                                         <>
-                                                        <div className='location-text'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div className='location-text mb-3'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div>
+                                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.791679137049!2d80.86999837543829!3d26.878358976667638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999558a0ae6790b%3A0x81b74fcf0a60d2c5!2sERA&#39;s%20Lucknow%20Medical%20College%20%26%20Hospital!5e0!3m2!1sen!2sin!4v1708683172124!5m2!1sen!2sin" width="750" height="229"   allowfullscreen="" loading="lazy" title="Doctor Location" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                        </div>
                                                         </>
                                                     )}
 

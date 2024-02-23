@@ -134,8 +134,8 @@ export default function PatientGuardianDetails() {
             <div className="px-5">
             <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
-        {step === 7 && (
-           <div className="registration-form-box">
+             {step === 7 && (
+               <div className="registration-form-box">
                 <div className='form-info-heading'>Guardian</div>
                 <div className="row px-4 pt-4 patient-form-fields pb-4">
 
@@ -149,8 +149,8 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                        <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                        <div class="plus-button-container ">
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                          <img  src={referal} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Relationship</label>
                             <div class="dropdown-wrapper">
@@ -170,7 +170,7 @@ export default function PatientGuardianDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                          <img  src={gender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Sex</label>
                             <div class="dropdown-wrapper">
@@ -191,7 +191,7 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                          <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address</label>
                             <div class="dropdown-wrapper">
@@ -210,7 +210,7 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                          <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">City</label>
                             <div class="dropdown-wrapper">
@@ -229,7 +229,7 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                          <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">State</label>
                             <div class="dropdown-wrapper">
@@ -266,7 +266,7 @@ export default function PatientGuardianDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
                             <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country</label>
                             <div class="dropdown-wrapper">
@@ -287,10 +287,7 @@ export default function PatientGuardianDetails() {
                    <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email</label>
                    <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Email" name="guardianemail" value={sendForm.guardianemail} onChange={handleOnChange} />
                    </div>
-
-                 
                 </div>
-
              </div>
         )}
             

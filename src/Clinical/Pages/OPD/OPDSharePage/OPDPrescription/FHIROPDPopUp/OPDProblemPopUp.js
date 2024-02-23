@@ -10,7 +10,10 @@ import AlertToster from '../../../../../../Component/AlertToster';
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
-function OPDProblemPopUp({ setShowToster }) {
+import { t } from 'i18next';
+import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
+import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
+function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -20,8 +23,6 @@ function OPDProblemPopUp({ setShowToster }) {
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [problemList, setProblemList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    let [tosterMessage, setTosterMessage] = useState("");
-    let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -30,10 +31,10 @@ function OPDProblemPopUp({ setShowToster }) {
     const [txtCoding, setTxtCoding] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
-    // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        
     let [problemData, setProblemData] = useState({
         titleId: '',
         title: '',
@@ -48,6 +49,8 @@ function OPDProblemPopUp({ setShowToster }) {
         outcomeId: '0',
         destination: ''
     })
+    console.log("encounterCoding", encounterCoding)
+
 
     let getAllProblem = async () => {
         const response = await GetProblemList();
@@ -93,7 +96,7 @@ function OPDProblemPopUp({ setShowToster }) {
         }));
     };
 
-    
+
 
     let handleIssueDetailsChange = (e) => {
         document.getElementById("errbegindate").style.display = "none";
@@ -104,50 +107,50 @@ function OPDProblemPopUp({ setShowToster }) {
         }));
     }
 
-     let handleRemove = () => {
-        const tempAr=txtCoding;
-        let tempData=[];
+    let handleRemove = () => {
+        const tempAr = txtCoding;
+        let tempData = [];
         let tempNew = "";
-        for(var i=0; i < tempAr.length; i++){
-            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
-            if(!document.getElementById("ddlCoding"+i).checked){
+        for (var i = 0; i < tempAr.length; i++) {
+            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
+            if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
-        for(var i=0; i < tempAr.length; i++){
-            document.getElementById("ddlCoding"+i).checked = false;
+        for (var i = 0; i < tempAr.length; i++) {
+            document.getElementById("ddlCoding" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
-            tempNew +=  tempData[j]+';';
+            tempNew += tempData[j] + ';';
         }
-      
+
         setProblemData((prevIssueDetails) => ({
             ...prevIssueDetails,
-            coding:tempNew,
+            coding: tempNew,
         }));
         setTxtCoding(tempData);
     }
 
     const SelectedData = (data, modalID) => {
-        console.log("modalID",modalID, data)
+        console.log("modalID", modalID, data)
         let t = {
-          moduleId: modalID,
-          data: data
+            moduleId: modalID,
+            data: data
         }
         setgetData(t);
         setMakeData([...makeData, t])
         let temp = ""
         for (var i = 0; i < data.length; i++) {
-          temp +=  data[i].dropdownName +':'+ data[i].code +';'
+            temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        console.log('temp',temp);
+        console.log('temp', temp);
         setProblemData((prevIssueDetails) => ({
             ...prevIssueDetails,
             coding: temp,
         }));
-        const splitData = temp.split(';').slice(0,-1);
+        const splitData = temp.split(';').slice(0, -1);
         setTxtCoding(splitData);
-      }
+    }
 
     let handleSelectProblem = () => {
         document.getElementById("errTitle").style.display = "none";
@@ -167,7 +170,7 @@ function OPDProblemPopUp({ setShowToster }) {
         }))
     }
 
-    
+
     const handleCodingInputChange = (e) => {
         setCodingSelected(false);
         const { name, value } = e.target;
@@ -192,6 +195,8 @@ function OPDProblemPopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        setUpdateBool(0);
+
         document.getElementById("errTitle").style.display = "none";
         document.getElementById("errbegindate").style.display = "none";
     }
@@ -226,10 +231,11 @@ function OPDProblemPopUp({ setShowToster }) {
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(1)
+                handleClear();
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
-                handleClear();
+
             }
             else {
                 setShowUnderProcess(0)
@@ -242,6 +248,80 @@ function OPDProblemPopUp({ setShowToster }) {
         }
     }
 
+    let handleSaveUpdate = async () => {
+        if (problemData.title === '' || problemData.title === undefined || problemData.title === null) {
+            document.getElementById("errTitle").innerHTML = "Please enter title";
+            document.getElementById("errTitle").style.display = "block";
+        }
+        if (problemData.beginDateTime === '' || problemData.beginDateTime === undefined || problemData.beginDateTime === null) {
+            document.getElementById("errbegindate").innerHTML = "Please select begin date";
+            document.getElementById("errbegindate").style.display = "block";
+        }
+        else {
+            const response = await UpdateEncounter(JSON.stringify([problemData]));
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(6)
+                getAllEncoutersAsPerIssueID();
+                handleClear();
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
+        }
+    }
+    function convertDateFormat(dateString) {
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
+    
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                // Log an error if the date string format is incorrect
+                console.error("Invalid date string format:", dateString);
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            // Log an error if dateString is undefined
+            console.error("Date string is undefined");
+            return null; // Or return an appropriate value indicating an error
+        }
+    }
+    const newencounterBeginDate = convertDateFormat(encounterBeginDate);
+    const newencounterEndDate = convertDateFormat(encounterEndDate);
+    useEffect(() => {
+        setProblemData({
+            id: rowId,
+            issueTypeId:1,
+            titleId: titleId && titleId !== '' ? titleId : '',
+            title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
+            coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
+            classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
+            occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
+            verificationStatusId: verificationStatus && verificationStatus !== '' ? verificationStatus : '',
+            referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
+            comments: encounterComments && encounterComments !== '' ? encounterComments : '',
+            outcomeId: outcome && outcome !== '' ? outcome : '',
+            destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
+        })
+
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
         getAllProblem();
         getAllIssueOutCome();
@@ -281,8 +361,8 @@ function OPDProblemPopUp({ setShowToster }) {
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
                         <div>
-                               
-                               {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
+
+                            {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
                                    {txtCoding && txtCoding.length > 0 ?
                                        txtCoding.map((list,i)=>{
                                            return(
@@ -292,24 +372,24 @@ function OPDProblemPopUp({ setShowToster }) {
                                         
                                        : ''}
                                </select> */}
-                               <div  className='form-control' style={{ height: '8em',overflow: 'auto' }} multiple name='coding' id='coding' >
-                                   {txtCoding && txtCoding.length > 0 ?
-                                       txtCoding.map((list,i)=>{
-                                           return(
-                                               <>
-                                               <span>
-                                                   <input type='checkbox' style={{marginRight:'5px'}} id={'ddlCoding'+i} />{list}
-                                               </span>
-                                               <br />
-                                               </>
-                                           )
-                                       })
-                                        
-                                       : ''}
-                               </div>
-                              
-                               {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
-                           </div>
+                            <div className='form-control' style={{ height: '8em', overflow: 'auto' }} multiple name='coding' id='coding' >
+                                {txtCoding && txtCoding.length > 0 ?
+                                    txtCoding.map((list, i) => {
+                                        return (
+                                            <>
+                                                <span>
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                </span>
+                                                <br />
+                                            </>
+                                        )
+                                    })
+
+                                    : ''}
+                            </div>
+
+                            {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
+                        </div>
 
                     </div>
                     <div class="d-inline-flex gap-2">
@@ -431,7 +511,10 @@ function OPDProblemPopUp({ setShowToster }) {
             </div> */}
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                    {updatebool === 0 ?
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                    }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>
