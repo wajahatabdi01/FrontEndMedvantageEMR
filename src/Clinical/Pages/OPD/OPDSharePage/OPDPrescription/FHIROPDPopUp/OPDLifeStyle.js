@@ -70,9 +70,9 @@ function OPDLifeStyle({ setShowToster }) {
         }
     }
     let getFamilyHistoryData = async () => {
-        const param={
-            Uhid:activeUHID,
-            HistoryType:2
+        const param = {
+            Uhid: activeUHID,
+            HistoryType: 2
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
@@ -496,193 +496,194 @@ function OPDLifeStyle({ setShowToster }) {
     }, [])
     return (
         <>
-            {showLifeStyle === 1 ?
-                <div className='lifestylelist'>
-                    <div className="col-12 mt-2">
-                        <div className='handlser'>
-                            <Heading text="Lifestyle List" />
-                            <div style={{ position: 'relative' }}>
-                                <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
-                                <span className="tblsericon"><i class="fas fa-search"></i></span>
+            {
+                showLifeStyle === 1 ?
+                    <div className='lifestylelist'>
+                        <div className="col-12 mt-2">
+                            <div className='handlser'>
+                                <Heading text="Lifestyle List" />
+                                <div style={{ position: 'relative' }}>
+                                    <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
+                                    <span className="tblsericon"><i class="fas fa-search"></i></span>
+                                </div>
                             </div>
-                        </div>
-                        <div className="med-table-section mt-2" style={{ "height": "35vh" }}>
-                            <TableContainer>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Status & Code</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {familyHistoryList && familyHistoryList.map((item, index) => {
-                                        if (item.tobacco || item.coffee || item.alcohol || item.recreational_drugs || item.counseling || item.exercise_patterns || item.hazardous_activities) {
-                                            const tobaccoListItem = item.tobacco.split('|');
-                                            const coffeeListItem = item.coffee.split('|');
-                                            const alcoholListItem = item.alcohol.split('|');
-                                            const recreationalListItem = item.recreational_drugs.split('|');
-                                            const counselingListItem = item.counseling.split('|');
-                                            const exerciseListItem = item.exercise_patterns.split('|');
-                                            const hazardousListItem = item.hazardous_activities.split('|');
-                                            return (
-                                                <>
-                                                    <tr>
-                                                        <td>Tobacco</td>
-                                                        <td>{tobaccoListItem[0]}</td>
-                                                        <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
-                                                        <td>{tobaccoListItem[5]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Coffee</td>
-                                                        <td>{coffeeListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{coffeeListItem[1]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Alcohol</td>
-                                                        <td>{alcoholListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{alcoholListItem[1]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Recreational Drugs</td>
-                                                        <td>{recreationalListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{recreationalListItem[1]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Counseling</td>
-                                                        <td>{counselingListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{counselingListItem[1]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Exercise Patterns</td>
-                                                        <td>{exerciseListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{exerciseListItem[1]}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hazardous Activities</td>
-                                                        <td>{hazardousListItem[0]}</td>
-                                                        <td style={{ paddingLeft: '50px' }}>-------</td>
-                                                        <td>{hazardousListItem[1]}</td>
-                                                    </tr>
-                                                </>
-                                            );
-                                        }
-                                        return null; // Return null if item.tobacco is null or undefined
-                                    })}
-                                </tbody>
+                            <div className="med-table-section mt-2" style={{ "height": "35vh" }}>
+                                <TableContainer>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Name</th>
+                                            <th>Status & Code</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {familyHistoryList && familyHistoryList.map((item, index) => {
+                                            if (item.tobacco || item.coffee || item.alcohol || item.recreational_drugs || item.counseling || item.exercise_patterns || item.hazardous_activities) {
+                                                const tobaccoListItem = item.tobacco.split('|');
+                                                const coffeeListItem = item.coffee.split('|');
+                                                const alcoholListItem = item.alcohol.split('|');
+                                                const recreationalListItem = item.recreational_drugs.split('|');
+                                                const counselingListItem = item.counseling.split('|');
+                                                const exerciseListItem = item.exercise_patterns.split('|');
+                                                const hazardousListItem = item.hazardous_activities.split('|');
+                                                return (
+                                                    <>
+                                                        <tr>
+                                                            <td>Tobacco</td>
+                                                            <td>{tobaccoListItem[0]}</td>
+                                                            <td>{`${tobaccoListItem[2]} (${tobaccoListItem[3]})`}</td>
+                                                            <td>{tobaccoListItem[5]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Coffee</td>
+                                                            <td>{coffeeListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{coffeeListItem[1]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Alcohol</td>
+                                                            <td>{alcoholListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{alcoholListItem[1]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Recreational Drugs</td>
+                                                            <td>{recreationalListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{recreationalListItem[1]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Counseling</td>
+                                                            <td>{counselingListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{counselingListItem[1]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Exercise Patterns</td>
+                                                            <td>{exerciseListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{exerciseListItem[1]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Hazardous Activities</td>
+                                                            <td>{hazardousListItem[0]}</td>
+                                                            <td style={{ paddingLeft: '50px' }}>-------</td>
+                                                            <td>{hazardousListItem[1]}</td>
+                                                        </tr>
+                                                    </>
+                                                );
+                                            }
+                                            return null; // Return null if item.tobacco is null or undefined
+                                        })}
+                                    </tbody>
 
-                            </TableContainer>
-                            <div class="modal-footer">
-                                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleEdit}><img src={saveButtonIcon} className='icnn' alt='' /> Edit</button>
+                                </TableContainer>
+                                <div class="modal-footer">
+                                    <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleEdit}><img src={saveButtonIcon} className='icnn' alt='' /> Edit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                :
-                <div className='lifestylesbmt'>
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Tobacco")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="name" id="name" value={tobaccoDetails.name} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleTobacco} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="code" className="form-label">Tobacco Status<span className="starMandatory"></span></label>
-                                                <select className="form-select form-select-sm" id="ddlTobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
-                                                    <option value="0" selected>Select</option>
-                                                    {smokingList && smokingList.map((list) => {
-                                                        return (
-                                                            <option value={list.id} >{list.name}</option>
-                                                        )
-                                                    })}
+                    :
+                    <div className='lifestylesbmt'>
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Tobacco")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="name" id="name" value={tobaccoDetails.name} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleTobacco} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="code" className="form-label">Tobacco Status<span className="starMandatory"></span></label>
+                                                    <select className="form-select form-select-sm" id="ddlTobaccoId" aria-label=".form-select-sm example" name='tobaccoId' onChange={handleTobacco} style={{ maxWidth: '180px' }}>
+                                                        <option value="0" selected>Select</option>
+                                                        {smokingList && smokingList.map((list) => {
+                                                            return (
+                                                                <option value={list.id} >{list.name}</option>
+                                                            )
+                                                        })}
 
-                                                </select>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">{console.log('isShow', isShow)}
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current' checked={isShow === 'Current' ? true : false} onClick={() => { handleRadioTobacco('Current', 1) }} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Quit' checked={isShow === 'Quit' ? true : false} onClick={() => { handleRadioTobacco('Quit', 3) }} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='Never' checked={isShow === 'Never' ? true : false} onClick={() => { handleRadioTobacco('Never', 4) }} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" value='N/A' checked={isShow === 'N/A' ? true : false} onClick={() => { handleRadioTobacco('N/A', 5) }} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                    </select>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">{console.log('isShow', isShow)}
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current' checked={isShow === 'Current' ? true : false} onClick={() => { handleRadioTobacco('Current', 1) }} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" value='Quit' checked={isShow === 'Quit' ? true : false} onClick={() => { handleRadioTobacco('Quit', 3) }} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" value='Never' checked={isShow === 'Never' ? true : false} onClick={() => { handleRadioTobacco('Never', 4) }} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" value='N/A' checked={isShow === 'N/A' ? true : false} onClick={() => { handleRadioTobacco('N/A', 5) }} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Code<span className="starMandatory"></span></label>
-                                                <input type="text" name="code" value={tobaccoDetails.code} id="code" className="lifestylecode form-control form-control-sm" placeholder={t("Code")} readOnly />
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" value={tobaccoDetails.date} name="date" id="date" className="form-control form-control-sm" onChange={handleTobacco} />
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Code<span className="starMandatory"></span></label>
+                                                    <input type="text" name="code" value={tobaccoDetails.code} id="code" className="lifestylecode form-control form-control-sm" placeholder={t("Code")} readOnly />
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" value={tobaccoDetails.date} name="date" id="date" className="form-control form-control-sm" onChange={handleTobacco} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* ------------------------------------------------------------Coffee----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Coffee")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="coffeeName" id="name" value={coffeDetails.coffeeName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleCoffe} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Current' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Quit' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Never' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='N/A' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                        {/* ------------------------------------------------------------Coffee----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Coffee")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="coffeeName" id="name" value={coffeDetails.coffeeName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleCoffe} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Current' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Quit' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='Never' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="Coffeelifestylestatus" value='N/A' onChange={handleCoffe} checked={coffeDetails.Coffeelifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {/* <div className="ModalFields-inn">
+                                                {/* <div className="ModalFields-inn">
                                                 <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
                                                 <div className='lifestyleStatus'>
                                                     <div class="form-check form-check-inline">
@@ -704,247 +705,248 @@ function OPDLifeStyle({ setShowToster }) {
                                                 </div>
                                             </div> */}
 
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="coffeedate" value={coffeDetails.coffeedate} id="date" className="form-control form-control-sm" onChange={handleCoffe} />
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="coffeedate" value={coffeDetails.coffeedate} id="date" className="form-control form-control-sm" onChange={handleCoffe} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* ------------------------------------------------------------Alcohol----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Alcohol")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="alcoholName" id="name" value={alcoholDetails.alcoholName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleAlcohol} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Current' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Quit' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Never' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='N/A' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                        {/* ------------------------------------------------------------Alcohol----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Alcohol")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="alcoholName" id="name" value={alcoholDetails.alcoholName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleAlcohol} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Current' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Quit' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='Never' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="alcohollifestylestatus" value='N/A' onChange={handleAlcohol} checked={alcoholDetails.alcohollifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="alcoholdate" value={alcoholDetails.alcoholdate} id="date" className="form-control form-control-sm" onChange={handleAlcohol} />
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="alcoholdate" value={alcoholDetails.alcoholdate} id="date" className="form-control form-control-sm" onChange={handleAlcohol} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* ------------------------------------------------------------Recreational Drugs----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Recreational Drugs")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="recreationalName" id="name" value={recreationalDetails.recreationalName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleRecreational} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Current' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Quit' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Never' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='N/A' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                        {/* ------------------------------------------------------------Recreational Drugs----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Recreational Drugs")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="recreationalName" id="name" value={recreationalDetails.recreationalName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleRecreational} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Current' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Quit' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='Never' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="recreationallifestylestatus" value='N/A' onChange={handleRecreational} checked={recreationalDetails.recreationallifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="recreationaldate" value={recreationalDetails.recreationaldate} id="date" className="form-control form-control-sm" onChange={handleRecreational} />
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="recreationaldate" value={recreationalDetails.recreationaldate} id="date" className="form-control form-control-sm" onChange={handleRecreational} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* ------------------------------------------------------------Counseling----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Counseling")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="counselingName" id="name" value={counselingDetails.counselingName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleCounseling} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Current' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Quit' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Never' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='N/A' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                        {/* ------------------------------------------------------------Counseling----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Counseling")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="counselingName" id="name" value={counselingDetails.counselingName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleCounseling} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Current' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Quit' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='Never' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="counselinglifestylestatus" value='N/A' onChange={handleCounseling} checked={counselingDetails.counselinglifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="counselingdate" value={counselingDetails.counselingdate} id="date" className="form-control form-control-sm" onChange={handleCounseling} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* ------------------------------------------------------------Exercise Patterns----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Exercise Patterns")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="exerciseName" id="name" value={exerciseDetails.exerciseName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleExercise} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Current' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Quit' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Never' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='N/A' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
-                                                    </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="counselingdate" value={counselingDetails.counselingdate} id="date" className="form-control form-control-sm" onChange={handleCounseling} />
                                                 </div>
                                             </div>
-
-
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="exercisedate" value={exerciseDetails.exercisedate} id="date" className="form-control form-control-sm" onChange={handleExercise} />
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* ------------------------------------------------------------Hazardous Activities----------------------------------------------- */}
-                    <div className='whitebg_'>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <div className="fieldsett-in">
-                                    <div className="fieldsett">
-                                        <span className='fieldse'>{t("Hazardous Activities")}</span>
-                                        <div className='ModalFields'>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
-                                                <input type="text" name="hazardousName" id="name" value={hazardousDetails.hazardousName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleHazardous} />
-                                                <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                            </div>
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
-                                                <div className='lifestyleStatus'>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Current' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Current'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Quit' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Quit'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Never' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Never'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='N/A' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'N/A'} />
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                        {/* ------------------------------------------------------------Exercise Patterns----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Exercise Patterns")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="exerciseName" id="name" value={exerciseDetails.exerciseName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleExercise} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Current' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Quit' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='Never' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="exerciselifestylestatus" value='N/A' onChange={handleExercise} checked={exerciseDetails.exerciselifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="ModalFields-inn">
-                                                <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
-                                                <input type="date" name="hazardousdate" value={hazardousDetails.hazardousdate} id="date" className="form-control form-control-sm" onChange={handleHazardous} />
+
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="exercisedate" value={exerciseDetails.exercisedate} id="date" className="form-control form-control-sm" onChange={handleExercise} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                            <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleCancel}><i class="bi bi-x-lg" ></i> Cancel</button>
+                        {/* ------------------------------------------------------------Hazardous Activities----------------------------------------------- */}
+                        <div className='whitebg_'>
+                            <div className="row">
+                                <div className="col-md-12 col-sm-12">
+                                    <div className="fieldsett-in">
+                                        <div className="fieldsett">
+                                            <span className='fieldse'>{t("Hazardous Activities")}</span>
+                                            <div className='ModalFields'>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Name<span className="starMandatory"></span></label>
+                                                    <input type="text" name="hazardousName" id="name" value={hazardousDetails.hazardousName} className="form-control form-control-sm" placeholder={t("Enter Name")} onChange={handleHazardous} />
+                                                    <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                </div>
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
+                                                    <div className='lifestyleStatus'>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Current' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Current'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Quit' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Quit'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">Quit</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='Never' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'Never'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Never</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio" name="hazardouslifestylestatus" value='N/A' onChange={handleHazardous} checked={hazardousDetails.hazardouslifestylestatus === 'N/A'} />
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault4">N/A</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="ModalFields-inn">
+                                                    <label htmlFor="name" className="form-label">Date<span className="starMandatory"></span></label>
+                                                    <input type="date" name="hazardousdate" value={hazardousDetails.hazardousdate} id="date" className="form-control form-control-sm" onChange={handleHazardous} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSave}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleCancel}><i class="bi bi-x-lg" ></i> Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>}
+            }
 
 
 
