@@ -287,10 +287,7 @@ export default function PatientGuardianDetails() {
                    <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email</label>
                    <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Email" name="guardianemail" value={sendForm.guardianemail} onChange={handleOnChange} />
                    </div>
-
-                 
                 </div>
-
              </div>
         )}
             
