@@ -154,7 +154,8 @@ function OPDRecordDisclosurePopUp() {
         setSendForm(sendForm => ({
             ...sendForm,
             "id": id,
-            "disclosureDate": disclosureDate,
+            // "disclosureDate": disclosureDate,
+            "disclosureDate": new Date(disclosureDate).toISOString().split('T')[0],
             "typeOfDisclosure": typeOfDisclosure,
             "recipientOfDisclosure": recipientOfDisclosure,
             "descriptionOfTheDisclosure": descriptionOfTheDisclosure,

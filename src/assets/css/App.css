@@ -576,6 +576,12 @@ span.starMandatory {
   right: -10px;
   position: relative;
 }
+span.starMandatory1 {
+  color: red;
+  font-weight: 600;
+  padding-left: 2px;
+  font-size: 17px;
+}
 
 .inner-content .form-label {
   margin-bottom: 0.1rem !important;
