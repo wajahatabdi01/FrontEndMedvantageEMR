@@ -785,7 +785,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Problem
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID();}}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                         {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 

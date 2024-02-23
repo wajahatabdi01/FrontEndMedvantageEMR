@@ -23,21 +23,18 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [problemList, setProblemList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    let [tosterMessage, setTosterMessage] = useState("");
-    let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
     const [txtCoding, setTxtCoding] = useState([]);
-    const [encounterList, setEncounterList] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
-    // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        
     let [problemData, setProblemData] = useState({
         titleId: '',
         title: '',

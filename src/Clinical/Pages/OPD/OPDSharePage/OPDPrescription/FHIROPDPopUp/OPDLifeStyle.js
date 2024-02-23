@@ -234,8 +234,12 @@ function OPDLifeStyle({ setShowToster }) {
     };
 
     let handleEdit = async () => {
+        const param = {
+            Uhid: activeUHID,
+            HistoryType: 2
+        }        
         setShowLifestyle(0);
-        const response = await GetFamilyHistoryData(activeUHID);
+        const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
             const tobaccoData = response.responseValue.map((item, index) => {
                 if (item.tobacco) { // Check if item.tobacco is not null
