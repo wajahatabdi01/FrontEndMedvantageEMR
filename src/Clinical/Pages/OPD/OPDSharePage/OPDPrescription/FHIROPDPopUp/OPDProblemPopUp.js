@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
-function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -251,17 +251,6 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
         }
     }
 
-    let getAllEncounter = async () => {
-        const obj = {
-            Uhid: activeUHID,
-            Issueid: 1
-        }
-        const response = await FHIRGetEncounterByUHIDandIssueID(obj.Uhid,obj.Issueid)
-        if (response.status === 1) {
-            setEncounterList(response.responseValue)
-        }
-    }
-
     let handleSaveUpdate = async () => {
         if (problemData.title === '' || problemData.title === undefined || problemData.title === null) {
             document.getElementById("errTitle").innerHTML = "Please enter title";
@@ -272,16 +261,11 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
             document.getElementById("errbegindate").style.display = "block";
         }
         else {
-            let Updatepobj = {
-                EncounterDetailsJsonString: JSON.stringify([problemData]),
-            }
-            console.log("Updatepobj", Updatepobj)
-            // return;
-            const response = await UpdateEncounter(Updatepobj);
+            const response = await UpdateEncounter(JSON.stringify([problemData]));
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
-                getAllEncounter();
+                getAllEncoutersAsPerIssueID();
                 handleClear();
                 setTimeout(() => {
                     setShowToster(0);
@@ -309,9 +293,9 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-        getAllEncounter();
         setProblemData({
             id: rowId,
+            issueTypeId:1,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
@@ -328,7 +312,6 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
-        getAllEncounter();
         getAllProblem();
         getAllIssueOutCome();
         getAllIssueOccurence();

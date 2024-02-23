@@ -1,5 +1,5 @@
 async function UpdateEncounter(data) {
-    let url = window.AppbaseUrl + '/api/FHIREncounter/UpdateEncounter?EncounterDetailsJsonString';
+    let url = window.AppbaseUrl + '/api/FHIREncounter/UpdateEncounter?EncounterDetailsJsonString='+data;
     let head = {
         'Content-Type': 'application/JSON',
         accept: '*/*',
@@ -9,7 +9,7 @@ async function UpdateEncounter(data) {
         await fetch(url, {
             method: 'PUT',
             headers: head,
-            body: JSON.stringify(data)
+            // body: JSON.stringify(data)
         })
             .then((res) => res.json())
             .then(data)
