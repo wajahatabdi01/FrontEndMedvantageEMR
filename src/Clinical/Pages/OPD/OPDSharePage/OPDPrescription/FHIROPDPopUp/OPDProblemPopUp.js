@@ -279,13 +279,26 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         }
     }
     function convertDateFormat(dateString) {
-        // Split the date string by "-"
-        const parts = dateString.split("-");
-
-        // Rearrange the parts in the format yyyy-mm-dd
-        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-        return formattedDate;
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
+    
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                // Log an error if the date string format is incorrect
+                console.error("Invalid date string format:", dateString);
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            // Log an error if dateString is undefined
+            console.error("Date string is undefined");
+            return null; // Or return an appropriate value indicating an error
+        }
     }
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
@@ -296,6 +309,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
             classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',

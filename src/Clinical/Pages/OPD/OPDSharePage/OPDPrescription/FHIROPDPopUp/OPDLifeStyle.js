@@ -506,10 +506,10 @@ function OPDLifeStyle({ setShowToster }) {
                         <div className="col-12 mt-2">
                             <div className='handlser'>
                                 <Heading text="Lifestyle List" />
-                                <div style={{ position: 'relative' }}>
+                                {/* <div style={{ position: 'relative' }}>
                                     <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
                                     <span className="tblsericon"><i class="fas fa-search"></i></span>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="med-table-section mt-2" style={{ "height": "35vh" }}>
                                 <TableContainer>
