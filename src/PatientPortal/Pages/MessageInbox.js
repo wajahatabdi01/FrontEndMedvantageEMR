@@ -17,6 +17,7 @@ import del_icon from '../../assets/images/dashboard/del-icon.svg';
 export default function MessageInbox() {
     const [ismsgRead, setismsgRead] = useState(0)
     const [isShowCompose, setisShowCompose] = useState(0)
+     const [isChecked, setIsChecked] = useState(false);
 
     const [getremarkmsg, setremarkmsg] = useState('');
 
@@ -37,6 +38,11 @@ export default function MessageInbox() {
         setisShowCompose(1)
     }   
 
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+      
+      };
+
     return (
         <>
             <section className="main-content mt-5 pt-3">
@@ -44,17 +50,17 @@ export default function MessageInbox() {
                     <div className="row">
                         <div className={`${ismsgRead === 1 ? 'col-md-6 col-sm-12 ' : 'col-md-12 col-sm-12 custom-animation'}`}>
                             <div className='med-box'>
-                                <div className='inner-content'> 
+                                <div className='inner-content p-0'> 
                                     <div className='inboxheadingmain mt-1'>
-                                        <div className="inbox-headingg">Inbox Messages<span className='fontt'>(8/55)</span></div><div className='rightt'> <span> <img src={del_icon} alt="" /> <img src={refresh_icon} alt="" /></span>
+                                        <div className="inbox-headingg">Inbox Messages<span className='fontt'>(8/55)</span></div><div className='rightt'> <div className='bg-white' > <img src={del_icon} alt="" className={`${isChecked === true ? 'd-inline' : 'd-none'}`} /> <img src={refresh_icon} alt="" /></div>
                                             <div><img src={pencil_icon} alt="" /> <button type='button' onClick={handleShowCompose}> Compose</button> </div></div>
                                     </div>
 
                                     <div className='lft-mesg-part'>
-                                        <div className='inboxdiv-striped' onClick={handleOnMsgClikc}>
+                                        <div className={`inboxdiv-striped ${isChecked === true ? 'msgChecked' : ''}`} >
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'><input type="checkbox" className=' message-checkbox form-check-input' name="" checked={isChecked} onChange={handleCheckboxChange}  /></div>
                                                     <div><img src={doctor_profile} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -62,13 +68,13 @@ export default function MessageInbox() {
                                                 </div>
                                                 <div className='profl-dated'><img src={time_profile} /> 02 Nov, 23 05:55:19</div>
                                             </div>
-                                            <div className='profile-txtmtr px-4 ms-5 mt-1 pb-1'> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+                                            <div className='profile-txtmtr px-4 ms-5 mt-1 pb-1' onClick={handleOnMsgClikc}> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
                                         </div>
 
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile2} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -82,7 +88,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input  type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile3} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -96,7 +102,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'><input type="checkbox" className=' message-checkbox form-check-input' name="msgCheck" value=""/></div>
                                                     <div><img src={doctor_profile2} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -110,7 +116,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -124,7 +130,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile2} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -137,7 +143,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile2} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
@@ -150,7 +156,7 @@ export default function MessageInbox() {
                                         <div className='inboxdiv-striped'>
                                             <div className='d-flex justify-content-between mt-3 ps-1 pt-2'>
                                                 <div className='profile-details1'>
-                                                    <div className='mt-2'> <input type="checkbox" name="" value="" /></div>
+                                                    <div className='mt-2 msgCheck'> <input type="checkbox" className=' message-checkbox form-check-input' name="" value="" /></div>
                                                     <div><img src={doctor_profile2} alt="" /></div>
                                                     <div className='doctr-profl'>Dr. Vijay Kumar Goel
                                                         <div className='handsurgery'><em>Hand Reconstruction Surgery</em></div>
