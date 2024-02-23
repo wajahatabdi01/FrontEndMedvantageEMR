@@ -68,6 +68,8 @@ export default function OPDPrescriptionIndex(props) {
     const [titleId, setTitleId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
+
+    const [activeTab, setActiveTab] = useState('problem');
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
@@ -740,9 +742,12 @@ export default function OPDPrescriptionIndex(props) {
                                                             <td>{list.encounterTitle}</td>
                                                             {/* <td>{list.encounterCoding}</td> */}
                                                             <td>
-                                                                {codingListItem.map((coding, index) => (
-                                                                    <span key={index} className="badge rounded-pill text-bg-secondary">{coding}</span>
-                                                                ))}
+                                                                <div className='codeSplit'>
+                                                                    {codingListItem.map((coding, index) => (
+                                                                        coding.trim() !== '' && 
+                                                                        <span key={index} className="">{coding}</span>
+                                                                    ))}
+                                                                </div>
                                                             </td>
                                                             <td>{list.encounterBeginDate}</td>
                                                             <td>{list.encounterEndDate}</td>

@@ -47,6 +47,24 @@ export default function OPDTOPBottom(props) {
   let [showMessage, setShowMessage] = useState(0);
   let [precription, setPrecription] = useState(0);
 
+
+
+
+
+  // Active Get all elements with class 'opdvitalbottom'
+let getopdvitalbottom = document.querySelectorAll('.opdvitalbottom');
+
+let getopdvitalbottomArray = Array.from(getopdvitalbottom);
+getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
+  
+  getopdvitalbottomArray.forEach((el) => el.classList.remove('active'));
+  
+  e.target.parentNode.classList.add('active');
+}));
+
+
+  
+
   // let [saveData, setSavedata] = useState()
 
   const activePatient = window.sessionStorage.getItem("activePatient")

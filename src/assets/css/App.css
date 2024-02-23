@@ -563,7 +563,24 @@ p.devName {
   padding: 3px 10px;
   background: white;
 }
+.codeSplit span {
+  background: #ffb41f4f;
+  padding: 0px 7px;
+  border-radius: 15px;
+  font-size: 12px !important;
+  font-weight: 500;
+  color: #a57414;
+  border: 1px solid #d3ab5b;
+}
 
+.codeSplit {
+  display: flex;
+  gap: 5px;
+  justify-content: start;
+  flex-wrap: wrap;
+  max-height: 20vh;
+  overflow: scroll;
+}
 
 .med-box .inner-content .form-label {
   margin-bottom: 0.1rem !important;
@@ -1815,6 +1832,11 @@ button.btn.referbtn {
 }
 
 .opdvitalbottom:hover span {
+  background: #2e4395;
+  color: #fff !important;
+}
+
+.opdvitalbottom.active span {
   background: #2e4395;
   color: #fff !important;
 }
