@@ -10839,8 +10839,13 @@ opacity: 1;
   border-radius: 20px;
 }
 .booking-main-interface{
-  min-width: 661px;
+  min-width: 748px;
   overflow: auto;
+}
+@media(max-width : 991px){
+  .inner-content-responsive{
+    overflow: auto;
+  }
 }
 
 .ddSpace:hover {

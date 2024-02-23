@@ -150,10 +150,10 @@ function PatientAppointmnet() {
 
 
 
-                                            <div className="mb-3">
+                                            <div className="col-xxl-2 col-xl-2 col-lg-4 col-md-4 mb-3">
                                                 <div>
                                                     <img src={medAssicon} alt="" className="doctor-interface-icn" /> <label htmlFor="doctorSpecty" className="DoctQualtext">{"Doctor/Speciality"}<span class="starMandatory"></span></label>
-                                                    <input type='text' className='textBoxAppoint form-control form-control-sm' id='doctorSpecty' name='doctorSpecty' placeholder={"Enter Doctor & Speciality"} style={{ width: '250px' }} />
+                                                    <input type='text' className='textBoxAppoint form-control form-control-sm' id='doctorSpecty' name='doctorSpecty' placeholder={"Enter Doctor & Speciality"} />
                                                 </div>
                                             </div>
 
@@ -435,7 +435,7 @@ function PatientAppointmnet() {
                                     <div className="col-12">
 
                                         <div className="med-box">
-                                            <div className="inner-content mb-4">
+                                            <div className="inner-content mb-4 inner-content-responsive">
                                                 <div className="row">
 
                                                     <div className='booking-main-interface d-flex justify-content-between align-items-center'>
@@ -574,11 +574,11 @@ function PatientAppointmnet() {
                                     <div className="col-12">
 
                                         <div className="med-box">
-                                            <div className="inner-content mb-4">
+                                            <div className="inner-content mb-4 inner-content-responsive">
                                                 <div className="row">
 
                                                     <div className='booking-main-interface d-flex justify-content-between align-items-center'>
-                                                        <div className='d-flex'><img className='modalImagePop' src={doctorIcon4} alt="" />
+                                                        <div className='col-xxl-8 col-xl-8 col-lg-8 col-md-8 d-flex'><img className='modalImagePop' src={doctorIcon4} alt="" />
 
                                                             <div class='mt-4 mx-2'>
                                                                 <div className='DoctNametext mx-2'>Dr. Vijay Kumar Goel</div>

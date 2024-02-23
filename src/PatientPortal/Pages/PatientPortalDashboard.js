@@ -19,6 +19,7 @@ import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medi
 import GetPatientData from '../../PatientPortal/API/GetPatientData';
 import GetChiefComplaint from '../../PatientPortal/API/GetChiefComplaint';
 import GetPatientMedicationDetails from "../API/GetPatientMedicationDetails";
+import GetInvestigationDetails from "../API/GetInvestigationDetails";
 
 
 export default function PatientPortalDashboard() {
@@ -30,6 +31,7 @@ export default function PatientPortalDashboard() {
   const [MedicationDetails, setMedicationDetails] = useState([])
   const [PrimaryInsuranceDetails, setPrimaryInsuranceDetails] = useState([])
   const [SecondaryInsuranceDetails, setSecondaryInsuranceDetails] = useState([])
+  const [InvestigationData, setInvestigationData] = useState([])
   const [TertiaryInsuranceDetails, setTertiaryInsuranceDetails] = useState([])
   const [admissionHistory, setadmissionHistory] = useState(0)
 
@@ -79,10 +81,19 @@ const GetChiefComplaintData = async()=>{
   }
  }
 
+ const getInvestigations=async()=>{
+  let data = await GetInvestigationDetails()
+  if(data.status === 1){
+    setInvestigationData(data.responseValue)
+    console.log("Investigation" , data.responseValue)
+  }
+ }
+
  useEffect(() => {
   Patientdata();
   GetChiefComplaintData()
   medicationDetails()
+  getInvestigations()
 }, [])
 
   return (
@@ -329,37 +340,19 @@ const GetChiefComplaintData = async()=>{
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Investigation</div>
 
-                   
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Blood Sugar (Random)</div>
-                           <div className="investigation-measurement">118 mg/dl
-                                           </div>
-
+                   {InvestigationData && InvestigationData.map((val ,index)=>{
+                    return(
+                        <>
+                           <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">{val.itemName}</div>
+                           <div className="investigation-measurement">{val.itemCost}
+                           </div>
                              </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Neutrophils</div>
-                           <div className="investigation-measurement-per">84 %
-                                           </div>
+                        </>
+                    )
+                   })}
+                  
 
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Platelet Count</div>
-                           <div className="investigation-measurement">2.4 Lakh
-                                           </div>
-
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">HCV</div>
-                           <div className="investigation-measurement-per">0.04
-                                           </div>
-
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">HbsAg-Interpretation</div>
-                           <div className="investigation-measurement">Non-Reactive
-                                           </div>
-
-                             </div>
                    
                    
                      
