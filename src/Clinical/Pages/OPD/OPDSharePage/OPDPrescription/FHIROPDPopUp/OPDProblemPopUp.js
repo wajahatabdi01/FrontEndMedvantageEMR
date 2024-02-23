@@ -251,15 +251,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         }
     }
 
-    let getAllEncounter = async () => {
-        const uhid = activeUHID
-        const issueID = 1
-        const response = await FHIRGetEncounterByUHIDandIssueID(uhid, issueID)
-        if (response.status === 1) {
-            setEncounterList(response.responseValue)
-        }
-    }
-
     let handleSaveUpdate = async () => {
         if (problemData.title === '' || problemData.title === undefined || problemData.title === null) {
             document.getElementById("errTitle").innerHTML = "Please enter title";
@@ -270,16 +261,10 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             document.getElementById("errbegindate").style.display = "block";
         }
         else {
-            // let Updatepobj = {
-            //     EncounterDetailsJsonString: JSON.stringify([problemData]),
-            // }
-            // console.log("Updatepobj", Updatepobj)
-            // return;
             const response = await UpdateEncounter(JSON.stringify([problemData]));
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
-                // getAllEncounter();
                 getAllEncoutersAsPerIssueID();
                 handleClear();
                 setTimeout(() => {
@@ -308,8 +293,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-        // getAllEncounter();
-        // getAllEncoutersAsPerIssueID();
         setProblemData({
             id: rowId,
             issueTypeId:1,
@@ -329,7 +312,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
-        getAllEncounter();
         getAllProblem();
         getAllIssueOutCome();
         getAllIssueOccurence();
