@@ -12,7 +12,8 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
-function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
+function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -30,6 +31,7 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
     const [txtCoding, setTxtCoding] = useState([]);
+    const [encounterList, setEncounterList] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -236,7 +238,7 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
-               
+
             }
             else {
                 setShowUnderProcess(0)
@@ -246,6 +248,17 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
                     setShowToster(0)
                 }, 2000)
             }
+        }
+    }
+
+    let getAllEncounter = async () => {
+        const obj = {
+            Uhid: activeUHID,
+            Issueid: 1
+        }
+        const response = await FHIRGetEncounterByUHIDandIssueID(obj.Uhid,obj.Issueid)
+        if (response.status === 1) {
+            setEncounterList(response.responseValue)
         }
     }
 
@@ -268,6 +281,7 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
+                getAllEncounter();
                 handleClear();
                 setTimeout(() => {
                     setShowToster(0);
@@ -295,6 +309,7 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
+        getAllEncounter();
         setProblemData({
             id: rowId,
             titleId: titleId && titleId !== '' ? titleId : '',
@@ -313,6 +328,7 @@ function OPDProblemPopUp({  setShowToster, updatebool,setUpdateBool, rowId, enco
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
+        getAllEncounter();
         getAllProblem();
         getAllIssueOutCome();
         getAllIssueOccurence();
