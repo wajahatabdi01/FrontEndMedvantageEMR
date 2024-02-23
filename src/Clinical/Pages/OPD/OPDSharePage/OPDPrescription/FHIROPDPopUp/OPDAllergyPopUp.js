@@ -10,7 +10,10 @@ import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
-function OPDAllergyPopUp({ setShowToster }) {
+import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
+import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
+import { t } from 'i18next';
+function OPDAllergyPopUp({ setShowToster, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -30,6 +33,7 @@ function OPDAllergyPopUp({ setShowToster }) {
     const [txtCoding, setTxtCoding] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
+    const [encounterList, setEncounterList] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -238,6 +242,84 @@ function OPDAllergyPopUp({ setShowToster }) {
         }
     }
 
+    let handleSaveUpdate = async () => {
+        if (allergyData.title === '' || allergyData.title === undefined || allergyData.title === null) {
+            document.getElementById("errTitle").innerHTML = "Please enter title";
+            document.getElementById("errTitle").style.display = "block";
+        }
+        if (allergyData.beginDateTime === '' || allergyData.beginDateTime === undefined || allergyData.beginDateTime === null) {
+            document.getElementById("errbegindate").innerHTML = "Please select begin date";
+            document.getElementById("errbegindate").style.display = "block";
+        }
+        else {
+            let Updatepobj = {
+                EncounterDetailsJsonString: JSON.stringify([allergyData]),
+            }
+            console.log("Updatepobj", Updatepobj)
+            // return;
+            const response = await UpdateEncounter(Updatepobj);
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(6)
+                getAllEncounter();
+                handleClear();
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
+        }
+    }
+
+    let getAllEncounter = async () => {
+        const obj = {
+            Uhid: activeUHID,
+            Issueid: 2
+        }
+        const response = await FHIRGetEncounterByUHIDandIssueID(obj.Uhid,obj.Issueid)
+        if (response.status === 1) {
+            setEncounterList(response.responseValue)
+        }
+    }
+
+    function convertDateFormat(dateString) {
+        // Split the date string by "-"
+        const parts = dateString.split("-");
+
+        // Rearrange the parts in the format yyyy-mm-dd
+        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+        return formattedDate;
+    }
+    const newencounterBeginDate = convertDateFormat(encounterBeginDate);
+    const newencounterEndDate = convertDateFormat(encounterEndDate);
+    useEffect(() => {
+        getAllEncounter();
+        setAllergyData({
+            id: rowId,
+            titleId: titleId && titleId !== '' ? titleId : '',
+            title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
+            coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
+            classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
+            occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
+            verificationStatusId: verificationStatus && verificationStatus !== '' ? verificationStatus : '',
+            referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
+            comments: encounterComments && encounterComments !== '' ? encounterComments : '',
+            outcomeId: outcome && outcome !== '' ? outcome : '',
+            destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
+        })
+
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+
     useEffect(() => {
         getAllBrandList();
         getAllIssueOutCome();
@@ -425,6 +507,16 @@ function OPDAllergyPopUp({ setShowToster }) {
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                    {updatebool === 0 ?
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                    }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>
