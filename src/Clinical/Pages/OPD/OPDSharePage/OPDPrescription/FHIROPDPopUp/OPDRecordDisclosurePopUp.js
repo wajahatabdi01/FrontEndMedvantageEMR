@@ -312,7 +312,7 @@ function OPDRecordDisclosurePopUp() {
                                             return (
                                                 <tr key={list.id}>
                                                     <td className="text-center">{ind + 1}</td>
-                                                    <td>{list.typeOfDisclosure}</td>
+                                                    <td>{list.disclosureTypeName}</td>
                                                     <td>{list.recipientOfDisclosure}</td>
                                                     <td>{list.descriptionOfTheDisclosure}</td>
                                                     <td>{list.providerName}</td>

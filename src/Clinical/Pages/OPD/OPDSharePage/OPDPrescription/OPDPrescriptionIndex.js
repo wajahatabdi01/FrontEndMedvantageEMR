@@ -844,7 +844,24 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDAllergyPopUp setShowToster={setShowToster} />
+                                                <OPDAllergyPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId} />
                                             </div>
                                         </div>
                                     </div>
