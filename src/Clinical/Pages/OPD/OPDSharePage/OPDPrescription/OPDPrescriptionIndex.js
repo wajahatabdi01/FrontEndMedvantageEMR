@@ -731,38 +731,47 @@ export default function OPDPrescriptionIndex(props) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {getEncounterList && getEncounterList.map((list, ind) => (
-                                                    <tr className="text-center" key={list.id}>
-                                                        <td className="text-center">{ind + 1}</td>
-                                                        <td>{list.encounterTitle}</td>
-                                                        <td>{list.encounterCoding}</td>
-                                                        <td>{list.encounterBeginDate}</td>
-                                                        <td>{list.encounterEndDate}</td>
-                                                        <td>{list.encounterReferredBy}</td>
-                                                        <td>{list.encounterComments}</td>
-                                                        <td>{list.encounterDestination}</td>
-                                                        <td>{list.classificationName}</td>
-                                                        <td>{list.occuranceName}</td>
-                                                        <td>{list.verificationName}</td>
-                                                        <td>{list.outComeName}</td>
-                                                        <td>
-                                                            <div className="action-button">
-                                                                {getIssueID === 1 ?
-                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                    :
-                                                                    getIssueID === 2 ?
-                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                        : ''
-                                                                }
+                                                {getEncounterList && getEncounterList.map((list, ind) => {
+                                                    const codingListItem = list.encounterCoding.split(';');
+                                                    console.log("codingListItem", codingListItem)
+                                                    return (
+                                                        <tr className="text-center" key={list.id}>
+                                                            <td className="text-center">{ind + 1}</td>
+                                                            <td>{list.encounterTitle}</td>
+                                                            {/* <td>{list.encounterCoding}</td> */}
+                                                            <td>
+                                                                {codingListItem.map((coding, index) => (
+                                                                    <span key={index} className="badge rounded-pill text-bg-secondary">{coding}</span>
+                                                                ))}
+                                                            </td>
+                                                            <td>{list.encounterBeginDate}</td>
+                                                            <td>{list.encounterEndDate}</td>
+                                                            <td>{list.encounterReferredBy}</td>
+                                                            <td>{list.encounterComments}</td>
+                                                            <td>{list.encounterDestination}</td>
+                                                            <td>{list.classificationName}</td>
+                                                            <td>{list.occuranceName}</td>
+                                                            <td>{list.verificationName}</td>
+                                                            <td>{list.outComeName}</td>
+                                                            <td>
+                                                                <div className="action-button">
+                                                                    {getIssueID === 1 ?
+                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                        :
+                                                                        getIssueID === 2 ?
+                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                            : ''
+                                                                    }
 
-                                                                {/* {getIssueID === 2 ?
+                                                                    {/* {getIssueID === 2 ?
                                                                     <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
                                                                     : ''} */}
-                                                                <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
                                             </tbody>
                                         </>
                                     )}
@@ -785,7 +794,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Problem
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID();}}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                         {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
