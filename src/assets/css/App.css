@@ -552,7 +552,12 @@ p.devName {
   letter-spacing: 1px;
   padding: 0px 5px;
 }
-
+.msgspantr span {
+  display: inline-block;
+  width: 100%;
+  max-width: 60%;
+  word-wrap: break-word;
+}
 
 .med-box .inner-content {
   padding: 3px 10px;
@@ -575,6 +580,12 @@ span.starMandatory {
   top: -3px;
   right: -10px;
   position: relative;
+}
+span.starMandatory1 {
+  color: red;
+  font-weight: 600;
+  padding-left: 2px;
+  font-size: 17px;
 }
 
 .inner-content .form-label {

@@ -17,8 +17,10 @@ import Loader from '../../../../../Component/Loader'
 import GetCheckCrNo from '../../../../API/OPD/Prescription/GetCheckCrNo'
 import POSTVisitRevisit from '../../../../API/OPD/Prescription/POSTVisitRevisit'
 import { useTranslation } from 'react-i18next';
-import  i18n from "i18next";
+import i18n from "i18next";
 import OPDTOPBottom from './OPDTOPBottom'
+import IconEdit from '../../../../../assets/images/icons/IconEdit.svg'
+import IconDelete from '../../../../../assets/images/icons/IconDelete.svg'
 import OPDProblemPopUp from './FHIROPDPopUp/OPDProblemPopUp';
 import addIcon from '../../../../../assets/images/icons/icons8-plus-30.png'
 import OPDAllergyPopUp from './FHIROPDPopUp/OPDAllergyPopUp'
@@ -29,11 +31,13 @@ import Heading from '../../../../../Component/Heading'
 import OPDSurgeryPopUp from './FHIROPDPopUp/OPDSurgeryPopUp';
 
 import NoDataFound from '../../../../../assets/images/icons/No data-rafiki.svg'
+import { t } from 'i18next'
+import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 export default function OPDPrescriptionIndex(props) {
 
 
- 
-  
+
+
 
     let [showPopUp, setShowPopUp] = useState(1)
     let [patientHistory, setPatientHistory] = useState([])
@@ -46,18 +50,52 @@ export default function OPDPrescriptionIndex(props) {
     let [activeComponent, setActiveComponent] = useState('');
     let [showTheButton, setShowTheButton] = useState(false);
     let [getIssueID, setIssueID] = useState('');
+    let [rowId, setRowId] = useState('')
+    const [updatebool, setUpdateBool] = useState(0);
     const [getEncounterList, setEncounterList] = useState([]);
     const [getHeadingName, setHeadingName] = useState('');
-    let [showImage,setShowImage]=useState(0); 
-
+    let [showImage, setShowImage] = useState(0);
+    let [problemData, setProblemData] = useState()
+    const [encounterTitle, setEncounterTitle] = useState('');
+    const [encounterBeginDate, setEncounterBeginDate] = useState('');
+    const [encounterEndDate, setEncounterEndDate] = useState('');
+    const [referredby, setReferredby] = useState('');
+    const [encounterCoding, setEncounterCoding] = useState('');
+    const [classificationName, setClassificationName] = useState('');
+    const [occurrenceId, setOccurrenceId] = useState('');
+    const [verificationStatusId, setVerificationStatusId] = useState('');
+    const [outcomeId, setOutcomeId] = useState('');
+    const [titleId, setTitleId] = useState('');
+    const [encounterComments, setEncounterComments] = useState('');
+    const [encounterDestination, setEncounterDestination] = useState('');
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let handlePopUp = (val) => {
         setShowPopUp(val)
     }
-    
 
+    //Handle Delete
+    let handleDeleteRow = async () => {
+        let obj = {
+            Id: rowId
+        }
+        console.log("object Delete", obj)
+        // return;
+        let response = await DeleteEncounter(obj)
+        if (response.status === 1) {
+            setShowToster(5)
+            getAllEncoutersAsPerIssueID();
+            setTimeout(() => {
+                setShowToster(0);
+            }, 2000)
+        }
+        else {
+            setTimeout(() => {
+                setShowToster(0)
+            }, 2000)
+        }
+    }
     let getdata = async (val, NoYes) => {
         try {
 
@@ -155,8 +193,7 @@ export default function OPDPrescriptionIndex(props) {
                                                 if (v.vmId === 1) {
                                                     Vitalsdata[ii].vmValue = val.height
                                                 }
-                                                else if(v.vmId === 2)
-                                                {
+                                                else if (v.vmId === 2) {
                                                     Vitalsdata[ii].vmValue = val.weight
                                                 }
                                             })
@@ -167,7 +204,7 @@ export default function OPDPrescriptionIndex(props) {
                                 }
                                 else if (key[0] === "jsonVital") {
                                     if (data.patientVitals.length != 0) {
-                                        
+
                                         Vitalsdata = [...data.patientVitals]
 
                                     }
@@ -175,7 +212,7 @@ export default function OPDPrescriptionIndex(props) {
                                 else if (key[0] === "jsonArray") {
                                     if (data.allPrescription.length != 0) {
                                         prescriptiondata = [...data.allPrescription]
-                                        
+
                                         // SaveOPDData(data.allPrescription, "jsonArray")
                                     }
                                     else {
@@ -314,7 +351,7 @@ export default function OPDPrescriptionIndex(props) {
                             values.map((val, ind) => {
                                 if (values[0] === activeUHID) {
                                     let key = Object.keys(val)
-                                    
+
                                     if (key[0] === "jsonVital") {
                                         if (data.patientVitals.length != 0) {
                                             Vitalsdata = data.patientVitals
@@ -326,8 +363,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     if (v.vmId === 1) {
                                                         Vitalsdata[ii].vmValue = val.height
                                                     }
-                                                    else if(v.vmId === 2)
-                                                    {
+                                                    else if (v.vmId === 2) {
                                                         Vitalsdata[ii].vmValue = val.weight
                                                     }
                                                 })
@@ -415,7 +451,7 @@ export default function OPDPrescriptionIndex(props) {
                             values.map((val, ind) => {
                                 if (values[0] === activeUHID) {
                                     let key = Object.keys(val)
-                                    
+
                                     if (key[0] === "jsonDiagnosis") {
                                         if (data.patientComplainHistory.length != 0) {
 
@@ -453,8 +489,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     if (v.vmId === 1) {
                                                         Vitalsdata[ii].vmValue = val.height
                                                     }
-                                                    else if(v.vmId === 2)
-                                                    {
+                                                    else if (v.vmId === 2) {
                                                         Vitalsdata[ii].vmValue = val.weight
                                                     }
                                                 })
@@ -557,18 +592,18 @@ export default function OPDPrescriptionIndex(props) {
             }
         }
     }
-        const getAllEncoutersAsPerIssueID = async () =>{
-            const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
-            
-                if(getRes.status === 1){
-                    setEncounterList(getRes.responseValue);
-                    setShowImage(0)
-                }
-                else{
-                    setShowImage(1)
-                }
-            
+    const getAllEncoutersAsPerIssueID = async () => {
+        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
+
+        if (getRes.status === 1) {
+            setEncounterList(getRes.responseValue);
+            setShowImage(0)
         }
+        else {
+            setShowImage(1)
+        }
+
+    }
 
 
     useEffect(() => {
@@ -579,14 +614,14 @@ export default function OPDPrescriptionIndex(props) {
             let patientData = JSON.parse(window.sessionStorage.getItem("patientsendData"))
             let activepatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
             patientData && patientData.map((val, ind) => {
-               
+
                 if ((val[0].toString().toLowerCase().trim() === activepatient.toString().toLowerCase().trim()) && val.length > 1) {
                     flag = 1
                     t = val
                     return
                 }
             })
-            
+
             if (flag === 1) {
                 t.map((v, i) => {
                     if (v.disable === 0) {
@@ -602,7 +637,7 @@ export default function OPDPrescriptionIndex(props) {
                 })
             }
             else {
-                
+
                 CheckCrNo()
             }
         }
@@ -611,16 +646,34 @@ export default function OPDPrescriptionIndex(props) {
             setMessage(e)
         }
 
-       
+
 
     }, [])
+
+    let handleUpdate = (encounterId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationTypeId, occurrenceId, verificationStatusId, outcomeId, encounterComments, encounterDestination, titleId) => {
+        setUpdateBool(1)
+        setRowId(encounterId)
+        setEncounterTitle(encounterTitle);
+        setEncounterBeginDate(encounterBeginDate);
+        setEncounterEndDate(encounterEndDate);
+        setReferredby(encounterReferredBy)
+        setEncounterCoding(encounterCoding)
+        setClassificationName(classificationTypeId)
+        setOccurrenceId(occurrenceId);
+        setVerificationStatusId(verificationStatusId);
+        setOutcomeId(outcomeId);
+        setEncounterComments(encounterComments);
+        setEncounterDestination(encounterDestination);
+        setTitleId(titleId);
+    }
+
     useEffect(() => {
         if (showTheButton === true) {
-            
+
             getAllEncoutersAsPerIssueID();
         }
     }, [showTheButton, getIssueID]);
-    
+
 
 
 
@@ -635,72 +688,98 @@ export default function OPDPrescriptionIndex(props) {
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                 <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton = {setShowTheButton} setIssueID = {setIssueID} setHeadingName = {setHeadingName}/>
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} />
                             </div>
                             {showTheButton && (
-    <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
-        <Heading text={getHeadingName} />
-        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#'+activeComponent}>
-            <img src={addIcon} className='icnn' alt='' />
-            Add
-        </button>
-    </div>
-)}
+                                <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
+                                    <Heading text={getHeadingName} />
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
+                                        <img src={addIcon} className='icnn' alt='' />
+                                        Add
+                                    </button>
+                                </div>
+                            )}
 
 
 
                             {/* {
                                 activeComponent ===1?<OPDProblemPopUp />:""
                             } */}
-                            <div className="med-table-section" style={{minHeight:'40vh',maxHeight: "73vh", position:'relative' }}>
+                            <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
                                 <table className="med-table border striped">
-                                {showImage === 1 ? (
-                                    <div className='imageNoDataFound'>
-                                        <img src={NoDataFound} alt="imageNoDataFound" />
-                                    </div>
-                                ) : (
-                                    <>
-                                        <thead>
-                                            <tr>
-                                                <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                <th>Title</th>
-                                                <th>Coding</th>
-                                                <th>Begin Date</th>
-                                                <th>End Date</th>
-                                                <th>Referred By</th>
-                                                <th>Comments</th>
-                                                <th>Destination</th>
-                                                <th>Classification Name</th>
-                                                <th>Occurance Name</th>
-                                                <th>Verification Name</th>
-                                                <th>Outcome Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {getEncounterList && getEncounterList.map((list, ind) => (
-                                                <tr className="text-center" key={ind + 1}>
-                                                    <td>{ind + 1}</td>
-                                                    <td>{list.encounterTitle}</td>
-                                                    <td>{list.encounterCoding}</td>
-                                                    <td>{list.encounterBeginDate}</td>
-                                                    <td>{list.encounterEndDate}</td>
-                                                    <td>{list.encounterReferredBy}</td>
-                                                    <td>{list.encounterComments}</td>
-                                                    <td>{list.encounterDestination}</td>
-                                                    <td>{list.classificationName}</td>
-                                                    <td>{list.occuranceName}</td>
-                                                    <td>{list.verificationName}</td>
-                                                    <td>{list.outComeName}</td>
+                                    {showImage === 1 ? (
+                                        <div className='imageNoDataFound'>
+                                            <img src={NoDataFound} alt="imageNoDataFound" />
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <thead>
+                                                <tr>
+                                                    <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                                    <th>Title</th>
+                                                    <th>Coding</th>
+                                                    <th>Begin Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Referred By</th>
+                                                    <th>Comments</th>
+                                                    <th>Destination</th>
+                                                    <th>Classification Name</th>
+                                                    <th>Occurance Name</th>
+                                                    <th>Verification Name</th>
+                                                    <th>Outcome Name</th>
+                                                    <th style={{ "width": "10%" }} className="text-center">Action</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </>
-                                )}
-                            </table>
-                        </div>
+                                            </thead>
+                                            <tbody>
+                                                {getEncounterList && getEncounterList.map((list, ind) => {
+                                                    const codingListItem = list.encounterCoding.split(';');
+                                                    console.log("codingListItem", codingListItem)
+                                                    return (
+                                                        <tr className="text-center" key={list.id}>
+                                                            <td className="text-center">{ind + 1}</td>
+                                                            <td>{list.encounterTitle}</td>
+                                                            {/* <td>{list.encounterCoding}</td> */}
+                                                            <td>
+                                                                {codingListItem.map((coding, index) => (
+                                                                    <span key={index} className="badge rounded-pill text-bg-secondary">{coding}</span>
+                                                                ))}
+                                                            </td>
+                                                            <td>{list.encounterBeginDate}</td>
+                                                            <td>{list.encounterEndDate}</td>
+                                                            <td>{list.encounterReferredBy}</td>
+                                                            <td>{list.encounterComments}</td>
+                                                            <td>{list.encounterDestination}</td>
+                                                            <td>{list.classificationName}</td>
+                                                            <td>{list.occuranceName}</td>
+                                                            <td>{list.verificationName}</td>
+                                                            <td>{list.outComeName}</td>
+                                                            <td>
+                                                                <div className="action-button">
+                                                                    {getIssueID === 1 ?
+                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                        :
+                                                                        getIssueID === 2 ?
+                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                            : ''
+                                                                    }
+
+                                                                    {/* {getIssueID === 2 ?
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    : ''} */}
+                                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </>
+                                    )}
+                                </table>
+                            </div>
 
 
-                            
+
                             {/* <OPDPatientMedicationAssign values={getD} funh={setGetD} foodData={foodData} /> */}
                         </div>
                         <div className='col-md-3 col-sm-12 prt1 arabicpad'>
@@ -708,17 +787,17 @@ export default function OPDPrescriptionIndex(props) {
                             <OPDInvestigationProcedure values={getD} funh={setGetD} />
                         </div>
 
-                    <div className="modal fade" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-                        <div className="modal-content ">
-                            <div className="modal-header">
-                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                                Problem
-                            </h1>
-                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                                <i className="fa fa-times"></i>
-                            </button>
-                            {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
+                        <div className="modal fade" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content ">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                            Problem
+                                        </h1>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); }}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                        {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
                                     getAllEncoutersAsPerIssueID();
                                     // Close the modal manually
                                     document.getElementById('problem').classList.remove('show');console.log('gggggggg')
@@ -726,118 +805,154 @@ export default function OPDPrescriptionIndex(props) {
                                 <i className="fa fa-times"></i>
                             </button> */}
 
-                            </div>
-                            <div className="modal-body">
-                            <div class="tab-content" id="myTabContent">
-                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                <OPDProblemPopUp setShowToster={setShowToster} />
+                                    </div>
+                                    <div className="modal-body">
+                                        <div class="tab-content" id="myTabContent">
+                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                                <OPDProblemPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId}
+                                                />
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
+                        <div className="modal fade" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                            <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content ">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                            Allergy
+                                        </h1>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div class="tab-content" id="myTabContent">
+                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                                <OPDAllergyPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
+
+                        {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
+                        <div className="modal fade" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                            <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content ">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                            Medication
+                                        </h1>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div class="tab-content" id="myTabContent">
+                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                                <OPDMedicationPopUp setShowToster={setShowToster} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
+                        {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
 
-                    {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Allergy
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDAllergyPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
+                        {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
+                        <div className="modal fade" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                            <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content ">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                            Device
+                                        </h1>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div class="tab-content" id="myTabContent">
+                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                                <OPDDevicePopUp setShowToster={setShowToster} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
 
-      {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Medication
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDMedicationPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Device
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDDevicePopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Surgery
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDSurgeryPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
+                        {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
+                        <div className="modal fade" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                            <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content ">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                            Surgery
+                                        </h1>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div class="tab-content" id="myTabContent">
+                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                                <OPDSurgeryPopUp setShowToster={setShowToster} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
 
 
                     </div>
@@ -847,49 +962,83 @@ export default function OPDPrescriptionIndex(props) {
                     } */}
                     <Loader val={showLoader} />
 
- 
+
                 </div>
                 : <ConfirmModal bool={showPopUp} close={handlePopUp} getdata={getdata} />}
 
-                   {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
-      
-      {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
+            {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
 
-      {showToster === 1 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Problem Saved SuccessFully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 2 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Allergy Saved SuccessFully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 3 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Medication Saved SuccessFully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 4 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Device Saved SuccessFully !!"
-        />
-      ) : (
-        ""
-      )}
+            {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
+
+            {showToster === 1 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 2 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 3 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 4 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 5 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem Deleted SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 6 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem Updated SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
 
 
-               
+            {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+            <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                <div className="modal-dialog modalDelete">
+                    <div className="modal-content">
+
+                        <div className="modal-body modelbdy text-center">
+                            <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                            <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
+                            <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                        </div>
+                        <div className="modal-footer1 text-center">
+
+                            <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
+                            <button type="button" className="btn-delete popBtnDelete" onClick={handleDeleteRow} data-bs-dismiss="modal">{t("Delete")}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
         </>
         // <>
         // ffdfs</>
@@ -899,7 +1048,7 @@ export default function OPDPrescriptionIndex(props) {
 
 let ConfirmModal = (props) => {
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     document.body.dir = i18n.dir();
 
     return (
