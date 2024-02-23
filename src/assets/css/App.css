@@ -11194,6 +11194,25 @@ input.lifestylecode {
   gap: 7px;
   cursor: pointer;
 }
+.msgCheck .form-check-input:checked{
+  width: 14px;
+  height: 14px;
+  background-color: #758FBC;
+  border-color: #758FBC;
+}
+
+.msgChecked{
+  background-color: #E8F0FF;
+  transition: 0.2s  ease-in-out;
+}
+
+.msgCheck .form-check-input{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    border: 1px solid #758FBC;
+    border-radius: 0px;
+}
 
 .doctr-profl {
   opacity: 1;
@@ -11259,8 +11278,11 @@ span.fontt {
 
 .inboxdiv-striped:nth-child(even) {
   background-color: #F9FAFC;
+  
 }
-
+.inboxdiv-striped{
+  padding-left: 10px;
+}
 .signtxt {
   color: #595959;
   font-size: 15px;

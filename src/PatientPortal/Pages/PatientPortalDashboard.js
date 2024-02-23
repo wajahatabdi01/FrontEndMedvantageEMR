@@ -28,6 +28,9 @@ export default function PatientPortalDashboard() {
   const [PatientData, setPatientData] = useState()
   const [chiefComplainData, setchiefComplainData] = useState([])
   const [MedicationDetails, setMedicationDetails] = useState([])
+  const [PrimaryInsuranceDetails, setPrimaryInsuranceDetails] = useState([])
+  const [SecondaryInsuranceDetails, setSecondaryInsuranceDetails] = useState([])
+  const [TertiaryInsuranceDetails, setTertiaryInsuranceDetails] = useState([])
   const [admissionHistory, setadmissionHistory] = useState(0)
 
 const handleOpdhistory=()=>{
@@ -49,6 +52,10 @@ const Patientdata = async()=>{
     const patientRegistrationData = data.responseValue.patientregistration[0];
       console.log("Patientdata>>", patientRegistrationData);
      setPatientData(patientRegistrationData);
+     setPrimaryInsuranceDetails(data.responseValue.patientinsurancedetails[0])
+     setSecondaryInsuranceDetails(data.responseValue.patientinsurancedetails[1])
+     setTertiaryInsuranceDetails(data.responseValue.patientinsurancedetails[2])
+     console.log("SecondaryInsuranceDetails",data.responseValue.patientinsurancedetails[2])
   }
 
  }
@@ -202,7 +209,7 @@ const GetChiefComplaintData = async()=>{
                 <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
 
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 ">
-                  <div className="d-flex">
+                  <div className="d-flex mb-2">
                     <div className="portal-user-name mb-1 patient-history-header-btn">
                        <button className={`btn btn ${Opdhistory === 1 ? 'opd-history-btn me-2' : 'admission-history-btn me-2'}`} onClick={handleOpdhistory} style={{fontWeight: '700'}}>OPD Visit History</button>
                     <button className={`btn btn ${admissionHistory === 1 ? 'opd-history-btn' : 'admission-history-btn'}`} onClick={handleadmissionhistory} style={{fontWeight: '700'}}>Admission History</button>
@@ -382,15 +389,15 @@ const GetChiefComplaintData = async()=>{
   
                       <div >
                              <div className="insurance-type">Primary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{PrimaryInsuranceDetails && PrimaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{PrimaryInsuranceDetails && PrimaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {PrimaryInsuranceDetails && PrimaryInsuranceDetails.groupNumber}</div>
                       </div>
                       <div className="pe-5">
                              <div className="insurance-type">Secondary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{SecondaryInsuranceDetails && SecondaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{SecondaryInsuranceDetails && SecondaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {SecondaryInsuranceDetails && SecondaryInsuranceDetails.groupNumber}</div>
                       </div>
 
                   </div>
@@ -398,9 +405,9 @@ const GetChiefComplaintData = async()=>{
   
                       <div>
                              <div className="insurance-type">Tertiary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{TertiaryInsuranceDetails && TertiaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{TertiaryInsuranceDetails && TertiaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {TertiaryInsuranceDetails && TertiaryInsuranceDetails.groupNumber}</div>
                       </div>
                       <div className="pe-5">
                              <div className="insurance-type">Responsible Party</div>

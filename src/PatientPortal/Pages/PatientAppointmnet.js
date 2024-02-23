@@ -625,7 +625,10 @@ function PatientAppointmnet() {
                                                     )}
                                                     {location && (
                                                         <>
-                                                        <div className='location-text'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div className='location-text mb-3'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div>
+                                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.791679137049!2d80.86999837543829!3d26.878358976667638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999558a0ae6790b%3A0x81b74fcf0a60d2c5!2sERA&#39;s%20Lucknow%20Medical%20College%20%26%20Hospital!5e0!3m2!1sen!2sin!4v1708683172124!5m2!1sen!2sin" width="750" height="229"   allowfullscreen="" loading="lazy" title="Doctor Location" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                        </div>
                                                         </>
                                                     )}
 
