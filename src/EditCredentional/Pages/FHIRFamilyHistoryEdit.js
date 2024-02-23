@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Heading from '../../Component/Heading'
 import TableContainer from '../../Component/TableContainer'
 import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
@@ -8,8 +8,11 @@ import PostFHIRFamilyHistoryEdit from '../API/PostFHIRFamilyHistoryEdit'
 import TosterUnderProcess from '../../Component/TosterUnderProcess'
 import Toster from '../../Component/Toster'
 
-export default function FHIRFamilyHistoryEdit({setShowToster}) {
+import saveButtonIcon from '../../assets/images/icons/saveButton.svg'
+import GetFamilyHistoryData from '../../Clinical/API/OPDLifestyle/GetFamilyHistoryData'
 
+export default function FHIRFamilyHistoryEdit({setShowToster,setFamilyHistory}) {
+  let [showFamilyHistoryList, setShowFamilyHistoryList] = useState(1);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [PopUpId, setPopUpId] = useState('');
 
@@ -20,7 +23,8 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
   // let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
   let [showAlertToster, setShowAlertToster] = useState(0)
-
+  const [getFamilyHistoryList, setFamilyHistoryList] = useState([]);
+  const [rowID,setRowID]=useState(0);
   // let getUhid = props.patientUhid;
   
   const customStyle={marginLeft:'0px'};
@@ -35,17 +39,16 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
       moduleId: modalID,
       data: data
     }
-    
+   
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
     for (var i = 0; i < data.length; i++) {
-      temp = data[i].code
+      temp += temp.length === 0 ? data[i].dropdownName+':'+data[i].code : ','+ data[i].dropdownName+':'+data[i].code
     }
     
     setTimeout(()=>{
-
-      document.getElementById(modalID).value = temp
+      document.getElementById(modalID).value = temp;
     }, 600)
       
     
@@ -62,43 +65,41 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
  }
 
  const handleSave = async () => {
-  //let  tempArr = [];
-  // const fatherDiagnosisCodes=document.getElementById('mdlFatherID').value;
-  // const motherDiagnosisCodes=document.getElementById('mdlMotherID').value;
-  // const siblingsDiagnosisCodes=document.getElementById('siblingsID').value;
-  // const spouseDiagnosisCodes=document.getElementById('spouseID').value;
-  // const offspringDiagnosisCodes=document.getElementById('offSpringID').value;
+  let temDataMaker=[];
 
-  
-
-  // const arrFather=fatherDiagnosisCodes.split(' ').slice(1,fatherDiagnosisCodes.length)
-  // const arrMother=motherDiagnosisCodes.split(' ').slice(1,motherDiagnosisCodes.length)
-  // const arrSiblings=siblingsDiagnosisCodes.split(' ').slice(1,siblingsDiagnosisCodes.length)
-  // const arrSpouse=spouseDiagnosisCodes.split(' ').slice(1,spouseDiagnosisCodes.length)
-  // const arrSprings=offspringDiagnosisCodes.split(' ').slice(1,offspringDiagnosisCodes.length)
-  //let arr=[{code:'F',arr:arrFather},{code:'M',arr:arrMother},{code:'S',arr:arrSiblings},{code:'SP',arr:arrSpouse},{code:'O',arr:arrSprings}];
- 
-  // for(var i=0; i <arr.length; i++){
-  //    if(arr[i].arr.length > 0){
-  //      tempArr.push({
-  //        uhid: getUhid,
-  //         code:arr[i].code,
-  //         codeValue:arr[i].arr.join(',')
-  //      })
-  //    }
-  // }
-  
-  if(makeData.length !== 0){
-    const getresponse = await dataMaker(makeData);
+  const fatherHis=document.getElementById("mdlFatherID").value ;
+  const motherHis=document.getElementById("mdlMotherID").value ;
+  const siblingHis=document.getElementById("siblingsID").value ;
+  const spouseHis=document.getElementById("spouseID").value ;
+  const offSpringHis=document.getElementById("offSpringID").value ;
+  if(fatherHis){
+    temDataMaker.push({code:'F',codeValue:fatherHis})
+  }
+  if(motherHis){
+    temDataMaker.push({code:'M',codeValue:motherHis})
+  }
+  if(siblingHis){
+    temDataMaker.push({code:'S',codeValue:siblingHis})
+  }
+  if(spouseHis){
+    temDataMaker.push({code:'SP',codeValue:spouseHis})
+  }
+  if(offSpringHis){
+    temDataMaker.push({code:'O',codeValue:offSpringHis})
+  }
+  const getresponse = await dataMaker(makeData);
+    
   let objSave = {
     uhid:activeUHID,
-    jsonData : JSON.stringify(getresponse),
+    // jsonData : JSON.stringify(getresponse),
+    jsonData : JSON.stringify(temDataMaker),
     clientId : clientID,
-    userId : window.userId
-  
+    userId : window.userId,
+    rowId:rowID
   }
+  
 
- 
+if(temDataMaker.length > 0){
   if(objSave !== '' && objSave !== undefined){
     let saveResponse = await PostFHIRFamilyHistoryEdit(objSave);
     if(saveResponse.status === 1)
@@ -122,11 +123,14 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
             setShowToster(0);
           },1000)
         }
+  
   }
-  }
+}
+  
   else{
     alert('Please fill atleast one of the history!');
   }
+
   
  }
 
@@ -140,25 +144,48 @@ export default function FHIRFamilyHistoryEdit({setShowToster}) {
     lastIndexMap[moduleId] = arrayy[index];
   });
 const dataArray = Object.values(lastIndexMap);
-for(var j=0; j < modalIDs.length; j++){
-  for(var l=0; l < dataArray.length; l++){
-        if(dataArray[l].moduleId === modalIDs[j].modalID){
-          const dd = dataArray[l].data;
-          var tempObj="";
-          for(var k=0; k < dd.length; k++){
-            tempObj=tempObj.length === 0 ? [dd[k].dropdownId] +':'+dd[k].code  : tempObj +","+ [dd[k].dropdownId] +':'+ dd[k].code
-          }
-          sendDataArr.push({
-            code:modalIDs[j].code,
-            codeValue:tempObj
-          })
-          
+  
+  for(var j=0; j < modalIDs.length; j++)
+      {
+        for(var l=0; l < dataArray.length; l++)
+        {
+              if(dataArray[l].moduleId === modalIDs[j].modalID){
+                const dd = dataArray[l].data;
+                var tempObj="";
+                for(var k=0; k < dd.length; k++)
+                {
+                 
+                  tempObj=tempObj.length === 0 ? [dd[k].dropdownName] +':'+dd[k].code  : tempObj +","+ [dd[k].dropdownName] +':'+ dd[k].code
+                }
+                sendDataArr.push({
+                  code:modalIDs[j].code,
+                  codeValue:tempObj
+                })                
+              }
+          } 
         }
-      } 
-  }
- 
- 
   return sendDataArr;
+ }
+
+ const handleEdit = async () => {
+  setShowFamilyHistoryList(0);
+  setRowID(getFamilyHistoryList.length > 0 ? getFamilyHistoryList[0].id : 0);
+  setTimeout(() => {
+    for(let i = 0; i< getFamilyHistoryList.length; i++){
+      document.getElementById('mdlFatherID').value = getFamilyHistoryList[i].history_father
+      document.getElementById('mdlMotherID').value = getFamilyHistoryList[i].history_mother
+      document.getElementById('siblingsID').value = getFamilyHistoryList[i].history_siblings
+      document.getElementById('spouseID').value = getFamilyHistoryList[i].history_spouse
+      document.getElementById('offSpringID').value = getFamilyHistoryList[i].history_offspring
+    }
+  },1000)
+ }
+
+
+
+ const handleBack = () => {
+  setShowFamilyHistoryList(1);
+  funFamilyHistoryList();
  }
 
  const funClearData = async () => {
@@ -169,13 +196,100 @@ for(var j=0; j < modalIDs.length; j++){
   document.getElementById('offSpringID').value = '';
   setMakeData([])
  } 
+
+ const funFamilyHistoryList = async () => {
+  const param={
+    Uhid:activeUHID,
+    HistoryType:1
+}
+  const getHisListRes = await GetFamilyHistoryData(param);
+ if(getHisListRes.status === 1){
+  setFamilyHistoryList(getHisListRes.responseValue)
+ }
+ }
+
+ useEffect(() => {
+  
+  funFamilyHistoryList();
+
+ },[setFamilyHistory])
   return (
     
     <>
-      <div className="container-fluid">
+    {showFamilyHistoryList === 1 ? <div className='lifestylelist'>
+                    <div className="col-12">
+                        <div className='handlser'>
+                            <Heading text="Family History List" />
+                            {/* <div style={{ position: 'relative' }}>
+                                <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={"handleSearch"} />
+                                <span className="tblsericon"><i class="fas fa-search"></i></span>
+                            </div> */}
+                        </div>
+                        <div className="med-table-section mt-2" style={{ "height": "35vh" }}>
+                            <TableContainer>
+                                <thead>
+                                    <tr>
+                                        <th>Relation</th>
+                                        <th>Relation Code</th>
+                                        <th>Diagnosis Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                    {getFamilyHistoryList && getFamilyHistoryList.map((item, index) => {
+                                        
+                                            return (
+                                                <>
+                                                    <tr>
+                                                        <td>Father</td>
+                                                        <td>{item.dc_father}</td>
+                                                        <td >{item.history_father}</td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Mother</td>
+                                                        <td>{item.dc_mother}</td>
+                                                        <td >{item.history_mother}</td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Siblings</td>
+                                                        <td>{item.dc_siblings}</td>
+                                                        <td >{item.history_siblings}</td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Spouse</td>
+                                                        
+                                                        <td>{item.dc_spouse}</td>
+                                                        <td>{item.history_spouse}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Offspring </td>
+                                                        
+                                                        <td>{item.dc_offspring}</td>
+                                                        <td>{item.history_offspring}</td>
+                                                    </tr>
+                                                </>
+                                            );
+                                        }
+                                        
+                                    )}
+                                </tbody>
+
+                            </TableContainer>
+                            <div class="modal-footer">
+                                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleEdit}><img src={saveButtonIcon} className='icnn' alt='' /> Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> : <>
+                <div className="container-fluid">
         <div className="row">
           <div className="col-12 mt-2">
-          <Heading text='Edit History And Lifestyle' />
+          <Heading text='Family History' />
           </div>
         </div>
       </div>
@@ -223,12 +337,17 @@ for(var j=0; j < modalIDs.length; j++){
               </TableContainer>
               <div className="d-flex  gap-2 mt-3 samplebtnnFHIR">
               <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 ms-2" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
+              <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleBack}><i class="bi bi-x-lg" ></i> Back</button>
               </div>
             </div>
 
           </div>
         </div>
       </div>
+                </>
+      
+      }
+      
 
       {/* ------------------------------------------------- Codes Modal ----------------------------------------------- */}
       {isShowPopUp === 1 ?
@@ -240,7 +359,7 @@ for(var j=0; j < modalIDs.length; j++){
                         <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
                            
 
-                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={false}/> 
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true}/> 
                            {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>
