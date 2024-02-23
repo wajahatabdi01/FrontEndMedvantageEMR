@@ -755,8 +755,6 @@ export default function OPDPrescriptionIndex(props) {
                                                                     : ''
                                                                     }
 
-
-
                                                                      {/* {getIssueID === 2 ?
                                                                     <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
                                                                     : ''} */}
@@ -807,6 +805,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     setShowToster={setShowToster}
                                                     updatebool={updatebool}
                                                     setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
                                                     rowId={rowId}
                                                     encounterTitle={encounterTitle}
                                                     encounterBeginDate={encounterBeginDate}

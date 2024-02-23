@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
-function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -279,7 +279,8 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(6)
-                getAllEncounter();
+                // getAllEncounter();
+                getAllEncoutersAsPerIssueID();
                 handleClear();
                 setTimeout(() => {
                     setShowToster(0);
@@ -307,7 +308,8 @@ function OPDProblemPopUp({ setShowToster, updatebool, setUpdateBool, rowId, enco
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-        getAllEncounter();
+        // getAllEncounter();
+        // getAllEncoutersAsPerIssueID();
         setProblemData({
             id: rowId,
             issueTypeId:1,
