@@ -563,7 +563,24 @@ p.devName {
   padding: 3px 10px;
   background: white;
 }
+.codeSplit span {
+  background: #ffb41f4f;
+  padding: 0px 7px;
+  border-radius: 15px;
+  font-size: 12px !important;
+  font-weight: 500;
+  color: #a57414;
+  border: 1px solid #d3ab5b;
+}
 
+.codeSplit {
+  display: flex;
+  gap: 5px;
+  justify-content: start;
+  flex-wrap: wrap;
+  max-height: 20vh;
+  overflow: scroll;
+}
 
 .med-box .inner-content .form-label {
   margin-bottom: 0.1rem !important;
@@ -1815,6 +1832,11 @@ button.btn.referbtn {
 }
 
 .opdvitalbottom:hover span {
+  background: #2e4395;
+  color: #fff !important;
+}
+
+.opdvitalbottom.active span {
   background: #2e4395;
   color: #fff !important;
 }
@@ -10839,8 +10861,13 @@ opacity: 1;
   border-radius: 20px;
 }
 .booking-main-interface{
-  min-width: 661px;
+  min-width: 748px;
   overflow: auto;
+}
+@media(max-width : 991px){
+  .inner-content-responsive{
+    overflow: auto;
+  }
 }
 
 .ddSpace:hover {
@@ -11205,6 +11232,25 @@ input.lifestylecode {
   gap: 7px;
   cursor: pointer;
 }
+.msgCheck .form-check-input:checked{
+  width: 14px;
+  height: 14px;
+  background-color: #758FBC;
+  border-color: #758FBC;
+}
+
+.msgChecked{
+  background-color: #E8F0FF;
+  transition: 0.2s  ease-in-out;
+}
+
+.msgCheck .form-check-input{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    border: 1px solid #758FBC;
+    border-radius: 0px;
+}
 
 .doctr-profl {
   opacity: 1;
@@ -11270,8 +11316,11 @@ span.fontt {
 
 .inboxdiv-striped:nth-child(even) {
   background-color: #F9FAFC;
+  
 }
-
+.inboxdiv-striped{
+  padding-left: 10px;
+}
 .signtxt {
   color: #595959;
   font-size: 15px;

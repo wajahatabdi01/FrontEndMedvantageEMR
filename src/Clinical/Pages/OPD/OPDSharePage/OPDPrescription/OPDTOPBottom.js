@@ -46,6 +46,25 @@ export default function OPDTOPBottom(props) {
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showMessage, setShowMessage] = useState(0);
   let [precription, setPrecription] = useState(0);
+  let [familyHistory, setFamilyHistory] = useState(0);
+
+
+
+
+
+  // Active Get all elements with class 'opdvitalbottom'
+let getopdvitalbottom = document.querySelectorAll('.opdvitalbottom');
+
+let getopdvitalbottomArray = Array.from(getopdvitalbottom);
+getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
+  
+  getopdvitalbottomArray.forEach((el) => el.classList.remove('active'));
+  
+  e.target.parentNode.classList.add('active');
+}));
+
+
+  
 
   // let [saveData, setSavedata] = useState()
 
@@ -163,7 +182,7 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID">
+        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID"  onClick={() => setFamilyHistory(1)}>
           {t("Family History")}{" "}
         </span>
       </div>
@@ -379,18 +398,15 @@ export default function OPDTOPBottom(props) {
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Family History
               </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setFamilyHistory(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+              
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  <FHIRFamilyHistoryEdit setShowToster={setShowToster} />
-                </div>
-              </div>
+                  {familyHistory === 1 ? (  <FHIRFamilyHistoryEdit    setShowToster={setShowToster}    setFamilyHistory={setFamilyHistory}  />) : (  "")}
+                
             </div>
           </div>
         </div>

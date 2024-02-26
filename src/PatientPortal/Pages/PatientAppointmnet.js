@@ -150,10 +150,10 @@ function PatientAppointmnet() {
 
 
 
-                                            <div className="mb-3">
+                                            <div className="col-xxl-2 col-xl-2 col-lg-4 col-md-4 mb-3">
                                                 <div>
                                                     <img src={medAssicon} alt="" className="doctor-interface-icn" /> <label htmlFor="doctorSpecty" className="DoctQualtext">{"Doctor/Speciality"}<span class="starMandatory"></span></label>
-                                                    <input type='text' className='textBoxAppoint form-control form-control-sm' id='doctorSpecty' name='doctorSpecty' placeholder={"Enter Doctor & Speciality"} style={{ width: '250px' }} />
+                                                    <input type='text' className='textBoxAppoint form-control form-control-sm' id='doctorSpecty' name='doctorSpecty' placeholder={"Enter Doctor & Speciality"} />
                                                 </div>
                                             </div>
 
@@ -435,7 +435,7 @@ function PatientAppointmnet() {
                                     <div className="col-12">
 
                                         <div className="med-box">
-                                            <div className="inner-content mb-4">
+                                            <div className="inner-content mb-4 inner-content-responsive">
                                                 <div className="row">
 
                                                     <div className='booking-main-interface d-flex justify-content-between align-items-center'>
@@ -574,11 +574,11 @@ function PatientAppointmnet() {
                                     <div className="col-12">
 
                                         <div className="med-box">
-                                            <div className="inner-content mb-4">
+                                            <div className="inner-content mb-4 inner-content-responsive">
                                                 <div className="row">
 
                                                     <div className='booking-main-interface d-flex justify-content-between align-items-center'>
-                                                        <div className='d-flex'><img className='modalImagePop' src={doctorIcon4} alt="" />
+                                                        <div className='col-xxl-8 col-xl-8 col-lg-8 col-md-8 d-flex'><img className='modalImagePop' src={doctorIcon4} alt="" />
 
                                                             <div class='mt-4 mx-2'>
                                                                 <div className='DoctNametext mx-2'>Dr. Vijay Kumar Goel</div>
@@ -625,7 +625,10 @@ function PatientAppointmnet() {
                                                     )}
                                                     {location && (
                                                         <>
-                                                        <div className='location-text'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div className='location-text mb-3'><img src={locationimg} className='me-1' alt=""/>Era Medical College Sarfarazganj Lucknow</div>
+                                                        <div>
+                                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.791679137049!2d80.86999837543829!3d26.878358976667638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999558a0ae6790b%3A0x81b74fcf0a60d2c5!2sERA&#39;s%20Lucknow%20Medical%20College%20%26%20Hospital!5e0!3m2!1sen!2sin!4v1708683172124!5m2!1sen!2sin" width="750" height="229"   allowfullscreen="" loading="lazy" title="Doctor Location" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                        </div>
                                                         </>
                                                     )}
 

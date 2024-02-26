@@ -294,7 +294,8 @@ export default function FHIRImmunization({ setShowToster }) {
   const funGetAllImmunizationData = async () => {
     const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID);
     if (getAllImmunizationDataRes.status === 1) {
-      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);    }
+      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);
+    }
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -419,7 +420,7 @@ export default function FHIRImmunization({ setShowToster }) {
       })
 
     }
-    if (!investConCat) {
+    if (document.getElementById('immunizationCode').value == '') {
       alert('Please select Immunization Code.');
       return;
     }
@@ -429,8 +430,8 @@ export default function FHIRImmunization({ setShowToster }) {
         uhid: activeUHID,
         clientId: clientID,
         userId: userId,
-        cvxCode: investConCat,
-        reasonCode: investConCatReason,
+        cvxCode: investConCat ? investConCat : document.getElementById('immunizationCode').value,
+        reasonCode: investConCatReason?investConCatReason : document.getElementById('ReasonId').value,
         administeredDate: sendForm.DatenTimeAdministered,
         amountAdministeredUnit: sendForm.AmountAdministeredUnit,
         amountAdministered: sendForm.AmountAdministered,
@@ -439,8 +440,8 @@ export default function FHIRImmunization({ setShowToster }) {
         manufacturer: sendForm.ImmunizationManufacturer,
         lotNumber: sendForm.ImmunizationLotNumber,
         dateImmunizationInformationStatementsGiven: sendForm.ImmunizationStatements,
-        administeredById: sendForm.IDofImmunizationAdministrator.split(':')[0],
-        administeredBy: sendForm.IDofImmunizationAdministrator.split(':')[1],
+        administeredById: sendForm.IDofImmunizationAdministrator,
+        administeredBy: sendForm.IDofImmunizationAdministrator,
         route: sendForm.Route,
         administrationSite: sendForm.AdministrationSite,
         informationSource: sendForm.InformationSource,
@@ -451,6 +452,7 @@ export default function FHIRImmunization({ setShowToster }) {
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
 
       }
+     
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
@@ -489,8 +491,6 @@ export default function FHIRImmunization({ setShowToster }) {
 
   //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
     const editImmunizationListData = async (list) => {
-      
-      console.log('theeee list : ', list)
       const dateStringAdministered = list.administered_date;
       const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
       const dateStringExpired = list.expiration_date;
@@ -521,6 +521,7 @@ export default function FHIRImmunization({ setShowToster }) {
           id : list.id
       }))
       document.getElementById('immunizationCode').value = list.cvx_code;
+      document.getElementById('ReasonId').value = list.reason_code;
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -591,6 +592,7 @@ export default function FHIRImmunization({ setShowToster }) {
   return (
 
     <>
+    
       <div className='container-fluid'>
         <div className="row">
           <div className='col-12'>
@@ -663,7 +665,7 @@ export default function FHIRImmunization({ setShowToster }) {
                               <option value="0">--Select Administrator--</option>
                               {getImmunizationAdministrator && getImmunizationAdministrator.map((adminList, adminInd) => {
 
-                                return (<option value={adminList.id + ':' + adminList.title}>{adminList.title}</option>)
+                                return (<option value={adminList.id}>{adminList.title}</option>)
 
                               })}
 
