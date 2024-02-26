@@ -84,11 +84,31 @@ export default function OPDPrescriptionIndex(props) {
         // return;
         let response = await DeleteEncounter(obj)
         if (response.status === 1) {
-            setShowToster(5)
-            getAllEncoutersAsPerIssueID();
+            setShowToster(5);
+            setShowToster(9)
+            setShowToster(10)
+            setShowToster(12)
+            setShowToster(14)
             setTimeout(() => {
                 setShowToster(0);
             }, 2000)
+            if (getIssueID === 1) {
+                setShowToster(5);
+            }
+            if (getIssueID === 2) {
+                setShowToster(9)
+            }
+            if (getIssueID === 3) {
+                setShowToster(10)
+            }
+            if (getIssueID === 4) {
+                setShowToster(12)
+            }
+            if (getIssueID === 5) {
+                setShowToster(14)
+            }
+            getAllEncoutersAsPerIssueID();
+
         }
         else {
             setTimeout(() => {
@@ -693,7 +713,7 @@ export default function OPDPrescriptionIndex(props) {
                             {showTheButton && (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
                                     <Heading text={getHeadingName} />
-                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
+                                    <button  type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
                                         <img src={addIcon} className='icnn' alt='' />
                                         Add
                                     </button>
@@ -760,12 +780,16 @@ export default function OPDPrescriptionIndex(props) {
                                                                         :
                                                                         getIssueID === 2 ?
                                                                             <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                            : ''
+                                                                            :
+                                                                            getIssueID === 3 ?
+                                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                : getIssueID === 4 ?
+                                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                    : getIssueID === 5 ?
+                                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                        : ''
                                                                     }
 
-                                                                    {/* {getIssueID === 2 ?
-                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergy" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                    : ''} */}
                                                                     <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
                                                                 </div>
                                                             </td>
@@ -777,8 +801,6 @@ export default function OPDPrescriptionIndex(props) {
                                     )}
                                 </table>
                             </div>
-
-
 
                             {/* <OPDPatientMedicationAssign values={getD} funh={setGetD} foodData={foodData} /> */}
                         </div>
@@ -810,25 +832,28 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDProblemPopUp
-                                                    setShowToster={setShowToster}
-                                                    updatebool={updatebool}
-                                                    setUpdateBool={setUpdateBool}
-                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
-                                                    rowId={rowId}
-                                                    encounterTitle={encounterTitle}
-                                                    encounterBeginDate={encounterBeginDate}
-                                                    encounterEndDate={encounterEndDate}
-                                                    encounterReferredBy={referredby}
-                                                    encounterCoding={encounterCoding}
-                                                    classificationName={classificationName}
-                                                    occurrence={occurrenceId}
-                                                    verificationStatus={verificationStatusId}
-                                                    outcome={outcomeId}
-                                                    encounterComments={encounterComments}
-                                                    encounterDestination={encounterDestination}
-                                                    titleId={titleId}
-                                                />
+                                                
+
+                                                        <OPDProblemPopUp
+                                                            setShowToster={setShowToster}
+                                                            updatebool={updatebool}
+                                                            setUpdateBool={setUpdateBool}
+                                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                            rowId={rowId}
+                                                            encounterTitle={encounterTitle}
+                                                            encounterBeginDate={encounterBeginDate}
+                                                            encounterEndDate={encounterEndDate}
+                                                            encounterReferredBy={referredby}
+                                                            encounterCoding={encounterCoding}
+                                                            classificationName={classificationName}
+                                                            occurrence={occurrenceId}
+                                                            verificationStatus={verificationStatusId}
+                                                            outcome={outcomeId}
+                                                            encounterComments={encounterComments}
+                                                            encounterDestination={encounterDestination}
+                                                            titleId={titleId}
+                                                        />
+                                                    
 
                                             </div>
                                         </div>
@@ -851,7 +876,7 @@ export default function OPDPrescriptionIndex(props) {
                                     </div>
                                     <div className="modal-body">
                                         <div class="tab-content" id="myTabContent">
-                                            {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                            {/* --------------------------Allergy Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                                                 <OPDAllergyPopUp
                                                     setShowToster={setShowToster}
@@ -895,7 +920,24 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDMedicationPopUp setShowToster={setShowToster} />
+                                                <OPDMedicationPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId} />
                                             </div>
                                         </div>
                                     </div>
@@ -920,7 +962,25 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDDevicePopUp setShowToster={setShowToster} />
+                                                <OPDDevicePopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                //  titleId={titleId} 
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -945,7 +1005,24 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                <OPDSurgeryPopUp setShowToster={setShowToster} />
+                                                <OPDSurgeryPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId} />
                                             </div>
                                         </div>
                                     </div>
@@ -973,7 +1050,7 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 1 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem Saved SuccessFully !!"
+                    message="Problem saved successFully !!"
                 />
             ) : (
                 ""
@@ -981,7 +1058,7 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 2 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Allergy Saved SuccessFully !!"
+                    message="Allergy saved successFully !!"
                 />
             ) : (
                 ""
@@ -989,7 +1066,7 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 3 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Medication Saved SuccessFully !!"
+                    message="Medication saved successFully !!"
                 />
             ) : (
                 ""
@@ -997,7 +1074,7 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 4 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Device Saved SuccessFully !!"
+                    message="Device saved successFully !!"
                 />
             ) : (
                 ""
@@ -1005,7 +1082,7 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 5 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem Deleted SuccessFully !!"
+                    message="Problem deleted successFully !!"
                 />
             ) : (
                 ""
@@ -1013,12 +1090,83 @@ export default function OPDPrescriptionIndex(props) {
             {showToster === 6 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem Updated SuccessFully !!"
+                    message="Problem updated successFully !!"
                 />
             ) : (
                 ""
             )}
-
+            {showToster === 7 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 8 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 9 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 10 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 11 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 12 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 13 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 14 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 15 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
 
             {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
             <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">

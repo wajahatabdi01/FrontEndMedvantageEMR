@@ -255,7 +255,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             const response = await UpdateEncounter(JSON.stringify([allergyData]));
             if (response.status === 1) {
                 setShowUnderProcess(0);
-                setShowToster(6)
+                setShowToster(7)
                 getAllEncoutersAsPerIssueID();
                 setUpdateBool(0)
                 handleClear();

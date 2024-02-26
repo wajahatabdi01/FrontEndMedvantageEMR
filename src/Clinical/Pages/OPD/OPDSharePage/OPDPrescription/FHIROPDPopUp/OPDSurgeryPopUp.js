@@ -10,7 +10,9 @@ import GetAllSurgeryIssueList from '../../../../../../Registartion/API/GET/GetAl
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
-function OPDSurgeryPopUp({ setShowToster }) {
+import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
+import { t } from 'i18next';
+function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -104,11 +106,11 @@ function OPDSurgeryPopUp({ setShowToster }) {
         }));
     }
 
-    let handleSelectProblem = () => {
+    let handleSelectProblem = (e) => {
         document.getElementById("errTitleSurgery").style.display = "none";
-        const ddlProblems = document.getElementById("ddlSurgery");
-        const ddlSurgeryId = document.getElementById("ddlSurgery").value;
-        const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
+        const ddlProblems = document.getElementById("ddlsurgery");
+        const ddlSurgeryId = e.target.value;
+        const selectedOption = e.target.options[e.target.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setSurgery(selectProblem);
         setCoding(selectProblem);
@@ -197,6 +199,7 @@ function OPDSurgeryPopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        setUpdateBool(0);
         document.getElementById("errBeginDateTimeSurgery").style.display = "none";
         document.getElementById("errTitleSurgery").style.display = "none";
     }
@@ -222,7 +225,7 @@ function OPDSurgeryPopUp({ setShowToster }) {
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
                 setShowUnderProcess(0);
-                setShowToster(5)
+                setShowToster(15)
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
@@ -238,7 +241,80 @@ function OPDSurgeryPopUp({ setShowToster }) {
             }
         }
     }
+    let handleSaveUpdate = async () => {
+        if (surgeryData.title === '' || surgeryData.title === undefined || surgeryData.title === null) {
+            document.getElementById("errTitle").innerHTML = "Please enter title";
+            document.getElementById("errTitle").style.display = "block";
+        }
+        if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
+            document.getElementById("errbegindate").innerHTML = "Please select begin date";
+            document.getElementById("errbegindate").style.display = "block";
+        }
+        else {
+            const response = await UpdateEncounter(JSON.stringify([surgeryData]));
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(13)
+                getAllEncoutersAsPerIssueID();
+                handleClear();
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
+        }
+    }
+    function convertDateFormat(dateString) {
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
+    
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                // Log an error if the date string format is incorrect
+                console.error("Invalid date string format:", dateString);
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            // Log an error if dateString is undefined
+            console.error("Date string is undefined");
+            return null; // Or return an appropriate value indicating an error
+        }
+    }
+    const newencounterBeginDate = convertDateFormat(encounterBeginDate);
+    const newencounterEndDate = convertDateFormat(encounterEndDate);
+    useEffect(() => {
+        setSurgeryData({
+            id: rowId,
+            issueTypeId:5,
+            titleId: titleId && titleId !== '' ? titleId : '',
+            title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
+            coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
+            classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
+            occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
+            verificationStatusId: verificationStatus && verificationStatus !== '' ? verificationStatus : '',
+            referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
+            comments: encounterComments && encounterComments !== '' ? encounterComments : '',
+            outcomeId: outcome && outcome !== '' ? outcome : '',
+            destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
+        })
 
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
         getAllSurgeryList();
         getAllIssueOutCome();
@@ -252,7 +328,7 @@ function OPDSurgeryPopUp({ setShowToster }) {
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
                         <div>
-                            <select className='form-control' id='ddlSurgery' name='titleId' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
+                            <select className='form-control' id='ddlsurgery' name='titleId' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
                                 {surgeryList && surgeryList.map((list) => {
                                     return (
                                         <option value={list.id}>{list.name}</option>
@@ -423,7 +499,10 @@ function OPDSurgeryPopUp({ setShowToster }) {
             </div> */}
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                    {updatebool === 0 ?
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                    }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>

@@ -10,7 +10,9 @@ import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
-function OPDDevicePopUp({ setShowToster }) {
+import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
+import { t } from 'i18next';
+function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination  }) {
     let [device, setDevice] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -186,6 +188,8 @@ function OPDDevicePopUp({ setShowToster }) {
             outcomeId: '0',
             destination: ''
         })
+        setUpdateBool(0);
+
         document.getElementById("errTitleDev").style.display = "none";
         document.getElementById("errbegindatedev").style.display = "none";
     }
@@ -227,7 +231,79 @@ function OPDDevicePopUp({ setShowToster }) {
             }
         }
     }
+    let handleSaveUpdate = async () => {
+        if (deviceData.title === '' || deviceData.title === undefined || deviceData.title === null) {
+            document.getElementById("errTitle").innerHTML = "Please enter title";
+            document.getElementById("errTitle").style.display = "block";
+        }
+        if (deviceData.beginDateTime === '' || deviceData.beginDateTime === undefined || deviceData.beginDateTime === null) {
+            document.getElementById("errbegindate").innerHTML = "Please select begin date";
+            document.getElementById("errbegindate").style.display = "block";
+        }
+        else {
+            const response = await UpdateEncounter(JSON.stringify([deviceData]));
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(11)
+                getAllEncoutersAsPerIssueID();
+                handleClear();
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
+        }
+    }
+    function convertDateFormat(dateString) {
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
+    
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                // Log an error if the date string format is incorrect
+                console.error("Invalid date string format:", dateString);
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            // Log an error if dateString is undefined
+            console.error("Date string is undefined");
+            return null; // Or return an appropriate value indicating an error
+        }
+    }
+    const newencounterBeginDate = convertDateFormat(encounterBeginDate);
+    const newencounterEndDate = convertDateFormat(encounterEndDate);
+    useEffect(() => {
+        setDeviceData({
+            id: rowId,
+            issueTypeId:4,
+            title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
+            coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
+            classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
+            occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
+            verificationStatusId: verificationStatus && verificationStatus !== '' ? verificationStatus : '',
+            referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
+            comments: encounterComments && encounterComments !== '' ? encounterComments : '',
+            outcomeId: outcome && outcome !== '' ? outcome : '',
+            destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
+        })
 
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination])
     useEffect(() => {
         getAllIssueOutCome();
         getAllIssueOccurence();
@@ -412,7 +488,10 @@ function OPDDevicePopUp({ setShowToster }) {
             </div> */}
             <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                    {updatebool === 0 ?
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                    }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>

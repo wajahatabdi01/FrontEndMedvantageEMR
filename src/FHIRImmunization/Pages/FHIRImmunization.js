@@ -294,8 +294,7 @@ export default function FHIRImmunization({ setShowToster }) {
   const funGetAllImmunizationData = async () => {
     const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID);
     if (getAllImmunizationDataRes.status === 1) {
-      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue);
-    }
+      setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);    }
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

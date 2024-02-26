@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
-function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -34,7 +34,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
-        
+
     let [problemData, setProblemData] = useState({
         titleId: '',
         title: '',
@@ -283,7 +283,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         if (dateString) {
             // Split the date string by "-"
             const parts = dateString.split("-");
-    
+
             // Check if parts contains three elements
             if (parts.length === 3) {
                 // Rearrange the parts in the format yyyy-mm-dd
@@ -305,7 +305,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     useEffect(() => {
         setProblemData({
             id: rowId,
-            issueTypeId:1,
+            issueTypeId: 1,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
@@ -328,6 +328,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
+       
     }, [])
     return (
         <>
