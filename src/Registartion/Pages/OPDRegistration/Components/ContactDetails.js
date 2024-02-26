@@ -137,11 +137,25 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     const handleContactDetailsChange = (e) => {
         const { name, value } = e.target;
         // Function to check for alphanumeric characters and no spaces
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+
+            return isValid || trimmedInput === '';
+        };
+
         // Function to check for alphanumeric characters and allow special characters but no spaces
         const isValidInputEmail = (input) => /^[a-zA-Z0-9\S]*$/.test(input);
 
-        if (name==="emailID" || name==="trustedEmail") {
+        if (name === "emailID" || name === "trustedEmail") {
             if (!isValidInputEmail(value)) {
                 return;
             }

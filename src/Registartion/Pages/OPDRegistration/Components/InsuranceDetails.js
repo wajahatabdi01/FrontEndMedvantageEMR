@@ -151,8 +151,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityprimary").style.display = "none"
         document.getElementById("errSECity").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {
@@ -191,8 +204,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCitySecondary").style.display = "none"
         document.getElementById("errSECitySecondary").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {
                 return;
@@ -229,8 +255,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityTertiary").style.display = "none"
         document.getElementById("errSECityTertiary").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {

@@ -460,8 +460,21 @@ export default function PatientRegistration() {
     }
     let handlerChange2 = (e, value) => {
         console.log('value', value);
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
         if (e === "deceasedDate") {
             if (!isValidInputDate(value)) {
                 return;
@@ -481,8 +494,21 @@ export default function PatientRegistration() {
         }));
     }
     let handleemployerDetails = (e, value) => {
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        if (!isValidInput(value)) {
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                if (!isValidInput(value)) {
             return;
         }
         setEmployerDetailsJsonString((prevData) => ({
@@ -496,8 +522,21 @@ export default function PatientRegistration() {
     }
 
     let handleStatsDetails = (e, value) => {
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (e === "financialReviewDate") {
             if (!isValidInputDate(value)) {
