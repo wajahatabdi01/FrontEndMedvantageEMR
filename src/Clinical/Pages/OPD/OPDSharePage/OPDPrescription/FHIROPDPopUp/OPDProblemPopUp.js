@@ -301,7 +301,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             }
         } else {
             // Log an error if dateString is undefined
-            console.error("Date string is undefined");
+            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
