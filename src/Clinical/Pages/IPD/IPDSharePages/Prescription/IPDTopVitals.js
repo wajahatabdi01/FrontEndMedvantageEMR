@@ -53,6 +53,55 @@ export default function IPDTopVitals(props) {
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
 
+    const [getEncounterList, setEncounterList] = useState([]);
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
+    const [isClose, setisClose] = useState(0);
+
+    //Handle Delete
+    let handleDeleteRow = async () => {
+        let obj = {
+            Id: rowId
+        }
+        console.log("object Delete", obj)
+        // return;
+        let response = await DeleteEncounter(obj)
+        if (response.status === 1) {
+            setShowToster(5);
+            setShowToster(9)
+            setShowToster(10)
+            setShowToster(12)
+            setShowToster(14)
+            setTimeout(() => {
+                setShowToster(0);
+            }, 2000)
+            if (getIssueID === 1) {
+                setShowToster(5);
+            }
+            if (getIssueID === 2) {
+                setShowToster(9)
+            }
+            if (getIssueID === 3) {
+                setShowToster(10)
+            }
+            if (getIssueID === 4) {
+                setShowToster(12)
+            }
+            if (getIssueID === 5) {
+                setShowToster(14)
+            }
+            getAllEncoutersAsPerIssueID();
+
+        }
+        else {
+            setTimeout(() => {
+                setShowToster(0)
+            }, 2000)
+        }
+    }
+
     let [sendVitals, setSendVitals] = useState(
         [
             {
@@ -135,54 +184,7 @@ export default function IPDTopVitals(props) {
                 "maxLimit": 272
             }]
     );
-    const [getEncounterList, setEncounterList] = useState([]);
-    let activeUHID = window.sessionStorage.getItem("activePatient")
-        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
-
-    const [isClose, setisClose] = useState(0);
-
-    //Handle Delete
-    let handleDeleteRow = async () => {
-        let obj = {
-            Id: rowId
-        }
-        console.log("object Delete", obj)
-        // return;
-        let response = await DeleteEncounter(obj)
-        if (response.status === 1) {
-            setShowToster(5);
-            setShowToster(9)
-            setShowToster(10)
-            setShowToster(12)
-            setShowToster(14)
-            setTimeout(() => {
-                setShowToster(0);
-            }, 2000)
-            if (getIssueID === 1) {
-                setShowToster(5);
-            }
-            if (getIssueID === 2) {
-                setShowToster(9)
-            }
-            if (getIssueID === 3) {
-                setShowToster(10)
-            }
-            if (getIssueID === 4) {
-                setShowToster(12)
-            }
-            if (getIssueID === 5) {
-                setShowToster(14)
-            }
-            getAllEncoutersAsPerIssueID();
-
-        }
-        else {
-            setTimeout(() => {
-                setShowToster(0)
-            }, 2000)
-        }
-    }
+  
 
     let handleOnchange = (e) => {
         let value = e.target.value;
