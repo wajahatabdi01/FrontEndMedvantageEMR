@@ -534,7 +534,7 @@ export default function IPDTopVitals(props) {
                                 <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                     Problem
                                 </h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                     <i className="fa fa-times"></i>
                                 </button>
                                 {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
@@ -586,7 +586,7 @@ export default function IPDTopVitals(props) {
                                 <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                     Allergy
                                 </h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                     <i className="fa fa-times"></i>
                                 </button>
                             </div>
@@ -631,7 +631,7 @@ export default function IPDTopVitals(props) {
                                 <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                     Medication
                                 </h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                     <i className="fa fa-times"></i>
                                 </button>
                             </div>
@@ -675,7 +675,7 @@ export default function IPDTopVitals(props) {
                                 <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                     Device
                                 </h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                     <i className="fa fa-times"></i>
                                 </button>
                             </div>
@@ -717,7 +717,7 @@ export default function IPDTopVitals(props) {
                                 <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                     Surgery
                                 </h1>
-                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                     <i className="fa fa-times"></i>
                                 </button>
                             </div>
