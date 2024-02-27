@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
-function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,isCloseModal,fnisClose }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -195,8 +195,13 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             outcomeId: '0',
             destination: ''
         })
-        setUpdateBool(0);
-
+        setUpdateBool(0);   
+        setTxtCoding([]);
+        setProblemData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0);
         document.getElementById("errTitle").style.display = "none";
         document.getElementById("errbegindate").style.display = "none";
     }
@@ -303,6 +308,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
+       console.log('encounterCoding',encounterCoding)
         setProblemData({
             id: rowId,
             issueTypeId: 1,
@@ -319,8 +325,11 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
-
+        });
+        const formattCodingData=encounterCoding ? encounterCoding.split(';').slice(0,-1):[];
+        console.log('formattCodingData',formattCodingData)
+        setTxtCoding(formattCodingData)
+      
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     useEffect(() => {
         getAllProblem();
@@ -328,8 +337,17 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
+        
+        
        
-    }, [])
+    }, []);
+    // Used To Clear Modal
+    useEffect(()=>{
+            if(isCloseModal === 1 ){
+                handleClear();
+            }
+        
+    },[isCloseModal]);
     return (
         <>
             <div className='problemhead'>
@@ -511,6 +529,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 </div>
             </div> */}
             <div class="modal-footer">
+                {console.log('updatebool11',  isCloseModal)}
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>

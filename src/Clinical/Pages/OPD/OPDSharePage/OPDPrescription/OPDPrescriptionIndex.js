@@ -76,6 +76,7 @@ export default function OPDPrescriptionIndex(props) {
     let handlePopUp = (val) => {
         setShowPopUp(val)
     }
+    const [isClose, setisClose] = useState(0);
 
     //Handle Delete
     let handleDeleteRow = async () => {
@@ -715,7 +716,7 @@ export default function OPDPrescriptionIndex(props) {
                             {showTheButton && (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
                                     <Heading text={getHeadingName} />
-                                    <button  type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent} >
                                         <img src={addIcon} className='icnn' alt='' />
                                         Add
                                     </button>
@@ -754,7 +755,8 @@ export default function OPDPrescriptionIndex(props) {
                                             </thead>
                                             <tbody>
                                                 {getEncounterList && getEncounterList.map((list, ind) => {
-                                                    const codingListItem = list.encounterCoding.split(';');
+                                                    { console.log('getEncounterList', getEncounterList) }
+                                                    const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
                                                     console.log("codingListItem", codingListItem)
                                                     return (
                                                         <tr className="text-center" key={list.id}>
@@ -764,7 +766,7 @@ export default function OPDPrescriptionIndex(props) {
                                                             <td>
                                                                 <div className='codeSplit'>
                                                                     {codingListItem.map((coding, index) => (
-                                                                        coding.trim() !== '' && 
+                                                                        coding.trim() !== '' &&
                                                                         <span key={index} className="">{coding}</span>
                                                                     ))}
                                                                 </div>
@@ -821,7 +823,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Problem
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                         {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
@@ -837,29 +839,27 @@ export default function OPDPrescriptionIndex(props) {
                                         <div class="tab-content" id="myTabContent">
                                             {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                             <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                                
-
-                                                        <OPDProblemPopUp
-                                                            setShowToster={setShowToster}
-                                                            updatebool={updatebool}
-                                                            setUpdateBool={setUpdateBool}
-                                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
-                                                            rowId={rowId}
-                                                            encounterTitle={encounterTitle}
-                                                            encounterBeginDate={encounterBeginDate}
-                                                            encounterEndDate={encounterEndDate}
-                                                            encounterReferredBy={referredby}
-                                                            encounterCoding={encounterCoding}
-                                                            classificationName={classificationName}
-                                                            occurrence={occurrenceId}
-                                                            verificationStatus={verificationStatusId}
-                                                            outcome={outcomeId}
-                                                            encounterComments={encounterComments}
-                                                            encounterDestination={encounterDestination}
-                                                            titleId={titleId}
-                                                        />
-                                                    
-
+                                                <OPDProblemPopUp
+                                                    setShowToster={setShowToster}
+                                                    updatebool={updatebool}
+                                                    setUpdateBool={setUpdateBool}
+                                                    getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                                    rowId={rowId}
+                                                    encounterTitle={encounterTitle}
+                                                    encounterBeginDate={encounterBeginDate}
+                                                    encounterEndDate={encounterEndDate}
+                                                    encounterReferredBy={referredby}
+                                                    encounterCoding={encounterCoding}
+                                                    classificationName={classificationName}
+                                                    occurrence={occurrenceId}
+                                                    verificationStatus={verificationStatusId}
+                                                    outcome={outcomeId}
+                                                    encounterComments={encounterComments}
+                                                    encounterDestination={encounterDestination}
+                                                    titleId={titleId}
+                                                    isCloseModal={isClose}
+                                                    fnisClose={setisClose}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -875,7 +875,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Allergy
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -900,7 +900,11 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                    titleId={titleId} />
+                                                    titleId={titleId}
+                                                    isCloseModal={isClose}
+                                                    fnisClose={setisClose}
+                                                />
+
                                             </div>
                                         </div>
                                     </div>
@@ -917,7 +921,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Medication
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -942,7 +946,10 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                    titleId={titleId} />
+                                                    titleId={titleId} 
+                                                    isCloseModal={isClose}
+                                                    fnisClose={setisClose}/>
+                                                    
                                             </div>
                                         </div>
                                     </div>
@@ -959,7 +966,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Device
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -984,8 +991,8 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                //  titleId={titleId} 
-                                                />
+                                                    isCloseModal={isClose}
+                                                    fnisClose={setisClose}                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -1002,7 +1009,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Surgery
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -1027,7 +1034,9 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                    titleId={titleId} />
+                                                    titleId={titleId} 
+                                                    isCloseModal={isClose}
+                                                    fnisClose={setisClose}/>
                                             </div>
                                         </div>
                                     </div>

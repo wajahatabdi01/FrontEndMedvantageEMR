@@ -360,104 +360,7 @@ export default function PatientRegistration() {
         }
     }
 
-    let handlerChange = (e) => {
-        // clearErrorMessages();
-
-
-        // if (e.target.name === "mobileNumber") {
-        //     const checkLength = e.target.value;
-        //     if (checkLength.toString().length > 10) {
-        //         return false;
-        //     }
-        //     else {
-        //         setPatientMobileNo(e.target.value);
-        //         if (checkLength.toString().length === 10) {
-        //             const key = e.target.value;
-        //             getPatientDetailsByMobileNumber(key);
-        //         }
-
-        //     }
-
-        // }
-        // if (e.target.name === "patientName") {
-        //     setPatientName(e.target.value);
-
-        // }
-        // if (e.target.name === "patientHomeMobNo") {
-        //     setPatientHomeMobNo(e.target.value);
-        // }
-        // if (e.target.name === "email") {
-        //     setEmail(e.target.value);
-        // }
-        // if (e.target.name === "address") {
-        //     setPatientAddress(e.target.value);
-        // }
-        // if (e.target.name === "apt") {
-        //     setApt(e.target.value);
-        // }
-
-        // if (e.target.name === "guardianName") {
-        //     setGuardianName(e.target.value);
-        // }
-        // // if (e.target.name === "guardianRelationToPatient") {
-        // //     setGuardianRelationToPatient(e.target.value);
-        // // }
-        // if (e.target.name === "guardianAddress") {
-        //     setGuardianAddress(e.target.value);
-        // }
-        // if (e.target.name === "guardianMobileNo") {
-        //     const checkLength = e.target.value;
-        //     if (checkLength.toString().length > 10) {
-        //         return false;
-        //     }
-        //     else {
-        //         setGuardianMobileNo(e.target.value);
-
-        //     }
-
-        // }
-        // if (e.target.name === "UHID") {
-        //     setPatientUHID(e.target.value);
-        // }
-        // if (e.target.name === "PatientID") {
-        //     setPatientID(e.target.value);
-        // }
-        // if (e.target.name === "zip") {
-        //     setZipCode(e.target.value);
-        //     document.getElementById("errZip").style.display = "none";
-        // }
-        // if (e.target.name === "IdentityNo") {
-        //     setIdentityNo(e.target.value);
-        //     document.getElementById("errIdentityNo").style.display = "none";
-        // }
-        // if (e.target.name === "patientHeight") {
-        //     if (e.target.valu !== '-') {
-
-        //         setPatientHeight(e.target.value);
-        //     }
-
-        // }
-        // if (e.target.name === "patientWeight") {
-        //     if (e.target.valu !== '-') {
-        //         setPatientWeight(e.target.value);
-        //     }
-
-        // }
-        // if (e.target.name === "ddlAgeUnit") {
-        //     const ageUnit = document.getElementById('ddlAgeUnit').value;
-        //     handleAgeUnit(ageUnit)
-        // }
-        // if (e.target.name === "cashpayment") {
-        //     setCashpayment(e.target.value)
-        // }
-        // if (e.target.name === "insuranceCompany") {
-        //     setinsuranceCompany(e.target.value)
-        // }
-        // if (e.target.name === "cardNo") {
-        //     setCardNo(e.target.value)
-        // }
-
-    }
+    
     let handlerChange2 = (e, value) => {
         console.log('value', value);
         const isValidInput = (input) => {
@@ -515,10 +418,7 @@ export default function PatientRegistration() {
             ...prevData,
             [e]: value
         }))
-        // setEmployerDetailsJsonString((prevPatientDetails) => ({
-        //     ...prevPatientDetails,
-        //     [e]: value,
-        // }));
+       
     }
 
     let handleStatsDetails = (e, value) => {
@@ -604,23 +504,12 @@ export default function PatientRegistration() {
 
     }
     let getDdlListByDeptID = async (val) => {
-        // if (val === 1) {
         document.getElementById("errDepartment").style.display = "none";
         const deptID = document.getElementById('ddlDepartment').value;
         let data = await GetRoomList(deptID);
         setSelectedDept(deptID);
         getWardListByDeptID(deptID);
         setRoomList(data.responseValue);
-        // }
-        // else {
-        //     const deptID = document.getElementById('ddlDepartment').value;
-        //     let data = await GetRoomList(deptID);
-        //     setSelectedDept(deptID)
-        //     setRoomList(data.responseValue);
-        //     setSelectedRoom(data.responseValue[0].id)
-
-        // }
-
     }
     let getWardListByDeptID = async (deptID) => {
         let data = await GetWardList(deptID);
@@ -639,8 +528,6 @@ export default function PatientRegistration() {
         if (response.status === 1) {
             setCountryList(response.responseValue);
             getStateList(countryID);
-
-
         }
     }
     // Used to Get Value From Dropdown
@@ -994,117 +881,6 @@ export default function PatientRegistration() {
         setShowPreviousNamesPopUp(false);
     };
 
-    // let save = async () => {
-    //     console.log("save Data", registrationObj, uhid)
-    //     Patient Visit
-    //     if (uhid === "" || uhid === null) {
-    //     Used To Get Country Code
-    //     var getDdlList = document.getElementById('ddlCountryCode');
-    //     var getSelectedIndex = getDdlList.selectedIndex
-    //     const getCountryCode = getDdlList.options[getSelectedIndex].text;
-    //     const identityType = document.getElementById('ddlIdentityType').value;
-    //     const bloodGroup = document.getElementById('ddlBloodGroup').value;
-    //     const ageUnit = document.getElementById('ddlAgeUnit').value;
-    //     const roomNo = document.getElementById('ddlRoomNo').value;
-    //     const state = document.getElementById('ddlState').value;
-    //     const city = document.getElementById('ddlCity').value;
-    //     const sexualOrientation = document.getElementById('ddlsexualOrientation').value;
-    //     const res = ValidationOPDRegistration(patientMobileNo, identityType, IdentityNo, patientName, patientAddress, state, city, dob, patientAge, patientGender, patientHeight, patientWeight, selectedDept, selectedDoctor, selectedRoom);
-    //     var id = res[1];
-    //     let getCityName = document.getElementById('ddlCity');
-    //     let getStateName = document.getElementById('ddlState');
-    //     let getGenderName = document.getElementById('ddlGender');
-    //     let getRaceName = document.getElementById('ddlRaceType');
-    //     let getEthnicityName = document.getElementById('ddlEthnicity');
-    //     let getSelectedCityName = getCityName.options[getCityName.selectedIndex].text;
-    //     let getSelectedStateName = getStateName.options[getStateName.selectedIndex].text;
-    //     let getSelectedGenderName = getGenderName.options[getGenderName.selectedIndex].text;
-    //     let getSelectedRaceName = getRaceName.options[getRaceName.selectedIndex].text;
-    //     let getSelectedEthnicityName = getEthnicityName.options[getEthnicityName.selectedIndex].text;
-    //     let lastName = patientName.trim().split(' ');
-    //     let getLastName = lastName[lastName.length - 1];
-    //     const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-    //     var tempArr=[];
-    //     tempArr.push(insuranceDetailsPrimary);
-    //     tempArr.push(insuranceDetailsSecondry);
-    //     tempArr.push(insuranceDetailsTertiary);
-    //      console.log('tempArr',)
-
-    //     var dataObj = {
-    //         ...registrationObj,
-    //         employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
-    //         insuranceDetailsJsonString: JSON.stringify(tempArr),
-    //         statsJsonString: JSON.stringify([statsJsonString]),
-    //         clientID: clientID,
-    //         userId: window.userId
-    //     }
-    //     console.log("dataObj", dataObj);
-    //     console.log("insuranceDetailsJsonString", insuranceDetailsJsonString);
-    //     if (res === true) {
-    //         setShowUnderProcess(1);
-
-    //         console.log("object", dataObj)
-
-    //         let data = await OPDPatientRegistration(dataObj);
-    //         if (data.status === 1) {
-    //             setShowUnderProcess(0);
-    //             setShowToster(1)
-    //             window.sessionStorage.setItem("PrintOpdData", JSON.stringify(data.responseValue[0]));
-    //             window.sessionStorage.setItem("PrintOpdDataConsultantFee", consultantFee);
-    //             window.open("/opdPrint/", 'noopener,noreferrer');
-    //             setLastUhid(data.responseValue[0].uhID);
-    //             setShowPrintHealthCardConfirmation(1);
-
-    //             setTimeout(() => {
-    //                 clear();
-    //                 setShowToster(0);
-    //             }, 2000)
-    //         }
-    //         else {
-    //             setShowUnderProcess(0)
-    //             setShowAlertToster(1)
-    //             setShowMessage(data.responseValue)
-    //             setTimeout(() => {
-    //                 setShowToster(0)
-    //             }, 2000)
-    //         }
-    //     }
-    //     else {
-    //         const roomID = document.getElementById('ddlRoomNo').value;
-    //         if (uhid === "" || uhid === null) {
-    //             return false;
-    //         }
-    //         else if (selectedDept === "0" || selectedDept === undefined) {
-    //             document.getElementById('errDepartment').style.display = "block";
-    //             document.getElementById('errDepartment').innerHTML = "Select Department";
-    //         }
-    //         else if (selectedDoctor === "0" || selectedDoctor == undefined) {
-    //             document.getElementById('errDoctor').style.display = "block";
-    //             document.getElementById('errDoctor').innerHTML = "Select Doctor";
-    //         }
-    //         else if (roomID === "0" || roomID == undefined) {
-    //             document.getElementById('errRoom').style.display = "block";
-    //             document.getElementById('errRoom').innerHTML = "Select Room";
-    //         }
-    //         else {
-    //             let response = await PatientRevisit(selectedDept, selectedDoctor, userID, uhid, roomID);
-    //             if (response.status === 1) {
-    //                 setShowToster(1)
-    //                 window.sessionStorage.setItem("PrintOpdData", JSON.stringify(response.responseValue[0]));
-    //                 window.sessionStorage.setItem("PrintOpdDataConsultantFee", consultantFee);
-    //                 window.open("/opdPrint/", 'noopener,noreferrer');
-    //                 setLastUhid(response.responseValue[0].uhID);
-    //                 setShowPrintHealthCardConfirmation(1);
-    //                 clear();
-
-    //             }
-    //             else {
-    //                 setShowAlertToster(1)
-    //                 setShowMessage(response.responseValue)
-    //             }
-    //         }
-    //     }
-    // }
 
     let handleValidation = (data, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo) => {
 
@@ -1616,11 +1392,7 @@ export default function PatientRegistration() {
         console.log('registrationObj', registrationObj);
         console.log('issueDetails', issueDetails);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
-        // let respValidation = handleValidation({ ...patientDetails, ...contactDetails, ...registrationObj, ...employerDetailsJsonString, ...tempArr, ...statsJsonString })
-
-        // var ob=[];
-        // ob = [...patientDetails];
-        // console.log('ob',ob)
+     
         console.log('patientDetails', patientDetails);
 
         var makeDataObj = {
@@ -1783,7 +1555,6 @@ export default function PatientRegistration() {
 
     }
     let handleUpdate = async () => {
-
         const identityType = document.getElementById('ddlIdentityType').value;
         const bloodGroup = document.getElementById('ddlBloodGroup').value;
         const state = document.getElementById('ddlState').value;
