@@ -761,7 +761,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     return (
                                                         <tr className="text-center" key={list.id}>
                                                             <td className="text-center">{ind + 1}</td>
-                                                            <td style={{whiteSpace:'nowrap'}}>{list.encounterTitle}</td>
+                                                            <td style={{ whiteSpace: 'nowrap' }}>{list.encounterTitle}</td>
                                                             {/* <td>{list.encounterCoding}</td> */}
                                                             <td>
                                                                 <div className='codeSplit'>
@@ -921,7 +921,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Medication
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -946,10 +946,10 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                    titleId={titleId} 
+                                                    titleId={titleId}
                                                     isCloseModal={isClose}
-                                                    fnisClose={setisClose}/>
-                                                    
+                                                    fnisClose={setisClose} />
+
                                             </div>
                                         </div>
                                     </div>
@@ -966,7 +966,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Device
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -992,7 +992,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
                                                     isCloseModal={isClose}
-                                                    fnisClose={setisClose}                                                />
+                                                    fnisClose={setisClose} />
                                             </div>
                                         </div>
                                     </div>
@@ -1009,7 +1009,7 @@ export default function OPDPrescriptionIndex(props) {
                                         <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                                             Surgery
                                         </h1>
-                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"  onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1)}}>
+                                        <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -1034,9 +1034,9 @@ export default function OPDPrescriptionIndex(props) {
                                                     outcome={outcomeId}
                                                     encounterComments={encounterComments}
                                                     encounterDestination={encounterDestination}
-                                                    titleId={titleId} 
+                                                    titleId={titleId}
                                                     isCloseModal={isClose}
-                                                    fnisClose={setisClose}/>
+                                                    fnisClose={setisClose} />
                                             </div>
                                         </div>
                                     </div>
