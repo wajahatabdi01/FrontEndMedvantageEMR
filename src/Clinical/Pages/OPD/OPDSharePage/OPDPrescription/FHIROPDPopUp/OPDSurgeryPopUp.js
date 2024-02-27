@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
+function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -34,8 +34,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     let [getData, setgetData] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
     let [surgeryData, setSurgeryData] = useState({
         issueTypeId: 5,
@@ -200,7 +200,12 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             destination: ''
         })
         setUpdateBool(0);
-        document.getElementById("errBeginDateTimeSurgery").style.display = "none";
+        setTxtCoding([]);
+        setSurgeryData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0); document.getElementById("errBeginDateTimeSurgery").style.display = "none";
         document.getElementById("errTitleSurgery").style.display = "none";
     }
 
@@ -276,7 +281,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         if (dateString) {
             // Split the date string by "-"
             const parts = dateString.split("-");
-    
+
             // Check if parts contains three elements
             if (parts.length === 3) {
                 // Rearrange the parts in the format yyyy-mm-dd
@@ -298,7 +303,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     useEffect(() => {
         setSurgeryData({
             id: rowId,
-            issueTypeId:5,
+            issueTypeId: 5,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
@@ -312,9 +317,19 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
-
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
+
+    }, [isCloseModal]);
     useEffect(() => {
         getAllSurgeryList();
         getAllIssueOutCome();
@@ -377,7 +392,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
 
                                     : ''}
                             </div>
-                           
+
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 

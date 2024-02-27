@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId }) {
+function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -200,6 +200,13 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             outcomeId: '0',
             destination: ''
         })
+        setUpdateBool(0);
+        setTxtCoding([]);
+        setAllergyData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0);
         document.getElementById("errTitles").style.display = "none";
         document.getElementById("errBegindate").style.display = "none";
     }
@@ -315,10 +322,19 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
 
+    }, [isCloseModal]);
     useEffect(() => {
         getAllBrandList();
         getAllIssueOutCome();
