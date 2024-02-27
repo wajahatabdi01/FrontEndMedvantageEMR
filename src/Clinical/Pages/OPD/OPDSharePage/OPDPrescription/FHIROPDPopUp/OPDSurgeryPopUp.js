@@ -248,12 +248,12 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     }
     let handleSaveUpdate = async () => {
         if (surgeryData.title === '' || surgeryData.title === undefined || surgeryData.title === null) {
-            document.getElementById("errTitle").innerHTML = "Please enter title";
-            document.getElementById("errTitle").style.display = "block";
+            document.getElementById("errTitleSurgery").innerHTML = "Please enter title";
+            document.getElementById("errTitleSurgery").style.display = "block";
         }
         if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
-            document.getElementById("errbegindate").innerHTML = "Please select begin date";
-            document.getElementById("errbegindate").style.display = "block";
+            document.getElementById("errBeginDateTimeSurgery").innerHTML = "Please select begin date";
+            document.getElementById("errBeginDateTimeSurgery").style.display = "block";
         }
         else {
             const response = await UpdateEncounter(JSON.stringify([surgeryData]));
@@ -359,9 +359,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                     <div className="col-12 mb-2">
                         <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
                         <input type="text" value={surgeryData.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                        <small id="errTitleSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
-
                     </div>
+                    <small id="errTitleSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
                 </div>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
