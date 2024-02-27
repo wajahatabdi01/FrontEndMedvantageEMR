@@ -30,7 +30,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         emergencyPhone: '',
         phoneHome: '',
         workPhone: '',
-        // mobileNo: '',
         emailID: '',
         trustedEmail: '',
         additionalAddressess: '[]',
@@ -174,12 +173,9 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     const handleContactDetailsAdditionalChange = (e, index) => {
         const { name, value } = e.target;
         if (index >= 0 && index < contactDetails.additionalAddressess.length) {
-
         }
         else {
-
         }
-
         setContactDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
