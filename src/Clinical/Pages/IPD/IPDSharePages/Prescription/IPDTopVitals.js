@@ -21,18 +21,38 @@ import OPDMedicationPopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROP
 import OPDDevicePopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPopUp/OPDDevicePopUp'
 import OPDSurgeryPopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPopUp/OPDSurgeryPopUp'
 import OPDInvestigationProcedure from '../../../OPD/OPDSharePage/OPDPrescription/OPDInvestigationProcedure'
+import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
+import IconEdit from '../../../../../assets/images/icons/IconEdit.svg'
+import IconDelete from '../../../../../assets/images/icons/IconDelete.svg'
 
 
 export default function IPDTopVitals(props) {
     const { t } = useTranslation();
     document.body.dir = i18n.dir()
     let [showToster, setShowToster] = useState(0)
-    const [getHeadingName, setHeadingName] = useState('');
     let [activeComponent, setActiveComponent] = useState('');
     let [showTheButton, setShowTheButton] = useState(false);
     let [getIssueID, setIssueID] = useState('');
-    let [getD, setGetD] = useState(0)
+    let [getD, setGetD] = useState(0);
+
+    let [rowId, setRowId] = useState('')
+    const [updatebool, setUpdateBool] = useState(0);
+    const [getHeadingName, setHeadingName] = useState('');
     let [showImage, setShowImage] = useState(0);
+    let [problemData, setProblemData] = useState()
+    const [encounterTitle, setEncounterTitle] = useState('');
+    const [encounterBeginDate, setEncounterBeginDate] = useState('');
+    const [encounterEndDate, setEncounterEndDate] = useState('');
+    const [referredby, setReferredby] = useState('');
+    const [encounterCoding, setEncounterCoding] = useState('');
+    const [classificationName, setClassificationName] = useState('');
+    const [occurrenceId, setOccurrenceId] = useState('');
+    const [verificationStatusId, setVerificationStatusId] = useState('');
+    const [outcomeId, setOutcomeId] = useState('');
+    const [titleId, setTitleId] = useState('');
+    const [encounterComments, setEncounterComments] = useState('');
+    const [encounterDestination, setEncounterDestination] = useState('');
+
     let [sendVitals, setSendVitals] = useState(
         [
             {
@@ -119,6 +139,51 @@ export default function IPDTopVitals(props) {
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
+    const [isClose, setisClose] = useState(0);
+
+    //Handle Delete
+    let handleDeleteRow = async () => {
+        let obj = {
+            Id: rowId
+        }
+        console.log("object Delete", obj)
+        // return;
+        let response = await DeleteEncounter(obj)
+        if (response.status === 1) {
+            setShowToster(5);
+            setShowToster(9)
+            setShowToster(10)
+            setShowToster(12)
+            setShowToster(14)
+            setTimeout(() => {
+                setShowToster(0);
+            }, 2000)
+            if (getIssueID === 1) {
+                setShowToster(5);
+            }
+            if (getIssueID === 2) {
+                setShowToster(9)
+            }
+            if (getIssueID === 3) {
+                setShowToster(10)
+            }
+            if (getIssueID === 4) {
+                setShowToster(12)
+            }
+            if (getIssueID === 5) {
+                setShowToster(14)
+            }
+            getAllEncoutersAsPerIssueID();
+
+        }
+        else {
+            setTimeout(() => {
+                setShowToster(0)
+            }, 2000)
+        }
+    }
+
     let handleOnchange = (e) => {
         let value = e.target.value;
         let name = e.target.name;
@@ -283,9 +348,27 @@ export default function IPDTopVitals(props) {
 
     }
 
+    let handleUpdate = (encounterId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationTypeId, occurrenceId, verificationStatusId, outcomeId, encounterComments, encounterDestination, titleId) => {
+        setUpdateBool(1)
+        setRowId(encounterId)
+        setEncounterTitle(encounterTitle);
+        setEncounterBeginDate(encounterBeginDate);
+        setEncounterEndDate(encounterEndDate);
+        setReferredby(encounterReferredBy)
+        setEncounterCoding(encounterCoding)
+        setClassificationName(classificationTypeId)
+        setOccurrenceId(occurrenceId);
+        setVerificationStatusId(verificationStatusId);
+        setOutcomeId(outcomeId);
+        setEncounterComments(encounterComments);
+        setEncounterDestination(encounterDestination);
+        setTitleId(titleId);
+    }
+
     useEffect(() => {
         setData()
     }, [patientsendDataChange])
+
     useEffect(() => {
         if (showTheButton === true) {
 
@@ -381,30 +464,13 @@ export default function IPDTopVitals(props) {
                                         <th>Occurance Name</th>
                                         <th>Verification Name</th>
                                         <th>Outcome Name</th>
+                                        <th style={{ "width": "10%" }} className="text-center">Action</th>
                                     </tr>
                                 </thead>
-                                {/* <tbody>
-                                            {getEncounterList && getEncounterList.map((list, ind) => (
-                                                <tr className="text-center" key={ind + 1}>
-                                                    <td>{ind + 1}</td>
-                                                    <td>{list.encounterTitle}</td>
-                                                    <td>{list.encounterCoding}</td>
-                                                    <td>{list.encounterBeginDate}</td>
-                                                    <td>{list.encounterEndDate}</td>
-                                                    <td>{list.encounterReferredBy}</td>
-                                                    <td>{list.encounterComments}</td>
-                                                    <td>{list.encounterDestination}</td>
-                                                    <td>{list.classificationName}</td>
-                                                    <td>{list.occuranceName}</td>
-                                                    <td>{list.verificationName}</td>
-                                                    <td>{list.outComeName}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody> */}
 
                                 <tbody>
                                     {getEncounterList && getEncounterList.map((list, ind) => {
-                                        const codingListItem = list.encounterCoding.split(';');
+                                        const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
                                         console.log("codingListItem", codingListItem)
                                         return (
                                             <tr className="text-center" key={list.id}>
@@ -428,6 +494,26 @@ export default function IPDTopVitals(props) {
                                                 <td>{list.occuranceName}</td>
                                                 <td>{list.verificationName}</td>
                                                 <td>{list.outComeName}</td>
+                                                <td>
+                                                    <div className="action-button">
+                                                        {getIssueID === 1 ?
+                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                            :
+                                                            getIssueID === 2 ?
+                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                :
+                                                                getIssueID === 3 ?
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    : getIssueID === 4 ?
+                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                        : getIssueID === 5 ?
+                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                            : ''
+                                                        }
+
+                                                        <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         )
                                     })}
@@ -462,7 +548,27 @@ export default function IPDTopVitals(props) {
                                 <div class="tab-content" id="myTabContent">
                                     {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                     <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                        <OPDProblemPopUp setShowToster={setShowToster} />
+                                        <OPDProblemPopUp
+                                            setShowToster={setShowToster}
+                                            updatebool={updatebool}
+                                            setUpdateBool={setUpdateBool}
+                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                            rowId={rowId}
+                                            encounterTitle={encounterTitle}
+                                            encounterBeginDate={encounterBeginDate}
+                                            encounterEndDate={encounterEndDate}
+                                            encounterReferredBy={referredby}
+                                            encounterCoding={encounterCoding}
+                                            classificationName={classificationName}
+                                            occurrence={occurrenceId}
+                                            verificationStatus={verificationStatusId}
+                                            outcome={outcomeId}
+                                            encounterComments={encounterComments}
+                                            encounterDestination={encounterDestination}
+                                            titleId={titleId}
+                                            isCloseModal={isClose}
+                                            fnisClose={setisClose}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -486,7 +592,27 @@ export default function IPDTopVitals(props) {
                                 <div class="tab-content" id="myTabContent">
                                     {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                     <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                        <OPDAllergyPopUp setShowToster={setShowToster} />
+                                        <OPDAllergyPopUp
+                                            setShowToster={setShowToster}
+                                            updatebool={updatebool}
+                                            setUpdateBool={setUpdateBool}
+                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                            rowId={rowId}
+                                            encounterTitle={encounterTitle}
+                                            encounterBeginDate={encounterBeginDate}
+                                            encounterEndDate={encounterEndDate}
+                                            encounterReferredBy={referredby}
+                                            encounterCoding={encounterCoding}
+                                            classificationName={classificationName}
+                                            occurrence={occurrenceId}
+                                            verificationStatus={verificationStatusId}
+                                            outcome={outcomeId}
+                                            encounterComments={encounterComments}
+                                            encounterDestination={encounterDestination}
+                                            titleId={titleId}
+                                            isCloseModal={isClose}
+                                            fnisClose={setisClose}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -511,7 +637,26 @@ export default function IPDTopVitals(props) {
                                 <div class="tab-content" id="myTabContent">
                                     {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                     <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                        <OPDMedicationPopUp setShowToster={setShowToster} />
+                                        <OPDMedicationPopUp
+                                            setShowToster={setShowToster}
+                                            updatebool={updatebool}
+                                            setUpdateBool={setUpdateBool}
+                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                            rowId={rowId}
+                                            encounterTitle={encounterTitle}
+                                            encounterBeginDate={encounterBeginDate}
+                                            encounterEndDate={encounterEndDate}
+                                            encounterReferredBy={referredby}
+                                            encounterCoding={encounterCoding}
+                                            classificationName={classificationName}
+                                            occurrence={occurrenceId}
+                                            verificationStatus={verificationStatusId}
+                                            outcome={outcomeId}
+                                            encounterComments={encounterComments}
+                                            encounterDestination={encounterDestination}
+                                            titleId={titleId}
+                                            isCloseModal={isClose}
+                                            fnisClose={setisClose} />
                                     </div>
                                 </div>
                             </div>
@@ -536,7 +681,25 @@ export default function IPDTopVitals(props) {
                                 <div class="tab-content" id="myTabContent">
                                     {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                     <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                        <OPDDevicePopUp setShowToster={setShowToster} />
+                                        <OPDDevicePopUp
+                                            setShowToster={setShowToster}
+                                            updatebool={updatebool}
+                                            setUpdateBool={setUpdateBool}
+                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                            rowId={rowId}
+                                            encounterTitle={encounterTitle}
+                                            encounterBeginDate={encounterBeginDate}
+                                            encounterEndDate={encounterEndDate}
+                                            encounterReferredBy={referredby}
+                                            encounterCoding={encounterCoding}
+                                            classificationName={classificationName}
+                                            occurrence={occurrenceId}
+                                            verificationStatus={verificationStatusId}
+                                            outcome={outcomeId}
+                                            encounterComments={encounterComments}
+                                            encounterDestination={encounterDestination}
+                                            isCloseModal={isClose}
+                                            fnisClose={setisClose} />
                                     </div>
                                 </div>
                             </div>
@@ -560,7 +723,26 @@ export default function IPDTopVitals(props) {
                                 <div class="tab-content" id="myTabContent">
                                     {/* --------------------------Problem Tab Section----------------------------------------------- */}
                                     <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                        <OPDSurgeryPopUp setShowToster={setShowToster} />
+                                        <OPDSurgeryPopUp
+                                            setShowToster={setShowToster}
+                                            updatebool={updatebool}
+                                            setUpdateBool={setUpdateBool}
+                                            getAllEncoutersAsPerIssueID={getAllEncoutersAsPerIssueID}
+                                            rowId={rowId}
+                                            encounterTitle={encounterTitle}
+                                            encounterBeginDate={encounterBeginDate}
+                                            encounterEndDate={encounterEndDate}
+                                            encounterReferredBy={referredby}
+                                            encounterCoding={encounterCoding}
+                                            classificationName={classificationName}
+                                            occurrence={occurrenceId}
+                                            verificationStatus={verificationStatusId}
+                                            outcome={outcomeId}
+                                            encounterComments={encounterComments}
+                                            encounterDestination={encounterDestination}
+                                            titleId={titleId}
+                                            isCloseModal={isClose}
+                                            fnisClose={setisClose} />
                                     </div>
                                 </div>
                             </div>
@@ -575,7 +757,7 @@ export default function IPDTopVitals(props) {
             {showToster === 1 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem Saved SuccessFully !!"
+                    message="Problem saved successFully !!"
                 />
             ) : (
                 ""
@@ -583,7 +765,7 @@ export default function IPDTopVitals(props) {
             {showToster === 2 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Allergy Saved SuccessFully !!"
+                    message="Allergy saved successFully !!"
                 />
             ) : (
                 ""
@@ -591,7 +773,7 @@ export default function IPDTopVitals(props) {
             {showToster === 3 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Medication Saved SuccessFully !!"
+                    message="Medication saved successFully !!"
                 />
             ) : (
                 ""
@@ -599,7 +781,7 @@ export default function IPDTopVitals(props) {
             {showToster === 4 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Device Saved SuccessFully !!"
+                    message="Device saved successFully !!"
                 />
             ) : (
                 ""
@@ -607,11 +789,112 @@ export default function IPDTopVitals(props) {
             {showToster === 5 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Surgery Saved SuccessFully !!"
+                    message="Problem deleted successFully !!"
                 />
             ) : (
                 ""
             )}
+            {showToster === 6 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 7 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 8 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 9 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 10 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 11 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 12 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 13 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 14 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery deleted successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 15 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
+
+            {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+            <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                <div className="modal-dialog modalDelete">
+                    <div className="modal-content">
+
+                        <div className="modal-body modelbdy text-center">
+                            <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                            <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
+                            <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                        </div>
+                        <div className="modal-footer1 text-center">
+
+                            <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
+                            <button type="button" className="btn-delete popBtnDelete" onClick={handleDeleteRow} data-bs-dismiss="modal">{t("Delete")}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
+
         </div>
     )
 }
