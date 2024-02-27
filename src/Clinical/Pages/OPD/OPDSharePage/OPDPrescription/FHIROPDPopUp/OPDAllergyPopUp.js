@@ -300,7 +300,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             }
         } else {
             // Log an error if dateString is undefined
-            console.error("Date string is undefined");
+            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -323,9 +323,9 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
-        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
-        console.log('formattCodingData', formattCodingData)
-        setTxtCoding(formattCodingData)
+        const formatCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formatCodingData', formatCodingData)
+        setTxtCoding(formatCodingData)
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     // Used To Clear Modal
