@@ -12,18 +12,18 @@ import TableContainer from '../../../../Component/TableContainer';
 import SuccessToster from '../../../../Component/SuccessToster';
 import AlertToster from '../../../../Component/AlertToster';
 import Loader from '../../../../Component/Loader';
-import DropdownWithSearch from '../../../../Component/DropdownWithSearch';
 import { t } from 'i18next';
 import Search from '../../../../Code/Serach';
-import GetFHIRClassMaster from '../Api/FHIRClassMaster/GetFHIRClassMaster';
-import PostFHIRClassMaster from '../Api/FHIRClassMaster/PostFHIRClassMaster';
-import PutFHIRClassMaster from '../Api/FHIRClassMaster/PutFHIRClassMaster';
-import DeleteFHIRClassMaster from '../Api/FHIRClassMaster/DeleteFHIRClassMaster';
+import PostFHIRClassificationTypeMaster from '../Api/FHIRClassificationTypeMaster/PostFHIRClassificationTypeMaster';
+import PutFHIRClassificationTypeMaster from '../Api/FHIRClassificationTypeMaster/PutFHIRClassificationTypeMaster';
+import DeleteFHIRClassificationMaster from '../Api/FHIRClassificationTypeMaster/DeleteFHIRClassificationTypeMaster';
+import GetFHIRClassificationTypeMaster from '../Api/FHIRClassificationTypeMaster/GetGetFHIRClassificationTypeMaster';
 
-export default function FHIRClassMaster() {
-  let [classList, setclassList] = useState("")
-  let [classListMain, setclassListMain] = useState("")
-
+export default function FHIRClassificationTypeMaster() 
+{
+  // let [dischargeDispositionList, setDischargeDispositionList] = useState("")
+  let [classificationList,setClassificationList] = useState("")
+  let [dischargeDispositionListMain, setDischargeDispositionListMain] = useState("")
   let [showUnderProcess, setShowUnderProcess] = useState(0);
   let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
@@ -52,13 +52,16 @@ export default function FHIRClassMaster() {
     }))
   }
 
-  //Doctor Departmernt Unit Mapping
-  const getClass = async () => {
+  //Get Data
+  const getData = async () => {
     setShowLoder(1);
-    const response = await GetFHIRClassMaster();
+    const response = await GetFHIRClassificationTypeMaster();
+
     if (response.status === 1) {
-      setclassList(response.responseValue);
-      setclassListMain(response.responseValue)
+      console.log("testrname is",response)
+      // setDischargeDispositionList(response.responseValue);
+      setClassificationList(response.responseValue);
+      setDischargeDispositionListMain(response.responseValue)
       setShowLoder(0)
     }
     else {
@@ -73,17 +76,17 @@ export default function FHIRClassMaster() {
 
   //handle search
   let handleSearch = (e) => {
-    let resp = Search(classListMain, e.target.value)
+    let resp = Search(dischargeDispositionListMain, e.target.value)
     if (e.target !== "") {
       if (resp.length !== 0) {
-        setclassList(resp)
+        setClassificationList(resp)
       }
       else {
-        setclassList([])
+        setClassificationList([])
       }
     }
     else {
-      setclassList(classListMain)
+      setClassificationList(dischargeDispositionListMain)
     }
   }
 
@@ -93,12 +96,12 @@ export default function FHIRClassMaster() {
   //Handle Save
   const handlerSave = async () => {
     if (sendForm.name === '' || sendForm.name === null || sendForm.name === undefined) {
-      document.getElementById('errName').innerHTML = "Class name is required";
+      document.getElementById('errName').innerHTML = "Classification Type is required";
       document.getElementById('errName').style.display = "block";
     }
     else {
       setShowUnderProcess(1);
-      const response = await PostFHIRClassMaster({
+      const response = await PostFHIRClassificationTypeMaster({
         ...sendForm,
       });
       if (response.status === 1) {
@@ -109,7 +112,7 @@ export default function FHIRClassMaster() {
         setTimeout(() => {
           setShowToster(0);
           handleClear();
-          getClass();
+          getData();
 
         }, 1500)
       }
@@ -135,7 +138,7 @@ export default function FHIRClassMaster() {
       "code": code,
       "userId": window.userId,
     }))
-
+console.log("test result eidit",sendForm);
     document.getElementById("name").value = name;
     document.getElementById("code").value = code;
   }
@@ -143,24 +146,25 @@ export default function FHIRClassMaster() {
   //Handle Update
   const handlerUpdate = async () => {
     if (sendForm.name === '' || sendForm.name === null || sendForm.name === undefined) {
-      document.getElementById('errName').innerHTML = "Class name is required";
+      document.getElementById('errName').innerHTML = "Classification Type is required";
       document.getElementById('errName').style.display = "block";
     }
 
     else {
       setShowUnderProcess(1);
-      const response = await PutFHIRClassMaster({
+      const response = await PutFHIRClassificationTypeMaster({
         ...sendForm,
       });
       if (response.status === 1) {
+        console.log("Updated test result eidit",response);
         setShowUnderProcess(0);
         setTosterValue(0);
         setShowToster(1);
         setTosterMessage("Updated Successfully..");
         setTimeout(() => {
-          setShowToster(0);
+          setShowToster(0); 
           handleClear();
-          getClass();
+          getData();
 
         }, 1500)
       }
@@ -182,14 +186,14 @@ export default function FHIRClassMaster() {
     let obj = {
       id: rowId,
     }
-    const response = await DeleteFHIRClassMaster(obj);
+    const response = await DeleteFHIRClassificationMaster(obj);
     if (response.status === 1) {
       setShowLoder(0)
       setisShowToaster(1);
       setShowSuccessMsg("Deleted Successfully")
       setTimeout(() => {
         setisShowToaster(0);
-        getClass();
+        getData();
       }, 1500)
       handleClear();
     }
@@ -218,7 +222,7 @@ export default function FHIRClassMaster() {
   }
 
   useEffect(() => {
-    getClass();
+    getData();
 
   }, []);
 
@@ -228,16 +232,16 @@ export default function FHIRClassMaster() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <Heading text="Class Master" />
+              <Heading text="Classification Master" />
               <BoxContainer>
                 <div className="col-2 mb-2 me-2">
-                  <label htmlFor="name" className="form-label">Class Name<span className="starMandatory">*</span></label>
-                  <input type="text" name="name" id="name" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Class Name")} />
+                  <label htmlFor="name" className="form-label">Classification Type<span className="starMandatory">*</span></label>
+                  <input type="text" name="name" id="name" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Classification Name" )} />
                   <small id="errName" className="invalid-feedback" style={{ display: 'none' }}></small>
                 </div>
                 <div className="col-2 mb-2 me-2">
                   <label htmlFor="code" className="form-label">Code<span className="starMandatory"></span></label>
-                  <input type="text" name="code" id="code" onChange={handleChange} className="form-control form-control-sm" placeholder={t("Enter Code")} />
+                  <input type="text" name="code" id="code" onChange={handleChange} className="form-control form-control-sm" placeholder={t("EnterCode")} />
                 </div>
 
 
@@ -248,8 +252,8 @@ export default function FHIRClassMaster() {
                       <>
                         {showToster === 1 ?
                           <Toster value={tosterValue} message={tosterMessage} />
-                          : 
-                          <div>
+
+                          : <div>
                             {updateBool === 0 ?
                               <>
                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />Save</button>
@@ -261,18 +265,17 @@ export default function FHIRClassMaster() {
                                 <button type="button" className="btn btn-clear btn-sm mb-1" onClick={handleClear}>Cancel</button>
                               </>
                             }
-                          </div>
-                          }
+                          </div>}
                       </>
                     }
                   </div>
                 </div>
               </BoxContainer>
             </div>
-            
+
             <div className="col-12 mt-2">
               <div className='handlser'>
-                <Heading text="Class Master List" />
+                <Heading text="Classification Master List" />
                 <div style={{ position: 'relative' }}>
                   <input type="text" className='form-control form-control-sm' placeholder={t("Search")} onChange={handleSearch} />
                   <span className="tblsericon"><i class="fas fa-search"></i></span>
@@ -283,14 +286,14 @@ export default function FHIRClassMaster() {
                   <thead>
                     <tr>
                       <th className="text-center" style={{ "width": "5%" }}>#</th>
-                      <th>Class Name</th>
+                      <th>Classification Name</th>
                       <th>Code</th>
                       <th style={{ "width": "10%" }} className="text-center">Action</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {classList && classList.map((val, ind) => {
+                    {classificationList && classificationList.map((val, ind) => {
                       return (
                         <tr key={val.id}>
                           <td className="text-center">{ind + 1}</td>
