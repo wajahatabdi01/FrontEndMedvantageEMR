@@ -759,7 +759,7 @@ export default function OPDPrescriptionIndex(props) {
                                                     return (
                                                         <tr className="text-center" key={list.id}>
                                                             <td className="text-center">{ind + 1}</td>
-                                                            <td>{list.encounterTitle}</td>
+                                                            <td style={{whiteSpace:'nowrap'}}>{list.encounterTitle}</td>
                                                             {/* <td>{list.encounterCoding}</td> */}
                                                             <td>
                                                                 <div className='codeSplit'>

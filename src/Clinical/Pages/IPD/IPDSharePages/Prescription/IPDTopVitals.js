@@ -32,7 +32,7 @@ export default function IPDTopVitals(props) {
     let [showTheButton, setShowTheButton] = useState(false);
     let [getIssueID, setIssueID] = useState('');
     let [getD, setGetD] = useState(0)
-    let [showImage,setShowImage]=useState(0); 
+    let [showImage, setShowImage] = useState(0);
     let [sendVitals, setSendVitals] = useState(
         [
             {
@@ -117,8 +117,8 @@ export default function IPDTopVitals(props) {
     );
     const [getEncounterList, setEncounterList] = useState([]);
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let handleOnchange = (e) => {
         let value = e.target.value;
         let name = e.target.name;
@@ -270,17 +270,17 @@ export default function IPDTopVitals(props) {
     //     }
     // }, [sendVitals])
 
-    const getAllEncoutersAsPerIssueID = async () =>{
+    const getAllEncoutersAsPerIssueID = async () => {
         const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
-        
-            if(getRes.status === 1){
-                setEncounterList(getRes.responseValue);
-                setShowImage(0)
-            }
-            else{
-                setShowImage(1)
-            }
-        
+
+        if (getRes.status === 1) {
+            setEncounterList(getRes.responseValue);
+            setShowImage(0)
+        }
+        else {
+            setShowImage(1)
+        }
+
     }
 
     useEffect(() => {
@@ -288,14 +288,14 @@ export default function IPDTopVitals(props) {
     }, [patientsendDataChange])
     useEffect(() => {
         if (showTheButton === true) {
-            
+
             getAllEncoutersAsPerIssueID();
         }
     }, [showTheButton, getIssueID]);
 
     return (
         <div className='roww'>
-                {/* <div className={`col-12 d-flex flex-wrap  gap-1 ps-3 pt-2 pb-2 boxcontainer pe-3 boxs`}>
+            {/* <div className={`col-12 d-flex flex-wrap  gap-1 ps-3 pt-2 pb-2 boxcontainer pe-3 boxs`}>
 
                     {sendVitals && sendVitals.map((val, ind) => {
                         if (val.vmId === 4) {
@@ -327,7 +327,7 @@ export default function IPDTopVitals(props) {
 
                     
                 </div> */}
-                
+
             {/* <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
 
                 
@@ -346,44 +346,44 @@ export default function IPDTopVitals(props) {
                 )}
             </div> */}
             <div className='col-md-12 col-sm-12 plt1'>
-                            {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
-                            <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                 <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton = {setShowTheButton} setIssueID = {setIssueID} setHeadingName = {setHeadingName}/>
+                {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
+                <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
+                    <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} />
+                </div>
+                {showTheButton && (
+                    <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
+                        <Heading text={getHeadingName} />
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
+                            <img src={addIcon} className='icnn' alt='' />
+                            Add
+                        </button>
+                    </div>
+                )}
+                <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
+                    <table className="med-table border striped">
+                        {showImage === 1 ? (
+                            <div className='imageNoDataFound'>
+                                <img src={NoDataFound} alt="imageNoDataFound" />
                             </div>
-                            {showTheButton && (
-                            <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
-                                <Heading text={getHeadingName} />
-                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#'+activeComponent}>
-                                    <img src={addIcon} className='icnn' alt='' />
-                                    Add
-                                </button>
-                            </div>
-                        )}
-                        <div className="med-table-section" style={{minHeight: '40vh',maxHeight: "73vh", position:'relative' }}>
-                                <table className="med-table border striped">
-                                {showImage === 1 ? (
-                                    <div className='imageNoDataFound'>
-                                        <img src={NoDataFound} alt="imageNoDataFound" />
-                                    </div>
-                                ) : (
-                                    <>
-                                        <thead>
-                                            <tr>
-                                                <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                <th>Title</th>
-                                                <th>Coding</th>
-                                                <th>Begin Date</th>
-                                                <th>End Date</th>
-                                                <th>Referred By</th>
-                                                <th>Comments</th>
-                                                <th>Destination</th>
-                                                <th>Classification Name</th>
-                                                <th>Occurance Name</th>
-                                                <th>Verification Name</th>
-                                                <th>Outcome Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                        ) : (
+                            <>
+                                <thead>
+                                    <tr>
+                                        <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                        <th>Title</th>
+                                        <th>Coding</th>
+                                        <th>Begin Date</th>
+                                        <th>End Date</th>
+                                        <th>Referred By</th>
+                                        <th>Comments</th>
+                                        <th>Destination</th>
+                                        <th>Classification Name</th>
+                                        <th>Occurance Name</th>
+                                        <th>Verification Name</th>
+                                        <th>Outcome Name</th>
+                                    </tr>
+                                </thead>
+                                {/* <tbody>
                                             {getEncounterList && getEncounterList.map((list, ind) => (
                                                 <tr className="text-center" key={ind + 1}>
                                                     <td>{ind + 1}</td>
@@ -400,25 +400,56 @@ export default function IPDTopVitals(props) {
                                                     <td>{list.outComeName}</td>
                                                 </tr>
                                             ))}
-                                        </tbody>
-                                    </>
-                                )}
-                            </table>
-                        </div>
+                                        </tbody> */}
+
+                                <tbody>
+                                    {getEncounterList && getEncounterList.map((list, ind) => {
+                                        const codingListItem = list.encounterCoding.split(';');
+                                        console.log("codingListItem", codingListItem)
+                                        return (
+                                            <tr className="text-center" key={list.id}>
+                                                <td className="text-center">{ind + 1}</td>
+                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterTitle}</td>
+                                                {/* <td>{list.encounterCoding}</td> */}
+                                                <td>
+                                                    <div className='codeSplit'>
+                                                        {codingListItem.map((coding, index) => (
+                                                            coding.trim() !== '' &&
+                                                            <span key={index} className="">{coding}</span>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                                <td>{list.encounterBeginDate}</td>
+                                                <td>{list.encounterEndDate}</td>
+                                                <td>{list.encounterReferredBy}</td>
+                                                <td>{list.encounterComments}</td>
+                                                <td>{list.encounterDestination}</td>
+                                                <td>{list.classificationName}</td>
+                                                <td>{list.occuranceName}</td>
+                                                <td>{list.verificationName}</td>
+                                                <td>{list.outComeName}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </>
+                        )}
+                    </table>
+                </div>
 
 
 
-                        <div className="modal fade" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                <div className="modal fade" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                         <div className="modal-content ">
                             <div className="modal-header">
-                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                                Problem
-                            </h1>
-                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                                <i className="fa fa-times"></i>
-                            </button>
-                            {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
+                                <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                    Problem
+                                </h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                    <i className="fa fa-times"></i>
+                                </button>
+                                {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
                                     getAllEncoutersAsPerIssueID();
                                     // Close the modal manually
                                     document.getElementById('problem').classList.remove('show');console.log('gggggggg')
@@ -428,160 +459,160 @@ export default function IPDTopVitals(props) {
 
                             </div>
                             <div className="modal-body">
-                            <div class="tab-content" id="myTabContent">
-                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                                <OPDProblemPopUp setShowToster={setShowToster} />
+                                <div class="tab-content" id="myTabContent">
+                                    {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                    <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                        <OPDProblemPopUp setShowToster={setShowToster} />
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
+                <div className="modal fade" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                    <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                        <div className="modal-content ">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                    Allergy
+                                </h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                    <i className="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div class="tab-content" id="myTabContent">
+                                    {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                    <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                        <OPDAllergyPopUp setShowToster={setShowToster} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
+
+                {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
+                <div className="modal fade" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                    <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                        <div className="modal-content ">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                    Medication
+                                </h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                    <i className="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div class="tab-content" id="myTabContent">
+                                    {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                    <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                        <OPDMedicationPopUp setShowToster={setShowToster} />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-
-                    {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Allergy
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="allergy" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDAllergyPopUp setShowToster={setShowToster} />
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
+                {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
 
-      {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Medication
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="medication" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDMedicationPopUp setShowToster={setShowToster} />
+                {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
+                <div className="modal fade" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                    <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                        <div className="modal-content ">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                    Device
+                                </h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                    <i className="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div class="tab-content" id="myTabContent">
+                                    {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                    <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                        <OPDDevicePopUp setShowToster={setShowToster} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Device
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="device" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDDevicePopUp setShowToster={setShowToster} />
+                {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
+                {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
+                <div className="modal fade" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                    <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                        <div className="modal-content ">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                    Surgery
+                                </h1>
+                                <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID() }}>
+                                    <i className="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div class="tab-content" id="myTabContent">
+                                    {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                    <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                        <OPDSurgeryPopUp setShowToster={setShowToster} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
-      {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-        <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-          <div className="modal-content ">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-                Surgery
-              </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() =>{ getAllEncoutersAsPerIssueID()}}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                {/* --------------------------Problem Tab Section----------------------------------------------- */}
-                <div class="tab-pane fade show active" id="surgery" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
-                  <OPDSurgeryPopUp setShowToster={setShowToster} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
+                {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
 
-    </div>
-                        
+            </div>
 
-                        {showToster === 1 ? (
-                            <SuccessToster
-                            handle={setShowToster}
-                            message="Problem Saved SuccessFully !!"
-                            />
-                        ) : (
-                            ""
-                        )}
-                        {showToster === 2 ? (
-                            <SuccessToster
-                            handle={setShowToster}
-                            message="Allergy Saved SuccessFully !!"
-                            />
-                        ) : (
-                            ""
-                        )}
-                        {showToster === 3 ? (
-                            <SuccessToster
-                            handle={setShowToster}
-                            message="Medication Saved SuccessFully !!"
-                            />
-                        ) : (
-                            ""
-                        )}
-                        {showToster === 4 ? (
-                            <SuccessToster
-                            handle={setShowToster}
-                            message="Device Saved SuccessFully !!"
-                            />
-                        ) : (
-                            ""
-                        )}
-                        {showToster === 5 ? (
-                            <SuccessToster
-                            handle={setShowToster}
-                            message="Surgery Saved SuccessFully !!"
-                            />
-                        ) : (
-                            ""
-                        )}
-</div>
+
+            {showToster === 1 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 2 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 3 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 4 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 5 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery Saved SuccessFully !!"
+                />
+            ) : (
+                ""
+            )}
+        </div>
     )
 }
 
