@@ -205,7 +205,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         });
         setInputValues(prevValues => [...prevValues, '']);
     };
-    
+
 
     const handleInputChange = (index, value) => {
         // contactDetails.additionalAddressess[index]
@@ -352,13 +352,13 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                     }
                 }} value={contactDetails.trustedEmail} onChange={handleContactDetailsChange} />
             </div>
-            <div className="dflex">
+            {/* <div className="dflex">
                 <div className="col-2 mb-2">
                     <label htmlFor="ddlEmpty" className="form-label"></label>
                     <button type="button" class="form-control form-control-sm" id="addCity" onClick={handleAddInput}>Additonal Address <img src={emailIcon} className='icnn' alt='' /></button>
                 </div>
 
-            </div>
+            </div> */}
             {/* Render existing input textboxes with delete buttons */}
             {inputValues.map((value, index) => (
                 <><hr /><div className="dflex" key={index}>
@@ -391,10 +391,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                                 );
 
                             })}
-
                         </select>
-
-
                     </div>
                     <div className="col-2 mb-2">
                         <label htmlFor={"txtStartDate" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Start_Date")}</label>
