@@ -487,8 +487,8 @@ export default function IPDTopVitals(props) {
                                                         ))}
                                                     </div>
                                                 </td>
-                                                <td>{list.encounterBeginDate}</td>
-                                                <td>{list.encounterEndDate}</td>
+                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterBeginDate}</td>
+                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate}</td>
                                                 <td>{list.encounterReferredBy}</td>
                                                 <td>{list.encounterComments}</td>
                                                 <td>{list.encounterDestination}</td>

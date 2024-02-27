@@ -308,7 +308,6 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
             beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
-            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
             classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
             occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
