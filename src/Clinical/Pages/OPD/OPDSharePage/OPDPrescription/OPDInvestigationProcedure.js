@@ -334,7 +334,7 @@ export default function OPDInvestigationProcedure(props) {
                 <TableContainer>
                     <thead>
                         <th className='wrap-content'>{t("Investigation & Procedure")}</th>
-                        <th>{t("Price")}</th>
+                        <th>Price</th>
                     </thead>
                     <tbody>
                         {showInvestigation && showInvestigation.map((val, ind) => {
