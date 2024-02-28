@@ -152,48 +152,43 @@ const GetInsuranceList = async()=>{
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)
-                setTosterMessage("Data Save SuccessFully!")
+                setTosterMessage("Data save successfully!")
                 setTosterValue(0)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
-                UHID = uhid;
-                let allptresponse = await GetAdmitDetailsByUhid(UHID);
-
-                console.log("allptresponse", allptresponse)
-
-                if (allptresponse.status === 1) {
-                    const allPt = allptresponse.responseValue.admittedPatientDetails[0];
-
-
-                    // if (allPt.length > 0) {
-                    //     const lastPt = allPt[allPt.length - 1]; // Get the last element
-
-                    const deptL = allPt.ptDep;
-                    const wardL = allPt.ward;
-                    const bedL = allPt.ptBed;
-                    const doctorL = allPt.consultant;
-                    console.log("doctorL", doctorL)
-                    console.log("bedL", bedL)
+                // UHID = uhid;
+                // let allptresponse = await GetAdmitDetailsByUhid(UHID);
+                // console.log("allptresponse", allptresponse)
+                // if (allptresponse.status === 1) {
+                //     const allPt = allptresponse.responseValue.admittedPatientDetails[0];
+                //     // if (allPt.length > 0) {
+                //     //     const lastPt = allPt[allPt.length - 1]; // Get the last element
+                //     const deptL = allPt.ptDep;
+                //     const wardL = allPt.ward;
+                //     const bedL = allPt.ptBed;
+                //     const doctorL = allPt.consultant;
+                //     console.log("doctorL", doctorL)
+                //     console.log("bedL", bedL)
                    
-                    // window.sessionStorage.setItem("PrintAdmitDetailsQR", JSON.stringify({"patientData":patientData, "uhid":patientSendData.uhid}))
-                    // const wardIDD = wardID;
-                    // const departmentIdd = departmentId;
-                    window.sessionStorage.setItem("PrintAdmitDetailsQR", JSON.stringify({
-                        "patientData": patientData, "uhid": patientSendData.uhid, "cashpayment": patientSendData.cashpayment, "departmentId": deptL,
-                        "wardID": wardL,  "bedId": bedL, "doctorId": doctorL
-                    }))
-                    window.open("/printAdmitDetails/", 'noopener,noreferrer');
-                    setTimeout(() => {
-                        setShowToster(0)
-                        setTosterValue(0)
-                        handleClear(1)
-                        setPatientSendData([])
-                    }, 2000)
+                //     // window.sessionStorage.setItem("PrintAdmitDetailsQR", JSON.stringify({"patientData":patientData, "uhid":patientSendData.uhid}))
+                //     // const wardIDD = wardID;
+                //     // const departmentIdd = departmentId;
+                //     window.sessionStorage.setItem("PrintAdmitDetailsQR", JSON.stringify({
+                //         "patientData": patientData, "uhid": patientSendData.uhid, "cashpayment": patientSendData.cashpayment, "departmentId": deptL,
+                //         "wardID": wardL,  "bedId": bedL, "doctorId": doctorL
+                //     }))
+                //     window.open("/printAdmitDetails/", 'noopener,noreferrer');
+                //     setTimeout(() => {
+                //         setShowToster(0)
+                //         setTosterValue(0)
+                //         handleClear(1)
+                //         setPatientSendData([])
+                //     }, 2000)
 
-                    // window.sessionStorage.setItem("UHIDQRData", JSON.stringify({"patientData":patientData, "uhid":patientSendData.uhid}))
-                    // window.open("/ipdPrint/", '_blank', 'noopener,noreferrer');
-                }
+                //     // window.sessionStorage.setItem("UHIDQRData", JSON.stringify({"patientData":patientData, "uhid":patientSendData.uhid}))
+                //     // window.open("/ipdPrint/", '_blank', 'noopener,noreferrer');
+                // }
             }
             else {
                 setShowUnderProcess(0)
