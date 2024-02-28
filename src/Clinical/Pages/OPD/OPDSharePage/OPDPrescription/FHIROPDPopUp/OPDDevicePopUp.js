@@ -238,12 +238,12 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
     }
     let handleSaveUpdate = async () => {
         if (deviceData.title === '' || deviceData.title === undefined || deviceData.title === null) {
-            document.getElementById("errTitle").innerHTML = "Please enter title";
-            document.getElementById("errTitle").style.display = "block";
+            document.getElementById("errTitleDev").innerHTML = "Please enter title";
+            document.getElementById("errTitleDev").style.display = "block";
         }
         if (deviceData.beginDateTime === '' || deviceData.beginDateTime === undefined || deviceData.beginDateTime === null) {
-            document.getElementById("errbegindate").innerHTML = "Please select begin date";
-            document.getElementById("errbegindate").style.display = "block";
+            document.getElementById("errbegindatedev").innerHTML = "Please select begin date";
+            document.getElementById("errbegindatedev").style.display = "block";
         }
         else {
             const response = await UpdateEncounter(JSON.stringify([deviceData]));

@@ -891,7 +891,7 @@ export default function PatientRegistration() {
 
         if (data.mobileNo.trim() !== "" && data.titleId.trim() !== "" && data.patientName.trim() !== ""
             && data.lastName.trim() !== ""
-            && data.dob.trim() !== "" && data.genderId.trim() !== ""
+            && data.dob.trim() !== "" && data.age.toString().trim() !== "" && data.ageUnitId.trim() !== "" && data.genderId.trim() !== ""
             && data.genderidentityId.trim() !== ""
             && insuranceDetailsPrimary.insuranceProviderId.trim() !== ""
             && insuranceDetailsPrimary.planName.trim() !== "" && insuranceDetailsPrimary.subscriber1.trim() !== ""
@@ -963,6 +963,16 @@ export default function PatientRegistration() {
         else if (data.dob.trim() === "") {
             document.getElementById("errPatientDob").style.display = "block"
             document.getElementById("errPatientDob").innerHTML = "Please select dob"
+            return false
+        }
+        else if (data.age.toString().trim() === "") {
+            document.getElementById("errPatientAge").style.display = "block"
+            document.getElementById("errPatientAge").innerHTML = "Please enter age"
+            return false
+        }
+        else if (data.ageUnitId === "0" || data.ageUnitId === undefined || data.ageUnitId === null || data.ageUnitId === "") {
+            document.getElementById("errAgeUnitID").style.display = "block"
+            document.getElementById("errAgeUnitID").innerHTML = "Please select unit"
             return false
         }
         else if (data.genderId === "0" || data.genderId === undefined || data.genderId === null || data.genderId === "") {

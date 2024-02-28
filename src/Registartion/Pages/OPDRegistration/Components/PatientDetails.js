@@ -21,6 +21,7 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     const [selectedPriviousNames, setSelectedPriviousNames] = useState([]);
     let [getPatientGender, setGetPatientGender] = useState([]);
     let [countryList, setCountryList] = useState([]);
+    let [patientAge, setPatientAge] = useState("");
     let [getPatientGenderIdentities, setGetPatientGenderIdentities] = useState([]);
     let [sexualOrientationlist, setSexualOrientationlist] = useState([]);
     let [maritalStatusList, setMaritalStatusList] = useState([]);
@@ -87,8 +88,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             setGetPatientGenderIdentities(response.responseValue)
         }
     }
-
-
     const [patientDetails, setPatientDetails] = useState({
         mobileNo: '',
         titleId: '',
@@ -100,6 +99,8 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         birthMiddleName: '',
         birthLastName: '',
         dob: '',
+        age: '',
+        ageUnitId: '',
         sexualOrientationId: '',
         externalId: '',
         socialSecurityNo: '',
@@ -136,6 +137,8 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 birthMiddleName: '',
                 birthLastName: '',
                 dob: '',
+                age: '',
+                ageUnitId: '',
                 sexualOrientationId: '',
                 externalId: '',
                 socialSecurityNo: '',
@@ -161,27 +164,22 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     }
 
     const handlePatientDetailsChange = (e) => {
+        const ageUnit = document.getElementById('ddlAgeUnit').value;
         console.log('characterValidation', characterValidation)
         const { name, value } = e.target;
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
-
             // Check if input starts with a space
             if (input !== trimmedInput && input.startsWith(' ')) {
                 return false; // Input starts with a space
             }
-
             // Check if trimmed input contains only alphanumeric characters and spaces in between
             const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
 
             return isValid || trimmedInput === '';
         };
-
-
-
         const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
-
         if (name === "dob") {
             if (!isValidInputDate(value)) {
                 return;
@@ -230,14 +228,16 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         document.getElementById("errPatientMiddleName").style.display = "none"
         document.getElementById("errPatientLastName").style.display = "none"
         document.getElementById("errPatientDob").style.display = "none"
+        document.getElementById("errPatientAge").style.display = "none"
+        document.getElementById("errAgeUnitID").style.display = "none"
         document.getElementById("errPatientGender").style.display = "none"
         document.getElementById("errPatientGenderIdentity").style.display = "none"
 
-
+        handleAgeUnit(ageUnit)
         setPatientDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
-
+            ageUnitId: ageUnit
         }));
         console.log("name", name)
 
@@ -259,6 +259,157 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         //     previousNames: selectedList,
         // }));
         // onPatientDetailsChange('previousNames', selectedList);
+    }
+
+    let getPatientAge = (e) => {
+        const { name, value } = e.target;
+        document.getElementById("errPatientDob").style.display = "none";
+        document.getElementById("ddlAgeUnit").value = "1";
+        const val = document.getElementById('txtDob').value;
+        setPatientDetails((prevPatientDetails) => ({
+            ...prevPatientDetails,
+            ["dob"]: val,
+
+        }));
+        // setDob(val);            
+        let today = new Date();
+        let birthDate = new Date(val);
+        let getAge = today.getFullYear() - birthDate.getFullYear();
+        let getMonth = today.getMonth() - birthDate.getMonth();
+        if (getMonth < 0 || (getMonth === 0 && today.getDate() - birthDate.getDate())) {
+            getAge--;
+        }
+        // setPatientAge(getAge);
+        setPatientDetails((prevPatientDetails) => ({
+            ...prevPatientDetails,
+            age: getAge,
+        }));
+    }
+
+    let getPatientDobByAge = (e) => {
+        document.getElementById("errPatientDob").style.display = "none"
+        if (e.target.value > 0) {
+            // setPatientAge(e.target.value);
+            setPatientDetails((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                age: e.target.value,
+            }));
+            const value = document.getElementById("ddlAgeUnit").value;
+            handleAgeUnit(value)
+        }
+        else {
+            // setPatientAge("");
+            setPatientDetails((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                dob: '',
+                age: ''
+            }));
+        }
+
+    }
+    let handleAgeUnit = (value) => {
+        let age = document.getElementById('txtAge').value
+        var DOB = "";
+        var month = "";
+        var day = "";
+        var year = "";
+        var now = new Date();
+        var nowMonth = now.getUTCMonth() + 1;
+        var nowDay = now.getUTCDate();
+        var nowYear = now.getUTCFullYear();
+        if (value === "1") {             //Year
+            year = nowYear - age;
+            // DOB = year  + "-" + nowMonth + "-" + nowDay;
+            var yyyy = year;
+            var mm = nowMonth.toString().length === 2 ? nowMonth : '0' + nowMonth;
+            var dd = nowDay.toString().length === 2 ? nowDay : '0' + nowDay;
+            var getDob = yyyy + '-' + mm + '-' + dd;
+            DOB = getDob;
+            // setDob(DOB)
+            setPatientDetails((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                ["dob"]: DOB,
+            }));
+        }
+        else if (value === "2") {      //Month
+            if ((age > nowMonth)) {
+                if ((age / 12) >= 1) {
+                    year = nowYear - parseInt((age / 12));
+                    if (((age % 12) < nowMonth)) {
+                        month = nowMonth - (age % 12);
+                        // DOB = year + "-" + month + "-" + nowDay;
+                        var yyyy = year;
+                        var mm = month.toString().length === 2 ? month : '0' + month;
+                        var dd = nowDay.toString().length === 2 ? nowDay : '0' + nowDay;
+                        var getDob = yyyy + '-' + mm + '-' + dd;
+                        DOB = getDob;
+                        // setDob(DOB)
+                        setPatientDetails((prevPatientDetails) => ({
+                            ...prevPatientDetails,
+                            ["dob"]: DOB,
+                        }));
+                    }
+                    else {
+                        month = (nowMonth + 12) - (age % 12);
+                        // DOB =  parseInt(year - 1)+ "-" + month + "-" +nowDay ;
+                        var yyyy = parseInt(year - 1);
+                        var mm = month.toString().length === 2 ? month : '0' + month;
+                        var dd = nowDay.toString().length === 2 ? nowDay : '0' + nowDay;
+                        var getDob = yyyy + '-' + mm + '-' + dd;
+                        DOB = getDob;
+                        // setDob(DOB)
+                        setPatientDetails((prevPatientDetails) => ({
+                            ...prevPatientDetails,
+                            ["dob"]: DOB,
+                        }));
+                    }
+                }
+                else {
+                    year = nowYear - 1;
+                    month = (nowMonth + 12) - age;
+                    // DOB = year + "-" + month + "-" + nowDay;
+                    var yyyy = year;
+                    var mm = month.toString().length === 2 ? month : '0' + month;
+                    var dd = nowDay.toString().length === 2 ? nowDay : '0' + nowDay;
+                    var getDob = yyyy + '-' + mm + '-' + dd;
+                    DOB = getDob;
+                    // setDob(DOB)
+                    setPatientDetails((prevPatientDetails) => ({
+                        ...prevPatientDetails,
+                        ["dob"]: DOB,
+                    }));
+                }
+            }
+            else {
+                month = nowMonth - age;
+                var yyyy = nowYear;
+                var mm = month.toString().length === 2 ? month : month.toString() === '0' ? '01' : '0' + month;
+                var dd = nowDay.toString().length === 2 ? nowDay : '0' + nowDay;
+                var getDob = yyyy + '-' + mm + '-' + dd;
+                DOB = getDob;
+                // DOB = nowYear + "-" + month + "-" + nowDay;
+                // setDob(DOB)
+                setPatientDetails((prevPatientDetails) => ({
+                    ...prevPatientDetails,
+                    ["dob"]: DOB,
+                }));
+            }
+        }
+        else if (value === "3") {  //Day
+            now.setDate(now.getDate() - age);
+            var a = now.toLocaleDateString().split("/");
+            var yyyy = a[2];
+            var mm = a[0].length === 2 ? a[0] : '0' + a[0];
+            var dd = a[1].length === 2 ? a[1] : '0' + a[1];
+            var getDob = yyyy + '-' + mm + '-' + dd;
+            // var b = a[2] + '-' + a[0].length === 2 ? a[0]: '0'+a[0]+ '-' + a[1].length === 2 ? a[1]: '0'+a[1];
+            DOB = getDob;
+            // setDob(DOB)
+            setPatientDetails((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                ["dob"]: DOB,
+            }));
+        }
     }
     return (
         <>
@@ -354,8 +505,32 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             </div> */}
             <div className="col-2 mb-2 relative">
                 <label htmlFor="txtDob" className="form-label "><img src={calendar} className='icnn' alt='' />{t("Date_of_Birth")}<span class="starMandatory">*</span></label>
-                <input type="date" className="form-control form-control-sm" max={today} id="txtDob" name='dob' value={patientDetails.dob} onChange={handlePatientDetailsChange} />
+                <input type="date" className="form-control form-control-sm" max={today} id="txtDob" name='dob' value={patientDetails.dob} onChange={getPatientAge} />
                 <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
+            </div>
+
+
+
+            <div className="col-1 mb-2">
+                <div className='d-flex align-items-center gap-1 orrmob'>
+                    <div className="form-text or1" style={{ width: '25px' }}>OR</div>
+                    <div style={{ width: '100%' }}>
+                        <label htmlFor="txtAge" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("Age")}<span class="starMandatory">*</span></label>
+                        <input type="number" className="form-control form-control-sm" id="txtAge" placeholder={t("Enter_Age")} name='age' value={patientDetails.age} onChange={getPatientDobByAge} />
+                        <small id="errPatientAge" className="form-text text-danger" style={{ display: 'none' }}></small>
+                    </div>
+                </div>
+            </div>
+
+            <div className="col-1 mb-2">
+                <label htmlFor="ddlAgeUnit" className="form-label"><img src={ageIcon} className='icnn' alt='' />{t("Age_Unit")}<span class="starMandatory">*</span></label>
+                <select className="form-select form-select-sm" id="ddlAgeUnit" aria-label=".form-select-sm example" name='ddlAgeUnit' value={patientDetails.ageUnitId} onChange={handlePatientDetailsChange}>
+                    <option value="0" selected>Select Unit</option>
+                    <option value="1">{t("Year")}</option>
+                    <option value="2">{t("Month")}</option>
+                    <option value="3">{t("Day")}</option>
+                </select>
+                <small id="errAgeUnitID" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
 
             <div className="col-2 mb-2">

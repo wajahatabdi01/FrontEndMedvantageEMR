@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import plus from '../../assets/images/icons/icons8-plus-30.png';
 import saveButtonIcon from '../../assets/images/icons/saveButton.svg';
-import clearIcon from '../../assets/images/icons/clear.svg'
-import printIcon from '../../assets/images/icons/icons8-print-26.png'
 import FHIRImmunizationCodeMaster from '../Components/FHIRImmunizationCodeMaster';
 
 import deleteIcon from '../../assets/images/icons/icons8-delete-30.png'
@@ -13,12 +11,12 @@ import GetFHIRImmunizationObservationCriteria from '../API/GET/GetFHIRImmunizati
 import GetFHIRImmunizationSubstancerefusalReason from '../API/GET/GetFHIRImmunizationSubstancerefusalReason';
 import GetFHIRImmunizationRoute from '../API/GET/GetFHIRImmunizationRoute';
 import GetFHIRNameandTitleofImmunizationAdministrator from '../API/GET/GetFHIRNameandTitleofImmunizationAdministrator';
-import { use } from 'i18next';
 import PostFHIRImmunization from '../API/POST/PostFHIRImmunization';
 import GetAllImmunizationData from '../API/GET/GetAllImmunizationData';
 import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 import IconDelete from '../../assets/images/icons/IconDelete.svg'
 import IconEdit from '../../assets/images/icons/IconEdit.svg'
+import GetAllImmunizationObservationList from '../API/GET/GetAllImmunizationObservationlist';
 
 
 export default function FHIRImmunization({ setShowToster }) {
@@ -26,6 +24,7 @@ export default function FHIRImmunization({ setShowToster }) {
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
   const [PopUpId, setPopUpId] = useState('');
+  const [PopUpLabelId, setPopUpLabelId] = useState('');
   const [showObservation, setShowObservation] = useState(false);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [isShowPopUpCvx, setIsShowPopUpCvx] = useState(0);
@@ -40,6 +39,7 @@ export default function FHIRImmunization({ setShowToster }) {
   const [getImmunizationAdministrator, setImmunizationAdministrator] = useState([]);
   const [getAllImmunizationDataList, setAllImmunizationDataList] = useState([]);
 
+  const [observationArr, setObservationArr] = useState([])
   const [showUnderProcess, setShowUnderProcess] = useState(0);
 
   const [selectedValues, setSelectedValues] = useState({});
@@ -65,7 +65,7 @@ export default function FHIRImmunization({ setShowToster }) {
     id : 0
   })
 
-  const [observationRow, setObservationRow] = useState([
+  let [observationRow, setObservationRow] = useState([
     {
       rowID: 1,
       Date: '',
@@ -115,9 +115,11 @@ export default function FHIRImmunization({ setShowToster }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////// Open and close modal for CVX  Code //////////////////////
-  const handleOpenModalCVX = (modalId) => {
+  const handleOpenModalCVX = (modalId, labelId) => {
+   
     setIsShowPopUpCvx(1)
     setPopUpId(modalId);
+    setPopUpLabelId(labelId)
   }
 
   const handleCloseModalCVX = () => {
@@ -128,9 +130,11 @@ export default function FHIRImmunization({ setShowToster }) {
 
 
   //////////////////////////////////////////////// Open and close modal for  SNOW Code //////////////////////
-  const handleOpenModalSnow = (modalId) => {
+  const handleOpenModalSnow = (modalId, labelId) => {
+    
     setIsShowPopUpSnow(1)
     setPopUpId(modalId);
+    setPopUpLabelId(labelId)
   }
 
   const handleCloseModalSnow = () => {
@@ -157,6 +161,7 @@ export default function FHIRImmunization({ setShowToster }) {
       [rowID]: value,
     }));
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -188,9 +193,10 @@ export default function FHIRImmunization({ setShowToster }) {
   }
 
   /////////////////////////////////// To send data in codemaster component for CVX Code /////////////////////////////////
-  const SelectedDataCVX = (data, modalID) => {
-
+  const SelectedDataCVX = (data, modalID, labelID) => {
+   
     const t = {
+      labelId: labelID,
       moduleId: modalID,
       data: data
     }
@@ -198,29 +204,47 @@ export default function FHIRImmunization({ setShowToster }) {
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
-    for (var i = 0; i < data.length; i++) {
-      temp = data[i].code
+    let tempDropName = ''
+    for (let i = 0; i < data.length; i++) {
+      temp = data[i].code;
+      tempDropName = data[i].dropdownName;
+      
     }
-    document.getElementById(modalID).value = temp
+   
+    document.getElementById(modalID).value = temp;
+    //document.getElementById(labelID).value = tempDropName;
 
+    // Set the tempDropName to the span element
+  const spanElement = document.getElementById(labelID);
+  if (spanElement) {
+    spanElement.textContent = tempDropName;
+  }
   }
 
   /////////////////////////////////// To send data in codemaster component for SNOW Code /////////////////////////////////
-  const SelectedDataSnow = (data, modalID) => {
+  const SelectedDataSnow = (data, modalID, labelID) => {
 
     const t = {
+      labelId: labelID,
       moduleId: modalID,
       data: data
     }
 
     setgetData(t);
     setMakeData([...makeData, t])
-    let temp = ""
-    for (var i = 0; i < data.length; i++) {
-      temp = data[i].code
+    let temp = "";
+    let tempDropName = ''
+    for (let i = 0; i < data.length; i++) {
+      temp = data[i].code;
+      tempDropName = data[i].dropdownName;
     }
 
-    document.getElementById(modalID).value = temp
+    document.getElementById(modalID).value = temp;
+    // Set the tempDropName to the span element
+  const spanElement = document.getElementById(labelID);
+  if (spanElement) {
+    spanElement.textContent = tempDropName;
+  }
 
   }
   /////////////////////////////////// To send data in codemaster component for Reason Code /////////////////////////////////
@@ -234,7 +258,7 @@ export default function FHIRImmunization({ setShowToster }) {
     setgetData(t);
     setMakeData([...makeData, t])
     let temp = ""
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       temp = data[i].code
     }
 
@@ -490,7 +514,34 @@ export default function FHIRImmunization({ setShowToster }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
-    const editImmunizationListData = async (list) => {
+    const editImmunizationListData = async (list, observationId) => {
+      setShowObservation(true);
+      const observationRes = await GetAllImmunizationObservationList(observationId);
+   
+      setObservationArr(observationRes.responseValue.immunizationList);
+      const newObsArr = [];
+      for(let i =0; i<observationRes.responseValue.immunizationList.length;i++){
+       
+        newObsArr.push({
+          rowID: i+1,
+          Date: '',
+          Code: '',
+          Type: 0,
+          Description: '',
+          reasonCode: '',
+          reasonStatus: '',
+          reasonRecordingDate: '',
+          reasonEndDate: '',
+        });
+
+        
+        // document.getElementById('ObservationCriteriaID'+i).value = observationRes.responseValue.immunizationList[i].imo_criteria
+      }
+    
+     setObservationRow([...newObsArr]);
+     
+    
+        
       const dateStringAdministered = list.administered_date;
       const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
       const dateStringExpired = list.expiration_date;
@@ -522,8 +573,76 @@ export default function FHIRImmunization({ setShowToster }) {
       }))
       document.getElementById('immunizationCode').value = list.cvx_code;
       document.getElementById('ReasonId').value = list.reason_code;
+      let data  = observationRes.responseValue.immunizationList;
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < newObsArr.length; j++) {
+
+          if(parseInt(data[i].imo_criteria) === 2){
+            setSelectedValues(prevValues => ({
+              ...prevValues,
+              [i+1]: 2,
+            }));
+          }
+          else if(parseInt(data[i].imo_criteria) === 3){
+            setSelectedValues(prevValues => ({
+              ...prevValues,
+              [i+1]: 3,
+            }));
+          }
+          else if(parseInt(data[i].imo_criteria) === 4){
+            setSelectedValues(prevValues => ({
+              ...prevValues,
+              [i+1]: 4,
+            }));
+          }
+        }
+      }
+
+      setTimeout(()=>{
+        getTestFun(observationRes.responseValue.immunizationList, newObsArr);
+      }, 1000)
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const getTestFun = (data, arrayForRow) => {
+    if (data.length > 0) {
+     
+      for (let i = 0; i < data.length; i++) {
+        if(data[i].imo_criteria == "2"){
+          setTimeout(() => {
+            document.getElementById('ObservationCriteriaValueID'+arrayForRow[i].rowID).value = data[i].imo_criteria_value;
+          }, 100)
+        }
+        if(parseInt(data[i].imo_criteria) === 3){
+          setTimeout(() => {
+            const spanElement = document.getElementById('CVXLabelId'+arrayForRow[i].rowID);
+            if (spanElement) {
+              spanElement.textContent =  data[i].imo_codetype;
+            }
+            document.getElementById('CVX_CodeId'+arrayForRow[i].rowID).value = data[i].imo_code;
+            document.getElementById('Date_VIS_Published_Id'+arrayForRow[i].rowID).value = data[i].imo_vis_date_published;
+            document.getElementById('Date_VIS_PresentedId'+arrayForRow[i].rowID).value = data[i].imo_vis_date_presented;
+          }, 100)
+        }
+        if(parseInt(data[i].imo_criteria) === 4){
+          setTimeout(() => {
+            const spanElement = document.getElementById('SNOWLabelId'+arrayForRow[i].rowID);
+            if (spanElement) {
+              spanElement.textContent =  data[i].imo_codetype;
+            }
+            document.getElementById('SNOMED-CTCodeId'+arrayForRow[i].rowID).value = data[i].imo_code;
+          }, 100)
+        }
+      }
+    }
+  };
+  
+  
+  
+  useEffect(() => {
+    // This will run every time observationArr changes
+   // getTestFun();
+  }, []);
 
   const handleClear = () => {
     document.getElementById('immunizationCode').value = '';
@@ -680,7 +799,7 @@ export default function FHIRImmunization({ setShowToster }) {
                             <select name="Route" className='form-select form-select-sm' id="RouteID" value={sendForm.Route} onChange={handleChange}>
                               <option value="0">--Select Route--</option>
                               {getImmunizationRoute && getImmunizationRoute.map((routeList, routeInd) => {
-                                return (<option value={routeList.id}>{routeList.name}</option>)
+                                return (<option value={routeList.id}>{routeList.title}</option>)
                               })}
                             </select>
                           </div>
@@ -689,7 +808,7 @@ export default function FHIRImmunization({ setShowToster }) {
                             <select name="AdministrationSite" className='form-select form-select-sm' id="AdministrationID" value={sendForm.AdministrationSite} onChange={handleChange}>
                               <option value="0">--Select Site--</option>
                               {getImmunizationAdministrationSite && getImmunizationAdministrationSite.map((siteList, siteInd) => {
-                                return (<option value={siteList.id}>{siteList.name}</option>)
+                                return (<option value={siteList.id}>{siteList.title}</option>)
                               })}
                             </select>
                           </div>
@@ -745,6 +864,7 @@ export default function FHIRImmunization({ setShowToster }) {
                               <div className='fieldsett fieldse '>
                                 <span className='fieldse'>Observation Results</span>
                                 {observationRow && observationRow.map((observeList, ind) => {
+                                  
                                   const isLastRow = ind === observationRow.length - 1; // Check if it's the last row
 
                                   return (
@@ -760,7 +880,7 @@ export default function FHIRImmunization({ setShowToster }) {
                                         </select>
                                       </div>
 
-                                      {selectedValues[observeList.rowID] === '2' && (
+                                      {parseInt(selectedValues[observeList.rowID]) === 2 && (
                                         <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                           <label htmlFor="ObservationCriteriaValue" className="form-label">Observation Criteria Value</label>
                                           <select name="" className='form-select form-select-sm' id={"ObservationCriteriaValueID" + observeList.rowID} onChange={() => { handleCriteriaValue("ObservationCriteriaValueID" + observeList.rowID) }}>
@@ -772,11 +892,11 @@ export default function FHIRImmunization({ setShowToster }) {
                                         </div>
                                       )}
 
-                                      {selectedValues[observeList.rowID] === '3' && (
+                                      {parseInt(selectedValues[observeList.rowID]) === 3 && (
                                         <>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
-                                            <label htmlFor="CVX_Code" className="form-label">CVX Code</label>
-                                            <input id={"CVX_CodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="CVX_CodeName" onClick={() => { handleOpenModalCVX('CVX_CodeId' + observeList.rowID) }} />
+                                            <label htmlFor="CVX_Code" className="form-label">CVX Code : <span id={'CVXLabelId'+observeList.rowID}></span></label>
+                                            <input id={"CVX_CodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="CVX_CodeName" onClick={() => { handleOpenModalCVX('CVX_CodeId' + observeList.rowID, 'CVXLabelId'+observeList.rowID) }} />
                                           </div>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                             <label htmlFor="Date_VIS_Published" className="form-label">Date VIS Published</label>
@@ -789,10 +909,10 @@ export default function FHIRImmunization({ setShowToster }) {
                                         </>
                                       )}
 
-                                      {selectedValues[observeList.rowID] === '4' && (
+                                      {parseInt(selectedValues[observeList.rowID]) === 4 && (
                                         <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
-                                          <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code</label>
-                                          <input id={"SNOMED-CTCodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={() => { handleOpenModalSnow("SNOMED-CTCodeId" + observeList.rowID) }} />
+                                          <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code : <span id={'SNOWLabelId'+observeList.rowID}></span></label>
+                                          <input id={"SNOMED-CTCodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={() => { handleOpenModalSnow("SNOMED-CTCodeId" + observeList.rowID, 'SNOWLabelId'+observeList.rowID) }} />
                                         </div>
                                       )}
                                       <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
@@ -855,7 +975,7 @@ export default function FHIRImmunization({ setShowToster }) {
 
           <div className='col-12 mt-2'>
             <div className='med-table-section' style={{ "maxHeight": "40vh", minHeight: '20vh', overflow: 'auto' }}>
-              <table className='med-table border_ striped mt-3'>
+              <table className='med-table border striped mt-3'>
                 <thead style={{ zIndex: '0' }}>
                   <tr>
                     <th className="text-center" style={{ "width": "5%" }}>#</th>
@@ -900,7 +1020,7 @@ export default function FHIRImmunization({ setShowToster }) {
                             </button> */}
                             <div className="action-button">
                               {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
-                              <div onClick={() => { editImmunizationListData(immunizationList) }}><img src={IconEdit} alt='' title='Edit Immunization'/></div>
+                              <div onClick={() => { editImmunizationListData(immunizationList, immunizationList.id) }}><img src={IconEdit} alt='' title='Edit Immunization'/></div>
                               <div onClick={() => { deleteImmunizationListData(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
                             </div>
                           </td>
@@ -963,8 +1083,8 @@ export default function FHIRImmunization({ setShowToster }) {
                 <i className="bi bi-x-octagon"></i>
               </button>
               {observationRow && observationRow.map((observelist, observeInd) => (
-                PopUpId === 'CVX_CodeId' + observelist.rowID ?
-                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} isMultiple={false} />
+                (PopUpId === 'CVX_CodeId' + observelist.rowID && PopUpLabelId === 'CVXLabelId' + observelist.rowID) ?
+                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} labelID = {PopUpLabelId} isMultiple={false} />
                   : ''
               ))}
             </div>
@@ -984,8 +1104,8 @@ export default function FHIRImmunization({ setShowToster }) {
                 <i className="bi bi-x-octagon"></i>
               </button>
               {observationRow && observationRow.map((observelist, observeInd) => (
-                PopUpId === 'SNOMED-CTCodeId' + observelist.rowID ?
-                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} isMultiple={false} />
+                ((PopUpId === 'SNOMED-CTCodeId' + observelist.rowID) && (PopUpLabelId === 'SNOWLabelId' + observelist.rowID)) ?
+                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} labelID = {PopUpLabelId} isMultiple={false} />
                   : ''
               ))}
             </div>

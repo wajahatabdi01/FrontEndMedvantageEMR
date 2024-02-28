@@ -205,8 +205,9 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             ...prevIssueDetails,
             coding: [],
         }));
-        fnisClose(0); document.getElementById("errBeginDateTimeSurgery").style.display = "none";
+        fnisClose(0); 
         document.getElementById("errTitleSurgery").style.display = "none";
+        document.getElementById("errBeginDateTimeSurgery").style.display = "none";
     }
 
     let handleSaveIssues = async () => {
@@ -251,9 +252,13 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             document.getElementById("errTitleSurgery").innerHTML = "Please enter title";
             document.getElementById("errTitleSurgery").style.display = "block";
         }
-        if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
+        else if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
             document.getElementById("errBeginDateTimeSurgery").innerHTML = "Please select begin date";
             document.getElementById("errBeginDateTimeSurgery").style.display = "block";
+        }
+        else if (surgeryData.classificationTypeId === '' || surgeryData.classificationTypeId === undefined || surgeryData.classificationTypeId === null) {
+            document.getElementById("errRelationshipTertiary").innerHTML = "Please select begin date";
+            document.getElementById("errRelationshipTertiary").style.display = "block";
         }
         else {
             const response = await UpdateEncounter(JSON.stringify([surgeryData]));
@@ -403,7 +408,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
+                            <label for="beginDateTime" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
                             <input type="date" value={surgeryData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
                             <small id="errBeginDateTimeSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -435,7 +440,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Occurrence</></label>
+                            <label htmlFor="occurrenceId" className="form-label"><>Occurrence</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={surgeryData.occurrenceId} className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
