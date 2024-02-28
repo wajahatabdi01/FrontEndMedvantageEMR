@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
-function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
+function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [medication, setMedication] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -34,9 +34,9 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
     let [getData, setgetData] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
-    
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
     let [medicationData, setMedicationData] = useState({
         titleId: '',
         title: '',
@@ -201,7 +201,12 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
             destination: ''
         })
         setUpdateBool(0);
-
+        setTxtCoding([]);
+        setMedicationData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0);
         document.getElementById("errTitleMed").style.display = "none";
         document.getElementById("errBeginDateTimeMed").style.display = "none";
     }
@@ -279,7 +284,7 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
         if (dateString) {
             // Split the date string by "-"
             const parts = dateString.split("-");
-    
+
             // Check if parts contains three elements
             if (parts.length === 3) {
                 // Rearrange the parts in the format yyyy-mm-dd
@@ -292,7 +297,7 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
             }
         } else {
             // Log an error if dateString is undefined
-            console.error("Date string is undefined");
+            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -302,11 +307,10 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
     useEffect(() => {
         setMedicationData({
             id: rowId,
-            issueTypeId:3,
+            issueTypeId: 3,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
-            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
             classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
@@ -316,10 +320,18 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
-
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
 
+    }, [isCloseModal]);
     useEffect(() => {
         getAllBrandList();
         getAllIssueOutCome();
@@ -381,7 +393,7 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updateb
 
                                     : ''}
                             </div>
-                          
+
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 

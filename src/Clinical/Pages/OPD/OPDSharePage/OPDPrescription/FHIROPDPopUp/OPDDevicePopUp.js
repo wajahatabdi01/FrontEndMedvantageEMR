@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination  }) {
+function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, isCloseModal, fnisClose }) {
     let [device, setDevice] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -34,9 +34,9 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
     let [getData, setgetData] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
-    
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
     let [deviceData, setDeviceData] = useState({
         issueTypeId: 4,
         title: '',
@@ -189,7 +189,12 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
             destination: ''
         })
         setUpdateBool(0);
-
+        setTxtCoding([]);
+        setDeviceData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0);
         document.getElementById("errTitleDev").style.display = "none";
         document.getElementById("errbegindatedev").style.display = "none";
     }
@@ -233,12 +238,12 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
     }
     let handleSaveUpdate = async () => {
         if (deviceData.title === '' || deviceData.title === undefined || deviceData.title === null) {
-            document.getElementById("errTitle").innerHTML = "Please enter title";
-            document.getElementById("errTitle").style.display = "block";
+            document.getElementById("errTitleDev").innerHTML = "Please enter title";
+            document.getElementById("errTitleDev").style.display = "block";
         }
         if (deviceData.beginDateTime === '' || deviceData.beginDateTime === undefined || deviceData.beginDateTime === null) {
-            document.getElementById("errbegindate").innerHTML = "Please select begin date";
-            document.getElementById("errbegindate").style.display = "block";
+            document.getElementById("errbegindatedev").innerHTML = "Please select begin date";
+            document.getElementById("errbegindatedev").style.display = "block";
         }
         else {
             const response = await UpdateEncounter(JSON.stringify([deviceData]));
@@ -266,7 +271,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
         if (dateString) {
             // Split the date string by "-"
             const parts = dateString.split("-");
-    
+
             // Check if parts contains three elements
             if (parts.length === 3) {
                 // Rearrange the parts in the format yyyy-mm-dd
@@ -279,7 +284,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
             }
         } else {
             // Log an error if dateString is undefined
-            console.error("Date string is undefined");
+            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -288,10 +293,9 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
     useEffect(() => {
         setDeviceData({
             id: rowId,
-            issueTypeId:4,
+            issueTypeId: 4,
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
-            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
             classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
@@ -301,9 +305,19 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination])
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
+
+    }, [isCloseModal]);
     useEffect(() => {
         getAllIssueOutCome();
         getAllIssueOccurence();
@@ -365,7 +379,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool,
 
                                     : ''}
                             </div>
-                          
+
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 

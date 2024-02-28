@@ -52,7 +52,7 @@ export default function OPDTOPBottom(props) {
 
 
 
-  // Active Get all elements with class 'opdvitalbottom'
+  // Active Menu
 let getopdvitalbottom = document.querySelectorAll('.opdvitalbottom');
 
 let getopdvitalbottomArray = Array.from(getopdvitalbottom);

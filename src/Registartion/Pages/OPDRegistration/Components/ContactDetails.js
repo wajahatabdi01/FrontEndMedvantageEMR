@@ -30,7 +30,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         emergencyPhone: '',
         phoneHome: '',
         workPhone: '',
-        // mobileNo: '',
         emailID: '',
         trustedEmail: '',
         additionalAddressess: '[]',
@@ -137,11 +136,25 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     const handleContactDetailsChange = (e) => {
         const { name, value } = e.target;
         // Function to check for alphanumeric characters and no spaces
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+
+            return isValid || trimmedInput === '';
+        };
+
         // Function to check for alphanumeric characters and allow special characters but no spaces
         const isValidInputEmail = (input) => /^[a-zA-Z0-9\S]*$/.test(input);
 
-        if (name==="emailID" || name==="trustedEmail") {
+        if (name === "emailID" || name === "trustedEmail") {
             if (!isValidInputEmail(value)) {
                 return;
             }
@@ -160,12 +173,9 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     const handleContactDetailsAdditionalChange = (e, index) => {
         const { name, value } = e.target;
         if (index >= 0 && index < contactDetails.additionalAddressess.length) {
-
         }
         else {
-
         }
-
         setContactDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             [name]: value,
@@ -175,6 +185,12 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
 
     const handleAddInput = () => {
         setInputCount(prevCount => prevCount + 1);
+        // Check if additionalAddressess is an array
+        if (!Array.isArray(contactDetails.additionalAddressess)) {
+            // If not an array, initialize it as an empty array
+            contactDetails.additionalAddressess = [];
+        }
+        // Now you can safely push elements into it
         contactDetails.additionalAddressess.push({
             addressUseId: '',
             addressTypeId: '',
@@ -186,12 +202,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
             stateId: '',
             cityName: '',
             postalCode: ''
-
-
-
         });
         setInputValues(prevValues => [...prevValues, '']);
     };
+
 
     const handleInputChange = (index, value) => {
         // contactDetails.additionalAddressess[index]
@@ -231,10 +245,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                 </select>
                 <small id="errCountry" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
-            <div className="col-2 mb-2">
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="ddlEmpty" className="form-label"></label>
                 <button type="button" class="form-control form-control-sm" id="addCountry" >Add</button>
-            </div>
+            </div> */}
             <div className="col-2 mb-2">
                 <label htmlFor="ddlState" className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("State")}</label>
                 <select className="form-select form-select-sm" id="ddlState" aria-label=".form-select-sm example" name='stateId' onChange={() => { getCityListByState(); }} value={contactDetails.stateId}>
@@ -249,10 +263,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                 </select>
                 <small id="errState" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
-            <div className="col-2 mb-2">
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="ddlEmpty" className="form-label"></label>
                 <button type="button" class="form-control form-control-sm" id="addState" >Add</button>
-            </div>
+            </div> */}
             <div className="col-2 mb-2">
                 <label htmlFor="ddlCity" className="form-label"><img src={city} className='icnn' alt='' />{t("City_Name")}</label>
                 <select className="form-select form-select-sm" id="ddlCity" aria-label=".form-select-sm example" onChange={handleContactDetailsChange} name='cityId' value={contactDetails.cityId}>
@@ -267,10 +281,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                 </select>
                 <small id="errCity" className="form-text text-danger" style={{ display: 'none' }}></small>
             </div>
-            <div className="col-2 mb-2">
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="ddlEmpty" className="form-label"></label>
                 <button type="button" class="form-control form-control-sm" id="addCity" >Add</button>
-            </div>
+            </div> */}
             <div className="col-2 mb-2">
                 <label htmlFor="txtZip" className="form-label"><img src={zipCodeIcon} className='icnn' alt='' />{t("Zip")}</label>
                 <input type="number" className="form-control form-control-sm" id="txtZip" placeholder={t("Enter_Zip_Code")} name='zip' value={contactDetails.zip} onChange={handleContactDetailsChange} />
@@ -338,13 +352,13 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                     }
                 }} value={contactDetails.trustedEmail} onChange={handleContactDetailsChange} />
             </div>
-            <div className="dflex">
+            {/* <div className="dflex">
                 <div className="col-2 mb-2">
                     <label htmlFor="ddlEmpty" className="form-label"></label>
                     <button type="button" class="form-control form-control-sm" id="addCity" onClick={handleAddInput}>Additonal Address <img src={emailIcon} className='icnn' alt='' /></button>
                 </div>
 
-            </div>
+            </div> */}
             {/* Render existing input textboxes with delete buttons */}
             {inputValues.map((value, index) => (
                 <><hr /><div className="dflex" key={index}>
@@ -377,10 +391,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                                 );
 
                             })}
-
                         </select>
-
-
                     </div>
                     <div className="col-2 mb-2">
                         <label htmlFor={"txtStartDate" + index} className="form-label"><img src={stateIcon} className='icnn' alt='' />{t("Start_Date")}</label>

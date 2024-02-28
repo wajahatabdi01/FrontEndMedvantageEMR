@@ -381,6 +381,18 @@ import LayoutReportContent from '../PatientPortal/Layout/LayoutReportContent';
 import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
 import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
 import AppRegistrationForm from '../Admin/Pages/FHIRMaster/AppRegistrationForm';
+import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
+import FHIRIssueOccurenceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOccurenceMaster';
+import FHIRSeverityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSeverityMaster';
+import FHIRReactionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReactionMaster';
+import FHIRConditionVerificationMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRConditionVerificationMaster';
+import FHIRIndustryMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIndustryMaster';
+import FHIRRelationshipMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRRelationshipMaster';
+import FHIRIssueOutComeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOutComeMaster';
+import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferralSourceMaster';
+import FHIRReligionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReligionMaster';
+//import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
+// import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
 export default function ApiRoutes() {
 
@@ -941,6 +953,16 @@ export default function ApiRoutes() {
                   <Route path="/fhirtypeofdisclosuremaster/" element={<ProtectedRoutes Compnent={<FHIRTypeOfDisclosureMaster />} />} />
                   {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
                   {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
+                  <Route path="/fHIRClassificationTypeMaster/" element={<ProtectedRoutes Compnent={<FHIRClassificationTypeMaster />} />} />
+                  {/* <Route path="/fHIRIssueOccurenceMaster/" element={<ProtectedRoutes Compnent={<FHIRIssueOccurenceMaster />} />} /> */}
+                  {/* <Route path="/fhirseveritymaster/" element={<ProtectedRoutes Compnent={<FHIRSeverityMaster />} />} /> */}
+                  {/* <Route path="/fhirreactionmaster/" element={<ProtectedRoutes Compnent={<FHIRReactionMaster />} />} />
+                  <Route path="/fhirconditionverificationmaster/" element={<ProtectedRoutes Compnent={<FHIRConditionVerificationMaster />} />} /> */}
+                  {/* <Route path="/fhirindustrymaster/" element={<ProtectedRoutes Compnent={<FHIRIndustryMaster />} />} /> */}
+                  <Route path="/fhirrelationshipmaster/" element={<ProtectedRoutes Compnent={<FHIRRelationshipMaster />} />} />
+                  <Route path="/fhirissueoutComemaster/" element={<ProtectedRoutes Compnent={<FHIRIssueOutComeMaster />} />} />
+                  <Route path="/fhireferralourceMaster/" element={<ProtectedRoutes Compnent={<FHIRReferralSourceMaster />} />} />
+                  <Route path="/fhirreligionMaster/" element={<ProtectedRoutes Compnent={<FHIRReligionMaster />} />} />
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 

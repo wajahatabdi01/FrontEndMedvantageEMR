@@ -20,9 +20,23 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
     const handlePattientChoicesChange = (e) => {
         document.getElementById("errProvider").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+
+            return isValid || trimmedInput === '';
+        };
+
         const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
-        if (name === "provideSinceDate" || name==="immRegStatEffdate" || name==="publCodeEffDate" || name==="protIndiEffdate") {
+        if (name === "provideSinceDate" || name === "immRegStatEffdate" || name === "publCodeEffDate" || name === "protIndiEffdate") {
             if (!isValidInputDate(value)) {
                 return;
             }

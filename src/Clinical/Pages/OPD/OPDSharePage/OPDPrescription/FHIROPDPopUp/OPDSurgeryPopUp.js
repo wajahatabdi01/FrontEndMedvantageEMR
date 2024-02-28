@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId  }) {
+function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -34,8 +34,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     let [getData, setgetData] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
     let [surgeryData, setSurgeryData] = useState({
         issueTypeId: 5,
@@ -200,8 +200,14 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             destination: ''
         })
         setUpdateBool(0);
-        document.getElementById("errBeginDateTimeSurgery").style.display = "none";
+        setTxtCoding([]);
+        setSurgeryData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0); 
         document.getElementById("errTitleSurgery").style.display = "none";
+        document.getElementById("errBeginDateTimeSurgery").style.display = "none";
     }
 
     let handleSaveIssues = async () => {
@@ -243,12 +249,16 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     }
     let handleSaveUpdate = async () => {
         if (surgeryData.title === '' || surgeryData.title === undefined || surgeryData.title === null) {
-            document.getElementById("errTitle").innerHTML = "Please enter title";
-            document.getElementById("errTitle").style.display = "block";
+            document.getElementById("errTitleSurgery").innerHTML = "Please enter title";
+            document.getElementById("errTitleSurgery").style.display = "block";
         }
-        if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
-            document.getElementById("errbegindate").innerHTML = "Please select begin date";
-            document.getElementById("errbegindate").style.display = "block";
+        else if (surgeryData.beginDateTime === '' || surgeryData.beginDateTime === undefined || surgeryData.beginDateTime === null) {
+            document.getElementById("errBeginDateTimeSurgery").innerHTML = "Please select begin date";
+            document.getElementById("errBeginDateTimeSurgery").style.display = "block";
+        }
+        else if (surgeryData.classificationTypeId === '' || surgeryData.classificationTypeId === undefined || surgeryData.classificationTypeId === null) {
+            document.getElementById("errRelationshipTertiary").innerHTML = "Please select begin date";
+            document.getElementById("errRelationshipTertiary").style.display = "block";
         }
         else {
             const response = await UpdateEncounter(JSON.stringify([surgeryData]));
@@ -276,7 +286,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
         if (dateString) {
             // Split the date string by "-"
             const parts = dateString.split("-");
-    
+
             // Check if parts contains three elements
             if (parts.length === 3) {
                 // Rearrange the parts in the format yyyy-mm-dd
@@ -289,7 +299,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             }
         } else {
             // Log an error if dateString is undefined
-            console.error("Date string is undefined");
+            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -298,11 +308,10 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
     useEffect(() => {
         setSurgeryData({
             id: rowId,
-            issueTypeId:5,
+            issueTypeId: 5,
             titleId: titleId && titleId !== '' ? titleId : '',
             title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
             coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
-            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
             endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
             classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
@@ -312,9 +321,19 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
-        })
-
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
+
+    }, [isCloseModal]);
     useEffect(() => {
         getAllSurgeryList();
         getAllIssueOutCome();
@@ -344,9 +363,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
                     <div className="col-12 mb-2">
                         <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
                         <input type="text" value={surgeryData.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
-                        <small id="errTitleSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
-
                     </div>
+                    <small id="errTitleSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
                 </div>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
@@ -377,7 +395,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
 
                                     : ''}
                             </div>
-                           
+
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 
@@ -390,7 +408,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                            <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
+                            <label for="beginDateTime" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
                             <input type="date" value={surgeryData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
                             <small id="errBeginDateTimeSurgery" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -422,7 +440,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID,updatebool
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
                         <div className="col-4 mb-2">
-                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Occurrence</></label>
+                            <label htmlFor="occurrenceId" className="form-label"><>Occurrence</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={surgeryData.occurrenceId} className="form-select form-select-sm" id="occurrenceId" aria-label=".form-select-sm example" name='occurrenceId' onChange={handleIssueDetailsChange} >
