@@ -45,7 +45,7 @@ export default function AdmitPatientByUHID() {
         doctorId: "",
         bedId: "",
 
-        insurancecompany : "",
+        // insurancecompany : "",
         
 
     })
@@ -121,15 +121,15 @@ const GetInsuranceList = async()=>{
                 
             }
         }
-        if (name === "cashpayment") {
-            setCashpayment(value)
-        }
-        if(name === "insuranceCompany"){
-            setinsuranceCompany(value)
-        }
-        if(name=== "cardNo"){
-            setCardNo(value)
-        }
+        // if (name === "cashpayment") {
+        //     setCashpayment(value)
+        // }
+        // if(name === "insuranceCompany"){
+        //     setinsuranceCompany(value)
+        // }
+        // if(name=== "cardNo"){
+        //     setCardNo(value)
+        // }
 
 
 
@@ -144,7 +144,7 @@ const GetInsuranceList = async()=>{
         let UHID = ""
         let bedL = ""
         console.log('patientSendData',patientSendData)
-        let validationreponse = AdmitPatientValidation(patientSendData.uhid, patientSendData.departmentId, patientSendData.wardID, patientSendData.doctorId, patientSendData.bedId, paymentType,cashpayment,patientSendData.insurancecompany,insuranceCompany)
+        let validationreponse = AdmitPatientValidation(patientSendData.uhid, patientSendData.departmentId, patientSendData.wardID, patientSendData.doctorId, patientSendData.bedId)
         if (validationreponse[0]) {
             setShowUnderProcess(1)
             let response = await POSTAdmitPatientByUHID(patientSendData)
@@ -400,7 +400,7 @@ let SaveInsuranceDetails = async()=>{
                                                 <div className='med-table-section_ mt-2'>
                                                     <table className='med-table border_ striped paytbl'>
                                                         <tbody>
-                                                            <tr className="d-flex-justify-content-between">
+                                                            {/* <tr className="d-flex-justify-content-between">
                                                                 <td className="col-md-6">
                                                                     <div className="col-md-6 mb-2">
                                                                         <label htmlFor="ddlPaymentType" className="form-label">{t("Payment_Type")}</label><span class="starMandatory">*</span>
@@ -441,7 +441,7 @@ let SaveInsuranceDetails = async()=>{
 
 
 
-                                                            </tr>
+                                                            </tr> */}
 
                                                             <tr>
                                                                 <td colSpan={5}>
