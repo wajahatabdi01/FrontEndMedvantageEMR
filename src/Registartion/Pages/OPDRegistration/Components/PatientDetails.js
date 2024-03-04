@@ -137,6 +137,8 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 birthMiddleName: '',
                 birthLastName: '',
                 dob: '',
+                age: '',
+                ageUnitId: '',
                 sexualOrientationId: '',
                 externalId: '',
                 socialSecurityNo: '',

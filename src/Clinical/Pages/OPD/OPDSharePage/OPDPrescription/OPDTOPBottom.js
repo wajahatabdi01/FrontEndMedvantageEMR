@@ -143,7 +143,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
 
   return (
     <>
-      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer ">
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer active">
       <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem")}}>
           {t("Problem")}
       </span>

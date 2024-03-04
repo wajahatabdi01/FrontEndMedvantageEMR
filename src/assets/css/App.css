@@ -2171,7 +2171,11 @@ input[type=number] {
   background-color: white;
   outline: #dee2e6;
 }
-
+ul#searchdrop li:hover {
+  background: #d5d6d9;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
 #myInput {
   box-sizing: border-box;
   /* background-image: url('searchicon.png'); */
