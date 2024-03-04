@@ -95,7 +95,7 @@ export default function IPDInvestigation(props) {
             })
 
             if (flag === 0) {
-                let data = { "itemId": parseInt(id), "Name": name, "charges": cost }
+                let data = { "itemId": parseInt(id), "itemName": name, "itemCost": cost }
                 setTotal(total + cost)
                 SaveIPDData(total + cost, "total")
 
@@ -108,7 +108,7 @@ export default function IPDInvestigation(props) {
             }
         }
         else {
-            let data = { "itemId": parseInt(id), "Name": name, "charges": cost }
+            let data = { "itemId": parseInt(id), "itemName": name, "itemCost": cost }
             setTotal(total + cost)
             SaveIPDData(total + cost, "total")
 

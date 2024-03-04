@@ -65,7 +65,7 @@ export default function IPDTopVitals(props) {
         let obj = {
             Id: rowId
         }
-        console.log("object Delete", obj)
+       
         // return;
         let response = await DeleteEncounter(obj)
         if (response.status === 1) {
@@ -475,7 +475,7 @@ export default function IPDTopVitals(props) {
                                 <tbody>
                                     {getEncounterList && getEncounterList.map((list, ind) => {
                                         const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-                                        console.log("codingListItem", codingListItem)
+                                       
                                         return (
                                             <tr className="text-center" key={list.id}>
                                                 <td className="text-center">{ind + 1}</td>
