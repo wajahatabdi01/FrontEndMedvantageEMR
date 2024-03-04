@@ -13,6 +13,8 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
+import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
+import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
 function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
@@ -28,6 +30,8 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
+    let [severitylist, setSeverityList] = useState([]);
+    let [reactionlist, setReactionList] = useState([]);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
     const [txtCoding, setTxtCoding] = useState([]);
@@ -51,7 +55,9 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         referredby: '',
         comments: '',
         outcomeId: '0',
-        destination: ''
+        destination: '',
+        reactionId: '',
+        severityId: ''
     })
 
     let getAllBrandList = async () => {
@@ -61,7 +67,18 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             setBrandList(slicedProblemList);
         }
     }
-
+    let getAllSeverityData = async () => {
+        const response = await GetAllSeverityData();
+        if (response.status === 1) {
+            setSeverityList(response.responseValue);
+        }
+    }
+    let getAllReactionList = async () => {
+        const response = await GetAllReactionList();
+        if (response.status === 1) {
+            setReactionList(response.responseValue);
+        }
+    }
     let getAllIssueOutCome = async () => {
         const response = await GetAllIssueOutCome();
         if (response.status === 1) {
@@ -336,6 +353,8 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
 
     }, [isCloseModal]);
     useEffect(() => {
+        getAllReactionList();
+        getAllSeverityData();
         getAllBrandList();
         getAllIssueOutCome();
         getAllIssueOccurence();
@@ -458,6 +477,36 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Severity</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={allergyData.severityId} className="form-select form-select-sm" id="severityId" aria-label=".form-select-sm example" name='severityId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Severity</option>
+                                    {severitylist && severitylist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Reaction</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={allergyData.reactionId} className="form-select form-select-sm" id="reactionId" aria-label=".form-select-sm example" name='reactionId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Reaction</option>
+                                    {reactionlist && reactionlist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.title}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
 
                         <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Verification Status</></label>
@@ -474,11 +523,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-                    </div>
-                </div>
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-6 mb-2">
+                        <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Outcome</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
@@ -493,18 +538,22 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                    </div>
+                </div>
+                <div className='col-12'>
+                    <div className="row">
                         <div className="col-6 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Destination</></label>
                             <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={allergyData.destination} onChange={handleIssueDetailsChange} />
+                        </div>
+                        <div className="col-6 mb-2">
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
+                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={allergyData.referredby} onChange={handleIssueDetailsChange} />
                         </div>
                     </div>
                 </div>
                 <div className='col-12'>
                     <div className="row">
-                        <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
-                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={allergyData.referredby} onChange={handleIssueDetailsChange} />
-                        </div>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Comments</></label>
                             <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={allergyData.comments} onChange={handleIssueDetailsChange}></textarea>

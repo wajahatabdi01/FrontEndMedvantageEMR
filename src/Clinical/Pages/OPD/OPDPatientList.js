@@ -246,8 +246,6 @@ export default function OPDPatientList(props) {
                                 <th>{t("VISIT_DATE")}</th>
                                 <th>{t("CONSULTANT")}</th>
                                 <th>{t("PATIENT_TYPE")}</th>
-                                <th>{t("REFERRED_BY")}</th>
-                                <th>{t("PRESCRIPTION_STATUS")}</th>
                                 {/* <th>Nurse Details</th> */}
                                 <th>{t("Action")}</th>
                             </thead>
@@ -266,8 +264,6 @@ export default function OPDPatientList(props) {
                                             <td>{val.visitDate}</td>
                                             <td>{val.doctorName || val.name}</td>
                                             <td> <div className='text-center ps-2 pe-2' style={{ width: "80px", borderRadius: "5px", fontSize: "12px", fontWeight: "600", padding: "3px", color: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "12px", backgroundColor: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "FOLLOWUP" : val.patientType.toUpperCase()}</div> </td>
-                                            <td>{val.refferedBy}{val.refferedDepartment ? `(${val.refferedDepartment}})` : "-"}</td>
-                                            <td>-</td>
                                             <td className='pointer' title='Open Profile'><span onClick={() => { handleActiveTab(val) }} title='Open Profile'> <img src={viewIcon} className='bgicn' alt='Open Profile' /></span></td>
                                         </tr>
                                     )

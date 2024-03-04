@@ -465,6 +465,8 @@ export default function IPDTopVitals(props) {
                                         <th>Classification Name</th>
                                         <th>Occurance Name</th>
                                         <th>Verification Name</th>
+                                        <th>Severity Name</th>
+                                        <th>Reaction Name</th>
                                         <th>Outcome Name</th>
                                         <th style={{ "width": "10%" }} className="text-center">Action</th>
                                     </tr>

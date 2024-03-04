@@ -191,7 +191,9 @@ export default function PatientRegistration() {
                 referredby: '',
                 comments: '',
                 outcomeId: '0',
-                destination: ''
+                destination: '',
+                reactionId:'',
+                severityId:''
             },
 
             Medication: {
@@ -243,16 +245,16 @@ export default function PatientRegistration() {
     const [statsJsonString, setStatsJsonString] = useState({
         ethinicityId: '',
         languageId: '',
-        raceTypeId: '',
+        raceId: '',
         familySize: '',
         financialReviewDate: '',
         monthlyIncome: '',
         homeless: '',
-        interpretter: '',
-        migrantseasonal: '',
-        referralSource: '',
-        vfc: '',
-        religion: '',
+        interpreter: '',
+        migrant: '',
+        referralSourceId: '',
+        isVFCEligible: '',
+        religionId: '',
     });
     let [clearStatus, setClearStatus] = useState(0)
     const [sendFormPatientDetails, setSendFormPatientDetails] = useState({
@@ -292,6 +294,7 @@ export default function PatientRegistration() {
         guardianAddress: '',
         guardianMobileNo: '',
         guardianworkphone: '',
+        guardianemail: ''
     });
     const handleChangePatientDetails = (e) => {
         const { name, value } = e.target;
@@ -359,25 +362,26 @@ export default function PatientRegistration() {
             setSexualOrientationlist(response.responseValue);
         }
     }
-
-    
     let handlerChange2 = (e, value) => {
         console.log('value', value);
+        
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
-        
+    
             // Check if input starts with a space
             if (input !== trimmedInput && input.startsWith(' ')) {
                 return false; // Input starts with a space
             }
-        
+    
             // Check if trimmed input contains only alphanumeric characters and spaces in between
-            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
-        
+            const isValid = /^[a-zA-Z0-9@]*$/.test(trimmedInput);
+    
             return isValid || trimmedInput === '';
         };
-                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+    
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+    
         if (e === "deceasedDate") {
             if (!isValidInputDate(value)) {
                 return;
@@ -387,66 +391,72 @@ export default function PatientRegistration() {
                 return;
             }
         }
-        const isValidInputEmail = (input) => /^[a-zA-Z0-9\S]*$/.test(input);
-        if (e === "guardianemail" && !isValidInputEmail(value)) {
-            return;
+    
+        if (e === "guardianemail") {
+            // Allow any input for the email field, including "@"
+            setRegistrationObj((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                [e]: value,
+            }));
+        } else {
+            setRegistrationObj((prevPatientDetails) => ({
+                ...prevPatientDetails,
+                [e]: value,
+            }));
         }
-        setRegistrationObj((prevPatientDetails) => ({
-            ...prevPatientDetails,
-            [e]: value,
-        }));
     }
+    
+    
+
     let handleemployerDetails = (e, value) => {
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
-        
+
             // Check if input starts with a space
             if (input !== trimmedInput && input.startsWith(' ')) {
                 return false; // Input starts with a space
             }
-        
+
             // Check if trimmed input contains only alphanumeric characters and spaces in between
             const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
-        
+
             return isValid || trimmedInput === '';
         };
-                if (!isValidInput(value)) {
+        if (!isValidInput(value)) {
             return;
         }
         setEmployerDetailsJsonString((prevData) => ({
             ...prevData,
             [e]: value
         }))
-       
+
     }
 
     let handleStatsDetails = (e, value) => {
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
-        
+
             // Check if input starts with a space
             if (input !== trimmedInput && input.startsWith(' ')) {
                 return false; // Input starts with a space
             }
-        
+
             // Check if trimmed input contains only alphanumeric characters and spaces in between
             const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
-        
+
             return isValid || trimmedInput === '';
         };
-                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (e === "financialReviewDate") {
             if (!isValidInputDate(value)) {
                 return;
             }
-        } 
-        else 
-        {
-            if (!isValidInput(value)) 
-            {
+        }
+        else {
+            if (!isValidInput(value)) {
                 return;
             }
         } setStatsJsonString((prevPatientDetails) => ({
@@ -751,7 +761,7 @@ export default function PatientRegistration() {
         document.getElementById('ddlMaritalStatus').value = list.maritalStatusId === null ? 0 : list.maritalStatusId;
         document.getElementById('ddlPreferredLanguage').value = list.languageId === null ? 0 : list.languageId;
         document.getElementById('ddlEthnicity').value = list.ethinicityId === null ? 0 : list.ethinicityId;
-        document.getElementById('ddlRaceType').value = list.raceTypeId === null ? 0 : list.raceTypeId;
+        document.getElementById('ddlRaceType').value = list.raceId === null ? 0 : list.raceId;
         document.getElementById('ddlsexualOrientation').value = list.sexualOrientation == null ? 0 : list.sexualOrientation;
         setGuardianMobileNo(list.guardianMobileNo);
         setGuardianAddress(list.guardianAddress);
@@ -834,52 +844,42 @@ export default function PatientRegistration() {
         document.getElementById("ddlDoctor").disabled = false;
     }
     let savePriviousName = async () => {
-        const previousNamePrefix = document.getElementById('txtPreviousNamePrefix').value;
-        const previousNameFirst = document.getElementById('txtPreviousNameFirst').value;
-        const previousNameMiddle = document.getElementById('txtPreviousNameMiddle').value;
-        const previousNameLast = document.getElementById('txtPreviousNameLast').value;
-        const previousNameSuffix = document.getElementById('txtPreviousNameSuffix').value;
-        const previousNameEndDate = document.getElementById('txtPreviousNameEndDate').value;
-        var dataObj = {
-            titleId: '0',
-            suffix: previousNamePrefix,
-            firstName: previousNameFirst,
-            middleName: previousNameMiddle,
-            lastName: previousNameLast,
-            suffix: previousNameSuffix,
-            endDate: previousNameEndDate,
-            fullName: previousNamePrefix + ' ' + previousNameFirst + ' ' + previousNameMiddle + ' ' + previousNameLast + ' ' + previousNameSuffix
-        };
-        // setPriviousNameList(dataObj);
-        setPriviousNameList(prevList => [...prevList, dataObj]);
-        // const res = DemographyPatientPriviousNames(previousNamePrefix,previousNameFirst,previousNameMiddle,previousNameLast,previousNameSuffix,previousNameEndDate)
-        // if (res === true) {
-        //     setShowUnderProcess(1);
-        //     var dataObj = {
-        //         uuid: PatientID,
-        //         date:
-        //     };
-        //     let data = await InsertFHIRPatientHistory(dataObj);
-        //     if (data.status === 1) {
-        //         setShowUnderProcess(0);
-        //         setShowToster(1)
+        const previousNamePrefix = document.getElementById('txtPreviousNamePrefix').value.trim();
+        const previousNameFirst = document.getElementById('txtPreviousNameFirst').value.trim();
+        const previousNameMiddle = document.getElementById('txtPreviousNameMiddle').value.trim();
+        const previousNameLast = document.getElementById('txtPreviousNameLast').value.trim();
+        const previousNameSuffix = document.getElementById('txtPreviousNameSuffix').value.trim();
+        const previousNameEndDate = document.getElementById('txtPreviousNameEndDate').value.trim();
 
-        //         setTimeout(() => {
-        //             clear();
-        //             setShowToster(0);
-        //         }, 2000)
-        //     }
-        //     else {
-        //         setShowUnderProcess(0)
-        //         setShowAlertToster(1)
-        //         setShowMessage(data.responseValue)
-        //         setTimeout(() => {
-        //             setShowToster(0)
-        //         }, 2000)
-        //     }
-        // }
+        // Check if any field is non-empty
+        const isAnyFieldFilled = [previousNamePrefix, previousNameFirst, previousNameMiddle, previousNameLast, previousNameSuffix, previousNameEndDate].some(value => value !== '');
+
+        if (isAnyFieldFilled) {
+            // At least one field is filled, proceed with saving
+            var dataObj = {
+                titleId: '0',
+                suffix: previousNameSuffix,
+                firstName: previousNameFirst,
+                middleName: previousNameMiddle,
+                lastName: previousNameLast,
+                suffix: previousNameSuffix, // If you want to include suffix twice, ensure it's correct
+                endDate: previousNameEndDate,
+                fullName: previousNamePrefix + ' ' + previousNameFirst + ' ' + previousNameMiddle + ' ' + previousNameLast + ' ' + previousNameSuffix
+            };
+
+            setPriviousNameList(prevList => [...prevList, dataObj]);
+            setShowToster(2);
+            setTimeout(() => {
+                setShowToster(0);
+            }, 2000);
+        } else {
+            setShowAlertToster(2)
+            console.log("No data filled. Cannot save.");
+        }
+
         setShowPreviousNamesPopUp(false);
     };
+
 
 
     let handleValidation = (data, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo) => {
@@ -1356,15 +1356,15 @@ export default function PatientRegistration() {
         setStatsJsonString({
             ethinicityId: '',
             languageId: '',
-            raceTypeId: '',
+            raceId: '',
             familySize: '',
             financialReviewDate: '',
             monthlyIncome: '',
             homeless: '',
-            interpretter: '',
-            migrantseasonal: '',
-            referralSource: '',
-            vfc: '',
+            interpreter: '',
+            migrant: '',
+            referralSourceId: '',
+            isvfceligible: '',
             religion: '',
         })
 
@@ -1402,7 +1402,7 @@ export default function PatientRegistration() {
         console.log('registrationObj', registrationObj);
         console.log('issueDetails', issueDetails);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
-     
+
         console.log('patientDetails', patientDetails);
 
         var makeDataObj = {
@@ -1589,7 +1589,7 @@ export default function PatientRegistration() {
                 userId: userID,
                 maritalStatusId: matarialStatus == "" ? null : matarialStatus,
                 emailID: email,
-                raceTypeId: raceType == "" ? null : raceType,
+                raceId: raceType == "" ? null : raceType,
                 ethinicityId: ethinicity == "" ? null : ethinicity,
                 languageId: language == "" ? 0 : language,
                 idTypeId: identityType == "" ? null : parseInt(identityType),
@@ -1788,7 +1788,7 @@ export default function PatientRegistration() {
                                                     className="accordion-collapse collapse show1"
                                                     data-bs-parent="#accordionExample"
                                                 >
-                                                    <div className="accordion-body">
+                                                    <div className="accordion-body" style={{maxHeight:'35vh', overflow:'auto'}}>
                                                         <div className="dflex">
                                                             <ContactDetails contactDetailsData={setContactDetails} setClearStatus={setClearStatus} clearStatus={clearStatus} />
                                                             {/* <ContactDetails onContactDetailsChange={handlerChange2} setAdditionalAddressJsonString={setAdditionalAddressJsonString} /> */}
@@ -1990,7 +1990,7 @@ export default function PatientRegistration() {
 
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlRaceType" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Race_Type")}</label>
-                                                                <select value={statsJsonString.raceTypeId} className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" name='raceTypeId' onChange={(e) => { handleStatsDetails("raceTypeId", e.target.value) }}>
+                                                                <select value={statsJsonString.raceId} className="form-select form-select-sm selectwid" id="ddlRaceType" aria-label=".form-select-sm example" name='raceId' onChange={(e) => { handleStatsDetails("raceId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Race_Type")}</option>
                                                                     {raceTypeList && raceTypeList.map((list) => {
                                                                         return (
@@ -2018,15 +2018,15 @@ export default function PatientRegistration() {
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="txtInterpreter" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Interpreter")}</label>
-                                                                <input type="text" value={statsJsonString.interpretter} className="form-control form-control-sm" id="txtInterpreter" placeholder={t("Enter_Interpreter")} name='interpretter' onChange={(e) => { handleStatsDetails("interpretter", e.target.value) }} />
+                                                                <input type="text" value={statsJsonString.interpreter} className="form-control form-control-sm" id="txtInterpreter" placeholder={t("Enter_Interpreter")} name='interpreter' onChange={(e) => { handleStatsDetails("interpreter", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="txtMigrant" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Migrant")}</label>
-                                                                <input type="text" value={statsJsonString.migrantseasonal} className="form-control form-control-sm" id="txtMigrant" placeholder={t("Enter_Migrant")} name='migrantseasonal' onChange={(e) => { handleStatsDetails("migrantseasonal", e.target.value) }} />
+                                                                <input type="text" value={statsJsonString.migrant} className="form-control form-control-sm" id="txtMigrant" placeholder={t("Enter_Migrant")} name='migrant' onChange={(e) => { handleStatsDetails("migrant", e.target.value) }} />
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlReferralSource" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Referral_Source")}</label>
-                                                                <select value={statsJsonString.referralSource} className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSource' onChange={(e) => { handleStatsDetails("referralSource", e.target.value) }}>
+                                                                <select value={statsJsonString.referralSourceId} className="form-select form-select-sm selectwid" id="ddlReferralSource" aria-label=".form-select-sm example" name='referralSourceId' onChange={(e) => { handleStatsDetails("referralSourceId", e.target.value) }}>
                                                                     <option value="0">{t("Select Referral Source")}</option>
                                                                     {referralList && referralList.map((list) => {
                                                                         return (
@@ -2038,7 +2038,7 @@ export default function PatientRegistration() {
 
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlVFC" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("VFC")}</label>
-                                                                <select value={statsJsonString.vfc} className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='vfc' onChange={(e) => { handleStatsDetails("vfc", e.target.value) }}>
+                                                                <select value={statsJsonString.isVFCEligible} className="form-select form-select-sm selectwid" id="ddlVFC" aria-label=".form-select-sm example" name='isVFCEligible' onChange={(e) => { handleStatsDetails("isVFCEligible", e.target.value) }}>
                                                                     <option value="0">{t("Select_VFC")}</option>
                                                                     <option value="1">Unassigned</option>
                                                                     <option value="2">Eligible</option>
@@ -2048,7 +2048,7 @@ export default function PatientRegistration() {
                                                             </div>
                                                             <div className="col-2 mb-2">
                                                                 <label htmlFor="ddlReligion" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("Religion")}</label>
-                                                                <select value={statsJsonString.religion} className="form-select form-select-sm selectwid" id="ddlReligion" aria-label=".form-select-sm example" name='religion' onChange={(e) => { handleStatsDetails("religion", e.target.value) }}>
+                                                                <select value={statsJsonString.religionId} className="form-select form-select-sm selectwid" id="ddlReligion" aria-label=".form-select-sm example" name='religionId' onChange={(e) => { handleStatsDetails("religionId", e.target.value) }}>
                                                                     <option value="0">{t("Select_Religion")}</option>
                                                                     {religionList && religionList.map((list) => {
                                                                         return (
@@ -2427,12 +2427,20 @@ export default function PatientRegistration() {
                 </div>
                 {
                     showToster === 1 ?
-                        <SuccessToster handle={setShowToster} message="Data Save SuccessFully !!" /> : ""
+                        <SuccessToster handle={setShowToster} message="Data save successfully !!" /> : ""
+                }
+                {
+                    showToster === 2 ?
+                        <SuccessToster handle={setShowToster} message="Saved successfully !!" /> : ""
                 }
 
                 {
                     showAlertToster === 1 ?
                         <AlertToster handle={setShowAlertToster} message={showMessage} /> : ""
+                }
+                {
+                    showAlertToster === 2 ?
+                        <AlertToster handle={setShowAlertToster} message="Atleast one field is required" /> : ""
                 }
             </section>
 

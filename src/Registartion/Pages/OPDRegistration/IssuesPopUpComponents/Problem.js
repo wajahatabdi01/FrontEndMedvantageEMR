@@ -23,6 +23,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     const [txtCoding, setTxtCoding] = useState([]);
 
     const handleTitleInputChange = (e) => {
+        document.getElementById("errTitleISSUE").style.display = "none";
         setProblem(e.target.value);
         setCodingSelected(false);
         const { name, value } = e.target;
@@ -44,35 +45,35 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     };
 
     let handleRemove = () => {
-        const tempAr=txtCoding;
-        let tempData=[];
+        const tempAr = txtCoding;
+        let tempData = [];
         let tempNew = "";
-        for(var i=0; i < tempAr.length; i++){
-            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
-            if(!document.getElementById("ddlCoding"+i).checked){
+        for (var i = 0; i < tempAr.length; i++) {
+            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
+            if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
-        for(var i=0; i < tempAr.length; i++){
-            document.getElementById("ddlCoding"+i).checked = false;
+        for (var i = 0; i < tempAr.length; i++) {
+            document.getElementById("ddlCoding" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
-            tempNew +=  tempData[j]+';';
+            tempNew += tempData[j] + ';';
         }
-        let tempissueDetailNew ={
+        let tempissueDetailNew = {
             ...issueDetailss,
-            coding:tempNew
+            coding: tempNew
         }
-        console.log("tempissueDetailNew", tempissueDetailNew) 
-        issueDetailsData((prev) => ({ ...prev, "Problem":tempissueDetailNew}));
+        console.log("tempissueDetailNew", tempissueDetailNew)
+        issueDetailsData((prev) => ({ ...prev, "Problem": tempissueDetailNew }));
         setTxtCoding(tempData);
-        
+
     }
 
     let handleIssueDetailsChange = (e) => {
+        document.getElementById("errTitleBeginDate").style.display = "none";
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
-
         temp[name] = value
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Problem": t }));
@@ -80,10 +81,11 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
 
     let handleSelectProblem = (e) => {
         const ddlProblems = document.getElementById("ddlproblems");
+        document.getElementById("errTitleISSUE").style.display = "none";
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
-       // setCoding(selectProblem);
+        // setCoding(selectProblem);
         console.log('selectProblem', selectProblem);
         setCodingSelected(true);
         const { name, value } = e.target;
@@ -141,32 +143,32 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         // setPopUpId('');
     }
     const SelectedData = (data, modalID) => {
-        console.log("modalID",modalID)
+        console.log("modalID", modalID)
         let t = {
-          moduleId: modalID,
-          data: data
+            moduleId: modalID,
+            data: data
         }
         setgetData(t);
         setMakeData([...makeData, t])
         let temp = ""
         for (var i = 0; i < data.length; i++) {
-          temp +=  data[i].dropdownName +':'+ data[i].code +';'
+            temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
         // document.getElementById(modalID).value = temp
-        console.log('temp',temp);
-        
+        console.log('temp', temp);
+
         // issueDetailss.forEach(element => {
         //     element["coding"] = temp
         // });
-        let issueDetail ={
+        let issueDetail = {
             ...issueDetailss,
-            coding:temp
+            coding: temp
         }
-        console.log("issueDetailss", issueDetailss) 
-        issueDetailsData((prev) => ({ ...prev, "Problem":issueDetail}));
-        const splitData = temp.split(';').slice(0,-1);
+        console.log("issueDetailss", issueDetailss)
+        issueDetailsData((prev) => ({ ...prev, "Problem": issueDetail }));
+        const splitData = temp.split(';').slice(0, -1);
         setTxtCoding(splitData);
-      }
+    }
     useEffect(() => {
         getAllProblem();
         getAllIssueOutCome();
@@ -205,12 +207,13 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                             {/* {console.log('issueDetailss check',issueDetailss)} */}
                             <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                         </div>
+                        <small id="errTitleISSUE" className="form-text text-danger" style={{ display: 'none' }} />
                     </div>
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
                             <div>
-                               
+
                                 {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
                                     {txtCoding && txtCoding.length > 0 ?
                                         txtCoding.map((list,i)=>{
@@ -221,19 +224,19 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                                          
                                         : ''}
                                 </select> */}
-                                <div  className='form-control' style={{ height: '8em',overflow: 'auto' }} multiple name='coding' id='coding' >
+                                <div className='form-control' style={{ height: '8em', overflow: 'auto' }} multiple name='coding' id='coding' >
                                     {txtCoding && txtCoding.length > 0 ?
-                                        txtCoding.map((list,i)=>{
-                                            return(
+                                        txtCoding.map((list, i) => {
+                                            return (
                                                 <>
-                                                <span>
-                                                    <input type='checkbox' style={{marginRight:'5px'}} id={'ddlCoding'+i} />{list}
-                                                </span>
-                                                <br />
+                                                    <span>
+                                                        <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    </span>
+                                                    <br />
                                                 </>
                                             )
                                         })
-                                         
+
                                         : ''}
                                 </div>
                                 {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
@@ -241,7 +244,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
 
                         </div>
                         <div class="d-inline-flex gap-2">
-                            <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={()=>{handleOpenModal('coding')}}><i class="bi bi-plus"></i> Add</button>
+                            <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { handleOpenModal('coding') }}><i class="bi bi-plus"></i> Add</button>
                             <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
                         </div>
                     </div>
@@ -250,6 +253,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
                                 <input type="date" value={issueDetailss.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                                <small id="errTitleBeginDate" className="form-text text-danger" style={{ display: 'none' }} />
                             </div>
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>

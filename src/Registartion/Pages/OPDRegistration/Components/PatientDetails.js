@@ -100,16 +100,16 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         birthLastName: '',
         dob: '',
         age: '',
-        ageUnitId: '',
-        sexualOrientationId: '',
+        ageUnitId: 0,
+        sexualOrientationId: 0,
         externalId: '',
         socialSecurityNo: '',
         driversLicense: '',
-        maritalStatusId: '',
+        maritalStatusId: 0,
         billingNote: '',
         previousNamesJsonString: '[]',
-        genderId: '',
-        genderidentityId: ''
+        genderId: 0,
+        genderidentityId: 0
     });
 
     useEffect(() => {
@@ -209,19 +209,19 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 }
             )
         }
-        if (name === "mobileNo") {
-            const checkLength = value;
-            if (checkLength.toString().length > 10) {
-                return false;
-            }
-            else {
-                // setPatientMobileNo(e.target.value);
-                if (checkLength.toString().length === 10) {
-                    const key = value;
-                    getPatientDetailsByMobileNumber(key);
-                }
-            }
-        }
+        // if (name === "mobileNo") {
+        //     const checkLength = value;
+        //     if (checkLength.toString().length > 10) {
+        //         return false;
+        //     }
+        //     else {
+        //         // setPatientMobileNo(e.target.value);
+        //         if (checkLength.toString().length === 10) {
+        //             const key = value;
+        //             getPatientDetailsByMobileNumber(key);
+        //         }
+        //     }
+        // }
         document.getElementById("errMobile").style.display = "none"
         document.getElementById("errPatientFirstName").style.display = "none";
         document.getElementById("errTitle").style.display = "none";

@@ -64,10 +64,10 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
     }
 
     const [patientchoicesList, setPatientchoicesList] = useState({
-        providerID: '',
+        providerID: 0,
         provideSinceDate: '',
-        refProviderID: '',
-        pharmacyId: '',
+        refProviderID: 0,
+        pharmacyId: 0,
         hipaaNotice: '',
         hipaaVoice: '',
         leaveMessageWith: '',
@@ -87,7 +87,7 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
         careTeamProvider: '',
         careTeamStatus: '',
         careTeamFacility: '',
-        categoryId: '',
+        categoryId: 0,
         protectIndicator: '',
         protIndiEffdate: '',
         careTeamProvider: '',

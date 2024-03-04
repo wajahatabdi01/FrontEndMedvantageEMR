@@ -20,150 +20,150 @@ import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
 export default function ModalityMaster() {
-    let [userID, setUserID] = useState(JSON.parse(window.sessionStorage.getItem("LoginData")).userId);
-    let [showUnderProcess, setShowUnderProcess] = useState(0);
-    let [showToster, setShowToster] = useState(0);
-    let [tosterMessage, setTosterMessage] = useState("");
-    let [tosterValue, setTosterValue] = useState(0);
-    let [showLoder, setShowLoder] = useState(0);
-    let [isShowToaster, setisShowToaster] = useState(0);
-    let [showAlertToster, setShowAlertToster] = useState(0);
-    let [showErrMessage, setShowErrMessage] = useState('');
-    let [showSuccessMsg, setShowSuccessMsg] = useState('');
-    let [clearDropdown, setClearDropdown] = useState(0)
-    let [updateBool, setUpdateBool] = useState(0);
-    let [rowID, setRowId] = useState(0);
-    let [modalityName,setModalityName]=useState();
-    let [modalityList,setModalityList]=useState();
-    const { t } = useTranslation();
+  let [userID, setUserID] = useState(JSON.parse(window.sessionStorage.getItem("LoginData")).userId);
+  let [showUnderProcess, setShowUnderProcess] = useState(0);
+  let [showToster, setShowToster] = useState(0);
+  let [tosterMessage, setTosterMessage] = useState("");
+  let [tosterValue, setTosterValue] = useState(0);
+  let [showLoder, setShowLoder] = useState(0);
+  let [isShowToaster, setisShowToaster] = useState(0);
+  let [showAlertToster, setShowAlertToster] = useState(0);
+  let [showErrMessage, setShowErrMessage] = useState('');
+  let [showSuccessMsg, setShowSuccessMsg] = useState('');
+  let [clearDropdown, setClearDropdown] = useState(0)
+  let [updateBool, setUpdateBool] = useState(0);
+  let [rowID, setRowId] = useState(0);
+  let [modalityName, setModalityName] = useState();
+  let [modalityList, setModalityList] = useState();
+  const { t } = useTranslation();
 
-    let handleChange= async(e)=>{
-        document.getElementById('errModality').style.display="none";
-        const name = e.target.name;
-        const value = e.target.value;
+  let handleChange = async (e) => {
+    document.getElementById('errModality').style.display = "none";
+    const name = e.target.name;
+    const value = e.target.value;
 
-        if(name==="modalityName"){
-            setModalityName(value)
-        }
+    if (name === "modalityName") {
+      setModalityName(value)
     }
+  }
 
-    let getmodalityList= async ()=>{
-        const response =await GetModalityMaster()
-        if(response.status===1){
-            setModalityList(response.responseValue)
-        }
+  let getmodalityList = async () => {
+    const response = await GetModalityMaster()
+    if (response.status === 1) {
+      setModalityList(response.responseValue)
     }
+  }
 
-    let handlerSave =async()=>{
+  let handlerSave = async () => {
 
-        if(modalityName === '' || modalityName === 0 || modalityName === undefined || modalityName === null){
-            document.getElementById('errModality').innerHTML="Please Enter Modality Name";
-            document.getElementById('errModality').style.display="block";
-          }
-          else{
-             const obj ={
-                modalityName:modalityName,
-                userID:userID
-             }
-             
-             setShowUnderProcess(1);
-            const response = await PostModalitymaster(obj);
-        
-           if (response.status === 1) {
-               setShowUnderProcess(0);
-               setTosterValue(0);
-               setShowToster(1);
-               setTosterMessage("Saved Successfully");
-               setTimeout(() => {
-                   setShowToster(0);
-                   handleClear(1);
-                   getmodalityList();
-               }, 2000)
-           }
-           else {
-               setShowUnderProcess(0)
-               setShowToster(1)
-               setTosterMessage(response.responseValue)
-               setTosterValue(1)
-               setTimeout(() => {
-                   setShowToster(0)
-               }, 2000)
-           }
-          }
+    if (modalityName === '' || modalityName === 0 || modalityName === undefined || modalityName === null) {
+      document.getElementById('errModality').innerHTML = "Please Enter Modality Name";
+      document.getElementById('errModality').style.display = "block";
     }
+    else {
+      const obj = {
+        modalityName: modalityName,
+        userID: userID
+      }
 
-    let handlerUpdate =async()=>{
-        if(modalityName === '' || modalityName === 0 || modalityName === undefined || modalityName === null){
-            document.getElementById('errModality').innerHTML="Please Enter Modality Name";
-            document.getElementById('errModality').style.display="block";
-          }
-          else{
-             const obj ={
-                modalityName:modalityName,
-                userID:userID,
-                key:rowID
-             }
-             
-             setShowUnderProcess(1);
-            const response = await UpdateModalityMaster(obj);
-            
-           if (response.status === 1) {
-               setShowUnderProcess(0);
-               setTosterValue(0);
-               setShowToster(1);
-               setTosterMessage("Updated Successfully");
-               setTimeout(() => {
-                   setShowToster(0);
-                   handleClear(1);
-                   getmodalityList();
-               }, 2000)
-           }
-           else {
-               setShowUnderProcess(0)
-               setShowToster(1)
-               setTosterMessage(response.responseValue)
-               setTosterValue(1)
-               setTimeout(() => {
-                   setShowToster(0)
-               }, 2000)
-           }
-          }
+      setShowUnderProcess(1);
+      const response = await PostModalitymaster(obj);
+
+      if (response.status === 1) {
+        setShowUnderProcess(0);
+        setTosterValue(0);
+        setShowToster(1);
+        setTosterMessage("Saved Successfully");
+        setTimeout(() => {
+          setShowToster(0);
+          handleClear(1);
+          getmodalityList();
+        }, 2000)
+      }
+      else {
+        setShowUnderProcess(0)
+        setShowToster(1)
+        setTosterMessage(response.responseValue)
+        setTosterValue(1)
+        setTimeout(() => {
+          setShowToster(0)
+        }, 2000)
+      }
     }
+  }
 
-    let handleEdit = async (params)=>{
-        
-        setModalityName(params.modalityName);
-        setRowId(params.id);
-        setUpdateBool(1);
+  let handlerUpdate = async () => {
+    if (modalityName === '' || modalityName === 0 || modalityName === undefined || modalityName === null) {
+      document.getElementById('errModality').innerHTML = "Please Enter Modality Name";
+      document.getElementById('errModality').style.display = "block";
     }
+    else {
+      const obj = {
+        modalityName: modalityName,
+        userID: userID,
+        key: rowID
+      }
 
-    let handleClear =async()=>{
-        setRowId(0);
-        setUpdateBool(0);
-        setModalityName('');
-        document.getElementById('errModality').style.display="none";
-   }
-   let handleDelete =async()=>{
+      setShowUnderProcess(1);
+      const response = await UpdateModalityMaster(obj);
+
+      if (response.status === 1) {
+        setShowUnderProcess(0);
+        setTosterValue(0);
+        setShowToster(1);
+        setTosterMessage("Updated Successfully");
+        setTimeout(() => {
+          setShowToster(0);
+          handleClear(1);
+          getmodalityList();
+        }, 2000)
+      }
+      else {
+        setShowUnderProcess(0)
+        setShowToster(1)
+        setTosterMessage(response.responseValue)
+        setTosterValue(1)
+        setTimeout(() => {
+          setShowToster(0)
+        }, 2000)
+      }
+    }
+  }
+
+  let handleEdit = async (params) => {
+
+    setModalityName(params.modalityName);
+    setRowId(params.id);
+    setUpdateBool(1);
+  }
+
+  let handleClear = async () => {
+    setRowId(0);
+    setUpdateBool(0);
+    setModalityName('');
+    document.getElementById('errModality').style.display = "none";
+  }
+  let handleDelete = async () => {
     setShowLoder(0);
     const response = await DeleteModalityMaster(rowID);
-    if(response.status === 1){
+    if (response.status === 1) {
       setisShowToaster(1);
       setShowSuccessMsg('Modality Deleted Successfully..!!');
       getmodalityList();
       setTimeout(() => {
-          setisShowToaster(0);
+        setisShowToaster(0);
       }, 2000)
     }
-    else{
-        setShowLoder(0);
-        setShowAlertToster(1);
-        setShowErrMessage(response.responseValue);
+    else {
+      setShowLoder(0);
+      setShowAlertToster(1);
+      setShowErrMessage(response.responseValue);
     }
-   }
-    useEffect(()=>{
-        getmodalityList();
-    },[]);
-    document.body.dir = i18n.dir();
+  }
+  useEffect(() => {
+    getmodalityList();
+  }, []);
+  document.body.dir = i18n.dir();
   return (
     <>
       <section className="main-content mt-5 pt-3">
@@ -174,13 +174,13 @@ export default function ModalityMaster() {
               <BoxContainer>
                 <div className="col-2 mb-2 me-2">
                   <label htmlFor="TestName" className="form-label">{t("From Date")}</label>
-                  <input type="text" className="form-control form-control-sm" name="fromDate" id="fromDate"  />
+                  <input type="text" className="form-control form-control-sm" name="fromDate" id="fromDate" />
                   <small id="errFromDate" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                 </div>
                 <div className="col-2 mb-2 me-2">
                   <label htmlFor="TestName" className="form-label">{t("To Date")}</label>
-                  <input type="text" className="form-control form-control-sm" name="toDate" id="toDate"  />
+                  <input type="text" className="form-control form-control-sm" name="toDate" id="toDate" />
                   <small id="errToDate" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                 </div>
@@ -198,12 +198,12 @@ export default function ModalityMaster() {
                             {updateBool === 0 ?
                               <>
                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' />{t("Save")}</button>
-                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={()=>{handleClear(1)}}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={() => { handleClear(1) }}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
                               </>
                               :
                               <>
                                 <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlerUpdate}>{t("Update")}</button>
-                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={()=>{handleClear(1)}}>{t("Cancel")}</button>
+                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={() => { handleClear(1) }}>{t("Cancel")}</button>
                               </>
                             }
                           </div>}
@@ -233,7 +233,7 @@ export default function ModalityMaster() {
                           <td>{val.modalityName}</td>
                           <td>
                             <div className="action-button">
-                              <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => {handleEdit(val)}} /></div>
+                              <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => { handleEdit(val) }} /></div>
                               <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={deleteBtnIcon} className='' alt='' onClick={() => { setRowId(val.id) }} />
                               </div>
                             </div>
@@ -255,7 +255,7 @@ export default function ModalityMaster() {
                       <div className="modal-body modelbdy text-center">
                         <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
                         <div className='popDeleteTitle mt-3'>{t("Delete?")}</div>
-                       <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
+                        <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
                       </div>
                       <div className="modal-footer1 text-center">
 
@@ -272,18 +272,18 @@ export default function ModalityMaster() {
           </div>
         </div>
         {
-                    showLoder === 1 ? <Loder val={showLoder} /> : ""
-                }
-                {/* Toaster */}
-                {
-                    isShowToaster === 1 ?
-                        <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
-                }
-               
-                {
-                    showAlertToster === 1 ?
-                        <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
-                }
+          showLoder === 1 ? <Loder val={showLoder} /> : ""
+        }
+        {/* Toaster */}
+        {
+          isShowToaster === 1 ?
+            <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
+        }
+
+        {
+          showAlertToster === 1 ?
+            <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+        }
       </section>
     </>
   )

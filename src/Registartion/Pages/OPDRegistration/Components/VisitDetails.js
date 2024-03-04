@@ -11,6 +11,8 @@ import Device from '../IssuesPopUpComponents/Device';
 import Surgery from '../IssuesPopUpComponents/Surgery';
 import saveButtonIcon from '../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../assets/images/icons/clear.svg';
+import SuccessToster from '../../../../Component/SuccessToster';
+import AlertToster from '../../../../Component/AlertToster';
 const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     // console.log("issueValue", issueValue);
@@ -22,6 +24,8 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     let [statuslist, setStatusList] = useState([]);
     let [classificationList, setClassificationList] = useState([]);
     const [isCodingSelected, setCodingSelected] = useState(false);
+    let [showToster, setShowToster] = useState(0)
+    let [showAlertToster, setShowAlertToster] = useState(0)
 
     const [visitDetails, setVisitDetails] = useState({
         classId: '0',
@@ -31,6 +35,10 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
         dischargeDispositionId: '0',
         reasonforVisit: '',
     });
+
+    let handleErrorClear = () => {
+        document.getElementById("errTitleISSUE").style.display = "none";
+    }
     let handleClear = () => {
         console.log("dat delet")
         issueDetailData(
@@ -109,35 +117,46 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
             }
         );
     }
-    let handleSaveIssues = async () => {
-        console.log("Function Invoked", issueDetails)
-        // console.log('issueDetails', issueDetails);
-        const selectProblem = document.getElementById("ddlproblems").value;
-        // const titleForProblem = document.getElementById("title").value;
-        // const referredbyForProblem = document.getElementById("referredby").value;
-        // const commentsForProblem = document.getElementById("comments").value;
-        // const destinationForProblem = document.getElementById("destination").value;
-        // const codingSelect = document.getElementById("coding");
-        // const selectedCoding = codingSelect.options[codingSelect.selectedIndex].text
-        // const beginDateTimeForProblem = document.getElementById("beginDateTime").value;
-        // const endDateTimeForProblem = document.getElementById("endDateTime").value;
-        // const selectclassificationType = document.getElementById("classificationTypeId");
-        // const selectedClassificationType = selectclassificationType.options[selectclassificationType.selectedIndex].text
-        // const selectOccurrence = document.getElementById("occurrenceId");
-        // const selectedOccurrence = selectOccurrence.options[selectOccurrence.selectedIndex].text
-        // const selectVerificationStatus = document.getElementById("verificationStatusId");
-        // const selectedVerificationStatus = selectVerificationStatus.options[selectVerificationStatus.selectedIndex].text
-        // const selectOutcome = document.getElementById("outcomeId");
-        // const selectedOutcome = selectOutcome.options[selectOutcome.selectedIndex].text
-
-        // const dataobj = {
-        //     problem: selectProblem,
-        //     coding: selectedCoding,
-        //     link:'('+selectedCoding+selectProblem+')'
-        // }
-        // console.log("dataobj", dataobj)
-        // setLink(link);
+    let handleValidation = (problemData, allergyData) => {
+        console.log("allergyData", allergyData)
+        if (problemData.title.trim() !== "" && problemData.beginDateTime.trim() !== "" ||
+            allergyData.title.trim() !== "" && allergyData.beginDateTime.trim() !== "") {
+            return true
+        }
+        else if (problemData.title.trim() === "") {
+            document.getElementById("errTitleISSUE").innerHTML = "Please enter title";
+            document.getElementById("errTitleISSUE").style.display = "block";
+            return false
+        }
+        else if (problemData.beginDateTime.trim() === "") {
+            document.getElementById("errTitleBeginDate").innerHTML = "Please select begin date";
+            document.getElementById("errTitleBeginDate").style.display = "block";
+            return false
+        }
+        else if (allergyData.title.trim() === "") {
+            document.getElementById("errTitleAllergies").innerHTML = "Please enter title";
+            document.getElementById("errTitleAllergies").style.display = "block";
+            return false
+        }
+        else if (allergyData.beginDateTime.trim() === "") {
+            document.getElementById("errDateAllergies").innerHTML = "Please select begin date";
+            document.getElementById("errDateAllergies").style.display = "block";
+            return false
+        }
     }
+
+    let handleSaveIssues = async () => {
+        let respValidation = handleValidation(issueDetails.Problem, issueDetails.Allergy)
+        if (respValidation) {
+            console.log("Function Invoked", issueDetails.Problem);
+            setShowToster(1); // Set showToster to 1 only when condition is met
+            setTimeout(() => {
+                setShowToster(0); // Set back showToster to 0 after 2 seconds
+            }, 2000);
+        }
+    };
+
+
     const handleTitleInputChange = (e) => {
         //     setProblem(e.target.value);
         //     setCodingSelected(false);
@@ -311,46 +330,43 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                     </div>
                     <div className='col-md-4'>
                         <Heading text="Link/Add Issues to This Visit" />
-                        {
-                            console.log("prblem", issueDetails.Problem)
-                        }
                         <div className='form-control'>
                             {issueDetails !== undefined ?
                                 <>
                                     {
                                         issueDetails.Problem.coding !== undefined ?
-                                        issueDetails.Problem.coding.split(';').map((li,i)=>{
-                                            return(<><span>{li}</span> <br /></>)
-                                        })
-                                        : ""
+                                            issueDetails.Problem.coding.split(';').map((li, i) => {
+                                                return (<><span>{li}</span> <br /></>)
+                                            })
+                                            : ""
                                     }
-                                     {
+                                    {
                                         issueDetails.Allergy.coding !== undefined ?
-                                        issueDetails.Allergy.coding.split(';').map((li,i)=>{
-                                            return(<><span>{li}</span> <br /></>)
-                                        })
-                                        : ""
+                                            issueDetails.Allergy.coding.split(';').map((li, i) => {
+                                                return (<><span>{li}</span> <br /></>)
+                                            })
+                                            : ""
                                     }
                                     {
                                         issueDetails.Medication.coding !== undefined ?
-                                        issueDetails.Medication.coding.split(';').map((li,i)=>{
-                                            return(<><span>{li}</span> <br /></>)
-                                        })
-                                        : ""
+                                            issueDetails.Medication.coding.split(';').map((li, i) => {
+                                                return (<><span>{li}</span> <br /></>)
+                                            })
+                                            : ""
                                     }
                                     {
                                         issueDetails.Device.coding !== undefined ?
-                                        issueDetails.Device.coding.split(';').map((li,i)=>{
-                                            return(<><span>{li}</span> <br /></>)
-                                        })
-                                        : ""
+                                            issueDetails.Device.coding.split(';').map((li, i) => {
+                                                return (<><span>{li}</span> <br /></>)
+                                            })
+                                            : ""
                                     }
-                                     {
+                                    {
                                         issueDetails.Surgery.coding !== undefined ?
-                                        issueDetails.Surgery.coding.split(';').map((li,i)=>{
-                                            return(<><span>{li}</span> <br /></>)
-                                        })
-                                        : ""
+                                            issueDetails.Surgery.coding.split(';').map((li, i) => {
+                                                return (<><span>{li}</span> <br /></>)
+                                            })
+                                            : ""
                                     }
                                 </>
                                 : ''
@@ -381,7 +397,7 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                                         <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#problem" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Problem</button>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                        <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#allergy" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Allergy  </button>
+                                        <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#allergy" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false" onClick={handleErrorClear}>Allergy  </button>
                                     </li>
                                     <li className="nav-item" role="presentation">
                                         <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#medication" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Medication</button>
@@ -587,6 +603,14 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
                     </div>
                 </div>
             </div>
+            {
+                showToster === 1 ?
+                    <SuccessToster handle={setShowToster} message="Issue save successfully !!" /> : ""
+            }
+            {
+                showAlertToster === 2 ?
+                    <AlertToster handle={setShowAlertToster} message="Atleast one field is required" /> : ""
+            }
         </>
     );
 };

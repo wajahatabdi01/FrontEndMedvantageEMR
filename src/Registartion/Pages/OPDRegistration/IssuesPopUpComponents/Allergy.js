@@ -5,6 +5,8 @@ import GetAllVarificationStatus from '../../../API/GET/GetAllVarificationStatus'
 import GetAllClassification from '../../../API/GET/GetAllClassification';
 import { CodeMaster } from '../../../../Admin/Pages/EMR Master/CodeMaster';
 import GetBrandList from '../../../API/GET/GetBrandList';
+import GetAllSeverityData from '../../../API/GET/GetAllSeverityData';
+import GetAllReactionList from '../../../API/GET/GetAllReactionList';
 
 const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     let [problem, setProblem] = useState('');
@@ -12,6 +14,8 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
+    let [severitylist, setSeverityList] = useState([]);
+    let [reactionlist, setReactionList] = useState([]);
     let [statuslist, setStatusList] = useState([]);
     let [classificationList, setClassificationList] = useState([]);
     const [isCodingSelected, setCodingSelected] = useState(false);
@@ -24,6 +28,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
 
 
     const handleTitleInputChange = (e) => {
+        document.getElementById("errTitleAllergies").style.display = "none";
         setProblem(e.target.value);
         setCodingSelected(false);
         const { name, value } = e.target;
@@ -45,32 +50,33 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     };
 
     let handleRemove = () => {
-        const tempAr=txtCoding;
-        let tempData=[];
+        const tempAr = txtCoding;
+        let tempData = [];
         let tempNew = "";
-        for(var i=0; i < tempAr.length; i++){
-            console.log('ddd',document.getElementById("ddlCoding"+i).checked)
-            if(!document.getElementById("ddlCoding"+i).checked){
+        for (var i = 0; i < tempAr.length; i++) {
+            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
+            if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
-        for(var i=0; i < tempAr.length; i++){
-            document.getElementById("ddlCoding"+i).checked = false;
+        for (var i = 0; i < tempAr.length; i++) {
+            document.getElementById("ddlCoding" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
-            tempNew +=  tempData[j]+';';
+            tempNew += tempData[j] + ';';
         }
-        let tempissueDetailNew ={
+        let tempissueDetailNew = {
             ...issueDetailss,
-            coding:tempNew
+            coding: tempNew
         }
-        console.log("tempissueDetailNew", tempissueDetailNew) 
-        issueDetailsData((prev) => ({ ...prev, "Allergy":tempissueDetailNew}));
+        console.log("tempissueDetailNew", tempissueDetailNew)
+        issueDetailsData((prev) => ({ ...prev, "Allergy": tempissueDetailNew }));
         setTxtCoding(tempData);
-        
+
     }
 
     let handleIssueDetailsChange = (e) => {
+        document.getElementById("errDateAllergies").style.display = "none";
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
 
@@ -80,6 +86,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     }
 
     let handleSelectAllergy = (e) => {
+        document.getElementById("errTitleAllergies").style.display = "none";
         const ddlProblems = document.getElementById("ddlallergy");
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
@@ -122,6 +129,18 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         const response = await GetAllVarificationStatus();
         if (response.status === 1) {
             setStatusList(response.responseValue);
+        }
+    }
+    let getAllSeverityData = async () => {
+        const response = await GetAllSeverityData();
+        if (response.status === 1) {
+            setSeverityList(response.responseValue);
+        }
+    }
+    let getAllReactionList = async () => {
+        const response = await GetAllReactionList();
+        if (response.status === 1) {
+            setReactionList(response.responseValue);
         }
     }
     let getClassificationlist = async () => {
@@ -188,10 +207,8 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
-        // issueDetailsData(issueDetailss)
-        // console.log("issueDetailss", issueDetailss)
-        // setIssueDetails(issueDetailss.Allergy)
-        // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
+        getAllSeverityData();
+        getAllReactionList();
         console.log("issueDetailss", issueDetailss)
 
     }, [issueDetailsData]);
@@ -221,6 +238,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                             {/* {console.log('issueDetailss check',issueDetailss)} */}
                             <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                         </div>
+                        <small id="errTitleAllergies" className="form-text text-danger" style={{ display: 'none' }} />
                     </div>
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
@@ -251,7 +269,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
 
                                         : ''}
                                 </div>
-                            
+
                                 {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                             </div>
                         </div>
@@ -265,6 +283,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
                                 <input type="date" value={issueDetailss.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                                <small id="errDateAllergies" className="form-text text-danger" style={{ display: 'none' }} />
                             </div>
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
@@ -308,6 +327,36 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                                 </div>
                                 <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                             </div>
+                            <div className="col-4 mb-2">
+                                <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Severity</b></label>
+                                {/* <sup style={{ color: "red" }}>*</sup> */}
+                                <div className='d-flex gap-3' >
+                                    <select value={issueDetailss.severityId} className="form-select form-select-sm" id="severityId" aria-label=".form-select-sm example" name='severityId' onChange={handleIssueDetailsChange} >
+                                        <option value="0" selected>Select Severity</option>
+                                        {severitylist && severitylist.map((list) => {
+                                            return (
+                                                <option value={list.id}>{list.name}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                                <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                            </div>
+                            <div className="col-4 mb-2">
+                                <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Reaction</b></label>
+                                {/* <sup style={{ color: "red" }}>*</sup> */}
+                                <div className='d-flex gap-3' >
+                                    <select value={issueDetailss.reactionId} className="form-select form-select-sm" id="reactionId" aria-label=".form-select-sm example" name='reactionId' onChange={handleIssueDetailsChange} >
+                                        <option value="0" selected>Select Reaction</option>
+                                        {reactionlist && reactionlist.map((list) => {
+                                            return (
+                                                <option value={list.id}>{list.title}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                                <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                            </div>
 
                             <div className="col-4 mb-2">
                                 <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Verification Status</b></label>
@@ -324,11 +373,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                                 </div>
                                 <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                             </div>
-                        </div>
-                    </div>
-                    <div className='col-12'>
-                        <div className="row">
-                            <div className="col-6 mb-2">
+                            <div className="col-4 mb-2">
                                 <label htmlFor="ddlRelationshipTertiary" className="form-label"><b>Outcome</b></label>
                                 {/* <sup style={{ color: "red" }}>*</sup> */}
                                 <div className='d-flex gap-3' >
@@ -343,18 +388,22 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                                 </div>
                                 <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                             </div>
+                        </div>
+                    </div>
+                    <div className='col-12'>
+                        <div className="row">
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Destination</b></label>
                                 <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={issueDetailss.destination} onChange={handleIssueDetailsChange} />
+                            </div>
+                            <div className="col-6 mb-2">
+                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
+                                <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={issueDetailss.referredby} onChange={handleIssueDetailsChange} />
                             </div>
                         </div>
                     </div>
                     <div className='col-12'>
                         <div className="row">
-                            <div className="col-12 mb-2">
-                                <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Referred by</b></label>
-                                <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={issueDetailss.referredby} onChange={handleIssueDetailsChange} />
-                            </div>
                             <div className="col-12 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Comments</b></label>
                                 <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={issueDetailss.comments} onChange={handleIssueDetailsChange}></textarea>

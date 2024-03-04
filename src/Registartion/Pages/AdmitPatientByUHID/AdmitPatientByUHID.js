@@ -153,6 +153,7 @@ const GetInsuranceList = async()=>{
                 setShowUnderProcess(0)
                 setShowToster(1)
                 setTosterMessage("Data save successfully!")
+                handleClear(1);
                 setTosterValue(0)
                 setTimeout(() => {
                     setShowToster(0)
@@ -234,7 +235,6 @@ let SaveInsuranceDetails = async()=>{
         setCashpayment('');
         document.getElementById("uhid").value = "";
         setPatientData([]);
-        document.getElementById('ddlPaymentType').value = "0";
         setPaymentType(0);
     }
     let handlePaymentChange = () => {
@@ -298,7 +298,7 @@ let SaveInsuranceDetails = async()=>{
 
                                                             <tr>
                                                                 <td><img src={ageIcon} className='icnn' alt=''  />{t("Age")}:</td>
-                                                                <td><strong> {patientData && patientData.age}</strong></td>
+                                                                <td><strong> {patientData && patientData.age}{patientData.ageTyepe ? patientData.ageTyepe : ''}</strong></td>
                                                             </tr>
 
                                                             <tr>

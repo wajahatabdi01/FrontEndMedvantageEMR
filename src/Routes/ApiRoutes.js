@@ -391,6 +391,7 @@ import FHIRRelationshipMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRRelations
 import FHIRIssueOutComeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOutComeMaster';
 import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferralSourceMaster';
 import FHIRReligionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReligionMaster';
+import FHIRPatientProfile from '../Registartion/Pages/OPDRegistration/FHIRPatientProfile';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -434,6 +435,7 @@ export default function ApiRoutes() {
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
                         <Route path='/verification/' element={<VerificationStatus />} />
+                        {/* <Route path='/fhirpatientprofile/' element={<FHIRPatientProfile />} /> */}
 
                   </>
                     {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
@@ -642,6 +644,7 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/opdpatientlist/" element={<ProtectedRoutes Compnent={<CommonLayout Component={null} name="OPDPatientList" />} />} />
                         <Route path="/prescriptionopd/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDPrescriptionIndex />} name="opd" />} />} />
+                        <Route path="/fhirpatientprofile/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRPatientProfile />} name="fhirpatientprofile" />} />} />
                         <Route path="/vaccinationchart/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<VaccinationChart />} name="opd" />} />} />
                         <Route path="/opdvital/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDVitalIndex />} name="opd" />} />} />
                         <Route path="/opdcalculator/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDCalculatorIndex />} name="opd" />} />} />
