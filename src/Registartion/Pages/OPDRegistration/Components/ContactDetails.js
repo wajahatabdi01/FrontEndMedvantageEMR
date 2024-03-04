@@ -448,12 +448,16 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                     }
                 }} value={contactDetails.trustedEmail} onChange={handleContactDetailsChange} />
             </div>
-            <div className="dflex">
+            {/* <div className="dflex">
                 <div className="col-2 mb-2">
                     <label htmlFor="ddlEmpty" className="form-label"></label>
                     <button type="button" class="form-control form-control-sm" id="addCity" onClick={handleAddDiv}>Additonal Address <img src={emailIcon} className='icnn' alt='' /></button>
                 </div>
 
+            </div> */}
+            <div className="col-2 mb-2">
+                <label htmlFor="ddlEmpty" className="form-label"></label>
+                <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={handleAddDiv}><i class="bi bi-plus-lg"></i> Additonal Address</button>
             </div>
 
             {/* -----------------------------------------------------NEW----------------------------------------------------------- */}
@@ -559,7 +563,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                     </div>
                     <div className="col-2 mb-2">
                         <label htmlFor="ddlEmpty" className="form-label"></label>
-                        <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={() => handleRemoveDiv(index)}> Remove</button>
+                        <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i> Remove</button>
                     </div>
                 </div>
             ))}
