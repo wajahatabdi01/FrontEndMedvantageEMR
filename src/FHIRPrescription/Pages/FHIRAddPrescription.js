@@ -346,14 +346,22 @@ export default function FHIRAddPrescription(props) {
   }
 
   let sendNotification = async (datas) => {
-    let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
-    let patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
+    // let activeUHID = window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    //  let patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())?
+    //                     JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString()):
+    //                     JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
+    if(JSON.parse(window.sessionStorage.getItem("IPDpatientList"))){
+      var patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
+    }
+    else if(JSON.parse(window.sessionStorage.getItem("patientList"))){
+     patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
+    }
     let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
     let data = {
       "userId": window.userId,
       "Uhid": activeUHID,
       "medicineData": datas,
-      "patientName": patientname[0].patientName,
+       "patientName": patientname[0].patientName,
       "doctorName": doctorName
     }
     let sendData = {
@@ -380,7 +388,7 @@ export default function FHIRAddPrescription(props) {
       // "status": true,
       // "methodName": "receivePrescription"
     }
-   
+
  
     let response = await InsertPrescriptionNotification(sendData)
 

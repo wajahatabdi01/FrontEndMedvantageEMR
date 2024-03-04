@@ -33,6 +33,7 @@ import OPDSurgeryPopUp from './FHIROPDPopUp/OPDSurgeryPopUp';
 import NoDataFound from '../../../../../assets/images/icons/No data-rafiki.svg'
 import { t } from 'i18next'
 import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
+import OPDTopVitals from './OPDTopVitals'
 export default function OPDPrescriptionIndex(props) {
 
 
@@ -83,7 +84,6 @@ export default function OPDPrescriptionIndex(props) {
         let obj = {
             Id: rowId
         }
-        console.log("object Delete", obj)
         // return;
         let response = await DeleteEncounter(obj)
         if (response.status === 1) {
@@ -706,7 +706,7 @@ export default function OPDPrescriptionIndex(props) {
 
             {showPopUp != 1 ?
                 <div className=''>
-                    {/* <OPDTopVitals /> */}
+                    <OPDTopVitals />
                     <div className="row" >
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
@@ -755,9 +755,9 @@ export default function OPDPrescriptionIndex(props) {
                                             </thead>
                                             <tbody>
                                                 {getEncounterList && getEncounterList.map((list, ind) => {
-                                                    { console.log('getEncounterList', getEncounterList) }
+                                                   
                                                     const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-                                                    console.log("codingListItem", codingListItem)
+                                                   
                                                     return (
                                                         <tr className="text-center" key={list.id}>
                                                             <td className="text-center">{ind + 1}</td>

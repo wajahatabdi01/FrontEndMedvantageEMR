@@ -13,8 +13,21 @@ import SaveOPDData from '../../../../../Code/SaveOPDData';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
+import saveButtonIcon from '../../../../../assets/images/icons/saveButton.svg'
+import InsertPatientVitalForONC from '../../../../API/OPD/Vitals/InsertPatientVitalForONC'
+
 
 export default function OPDTopVitals(props) {
+    const deptId = JSON.parse(window.sessionStorage.getItem("activePage")).DepartmentId;
+    console.log('deptId : ', deptId)
+    const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId;
+    console.log('doctorId : ', doctorId);
+    const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
+  console.log('userId : ', userId)
+  let activeUHID = window.sessionStorage.getItem("activePatient")
+    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const { t } = useTranslation();
     document.body.dir = i18n.dir();
     // let [showVitalPopUp, setShowVitalPopUp] = useState()
@@ -157,6 +170,24 @@ export default function OPDTopVitals(props) {
         setSendVitals(temp)
     }
 
+    const handleSaveVital = async () => {
+        console.log('the vitals : ', JSON.stringify(sendVitals))
+        const saveObj = {
+            deptId : deptId,
+            doctorId : doctorId,
+            uhid :activeUHID,
+            userId: userId,
+            clientId : clientID,
+            jsonVital : JSON.stringify(sendVitals)
+        }
+        const saveRes = await InsertPatientVitalForONC(saveObj);
+        if(saveRes.status === 1) {
+            alert('Data Saved For Vital');
+        }
+        else{
+            alert('Not saved')
+        }
+    }
     useEffect(() => {
         if (props.values === 1) {
             setData()
@@ -274,6 +305,7 @@ export default function OPDTopVitals(props) {
                                 )
                             }
                         })}
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSaveVital}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
                         {/* <div className="did-floating-label-content pe-2" >
                             <input className="did-floating-input" type="number" name="56" placeholder=" " value={sendVitals[0].vmValue != "" ? sendVitals[0].vmValue : ""} style={{ maxWidth: "80px" }} onChange={handleOnchange} disabled={disable === 1 ? true : false}/>
                             <label className={`${sendVitals[0].vmValue === ""?"did-floating-label": !Number.isNaN(sendVitals[0].vmValue)?"temp-did-floating-label":"did-floating-label"} `}><img src={Height} className='pe-1' />SPO2</label>
@@ -315,10 +347,10 @@ export default function OPDTopVitals(props) {
 
                     </div>
                 </div>
-                <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
+                {/* <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
 
                     <OPDTOPBottom values={props.values} funh={props.funh} />
-                </div>
+                </div> */}
 
             </div>
             {
