@@ -98,22 +98,13 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
             countryId: countryID
         }));
     };
-    let onChangeAddCountry = async () => {
-        const countryID = document.getElementById('countryIdd').value;
-        console.log("countryID", countryID);
-        getStateList(countryID);
-        setContactDetails((prevData) => ({
-            ...prevData,
-            countryId: countryID
-        }));
-    };
 
     let getStateList = async (val) => {
         let data = await GetStateList(val);
         setStateList(data.responseValue);
     }
-    let getAddStateList = async (val) => {
-        let data = await GetStateList(val);
+    let getAddStateList = async (vals) => {
+        let data = await GetStateList(vals);
         setStateList(data.responseValue);
     }
 
