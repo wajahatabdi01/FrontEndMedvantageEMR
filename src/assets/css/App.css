@@ -11812,7 +11812,19 @@ span.ptn-dtails {
   color: #7B7B7B;
   opacity: 1;
 }
-
+button.btndelt {
+  font-size: 13px;
+  padding: 2px 4px;
+  color: red;
+  border: 1px solid red;
+  border-radius: 3px;
+  background: #fff;
+  margin-top: 26px;
+}
+button.btndelt:hover {
+  background: #f05151;
+  color: #fff;
+}
 .privacycomment {
   width: 100%;
   font-size: 14px;

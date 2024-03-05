@@ -37,7 +37,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         workPhone: '',
         emailID: '',
         trustedEmail: '',
-        additionalAddressJsonString: []
+        additionalAddressJsonString:'[]'
     });
 
     useEffect(() => {
@@ -109,6 +109,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     };
 
     let getStateList = async (val) => {
+        let data = await GetStateList(val);
+        setStateList(data.responseValue);
+    }
+    let getAddStateList = async (val) => {
         let data = await GetStateList(val);
         setStateList(data.responseValue);
     }
@@ -271,16 +275,16 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         setDivs(updatedDivs);
 
         const addcountryID = document.getElementById('countryIdd').value;
-        getStateList(addcountryID);
+        getAddStateList(addcountryID);
 
-        const addstateID = document.getElementById('stateIDD').value;
-        if (addstateID === "0" || addstateID === undefined || addstateID === null) {
-            setCityList([]);
-        }
-        else {
-            let data = await GetCityList(addstateID);
-            setCityList(data.responseValue);
-        }
+        // const addstateID = document.getElementById('stateIDD').value;
+        // if (addstateID === "0" || addstateID === undefined || addstateID === null) {
+        //     setCityList([]);
+        // }
+        // else {
+        //     let data = await GetCityList(addstateID);
+        //     setCityList(data.responseValue);
+        // }
         const additionalAddressjsonData = JSON.stringify(divs);
         console.log(additionalAddressjsonData);
         setContactDetails((prevData) => ({
@@ -504,12 +508,12 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                         <small id="errCity" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
                     <div className="col-2 mb-2 relative">
-                        <label htmlFor="txtDob" className="form-label "><img src={"calendar"} className='icnn' alt='' />Start Date<span class="starMandatory">*</span></label>
+                        <label htmlFor="txtDob" className="form-label "><img src={"calendar"} className='icnn' alt='' />Start Date<span class="starMandatory"></span></label>
                         <input type="date" className="form-control form-control-sm" max={"today"} id="startDate" name='startDate' value={div.startDate} onChange={(e) => handleInputChange(e, index)} />
                         <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
                     <div className="col-2 mb-2 relative">
-                        <label htmlFor="txtDob" className="form-label "><img src={"calendar"} className='icnn' alt='' />End Date<span class="starMandatory">*</span></label>
+                        <label htmlFor="txtDob" className="form-label "><img src={"calendar"} className='icnn' alt='' />End Date<span class="starMandatory"></span></label>
                         <input type="date" className="form-control form-control-sm" max={"today"} id="endDate" name='endDate' value={div.endDate} onChange={(e) => handleInputChange(e, index)} />
                         <small id="errPatientDob" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
@@ -563,16 +567,10 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
                     </div>
                     <div className="col-2 mb-2">
                         <label htmlFor="ddlEmpty" className="form-label"></label>
-                        <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i> Remove</button>
+                        <button type="button" class="btndelt" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i></button>
                     </div>
                 </div>
             ))}
-            {/* <div className="col-2 mb-2">
-                <label htmlFor="ddlEmpty" className="form-label"></label>
-                <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={handleSaveData}> Save</button>
-            </div> */}
-
-
 
             {/* OLD Render existing input textboxes with delete buttons */}
             {

@@ -1436,7 +1436,7 @@ export default function PatientRegistration() {
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
-                handleClear();
+                // handleClear();
             }
             else {
                 setShowUnderProcess(0)

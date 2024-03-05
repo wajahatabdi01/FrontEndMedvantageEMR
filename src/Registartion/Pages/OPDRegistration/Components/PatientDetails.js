@@ -646,7 +646,7 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             </div>
             <div className="col-2 mb-2">
                 <label htmlFor="ddlEmpty" className="form-label"></label>
-                <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={handlePatientDetailsAdd}><i className="bi bi-plus"></i> Add</button>
+                <button type="button" class="btn btn-save btn-save-fill btn-sm mt-4" id="addPriviousNames" onClick={handlePatientDetailsAdd}><i class="bi bi-plus-lg"></i> Add</button>
             </div>
 
             {/* ######################## Moodal Pop Area #################### */}
