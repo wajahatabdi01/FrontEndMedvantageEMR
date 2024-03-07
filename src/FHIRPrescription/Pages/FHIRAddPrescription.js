@@ -74,7 +74,6 @@ export default function FHIRAddPrescription(props) {
     const response = await GetBrandList();
     if (response.status === 1) {
       const slicedProblemList = response.responseValue.slice(0, 100);
-   
       setBrandList(slicedProblemList);
     }
   };
@@ -170,7 +169,7 @@ export default function FHIRAddPrescription(props) {
   };
 
   //////////////////////////////// Final Save /////////////////////////
-  const handleSave = async () => {
+  const handleSave = async () => {  
     if (sendForm.startingdate === "") {
       document.getElementById("errDate").innerHTML = "Please select date.";
       document.getElementById("errDate").style.display = "block";
@@ -178,12 +177,14 @@ export default function FHIRAddPrescription(props) {
       document.getElementById("errDrug").innerHTML = "Please select drug.";
       document.getElementById("errDrug").style.display = "block";
     } else {
+     const filterArr=brandList.filter((arr)=>{if(arr.medicineID===sendForm.brandList){return arr;}});
+
       const finalObj = {
         uhid: activeUHID,
         currentlyActive: sendForm.currentlyActive,
         startingDate: sendForm.startingdate,
         providerId: sendForm.providerName,
-        drugId: sendForm.exampleRadios,
+        drugId: sendForm.brandList,
         quantity: sendForm.QuantityName,
         size: sendForm.medicineStrength,
         unit: sendForm.medicineUnit,
@@ -197,7 +198,7 @@ export default function FHIRAddPrescription(props) {
         medication: sendForm.addToList,
         substitute: sendForm.ReasonName,
         drug:
-          sendForm.brandList +
+        filterArr[0].name +
           " " +
           sendForm.medicineStrength +
           " " +
@@ -277,7 +278,7 @@ export default function FHIRAddPrescription(props) {
       ControlledSubstance: false,
       startingdate: formattedDate,
       providerName: providerId,
-      exampleRadios: drugId,
+      //exampleRadios: drugId, later on change
       QuantityName: quantity,
       medicineStrength: size,
       medicineUnit: unit,
@@ -297,6 +298,16 @@ export default function FHIRAddPrescription(props) {
 
   const handleUpdateSave = async () => {
    
+    if(sendForm.brandList) {
+      var filterArrUpName=brandList.filter((arr)=>{if(arr.medicineID===sendForm.brandList){return arr;}});
+      
+    }
+    else{
+      var filterArrUpId=brandList.filter((arr)=>{if(arr.name===editName){return arr;}});
+      
+    }
+    
+    
     
     const finalObjUpdate = {
       id: theRowId,
@@ -304,7 +315,7 @@ export default function FHIRAddPrescription(props) {
       currentlyActive: sendForm.currentlyActive,
       startingDate: sendForm.startingdate,
       providerId: sendForm.providerName,
-      drugId: sendForm.exampleRadios,
+      drugId: (filterArrUpId !== undefined ? filterArrUpId[0].medicineID : (filterArrUpName !== undefined ? filterArrUpName[0].medicineID : null)),
       quantity: sendForm.QuantityName,
       size: sendForm.medicineStrength,
       unit: sendForm.medicineUnit,
@@ -331,7 +342,6 @@ export default function FHIRAddPrescription(props) {
       rxnormDrugCode: "1432537",
       clientId: clientID,
     };
-    
     
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
     if (updateRes.status === 1) {
@@ -393,9 +403,9 @@ export default function FHIRAddPrescription(props) {
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-      // setShowtoster(1)
-      // setShowTosterMessage("Prescription sent to Pharmacy");
-      // alert('Data Sent')
+      setShowtoster(1)
+      setShowTosterMessage("Prescription sent to Pharmacy");
+      alert('Data Sent')
     }
   }
 
@@ -515,7 +525,7 @@ export default function FHIRAddPrescription(props) {
                               </label>
                               {/* <input  id="DrugSearchID" type="text" className="form-control form-control-sm" name="DrugSearchID" placeholder= "Enter Drug" onClick={''} /> */}
                               {brandList && (
-                                <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"name"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
+                                <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
                               )}
                               <small id="errDrug" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
