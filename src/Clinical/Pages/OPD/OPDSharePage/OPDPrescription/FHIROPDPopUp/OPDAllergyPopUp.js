@@ -479,7 +479,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                                     ))
                                 ) : (
                                     brandTempList.map((brand) => (
-                                        <option key={brand.id} value={brand.id}>
+                                        <option key={brand.medicineID} value={brand.medicineID}>
                                             {brand.name}
                                         </option>
                                     ))

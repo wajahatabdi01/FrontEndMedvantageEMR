@@ -3,12 +3,12 @@ import GetAllIssueOutCome from '../../../API/GET/GetAllIssueOutCome';
 import GetAllIssueOccurence from '../../../API/GET/GetAllIssueOccurence';
 import GetAllVarificationStatus from '../../../API/GET/GetAllVarificationStatus';
 import GetAllClassification from '../../../API/GET/GetAllClassification';
-import GetProblemList from '../../../API/GET/GetProblemList';
 import { CodeMaster } from '../../../../Admin/Pages/EMR Master/CodeMaster';
+import GetBrandList from '../../../API/GET/GetBrandList';
 
-const Problem = ({ issueDetailss, issueDetailsData, id }) => {
+const Dental = ({ issueDetailss, issueDetailsData, id }) => {
     let [problem, setProblem] = useState('');
-    let [problemList, setProblemList] = useState([]);
+    let [brandList, setBrandList] = useState([]);
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
@@ -18,20 +18,14 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
+    const [txtCoding, setTxtCoding] = useState('');
     const customStyle = { marginLeft: '0px' };
-    const [PopUpId, setPopUpId] = useState('');
-    const [txtCoding, setTxtCoding] = useState([]);
-
     const handleTitleInputChange = (e) => {
-        document.getElementById("errTitleISSUE").style.display = "none";
-        setProblem(e.target.value);
-        setCodingSelected(false);
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
-
         temp[name] = value
         let t = { ...issueDetailss, ...temp }
-        issueDetailsData((prev) => ({ ...prev, "Problem": t }));
+        issueDetailsData((prev) => ({ ...prev, "Dental": t }));
     };
     const handleCodingInputChange = (e) => {
         setCodingSelected(false);
@@ -40,7 +34,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
 
         temp[name] = value
         let t = { ...issueDetailss, ...temp }
-        issueDetailsData((prev) => ({ ...prev, "Problem": t }));
+        issueDetailsData((prev) => ({ ...prev, "Dental": t }));
 
     };
 
@@ -65,48 +59,20 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
             coding: tempNew
         }
         console.log("tempissueDetailNew", tempissueDetailNew)
-        issueDetailsData((prev) => ({ ...prev, "Problem": tempissueDetailNew }));
+        issueDetailsData((prev) => ({ ...prev, "Dental": tempissueDetailNew }));
         setTxtCoding(tempData);
 
     }
 
     let handleIssueDetailsChange = (e) => {
-        document.getElementById("errTitleBeginDate").style.display = "none";
-        const { name, value } = e.target;
-        let temp = { ...issueDetailss }
-        temp[name] = value
-        let t = { ...issueDetailss, ...temp }
-        issueDetailsData((prev) => ({ ...prev, "Problem": t }));
-    }
-
-    let handleSelectProblem = (e) => {
-        const ddlProblems = document.getElementById("ddlproblems");
-        document.getElementById("errTitleISSUE").style.display = "none";
-        const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
-        const selectProblem = selectedOption ? selectedOption.textContent : "";
-        setProblem(selectProblem);
-        // setCoding(selectProblem);
-        console.log('selectProblem', selectProblem);
-        setCodingSelected(true);
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
         temp["issueTypeId"] = id
         temp[name] = value
-        temp["title"] = selectProblem
-        //temp["coding"] = selectProblem
         let t = { ...issueDetailss, ...temp }
-        issueDetailsData((prev) => ({ ...prev, "Problem": t }));
-        console.log(issueDetailss)
-    };
-
-
-    let getAllProblem = async () => {
-        const response = await GetProblemList();
-        if (response.status === 1) {
-            const slicedProblemList = response.responseValue.slice(0, 100)
-            setProblemList(slicedProblemList);
-        }
+        issueDetailsData((prev) => ({ ...prev, "Dental": t }));
     }
+
 
     let getAllIssueOutCome = async () => {
         const response = await GetAllIssueOutCome();
@@ -133,14 +99,15 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         }
     }
 
-    const handleOpenModal = (modalID) => {
+    const handleOpenModal = () => {
         setIsShowPopUp(1);
-        setPopUpId(modalID);
+        // setPopUpId(modalID);
     }
     const handleCloseModal = () => {
         setIsShowPopUp(0);
         // setPopUpId('');
     }
+
     const SelectedData = (data, modalID) => {
         console.log("modalID", modalID)
         let t = {
@@ -164,21 +131,17 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
             coding: temp
         }
         console.log("issueDetailss", issueDetailss)
-        issueDetailsData((prev) => ({ ...prev, "Problem": issueDetail }));
+        issueDetailsData((prev) => ({ ...prev, "Dental": issueDetail }));
         const splitData = temp.split(';').slice(0, -1);
         setTxtCoding(splitData);
     }
+
     useEffect(() => {
-        getAllProblem();
         getAllIssueOutCome();
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
-        // issueDetailsData(issueDetailss)
-        // console.log("issueDetailss", issueDetailss)
-        // setIssueDetails(issueDetailss.Problem)
-        // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
-
+        console.log("issueDetailss", issueDetailss)
     }, [issueDetailsData]);
     return (
         <>
@@ -187,32 +150,15 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                 <div className='problemhead'>
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
-                            <div>
-                                <select className='form-control' id='ddlproblems' name='titleId' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                    {problemList && problemList.map((list) => {
-                                        return (
-                                            <option value={list.id}>{list.problemName}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                        </div>
-                        <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
-                    </div>
-
-                    <div className='problemhead-inn'>
-                        <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
                             {/* {console.log('issueDetailss check',issueDetailss)} */}
                             <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                         </div>
-                        <small id="errTitleISSUE" className="form-text text-danger" style={{ display: 'none' }} />
                     </div>
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Coding</b></label>
                             <div>
-
                                 {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
                                     {txtCoding && txtCoding.length > 0 ?
                                         txtCoding.map((list,i)=>{
@@ -238,12 +184,13 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
 
                                         : ''}
                                 </div>
+
                                 {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                             </div>
 
                         </div>
                         <div class="d-inline-flex gap-2">
-                            <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { handleOpenModal('coding') }}><i class="bi bi-plus"></i> Add</button>
+                            <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={handleOpenModal}><i class="bi bi-plus"></i> Add</button>
                             <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
                         </div>
                     </div>
@@ -252,7 +199,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
                                 <input type="date" value={issueDetailss.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
-                                <small id="errTitleBeginDate" className="form-text text-danger" style={{ display: 'none' }} />
                             </div>
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
@@ -362,7 +308,7 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                         <div className="modal-content" >
                             {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                             <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
-                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} />
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} isMultiple={true} />
                             {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>
@@ -373,4 +319,4 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
     );
 };
 
-export default Problem
+export default Dental

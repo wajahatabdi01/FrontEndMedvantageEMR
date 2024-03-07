@@ -131,7 +131,6 @@ const Surgery = ({issueDetailss, issueDetailsData, id}) => {
     }
 
     const handleOpenModal = () => {
-        console.log("Khulaaaa")
         setIsShowPopUp(1);
         // setPopUpId(modalID);
     }
