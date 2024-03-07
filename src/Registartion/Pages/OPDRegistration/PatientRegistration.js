@@ -1402,6 +1402,8 @@ export default function PatientRegistration() {
 
 
     let save = async () => {
+        const pp= issueDetails.Problem
+        console.log("Problem",pp)
         const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
         const ddlDepartment = document.getElementById('ddlDepartment').value;
         const ddlDoctor = document.getElementById('ddlDoctor').value;
@@ -1418,14 +1420,6 @@ export default function PatientRegistration() {
         console.log('issueDetails', issueDetails);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
 
-        console.log('patientDetails', patientDetails);
-        const filteredIssueDetails = {};
-        for (const key in issueDetails) {
-            if (issueDetails[key] !== "") {
-                filteredIssueDetails[key] = issueDetails[key];
-            }
-        }
-        console.log("filteredIssueDetails", filteredIssueDetails)
         var makeDataObj = {
 
             ...contactDetails,
@@ -1435,8 +1429,7 @@ export default function PatientRegistration() {
             employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
             insuranceDetailsJsonString: JSON.stringify(tempArr),
             statsJsonString: JSON.stringify([statsJsonString]),
-            encounterDetailsJsonString: JSON.stringify(filteredIssueDetails),
-            // encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device,issueDetails.Surgery,issueDetails.Dental]),
+            encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device, issueDetails.Surgery, issueDetails.Dental]),
             clientID: clientID,
             userId: window.userId,
             "departmentId": ddlDepartment,
@@ -1448,7 +1441,7 @@ export default function PatientRegistration() {
         console.log("makeDataObj", makeDataObj);
         var sendDataObj = { ...makeDataObj, previousNamesJsonString: JSON.stringify(makeDataObj.previousNamesJsonString) }
 
-        // console.log("sendDataObj", sendDataObj);
+        console.log("sendDataObj", sendDataObj);
         // return;
         if (respValidation) {
             const response = await InsertPatientDemographicData(sendDataObj);
@@ -1458,7 +1451,7 @@ export default function PatientRegistration() {
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
-                // handleClear();
+                handleClear();
             }
             else {
                 setShowUnderProcess(0)
