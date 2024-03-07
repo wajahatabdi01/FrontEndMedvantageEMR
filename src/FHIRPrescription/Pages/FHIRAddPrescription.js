@@ -144,6 +144,7 @@ export default function FHIRAddPrescription(props) {
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
+    console.log('rthe value  : ', value)
     setEditName("");
     //setEditBrand("")
     // setSendForm(sendForm => ({
@@ -527,7 +528,7 @@ export default function FHIRAddPrescription(props) {
                               {brandList && (
                                 <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
                               )}
-                              <small id="errDrug" className="form-text text-danger" style={{ display: "none" }}></small>
+                              <small id="errDrug" className="form-text text-danger" >Allergic to this medicine.</small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
