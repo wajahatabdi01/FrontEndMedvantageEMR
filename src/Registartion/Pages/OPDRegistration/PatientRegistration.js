@@ -239,6 +239,19 @@ export default function PatientRegistration() {
                 outcomeId: '0',
                 destination: ''
             },
+            Dental: {
+                title: '',
+                coding: '',
+                beginDateTime: '',
+                endDateTime: '',
+                classificationTypeId: '0',
+                occurrenceId: '0',
+                verificationStatusId: '0',
+                referredby: '',
+                comments: '',
+                outcomeId: '0',
+                destination: ''
+            },
         }
 
     );
@@ -1406,7 +1419,13 @@ export default function PatientRegistration() {
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
 
         console.log('patientDetails', patientDetails);
-
+        const filteredIssueDetails = {};
+        for (const key in issueDetails) {
+            if (issueDetails[key] !== "") {
+                filteredIssueDetails[key] = issueDetails[key];
+            }
+        }
+        console.log("filteredIssueDetails", filteredIssueDetails)
         var makeDataObj = {
 
             ...contactDetails,
@@ -1416,7 +1435,8 @@ export default function PatientRegistration() {
             employerDetailsJsonString: JSON.stringify([employerDetailsJsonString]),
             insuranceDetailsJsonString: JSON.stringify(tempArr),
             statsJsonString: JSON.stringify([statsJsonString]),
-            encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device]),
+            encounterDetailsJsonString: JSON.stringify(filteredIssueDetails),
+            // encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device,issueDetails.Surgery,issueDetails.Dental]),
             clientID: clientID,
             userId: window.userId,
             "departmentId": ddlDepartment,
@@ -1438,7 +1458,7 @@ export default function PatientRegistration() {
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
-                handleClear();
+                // handleClear();
             }
             else {
                 setShowUnderProcess(0)

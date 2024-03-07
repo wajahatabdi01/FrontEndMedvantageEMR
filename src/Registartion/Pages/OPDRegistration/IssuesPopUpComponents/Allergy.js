@@ -97,6 +97,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         document.getElementById("errTitleAllergies").style.display = "none";
         const ddlProblems = document.getElementById("ddlallergy");
         const ddlAllergyId = document.getElementById("ddlallergy").value;
+        console.log("ddlAllergyId",ddlAllergyId)
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
@@ -323,7 +324,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                                         ))
                                     ) : (
                                         brandTempList.map((brand) => (
-                                            <option key={brand.id} value={brand.id}>
+                                            <option key={brand.medicineID} value={brand.medicineID}>
                                                 {brand.name}
                                             </option>
                                         ))
