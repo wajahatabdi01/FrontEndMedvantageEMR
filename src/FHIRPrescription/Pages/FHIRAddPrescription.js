@@ -18,6 +18,8 @@ import FHIRPutPrescription from "../API/PUT/FHIRPutPrescription";
 import sendIcon from '../../assets/images/icons/icons8-send-48.png'
 import InsertPrescriptionNotification from "../../Pharmacy/NotificationAPI/InsertPrescriptionNotification";
 import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
+import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/Api/GetMedicalHistory";
+import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 
 export default function FHIRAddPrescription(props) {
   const [brandList, setBrandList] = useState([]);
@@ -35,7 +37,7 @@ export default function FHIRAddPrescription(props) {
   const [theRowId, setTheRowId] = useState("");
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
-
+  const [getMedName, setMedName] = useState('')
   let [showToster, setShowtoster] = useState(0);
   let [showTosterMessage, setShowTosterMessage] = useState("");
   
@@ -141,10 +143,21 @@ export default function FHIRAddPrescription(props) {
   };
 
   //Handle Change
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
+    console.log('e : ', e);
+    setMedName(e.target.selectedName)
     let name = e.target.name;
     let value = e.target.value;
-    console.log('rthe value  : ', value)
+    console.log('rthe value  : ', value);
+    
+    const getAllergy = await GetMedicationAllergyStatus(activeUHID, clientID, value);
+   
+     if((getAllergy.status === 1) &&  (getAllergy.responseValue[0].allergyStatus === 'True')){
+      document.getElementById("errDrug").style.display = "block";
+     }
+     else{
+      document.getElementById("errDrug").style.display = "none";
+     }
     setEditName("");
     //setEditBrand("")
     // setSendForm(sendForm => ({
@@ -155,7 +168,7 @@ export default function FHIRAddPrescription(props) {
       ...prev,
       [name]: value,
     }));
-    document.getElementById("errDrug").style.display = "none";
+    // document.getElementById("errDrug").style.display = "none";
   };
 
   ////////////// to clear data in medicine search//////////////////
@@ -528,7 +541,7 @@ export default function FHIRAddPrescription(props) {
                               {brandList && (
                                 <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
                               )}
-                              <small id="errDrug" className="form-text text-danger" >Allergic to this medicine.</small>
+                              <small id="errDrug" className="form-text text-danger" style={{display:'none'}}>Allergic to {getMedName}.</small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
