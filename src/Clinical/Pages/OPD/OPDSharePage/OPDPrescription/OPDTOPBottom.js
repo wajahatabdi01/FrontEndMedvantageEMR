@@ -493,7 +493,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 1 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Problem saved successFully !!"
+          message="Problem saved successfully !!"
         />
       ) : (
         ""
@@ -501,7 +501,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 2 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Allergy saved successFully !!"
+          message="Allergy saved successfully !!"
         />
       ) : (
         ""
@@ -509,7 +509,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 3 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Medication saved successFully !!"
+          message="Medication saved successfully !!"
         />
       ) : (
         ""
@@ -517,7 +517,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 4 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Device saved successFully !!"
+          message="Device saved successfully !!"
         />
       ) : (
         ""
@@ -525,7 +525,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 5 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Surgery saved successFully !!"
+          message="Surgery saved successfully !!"
         />
       ) : (
         ""
@@ -533,7 +533,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 6 ? (
         <SuccessToster
           handle={setShowToster}
-          message="History saved successFully !!"
+          message="History saved successfully !!"
         />
       ) : (
         ""
@@ -541,7 +541,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 7 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Immunization saved successFully !!"
+          message="Immunization saved successfully !!"
         />
       ) : (
         ""
@@ -549,7 +549,23 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {showToster === 8 ? (
         <SuccessToster
           handle={setShowToster}
-          message="Lifestyle saved successFully !!"
+          message="Lifestyle saved successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 22 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Prescription saved successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 23 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Prescription sent successfully !!"
         />
       ) : (
         ""

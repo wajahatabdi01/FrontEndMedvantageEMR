@@ -21,7 +21,7 @@ import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
 import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/Api/GetMedicalHistory";
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 
-export default function FHIRAddPrescription(props) {
+export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0);
   const [editName, setEditName] = useState("");
@@ -38,7 +38,6 @@ export default function FHIRAddPrescription(props) {
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
   const [getMedName, setMedName] = useState('')
-  let [showToster, setShowtoster] = useState(0);
   let [showTosterMessage, setShowTosterMessage] = useState("");
   
 
@@ -86,7 +85,9 @@ export default function FHIRAddPrescription(props) {
       clientID: clientID,
     };
     const providerRes = await GetUserListByRoleId(dataToProvider);
-    setProviderList(providerRes.responseValue);
+    if(providerRes.status === 1){
+      setProviderList(providerRes.responseValue);
+    }
   };
 
   const getAllFromList = async () => {
@@ -144,19 +145,20 @@ export default function FHIRAddPrescription(props) {
 
   //Handle Change
   const handleChange = async (e) => {
-    console.log('e : ', e);
+  
     setMedName(e.target.selectedName)
     let name = e.target.name;
     let value = e.target.value;
-    console.log('rthe value  : ', value);
     
     const getAllergy = await GetMedicationAllergyStatus(activeUHID, clientID, value);
    
      if((getAllergy.status === 1) &&  (getAllergy.responseValue[0].allergyStatus === 'True')){
       document.getElementById("errDrug").style.display = "block";
+      window.localStorage.setItem("medName",e.target.selectedName);
      }
      else{
       document.getElementById("errDrug").style.display = "none";
+      window.localStorage.setItem("medName",'');
      }
     setEditName("");
     //setEditBrand("")
@@ -225,12 +227,35 @@ export default function FHIRAddPrescription(props) {
         rxnormDrugCode: "1432537",
         clientId: clientID,
       };
-      const finalSave = await FHIRPostAddPrescreption(finalObj);
-      if (finalSave.status === 1) {
-        alert("Data Saved");
-        funGetAllList();
-        handleClear();
+      if(window.localStorage.getItem("medName")){
+        
+        if(window.confirm(`Patient is allergic to ${getMedName}. Do you wish to continue!`))
+        {
+          const finalSave = await FHIRPostAddPrescreption(finalObj);
+          if (finalSave.status === 1) {
+            
+            funGetAllList();
+            setShowToster(22);
+            setTimeout(() => {
+              setShowToster(22)
+            },2000);
+            handleClear();
+          }
+        }
+        
       }
+      else{
+        const finalSave = await FHIRPostAddPrescreption(finalObj);
+        if (finalSave.status === 1) {
+          
+          funGetAllList();
+          setShowToster(22);
+          setTimeout(() => {
+            setShowToster(22)
+          },2000);
+          handleClear();
+        }
+        } 
     }
   };
 
@@ -417,9 +442,11 @@ export default function FHIRAddPrescription(props) {
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-      setShowtoster(1)
-      setShowTosterMessage("Prescription sent to Pharmacy");
-      alert('Data Sent')
+       setShowToster(23)
+       setTimeout(() => {
+        setShowToster(0)
+      },2000);
+      
     }
   }
 
@@ -436,7 +463,7 @@ export default function FHIRAddPrescription(props) {
     getAllFromList();
     getAllRouteList();
     getAllIntervalList();
-  }, [props.setPrecription]);
+  }, [setPrecription]);
 
   return (
     <>
@@ -788,7 +815,7 @@ export default function FHIRAddPrescription(props) {
                             </button>
                             <button
                               type="button"
-                              className="btn btn-save btn-sm btn-save-fill mb-1 me-1"
+                              className="btn btn-secondary btn-sm btn-save-fill mb-1 me-1"
                               onClick={() => {
                                 handleUpdate(
                                   list.drug,
