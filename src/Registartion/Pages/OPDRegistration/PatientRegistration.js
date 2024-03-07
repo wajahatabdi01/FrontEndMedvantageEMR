@@ -192,8 +192,10 @@ export default function PatientRegistration() {
                 comments: '',
                 outcomeId: '0',
                 destination: '',
-                reactionId:'',
-                severityId:''
+                reactionId: '',
+                severityId: '',
+                allergyType: '',
+                allergyTypeId: '',
             },
 
             Medication: {
@@ -364,24 +366,24 @@ export default function PatientRegistration() {
     }
     let handlerChange2 = (e, value) => {
         console.log('value', value);
-        
+
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
-    
+
             // Check if input starts with a space
             if (input !== trimmedInput && input.startsWith(' ')) {
                 return false; // Input starts with a space
             }
-    
+
             // Check if trimmed input contains only alphanumeric characters and spaces in between
             const isValid = /^[a-zA-Z0-9@]*$/.test(trimmedInput);
-    
+
             return isValid || trimmedInput === '';
         };
-    
+
         const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
-    
+
         if (e === "deceasedDate") {
             if (!isValidInputDate(value)) {
                 return;
@@ -391,7 +393,7 @@ export default function PatientRegistration() {
                 return;
             }
         }
-    
+
         if (e === "guardianemail") {
             // Allow any input for the email field, including "@"
             setRegistrationObj((prevPatientDetails) => ({
@@ -405,8 +407,8 @@ export default function PatientRegistration() {
             }));
         }
     }
-    
-    
+
+
 
     let handleemployerDetails = (e, value) => {
         const isValidInput = (input) => {
@@ -1788,7 +1790,7 @@ export default function PatientRegistration() {
                                                     className="accordion-collapse collapse show1"
                                                     data-bs-parent="#accordionExample"
                                                 >
-                                                    <div className="accordion-body" style={{maxHeight:'35vh', overflow:'auto'}}>
+                                                    <div className="accordion-body" style={{ maxHeight: '35vh', overflow: 'auto' }}>
                                                         <div className="dflex">
                                                             <ContactDetails contactDetailsData={setContactDetails} setClearStatus={setClearStatus} clearStatus={clearStatus} />
                                                             {/* <ContactDetails onContactDetailsChange={handlerChange2} setAdditionalAddressJsonString={setAdditionalAddressJsonString} /> */}
