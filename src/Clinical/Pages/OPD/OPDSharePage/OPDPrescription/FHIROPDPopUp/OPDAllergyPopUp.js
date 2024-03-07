@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import GetAllIssueOutCome from '../../../../../../Registartion/API/GET/GetAllIssueOutCome';
 import GetAllIssueOccurence from '../../../../../../Registartion/API/GET/GetAllIssueOccurence';
 import GetAllVarificationStatus from '../../../../../../Registartion/API/GET/GetAllVarificationStatus';
@@ -15,6 +15,7 @@ import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
 import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
 import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
+import GetFoodListByPrefixText from '../../../../../API/KnowMedsAPI/GetFoodListByPrefixText';
 function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
@@ -24,6 +25,10 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     let [classificationList, setClassificationList] = useState([]);
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [brandList, setBrandList] = useState([]);
+    let [brandTempList, setBrandTempList] = useState([]);
+    let [foodList, setFoodList] = useState([]);
+    let [foodTempList, setFoodTempList] = useState([]);
+    let [showList, setShowList] = useState(0);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
     let [tosterValue, setTosterValue] = useState(0);
@@ -36,7 +41,11 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const [PopUpId, setPopUpId] = useState('');
     const [txtCoding, setTxtCoding] = useState([]);
     let [makeData, setMakeData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingBrand, setIsLoadingBrand] = useState(false);
+    const [isLoadingFood, setIsLoadingFood] = useState(false);
     let [getData, setgetData] = useState([]);
+    const containerRef = useRef(null);
     const [encounterList, setEncounterList] = useState([]);
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
@@ -57,16 +66,70 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         outcomeId: '0',
         destination: '',
         reactionId: '',
-        severityId: ''
+        severityId: '',
+        allergyType: '',
+        allergyTypeId: '',
     })
 
-    let getAllBrandList = async () => {
+    const getAllBrandList = async () => {
         const response = await GetBrandList();
         if (response.status === 1) {
-            const slicedProblemList = response.responseValue.slice(0, 100)
+            const slicedProblemList = response.responseValue;
             setBrandList(slicedProblemList);
+            setBrandTempList(slicedProblemList.slice(0, 15));
         }
-    }
+    };
+    const getAllFoodList = async () => {
+        const response = await GetFoodListByPrefixText();
+        if (response.status === 1) {
+            setFoodList(response.responseValue);
+            console.log("food", response.responseValue)
+            setFoodTempList(response.responseValue.slice(0, 15));
+        }
+    };
+
+    const fetchData = () => {
+        if (!isLoading && brandTempList.length < brandList.length) { // Check if not already loading and there is more data to fetch
+            setIsLoading(true);
+            const startIndex = brandTempList.length;
+            const endIndex = Math.min(startIndex + 15, brandList.length);
+            const newData = brandList.slice(startIndex, endIndex);
+            setBrandTempList(prevData => [...prevData, ...newData]);
+            setIsLoading(false);
+        }
+    };
+    const fetchFoodData = () => {
+        if (!isLoading && foodTempList.length < foodList.length) { // Check if not already loading and there is more data to fetch
+            setIsLoading(true);
+            const startIndex = foodTempList.length;
+            const endIndex = Math.min(startIndex + 15, foodList.length);
+            const newData = foodList.slice(startIndex, endIndex);
+            setFoodTempList(prevData => [...prevData, ...newData]);
+            setIsLoading(false);
+        }
+    };
+
+    const handleScroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 20 && !isLoading) {
+            if (showList === 0) {
+                fetchFoodData();
+            } else {
+                fetchData();
+            }
+        }
+    };
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+            return () => container.removeEventListener('scroll', handleScroll);
+        }
+    }, [containerRef]); // Include containerRef in the dependency array to ensure it's updated properly
+
+
+
     let getAllSeverityData = async () => {
         const response = await GetAllSeverityData();
         if (response.status === 1) {
@@ -147,6 +210,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     }
 
     let handleIssueDetailsChange = (e) => {
+
         document.getElementById("errBegindate").style.display = "none";
         const { name, value } = e.target;
         setAllergyData((prevIssueDetails) => ({
@@ -170,6 +234,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             title: selectProblem,
             // coding: 'ICD10:' + selectProblem,
             titleId: ddlAllergyId,
+            allergyTypeId: ddlAllergyId,
             issueTypeId: 2
         }))
     }
@@ -215,7 +280,9 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             referredby: '',
             comments: '',
             outcomeId: '0',
-            destination: ''
+            destination: '',
+            reactionId: '',
+            severityId: ''
         })
         setUpdateBool(0);
         setTxtCoding([]);
@@ -298,6 +365,29 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         }
     }
 
+    const handleFoodRadio = async () => {
+        setShowList(0); // Set showList to 0 for food
+        setFoodTempList([]); // Clear foodTempList
+        setIsLoadingFood(true); // Set loading state for food data
+        await getAllFoodList(); // Fetch food data
+        setIsLoadingFood(false); // Clear loading state for food data
+        setAllergyData((prev) => ({
+            ...prev,
+            allergyType: 1
+        }))
+    };
+
+    const handleMedicationRadio = async () => {
+        setShowList(1); // Set showList to 1 for medication
+        setBrandTempList([]); // Clear brandTempList
+        setIsLoadingBrand(true); // Set loading state for brand data
+        await getAllBrandList(); // Fetch brand data
+        setIsLoadingBrand(false); // Clear loading state for brand data
+        setAllergyData((prev) => ({
+            ...prev,
+            allergyType: 2
+        }))
+    };
 
     function convertDateFormat(dateString) {
         // Check if dateString is defined
@@ -353,9 +443,14 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
 
     }, [isCloseModal]);
     useEffect(() => {
+        setAllergyData((prev) => ({
+            ...prev,
+            alleryType: 1
+        }))
         getAllReactionList();
         getAllSeverityData();
         getAllBrandList();
+        getAllFoodList();
         getAllIssueOutCome();
         getAllIssueOccurence();
         getAllVarificationStatus();
@@ -365,17 +460,45 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         <>
             <div className='problemhead'>
                 <div className='problemhead-inn'>
-                    <div className="col-12 mb-2">
-                        <div>
-                            <select className='form-control' id='ddlAllergy' name='titleId' style={{ height: '8em' }} multiple onChange={handleSelectProblem}>
-                                {brandList && brandList.map((list) => {
-                                    return (
-                                        <option value={list.id}>{list.name}</option>
-                                    )
-                                })}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={showList === 0} value="option1" onChange={handleFoodRadio} />
+                        <label class="form-check-label" for="inlineRadio1">Food</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onChange={handleMedicationRadio} />
+                        <label class="form-check-label" for="inlineRadio2">Medication</label>
+                    </div>
+                    <div className="col-12 mb-2" style={{ position: 'relative' }}>
+                        <div style={{ position: 'relative' }}>
+                            <select className='form-control' id='ddlAllergy' name='titleId' style={{ height: '8em', overflowY: 'scroll' }} multiple ref={containerRef} onScroll={handleScroll} onChange={handleSelectProblem}>
+                                {showList === 0 ? (
+                                    foodTempList.map((food) => (
+                                        <option key={food.id} value={food.id}>
+                                            {food.foodName}
+                                        </option>
+                                    ))
+                                ) : (
+                                    brandTempList.map((brand) => (
+                                        <option key={brand.id} value={brand.id}>
+                                            {brand.name}
+                                        </option>
+                                    ))
+                                )}
                             </select>
                         </div>
+                        {isLoading && (
+                            <div style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
+                                Loading...
+                            </div>
+                        )}
+                        {(isLoadingBrand || isLoadingFood) && (
+                            <div style={{ position: 'absolute', bottom: '55px', left: '50%', transform: 'translateX(-50%)' }}>
+                                <span class="loader"></span>
+                            </div>
+                        )}
                     </div>
+
+
                     <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
                 </div>
 

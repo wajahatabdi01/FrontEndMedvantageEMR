@@ -7,10 +7,18 @@ import { CodeMaster } from '../../../../Admin/Pages/EMR Master/CodeMaster';
 import GetBrandList from '../../../API/GET/GetBrandList';
 import GetAllSeverityData from '../../../API/GET/GetAllSeverityData';
 import GetAllReactionList from '../../../API/GET/GetAllReactionList';
+import GetFoodListByPrefixText from '../../../../Clinical/API/KnowMedsAPI/GetFoodListByPrefixText';
 
 const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     let [problem, setProblem] = useState('');
     let [brandList, setBrandList] = useState([]);
+    let [brandTempList, setBrandTempList] = useState([]);
+    let [foodList, setFoodList] = useState([]);
+    let [foodTempList, setFoodTempList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingBrand, setIsLoadingBrand] = useState(false);
+    const [isLoadingFood, setIsLoadingFood] = useState(false);
+    let [showList, setShowList] = useState(0);
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
@@ -23,7 +31,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
     const [txtCoding, setTxtCoding] = useState('');
-
+    const containerRef = useRef(null);
     const customStyle = { marginLeft: '0px' };
 
 
@@ -88,6 +96,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     let handleSelectAllergy = (e) => {
         document.getElementById("errTitleAllergies").style.display = "none";
         const ddlProblems = document.getElementById("ddlallergy");
+        const ddlAllergyId = document.getElementById("ddlallergy").value;
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
@@ -97,6 +106,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
         temp["issueTypeId"] = id
+        temp["allergyTypeId"] = ddlAllergyId
         temp[name] = value
         temp["title"] = selectProblem
         // temp["coding"] = selectProblem
@@ -105,13 +115,84 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         console.log(issueDetailss)
     };
 
-    let getAllBrandList = async () => {
+    const getAllBrandList = async () => {
         const response = await GetBrandList();
         if (response.status === 1) {
-            const slicedProblemList = response.responseValue.slice(0, 100)
+            const slicedProblemList = response.responseValue;
             setBrandList(slicedProblemList);
+            setBrandTempList(slicedProblemList.slice(0, 15));
         }
-    }
+    };
+    const getAllFoodList = async () => {
+        const response = await GetFoodListByPrefixText();
+        if (response.status === 1) {
+            setFoodList(response.responseValue);
+            console.log("food", response.responseValue)
+            setFoodTempList(response.responseValue.slice(0, 15));
+        }
+    };
+    const fetchData = () => {
+        if (!isLoading && brandTempList.length < brandList.length) { // Check if not already loading and there is more data to fetch
+            setIsLoading(true);
+            const startIndex = brandTempList.length;
+            const endIndex = Math.min(startIndex + 15, brandList.length);
+            const newData = brandList.slice(startIndex, endIndex);
+            setBrandTempList(prevData => [...prevData, ...newData]);
+            setIsLoading(false);
+        }
+    };
+    const fetchFoodData = () => {
+        if (!isLoading && foodTempList.length < foodList.length) { // Check if not already loading and there is more data to fetch
+            setIsLoading(true);
+            const startIndex = foodTempList.length;
+            const endIndex = Math.min(startIndex + 15, foodList.length);
+            const newData = foodList.slice(startIndex, endIndex);
+            setFoodTempList(prevData => [...prevData, ...newData]);
+            setIsLoading(false);
+        }
+    };
+    const handleScroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 20 && !isLoading) {
+            if (showList === 0) {
+                fetchFoodData();
+            } else {
+                fetchData();
+            }
+        }
+    };
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+            return () => container.removeEventListener('scroll', handleScroll);
+        }
+    }, [containerRef]); // Include containerRef in the dependency array to ensure it's updated properly
+
+    const handleFoodRadio = async () => {
+        setShowList(0); // Set showList to 0 for food
+        setFoodTempList([]); // Clear foodTempList
+        setIsLoadingFood(true); // Set loading state for food data
+        await getAllFoodList(); // Fetch food data
+        setIsLoadingFood(false); // Clear loading state for food data
+        let temp = { ...issueDetailss }
+        temp["allergyType"] = 1
+        let t = { ...issueDetailss, ...temp }
+        issueDetailsData((prev) => ({ ...prev, "Allergy": t }));
+    };
+
+    const handleMedicationRadio = async () => {
+        setShowList(1); // Set showList to 1 for medication
+        setBrandTempList([]); // Clear brandTempList
+        setIsLoadingBrand(true); // Set loading state for brand data
+        await getAllBrandList(); // Fetch brand data
+        setIsLoadingBrand(false); // Clear loading state for brand data
+        let temp = { ...issueDetailss }
+        temp["allergyType"] = 2
+        let t = { ...issueDetailss, ...temp }
+        issueDetailsData((prev) => ({ ...prev, "Allergy": t }));
+    };
 
     let getAllIssueOutCome = async () => {
         const response = await GetAllIssueOutCome();
@@ -202,7 +283,12 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
 
 
     useEffect(() => {
+        let temp = { ...issueDetailss }
+        temp["allergyType"] = 1
+        let t = { ...issueDetailss, ...temp }
+        issueDetailsData((prev) => ({ ...prev, "Allergy": t }));
         getAllBrandList();
+        getAllFoodList();
         getAllIssueOutCome();
         getAllIssueOccurence();
         getAllVarificationStatus();
@@ -218,17 +304,45 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                 issueDetailss &&
                 <div className='problemhead'>
                     <div className='problemhead-inn'>
-                        <div className="col-12 mb-2">
-                            <div>
-                                <select className='form-control' id='ddlallergy' name='titleId' style={{ height: '8em' }} multiple onChange={handleSelectAllergy}>
-                                    {brandList && brandList.map((list) => {
-                                        return (
-                                            <option value={list.id}>{list.name}</option>
-                                        )
-                                    })}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={showList === 0} value="option1" onChange={handleFoodRadio} />
+                            <label class="form-check-label" for="inlineRadio1">Food</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onChange={handleMedicationRadio} />
+                            <label class="form-check-label" for="inlineRadio2">Medication</label>
+                        </div>
+                        <div className="col-12 mb-2" style={{ position: 'relative' }}>
+                            <div style={{ position: 'relative' }}>
+                                <select className='form-control' id='ddlallergy' name='titleId' style={{ height: '8em', overflowY: 'scroll' }} multiple ref={containerRef} onScroll={handleScroll} onChange={handleSelectAllergy}>
+                                    {showList === 0 ? (
+                                        foodTempList.map((food) => (
+                                            <option key={food.id} value={food.id}>
+                                                {food.foodName}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        brandTempList.map((brand) => (
+                                            <option key={brand.id} value={brand.id}>
+                                                {brand.name}
+                                            </option>
+                                        ))
+                                    )}
                                 </select>
                             </div>
+                            {isLoading && (
+                                <div style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
+                                    Loading...
+                                </div>
+                            )}
+                            {(isLoadingBrand || isLoadingFood) && (
+                                <div style={{ position: 'absolute', bottom: '55px', left: '50%', transform: 'translateX(-50%)' }}>
+                                    <span class="loader"></span>
+                                </div>
+                            )}
                         </div>
+
+
                         <span className='font-monospace fst-italic'>(Select one of these, or type your own title)</span>
                     </div>
 

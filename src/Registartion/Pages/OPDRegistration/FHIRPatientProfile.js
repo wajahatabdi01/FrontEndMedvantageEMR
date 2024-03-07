@@ -57,7 +57,7 @@ function FHIRPatientProfile() {
     const today = new Date().toISOString().split('T')[0];
     const [patientDetails, setPatientDetails] = useState({
         mobileNo: '',
-        titleId: '',
+        titleId: 0,
         patientName: '',
         middleName: '',
         lastName: '',
@@ -67,16 +67,16 @@ function FHIRPatientProfile() {
         birthLastName: '',
         dob: '',
         age: '',
-        ageUnitId: '',
-        sexualOrientationId: '',
+        ageUnitId:0,
+        sexualOrientationId:0,
         externalId: '',
         socialSecurityNo: '',
         driversLicense: '',
-        maritalStatusId: '',
+        maritalStatusId: 0,
         billingNote: '',
         previousNamesJsonString: '[]',
-        genderId: '',
-        genderidentityId: ''
+        genderId: 0,
+        genderidentityId: 0
     });
     const [characterValidation, setCharacterValidation] = useState({
         patientName: '',
@@ -482,11 +482,11 @@ function FHIRPatientProfile() {
             dob: patientData.dob && patientData.dob !== '' ? patientData.dob : '',
             age: patientData.age && patientData.age !== '' ? patientData.age : '',
             ageUnitId: patientData.ageUnitId && patientData.ageUnitId !== '' ? patientData.ageUnitId : '',
-            sexualOrientationId: patientData.sexualOrientationId && patientData.sexualOrientationId !== '' ? patientData.sexualOrientationId : '',
+            sexualOrientationId: patientData.sexualOrientationId && patientData.sexualOrientationId !== '' ? patientData.sexualOrientationId : 0,
             externalId: patientData.externalId && patientData.externalId !== '' ? patientData.externalId : '',
             driversLicense: patientData.drivers_license && patientData.drivers_license !== '' ? patientData.drivers_license : '',
             socialSecurityNo: patientData.socialSecurityNo && patientData.socialSecurityNo !== '' ? patientData.socialSecurityNo : '',
-            maritalStatusId: patientData.maritalStatusId && patientData.maritalStatusId !== '' ? patientData.maritalStatusId : '',
+            maritalStatusId: patientData.maritalStatusId && patientData.maritalStatusId !== '' ? patientData.maritalStatusId : 0,
             billingNote: patientData.billing_note && patientData.billing_note !== '' ? patientData.billing_note : '',
             genderId: patientData.genderId && patientData.genderId !== '' ? patientData.genderId : '',
             genderidentityId: patientData.genderidentityId && patientData.genderidentityId !== '' ? patientData.genderidentityId : ''
