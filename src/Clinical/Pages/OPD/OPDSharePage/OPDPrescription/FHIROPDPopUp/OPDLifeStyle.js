@@ -113,7 +113,7 @@ function OPDLifeStyle({ setShowToster }) {
         }
 
         if (name === "tobaccoId") {
-            console.log('temData', name)
+            
             setTobaccoDetails((prev) => ({
                 ...prev,
                 [name]: value,
@@ -131,7 +131,7 @@ function OPDLifeStyle({ setShowToster }) {
 
     }
     const handleRadioTobacco = (param, key) => {
-        console.log('param', param, key);
+       
         let temDataNew = "";
         document.getElementById("ddlTobaccoId").value = key;
         const selectTobacco = document.getElementById("ddlTobaccoId");
@@ -322,7 +322,7 @@ function OPDLifeStyle({ setShowToster }) {
 
             if (validTobaccoData.length > 0) {
                 const firstTobaccoItem = validTobaccoData[0];
-                console.log("firstTobaccoItem", firstTobaccoItem)
+                
                 const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
                 const lifestyleStatus = firstTobaccoItem[5];
                 document.getElementById("ddlTobaccoId").value = firstTobaccoItem[1];
@@ -337,7 +337,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validCoffeeData.length > 0) {
                 const firstCoffeeItem = validCoffeeData[0];
-                console.log("firstCoffeeItem", firstCoffeeItem)
+               
                 const dateValue = firstCoffeeItem[2] ? formatDate(firstCoffeeItem[2]) : '';
                 setCoffeDetails((prev) => ({
                     ...prev,
@@ -348,7 +348,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validAlcoholData.length > 0) {
                 const firstAlcoholItem = validAlcoholData[0];
-                console.log("firstAlcoholItem", firstAlcoholItem)
+                
                 const dateValue = firstAlcoholItem[2] ? formatDate(firstAlcoholItem[2]) : '';
                 setAlcoholDetails((prev) => ({
                     ...prev,
@@ -359,7 +359,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validRecreationalData.length > 0) {
                 const firstRecreationalItem = validRecreationalData[0];
-                console.log("firstRecreationalItem", firstRecreationalItem)
+               
                 const dateValue = firstRecreationalItem[2] ? formatDate(firstRecreationalItem[2]) : '';
                 setRecreationalDetails((prev) => ({
                     ...prev,
@@ -370,7 +370,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validCounselingData.length > 0) {
                 const firstCounselingItem = validCounselingData[0];
-                console.log("firstCounselingItem", firstCounselingItem)
+                
                 const dateValue = firstCounselingItem[2] ? formatDate(firstCounselingItem[2]) : '';
                 setCounselingDetails((prev) => ({
                     ...prev,
@@ -381,7 +381,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validExerciseData.length > 0) {
                 const firstExerciseItem = validExerciseData[0];
-                console.log("firstExerciseItem", firstExerciseItem)
+                
                 const dateValue = firstExerciseItem[2] ? formatDate(firstExerciseItem[2]) : '';
                 setExerciseDetails((prev) => ({
                     ...prev,
@@ -392,7 +392,7 @@ function OPDLifeStyle({ setShowToster }) {
             }
             if (validHazardousData.length > 0) {
                 const firsthazardousItem = validHazardousData[0];
-                console.log("firsthazardousItem", firsthazardousItem)
+                
                 const dateValue = firsthazardousItem[2] ? formatDate(firsthazardousItem[2]) : '';
                 setHazardousDetails((prev) => ({
                     ...prev,
@@ -409,7 +409,7 @@ function OPDLifeStyle({ setShowToster }) {
 
 
     let handleSave = async () => {
-        // console.log('isShow', isShow)
+        
         setShowLifestyle(1);
         const jsonTobaccoData = JSON.stringify([tobaccoDetails])
         const jsonCoffeData = JSON.stringify([coffeDetails])
@@ -443,14 +443,6 @@ function OPDLifeStyle({ setShowToster }) {
         const exerciseData = `${exerciseName}|${exerciselifestylestatus}|${exercisedate}`;
         const hazardousData = `${hazardousName}|${hazardouslifestylestatus}|${hazardousdate}`;
 
-        console.log("tobaccoData", tobaccoData);
-        console.log("coffeeData", coffeeData);
-        console.log("alcoholData", alcoholData);
-        console.log("recreationalData", recreationalData);
-        console.log("councelingData", councelingData);
-        console.log("exerciseData", exerciseData);
-        console.log("hazardousData", hazardousData);
-
         let sendData = {
             "jsonData": "",
             "rowId": rowId,
@@ -468,7 +460,7 @@ function OPDLifeStyle({ setShowToster }) {
             "userId": window.userId
         }
 
-        console.log("sendData", sendData)
+        
         // return;
         const response = await InsertLifeStyleData(sendData);
         if (response.status === 1) {
@@ -620,7 +612,7 @@ function OPDLifeStyle({ setShowToster }) {
                                                 <div className="ModalFields-inn">
                                                     <label htmlFor="name" className="form-label">Status<span className="starMandatory"></span></label>
                                                     <div className='lifestyleStatus'>
-                                                        <div className="form-check form-check-inline">{console.log('isShow', isShow)}
+                                                        <div className="form-check form-check-inline">
                                                             <input className="form-check-input" type="radio" name="flexRadioDefault" value='Current' checked={isShow === 'Current' ? true : false} onClick={() => { handleRadioTobacco('Current', 1) }} />
                                                             <label className="form-check-label" htmlFor="flexRadioDefault1">Current</label>
                                                         </div>

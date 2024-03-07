@@ -18,8 +18,10 @@ import FHIRPutPrescription from "../API/PUT/FHIRPutPrescription";
 import sendIcon from '../../assets/images/icons/icons8-send-48.png'
 import InsertPrescriptionNotification from "../../Pharmacy/NotificationAPI/InsertPrescriptionNotification";
 import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
+import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/Api/GetMedicalHistory";
+import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 
-export default function FHIRAddPrescription(props) {
+export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0);
   const [editName, setEditName] = useState("");
@@ -35,8 +37,7 @@ export default function FHIRAddPrescription(props) {
   const [theRowId, setTheRowId] = useState("");
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
-
-  let [showToster, setShowtoster] = useState(0);
+  const [getMedName, setMedName] = useState('')
   let [showTosterMessage, setShowTosterMessage] = useState("");
   
 
@@ -84,7 +85,9 @@ export default function FHIRAddPrescription(props) {
       clientID: clientID,
     };
     const providerRes = await GetUserListByRoleId(dataToProvider);
-    setProviderList(providerRes.responseValue);
+    if(providerRes.status === 1){
+      setProviderList(providerRes.responseValue);
+    }
   };
 
   const getAllFromList = async () => {
@@ -141,10 +144,22 @@ export default function FHIRAddPrescription(props) {
   };
 
   //Handle Change
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
+  
+    setMedName(e.target.selectedName)
     let name = e.target.name;
     let value = e.target.value;
-    console.log('rthe value  : ', value)
+    
+    const getAllergy = await GetMedicationAllergyStatus(activeUHID, clientID, value);
+   
+     if((getAllergy.status === 1) &&  (getAllergy.responseValue[0].allergyStatus === 'True')){
+      document.getElementById("errDrug").style.display = "block";
+      window.localStorage.setItem("medName",e.target.selectedName);
+     }
+     else{
+      document.getElementById("errDrug").style.display = "none";
+      window.localStorage.setItem("medName",'');
+     }
     setEditName("");
     //setEditBrand("")
     // setSendForm(sendForm => ({
@@ -155,7 +170,7 @@ export default function FHIRAddPrescription(props) {
       ...prev,
       [name]: value,
     }));
-    document.getElementById("errDrug").style.display = "none";
+    // document.getElementById("errDrug").style.display = "none";
   };
 
   ////////////// to clear data in medicine search//////////////////
@@ -212,12 +227,35 @@ export default function FHIRAddPrescription(props) {
         rxnormDrugCode: "1432537",
         clientId: clientID,
       };
-      const finalSave = await FHIRPostAddPrescreption(finalObj);
-      if (finalSave.status === 1) {
-        alert("Data Saved");
-        funGetAllList();
-        handleClear();
+      if(window.localStorage.getItem("medName")){
+        
+        if(window.confirm(`Patient is allergic to ${getMedName}. Do you wish to continue!`))
+        {
+          const finalSave = await FHIRPostAddPrescreption(finalObj);
+          if (finalSave.status === 1) {
+            
+            funGetAllList();
+            setShowToster(22);
+            setTimeout(() => {
+              setShowToster(22)
+            },2000);
+            handleClear();
+          }
+        }
+        
       }
+      else{
+        const finalSave = await FHIRPostAddPrescreption(finalObj);
+        if (finalSave.status === 1) {
+          
+          funGetAllList();
+          setShowToster(22);
+          setTimeout(() => {
+            setShowToster(22)
+          },2000);
+          handleClear();
+        }
+        } 
     }
   };
 
@@ -404,9 +442,11 @@ export default function FHIRAddPrescription(props) {
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-      setShowtoster(1)
-      setShowTosterMessage("Prescription sent to Pharmacy");
-      alert('Data Sent')
+       setShowToster(23)
+       setTimeout(() => {
+        setShowToster(0)
+      },2000);
+      
     }
   }
 
@@ -423,7 +463,7 @@ export default function FHIRAddPrescription(props) {
     getAllFromList();
     getAllRouteList();
     getAllIntervalList();
-  }, [props.setPrecription]);
+  }, [setPrecription]);
 
   return (
     <>
@@ -528,7 +568,7 @@ export default function FHIRAddPrescription(props) {
                               {brandList && (
                                 <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
                               )}
-                              <small id="errDrug" className="form-text text-danger" >Allergic to this medicine.</small>
+                              <small id="errDrug" className="form-text text-danger" style={{display:'none'}}>Allergic to {getMedName}.</small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
@@ -775,7 +815,7 @@ export default function FHIRAddPrescription(props) {
                             </button>
                             <button
                               type="button"
-                              className="btn btn-save btn-sm btn-save-fill mb-1 me-1"
+                              className="btn btn-secondary btn-sm btn-save-fill mb-1 me-1"
                               onClick={() => {
                                 handleUpdate(
                                   list.drug,
