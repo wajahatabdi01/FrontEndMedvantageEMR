@@ -20,6 +20,7 @@ import InsertPrescriptionNotification from "../../Pharmacy/NotificationAPI/Inser
 import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
 import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/Api/GetMedicalHistory";
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
+import GetAllRefills from "../API/GET/GetAllRefills";
 
 export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   const [brandList, setBrandList] = useState([]);
@@ -38,6 +39,8 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
   const [getMedName, setMedName] = useState('')
+
+  const [getRefillsList , setRefillsList] = useState([])
   let [showTosterMessage, setShowTosterMessage] = useState("");
   
 
@@ -79,6 +82,12 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
     }
   };
 
+  const getAllRerfillsList = async () => {
+    const response = await GetAllRefills();
+    if(response.status === 1) {
+      setRefillsList(response.responseValue)
+    }
+  }
   const getProviderList = async () => {
     const dataToProvider = {
       roleId: 2,
@@ -459,7 +468,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   }, []);
   useEffect(() => {
     getAllBrandList();
-
+    getAllRerfillsList();
     getAllFromList();
     getAllRouteList();
     getAllIntervalList();
@@ -602,6 +611,14 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
                                     <option value="0">
                                       --Select Refills--
                                     </option>
+                                    {getRefillsList &&
+                                      getRefillsList.map((list, ind) => {
+                                            return (
+                                              <option value={list.id}>
+                                                {list.refillsTimes}
+                                              </option>
+                                            );
+                                          })}
                                   </select>
                                 </div>
                                 <div>
@@ -750,9 +767,6 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
                                     <img src={clear} className="icnn" alt="" />
                                     Clear
                                   </button>
-                                  {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>
-                                <img src={plus} className='icnn' alt='' /> Add
-                              </button> */}
                                 </div>
                               </div>
                             </div>

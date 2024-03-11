@@ -19,6 +19,8 @@ import FHIRAddPrescription from "../../../../../FHIRPrescription/Pages/FHIRAddPr
 import FHIRPrescreptionList from "../../../../../FHIRPrescription/Pages/FHIRPrescreptionList";
 import OPDLifeStyle from "./FHIROPDPopUp/OPDLifeStyle";
 import OPDPrescriptionIndex from "./OPDPrescriptionIndex";
+import ClinicalInstructions from "../../../../../FHIIRClinicalInstruction/Pages/ClinicalInstructions";
+import FunctionalAndCognitive from "../../../../../FHIRFunctionalAndCognitive/Pages/FunctionalAndCognitive";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
@@ -46,6 +48,8 @@ export default function OPDTOPBottom(props) {
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showMessage, setShowMessage] = useState(0);
   let [precription, setPrecription] = useState(0);
+  let [clinicalPres, setClinicalPres] = useState(0);
+  let [functionalAndCog, setFunctionalAndCog] = useState(0);
   let [familyHistory, setFamilyHistory] = useState(0);
 
 
@@ -209,6 +213,16 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#Lifestyle">
           {t("LifeStyle")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => setClinicalPres(1)}>
+          {t("Clinical Instructions")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => setFunctionalAndCog(1)}>
+          {t("Functional And Cognitive Status")}{" "}
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
@@ -480,6 +494,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
             <div class="container"></div>
             <div class="modal-body">{precription === 1 ? (  <FHIRAddPrescription    setShowToster={setShowToster}    setPrecription={setPrecription}  />) : (  "")}
             </div>
+            
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>
           <a href="##" class="btn btn-primary">Save changes</a>
@@ -489,6 +504,54 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       </div>
 
       {/* -----------------------------------------------------------------------End Prescription Plan --------------------------------------------- */}
+
+      {/* -----------------------------------------------------------------------Start Clinical Instructions Plan --------------------------------------------- */}
+      <div class="modal fade" id="ClinicalInstructions" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title text-white">Clinical Instructions</h4>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setClinicalPres(0); }}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">{clinicalPres === 1 ? (  <ClinicalInstructions    setShowToster={setShowToster}    setClinicalPres={setClinicalPres}  />) : (  "")}
+            </div>
+            
+            {/* <div class="modal-footer">
+          <button  data-dismiss="modal" class="btn">Close</button>
+          <a href="##" class="btn btn-primary">Save changes</a>
+        </div> */}
+          </div>
+        </div>
+      </div>
+      {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
+
+      {/* -----------------------------------------------------------------------Start Clinical Instructions Plan --------------------------------------------- */}
+      <div class="modal fade" id="FunctionalAndCognitive" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title text-white">Functional And Cognitive Status</h4>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setFunctionalAndCog(0); }}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">{functionalAndCog === 1 ? ( <FunctionalAndCognitive setShowToster={setShowToster} setFunctionalAndCog={setFunctionalAndCog} />) : (  "")}
+            </div>
+            
+            {/* <div class="modal-footer">
+          <button  data-dismiss="modal" class="btn">Close</button>
+          <a href="##" class="btn btn-primary">Save changes</a>
+        </div> */}
+          </div>
+        </div>
+      </div>
+      {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
+
+
 
       {showToster === 1 ? (
         <SuccessToster
@@ -566,6 +629,30 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
         <SuccessToster
           handle={setShowToster}
           message="Prescription sent successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 24 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Clinical Instruction saved successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 25 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Clinical Instruction updated successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 26 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Clinical Instruction deleted successfully !!"
         />
       ) : (
         ""
