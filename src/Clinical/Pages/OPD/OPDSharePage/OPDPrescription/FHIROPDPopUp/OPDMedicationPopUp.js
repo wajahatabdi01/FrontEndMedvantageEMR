@@ -9,7 +9,10 @@ import AlertToster from '../../../../../../Component/AlertToster';
 import GetBrandList from '../../../../../API/KnowMedsAPI/GetBrandList';
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
-function OPDMedicationPopUp({setShowToster}) {
+import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
+import { t } from 'i18next';
+import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
+function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [medication, setMedication] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -23,8 +26,16 @@ function OPDMedicationPopUp({setShowToster}) {
     let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
-
-    let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    const [isShowPopUp, setIsShowPopUp] = useState(0);
+    const customStyle = { marginLeft: '0px' };
+    const [PopUpId, setPopUpId] = useState('');
+    const [txtCoding, setTxtCoding] = useState([]);
+    let [makeData, setMakeData] = useState([]);
+    let [getData, setgetData] = useState([]);
+    // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
     let [medicationData, setMedicationData] = useState({
         titleId: '',
@@ -44,7 +55,7 @@ function OPDMedicationPopUp({setShowToster}) {
     let getAllBrandList = async () => {
         const response = await GetBrandList();
         if (response.status === 1) {
-            const slicedProblemList =response.responseValue.slice(0,100)
+            const slicedProblemList = response.responseValue.slice(0, 100)
             setBrandList(slicedProblemList);
         }
     }
@@ -86,13 +97,36 @@ function OPDMedicationPopUp({setShowToster}) {
     };
 
     let handleRemove = () => {
-        setCoding('');
+        const tempAr = txtCoding;
+        let tempData = [];
+        let tempNew = "";
+        for (var i = 0; i < tempAr.length; i++) {
+            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
+            if (!document.getElementById("ddlCoding" + i).checked) {
+                tempData.push(tempAr[i])
+            }
+        }
+        for (var i = 0; i < tempAr.length; i++) {
+            document.getElementById("ddlCoding" + i).checked = false;
+        }
+        for (var j = 0; j < tempData.length; j++) {
+            tempNew += tempData[j] + ';';
+        }
+
         setMedicationData((prevIssueDetails) => ({
             ...prevIssueDetails,
-            'coding': '',
+            coding: tempNew,
         }));
+        setTxtCoding(tempData);
     }
-
+    const handleOpenModal = (modalID) => {
+        setIsShowPopUp(1);
+        setPopUpId(modalID);
+    }
+    const handleCloseModal = () => {
+        setIsShowPopUp(0);
+        // setPopUpId('');
+    }
     let handleIssueDetailsChange = (e) => {
         document.getElementById("errBeginDateTimeMed").style.display = "none";
         const { name, value } = e.target;
@@ -100,6 +134,26 @@ function OPDMedicationPopUp({setShowToster}) {
             ...prevIssueDetails,
             [name]: value,
         }));
+    }
+    const SelectedData = (data, modalID) => {
+        console.log("modalID", modalID, data)
+        let t = {
+            moduleId: modalID,
+            data: data
+        }
+        setgetData(t);
+        setMakeData([...makeData, t])
+        let temp = ""
+        for (var i = 0; i < data.length; i++) {
+            temp += data[i].dropdownName + ':' + data[i].code + ';'
+        }
+        console.log('temp', temp);
+        setMedicationData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: temp,
+        }));
+        const splitData = temp.split(';').slice(0, -1);
+        setTxtCoding(splitData);
     }
 
     let handleSelectProblem = () => {
@@ -115,11 +169,12 @@ function OPDMedicationPopUp({setShowToster}) {
         setMedicationData((prev) => ({
             ...prev,
             title: selectProblem,
-            coding: 'ICD10:' + selectProblem,
+            // coding: 'ICD10:' + selectProblem,
             titleId: ddlMedicationId,
             issueTypeId: 3
         }))
     }
+
 
     const handleCodingInputChange = (e) => {
         setCodingSelected(false);
@@ -130,7 +185,7 @@ function OPDMedicationPopUp({setShowToster}) {
         }));
     };
 
-    let handleClear =()=>{
+    let handleClear = () => {
         setMedicationData({
             titleId: '',
             title: '',
@@ -145,6 +200,13 @@ function OPDMedicationPopUp({setShowToster}) {
             outcomeId: '0',
             destination: ''
         })
+        setUpdateBool(0);
+        setTxtCoding([]);
+        setMedicationData((prevIssueDetails) => ({
+            ...prevIssueDetails,
+            coding: [],
+        }));
+        fnisClose(0);
         document.getElementById("errTitleMed").style.display = "none";
         document.getElementById("errBeginDateTimeMed").style.display = "none";
     }
@@ -158,9 +220,9 @@ function OPDMedicationPopUp({setShowToster}) {
             document.getElementById("errBeginDateTimeMed").innerHTML = "Please select begin date";
             document.getElementById("errBeginDateTimeMed").style.display = "block";
         }
-        else{
+        else {
             let pobj = {
-                uhid: activePatient,
+                uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([medicationData]),
                 clientId: window.clientId,
                 userId: window.userId
@@ -171,6 +233,7 @@ function OPDMedicationPopUp({setShowToster}) {
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setShowToster(3)
+                getAllEncoutersAsPerIssueID();
                 setTimeout(() => {
                     setShowToster(0);
                 }, 2000)
@@ -186,7 +249,89 @@ function OPDMedicationPopUp({setShowToster}) {
             }
         }
     }
+    let handleSaveUpdate = async () => {
+        if (medicationData.title === '' || medicationData.title === undefined || medicationData.title === null) {
+            document.getElementById("errTitle").innerHTML = "Please enter title";
+            document.getElementById("errTitle").style.display = "block";
+        }
+        if (medicationData.beginDateTime === '' || medicationData.beginDateTime === undefined || medicationData.beginDateTime === null) {
+            document.getElementById("errbegindate").innerHTML = "Please select begin date";
+            document.getElementById("errbegindate").style.display = "block";
+        }
+        else {
+            const response = await UpdateEncounter(JSON.stringify([medicationData]));
+            if (response.status === 1) {
+                setShowUnderProcess(0);
+                setShowToster(8)
+                getAllEncoutersAsPerIssueID();
+                handleClear();
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowUnderProcess(0)
+                setShowAlertToster(1)
+                setShowMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowToster(0)
+                }, 2000)
+            }
+        }
+    }
+    function convertDateFormat(dateString) {
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
 
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                // Log an error if the date string format is incorrect
+                console.error("Invalid date string format:", dateString);
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            // Log an error if dateString is undefined
+            // console.error("Date string is undefined");
+            return null; // Or return an appropriate value indicating an error
+        }
+    }
+    const newencounterBeginDate = convertDateFormat(encounterBeginDate);
+    const newencounterEndDate = convertDateFormat(encounterEndDate);
+
+    useEffect(() => {
+        setMedicationData({
+            id: rowId,
+            issueTypeId: 3,
+            titleId: titleId && titleId !== '' ? titleId : '',
+            title: encounterTitle && encounterTitle !== '' ? encounterTitle : '',
+            coding: encounterCoding && encounterCoding !== '' ? encounterCoding : '',
+            beginDateTime: newencounterBeginDate !== undefined ? newencounterBeginDate : '',
+            endDateTime: newencounterEndDate !== undefined ? newencounterEndDate : '',
+            classificationTypeId: classificationName && classificationName !== '' ? classificationName : '',
+            occurrenceId: occurrence && occurrence !== '' ? occurrence : '',
+            verificationStatusId: verificationStatus && verificationStatus !== '' ? verificationStatus : '',
+            referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
+            comments: encounterComments && encounterComments !== '' ? encounterComments : '',
+            outcomeId: outcome && outcome !== '' ? outcome : '',
+            destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
+        });
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
+        console.log('formattCodingData', formattCodingData)
+        setTxtCoding(formattCodingData)
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    // Used To Clear Modal
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
+
+    }, [isCloseModal]);
     useEffect(() => {
         getAllBrandList();
         getAllIssueOutCome();
@@ -194,8 +339,8 @@ function OPDMedicationPopUp({setShowToster}) {
         getAllVarificationStatus();
         getClassificationlist();
     }, [])
-  return (
-    <>
+    return (
+        <>
             <div className='problemhead'>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
@@ -214,32 +359,54 @@ function OPDMedicationPopUp({setShowToster}) {
 
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
-                    <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
+                        <label for="bedName" class="form-label relative">Title<span class="starMandatory">*</span></label>
                         <input type="text" value={medicationData.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                     </div>
-                        <small id="errTitleMed" className="form-text text-danger" style={{ display: 'none' }}></small>
+                    <small id="errTitleMed" className="form-text text-danger" style={{ display: 'none' }}></small>
                 </div>
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
                         <div>
-                            <select value={medicationData && medicationData.coding} className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' onChange={handleCodingInputChange}>
-                                {medicationData && medicationData.coding !== "" ?
-                                    <option>{medicationData.coding}</option>
+                            {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
+                                   {txtCoding && txtCoding.length > 0 ?
+                                       txtCoding.map((list,i)=>{
+                                           return(
+                                               <option value={list}>{list}</option>
+                                           )
+                                       })
+                                        
+                                       : ''}
+                               </select> */}
+                            <div className='form-control' style={{ height: '8em', overflow: 'auto' }} multiple name='coding' id='coding' >
+                                {txtCoding && txtCoding.length > 0 ?
+                                    txtCoding.map((list, i) => {
+                                        return (
+                                            <>
+                                                <span>
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                </span>
+                                                <br />
+                                            </>
+                                        )
+                                    })
+
                                     : ''}
-                            </select>
+                            </div>
+
+                            {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 
                     </div>
                     <div class="d-inline-flex gap-2">
-                        <button type="button" disabled class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { "handleOpenModal"('coding') }}><i class="bi bi-plus"></i> Add</button>
+                        <button type="button" class="btn btn-primary btn-sm" style={{ backgroundColor: '#1d4999' }} onClick={() => { handleOpenModal('coding') }}><i class="bi bi-plus"></i> Add</button>
                         <button type="button" class="btn btn-secondary btn-sm" onClick={handleRemove}>Remove</button>
                     </div>
                 </div>
                 <div className='col-12'>
                     <div className="row">
                         <div className="col-6 mb-2">
-                        <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
+                            <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
                             <input type="date" value={medicationData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
                             <small id="errBeginDateTimeMed" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
@@ -346,14 +513,33 @@ function OPDMedicationPopUp({setShowToster}) {
                     <button type="button" class="btn btn-secondary btn-secondry btn-lg" data-bs-dismiss="modal" onClick={handleClear}><i class="bi bi-x-lg"></i> Cancel</button>
                 </div>
             </div> */}
-          <div class="modal-footer">
+            <div class="modal-footer">
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt=''/> Save</button>
-                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt=''/> Clear</button>
+                    {updatebool === 0 ?
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                    }
+                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>
+
+            {/* ------------------------------------------ Code Master popUp Start------------------------------------ */}
+            {isShowPopUp === 1 ?
+
+                <div className={`modal d-${isShowPopUp === 1 ? 'block' : 'none'}`} id="codesModal" data-bs-backdrop="static" >
+                    <div className="modal-dialog modalDelete" style={{ maxWidth: '550px' }}>
+                        <div className="modal-content" >
+                            {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} />
+                            {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
+                        </div>
+                    </div>
+                </div>
+                : ''}
+            {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
         </>
-  )
+    )
 }
 
 export default OPDMedicationPopUp

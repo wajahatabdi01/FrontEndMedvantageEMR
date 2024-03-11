@@ -96,6 +96,7 @@ export default function Navbar(props) {
             connection.invoke("NewUserConnected", window.userId, 0).catch(err => console.log(err))
             connection.on("OnNewUserConnected", (message) => {
                 connection.on("commonNotification", (message) => {
+                    console.log("enter",message)
                     if (message.responseValue.recieverId === window.userId) {
                         tempnotification = message.responseValue
                         total += 1
@@ -110,7 +111,7 @@ export default function Navbar(props) {
         if (props.changeNavbar === 0) {
             setActivePageData(
                 <div className='d-flex flex-row gap-1'>
-                    <img src={DoctorLogo} width="" />
+                    <img src={DoctorLogo} width="" alt=''/>
                     <div className='d-flex flex-row '>
                         <span>{getWard}</span>
                         <span>-</span>
@@ -122,7 +123,7 @@ export default function Navbar(props) {
         else {
             setActivePageData(
                 <div className='d-flex flex-row gap-1'>
-                    <img src={DoctorLogo} width="" />
+                    <img src={DoctorLogo} width="" alt=''/>
                     <span>{t("Medvantage")}</span>
                     <div className='d-flex flex-row '>
 
@@ -146,10 +147,33 @@ export default function Navbar(props) {
     }, [props.changeNavbar])
 
     let handleShowPrescription = (param) => {
-        setPrescription(JSON.parse(param.medicineData));
-        setUhid(param.UHID);
-        setPatientName(param.PatientName);
+        // console.log('notification param : ', typeof(param))
+        // setPrescription(JSON.parse(param.medicineData));
+        // setUhid(param.Uhid);
+        // setPatientName(param.patientName);
+        console.log('notification param:', typeof(param.medicineData));
+
+    if (typeof param.medicineData === 'string') {
+        try {
+            const medicineData = JSON.parse(param.medicineData);
+            setPrescription(Array.isArray(medicineData) ? medicineData : [medicineData]);
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            // Handle the error accordingly
+        }
+    } else if (typeof param.medicineData === 'object') {
+        // If it's already an object, set it directly
+        setPrescription(Array.isArray(param.medicineData) ? param.medicineData : [param.medicineData]);
+    } else {
+        console.error('Invalid medicine data type:', typeof(param.medicineData));
+        // Handle the error accordingly
+    }
+
+    setUhid(param.Uhid);
+    setPatientName(param.patientName);
     };
+
+    
 
 
     
@@ -161,7 +185,7 @@ export default function Navbar(props) {
             setActivePageData(
                 <div className='d-flex flex-row gap-1'>
                     <div className='d-flex flex-row '>
-                        <img src={DoctorLogo} width="" />
+                        <img src={DoctorLogo} width="" alt='' />
                         <span>{getWard}</span>
                         <span>-</span>
                         <span>{getDepartment}</span>
@@ -472,10 +496,11 @@ export default function Navbar(props) {
                                                             </thead>
                                                             <tbody>
                                                                 {prescription && prescription.map((list, index) => {
+                                                                    console.log('prescription : ', list)
                                                                     return (
                                                                         <tr>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{list.drugName}</td>
+                                                                            <td>{list.drug}</td>
                                                                             <td>{list.alternative}</td>
                                                                             {/* <td>{list.duration}</td>
                                                                             <td>{list.remark}</td>

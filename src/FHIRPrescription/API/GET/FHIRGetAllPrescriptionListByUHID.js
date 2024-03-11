@@ -1,6 +1,6 @@
-async function FHIRGetAllPrescriptionListByUHID(uhid) {
+async function FHIRGetAllPrescriptionListByUHID(uhid, clientId) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/FHIRGetAllPrescriptionListByUHID";
-  let url = window.AppbaseUrl+"/api/FHIRPrescription/GetAllPrescription?Uhid="+uhid;
+  let url = window.AppbaseUrl+"/api/FHIRPrescription/GetAllPrescription?Uhid="+uhid+"&ClientId="+clientId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

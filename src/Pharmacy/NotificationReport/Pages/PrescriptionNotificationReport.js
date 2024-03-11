@@ -34,15 +34,15 @@ export default function PrescriptionNotificationReport() {
       setNotificationList(resp.responseValue);
       setNotificationListSearch(resp.responseValue);
 
-      console.log('resp.responseValue', resp.responseValue);
     }
   };
 
   let showPopUp = (param) => {
+    console.log('param : ', param);
     const dataRes = JSON.parse(param.prescriptionDetails);
     let dataParser = [];
     dataParser.push(dataRes);
-    console.log("param", dataParser[0])
+   
     setMedData(dataParser[0]);
     setNotificationId(param.id);
   };
@@ -64,22 +64,34 @@ export default function PrescriptionNotificationReport() {
     }
   };
 
+  // const HandleAllCheckCheckBoxes = () => {
+  //   const data = [medData.medicineData];
+  //   for (var i = 0; i < data.length; i++) {
+  //     // const findID = "check" + data[i].id + data[i].drugName;
+  //     const findID = "check" + data[i].id;
+  //     document.getElementById(findID).checked = true;
+  //   }
+  // };
+
   const HandleAllCheckCheckBoxes = () => {
-    const data = medData.medicineData;
-    for (var i = 0; i < data.length; i++) {
-      const findID = "check" + data[i].id + data[i].drugName;
-      document.getElementById(findID).checked = true;
-    }
+    const checkboxes = document.querySelectorAll("[id^='check']");
+    const allCheckedCheckbox = document.getElementById("AllChecked");
+  
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = allCheckedCheckbox.checked;
+    });
   };
 
   const handleSave = async () => {
     const patientDetails = [];
     const medicineDetails = [];
-    const data = medData.medicineData;
+    const data = [medData.medicineData];
     for (var i = 0; i < data.length; i++) {
-      const findID = "check" + data[i].id + data[i].drugName;
+      // const findID = "check" + data[i].id + data[i].drugName;
+      const findID = "check" + data[i].id;
       const getCBValue = document.getElementById(findID).checked;
-      const findAltID = "alternativeTxt" + data[i].id + data[i].drugName;
+      // const findAltID = "alternativeTxt" + data[i].id + data[i].drugName;
+      const findAltID = "alternativeTxt" + data[i].id;
       const getALTValue = document.getElementById(findAltID).value;
       if (getCBValue) {
         medicineDetails.push({
@@ -126,6 +138,7 @@ export default function PrescriptionNotificationReport() {
         userId: window.userId,
       }
 
+console.log('obj : ', obj)
 
 
       let finalData = await PostPrescriptionRecord(obj);
@@ -196,7 +209,7 @@ export default function PrescriptionNotificationReport() {
 
                   <tbody>
                     {notificationListSearch && notificationListSearch.map((val, ind) => {
-                      console.log('val', val);
+                     
                       return (
                         <tr>
                           <td>{ind + 1}</td>
@@ -265,8 +278,9 @@ export default function PrescriptionNotificationReport() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {medData.medicineData && console.log("data", medData.medicineData)}
-                                  {medData.medicineData && medData.medicineData.map((list, index) => {
+                                {console.log('the medData : ', medData.medicineData)}
+                                  {/* {medData.medicineData && console.log("data", medData.medicineData)} */}
+                                  {/* {medData.medicineData && medData.medicineData.map((list, index) => {
                                     return (
                                       <tr>
                                         <td><input type='checkbox' id={'check' + list.id + list.drugName} /></td>
@@ -275,6 +289,18 @@ export default function PrescriptionNotificationReport() {
                                         <td>{list.duration}</td>
                                         <td>{list.remark}</td>
                                         <td><input type='text' className='form-control form-control-sm ' id={'alternativeTxt' + list.id + list.drugName} /></td>
+                                      </tr>
+                                    )
+                                  })} */}
+                                  {medData.medicineData && [medData.medicineData].map((list, index) => {
+                                    return (
+                                      <tr>
+                                        <td><input type='checkbox' id={'check' + list.id} /></td>
+                                        <td>{list.drug}</td>
+                                        <td>Test Frequency</td>
+                                        <td>Test Duration</td>
+                                        <td>{list.note}</td>
+                                        <td><input type='text' className='form-control form-control-sm ' id={'alternativeTxt' + list.id} /></td>
                                       </tr>
                                     )
                                   })}

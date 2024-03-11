@@ -48,12 +48,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
             seCity: '',
             socialSecurityNo: '',
             city: '',
-            seStateId: '',
-            stateId: '',
+            seStateId: 0,
+            stateId: 0,
             seZipCode: '',
             zipCode: '',
-            seCountryId: '',
-            countryId: '',
+            seCountryId: 0,
+            countryId: 0,
             subscriberPhone: '',
             coPay: '',
             isAcceptAssignment: '',
@@ -71,19 +71,19 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         dob: '',
         groupNumber: '',
         subscriberEmployer: '',
-        genderId: '',
+        genderId: 0,
         seAddress: '',
         subscriberAddressLine1: '',
         subscriberAddressLine2: '',
         seCity: '',
         socialSecurityNo: '',
         city: '',
-        seStateId: '',
-        stateId: '',
+        seStateId: 0,
+        stateId: 0,
         seZipCode: '',
         zipCode: '',
-        seCountryId: '',
-        countryId: '',
+        seCountryId: 0,
+        countryId: 0,
         subscriberPhone: '',
         coPay: '',
         isAcceptAssignment: '',
@@ -107,12 +107,12 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         seCity: '',
         socialSecurityNo: '',
         city: '',
-        seStateId: '',
-        stateId: '',
+        seStateId: 0,
+        stateId: 0,
         seZipCode: '',
         zipCode: '',
-        seCountryId: '',
-        countryId: '',
+        seCountryId: 0,
+        countryId: 0,
         subscriberPhone: '',
         coPay: '',
         isAcceptAssignment: '',
@@ -151,8 +151,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityprimary").style.display = "none"
         document.getElementById("errSECity").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {
@@ -191,8 +204,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCitySecondary").style.display = "none"
         document.getElementById("errSECitySecondary").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {
                 return;
@@ -229,8 +255,21 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         document.getElementById("errCityTertiary").style.display = "none"
         document.getElementById("errSECityTertiary").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
-        const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+        
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+        
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+        
+            return isValid || trimmedInput === '';
+        };
+                const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
 
         if (name === "effectiveDate" || name === "dob") {
             if (!isValidInputDate(value)) {
@@ -717,7 +756,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
                         </div>
 
                         <div className="col-md-2 mb-2">
-                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starmandatory">*</span></label>
+                            <label htmlFor="txtSEZipCode" className="form-label"><img src={patientOPD} className='icnn' alt='' />{t("SE Zip Code")}<span class="starMandatory">*</span></label>
                             <input type="text" className="form-control form-control-sm" id="txtSEZipCode" placeholder={t("Enter SE Zip Code")} name='seZipCode' value={sendFormPrimary.seZipCode} onChange={handlePrimary} />
                             <small id="errSEZipCode" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>

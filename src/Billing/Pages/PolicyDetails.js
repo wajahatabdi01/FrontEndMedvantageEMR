@@ -10,6 +10,7 @@ import GetAllPolicyList from '../API/GetAllPolicyList';
 import GetPolicyBills from '../API/GetPolicyBills';
 import getPatientDetailByUhid from '../API/getPatientDetailByUhid';
 import PostClaimAmount from '../API/POST/PostClaimAmount';
+import AlertToster from "../../Component/AlertToster";
 
 
 export default function PolicyDetails() {
@@ -26,6 +27,7 @@ export default function PolicyDetails() {
   const [showUnderProcess, setShowUnderProcess] = useState(0);
   const [showToster, setShowToster] = useState(0);
   const [tosterValue, setTosterValue] = useState(0);
+  let [showMessage, setShowMeassage] = useState("");
   const [UHID, setUHID] = useState('');
   const [tosterMessage, setTosterMessage] = useState("");
   const [PolicyList, setpolicyList] = useState([]);
@@ -37,12 +39,14 @@ export default function PolicyDetails() {
   const [billReport, setbillReport] = useState([]);
   const [billDetails, setbillDetails] = useState([]);
   const [rowUHID, setrowUHID] = useState('');
+  let [showAlertToster, setShowAlertToster] = useState(0);
   const [rowCompany, setrowCompany] = useState('');
   const [rowCompanyID, setrowCompanyID] = useState('');
   const [rowPolicyNo, setrowPolicyNo] = useState('');
   const [rowAmount, setrowAmount] = useState('');
   const [claimDate, setClaimDate] = useState(formatDate(currentDate));
   const [claimAmount, setclaimAmount] = useState('');
+  const [issuancedetailsId, setissuancedetailsId] = useState('');
   const [Remark, setRemark] = useState('');
   let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
 
@@ -61,7 +65,8 @@ export default function PolicyDetails() {
     }
   }
 
-  let GetPolicyList = async(UHID)=>{
+  let GetPolicyList = async()=>{
+
     let PolicyLists = await GetAllPolicyList(UHID)
     if(PolicyLists.status===1){
       setpolicyList(PolicyLists.responseValue)
@@ -86,12 +91,13 @@ export default function PolicyDetails() {
   const ClaimPolicy = async(index)=>{
     let IndexData = PolicyList[index]
     setshowClaimModel(1);
+    setissuancedetailsId(IndexData.issuancedetailsId)
     setrowUHID(IndexData.uhid)
     setrowCompany(IndexData.companyname)
     setrowCompanyID(IndexData.tpaCompanyID)
     setrowPolicyNo(IndexData.tpaReferenceNo)
-    setrowAmount(IndexData.totalAmountSumByTpaReferenceNo)
-    setclaimAmount(IndexData.totalAmountSumByTpaReferenceNo)
+    // setrowAmount(IndexData.totalAmountSumByTpaReferenceNo)
+    setclaimAmount(IndexData.totaltotalBalanceSumByTpaReferenceNo)
     console.log('index', IndexData)
  
   }
@@ -113,7 +119,7 @@ export default function PolicyDetails() {
   }
 
   const handleClear=()=>{
-    setpolicyList([]);
+  
    setUHID('')
     
   }
@@ -121,26 +127,28 @@ export default function PolicyDetails() {
 
 
     let cliamAmount = document.getElementById('claimamount').value;
-    let amount = document.getElementById('amount').value;
+    //let amount = document.getElementById('amount').value;
 
 
-    if(cliamAmount > amount){
-      document.getElementById('errClaimAmount').style.display = 'block'
-      document.getElementById('errClaimAmount').innerHTML = 'Claim Amount should not be greater than Purchase amount'
-      return
-    }
+    // if(cliamAmount > amount){
+    //   document.getElementById('errClaimAmount').style.display = 'block'
+    //   document.getElementById('errClaimAmount').innerHTML = 'Claim Amount should not be greater than Purchase amount'
+    //   return
+    // }
 
 
-    else{
+    // else{
       const obj = {
 
         userID : userID,
         uhid : rowUHID,
+        issuancedetailsId:issuancedetailsId,
         tpaCompanyID : rowCompanyID,
         tpaReferenceNo :rowPolicyNo,
-        amount : rowAmount,
+        amount : claimAmount,
         remark : Remark,
-        claimDate : claimDate
+        claimDate : claimDate,
+        isCashless : 0,
       }
       console.log('post' , obj)
       let data = await PostClaimAmount(obj)
@@ -167,12 +175,13 @@ export default function PolicyDetails() {
           setShowToster(0);
 
         }, 1000)
-      }
+      // }
     }
   }
 
   useEffect(() => {
     setIsShowBillModel(0);
+    GetPolicyList(0)
   }, [])
   return (
    <>
@@ -188,8 +197,8 @@ export default function PolicyDetails() {
                   <div className='row'>
                  
                     <div className="col-xxl-2 col-xl-3 col-lg-4 col-md-6 mb-3">
-                      <label htmlFor="Code" className="form-label">UHID<span className="starMandatory">*</span></label>
-                      <input id="uhid" type="text" value={UHID} className="form-control form-control-sm" onChange={handleOnChange} placeholder = "Enter UHID" name="uhid"  />
+                      <label htmlFor="Code" className="form-label">UHID<span className="starMandatory"></span></label>
+                      <input id="uhid" type="text" value={UHID} className="form-control form-control-sm" onChange={handleOnChange} placeholder = "UHID" name="uhid"  />
                       <small id="erruhid" className="form-text text-danger" style={{ display: 'none' }}></small>
                     </div>
  
@@ -224,41 +233,41 @@ export default function PolicyDetails() {
                       <th>UHID</th>
                       <th>Company Name</th>
                       <th>Policy Number</th>
-                      <th>Paid Amount</th>
-                      <th>Total Amount </th>
+                      <th>Balance Amount</th>
+                      {/* <th>Total Amount </th> */}
                       <th style={{ "width": "10%" }} className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                   
                       
-                  {PolicyList.length === 0 ? (
-  <tr>
-    <td colSpan="6" className="text-center"><h6 className="mt-5" style={{ color: 'red' }}>---No records found---</h6></td>
-  </tr>
-) : (
-  PolicyList.map((data, index) => (
-    <tr key={index}>
-      <td className="text-center">{index + 1}</td>
-      <td>{data.uhid}</td>
-      <td>{data.companyname}</td>
-      <td>{data.tpaReferenceNo}</td>
-      <td>{data.totalPaidAmountSumByTpaReferenceNo}</td>
-      <td>{data.totalAmountSumByTpaReferenceNo}</td>
-      <td>
-        <div className="action-button">
-        <div onClick={() => ClaimPolicy(index)}>
-       <img src={claimtable} alt='' title='claim'/>
-          </div>
-          <div onClick={() => ShowAllBills(index)}>
-          <img src={view} alt='' title='claim'/>
-          </div>
-        
-        </div>
+                  
+                  
+              
+                   
+            
+                  {PolicyList.map((data, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td>{data.uhid}</td>
+                        <td>{data.companyname}</td>
+                        <td>{data.tpaReferenceNo}</td>
+                        <td>{data.totaltotalBalanceSumByTpaReferenceNo}</td>
+                        {/* <td>{data.totalAmountSumByTpaReferenceNo}</td> */}
+                        <td>
+                          <div className="action-button">
+                          <div onClick={() => ClaimPolicy(index)}>
+                        <img src={claimtable} alt='' title='Claim'/>
+                            </div>
+                            <div onClick={() => ShowAllBills(index)}>
+                            <img src={view} alt='' title='View'/>
+                            </div>
+                          
+        </div>npm start
       </td>
     </tr>
-  ))
-)}
+  ))}
+
 
   
                   </tbody>
@@ -429,14 +438,14 @@ export default function PolicyDetails() {
                                 </div>
                           
                                 <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
-                                <label htmlFor="Code" className="form-label">Policy Number<span className="starMandatory"></span></label>
+                                <label htmlFor="Code" className="form-label">Card Number<span className="starMandatory"></span></label>
                                 <input  type="text" id='rowPolicyNo' value={rowPolicyNo} className="form-control form-control-sm mt-1"  disabled />
                                 </div>
                               
-                                <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
+                                {/* <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
                                 <label htmlFor="Code"  className="form-label">Amount<span className="starMandatory"></span></label>
                                 <input  type="text" id="amount" value={rowAmount} className="form-control form-control-sm mt-1" disabled />
-                                </div>
+                                </div> */}
 
                                 <div className="col-xxl-6 col-xl-3 col-lg-4 col-md-6 mb-3">
                                 <label htmlFor="Code" className="form-label">Claim Date<span className="starMandatory"></span></label>
@@ -540,10 +549,7 @@ export default function PolicyDetails() {
                             <td className='fw-bold'>Department :</td>
                             <td className='value' colSpan={3}>{billDetails.departName}</td>                           
                         </tr>
-                        <tr>
-                            <td className='fw-bold'>Consultant Name :</td>
-                            <td colSpan={3}><b>{billDetails.drName}</b></td>                            
-                        </tr>
+
                         </tbody>
                     </table>
 
@@ -605,7 +611,11 @@ export default function PolicyDetails() {
 
 </div> :''
 }
-
+{showAlertToster === 1 ? (
+              <AlertToster message={showMessage} handle={setShowAlertToster} />
+            ) : (
+              ""
+            )}
    </>
   )
 }

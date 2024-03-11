@@ -23,6 +23,7 @@ import DeleteFHIRClassMaster from '../Api/FHIRClassMaster/DeleteFHIRClassMaster'
 export default function FHIRClassMaster() {
   let [classList, setclassList] = useState("")
   let [classListMain, setclassListMain] = useState("")
+
   let [showUnderProcess, setShowUnderProcess] = useState(0);
   let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
@@ -247,8 +248,8 @@ export default function FHIRClassMaster() {
                       <>
                         {showToster === 1 ?
                           <Toster value={tosterValue} message={tosterMessage} />
-
-                          : <div>
+                          : 
+                          <div>
                             {updateBool === 0 ?
                               <>
                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />Save</button>
@@ -260,13 +261,15 @@ export default function FHIRClassMaster() {
                                 <button type="button" className="btn btn-clear btn-sm mb-1" onClick={handleClear}>Cancel</button>
                               </>
                             }
-                          </div>}
+                          </div>
+                          }
                       </>
                     }
                   </div>
                 </div>
               </BoxContainer>
             </div>
+            
             <div className="col-12 mt-2">
               <div className='handlser'>
                 <Heading text="Class Master List" />

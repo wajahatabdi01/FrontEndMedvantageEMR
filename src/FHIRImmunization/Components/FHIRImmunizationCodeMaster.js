@@ -110,7 +110,7 @@ export default function FHIRImmunizationCodeMaster(props) {
                   temp.splice(i, 1);
               }
           }
-          props.SelectedData(temp, props.modalID)
+          props.SelectedData(temp, props.modalID, props.labelID)
           setArrToFwd(temp)
       }
       else {
@@ -124,7 +124,7 @@ export default function FHIRImmunizationCodeMaster(props) {
 
 
           });
-          props.SelectedData(temp, props.modalID)
+          props.SelectedData(temp, props.modalID,props.labelID)
           setArrToFwd([...temp])
       }
 

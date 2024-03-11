@@ -9,12 +9,20 @@ import clear1 from '../../../../../../assets/images/icons/clear.svg'
 import send from '../../../../../../assets/images/icons/send.svg'
 import SaveIPDData from '../../../../../../Code/SaveIPDData';
 import { useTranslation } from 'react-i18next';
-import  i18n from "i18next";
+import i18n from "i18next";
 import { clear } from '@testing-library/user-event/dist/clear'
+import Heading from '../../../../../../Component/Heading'
+import Loader from '../../../../../../Component/Loader'
+import SuccessToster from '../../../../../../Component/SuccessToster'
+import AlertToster from '../../../../../../Component/AlertToster'
+import FHIRSavePatientInvestigation from '../../../../../API/FHIRPatirntInvestigation/FHIRSavePatientInvestigation'
+import TosterUnderProcess from '../../../../../../Component/TosterUnderProcess'
+import Toster from '../../../../../../Component/Toster'
+import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 
 
 export default function IPDInvestigation(props) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     let [itemMasterList, setItemMasterList] = useState([])
     let [total, setTotal] = useState(0)
@@ -23,6 +31,31 @@ export default function IPDInvestigation(props) {
     let [showInvestigation, setShowInvestigation] = useState([])
 
     let [sendData, setSendData] = useState([])
+    let [showUnderProcess, setShowUnderProcess] = useState(0);
+    let [showLoder, setShowLoder] = useState(0);
+    let [isShowToaster, setisShowToaster] = useState(0);
+    let [showAlertToster, setShowAlertToster] = useState(0);
+    let [showErrMessage, setShowErrMessage] = useState('');
+    let [showSuccessMsg, setShowSuccessMsg] = useState('');
+    let [updateBool, setUpdateBool] = useState(0);
+    let [showToster, setShowToster] = useState(0);
+    let [tosterMessage, setTosterMessage] = useState("");
+    let [tosterValue, setTosterValue] = useState(0);
+    let [investigationHistory, setInvestigationHistory] = useState([])
+
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+
+    let patientDeptId = window.sessionStorage.getItem("OPDPatientData")
+        ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].departmentId
+        : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].deptId : []
+
+
+    let patientDoctId = window.sessionStorage.getItem("OPDPatientData")
+        ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId
+        : window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].doctorId : []
+
 
     let getdata = async () => {
         let response = await GetAllItemMaster()
@@ -62,7 +95,7 @@ export default function IPDInvestigation(props) {
             })
 
             if (flag === 0) {
-                let data = { "itemId": parseInt(id), "Name":name, "charges": cost}
+                let data = { "itemId": parseInt(id), "itemName": name, "itemCost": cost }
                 setTotal(total + cost)
                 SaveIPDData(total + cost, "total")
 
@@ -75,7 +108,7 @@ export default function IPDInvestigation(props) {
             }
         }
         else {
-            let data = { "itemId": parseInt(id), "Name":name, "charges": cost }
+            let data = { "itemId": parseInt(id), "itemName": name, "itemCost": cost }
             setTotal(total + cost)
             SaveIPDData(total + cost, "total")
 
@@ -207,78 +240,168 @@ export default function IPDInvestigation(props) {
             // setShowInvestigation(searchShow)
         }
     }
+    let handleReset = () => {
+
+        let total = 0
+        let tempitems = [...itemMasterList]
+        itemMasterList.map((val, ind) => {
+            let res = searches(investigationHistory, parseInt(val.id))
+            if (res != -1) {
+                tempitems[ind].checked = true
+                document.getElementById(tempitems[ind].id).checked = true
+                // val.checked = 1
+                total += val.itemCharge
+            }
+            else {
+                if (tempitems[ind].checked !== true) {
+                    document.getElementById(tempitems[ind].id).checked = false
+                    tempitems[ind].checked = false
+                }
+            }
+
+            // response.push(val)
+        })
+        setShowInvestigation([...tempitems])
+
+        setSearchShow([...tempitems])
+        setTotal(total)
+        setSendData(investigationHistory)
+    }
+
+    //Save Investigation
+    const handlesaveInvestigation = async () => {
+
+        setShowUnderProcess(1);
+        var obj = {
+            "uhid": activeUHID,
+            "doctorId": patientDoctId,
+            "clientId": window.clientId,
+            "userId": window.userId,
+            "deptId": patientDeptId,
+            "investigationItemDetails": JSON.stringify(sendData),
+        }
+
+        // return;
+        const response = await FHIRSavePatientInvestigation(obj);
+        if (response.status === 1) {
+            setShowUnderProcess(0);
+            setTosterValue(0);
+            setShowToster(1);
+            setTosterMessage("Data Saved Successfully.");
+            setTimeout(() => {
+                setShowToster(0);
+            }, 1500)
+        }
+        else {
+            setShowUnderProcess(0);
+            setTosterValue(1);
+            setShowToster(1);
+            setTosterMessage(response.responseValue);
+            setTimeout(() => {
+                setShowToster(0);
+            }, 1500)
+        }
+
+    }
+
 
 
     useEffect(() => {
         setData()
     }, [patientsendDataChange])
     return (
-        <div className={`${props.showFun === 0 ? 'offcanvas' : "offcanvas show"}  offcanvas-end`} id="modalAntibiogram" data-bs-backdrop="static">
-            <div className="offcanvas-header d-flex justify-content-start gap-4  p-4 " style={{ borderBottom: "1px solid #C6C6C6", background: "#1D4999" }}>
-                <div className='d-flex justify-content-center align-items-center pointer' style={{ backgroundColor: "white", borderRadius: "50px", width: "24px", height: "24px" }} data-bs-dismiss="offcanvas" onClick={() => { props.modelCloseFun(0) }} aria-label="Close"><i className='fa fa-close ' ></i></div>
-                <h5 className="offcanvas-title text-white" id="allergiesLabel" > {t("ORDER_INVESTIGATION")} </h5>
-            </div>
+        <div className='p-0 boxcontainer mt-2 investigationbox'>
+            <div className='opdorder-in'>
+                <div className='opdorder'>
+                    <Heading text={t("Order Investigation")} />
+                </div>
+                <div className='opdserchinvest position-relative'>
+                    <input type='text' placeholder={t("Search Investigation & Procedure...")} className='searchBarOPD' onChange={handleSearch} />
+                    <img src={searchIcon} className='searchBarOPDIcon2' alt='' />
+                </div>
+                <div className='overflow-auto' style={{ height: "30vh" }}>
+                    <TableContainer>
+                        <thead>
+                            <th className='wrap-content'>{t("INVESTIGATION_AND_PROCEDURE")} </th>
+                            <th>Price</th>
+                            {/* <th>Action</th> */}
+                        </thead>
+                        <tbody>
+                            {/* {callInvestigation} */}
+                            {showInvestigation && showInvestigation.map((val, ind) => {
 
-            <div className="offcanvas-body " >
-                <div className='p-0 boxcontainer'>
-                    <div className='row pb-3  m-0'>
-                        {/* <Heading text="Order Investigation" /> */}
-                        <div className={`col-12 p-0 position-relative`} >
-                            <input type='text' placeholder= {t("SEARCH_INVESTIGATION_AND_PROCEDURE")} className='searchBarOPD' onChange={handleSearch} />
-                            <img src={searchIcon} className='searchBarOPDIcon' alt='' />
-                        </div>
-                    </div>
-
-                    <div className='overflow-auto' style={{ height: "75vh" }}>
-                        <TableContainer>
-                            <thead>
-                                <th className='wrap-content'>{t("INVESTIGATION_AND_PROCEDURE")} </th>
-                                <th>Price</th>
-                                {/* <th>Action</th> */}
-                            </thead>
-                            <tbody>
-                                {/* {callInvestigation} */}
-                                {showInvestigation && showInvestigation.map((val, ind) => {
-
-                                    // console.log("cdscs", val)
-                                    return (
-                                        <tr key={val.id}>
-                                            <td >
-                                                <div className='d-flex regularCheck column-gap-1 px-2 align-items-start'>
-                                                    <div className='form-check'>
-                                                        <input className='form-check-input' type="checkbox" id={val.id} value="true" defaultChecked={val.checked} name={val.id} onClick={(e) => { handlechange(e, val.itemCharge, val.itemName, ind, val.id) }} />
-                                                    </div>
-                                                    <label htmlFor={val.id}>{val.itemName}</label>
+                                // console.log("cdscs", val)
+                                return (
+                                    <tr key={val.id}>
+                                        <td >
+                                            <div className='d-flex regularCheck column-gap-1 px-2 align-items-start'>
+                                                <div className='form-check'>
+                                                    <input className='form-check-input' type="checkbox" id={val.id} value="true" defaultChecked={val.checked} name={val.id} onClick={(e) => { handlechange(e, val.itemCharge, val.itemName, ind, val.id) }} />
                                                 </div>
-                                            </td>
-                                            <td>{val.itemCharge}</td>
+                                                <label htmlFor={val.id}>{val.itemName}</label>
+                                            </div>
+                                        </td>
+                                        <td>{val.itemCharge}</td>
 
-                                        </tr>
-                                    )
+                                    </tr>
+                                )
 
 
-                                })}
+                            })}
 
-                            </tbody>
-                        </TableContainer>
-
-                    </div>
-                    <div className='toal-invest-in'>
-                      <div className='toal-invest'>
-                        {t("TOTAL") } : {total}
-                      </div>
-                      <div className='toal-invest'>
-                         <button type="button" className="btn btn-save-fill"> <img src={send} className='icnn'  alt='' /> {t("Send")}</button>
-                      </div>
-                      <div className='toal-invest'>
-                         <button type="button" className="btn btnbluehover btn-clear"  onClick={() => { console.log("investigation ", sendData) }}> <img src={clear1} className='icnn'  alt='' /> {t("RESET")} </button>
-                      </div>
-                    </div>
+                        </tbody>
+                    </TableContainer>
 
                 </div>
+                {/* <div className='toal-invest-in'>
+                    <div className='toal-invest'>
+                        {t("TOTAL")} : {total}
+                    </div>
+                    <div className='toal-invest'>
+                        <button type="button" className="btn btn-save-fill" onClick={handlesaveInvestigation}> <img src={send} className='icnn' alt='' /> {t("Save")}</button>
+                    </div>
+                    <div className='toal-invest'>
+                        <button type="button" className="btn btnbluehover btn-clear" onClick={() => { console.log("investigation ", sendData) }}> <img src={clear1} className='icnn' alt='' /> {t("RESET")} </button>
+                    </div>
+                </div> */}
+
+                <div className='opdorder border-topp suminvest'>
+                <div className='totalod'>  {t("Total Investigation Charge")}: <span>{total}</span></div>
+                <div className='resetpodinvest relative'>
+                    {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                        <>
+                            {showToster === 1 ?
+                                <Toster value={tosterValue} message={tosterMessage} />
+                                : <div>
+                                    <>
+                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
+                                        <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}><i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}</button>
+                                    </>
+
+                                </div>}
+                        </>
+                    }
+                </div>
+            </div>
 
 
             </div>
+
+
+            {
+                showLoder === 1 ? <Loader val={showLoder} /> : ""
+            }
+            {/* Toaster */}
+            {
+                isShowToaster === 1 ?
+                    <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
+            }
+
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
+
         </div>
     )
 }

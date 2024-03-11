@@ -1,5 +1,4 @@
 async function GetBrandList() {
-
     let url = window.AppbaseUrl + `/api/KnowMedApis/GetBrandList?userId=${window.userId}`;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let data = {}

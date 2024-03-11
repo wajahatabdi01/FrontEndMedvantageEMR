@@ -20,9 +20,23 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
     const handlePattientChoicesChange = (e) => {
         document.getElementById("errProvider").style.display = "none"
         const { name, value } = e.target;
-        const isValidInput = (input) => /^[a-zA-Z0-9]*$/.test(input);
+        const isValidInput = (input) => {
+            // Trim input to remove leading and trailing spaces
+            const trimmedInput = input.trim();
+
+            // Check if input starts with a space
+            if (input !== trimmedInput && input.startsWith(' ')) {
+                return false; // Input starts with a space
+            }
+
+            // Check if trimmed input contains only alphanumeric characters and spaces in between
+            const isValid = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(trimmedInput);
+
+            return isValid || trimmedInput === '';
+        };
+
         const isValidInputDate = (input) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(input);
-        if (name === "provideSinceDate" || name==="immRegStatEffdate" || name==="publCodeEffDate" || name==="protIndiEffdate") {
+        if (name === "provideSinceDate" || name === "immRegStatEffdate" || name === "publCodeEffDate" || name === "protIndiEffdate") {
             if (!isValidInputDate(value)) {
                 return;
             }
@@ -50,10 +64,10 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
     }
 
     const [patientchoicesList, setPatientchoicesList] = useState({
-        providerID: '',
+        providerID: 0,
         provideSinceDate: '',
-        refProviderID: '',
-        pharmacyId: '',
+        refProviderID: 0,
+        pharmacyId: 0,
         hipaaNotice: '',
         hipaaVoice: '',
         leaveMessageWith: '',
@@ -73,7 +87,7 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
         careTeamProvider: '',
         careTeamStatus: '',
         careTeamFacility: '',
-        categoryId: '',
+        categoryId: 0,
         protectIndicator: '',
         protIndiEffdate: '',
         careTeamProvider: '',
@@ -203,12 +217,11 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
                 <input type="text" className="form-control form-control-sm" id="txtLeaveMessageWith" placeholder={t("ENTER_Leave_Message_With")} name='leaveMessageWith' value={patientchoicesList.leaveMessageWith} onChange={handlePattientChoicesChange} />
             </div>
 
-            <div className="col-2 mb-2">
+            {/* <div className="col-2 mb-2">
                 <label htmlFor="ddlAllow_Mail_Message" className="form-label"><img src={city} className='icnn' alt='' />{t("Allow_Mail_Message")}</label>
                 <select className="form-select form-select-sm" id="ddlAllow_Mail_Message" aria-label=".form-select-sm example" name='hipaaAllowemail' value={patientchoicesList.hipaaAllowemail} onChange={handlePattientChoicesChange} >
                     <option value="0">{t("Select_Allow_Mail_Message")}</option>
                     {choicesList && choicesList.map((list) => {
-
                         return (
                             <option value={list.id}>{list.name}</option>
                         )
@@ -216,7 +229,7 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
                     })}
                 </select>
                 <small id="errAllow_Mail_Message" className="form-text text-danger" style={{ display: 'none' }}></small>
-            </div>
+            </div> */}
 
             <div className="col-2 mb-2">
                 <label htmlFor="ddlAllow_SMS" className="form-label"><img src={city} className='icnn' alt='' />{t("Allow_SMS")}</label>
@@ -237,7 +250,6 @@ const PattientChoices = ({ patientchoicesData, clearStatus, setClearStatus }) =>
                 <select className="form-select form-select-sm" id="ddlAllow_Email" aria-label=".form-select-sm example" name='hipaaAllowemail' value={patientchoicesList.hipaaAllowemail} onChange={handlePattientChoicesChange}>
                     <option value="0">{t("Select_Allow_Email")}</option>
                     {choicesList && choicesList.map((list) => {
-
                         return (
                             <option value={list.id}>{list.name}</option>
                         )

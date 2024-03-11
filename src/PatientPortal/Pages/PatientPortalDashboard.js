@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import TosterUnderProcess from '../../Component/TosterUnderProcess';
 import Toster from '../../Component/Toster';
 import Select from 'react-select';
 import Loder from '../../Component/Loader';
+import editBtnIcon from '../../assets/images/icons/edit.svg';
 import exampleUser from '../../assets/images/dashboard/patientPortalDashboard/exampleUser.png'
 import user from '../../assets/images/dashboard/patientPortalDashboard/portalusericon.png'
 import dob from '../../assets/images/dashboard/patientPortalDashboard/dob.png'
@@ -14,11 +16,23 @@ import medicine5 from '../../assets/images/dashboard/patientPortalDashboard/medi
 import medicine2 from '../../assets/images/dashboard/patientPortalDashboard/medicine2.png'
 import medicine3 from '../../assets/images/dashboard/patientPortalDashboard/medicine3.png'
 import medicine4 from '../../assets/images/dashboard/patientPortalDashboard/medicine4.png'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
+import GetChiefComplaint from '../../PatientPortal/API/GetChiefComplaint';
+import GetPatientMedicationDetails from "../API/GetPatientMedicationDetails";
+import GetInvestigationDetails from "../API/GetInvestigationDetails";
 
 
 export default function PatientPortalDashboard() {
+  const navigate = useNavigate()
 
   const [Opdhistory, setOpdhistory] = useState(1)
+  const [PatientData, setPatientData] = useState()
+  const [chiefComplainData, setchiefComplainData] = useState([])
+  const [MedicationDetails, setMedicationDetails] = useState([])
+  const [PrimaryInsuranceDetails, setPrimaryInsuranceDetails] = useState([])
+  const [SecondaryInsuranceDetails, setSecondaryInsuranceDetails] = useState([])
+  const [InvestigationData, setInvestigationData] = useState([])
+  const [TertiaryInsuranceDetails, setTertiaryInsuranceDetails] = useState([])
   const [admissionHistory, setadmissionHistory] = useState(0)
 
 const handleOpdhistory=()=>{
@@ -29,51 +43,105 @@ const handleadmissionhistory=()=>{
   setadmissionHistory(1);
   setOpdhistory(0)
 }
+const handleEditData= async()=>{
+  navigate('/registeraspatient/')
+}
 
+
+const Patientdata = async()=>{
+  let data = await GetPatientData()
+  if(data.status === 1){
+    const patientRegistrationData = data.responseValue.patientregistration[0];
+      console.log("Patientdata>>", patientRegistrationData);
+     setPatientData(patientRegistrationData);
+     setPrimaryInsuranceDetails(data.responseValue.patientinsurancedetails[0])
+     setSecondaryInsuranceDetails(data.responseValue.patientinsurancedetails[1])
+     setTertiaryInsuranceDetails(data.responseValue.patientinsurancedetails[2])
+     console.log("SecondaryInsuranceDetails",data.responseValue.patientinsurancedetails[2])
+  }
+
+ }
+
+
+const GetChiefComplaintData = async()=>{
+  let data = await GetChiefComplaint()
+  if(data.status === 1){
+      console.log("ChiefComplaint>>", data.responseValue);
+      setchiefComplainData(data.responseValue);
+  }
+  
+
+ }
+
+ const medicationDetails= async()=>{
+  let data = await GetPatientMedicationDetails()
+  if(data.status === 1){
+    setMedicationDetails(data.responseValue)
+    console.log('medications' ,data.responseValue )
+  }
+ }
+
+ const getInvestigations=async()=>{
+  let data = await GetInvestigationDetails()
+  if(data.status === 1){
+    setInvestigationData(data.responseValue)
+    console.log("Investigation" , data.responseValue)
+  }
+ }
+
+ useEffect(() => {
+  Patientdata();
+  GetChiefComplaintData()
+  medicationDetails()
+  getInvestigations()
+}, [])
 
   return (
     <>
      <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
-          <div className="row">
+          <div className="row pt-2">
            <div className="col-xxl-7 col-xl-12 col-lg-12 col-md-12">
                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-              <div className="med-box">
+                  <div className="med-box">
 
-                <div className="inner-content">
-                <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
-                <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-3 me-3">
+                <div className="inner-content" style={{overflowX: 'auto'}}>
+                <div className='portal-user-details-box col-md-12 d-flex' style={{gap: '14px'}}>
+                <div className="portal-user-image">
                   <img src={exampleUser} alt=""/>
                 </div>
 
-                <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-8 ps-2 ms-2">
-                  <div className="portal-user-name mb-1">Shiv Mishra</div>
-                  <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-12 d-flex justify-content-between">
-                    <div className="user-personal-details"><img src={user} className="me-1" alt="" />Male</div>
-                    <div className="user-personal-details"><img src={dob} className="me-1" alt="" />10 feb 2000(24yr)</div>
-                    <div className="user-personal-details"><img src={location} className="me-1" alt="" />Sarfarazganj,Hardoi,Lucknow</div>
+                <div className="col-xxl-10 col-xl-10  col-lg-11 col-md-12">
+                  <div className="portal-user-name d-flex mb-1 justify-content-between mt-2">
+                    <div>{PatientData && PatientData.patientName}</div>
+                    <div><img src={editBtnIcon}  alt='' title="Edit Details" style={{cursor : 'pointer'}}  onClick={handleEditData}/></div>
+                    </div>
+                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex ms-1" style={{gap: '18px'}}>
+                    <div className="user-personal-details"><img src={user} className="me-1" alt="" />{PatientData && PatientData.genderId == 1 ? 'Male' : 'Female'}</div>
+                    <div className="user-personal-details"><img src={dob} className="me-1" alt="" />{PatientData && PatientData.dob}</div>
+                    <div className="user-personal-details"><img src={location} className="me-1" alt="" />{PatientData && PatientData.address + "," + PatientData.addressLine2}</div>
                   </div>
                   
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 patien-basic-details mt-4 px-3">
-                 <div className="details-main-box">
+                  <div className="col-xxl-11 col-xl-11 col-lg-11 col-md-12 patien-basic-details mt-4 mb-2">
+                 <div className="details-main- box">
                   <div className="details-heading mb-1">Mobile No.</div>
-                  <div className="details-content ">9786786898</div>
+                  <div className="details-content ">{PatientData && PatientData.mobileNo}</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box" style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Email</div>
-                  <div className="details-content">shivmishra@gmail.com</div>
+                  <div className="details-content">{PatientData && PatientData.emailID}</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box"  style={{textWrap: 'wrap'}}>
                   <div className="details-heading mb-1">Blood Group</div>
-                  <div className="details-content">AB+</div>
+                  <div className="details-content">{PatientData && PatientData.bloodGroupId == null ? 'NA' : PatientData && PatientData.bloodGroupId}</div>
                  </div>
                  <div className="details-main-box">
                   <div className="details-heading mb-1">Height</div>
-                  <div className="details-content">168cm</div>
+                  <div className="details-content">{PatientData && PatientData.height == 0 ? 'NA' :PatientData && PatientData.height }</div>
                  </div>
-                 <div className="details-main-box">
+                 <div className="details-main-box p-0" style={{border: 'none'}}>
                   <div className="details-heading mb-1">Weight</div>
-                  <div className="details-content">65kg</div>
+                  <div className="details-content">{PatientData && PatientData.weight == 0 ? 'NA' :PatientData &&  PatientData.weight}</div>
                  </div>
                   </div>
 
@@ -127,9 +195,14 @@ const handleadmissionhistory=()=>{
 
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
                   <div className="cheif-complain-box mb-1">Chief Complaints/Medical History</div>
-                  <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
-                  H/O RTA 1 day back with no H/O LOC, ENT Bleed, Vomiting, Seizure
+                  {chiefComplainData && chiefComplainData.map((val,index)=>{
+                    return (
+                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 cheif-complain-details mb-2">
+                         {val.encounterTitle} 
                   </div>
+                    )
+                  })}
+                 
 
                 </div>
                   </div>
@@ -147,9 +220,12 @@ const handleadmissionhistory=()=>{
                 <div className='portal-user-details-box fieldsett-in col-md-12 d-flex flex-wrap '>
 
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 ">
-                  <div className="col-xxl-8 col-xl-8 col-lg-12 col-md-12 portal-user-name mb-1 patient-history-header-btn">
-                    <button className={`btn btn ${Opdhistory === 1 ? 'opd-history-btn me-2' : 'admission-history-btn me-2'}`} onClick={handleOpdhistory} style={{fontWeight: '700'}}>OPD Visit History</button>
+                  <div className="d-flex mb-2">
+                    <div className="portal-user-name mb-1 patient-history-header-btn">
+                       <button className={`btn btn ${Opdhistory === 1 ? 'opd-history-btn me-2' : 'admission-history-btn me-2'}`} onClick={handleOpdhistory} style={{fontWeight: '700'}}>OPD Visit History</button>
                     <button className={`btn btn ${admissionHistory === 1 ? 'opd-history-btn' : 'admission-history-btn'}`} onClick={handleadmissionhistory} style={{fontWeight: '700'}}>Admission History</button>
+                    </div>
+                   
                   </div>
              
                   <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mb-2 d-flex patient-history-list me-2 pt-2">
@@ -222,81 +298,35 @@ const handleadmissionhistory=()=>{
 
 
 
-          <div className="row pt-3">
-            <div className="col xxl-4 col-xl-4 col-lg-12 col-md-12">
+          <div className="row pt-3 mb-4" style={{rowGap: '15px'}}>
+            <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content medication-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Medication</div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+
+                   {MedicationDetails && MedicationDetails.map((val,index)=>{
+                    return(
+                         <>
+                         
+                      <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
                         <div className="medicine-detail">
                           <div><img src={medicine1} className="me-2" alt=""/></div>
                            <div>
-                              Inha-Respule-Duolin - 500mg
-                                <div className="note-detail-dosage">Once in a day</div>
+                              {val.drug}
+                                <div className="note-detail-dosage">{val.dosage}</div>
                                   </div>
                                     </div>
                                    <div className="medicine-duration">
-                                        10 Days
+                                        {val.form} Days
                                            </div>
-                                            </div>
+                             </div>
                   
-                                         <div class="horizontal-line-dignosis mb-1  mt-1"></div>
-                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                            <div className="medicine-detail">
-                              <div><img src={medicine5} className="me-2" alt=""/></div>
-                            <div>
-                               Cre-Respule-Duolin - 500Mg
-                                <div className="note-detail-dosage">Once in a day</div>
-                                  </div>
-                                    </div>
-                                    <div className="medicine-duration">
-                                    20 Days
-                                         </div>
-                                        </div>
-                                     <div class="horizontal-line-dignosis mb-1 mt-1"></div>
-                       <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                          <div className="medicine-detail">
-                              <div><img src={medicine4} className="me-2" alt=""/></div>
-                                   <div>
-                                    Inha-Respule-Duolin - 500mg
-                                      <div className="note-detail-dosage">Once in a day</div>
-                                       </div>
-                                          </div>
-                                         <div className="medicine-duration">
-                                            20 Days
-                                            </div>
-                                               </div>
+                          <div class="horizontal-line-dignosis mb-1  mt-1"></div>
+                         </>
+                    )
+                   })}
 
-                                      <div class="horizontal-line-dignosis mb-1"></div>
-
-                    <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="medicine-detail">
-                                <div><img src={medicine3} className="me-2" alt=""/></div>
-                                         <div>
-                                          Cap-Respule-Duolin - 500Mg
-                                           <div className="note-detail-dosage">Once in a day</div>
-                                              </div>
-                                               </div>
-                                             <div className="medicine-duration">
-                                                 19 Days
-                                                    </div>
-                                                        </div>
-                                   <div class="horizontal-line-dignosis mb-1  mt-1"></div>
-
-                                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-
-                                   <div className="medicine-detail">
-                                         <div><img src={medicine2} className="me-2" alt=""/></div>
-                                            <div>
-                                                Inj-Respule-Duolin - 500mg
-                                                <div className="note-detail-dosage">Once in a day</div>
-                                                 </div>
-                                                   </div>
-                                                 <div className="medicine-duration">
-                                                   15 Days
-                                                     </div>
-                                                       </div>
                                                        </div>
                 
                
@@ -304,43 +334,25 @@ const handleadmissionhistory=()=>{
                 </div>
             </div>
 
-            <div className="col xxl-3 col-xl-3 col-lg-12 col-md-12">
+            <div className="col-xxl-3 col-xl-3 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content investigation-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Investigation</div>
 
-                   
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Blood Sugar (Random)</div>
-                           <div className="investigation-measurement">118 mg/dl
-                                           </div>
-
+                   {InvestigationData && InvestigationData.map((val ,index)=>{
+                    return(
+                        <>
+                           <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
+                           <div className="investigation-name">{val.itemName}</div>
+                           <div className="investigation-measurement">{val.itemCost}
+                           </div>
                              </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Neutrophils</div>
-                           <div className="investigation-measurement-per">84 %
-                                           </div>
+                        </>
+                    )
+                   })}
+                  
 
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">Platelet Count</div>
-                           <div className="investigation-measurement">2.4 Lakh
-                                           </div>
-
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">HCV</div>
-                           <div className="investigation-measurement-per">0.04
-                                           </div>
-
-                             </div>
-                     <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex justify-content-between px-2">
-                           <div className="investigation-name">HbsAg-Interpretation</div>
-                           <div className="investigation-measurement">Non-Reactive
-                                           </div>
-
-                             </div>
                    
                    
                      
@@ -354,9 +366,9 @@ const handleadmissionhistory=()=>{
                 </div>
                 </div>
             </div>
-            <div className="col xxl-5 col-xl-5 col-lg-12 col-md-12">
+            <div className="col-xxl-5 col-xl-5 col-lg-12 col-md-12">
             <div className="med-box custom-medbox">
-               <div className="inner-content">
+               <div className="inner-content insurance-inner">
                 <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 p-1">
                    <div className="portal-user-name mb-2 ms-1">Insurance Summary</div>
 
@@ -370,15 +382,15 @@ const handleadmissionhistory=()=>{
   
                       <div >
                              <div className="insurance-type">Primary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{PrimaryInsuranceDetails && PrimaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{PrimaryInsuranceDetails && PrimaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {PrimaryInsuranceDetails && PrimaryInsuranceDetails.groupNumber}</div>
                       </div>
                       <div className="pe-5">
                              <div className="insurance-type">Secondary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{SecondaryInsuranceDetails && SecondaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{SecondaryInsuranceDetails && SecondaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {SecondaryInsuranceDetails && SecondaryInsuranceDetails.groupNumber}</div>
                       </div>
 
                   </div>
@@ -386,9 +398,9 @@ const handleadmissionhistory=()=>{
   
                       <div>
                              <div className="insurance-type">Tertiary Insurance</div>
-                             <div className="insurance-type-detail mt-1">Auto Insurance</div>
-                             <div className="insurance-type-detail">STATE FARM</div>
-                             <div className="insurance-type-detail">Member Number - 568821221</div>
+                             <div className="insurance-type-detail mt-1">{TertiaryInsuranceDetails && TertiaryInsuranceDetails.planName}</div>
+                             <div className="insurance-type-detail">{TertiaryInsuranceDetails && TertiaryInsuranceDetails.coPay}</div>
+                             <div className="insurance-type-detail">Member Number - {TertiaryInsuranceDetails && TertiaryInsuranceDetails.groupNumber}</div>
                       </div>
                       <div className="pe-5">
                              <div className="insurance-type">Responsible Party</div>

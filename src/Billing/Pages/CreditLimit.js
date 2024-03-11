@@ -92,13 +92,14 @@ if(name === "remark"){
     let RowIndex = CreditLimitList[index]
   
  const obj = {
-  uhid: RowIndex.uhid,
+   uhid: rowUHID,
   issuanceDetailId: RowIndex.id,
   creditLimit: creditAmount,
   remark: remark,
   userID: userID
  }
- console.log("obj" , obj)
+
+ console.log("obj" , RowIndex)
 
     let data = await PostCreditLimit(obj);
     if (data.status === 1) {
@@ -145,6 +146,7 @@ const handleCrediRowClick=async(index)=>{
   setrowUHID(RowIndex.uhid)
   setrowCompanyName(RowIndex.companyname)
   setrowCardNo(RowIndex.cardNo)
+  console.log("Row" ,RowIndex)
 }
 
   // const handleUpdate = async () => {

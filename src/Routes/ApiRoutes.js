@@ -367,6 +367,33 @@ import FHIRDischargeDispositionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRD
 import FHIRAddPrescription from '../FHIRPrescription/Pages/FHIRAddPrescription';
 import FHIRPrescreptionList from '../FHIRPrescription/Pages/FHIRPrescreptionList';
 import LayoutPatientAppointment from '../PatientPortal/Layout/LayoutPatientAppointment';
+import LayoutMyAppointment from '../PatientPortal/Layout/LayoutMyAppointment';
+import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
+import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
+import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
+import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
+import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
+import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
+import LayoutDocumentHistory from '../PatientPortal/Layout/LayoutDocumentHistory';
+import LayoutSignature from '../PatientPortal/Layout/LayoutSignature';
+import LayoutDownloadChartedDocument from '../PatientPortal/Layout/LayoutDownloadChartedDocument';
+import LayoutReportContent from '../PatientPortal/Layout/LayoutReportContent';
+import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeOfDisclosureMaster';
+import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
+import AppRegistrationForm from '../Admin/Pages/FHIRMaster/AppRegistrationForm';
+import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
+import FHIRIssueOccurenceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOccurenceMaster';
+import FHIRSeverityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSeverityMaster';
+import FHIRReactionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReactionMaster';
+import FHIRConditionVerificationMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRConditionVerificationMaster';
+import FHIRIndustryMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIndustryMaster';
+import FHIRRelationshipMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRRelationshipMaster';
+import FHIRIssueOutComeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOutComeMaster';
+import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferralSourceMaster';
+import FHIRReligionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReligionMaster';
+import FHIRPatientProfile from '../Registartion/Pages/OPDRegistration/FHIRPatientProfile';
+//import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
+// import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
 export default function ApiRoutes() {
 
@@ -407,12 +434,23 @@ export default function ApiRoutes() {
                         <Route path='/escalationMaster/' element={<EscalationMaster />} />
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
+                        <Route path='/verification/' element={<VerificationStatus />} />
+                        {/* <Route path='/fhirpatientprofile/' element={<FHIRPatientProfile />} /> */}
 
                   </>
                     {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
-
                     <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
                     <Route path='/PatientAppointment/' element={<LayoutPatientAppointment/>}/>
+                    <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
+                    <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
+                    <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
+                      {/* -----------------------------new pages PatientPortalDashboard Routing----------------------- */}
+                    <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
+                    <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy/>}/>
+                    <Route path='/documenthistory/' element={<LayoutDocumentHistory/>}/>
+                    <Route path='/signature/' element={<LayoutSignature/>}/>
+                     <Route path='/DownloadChartedDocument/' element={<LayoutDownloadChartedDocument/>}/>
+                    <Route path='/reportcontent/' element={<LayoutReportContent/>}/>
                     
                     {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
@@ -479,6 +517,7 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/bedMaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BedMaster />} name="BedMaster" />} />} />
                         <Route path="/searchRegisteredPatient/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<SearchRegisteredPatient />} name="SearchRegisteredPatient" />} />} />
+                        <Route path="/logsViewer/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogsViewer />} name="LogsViewer" />} />} />
                         <Route path="/classification/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Classification />} name="Classification" />} />} />
                         <Route path="/occurence/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Occurence />} name="Occurence" />} />} />
                         <Route path="/addrule/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddRule />} name="AddRule" />} />} />
@@ -605,6 +644,7 @@ export default function ApiRoutes() {
                   <>
                         <Route path="/opdpatientlist/" element={<ProtectedRoutes Compnent={<CommonLayout Component={null} name="OPDPatientList" />} />} />
                         <Route path="/prescriptionopd/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDPrescriptionIndex />} name="opd" />} />} />
+                        <Route path="/fhirpatientprofile/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRPatientProfile />} name="fhirpatientprofile" />} />} />
                         <Route path="/vaccinationchart/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<VaccinationChart />} name="opd" />} />} />
                         <Route path="/opdvital/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDVitalIndex />} name="opd" />} />} />
                         <Route path="/opdcalculator/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OPDCalculatorIndex />} name="opd" />} />} />
@@ -639,6 +679,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------Start Registration Routing---------------------- */}
                   <>
                         <Route path="/patientregistration/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistration />} name="patientregistration" />} />} />
+                        <Route path="/appregistrationform/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AppRegistrationForm />} name="appregistrationform" />} />} />
                         <Route path="/patientregistration&admit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistrationAndAdmit />} name="patientregistration" />} />} />
                         <Route path="/visitRevisitReport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<VisitRevisitReport />} name="patientregistration" />} />} />
                         <Route path="/opdPrint/" element={<ProtectedRoutes Compnent={<PrintOPDRegistrationSlip />} />} />
@@ -912,8 +953,19 @@ export default function ApiRoutes() {
 
 
                   {/* -----------------------------------Start Medvantage FHIR Admin ----------------------------------------- */}
+                  <Route path="/fhirtypeofdisclosuremaster/" element={<ProtectedRoutes Compnent={<FHIRTypeOfDisclosureMaster />} />} />
                   {/* <Route path="/addrule/" element={<ProtectedRoutes Compnent={<AddRule />} />} /> */}
                   {/* <Route path="/planrulemapping/" element={<ProtectedRoutes Compnent={<ViewPlanRules />} />} /> */}
+                  <Route path="/fHIRClassificationTypeMaster/" element={<ProtectedRoutes Compnent={<FHIRClassificationTypeMaster />} />} />
+                  {/* <Route path="/fHIRIssueOccurenceMaster/" element={<ProtectedRoutes Compnent={<FHIRIssueOccurenceMaster />} />} /> */}
+                  {/* <Route path="/fhirseveritymaster/" element={<ProtectedRoutes Compnent={<FHIRSeverityMaster />} />} /> */}
+                  {/* <Route path="/fhirreactionmaster/" element={<ProtectedRoutes Compnent={<FHIRReactionMaster />} />} />
+                  <Route path="/fhirconditionverificationmaster/" element={<ProtectedRoutes Compnent={<FHIRConditionVerificationMaster />} />} /> */}
+                  {/* <Route path="/fhirindustrymaster/" element={<ProtectedRoutes Compnent={<FHIRIndustryMaster />} />} /> */}
+                  <Route path="/fhirrelationshipmaster/" element={<ProtectedRoutes Compnent={<FHIRRelationshipMaster />} />} />
+                  <Route path="/fhirissueoutComemaster/" element={<ProtectedRoutes Compnent={<FHIRIssueOutComeMaster />} />} />
+                  <Route path="/fhireferralourceMaster/" element={<ProtectedRoutes Compnent={<FHIRReferralSourceMaster />} />} />
+                  <Route path="/fhirreligionMaster/" element={<ProtectedRoutes Compnent={<FHIRReligionMaster />} />} />
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 

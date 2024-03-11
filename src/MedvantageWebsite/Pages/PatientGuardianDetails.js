@@ -40,6 +40,7 @@ import referal from '../../assets/images/icons/refer.svg';
 import vfc from '../../assets/images/icons/blood-drop (3).svg';
 import religion from '../../assets/images/icons/religion.svg';
 import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
 
 
 export default function PatientGuardianDetails() {
@@ -47,6 +48,23 @@ export default function PatientGuardianDetails() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(7);
+  const [PatientData, setPatientData] = useState()
+  const [sendForm, setsendForm] = useState({
+    guardiansname: '',
+    guardianAddress: '',
+    guardianMobileNo: '',
+    guardianworkphone: '',
+    guardianemail: '',
+    emergencyContact: '',
+    emergencyPhone: '',
+    guardianRelationId : '0',
+    guardiansex : '0',
+    guardiancity : '',
+    guardianstate : '',
+    guardianpostalcode : '',
+    guardiancountry : '0'
+  });
+  
   const totalSteps = 9;
 
   const handleNext = () => {
@@ -54,9 +72,10 @@ export default function PatientGuardianDetails() {
       setStep(step + 1);
       navigate("/Patientinsurancedetail/"); 
     }
-   
-    
     };
+
+
+
   
     const handlePrevious = () => {
       if (step > 1) {
@@ -64,40 +83,79 @@ export default function PatientGuardianDetails() {
       }
     }
 
-    
+    const handleOnChange = (e) => {
+      const { name, value } = e.target;
+      setsendForm(prevData => ({
+          ...prevData,
+          [name]: value
+      }));
+    };
+  
 
+
+
+
+
+    const Patientdata = async()=>{
+      let data = await GetPatientData()
+      if(data.status === 1){
+        const patientRegistrationData = data.responseValue.patientregistration[0];
+                  console.log("Patientdata>>", patientRegistrationData);
+                  setPatientData(patientRegistrationData);
+
+                  setsendForm({
+                    guardiansname: patientRegistrationData.guardiansname,
+                    guardianAddress: patientRegistrationData.guardianAddress,
+                    guardianMobileNo: patientRegistrationData.guardianMobileNo,
+                    guardianworkphone: patientRegistrationData.guardianworkphone,
+                    guardianemail: patientRegistrationData.guardianemail,
+                    emergencyContact: patientRegistrationData.emergencyContact,
+                    emergencyPhone: patientRegistrationData.emergencyPhone,
+                    guardianRelationId : patientRegistrationData.guardianRelationId,
+                    guardiansex : patientRegistrationData.guardiansex,
+                    guardiancity : patientRegistrationData.guardiancity,
+                    guardianstate : patientRegistrationData.guardianstate,
+                    guardianpostalcode : patientRegistrationData.guardianpostalcode,
+                    guardiancountry : patientRegistrationData.guardiancountry
+                  })
+      }
+     }
+    
+     useEffect(() => {
+      Patientdata()
+    }, [])
 
     return (
    <>
      <div className="med-Patient-login-wrapper">
         <div className="Patient-registration-content-wrapper px-5">
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 ">
-            <div className="row col-12 registration-heading">Patient Registration</div> 
+            <div className="row col-12 registration-heading">Demographic</div> 
             <div className="px-5">
             <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
-        {step === 7 && (
-           <div className="registration-form-box">
+             {step === 7 && (
+               <div className="registration-form-box">
                 <div className='form-info-heading'>Guardian</div>
                 <div className="row px-4 pt-4 patient-form-fields pb-4">
 
                 
 
                  <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="Name" class="form-label label-text">Name<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="Name" placeholder="Enter Name" name="firstName" />
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="Name" class="form-label label-text">Name</label>
+                   <input type="text"class="form-control form-control-sm" id="Name" placeholder="Enter Name" name="guardiansname" value={sendForm.guardiansname} onChange={handleOnChange}/>
                    </div> 
 
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
-                        <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                        <div class="plus-button-container ">
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={referal} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Relationship<span class="starMandatory position-static">*</span></label>
+                         <img  src={referal} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Relationship</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardianRelationId' value={sendForm.guardianRelationId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -112,12 +170,12 @@ export default function PatientGuardianDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={gender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Sex<span class="starMandatory position-static">*</span></label>
+                         <img  src={gender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Sex</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardiansex' value={sendForm.guardiansex} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -133,12 +191,12 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address<span class="starMandatory position-static">*</span></label>
+                         <img  src={address} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Address</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardianAddress' value={sendForm.guardianAddress} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -152,12 +210,12 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">City<span class="starMandatory position-static">*</span></label>
+                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">City</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardiancity' value={sendForm.guardiancity} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -171,12 +229,12 @@ export default function PatientGuardianDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">State<span class="starMandatory position-static">*</span></label>
+                         <img  src={countrymap} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">State</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardianstate' value={sendForm.guardianstate} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -190,17 +248,17 @@ export default function PatientGuardianDetails() {
                  
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Postal Code" name="EmployerName" />
+                   <img  src={country} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Postal Code</label>
+                   <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Postal Code" name="guardianpostalcode" value={sendForm.guardianpostalcode} onChange={handleOnChange} />
                    </div>
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Phone<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Phone Number" name="EmployerName" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Phone</label>
+                   <input type="number"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Phone Number" name="guardianMobileNo" value={sendForm.guardianMobileNo} onChange={handleOnChange} />
                    </div>
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Phone<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="Income" placeholder="Enter Work Phone" name="EmployerAddress" />
+                   <img  src={phone} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Work Phone</label>
+                   <input type="number"class="form-control form-control-sm" id="Income" placeholder="Enter Work Phone" name="guardianworkphone" value={sendForm.guardianworkphone} onChange={handleOnChange}/>
                    </div>
 
 
@@ -208,12 +266,12 @@ export default function PatientGuardianDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={countrymap} className="label-icons me-2" alt=''/>Country</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='guardiancountry' value={sendForm.guardiancountry} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -226,13 +284,10 @@ export default function PatientGuardianDetails() {
                         </div> 
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Email" name="EmployerAddress" />
+                   <img  src={email} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Email</label>
+                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Email" name="guardianemail" value={sendForm.guardianemail} onChange={handleOnChange} />
                    </div>
-
-                 
                 </div>
-
              </div>
         )}
             

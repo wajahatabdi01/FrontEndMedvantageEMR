@@ -1,5 +1,5 @@
 async function GetAllClassification(data) {
-    let url = window.AppbaseUrl + "/api/FHIRClassificationTypeMaster/GetAll";
+    let url = window.AppbaseUrl + "/api/FHIRClassificationTypeMaster/GetAllFHIRClassification";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

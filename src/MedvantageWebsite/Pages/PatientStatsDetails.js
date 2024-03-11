@@ -40,11 +40,30 @@ import referal from '../../assets/images/icons/refer.svg';
 import vfc from '../../assets/images/icons/blood-drop (3).svg';
 import religion from '../../assets/images/icons/religion.svg';
 import MultiStepFormProgressBar from '../../Component/MultiStepFormProgressBar'
+import GetPatientData from '../../PatientPortal/API/GetPatientData';
 
 
 export default function PatientStatsDetails() {
   const navigate = useNavigate();
+  const [PatientData, setPatientData] = useState()
+  const [sendForm, setsendForm] = useState({
+    languageId:  '0',
+    ethinicityId: '0',
+    raceId: '0',
+    familySize: '',
+    financialReviewDate: '',
+    monthlyIncome: '',
+    homeless: '',
+    interpreter: '',
+    migrant: '',
+    referralSourceId: '',
+    isVFCEligible: '',
+    religionId: '0',
+    status: '0',
+    createdDate: '',
+   
 
+  })
   const [step, setStep] = useState(5);
   const totalSteps = 9;
 
@@ -64,12 +83,56 @@ export default function PatientStatsDetails() {
     }
 
 
+    const handleOnChange = (e) => {
+      const { name, value } = e.target;
+      setsendForm(prevData => ({
+          ...prevData,
+          [name]: value
+      }));
+    };
+
+
+    
+    const Patientdata = async()=>{
+      let data = await GetPatientData()
+      if(data.status === 1){
+        const patientRegistrationData = data.responseValue.patientstats[0];
+                  console.log("Patientdata>>", patientRegistrationData);
+                  setPatientData(patientRegistrationData);
+
+                  setsendForm({
+ 
+                      languageId: patientRegistrationData.languageId,
+                      ethinicityId: patientRegistrationData.ethinicityId,
+                      raceId: patientRegistrationData.raceId,
+                      familySize: patientRegistrationData.familySize,
+                      financialReviewDate: patientRegistrationData.financialReviewDate,
+                      monthlyIncome: patientRegistrationData.monthlyIncome,
+                      homeless: patientRegistrationData.homeless,
+                      interpreter: patientRegistrationData.interpreter,
+                      migrant: patientRegistrationData.migrant,
+                      referralSourceId: patientRegistrationData.referralSourceId,
+                      isVFCEligible: patientRegistrationData.isVFCEligible,
+                      religionId: patientRegistrationData.religionId,
+                      status: patientRegistrationData.status,
+                      createdDate: patientRegistrationData.createdDate,
+                     
+                  
+                  })
+      }
+     }
+
+     useEffect(() => {
+      Patientdata()
+    }, [])
+
+
     return (
    <>
      <div className="med-Patient-login-wrapper">
         <div className="Patient-registration-content-wrapper px-5">
             <div className="col-xxl-11 col-xl-12 col-lg-12 col-md-12 patient-registration-main-box mt-5 pt-3 ">
-            <div className="row col-12 registration-heading">Patient Registration</div> 
+            <div className="row col-12 registration-heading">Demographic</div> 
             <div className="px-5">
             <MultiStepFormProgressBar currentStep={step} totalSteps={totalSteps} stepNames={['Who', 'Contact', 'Choices', 'Employer' , 'Stats', 'Misc' ,'Guardian' , 'Insurance']} />
               </div> 
@@ -81,7 +144,7 @@ export default function PatientStatsDetails() {
                 
 
                 {/* <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="Occupation" class="form-label label-text">Occupation<span class="starMandatory position-static">*</span></label>
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="Occupation" class="form-label label-text">Occupation</label>
                    <input type="text"class="form-control form-control-sm" id="Occupation" placeholder="Enter Occupation" name="firstName" />
                    </div> */}
 
@@ -89,15 +152,15 @@ export default function PatientStatsDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={language} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Language<span class="starMandatory position-static">*</span></label>
+                         <img  src={language} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Language</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='languageId' value={sendForm.languageId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
-                              <option value="2">Test</option>
+                              <option value="17">Test</option>
                               <option value="3">Example</option>
                               <option value="4">Other</option>
                             </select>
@@ -109,12 +172,12 @@ export default function PatientStatsDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={ethenic} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Ethnicity<span class="starMandatory position-static">*</span></label>
+                         <img  src={ethenic} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Ethnicity</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='ethinicityId' value={sendForm.ethinicityId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -130,12 +193,12 @@ export default function PatientStatsDetails() {
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                         <img  src={race} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Race<span class="starMandatory position-static">*</span></label>
+                         <img  src={race} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Race</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='raceId' value={sendForm.raceId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -149,47 +212,47 @@ export default function PatientStatsDetails() {
                  
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Family Size<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Family Size" name="EmployerName" />
+                   <img  src={user} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Family Size</label>
+                   <input type="text"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Family Size" name="familySize" value={sendForm.familySize} onChange={handleOnChange}/>
                    </div>
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Financial Review Date<span class="starMandatory position-static">*</span></label>
-                   <input type="date"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Family Size" name="EmployerName" />
+                   <img  src={calender} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Financial Review Date</label>
+                   <input type="date"class="form-control form-control-sm" id="FamilySize" placeholder="Enter Family Size" name="financialReviewDate" value={sendForm.financialReviewDate} onChange={handleOnChange} />
                    </div>
 
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={income} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Monthly Income<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="Income" placeholder="Enter Income" name="EmployerAddress" />
+                   <img  src={income} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Monthly Income</label>
+                   <input type="text"class="form-control form-control-sm" id="Income" placeholder="Enter Income" name="monthlyIncome" value={sendForm.monthlyIncome} onChange={handleOnChange} />
                    </div>
 
 
                  
                         <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={homeless} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Homeless, etc<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter" name="EmployerAddress" />
+                   <img  src={homeless} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Homeless, etc</label>
+                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter" name="homeless" value={sendForm.homeless} onChange={handleOnChange}/>
                    </div>
 
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={Interpreter} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Interpreter<span class="starMandatory position-static">*</span></label>
-                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Interpreter" name="Interpreter" />
+                   <img  src={Interpreter} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Interpreter</label>
+                   <input type="text"class="form-control form-control-sm" id="homeless" placeholder="Enter Interpreter" name="interpreter" value={sendForm.interpreter} onChange={handleOnChange} />
                    </div>
 
 
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
-                   <img  src={migrant} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Migrant/Seasonal<span class="starMandatory position-static">*</span></label>
-                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Migrant/Seasonal" name="firstName" />
+                   <img  src={migrant} className="label-icons me-2" alt=''/><label for="UHID" class="form-label label-text">Migrant/Seasonal</label>
+                   <input type="number"class="form-control form-control-sm" id="firstName" placeholder="Enter Migrant/Seasonal" name="migrant" value={sendForm.migrant} onChange={handleOnChange} />
                    </div>
 
                    <div className="col-xxl-3 col-overwrite col-xl-3 col-lg-3 col-md-6 mb-3 px-1">
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={referal} className="label-icons me-2" alt=''/>Referral Source<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={referal} className="label-icons me-2" alt=''/>Referral Source</label>
                             <div class="dropdown-wrapper">
                           <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='referralSourceId' value={sendForm.referralSourceId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -204,12 +267,12 @@ export default function PatientStatsDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img src={vfc} className="label-icons me-2" alt=''/>VFC<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img src={vfc} className="label-icons me-2" alt=''/>VFC</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='isVFCEligible' value={sendForm.isVFCEligible} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>
@@ -228,12 +291,12 @@ export default function PatientStatsDetails() {
                         
                         <div class="" id="paymentModediv">
                         <div class="plus-button-container">
-                              <button class="plus-button">+</button>
+                              <button class="plus-button plus-button-data">+</button>
                          </div>
-                            <label for="PaymentMode" class="form-label label-text"><img  src={religion} className="label-icons me-2" alt=''/>Religion<span class="starMandatory position-static">*</span></label>
+                            <label for="PaymentMode" class="form-label label-text"><img  src={religion} className="label-icons me-2" alt=''/>Religion</label>
                             <div class="dropdown-wrapper">
                          <img src={downArrow} className="downarrowwithplus" alt=""/>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" name='religionId' value={sendForm.religionId} onChange={handleOnChange}>
                               <option value="0" selected>Unassigned</option>
                               <option value="1">Demo</option>
                               <option value="2">Test</option>

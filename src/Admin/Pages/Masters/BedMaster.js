@@ -313,7 +313,7 @@ export default function BedMaster() {
                                                     <td>{key.bedName}</td>
                                                     <td>
                                                         <div className="action-button">
-                                                            <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom" title="Edit Row" onClick={() => { handleUpdate(key.id, key.bedName) }}><img src={IconEdit} alt='' /></div>
+                                                            <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom" title="Edit Row" onClick={() => { handleUpdate(key.id, key.bedName) }}><img src   ={IconEdit} alt='' /></div>
                                                             <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(key.id) }} alt='' /></div>
                                                         </div>
                                                     </td>

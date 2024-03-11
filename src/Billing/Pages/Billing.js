@@ -1,15 +1,11 @@
 import React from "react";
-import Heading from "../../Component/Heading";
 import Page from "../../assets/images/icons/Page-1.svg";
 import user3 from "../../assets/images/icons/user (3).svg";
 import question from "../../assets/images/icons/question.svg";
 import category from "../../assets/images/icons/category.svg";
-import medicalAssistance from "../../assets/images/icons/medical-assistance.svg";
 import medicalRoom from "../../assets/images/icons/medical-room.svg";
 import imgDepartment from "../../assets/images/icons/imgDepartment.svg";
-import imgBillNo from "../../assets/images/icons/imgBillNo.svg";
 import imgReset from "../../assets/images/icons/reset.svg";
-import imgPrint from "../../assets/images/icons/imgPrint.svg";
 import imgDiscount from "../../assets/images/icons/discount.svg";
 import imgPaymentMode from "../../assets/images/icons/imgPaymentMode.svg";
 import imgCardNo from "../../assets/images/icons/imgCardNo.svg";
@@ -21,12 +17,11 @@ import imgCompany from "../../assets/images/icons/imgCompany.svg";
 import saveButtonIcon from "../../assets/images/icons/saveButton.svg";
 import PatientDetail from "../API/getPatientDetailByUhid";
 import saveBillingDetails from "../API/saveBillingDetails";
-import GetBankNameList from "../API/getBankNameList";
-import getBillType from "../API/billType";
+import GetBankNameList from "../API/getBankNameList"
 import getCompanyType from "../API/companyType";
 import getItems from "../API/getItems";
 import Search from "../../Code/Serach";
-import { useState ,useRef} from "react";
+import { useState} from "react";
 import { useEffect } from "react";
 import getAllTpaCompany from "../API/getAllTpaCompany";
 import GerItemRateByCompany from "../API/GerItemRateByCompany";
@@ -36,19 +31,20 @@ import AlertToster from "../../Component/AlertToster";
 import GetAllAdvanceDetails from "../API/GetAllAdvanceDetails";
 import GetCreditLimitofPatient from "../API/GetCreditLimitofPatient";
 
+
 export default function Billing() {
   
   let data = {
     itemId: 0,
     itemName: "",
     categoryName: "",
-    itemCharge: "",
+    itemCharge: 0,
     categoryId: "",
-    itemQuantity: "",
-    discountRs: "",
-    discountPer: "",
-    totalAmount: "",
-    actualTotalAmount: "",
+    itemQuantity: 0,
+    discountRs: 0,
+    discountPer: 0,
+    totalAmount: 0,
+    actualTotalAmount: 0,
     billMasterID: 0,
     billNo: "",
     billTypeId: 0,
@@ -59,7 +55,8 @@ export default function Billing() {
   };
 
 
-  let [UHID, setUHID] = useState(0);
+
+  let [UHID, setUHID] = useState('');
   let [pamentMode, setPaymentMode] = useState(0);
   let [patientDetails, setPatientDetails] = useState(1);
   let [itemDetails, setItemDetails] = useState([data]);
@@ -71,33 +68,26 @@ export default function Billing() {
   let [byCard, setByCard] = useState();
   let [refNo, setRefNo] = useState();
   let [totalAmount, setTotalAmount] = useState(0);
-  let [advanceAmount, setAdvanceAmount] = useState(0);
   let [actualTotalAmount, setActualTotalAmount] = useState(0);
   let [balanceAmount, setBalanceAmount] = useState(0);
   let [payableAmount, setpayableAmount] = useState(0);
-  
   let [totalSum, settotalSum] = useState(0);
   let [totalDiscountSum, setTotalDiscountSum] = useState(0);
-  //let [trustBill, setTrustBill] = useState([]);
   let [bankList, setBankList] = useState([]);
   let [billType, setBillType] = useState([]);
   let [companyType, setCompanyType] = useState([]);
   let [companyBill, setcompanyBill] = useState([]);
-
-
   let [ddlTrusBill, setDdlTrustBill] = useState(0);
   let [ddlBank, setDdlBank] = useState(0);
   let [ddlBillType, setDdlBillType] = useState(0);
  
 
   let [ddlCompany, setDdlCompany] = useState(0);
- 
   let [chequeNo, setchequeNo] = useState(0);
   let [chequeDate, setchequeDate] = useState('')  
   let [insCardNo, setinsCardNo] = useState(0)
   let [PaymentModeList, setPaymentModeList] = useState([]);
   let [PolicyNo, setPolicyNo] = useState('');
-  let [isDisabled, setisDisabled] = useState(false);
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showSuccessToster, setShowSuccessToster] = useState(0)
   let [showMessage, setShowMeassage] = useState("");
@@ -106,16 +96,20 @@ export default function Billing() {
   const [showLimit, setshowLimit] = useState(false);
   const [AdvanceDetailsbyUhid, setAdvanceDetailsbyUhid] = useState([]);
   const [CreditLimit, setCreditLimit] = useState([]);
+  const [IsItemDisable, setIsItemDisable] = useState(false);
   const [isPaymentDisabled, setisPaymentDisabled] = useState(false);
+  const [IsPaidDisable, setIsPaidDisable] = useState(false);
+  const [IsShowExceedLimit, setIsShowExceedLimit] = useState(0);
+  const [IsDiscountDisable, setIsDiscountDisable] = useState(true);
+  let [userID, setUserID] = useState(JSON.parse(sessionStorage.getItem("LoginData")).userId);
+  
 
 
 
   let handleItemDetails = async (e, ind) => {
     let temp = [...saveRow];
     let value = e.target.value;
-    let name = e.target.name;
-   
-    
+  
     if (value !== "") {
       temp[ind]["itemId"] = 0;
       temp[ind]["itemName"] = value;
@@ -129,58 +123,50 @@ export default function Billing() {
       temp[ind]["billMasterID"] = 0;
       temp[ind]["billNo"] = 0;
       temp[ind]["billTypeId"] = 0;
-
-   
       temp[ind]["totalDiscount"] = 0;
       temp[ind]["uhid"] = 0;
+
       setItemDetailsTemp([])
       setSaveRow([...temp]);
       let response = Search(itemDetails, value);
       if (response != 0) {
         setItemDetailsTemp(response);
         setShowSearchBoxItem(ind);
-  
       }
 
 
-    } else {
+    } 
+
+    else {
      
       let temp = [...saveRow];
       temp[ind]["itemName"] = "";
       setSaveRow(temp);
       setShowSearchBoxItem(-1);
-      
     }
   };
 
+
   let getItemRate = async () =>{
-  
-   
       let companyName = await GerItemRateByCompany()
       if(companyName.status === 1){
-
         setItemDetails(companyName.responseValue);
-        console.log("companyName",companyName.responseValue)
+        
   }
- 
-    
       
   }
 
 
-  
-
-
-  
 
 
 let GetPaymentModes = async()=>{
   let PaymentMode = await GetallPaymentMode()
   if(PaymentMode.status === 1){
     setPaymentModeList(PaymentMode.responseValue)
-    console.log("PaymentMode",PaymentMode.responseValue)
+   
   }
 }
+
 
   let companyTypeList = async (e) => {
       let billtypeId = e.target.value;      
@@ -190,40 +176,40 @@ let GetPaymentModes = async()=>{
   }
   
 
- 
-
   let handlePaymentMode = (e) => {
-    let ddl = e.target.value;
-    if (ddl === "0") {
-      setPaymentMode(0);
+    let mode = e.target.value
+    setPaymentMode(mode)
+    if (mode == "0") {
       document.getElementById("paymentModeCard").style.display = "none";
       document.getElementById("paymentModeRefNo").style.display = "none";
       document.getElementById("bnkdetails").style.display = "none";
-    } else if (ddl === "1") {
-      setPaymentMode(1);
+    } else if (mode === "1") {
       document.getElementById("paymentModeCard").style.display = "none";
       document.getElementById("paymentModeRefNo").style.display = "none";
       document.getElementById("bnkdetails").style.display = "none";
-    } else if (ddl === "2") {
-      setPaymentMode(2);
+    } else if (mode === "2") {
+ 
       document.getElementById("paymentModeCard").style.display = "block";
       document.getElementById("paymentModeRefNo").style.display = "none";
       document.getElementById("bnkdetails").style.display = "none";
-    } else if (ddl === "3") {
-      setPaymentMode(3);
+    } else if (mode === "3") {
       GetBankList();
       document.getElementById("bnkdetails").style.display = "block";
       document.getElementById("paymentModeCard").style.display = "none";
       document.getElementById("paymentModeRefNo").style.display = "none";
-    } else if (ddl === "4") {
+    } else if (mode === "4") {
       setPaymentMode(4);
       document.getElementById("paymentModeCard").style.display = "none";
       document.getElementById("paymentModeRefNo").style.display = "block";
       document.getElementById("bnkdetails").style.display = "none";
     }
+
   };
 
   let handleUhidEvent = async (e) => {
+    
+    setShowSearchBoxItem(-1)
+
     let RowData = {
       itemId: 0,
       itemName: "",
@@ -243,14 +229,20 @@ let GetPaymentModes = async()=>{
       totalDiscount: 0,
       uhid: 0,
     }
+
     settotalSum(0)
- setSaveRow([RowData])
+    //setSaveRow([RowData])
     setBalanceAmount(0)
     setpayableAmount(0)
     setTotalAmount(0)
-    let UHID = e.target.value;
+    setTotalDiscountSum(0)
+
+    document.getElementById("totalPaidAmount").value = ""
+    let UHID = e.target.value.toUpperCase();
+ 
     setUHID(UHID);
     setPatientDetails([])
+
   
     if (UHID.length !== 10) {
       document.getElementById('PName').value = '';
@@ -258,45 +250,149 @@ let GetPaymentModes = async()=>{
       document.getElementById('PAge').value = '';
       document.getElementById('PWard').value = '';
       document.getElementById('Pdepartment').value = '';
+    
     }
-  
+    setIsPaidDisable(false)
     setshowLimit(false);
   
     let data = await PatientDetail(UHID, 0);
-    let dt = data.responseValue[0];
+    if(data.status === 1){
+      let dt = data.responseValue[0];
     setPatientDetails(dt);
+   
+    let investigation =
+        dt.investigationId !== "" ? JSON.parse(dt.investigationId) : [];
+        if (investigation.length === 0) {
+          setSaveRow([RowData]);
+        } else {
+          let tempinv = [];
+          let totalamount = 0;
+          let totalDiscount = 0;
+          investigation &&
+            investigation.map((val, ind) => {
+              let t = {
+                itemId: 0,
+                itemName: "",
+                categoryName: "",
+                itemCharge: "",
+                categoryId: "",
+                itemQuantity: 1,
+                discountRs: 0,
+                discountPer: 0,
+                totalAmount: 0,
+                actualTotalAmount: 0,
+                billMasterID: 0,
+                billNo: "",
+                billTypeId: 0,
+                tpaCompanyID: "",
+                tpaReferenceNo: "",
+                totalDiscount: 0,
+                uhid: 0,
+              };
+              t.itemId = val.itemId;
+              t.itemName = val.itemName;
+              t.itemCharge = val.itemCost;
+               
+              t.totalAmount = val.itemCost * t.itemQuantity;
+              t.actualTotalAmount = val.itemCost * t.itemQuantity;
+              totalamount = totalamount + val.itemCost * t.itemQuantity;
+              // totalDiscount = totalDiscount ;
+  
+              tempinv.push(t);
+            });
+            document.getElementById('totalPaidAmount').value = parseFloat(totalamount).toFixed(2)
+          settotalSum(parseFloat(totalamount).toFixed(2));
+          setpayableAmount(parseFloat(totalamount).toFixed(2))
+          setTotalAmount(totalamount - totalDiscount)
+  
+          setSaveRow(tempinv);
+        }
   
     let AdvanceDetails = await GetAllAdvanceDetails(UHID);
     if (AdvanceDetails.status === 1) {
-      console.log('AdvanceDetails', AdvanceDetails);
+      
       setAdvanceDetailsbyUhid(AdvanceDetails.responseValue);
       setisPaymentDisabled(true);
+      setIsDiscountDisable(true)
+      setIsItemDisable(false)
     }
   
     let CreditLimit = await GetCreditLimitofPatient(UHID);
   
-    if (CreditLimit.status === 1) {
+    if (CreditLimit.status === 1 ) {
       setCreditLimit(CreditLimit.responseValue);
-      console.log('CreditLimit', CreditLimit.responseValue);
       setisPaymentDisabled(true);
+      setIsPaidDisable(true)
+      setIsItemDisable(false)
     }
-  
+
+
+
     let CreditLimitvalue = CreditLimit.responseValue[0]?.remaining || 0;
+    let CreditLimitTable = CreditLimit.responseValue[0]
     let InsuranceCompanyId = CreditLimit.responseValue[0]?.tpaCompanyID || 0;
     let advanceLimit = AdvanceDetails.responseValue[0]?.totalAdvance || 0;
-    console.log('advanceLimit', advanceLimit);
-  
+    let advanceLimitStatus = AdvanceDetails.responseValue[0]?.limitStatus || 0;
+    let PateintCashlessData = dt.isCashLess 
+    
     if (CreditLimitvalue === 0 && advanceLimit === 0) {
       setisPaymentDisabled(false);
-     
+      setIsPaidDisable(true)
+      setIsItemDisable(false)
     };
-     if(InsuranceCompanyId !==0 || InsuranceCompanyId !== ''){
+   
+     if(CreditLimitTable && InsuranceCompanyId !== 0 ){
+      setisPaymentDisabled(true);
+      setIsDiscountDisable(true)
+      setIsItemDisable(false)
       let companyName = await GerItemRateByCompany(InsuranceCompanyId)
       if(companyName.status === 1){
         setItemDetails(companyName.responseValue)
-        console.log("companyName" , companyName.responseValue)
+        setItemDetailsTemp(companyName.responseValue)
+        setIsPaidDisable(true)
       }
+
+      return
     }
+
+      
+    else if (InsuranceCompanyId === 0){
+      let itemDetails = await getItems();
+      let itemDt = itemDetails.responseValue;
+      setItemDetails(itemDt);
+      setItemDetailsTemp(itemDt);
+      setisPaymentDisabled(false);
+      setIsDiscountDisable(true)
+      setIsItemDisable(false)
+      setIsPaidDisable(true)
+    }
+
+   if(InsuranceCompanyId === 0 && PateintCashlessData === true  ){
+    setShowAlertToster(1);
+    setShowMeassage("Your cashless request is in under process please contact TPA office..!");
+    setIsItemDisable(true)
+    return;
+   }
+
+
+
+    if (advanceLimitStatus === 2){
+      setisPaymentDisabled(false)
+      setIsDiscountDisable(true)
+      setIsItemDisable(false)
+      return
+      
+    }
+    if (advanceLimitStatus == 1 && advanceLimit > 0 ){
+      itemDetailsOnLoad()
+       setisPaymentDisabled(true)
+      setIsDiscountDisable(true)
+      setIsItemDisable(false)
+      return
+      
+    }
+    }
+   
   };
   
 
@@ -304,7 +400,7 @@ let GetPaymentModes = async()=>{
     let itemDetails = await getItems();
     let itemDt = itemDetails.responseValue;
     setItemDetails(itemDt);
-     setItemDetailsTemp(itemDt);
+    setItemDetailsTemp(itemDt);
    
   };
 
@@ -326,211 +422,785 @@ let GetPaymentModes = async()=>{
 
 
 
+
   let handlClick = (ind, data) => {
     let temp = [...saveRow];
-    temp[ind]["itemId"] = data.id;
-    temp[ind]["itemName"] = data.itemName;
-    temp[ind]["categoryName"] = data.categoryName;
-    temp[ind]["itemCharge"] = data.itemCharge;
-    temp[ind]["categoryId"] = data.categoryId;
-    temp[ind]["itemQuantity"] = 0;
-    temp[ind]["discountRs"] = 0;
-    temp[ind]["discountPer"] = 0;
-    temp[ind]["totalAmount"] = 0;
-    temp[ind]["billMasterID"] = 0;
-    temp[ind]["billNo"] = 0;
-    temp[ind]["billTypeId"] = 0;
   
-    temp[ind]["totalDiscount"] = 0;
-    temp[ind]["uhid"] = 0;
+    // Check if the item is already in a row
+    const itemAlreadySelected = temp.some(row => row.itemId === data.id);
+  
+    if (!itemAlreadySelected) {
+      temp[ind]["itemId"] = data.id;
+      temp[ind]["itemName"] = data.itemName;
+      temp[ind]["categoryName"] = data.categoryName;
+      temp[ind]["itemCharge"] = data.itemCharge;
+      temp[ind]["categoryId"] = data.categoryId;
+      temp[ind]["itemQuantity"] = 0;
+      temp[ind]["discountRs"] = 0;
+      temp[ind]["discountPer"] = 0;
+      temp[ind]["totalAmount"] = data.itemCharge; 
+      temp[ind]["billMasterID"] = 0;
+      temp[ind]["billNo"] = 0;
+      temp[ind]["billTypeId"] = 0;
+      temp[ind]["totalDiscount"] = 0;
+      temp[ind]["uhid"] = 0;
+  
+      document.getElementById("itemName" + ind).value = data.itemName;
+      setShowSearchBoxItem(-1);
+      setSaveRow(temp);
+      handleCalculations({
+        target: {
+          value: 1, 
+          name: "itemQuantity",
+        },
+      }, ind);
+     
+    } 
+    
+    
+    
+    else {
+      setShowAlertToster(1);
+    setShowMeassage('Item is already selected');
+    }
 
-    document.getElementById("itemName" + ind).value = data.itemName;
-    setShowSearchBoxItem(-1);
-    setSaveRow(temp);
   };
 
-  let handleOnchangeNumbers = (e, ind) => {
-    let CreditLimitvalue = CreditLimit[0]?.remaining
-    let value = e.target.value;
-    let name = e.target.name;
-    let temp = [...saveRow];
+
+
+  const handleCalculations = (e, index) => {
+
+    let rowDataCopy = [...saveRow];
+    const { name, value } = e.target;
+    let qtyValue = parseFloat(value);
+    let CreditLimitCompany = CreditLimit[0]?.tpaCompanyID;
+    let CreditLimitRemaining = CreditLimit[0]?.remaining ;
+    let CreditDetails = CreditLimit ;
+    let currentStatus = CreditLimit[0]?.currentStatus ;
+    let AdvanceAmount = AdvanceDetailsbyUhid[0]?.remaining
+    let AdvanceAmountStatus = AdvanceDetailsbyUhid[0]?.limitStatus
+    let AdvanceDetails = AdvanceDetailsbyUhid[0]
+    let isCashLess = patientDetails.isCashLess
+  
+    const roundedQtyValue = !isNaN(qtyValue) ? parseFloat(qtyValue.toFixed(2)) : "";
 
     if (name === "itemQuantity") {
-      temp[ind]["itemQuantity"] = value;
-      let totalcharges = parseInt(
-        saveRow[ind]["itemCharge"] ? saveRow[ind]["itemCharge"] : 0
-      );
-      let totalQunatity = parseInt(value);
-      let totalDiscount = parseInt(
-        saveRow[ind]["discountRs"] ? saveRow[ind]["discountRs"] : 0
-      );
 
-      setTotalAmount(totalcharges * totalQunatity - totalDiscount);
-      temp[ind]["totalAmount"] = totalcharges * totalQunatity - totalDiscount;
-
-      setActualTotalAmount(totalcharges * totalQunatity);
-      temp[ind]["actualTotalAmount"] = totalcharges * totalQunatity;
-
-      const tempVal = temp.map((t) => t.actualTotalAmount);
-      const sum = tempVal.reduce(function (a, b) {
-        return a + b;
-      }, 0);
-
-      const tempDis = temp.map((d) => parseInt(d.discountRs));
-      const sumDis = tempDis.reduce(function (x, y) {
-        return x + y;
-      });
-
-      settotalSum(sum);
-      setTotalDiscountSum(sumDis);
-      totalPayableAmount(sum, sumDis, 0, 0);
-      setSaveRow(temp);
+    if ( roundedQtyValue < 0){
+      setShowAlertToster(1);
+      setShowMeassage("Item Quantity should not be in negative..!!");
+      return
     }
 
-console.log("Total Amount" , balanceAmount)
-    if (name === "discountPer") {
-      if (totalAmount > 0) {
-        if (value > 100) {
-          setShowAlertToster(1);
-          setShowMeassage("Cannot Discount more than Total Amount");
-     
-          return;
-        } else {
-          let dper = (totalAmount * value) / 100;
-          let toamountAfterDis = totalAmount - dper;
-          temp[ind]["discountRs"] = dper;
-          temp[ind]["totalAmount"] = toamountAfterDis;
-          temp[ind]["discountPer"] = value;
-
-          document.getElementById("discountByRemark").style.display = "block";
+      if (CreditLimitCompany) {
+        rowDataCopy[index] = {
+            ...rowDataCopy[index],
+            itemQuantity: roundedQtyValue,
+            discountRs: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (rowDataCopy[index].discountPer / 100)).toFixed(2),
+             totalAmount: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (1 - rowDataCopy[index].discountPer / 100)).toFixed(2),
+             actualTotalAmount : parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge)
+  
         }
-      }
 
-      const tempDis = temp.map((d) => parseInt(d.discountRs));
-      const sumDis = tempDis.reduce(function (x, y) {
-        return x + y;
-      });
-      setTotalDiscountSum(sumDis);
-      totalPayableAmount(totalSum, sumDis, 0, 0);
-      setSaveRow(temp);
-    }
-    if (name === "discountRs") {
-      temp[ind]["discountPer"] = 0;
-      let tamt = totalAmount;
+        const discountSum = rowDataCopy.map((val) => {const discount = parseFloat(val.discountRs);
+               return !isNaN(discount) ? discount : 0;
+           });
 
-      if (value > tamt && tamt > 0) {
-        setShowAlertToster(1);
-          setShowMeassage("Cannot Discount more than Total Amount");
-        return;
-      } else {
+
+           const totalDiscount = discountSum.reduce((total, discount) => {const discountValue = parseFloat(discount);
+             return !isNaN(discountValue) ? total + discountValue : total;
+         }, 0);
+
+
+          const totalAmount = rowDataCopy.reduce((total, item) => total  +  (item.itemQuantity * item.itemCharge), 0);
+          const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+
+        setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+        setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+        setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+        settotalSum(parseFloat(totalAmount).toFixed(2))
+        setpayableAmount(parseFloat(0).toFixed(2));  
+
+         if(totalAmount > CreditLimitRemaining &&  currentStatus === 1 &&  !IsShowExceedLimit ){
+          let CreditLimitRemaining = CreditLimit[0]?.remaining;
+         setIsPaidDisable(true)
+         setisPaymentDisabled(false)
+         setBalanceAmount(parseFloat(CreditLimitRemaining).toFixed(2))
+         document.getElementById("totalPaidAmount").value = parseFloat(totalAmount - CreditLimitRemaining).toFixed(2)
+
+         setpayableAmount(parseFloat(totalAmount - CreditLimitRemaining).toFixed(2))
 
        
-       temp[ind]["discountRs"] = value;
+      
+         }
+         else{
+          setIsPaidDisable(true)
+         setisPaymentDisabled(true);
+          document.getElementById("totalPaidAmount").value = ''
+           
+         }
+     
+
+        }
+      
+       
+    else if (isCashLess === false){
+    let paidAmount = document.getElementById("totalPaidAmount").value;
+    rowDataCopy[index] = {
+    ...rowDataCopy[index],
+    itemQuantity: roundedQtyValue,
+    discountRs: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (rowDataCopy[index].discountPer / 100)).toFixed(2),
+    totalAmount: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (1 - rowDataCopy[index].discountPer / 100)).toFixed(2),
+    actualTotalAmount : parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge)
+};
+const discountSum = rowDataCopy.map((val) => {
+  const discount = parseFloat(val.discountRs);
+       return !isNaN(discount) ? discount : 0;
+   });
+   const totalDiscount = discountSum.reduce((total, discount) => {
+     const discountValue = parseFloat(discount);
+
+     return !isNaN(discountValue) ? total + discountValue : total;
+ }, 0);
+const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+
+setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+settotalSum(parseFloat(totalAmount).toFixed(2))
+setBalanceAmount(parseFloat(0).toFixed(2))
+setpayableAmount(parseFloat(totalPayable).toFixed(2));
+document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+}
+
+
+
+ 
+        if (AdvanceDetails  && CreditDetails.length === 0 &&  AdvanceAmountStatus !== null ) {
+          rowDataCopy[index] = {
+              ...rowDataCopy[index],
+              itemQuantity: roundedQtyValue,
+              discountRs: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (rowDataCopy[index].discountPer / 100)).toFixed(2),
+               totalAmount: parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge * (1 - rowDataCopy[index].discountPer / 100)).toFixed(2),
+               actualTotalAmount : parseFloat(roundedQtyValue * rowDataCopy[index].itemCharge)
         
-        let tad = tamt - value;
-        temp[ind]["totalAmount"] = tad;
-        document.getElementById("discountByRemark").style.display = "block";
+          }
+        
+          const discountSum = rowDataCopy.map((val) => {const discount = parseFloat(val.discountRs);
+                 return !isNaN(discount) ? discount : 0;
+             });
+        
+        
+             const totalDiscount = discountSum.reduce((total, discount) => {const discountValue = parseFloat(discount);
+               return !isNaN(discountValue) ? total + discountValue : total;
+           }, 0);
+        
+        
+            const totalAmount = rowDataCopy.reduce((total, item) => total  +  (item.itemQuantity * item.itemCharge), 0);
+            const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+        
+          setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+          setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+          setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+          settotalSum(parseFloat(totalAmount).toFixed(2))
+          setpayableAmount(parseFloat(totalPayable).toFixed(2));  
+
+      
+        
+           if(totalPayable > AdvanceAmount &&  AdvanceAmountStatus === 1  ){
+            
+           setIsPaidDisable(true)
+           setisPaymentDisabled(false)
+           setBalanceAmount(parseFloat(0).toFixed(2))
+           document.getElementById("totalPaidAmount").value = parseFloat(totalAmount - totalDiscount - AdvanceAmount ).toFixed(2)
+           setpayableAmount(parseFloat(totalAmount - totalDiscount).toFixed(2))
+          
+        
+           }
+
+
+           else{
+            setIsPaidDisable(true)
+           setisPaymentDisabled(true);
+            document.getElementById("totalPaidAmount").value = ''
+            setBalanceAmount(parseFloat(0).toFixed(2))
+           }
+          }
+
+
+
+          if(AdvanceDetails  && CreditDetails.length === 0  && AdvanceAmountStatus === 2){
+
+            const discountSum = rowDataCopy.map((val) => {
+              const discount = parseFloat(val.discountRs);
+                   return !isNaN(discount) ? discount : 0;
+               });
+               const totalDiscount = discountSum.reduce((total, discount) => {
+                 const discountValue = parseFloat(discount);
+          
+                 return !isNaN(discountValue) ? total + discountValue : total;
+             }, 0);
+            const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+           
+            const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+            setIsPaidDisable(true)
+           setisPaymentDisabled(false)
+           setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+           setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+           settotalSum(parseFloat(totalAmount).toFixed(2))
+           setBalanceAmount(parseFloat(0).toFixed(2))
+           setpayableAmount(parseFloat(totalPayable).toFixed(2));
+           document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+         
+           }
+
+          
+
+    }
+
+
+
+    if (name === "Discount%") {
+        const discountPercentage = parseFloat(value);
+        const roundeddiscountPer = !isNaN(qtyValue) ? parseFloat(discountPercentage.toFixed(2)) : "";
+        const itemCharge = parseFloat(rowDataCopy[index].itemCharge);
+        const itemQuantity = parseFloat(rowDataCopy[index].itemQuantity);
+        
+
+        if (roundeddiscountPer === "" || roundeddiscountPer === 0) {
+            rowDataCopy[index] = {
+                ...rowDataCopy[index],
+                discountPer: roundeddiscountPer,
+                discountRs: 0,
+                totalAmount: itemQuantity * itemCharge,
+                actualTotalAmount : parseFloat(rowDataCopy[index].itemQuantity * rowDataCopy[index].itemCharge).toFixed(2)
+            };
+
+
+            const discountSum = rowDataCopy.map((val) => {
+              const discount = parseFloat(val.discountRs);
+                   return !isNaN(discount) ? discount : 0;
+               });
+               const totalDiscount = discountSum.reduce((total, discount) => {
+                 const discountValue = parseFloat(discount);
+         
+                 return !isNaN(discountValue) ? total + discountValue : total;
+             }, 0);
+            setTotalDiscountSum(totalDiscount)
+           
+        }
+
+
+        if(roundeddiscountPer < 0){
+          setShowAlertToster(1);
+          setShowMeassage("Discount %  should not be in negative..!!");
+          return
+        }
+        
+        
+            if (parseFloat(roundeddiscountPer) > 100) {
+                setShowAlertToster(1);
+                setShowMeassage('Discount should not be more than the total amount..!!');
+                rowDataCopy[index] = {
+                    ...rowDataCopy[index],
+                    totalAmount: itemQuantity * itemCharge,
+                    actualTotalAmount : parseFloat(rowDataCopy[index].itemQuantity * rowDataCopy[index].itemCharge)
+                };
+                return;
+            } 
+            
+            const totalAmountBeforeDiscount = parseFloat(itemQuantity * itemCharge);
+            const discountAmount = parseFloat( (totalAmountBeforeDiscount * roundeddiscountPer) / 100).toFixed(2)
+
+         
+            rowDataCopy[index] = {
+                ...rowDataCopy[index],
+                discountPer: roundeddiscountPer,
+                discountRs: !isNaN(discountAmount) ? parseFloat(discountAmount) : 0,
+                totalAmount: !isNaN(totalAmountBeforeDiscount - discountAmount) ? parseFloat((totalAmountBeforeDiscount - discountAmount)).toFixed(2) : 0,
+                actualTotalAmount : parseFloat(rowDataCopy[index].itemQuantity * rowDataCopy[index].itemCharge).toFixed(2)
+            };
+            
+              if(CreditLimitCompany){
+                const discountSum = rowDataCopy.map((val) => {
+                  const discount = parseFloat(val.discountRs);
+                       return !isNaN(discount) ? discount : 0;
+                   });
+                   const totalDiscount = discountSum.reduce((total, discount) => {
+                     const discountValue = parseFloat(discount);
+             
+                     return !isNaN(discountValue) ? total + discountValue : total;
+                 }, 0);
+                const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+               
+
+                
+                const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+                setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+                setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+                setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+                settotalSum(parseFloat(totalAmount).toFixed(2))
+                setpayableAmount(parseFloat(totalPayable).toFixed(2))
+                document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+              }
+       
+
+              else {
+                const discountSum = rowDataCopy.map((val) => {
+                  const discount = parseFloat(val.discountRs);
+                       return !isNaN(discount) ? discount : 0;
+                   });
+                   const totalDiscount = discountSum.reduce((total, discount) => {
+                     const discountValue = parseFloat(discount);
+             
+                     return !isNaN(discountValue) ? total + discountValue : total;
+                 }, 0);
+                const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+                const totalAmount = saveRow.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+      
+                    setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+                    setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+                    settotalSum(parseFloat(totalAmount).toFixed(2))
+                    setBalanceAmount(parseFloat(0).toFixed(2))
+                    setpayableAmount(parseFloat(totalPayable).toFixed(2))
+                    document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+              }
+              if (AdvanceDetails  && CreditDetails.length === 0 &&  AdvanceAmountStatus !== null) {
+                const discountSum = rowDataCopy.map((val) => {
+                  const discount = parseFloat(val.discountRs);
+                       return !isNaN(discount) ? discount : 0;
+                   });
+                   const totalDiscount = discountSum.reduce((total, discount) => {
+                     const discountValue = parseFloat(discount);
+              
+                     return !isNaN(discountValue) ? total + discountValue : total;
+                 }, 0);
+                const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+               
+                const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+                setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+                setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+                setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+                 settotalSum(parseFloat(totalAmount).toFixed(2))
+                setpayableAmount(parseFloat(totalPayable).toFixed(2))
+
+
+             
+                 if(totalPayable > AdvanceAmount &&  AdvanceAmountStatus === 1    ){
+                  
+                  setIsPaidDisable(true)
+                  setisPaymentDisabled(false)
+                  setBalanceAmount(parseFloat(0).toFixed(2))
+                  document.getElementById("totalPaidAmount").value = parseFloat(totalAmount - totalDiscount - AdvanceAmount ).toFixed(2)
+                  setpayableAmount(parseFloat(totalAmount - totalDiscount).toFixed(2))
+            
+              
+                 }
+                 else{
+                  setIsPaidDisable(true)
+                 setisPaymentDisabled(true);
+                  document.getElementById("totalPaidAmount").value = ''
+                  setBalanceAmount(parseFloat(0).toFixed(2))
+                 }
+              
+                }
+
+
+                
+          if(AdvanceDetails  && CreditDetails.length === 0 && AdvanceAmountStatus === 2){
+
+            const discountSum = rowDataCopy.map((val) => {
+              const discount = parseFloat(val.discountRs);
+                   return !isNaN(discount) ? discount : 0;
+               });
+               const totalDiscount = discountSum.reduce((total, discount) => {
+                 const discountValue = parseFloat(discount);
+          
+                 return !isNaN(discountValue) ? total + discountValue : total;
+             }, 0);
+            const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+           
+            const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+            setIsPaidDisable(true)
+           setisPaymentDisabled(false)
+           setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+           setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+           settotalSum(parseFloat(totalAmount).toFixed(2))
+           setBalanceAmount(parseFloat(0).toFixed(2))
+           setpayableAmount(parseFloat(totalPayable).toFixed(2));
+           document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+           
+           }
+               
+          
+        }
+  
+
+    if (name === "DiscountRs") {
+      
+      let paidAmount = document.getElementById("totalPaidAmount").value;
+      const discountRsValid = parseFloat(value);
+      const roundeddiscountRs = !isNaN(qtyValue) ? parseFloat(discountRsValid.toFixed(2)) : "";
+      const itemCharge = parseFloat(rowDataCopy[index].itemCharge);
+      const itemQuantity = parseFloat(rowDataCopy[index].itemQuantity);
+      
+      if (roundeddiscountRs === "" || roundeddiscountRs === 0) {
+        
+        rowDataCopy[index] = {
+            ...rowDataCopy[index],
+            discountPer: 0,
+            discountRs: roundeddiscountRs,
+            totalAmount: itemQuantity * itemCharge,
+            actualTotalAmount : parseFloat(rowDataCopy[index].itemQuantity * rowDataCopy[index].itemCharge)
+        };
+
+        const discountSum = rowDataCopy.map((val) => {
+     const discount = parseFloat(val.discountRs);
+          return !isNaN(discount) ? discount : 0;
+      });
+      const totalDiscount = discountSum.reduce((total, discount) => {
+        const discountValue = parseFloat(discount);
+
+        return !isNaN(discountValue) ? total + discountValue : total;
+    }, 0);
+  
+        setTotalDiscountSum(totalDiscount)
+       
+    }
+      if (roundeddiscountRs > itemQuantity * itemCharge) {
+          setShowAlertToster(1);
+          setShowMeassage('Discount should not be more than the total amount..!!');
+          return;
+      }
+  
+      if (roundeddiscountRs < 0) {
+          setShowAlertToster(1);
+          setShowMeassage("Discount Rs should not be in negative..!!");
+          return;
+      }
+  
+    
+      
+      else {
+        const newDiscountPer = (roundeddiscountRs / (itemCharge * itemQuantity)) * 100;
+
+        rowDataCopy[index] = {
+            ...rowDataCopy[index],
+            discountRs: roundeddiscountRs,
+            discountPer: !isNaN(newDiscountPer) ? parseFloat(newDiscountPer.toFixed(2)) : 0,
+            totalAmount: parseFloat(itemQuantity * itemCharge - roundeddiscountRs).toFixed(2),
+            actualTotalAmount : parseFloat(rowDataCopy[index].itemQuantity * rowDataCopy[index].itemCharge)
+        };
+        const discountSum = rowDataCopy.map((val) => {
+          const discount = parseFloat(val.discountRs);
+          return !isNaN(discount) ? discount : 0;
+      });
+      const totalDiscount = discountSum.reduce((total, discount) => {
+        const discountValue = parseFloat(discount);
+        return !isNaN(discountValue) ? total + discountValue : total;
+    }, 0);
+          setTotalDiscountSum(totalDiscount);
       }
 
-      // calculateTotalSum
+if(CreditLimitCompany){
+  const discountSum = rowDataCopy.map((val) => {
+    const discount = parseFloat(val.discountRs);
+         return !isNaN(discount) ? discount : 0;
+     });
+     const totalDiscount = discountSum.reduce((total, discount) => {
+       const discountValue = parseFloat(discount);
 
-      const tempDis = temp.map((d) => parseInt(d.discountRs));
-      const sumDis = tempDis.reduce(function (x, y) {
-        return x + y;
-      });
-      setTotalDiscountSum(sumDis);
-      totalPayableAmount(totalSum, sumDis, 0, 0);
-      setSaveRow(temp);
-    }
+       return !isNaN(discountValue) ? total + discountValue : total;
+   }, 0);
+  const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+ 
+  const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+  setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+  setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+  setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+   settotalSum(parseFloat(totalAmount).toFixed(2))
+  setpayableAmount(parseFloat(totalPayable).toFixed(2))
 
-    if (name === "totalAmount") {
-      temp[ind]["id"] = 0;
-      temp[ind]["totalAmount"] = value;
-      setSaveRow(temp);
-    }
-
-    setSaveRow(temp);
-  };
-
-
-  let handleTabKey = async (e) => {
-    if (e.key === "Tab") {
-      setSaveRow([...saveRow, data]);
-    }
-  };
+}
 
 
-  let removeRow = (ind) => {
-    let temp = [...saveRow];
 
-    let removeActualAmt = saveRow[ind]["actualTotalAmount"];
-    let removeDisAmt = saveRow[ind]["discountRs"];
 
-    let afterRemoveLeftTotal = totalSum - removeActualAmt;
-    let afterRemoveLeftDiscnt = totalDiscountSum - removeDisAmt;
-    let afterRemovePayableAmount = afterRemoveLeftTotal - afterRemoveLeftDiscnt;
-    let CreditLimitvalue = CreditLimit[0].remaining;
-    console.log(CreditLimitvalue)
 
-    if(CreditLimitvalue > 0){
-       setBalanceAmount(afterRemovePayableAmount);
-       settotalSum(afterRemoveLeftTotal);
-         temp.splice(ind, 1);
+else{
+  const discountSum = rowDataCopy.map((val) => {
+    const discount = parseFloat(val.discountRs);
+         return !isNaN(discount) ? discount : 0;
+     });
+     const totalDiscount = discountSum.reduce((total, discount) => {
+       const discountValue = parseFloat(discount);
 
-    }
-    else{
-       settotalSum(afterRemoveLeftTotal);
-    setTotalDiscountSum(afterRemoveLeftDiscnt);
-
-    setpayableAmount(afterRemovePayableAmount);
-    setTotalPaidAmount(afterRemovePayableAmount);
-      temp.splice(ind, 1);
-    }
-   
-
+       return !isNaN(discountValue) ? total + discountValue : total;
+   }, 0);
+      const totalAmount = saveRow.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
   
-    if (temp.length > 0) {
-      setSaveRow(temp);
-    } else {
-      setSaveRow([data]);
-      document.getElementById("itemName" + ind).value = "";
-      document.getElementById("discountByRemark").style.display = "none";
-    }
-  };
+      const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+    
+      setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+      setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+      settotalSum(parseFloat(totalAmount).toFixed(2))
+      setpayableAmount(parseFloat(totalPayable).toFixed(2))
+      document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+      setBalanceAmount(parseFloat(0).toFixed(2))
+}
 
-  const totalPayableAmount = async (
-    totalAmt,
-    totalDiscnt,
-    advanceRs,
-    BalanceAmt
-  ) => {
-    let amtAfterDiscount = totalAmt - totalDiscnt;
-    let amtAfterlessAdvance = amtAfterDiscount - advanceRs;
-    let amtAfterAddBlnce = amtAfterlessAdvance + BalanceAmt;
 
-    let CreditLimitvalue = CreditLimit[0].remaining;
-    console.log(CreditLimitvalue)
 
-    if(CreditLimitvalue > 0){
-       setBalanceAmount(amtAfterAddBlnce);
-   return
-    }
+if (AdvanceDetails  && CreditDetails.length === 0 &&  AdvanceAmountStatus !== null) {
+  const discountSum = rowDataCopy.map((val) => {
+    const discount = parseFloat(val.discountRs);
+         return !isNaN(discount) ? discount : 0;
+     });
+     const totalDiscount = discountSum.reduce((total, discount) => {
+       const discountValue = parseFloat(discount);
 
-    else{
-       setpayableAmount(amtAfterAddBlnce);
-       setTotalPaidAmount(amtAfterAddBlnce);
-    return
-    }
+       return !isNaN(discountValue) ? total + discountValue : total;
+   }, 0);
+  const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
+ 
+  const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+  setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+  setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+  setBalanceAmount(parseFloat(totalPayable).toFixed(2))
+   settotalSum(parseFloat(totalAmount).toFixed(2))
+  setpayableAmount(parseFloat(totalPayable).toFixed(2))
+
+
+
+
+   if(totalPayable > AdvanceAmount &&  AdvanceAmountStatus === 1    ){
+    
+    setIsPaidDisable(true)
+    setisPaymentDisabled(false)
+    setBalanceAmount(parseFloat(0).toFixed(2))
+    document.getElementById("totalPaidAmount").value = parseFloat(totalAmount - totalDiscount - AdvanceAmount ).toFixed(2)
+    setpayableAmount(parseFloat(totalAmount - totalDiscount).toFixed(2))
+    
+   }
+   else{
+    setIsPaidDisable(true)
+   setisPaymentDisabled(true);
+    document.getElementById("totalPaidAmount").value = ''
+    setBalanceAmount(parseFloat(0).toFixed(2))
+   }
+
+
+
+  }
+ 
+    
+  if(AdvanceDetails  && CreditDetails.length === 0 && AdvanceAmountStatus === 2){
+
+    const discountSum = rowDataCopy.map((val) => {
+      const discount = parseFloat(val.discountRs);
+           return !isNaN(discount) ? discount : 0;
+       });
+       const totalDiscount = discountSum.reduce((total, discount) => {
+         const discountValue = parseFloat(discount);
+  
+         return !isNaN(discountValue) ? total + discountValue : total;
+     }, 0);
+    const totalAmount = rowDataCopy.reduce((total, item) => total + item.itemQuantity * item.itemCharge, 0);
    
-  };
+    const totalPayable = rowDataCopy.reduce((total, item) => total + (item.itemQuantity * item.itemCharge) - item.discountRs, 0);
+    setIsPaidDisable(true)
+   setisPaymentDisabled(false)
+   setActualTotalAmount(parseFloat(totalAmount).toFixed(2));
+   setTotalDiscountSum(parseFloat(totalDiscount).toFixed(2))
+   settotalSum(parseFloat(totalAmount).toFixed(2))
+   setBalanceAmount(parseFloat(0).toFixed(2))
+   setpayableAmount(parseFloat(totalPayable).toFixed(2));
+   document.getElementById("totalPaidAmount").value =  parseFloat(totalPayable).toFixed(2)
+   
+   }
 
-  let handlePaidAmount = () => {
-    let paidAmount = document.getElementById("totalPaidAmount").value;
-    setTotalPaidAmount(paidAmount);
-  };
+
+
+  }
+  
+
+    setSaveRow(rowDataCopy);
+
+
+};
+
+
+
+
+let handleTabKey = async (e, ind) => {
+  const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+  const isItemQuantityValid = saveRow.some((item) => !item.itemQuantity || item.itemQuantity === 0);
+
+  if (isEmpty) {
+      setShowAlertToster(1);
+      setShowMeassage("Item Name is required");
+      return;
+  }
+
+  if (isItemQuantityValid) {
+      setShowAlertToster(1);
+      setShowMeassage("Please Enter Item Quantity");
+      return;
+  }
+
+  if (e.key === "Tab") {
+  setSaveRow([...saveRow, data]);
+  }
+};
+
+
+  const handleAddRow = ()=>{
+    const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+    const isitemQuantityValid = saveRow.some((item) => !item.itemQuantity ||  item.itemQuantity === 0);
+ 
+  
+
+    if (isEmpty) {
+      setShowAlertToster(1);
+      setShowMeassage("Item Name is required");
+      return;
+       }
+       if (isitemQuantityValid) {
+        setShowAlertToster(1);
+        setShowMeassage("Please Enter Item Quantity");
+        return;
+      }
+  
+  
+
+      else{
+         setSaveRow([...saveRow, data, ]);
+      }
+   
+  }
+
+  let removeRow = async (ind) => {
+    document.getElementById("totalPaidAmount").value = '';
+    setisPaymentDisabled(true);
+
+    let temp = [...saveRow];
+    let removedItem = temp[ind];
+
+    let removeRowAmt = totalSum - removedItem.itemQuantity * removedItem.itemCharge;
+    let removeDisAmt = removedItem.discountRs;
+    let removeRowDiscount = totalDiscountSum - removeDisAmt;
+    let TotalAmount = payableAmount - temp[ind].totalAmount;
+
+   
+
+    let isCashLess = patientDetails.isCashLess;
+    let CreditLimitvalue = CreditLimit[0]?.remaining;
+    let InsuranceCompanyValid = CreditLimit[0]?.tpaCompanyID;
+    let AdvanceAmount = AdvanceDetailsbyUhid[0]?.remaining
+    let AdvanceAmountStatus = AdvanceDetailsbyUhid[0]?.limitStatus
+    let AdvanceDetails = AdvanceDetailsbyUhid[0]
+  
+
+
+    
+
+    if( AdvanceAmountStatus === 1 && InsuranceCompanyValid === undefined && isCashLess === false && CreditLimitvalue === undefined){
+      
+      if(AdvanceAmount > removeRowAmt){
+        settotalSum(parseFloat(removeRowAmt ).toFixed(2));
+        setpayableAmount(parseFloat(removeRowAmt - removeRowDiscount).toFixed(2));
+        setBalanceAmount(parseFloat(0).toFixed(2));
+        setIsPaidDisable(true);
+        setisPaymentDisabled(true);
+        setTotalDiscountSum(parseFloat(removeRowDiscount).toFixed(2));
+        document.getElementById("totalPaidAmount").value = '';
+        
+    }
+
+    else if(AdvanceAmount < removeRowAmt){
+      settotalSum(parseFloat(removeRowAmt).toFixed(2));
+      setpayableAmount(parseFloat(removeRowAmt  - removeRowDiscount).toFixed(2));
+      setBalanceAmount(parseFloat(0).toFixed(2));
+      setIsPaidDisable(true);
+      setisPaymentDisabled(false);
+      setTotalDiscountSum(parseFloat(removeRowDiscount).toFixed(2));
+      document.getElementById("totalPaidAmount").value = parseFloat(removeRowAmt  - removeRowDiscount - AdvanceAmount).toFixed(2);
+     
+    }
+  }
+  
+        if (InsuranceCompanyValid  && isCashLess === true) {
+          if(CreditLimitvalue > removeRowAmt){
+             
+            settotalSum(parseFloat(removeRowAmt).toFixed(2));
+            setpayableAmount(parseFloat(0).toFixed(2));
+            setBalanceAmount(parseFloat(removeRowAmt).toFixed(2));
+            setIsPaidDisable(true);
+            setisPaymentDisabled(true);
+            document.getElementById("totalPaidAmount").value = '';
+           
+          }
+          else{
+            settotalSum(parseFloat(removeRowAmt).toFixed(2));
+            setpayableAmount(parseFloat(removeRowAmt - CreditLimitvalue).toFixed(2));
+            setBalanceAmount(parseFloat(CreditLimitvalue).toFixed(2));
+            setIsPaidDisable(true);
+            setisPaymentDisabled(false);
+            document.getElementById("totalPaidAmount").value = parseFloat(removeRowAmt - CreditLimitvalue).toFixed(2);
+           
+          }
+      
+
+            
+        }
+ 
+ 
+        
+        
+        
+  
+
+    
+    else if (AdvanceAmountStatus !== 1 && !InsuranceCompanyValid) {
+      
+       setBalanceAmount(parseFloat(0).toFixed(2)); 
+        settotalSum(parseFloat(removeRowAmt).toFixed(2));
+        setpayableAmount(parseFloat(removeRowAmt - removeRowDiscount).toFixed(2));
+        document.getElementById("totalPaidAmount").value = parseFloat(removeRowAmt - removeRowDiscount).toFixed(2);
+        setIsPaidDisable(true);
+        setisPaymentDisabled(false);
+        setTotalDiscountSum(parseFloat(removeRowDiscount).toFixed(2));
+    }
+
+    temp.splice(ind, 1);
+
+    if (temp.length > 0) {
+        setSaveRow(temp);
+    } 
+    else {
+        // Reset state or perform any necessary actions when temp is empty
+        setActualTotalAmount(0);
+        setBalanceAmount(0);
+        settotalSum(0);
+        setTotalDiscountSum(0);
+        setTotalAmount(0);
+        setpayableAmount(0);
+        setSaveRow([data]);
+        document.getElementById("itemName" + ind).value = "";
+        document.getElementById("discountByRemark").style.display = "none";
+    }
+};
+
+
+
+
+
+
 
   let clearBillingData = () => {
-    setUHID(0);
+    setShowSearchBoxItem(-1)
+    itemDetailsOnLoad()
+    setUHID('');
     setPaymentMode(0);
     setItemDetailsTemp([data]);
     setpayableAmount(0);
@@ -558,8 +1228,7 @@ console.log("Total Amount" , balanceAmount)
     document.getElementById('PAge').value = ''
     document.getElementById('PWard').value = ''
     document.getElementById('Pdepartment').value = ''
-
-  
+    document.getElementById("totalPaidAmount").value = ''
   };
 
 
@@ -585,41 +1254,46 @@ console.log("Total Amount" , balanceAmount)
     }   
   };
 
-  let handleTrustBill = async (evalue) => {
-    let responseTrustBill = await getAllTpaCompany();
-    setcompanyBill(responseTrustBill.responseValue);
- 
-  };
+
 
   let GetBankList = async () => {
     var response = await GetBankNameList();
     setBankList(response.responseValue);
-    console.log("this is responsesss", response);
+    
   };
 
 
   //*****saveDetails */
 
-  let saveBillingData = async (ind) => {
+  let saveBillingData = async () => {
+
+   let IsCashless = patientDetails.isCashLess;
+    let Paid = document.getElementById("totalPaidAmount").value;
+    let PName = document.getElementById("PName").value 
     const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
-    const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' || item.itemQuantity === 0);
+    const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0 );
 
     let CreditLimitvalue = CreditLimit[0]?.remaining
+    let CreditLimitInsuranceID = CreditLimit[0]?.issuanceDetailId
+    let CreditLimitCompany = CreditLimit[0]?.tpaCompanyID
     let CreditStatus = CreditLimit[0]?.currentStatus
-    let InsuranceCompany = CreditLimit[0]?.tpaCompanyID
+    let InsuranceCompanyId = CreditLimit[0]?.tpaCompanyID
     let advanceLimit = AdvanceDetailsbyUhid[0]?.remaining
     let advanceStatus = AdvanceDetailsbyUhid[0]?.limitStatus
-    console.log(CreditLimitvalue)
-    console.log(CreditStatus)
+  
   
  
    
-    if(UHID == ''){
+    if(UHID.trim() == ''){
          setShowAlertToster(1);
          setShowMeassage("UHID is required");
          return;
         }
-     
+        if(PName == '' || undefined || null){
+          setShowAlertToster(1);
+          setShowMeassage("UHID is not valid");
+          return;
+         }
    
         if (isEmpty) {
          setShowAlertToster(1);
@@ -633,27 +1307,41 @@ console.log("Total Amount" , balanceAmount)
          }
 
    
- if(CreditLimitvalue < balanceAmount){
+
+ if(CreditLimitvalue  ===  0 && CreditStatus == null  ){
   setShowAlertToster(1);
-   setShowMeassage("Credit Limit Exceeded..!!");
-  return;
- }
- if(CreditLimitvalue  > 0 && CreditStatus == 2 ){
-  setShowAlertToster(1);
-   setShowMeassage("Credit Limit is On Hold Please Contact TPA Department..!!");
+   setShowMeassage("Insurance Credit has No Limit Please conatct TPA office..!!");
    return
  }
+ if(CreditLimitvalue  > 0 && CreditStatus == 2  ){
+  setShowAlertToster(1);
+   setShowMeassage("Credit Limit is On Hold Please Contact TPA office..!!");
+   return
+ }
+ else if (CreditLimitCompany && CreditStatus === 3){
+  setBalanceAmount(totalSum);
+  setShowAlertToster(1);
+  setShowMeassage("Insurance is Closed Please Contact TPA Office..!!");
+  return
+}
 
- if(CreditLimitvalue  > 0  ){
+// Bill logic if the credit is greater than the billing payable amount and paid amont is zero
+
+ if(CreditLimitvalue  > totalSum && IsCashless === true ){
+  let PName = document.getElementById("PName").value 
   const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
- const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' || item.itemQuantity === 0);
+ const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
 
- if(UHID == '' || undefined || null || CreditLimitvalue == undefined || advanceLimit == undefined){
+ if(UHID.trim() == '' || undefined || null ){
       setShowAlertToster(1);
       setShowMeassage("UHID is required");
       return;
      }
-  
+     if(PName == '' || undefined || null){
+      setShowAlertToster(1);
+      setShowMeassage("UHID is not valid");
+      return;
+     }
 
      if (isEmpty) {
       setShowAlertToster(1);
@@ -665,17 +1353,19 @@ console.log("Total Amount" , balanceAmount)
         setShowMeassage("Please Enter Item Quantity");
         return;
       }
+    
 
       if (UHID != 0) {
 
         const uhid = UHID;
         const billTypeId = 2
-        const TotalAmount = totalSum;
-        const TotalBalanceAmount = totalSum;
+        const TotalAmount = actualTotalAmount;
+        const TotalBalanceAmount = balanceAmount;
         const TotalDiscount = totalDiscountSum;
-        const TotalPaybleAmount = 0;
-        const TotalPaidAmount = totalPaidAmount;
+        const TotalPaybleAmount = payableAmount;
+        const TotalPaidAmount = 0;
         const  tpaCompanyID = CreditLimit[0]?.tpaCompanyID || 0;
+        const companyID = CreditLimitInsuranceID
         const  tpaReferenceNo = CreditLimit[0]?.cardNo || 0;
 
         //let totalBalanceAmount = TotalPaybleAmount;
@@ -695,6 +1385,7 @@ console.log("Total Amount" , balanceAmount)
             return;
           }
         }
+      
     
         const UserID = window.userId == "" || "undefined" ? 0 : window.userId;
        
@@ -731,50 +1422,204 @@ console.log("Total Amount" , balanceAmount)
                    ChequeDate,
                    trustTypeId,
                    tpaCompanyID,
-                   tpaReferenceNo
+                   tpaReferenceNo,
+                   companyID
                         
        };
   
-        console.log("saveBillingData22", saveBillingData);
+       
         let responseData = await saveBillingDetails(saveBillingData);
-        console.log('biliii ::' ,responseData);
+       
         let billNumber = responseData.responseValue[0].billNumber;
-        handlePrintBill(billNumber);
+        setShowSuccessToster(1)
+        setShowMeassage("Data Saved Successfully..!")
+        
         clearBillingData();
         
           setPatientDetails([])
      
       } 
   return;
-    }
-
-    if(advanceLimit > 0 && advanceLimit < payableAmount){
-      setShowAlertToster(1);
-      setShowMeassage("Advacne Amount Exceeded..!!");
-      return;
-    }
-if (advanceLimit > 0 && advanceStatus == 2){
+   }
+   
+else if (CreditLimitCompany && CreditStatus == 2){
+  setBalanceAmount(totalSum);
   setShowAlertToster(1);
-  setShowMeassage("Advance is On Hold..!!");
-  return
-}
-if(advanceLimit < 0){
-  setShowAlertToster(1);
-  setShowMeassage("Insuffience Amout");
-  return
+  setShowMeassage("Please Contact TPA Office..!!");
+  return;
 }
 
- if (advanceLimit > 0 && CreditLimitvalue == 0){
+// Bill logic if the credit is less than the billing payable amount and paid amont is equal to payable amount
+
+if(CreditLimitCompany && CreditLimitvalue < totalSum && IsCashless === true && Paid === payableAmount){
   const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
-  const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' || item.itemQuantity === 0);
+ const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
+ let Bycard = document.getElementById("byCard").value 
+ let PName = document.getElementById("PName").value
+let Bycheque = document.getElementById("chequeNo").value 
+let Online = document.getElementById("refNo").value 
+let Bank = document.getElementById("selectBank").value
+let Paid = document.getElementById("totalPaidAmount").value;
+let chequeDate = document.getElementById("chequeDate").value 
+    let Paymenttype = document.getElementById("Payment").value;
+
+ if(UHID.trim() == '' || undefined || null ){
+      setShowAlertToster(1);
+      setShowMeassage("UHID is required");
+      return;
+     }
+     if(PName == '' || undefined || null){
+      setShowAlertToster(1);
+      setShowMeassage("UHID is not valid");
+      return;
+     }
+
+     if (isEmpty) {
+      setShowAlertToster(1);
+      setShowMeassage("Item Name is required");
+      return;
+       }
+       if (isitemQuantityValid) {
+        setShowAlertToster(1);
+        setShowMeassage("Please Enter Item Quantity");
+        return;
+      }
+      if (isPaymentDisabled === false  && Paymenttype === '0') {
+        setShowAlertToster(1);
+        setShowMeassage("Select Payment Mode");
+       
+        return;
+      }
  
+    
+    if (isPaymentDisabled === false && Paymenttype === "2" && Bycard === "") {
+        setShowAlertToster(1);
+        setShowMeassage("Please Enter Card Number..!!");
+        return;
+    }
+    
+    if (isPaymentDisabled === false && Paymenttype === "3" && (Bank === "0" || chequeNo === "")) {
+        setShowAlertToster(1);
+        setShowMeassage("Please Select Bank and Enter Cheque Number..!!");
+        return;
+    }
+    
+    if (isPaymentDisabled === false && Paymenttype === "3" && chequeNo === "") {
+        setShowAlertToster(1);
+        setShowMeassage("Please Enter Cheque Number..!!");
+        return;
+    }
+    
+    if (isPaymentDisabled === false && Paymenttype === "3" && chequeDate === "") {
+        setShowAlertToster(1);
+        setShowMeassage("Please Enter Cheque Date..!!");
+        return;
+    }
+
+
+
+      if (UHID != 0) {
+
+        const uhid = UHID;
+        const billTypeId = 2
+        const TotalAmount = totalSum;
+        const TotalBalanceAmount = CreditLimitvalue;
+        const TotalDiscount = totalDiscountSum;
+        const TotalPaybleAmount = payableAmount;
+        const TotalPaidAmount = Paid;
+        const  tpaCompanyID = CreditLimit[0]?.tpaCompanyID || 0;
+        const companyID = CreditLimitInsuranceID
+        const  tpaReferenceNo = CreditLimit[0]?.cardNo || 0;
+
+
+        let DiscountRemark =null;
+        if(TotalDiscount.length > 0){
+          DiscountRemark = discountBy;
+          if(DiscountRemark === null){
+            alert("Enter Discount Remark!");
+            return;
+          }
+        }
+      
+    
+        const UserID = userID;
+       
+        const PaymentMode = pamentMode;
+        const PaymentTransactionNumber = refNo;
+        const JsonData = JSON.stringify(saveRow);
+        
+        
+        const cardNo = (byCard = "undefined" ? null : byCard);
+        
+        const bankId = ddlBank;
+        const ChequeNo = chequeNo;
+        const ChequeDate = chequeDate;
+        const trustTypeId = ddlTrusBill
+        
+  
+        let saveBillingData = {
+
+                   uhid,
+                   billTypeId,
+                   TotalAmount,
+                   TotalDiscount,
+                   TotalPaybleAmount,
+                   TotalPaidAmount,
+                   TotalBalanceAmount,
+                   DiscountRemark,
+                   UserID,
+                   PaymentMode,
+                   PaymentTransactionNumber,
+                   JsonData,
+                   cardNo,
+                   bankId,
+                   ChequeNo,
+                   ChequeDate,
+                   trustTypeId,
+                   tpaCompanyID,
+                   tpaReferenceNo,
+                   companyID
+                        
+       };
+  
+      
+        let responseData = await saveBillingDetails(saveBillingData);
+       
+        let billNumber = responseData.responseValue[0].billNumber;
+        setShowSuccessToster(1)
+        setShowMeassage("Data Saved Successfully..!")
+        clearBillingData();
+        
+          setPatientDetails([])
+     
+      } 
+  return;
+}
+
+// if(InsuranceCompanyId  !== 0 && CreditLimit  == 0){
+//   setShowAlertToster(1);
+//    setShowMeassage("Credit Limit is Zero");
+//    return
+//  }
+
+
+
+if (advanceLimit >= payableAmount && advanceStatus == 1  ){
+  const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+  const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
+  let PName = document.getElementById("PName").value 
   if(UHID == '' || undefined || null){
 
        setShowAlertToster(1);
        setShowMeassage("UHID is required");
        return;
       }
-   
+      if(PName == '' || undefined || null){
+        setShowAlertToster(1);
+        setShowMeassage("UHID is not valid");
+        return;
+       }
+
  
       if (isEmpty) {
        setShowAlertToster(1);
@@ -792,17 +1637,17 @@ if(advanceLimit < 0){
        
        if (UHID != 0) {
 
-         const uhid = UHID;
-         const billTypeId = 3
-          const TotalAmount = totalSum;
-         const TotalBalanceAmount = 0;
-         const TotalDiscount = totalDiscountSum;
-         const TotalPaybleAmount = totalSum;
-         const TotalPaidAmount = totalPaidAmount;
-     
-       
-        
-     
+        const uhid = UHID;
+        const billTypeId = 3 
+        const insauranceCardNo = insCardNo;
+        const CreditTypeId = ddlBillType;
+        const CompanyId = ddlCompany;
+        const TotalAmount = actualTotalAmount;
+        const TotalDiscount = totalDiscountSum;
+        const TotalPaybleAmount = payableAmount;
+        const TotalPaidAmount = 0;
+        const tpaReferenceNo = PolicyNo
+        const TotalBalanceAmount = 0;
       
           let totalBalanceAmount = 0;
           if(TotalPaidAmount < TotalPaybleAmount)
@@ -821,9 +1666,9 @@ if(advanceLimit < 0){
             }
           }
      
-         const UserID = window.userId == "" || "undefined" ? 0 : window.userId;
+          const UserID = userID;
  
-         const PaymentMode = pamentMode;
+         const PaymentMode = 0;
          const PaymentTransactionNumber = refNo;
          const JsonData = JSON.stringify(saveRow);
          
@@ -840,6 +1685,8 @@ if(advanceLimit < 0){
  
                     uhid,
                     billTypeId,
+                    CompanyId,
+                    tpaReferenceNo,
                     TotalAmount,
                     TotalDiscount,
                     TotalPaybleAmount,
@@ -858,9 +1705,9 @@ if(advanceLimit < 0){
                          
         };
    
-         console.log("saveBillingData22", saveBillingData);
+       
          let responseData = await saveBillingDetails(saveBillingData);
-         console.log('biliii ::' ,responseData);
+        
          let billNumber = responseData.responseValue[0].billNumber;
          handlePrintBill(billNumber);
          clearBillingData();
@@ -868,18 +1715,505 @@ if(advanceLimit < 0){
          
 
        } 
- 
+ return;
 }
 
-// if(CreditLimitvalue <= 0 &&  InsuranceCompany ){
-// alert('Error')
-// }
+if(advanceLimit && advanceStatus == 2){
+  
+  
+    let Bycard = document.getElementById("byCard").value 
+    let PName = document.getElementById("PName").value
+    let Bycheque = document.getElementById("chequeNo").value 
+    let Online = document.getElementById("refNo").value 
+    let Bank = document.getElementById("selectBank").value
+    let Paid = document.getElementById("totalPaidAmount").value;
+    let chequeDate = document.getElementById("chequeDate").value 
+        let Paymenttype = document.getElementById("Payment").value;
+            const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+            const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
+        
+        
+           if(UHID == '' || undefined || null){
+            setShowAlertToster(1);
+            setShowMeassage("UHID is required");
+            return;
+           }
+           if(PName == '' || undefined || null){
+            setShowAlertToster(1);
+            setShowMeassage("UHID is not valid");
+            return;
+           }
+      
+           if (isEmpty) {
+            setShowAlertToster(1);
+            setShowMeassage("Item Name is required");
+            return;
+             }
+             if (isitemQuantityValid) {
+              setShowAlertToster(1);
+              setShowMeassage("Please Enter Item Quantity");
+              return;
+            }
+  
+  
+  
+  if (isPaymentDisabled === false && (Paymenttype === "0" || Paymenttype == "")) {
+    setShowAlertToster(1);
+    setShowMeassage("Select Payment Mode");
+   
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "2" && Bycard === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Card Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && (Bank === "0" || chequeNo === "")) {
+    setShowAlertToster(1);
+    setShowMeassage("Please Select Bank and Enter Cheque Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && chequeNo === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Cheque Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && chequeDate === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Cheque Date..!!");
+    return;
+  }
+  
 
-  else{
+  
+            
+            if (UHID != 0) {
+              const uhid = UHID;
+              const billTypeId = 1
+              const insauranceCardNo = insCardNo;
+              const CreditTypeId = ddlBillType;
+              const CompanyId = ddlCompany;
+              const TotalAmount = totalSum;
+              const TotalDiscount = totalDiscountSum;
+              const TotalPaybleAmount = payableAmount;
+              const TotalPaidAmount = Paid;
+              const tpaReferenceNo = PolicyNo
+              const TotalBalanceAmount = 0;
+            
+             
+    
+         
+              let DiscountRemark =null;
+              if(TotalDiscount.length > 0){
+                DiscountRemark = discountBy;
+                if(DiscountRemark === null){
+                  alert("Enter Discount Remark!");
+                  return;
+                }
+              }
+          
+              const UserID = userID;
+              const PaymentMode = pamentMode;
+              const PaymentTransactionNumber = refNo;
+              const JsonData = JSON.stringify(saveRow);
+              
+              
+              const cardNo = (byCard = "undefined" ? null : byCard);
+              
+              const bankId = ddlBank;
+              const ChequeNo = chequeNo;
+              const ChequeDate = chequeDate;
+              const trustTypeId = ddlTrusBill
+              
+        
+              let saveBillingData = {
+                uhid,
+                billTypeId,
+                CompanyId,
+                TotalAmount,
+                TotalDiscount,
+                TotalPaybleAmount,
+                TotalPaidAmount,
+                TotalBalanceAmount,
+                DiscountRemark,
+                UserID,
+                PaymentMode,
+                PaymentTransactionNumber,
+                JsonData,
+                cardNo,
+                bankId,
+                ChequeNo,
+                ChequeDate,
+                trustTypeId,
+                tpaReferenceNo,
+           
+                      
+              };
+        
+            
+              let responseData = await saveBillingDetails(saveBillingData);
+             
+              let billNumber = responseData.responseValue[0].billNumber;
+              handlePrintBill(billNumber);
+              clearBillingData();
+              setPatientDetails([])
+           
+            } 
+}
+
+
+if(advanceStatus == 1 && advanceLimit < payableAmount && IsCashless === false){
+ 
+  
+    let Bycard = document.getElementById("byCard").value 
+    let PName = document.getElementById("PName").value
+    let Bycheque = document.getElementById("chequeNo").value 
+    let Online = document.getElementById("refNo").value 
+    let Bank = document.getElementById("selectBank").value
+    let Paid = document.getElementById("totalPaidAmount").value;
+    let chequeDate = document.getElementById("chequeDate").value 
+        let Paymenttype = document.getElementById("Payment").value;
+            const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+            const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
+        
+        
+           if(UHID == '' || undefined || null){
+            setShowAlertToster(1);
+            setShowMeassage("UHID is required");
+            return;
+           }
+           if(PName == '' || undefined || null){
+            setShowAlertToster(1);
+            setShowMeassage("UHID is not valid");
+            return;
+           }
+      
+           if (isEmpty) {
+            setShowAlertToster(1);
+            setShowMeassage("Item Name is required");
+            return;
+             }
+             if (isitemQuantityValid) {
+              setShowAlertToster(1);
+              setShowMeassage("Please Enter Item Quantity");
+              return;
+            }
+  
+
+  
+  
+  if (isPaymentDisabled === false && (Paymenttype === "0" || Paymenttype == "")) {
+    setShowAlertToster(1);
+    setShowMeassage("Select Payment Mode");
+
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "2" && Bycard === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Card Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && (Bank === "0" || chequeNo === "")) {
+    setShowAlertToster(1);
+    setShowMeassage("Please Select Bank and Enter Cheque Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && chequeNo === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Cheque Number..!!");
+    return;
+  }
+  
+  if (isPaymentDisabled === false && Paymenttype === "3" && chequeDate === "") {
+    setShowAlertToster(1);
+    setShowMeassage("Please Enter Cheque Date..!!");
+    return;
+  }
+ 
+  
+            
+            if (UHID != 0) {
+              const uhid = UHID;
+              const billTypeId = 3
+              const insauranceCardNo = insCardNo;
+              const CreditTypeId = ddlBillType;
+              const CompanyId = ddlCompany;
+              const TotalAmount = totalSum;
+              const TotalDiscount = totalDiscountSum;
+              const TotalPaybleAmount = payableAmount;
+              const TotalPaidAmount = Paid;
+              const tpaReferenceNo = PolicyNo
+              const TotalBalanceAmount = 0;
+            
+             
+    
+         
+              let DiscountRemark =null;
+              if(TotalDiscount.length > 0){
+                DiscountRemark = discountBy;
+                if(DiscountRemark === null){
+                  alert("Enter Discount Remark!");
+                  return;
+                }
+              }
+          
+              const UserID = userID;
+              const PaymentMode = pamentMode;
+              const PaymentTransactionNumber = refNo;
+              const JsonData = JSON.stringify(saveRow);
+              
+              
+              const cardNo = (byCard = "undefined" ? null : byCard);
+              
+              const bankId = ddlBank;
+              const ChequeNo = chequeNo;
+              const ChequeDate = chequeDate;
+              const trustTypeId = ddlTrusBill
+              
+        
+              let saveBillingData = {
+                uhid,
+                billTypeId,
+                CompanyId,
+                TotalAmount,
+                TotalDiscount,
+                TotalPaybleAmount,
+                TotalPaidAmount,
+                TotalBalanceAmount,
+                DiscountRemark,
+                UserID,
+                PaymentMode,
+                PaymentTransactionNumber,
+                JsonData,
+                cardNo,
+                bankId,
+                ChequeNo,
+                ChequeDate,
+                trustTypeId,
+                tpaReferenceNo,
+           
+                      
+              };
+        
+             
+              let responseData = await saveBillingDetails(saveBillingData);
+              
+              let billNumber = responseData.responseValue[0].billNumber;
+              handlePrintBill(billNumber);
+              clearBillingData();
+              setPatientDetails([])
+           
+            } 
+  
+  
+
+}
+
+if ( advanceStatus !== 1 && IsCashless === false ){
+  
+  let Bycard = document.getElementById("byCard").value 
+  let PName = document.getElementById("PName").value
+  let Bycheque = document.getElementById("chequeNo").value 
+  let Online = document.getElementById("refNo").value 
+  let Bank = document.getElementById("selectBank").value
+  let Paid = document.getElementById("totalPaidAmount").value;
+  let chequeDate = document.getElementById("chequeDate").value 
+      let Paymenttype = document.getElementById("Payment").value;
+          const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
+          const isitemQuantityValid = saveRow.some((item) => item.itemQuantity === '' ||  !item.itemQuantity ||item.itemQuantity === 0);
+      
+      
+         if(UHID == '' || undefined || null){
+          setShowAlertToster(1);
+          setShowMeassage("UHID is required");
+          return;
+         }
+         if(PName == '' || undefined || null){
+          setShowAlertToster(1);
+          setShowMeassage("UHID is not valid");
+          return;
+         }
+    
+         if (isEmpty) {
+          setShowAlertToster(1);
+          setShowMeassage("Item Name is required");
+          return;
+           }
+           if (isitemQuantityValid) {
+            setShowAlertToster(1);
+            setShowMeassage("Please Enter Item Quantity");
+            return;
+          }
+
+          if (IsPaidDisable === false && Paid === "") {
+            setShowAlertToster(1);
+            setShowMeassage("Please Enter Paid Amount..!")
+            return;
+          }
+          
+          if (IsPaidDisable === false && Paid < payableAmount) {
+            setShowAlertToster(1);
+            setShowMeassage("Paid Amount should not be less than Payable Amount..!")
+            return;
+          }
+          if (IsPaidDisable === false && Paid > payableAmount) {
+            setShowAlertToster(1);
+            setShowMeassage("Paid Amount should not be greater than Payable Amount..!")
+            
+            return;
+          }
+          if (IsPaidDisable === false && Paid > payableAmount) {
+            setShowAlertToster(1);
+            setShowMeassage("Paid Amount should not be greater than Payable Amount..!")
+           
+            return;
+          }
+          if (IsPaidDisable === false && Paid < 0) {
+            setShowAlertToster(1);
+            setShowMeassage("Paid Amount should not in Negative..!")
+            return;
+          }
+
+
+if (isPaymentDisabled === false && (Paymenttype === "0" || Paymenttype == "")) {
+  setShowAlertToster(1);
+  setShowMeassage("Select Payment Mode");
+
+  return;
+}
+
+if (isPaymentDisabled === false && Paymenttype === "2" && Bycard === "") {
+  setShowAlertToster(1);
+  setShowMeassage("Please Enter Card Number..!!");
+  return;
+}
+
+if (isPaymentDisabled === false && Paymenttype === "3" && (Bank === "0" || chequeNo === "")) {
+  setShowAlertToster(1);
+  setShowMeassage("Please Select Bank and Enter Cheque Number..!!");
+  return;
+}
+
+if (isPaymentDisabled === false && Paymenttype === "3" && chequeNo === "") {
+  setShowAlertToster(1);
+  setShowMeassage("Please Enter Cheque Number..!!");
+  return;
+}
+
+if (isPaymentDisabled === false && Paymenttype === "3" && chequeDate === "") {
+  setShowAlertToster(1);
+  setShowMeassage("Please Enter Cheque Date..!!");
+  return;
+}
+
+if(Paid > payableAmount){
+  setShowAlertToster(1);
+  setShowMeassage("Paid Amount should not be greater than Payable Amount..!!");
+  
+  return;
+};
+
+if (Paid.includes("-") || Paid.includes("+")) {
+  setShowAlertToster(1);
+  setShowMeassage('Paid Amount should not be in negative..!!');
+ 
+  return;
+}
+
+          
+          if (UHID != 0) {
+            const uhid = UHID;
+            const billTypeId = 1 
+            const insauranceCardNo = insCardNo;
+            const CreditTypeId = ddlBillType;
+            const CompanyId = ddlCompany;
+            const TotalAmount = totalSum;
+            const TotalDiscount = totalDiscountSum;
+            const TotalPaybleAmount = payableAmount;
+            const TotalPaidAmount = Paid;
+            const tpaReferenceNo = PolicyNo
+            const TotalBalanceAmount = 0;
+          
+           
+  
+       
+            let DiscountRemark =null;
+            if(TotalDiscount.length > 0){
+              DiscountRemark = discountBy;
+              if(DiscountRemark === null){
+                alert("Enter Discount Remark!");
+                return;
+              }
+            }
+        
+            const UserID = userID;
+            const PaymentMode = pamentMode;
+            const PaymentTransactionNumber = refNo;
+            const JsonData = JSON.stringify(saveRow);
+            
+            
+            const cardNo = (byCard = "undefined" ? null : byCard);
+            
+            const bankId = ddlBank;
+            const ChequeNo = chequeNo;
+            const ChequeDate = chequeDate;
+            const trustTypeId = ddlTrusBill
+            
+      
+            let saveBillingData = {
+              uhid,
+              billTypeId,
+              CompanyId,
+              TotalAmount,
+              TotalDiscount,
+              TotalPaybleAmount,
+              TotalPaidAmount,
+              TotalBalanceAmount,
+              DiscountRemark,
+              UserID,
+              PaymentMode,
+              PaymentTransactionNumber,
+              JsonData,
+              cardNo,
+              bankId,
+              ChequeNo,
+              ChequeDate,
+              trustTypeId,
+              tpaReferenceNo,
+         
+                    
+            };
+      
+           
+            let responseData = await saveBillingDetails(saveBillingData);
+     
+            let billNumber = responseData.responseValue[0].billNumber;
+            handlePrintBill(billNumber);
+            clearBillingData();
+            setPatientDetails([])
+         
+          } 
+
+
+}
+
+
+
+else if(IsCashless === false && advanceLimit === 0 && !CreditLimitCompany){
+
 let Bycard = document.getElementById("byCard").value 
 let Bycheque = document.getElementById("chequeNo").value 
+let PName = document.getElementById("PName").value 
 let Online = document.getElementById("refNo").value 
 let Bank = document.getElementById("selectBank").value
+let Paid = document.getElementById("totalPaidAmount").value;
 let chequeDate = document.getElementById("chequeDate").value 
     let Paymenttype = document.getElementById("Payment").value;
         const isEmpty = saveRow.some((item) => !item.itemName || item.itemName === "");
@@ -891,17 +2225,12 @@ let chequeDate = document.getElementById("chequeDate").value
         setShowMeassage("UHID is required");
         return;
        }
-    
-    //  if(document.getElementById("Company").checked && PolicyNo === ''){
-    //   setShowAlertToster(1);
-    //   setShowMeassage("Policy No Is Required");
-    //   return;
-    //  }
-    //  if(document.getElementById("Company").checked && PolicyNo.length < 5){
-    //   setShowAlertToster(1);
-    //   setShowMeassage("Policy number is not valid");
-    //   return;
-    //  }
+       if(PName == '' || undefined || null){
+        setShowAlertToster(1);
+        setShowMeassage("UHID is not valid");
+        return;
+       }
+
        if (isEmpty) {
         setShowAlertToster(1);
         setShowMeassage("Item Name is required");
@@ -912,51 +2241,59 @@ let chequeDate = document.getElementById("chequeDate").value
           setShowMeassage("Please Enter Item Quantity");
           return;
         }
-      //  if(Paymenttype =='' || Paymenttype == 0){
-      //   setShowAlertToster(1);
-      //     setShowMeassage("Select Payment Mode");
-      //   return;
-      // }
+ 
      
     
-        if(document.getElementById("Company").checked && isEmpty){
-          setShowAlertToster(1);
-          setShowMeassage("Item Name is required");
-          return;
-         }
-        if( CreditLimitvalue == 0){
-          setisPaymentDisabled(false)
-       
-         }
-         if(Paymenttype =='' || Paymenttype == 0){
+
+        // if( CreditLimitvalue == 0){
+        //   setisPaymentDisabled(false)
+        //  }
+   
+    
+
+
+        if (isPaymentDisabled === false && (Paymenttype === "0" || Paymenttype == "")) {
           setShowAlertToster(1);
           setShowMeassage("Select Payment Mode");
+         
           return;
         }
-         if(Paymenttype == "2" && Bycard == ""){
+      
+      if (isPaymentDisabled === false && Paymenttype === "2" && Bycard === "") {
           setShowAlertToster(1);
           setShowMeassage("Please Enter Card Number..!!");
           return;
-       
-        }
-         if(Paymenttype == "3" && Bank == "0" && chequeNo == "" ){
+      }
+      
+      if (isPaymentDisabled === false && Paymenttype === "3" && (Bank === "0" || chequeNo === "")) {
           setShowAlertToster(1);
-          setShowMeassage("Please Select Bank..!!");
+          setShowMeassage("Please Select Bank and Enter Cheque Number..!!");
           return;
-       
-        }
-         if(Paymenttype == "3"  && chequeNo == ""){
+      }
+      
+      if (isPaymentDisabled === false && Paymenttype === "3" && chequeNo === "") {
           setShowAlertToster(1);
           setShowMeassage("Please Enter Cheque Number..!!");
           return;
-       
-        }
-         if(Paymenttype == "3"  && chequeDate == ""){
+      }
+      
+      if (isPaymentDisabled === false && Paymenttype === "3" && chequeDate === "") {
           setShowAlertToster(1);
           setShowMeassage("Please Enter Cheque Date..!!");
           return;
+      }
+      if(Paid > payableAmount){
+        setShowAlertToster(1);
+        setShowMeassage("Paid Amount should not be greater than Payable Amount..!!");
+        
+        return;
+      }
+      if (Paid.includes("-") || Paid.includes("+")) {
+        setShowAlertToster(1);
+        setShowMeassage('Paid Amount should not be in negative..!!');
        
-        }
+        return;
+    }
         
         if (UHID != 0) {
           const uhid = UHID;
@@ -967,19 +2304,10 @@ let chequeDate = document.getElementById("chequeDate").value
           const TotalAmount = totalSum;
           const TotalDiscount = totalDiscountSum;
           const TotalPaybleAmount = payableAmount;
-          const TotalPaidAmount = totalPaidAmount;
+          const TotalPaidAmount = Paid;
           const tpaReferenceNo = PolicyNo
-        
-         
-      
-          let totalBalanceAmount = 0;
-          if(TotalPaidAmount < TotalPaybleAmount)
-          {
-            totalBalanceAmount = TotalPaybleAmount-TotalPaidAmount;
-          }else{
-            totalBalanceAmount = 0;
-          }
-          const TotalBalanceAmount = totalBalanceAmount;
+          const TotalBalanceAmount = payableAmount - TotalPaidAmount;
+
           let DiscountRemark =null;
           if(TotalDiscount.length > 0){
             DiscountRemark = discountBy;
@@ -989,7 +2317,7 @@ let chequeDate = document.getElementById("chequeDate").value
             }
           }
       
-          const UserID = window.userId == "" || "undefined" ? 0 : window.userId;
+          const UserID = userID;
           const PaymentMode = pamentMode;
           const PaymentTransactionNumber = refNo;
           const JsonData = JSON.stringify(saveRow);
@@ -1027,9 +2355,9 @@ let chequeDate = document.getElementById("chequeDate").value
                   
           };
     
-          console.log("saveBillingData22", saveBillingData);
+          
           let responseData = await saveBillingDetails(saveBillingData);
-          console.log('biliii ::' ,responseData);
+          
           let billNumber = responseData.responseValue[0].billNumber;
           handlePrintBill(billNumber);
           clearBillingData();
@@ -1043,12 +2371,13 @@ let chequeDate = document.getElementById("chequeDate").value
 
   //*******Print */
   let handlePrintBill = async (billNumber) => {
-    console.log('Bill No ::' ,billNumber );
+
+  
     let data = await PatientDetail(UHID, billNumber);
-    console.log('data' , data.responseValue)
+  
     if (data.status === 1) {
       window.sessionStorage.setItem(
-        "PringBillingDetails",
+        "PrintBillingDetails",
         JSON.stringify(data.responseValue)
       );
       window.open("/billingcahcounterprint/", "noopener,noreferrer");
@@ -1056,15 +2385,17 @@ let chequeDate = document.getElementById("chequeDate").value
      
     } else {
       setShowAlertToster(1);
-      setShowMeassage("UHID is not Valid");
+      setShowMeassage("UHID is not valid");
     }
    
     
   };
 
+ 
+
   let insuranceCompanyName = CreditLimit[0]?.companyname || '';
   let CardNo = CreditLimit[0]?.cardNo || '';
-  // console.log("InsuranceCompanyName",insuranceCompanyName)
+
   return (
     <>
       <section className="main-content mt-5 pt-3">
@@ -1073,6 +2404,7 @@ let chequeDate = document.getElementById("chequeDate").value
             <div class="col-12"><div class="med-box  mb-1"><div class="title">Billing</div></div></div>
             <div className="col-12">
               <div className="med-box">
+
                 <div className="inner-content" style={{paddingRight: '22px'}}>
                   <div className="row">
                 
@@ -1083,7 +2415,7 @@ let chequeDate = document.getElementById("chequeDate").value
                   <span className='fieldse'>Patient Details</span>
                   <div className="row">
               
-                  <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 mb-3">
+                  <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3">
                           <img src={Page} alt=''/>{" "}
                           <label for="UHID" class="form-label">
                             UHID <span class="starMandatory">*</span>
@@ -1093,7 +2425,8 @@ let chequeDate = document.getElementById("chequeDate").value
                             type="text"
                             class="form-control form-control-sm ms-2"
                             id="UHID"
-                            placeholder="Enter UHID"
+                            value={UHID}
+                            placeholder="UHID"
                             name="UHID"
                             maxLength={11}
                             onChange={handleUhidEvent}
@@ -1104,21 +2437,21 @@ let chequeDate = document.getElementById("chequeDate").value
        
               
                                 
-                                <div className="col-xxl-4 col-xl-3 col-lg-4 col-md-6 mb-3 mt-1">
+                                <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3 mt-1">
                                 <div className="mb-2">
                                 <div className="d-flex align-items-baseline">
-                                <img src={user3} className='icnn' alt='' /><label htmlFor="FullName*" className="form-label">Patient Full Name</label>
+                                <img src={user3} className='icnn' alt='' /><label htmlFor="FullName*" className="form-label">Patient Name</label>
                                 </div>
                                   
                                   <input type="text" className="form-control form-control-sm" id="PName" name="donor" placeholder="Patient Name" value=  {patientDetails.patientName} disabled />
                                 </div>
                               </div>
-                              <div className="col-xxl-4 col-xl-3 col-lg-4 col-md-6 mb-3 mt-1">
+                              <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3 mt-1">
                                 <div className="mb-2">
                                 <div className="d-flex align-items-baseline">
                                 <img src={category} className='icnn' alt='' /> <label htmlFor="gender" className="form-label">Gender</label>
                                 </div>
-                                <input type="text" className="form-control form-control-sm" id="Pgender" name="donor" placeholder="Patiet Gender" value=  {patientDetails.gender} disabled />
+                                <input type="text" className="form-control form-control-sm" id="Pgender" name="donor" placeholder="Gender" value=  {patientDetails.gender} disabled />
                          
                                   </div>
                                 </div>
@@ -1132,18 +2465,18 @@ let chequeDate = document.getElementById("chequeDate").value
                     
                     </div>
 
-                    <div className="row">
-                    <div className="col-xxl-4 col-xl-3 col-lg-4 col-md-6 mb-3">
+                    <div className="row ps-2">
+                    <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3">
                                 <div className="mb-2">
                                 <div className="d-flex align-items-baseline">
-                                <img src={question} className='icnn' alt='' /><label htmlFor="dob" className="form-label">Age <span className="starMandatory">*</span></label>
+                                <img src={question} className='icnn' alt='' /><label htmlFor="dob" className="form-label">Age</label>
                                 </div>
                                   
                                   <input type="text" className="form-control form-control-sm" id='PAge' name='regDate' value={patientDetails.age} placeholder="Age" disabled />
                                 </div>
                               </div>
           
-                              <div className="col-xxl-4 col-xl-3 col-lg-4 col-md-6 mb-3">
+                              <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3">
                                 <div className="mb-2">
                                 <div className='d-flex align-items-baseline'>
                                 <img src={medicalRoom} className='icnn' alt='' /><label htmlFor="bloodGroup" className="form-label">Ward</label>
@@ -1153,7 +2486,7 @@ let chequeDate = document.getElementById("chequeDate").value
                                 </div>
                               </div>
           
-                              <div className="col-xxl-4 col-xl-3 col-lg-4 col-md-6 mb-3">
+                              <div className="col-xxl-4 col-xl-4 col-lg-12 col-md-12 mb-3">
                                 <div className="mb-2">
                                 <div className='d-flex align-items-baseline'>
                                 <img src={imgDepartment} className='icnn' alt='' /><label htmlFor="identity" className="form-label">Department</label>
@@ -1173,15 +2506,15 @@ let chequeDate = document.getElementById("chequeDate").value
                
                
 <div className="col-md-6 mb-2 fieldsett mt-3">
-  <span class="fieldse">Patient Insurance Details</span>
+  <span class="fieldse">Patient Insurance and Deposit Details</span>
 
 
   <div className="mt-2 col-md-12 d-flex justify-content-between flex-wrap">
      <span class="badge rounded-pill text-bg-light">Insurance Company / Card No. :</span>
-  <span class="badge rounded-pill text-bg-info">{insuranceCompanyName == '' ? 'Not Eligible' : insuranceCompanyName } / {CardNo == '' ? 'Not Eligible' : CardNo}</span>
+  <span class="badge rounded-pill text-bg-info" style={{fontWeight: '600' , padding : '5px 10px'}}>{insuranceCompanyName == '' ? 'Not Eligible' : insuranceCompanyName } / {CardNo == '' ? 'Not Eligible' : CardNo}</span>
   </div>
- 
-  <table className="med-table border_ striped mt-3">
+ <div className="med-table-section ">
+ <table className="med-table border_ striped mt-3">
   <thead>
     <tr>
       <th>Type</th>
@@ -1200,7 +2533,7 @@ let chequeDate = document.getElementById("chequeDate").value
             <td>{val.totalActiveLimit == '' ? '0' :  val.totalActiveLimit}</td>
             <td>{val.remaining == '' ? '0' :  val.remaining}</td>
             <td>{val.totalUsedLimit == '' ? '0' :val.totalUsedLimit }</td>
-            <td className = {`${val.currentStatus == "1" ? "badge badge-success text-success" : val.currentStatus == "2" ? 'badge badge-danger text-danger' : ''}`}>{val.currentStatus == '' ? 'Not Eligible' : val.currentStatus == "1" ? 'Active' : val.currentStatus == "2" ? 'Hold' : 'Not Eligible'  }</td>
+            <td className = {`${val.currentStatus == "1" ? "badge badge-success text-success" : val.currentStatus == "2" ? 'badge badge-danger text-danger' : 'badge badge-danger text-danger'}`}>{val.currentStatusName}</td>
           </>
         ))
       ) : (
@@ -1237,6 +2570,9 @@ let chequeDate = document.getElementById("chequeDate").value
     </tr>
   </tbody>
 </table>
+ </div>
+
+
                           
             
 
@@ -1247,14 +2583,12 @@ let chequeDate = document.getElementById("chequeDate").value
                  
                 </div>
     
-              </div>
               
-            </div>
-          </div>
-
-          <div className="row mt-1">
-            <div className="col-12">
-              <div className="med-box">
+              
+              
+                <div className="col-12 p-2">
+              <div className="fieldsett">
+              <span className='fieldse'>Item/Service Details</span>
                 <div
                   className="med-table-section"
                   style={{ minHeight: "120px", overflow:"auto"}}
@@ -1263,14 +2597,14 @@ let chequeDate = document.getElementById("chequeDate").value
                     <thead>
                       <tr>
                         <th className="text-center">#</th>
-                        <th>Item</th>
-                        <th>Item Category</th>
-                        <th>Charges(Rs)</th>
-                        <th>Quantity</th>
+                        <th>Item <span style={{color : 'red'}}>*</span></th>
+                        {/* <th>Item Category <span style={{color : 'red'}}>*</span></th> */}
+                        <th>Charges <span style={{color : 'red'}}>*</span></th>
+                        <th>Quantity <span style={{color : 'red'}}>*</span></th>
                         <th id="discountperheading">Discount(%)</th>
-                        <th id="discountrupees">Discount(Rs)</th>
-                        <th>Total Amount(Rs)</th>
-                        <th>Status</th>
+                        <th id="discountrupees">Discount</th>
+                        <th>Total Amount</th>
+                        <th className="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1282,7 +2616,7 @@ let chequeDate = document.getElementById("chequeDate").value
                               <td>
                                 <input
                                   type="text"
-                               disabled = {isDisabled}
+                                 disabled = {IsItemDisable}
                                   placeholder="Item Name"
                                   id={`itemName${ind}`}
                                   value={
@@ -1315,7 +2649,7 @@ let chequeDate = document.getElementById("chequeDate").value
                                   ""
                                 )}
                               </td>
-                              <td>
+                              {/* <td>
                                 <input
                                   type="text"
                                   id={`categoryName${ind}`}
@@ -1323,14 +2657,14 @@ let chequeDate = document.getElementById("chequeDate").value
                                   disabled="true"
                                   value={val.categoryName}
                                 />
-                              </td>
+                              </td> */}
                               <td>
                                 <input
                                   type="text"
                                   className=""
                                   id={`itemCharge${ind}`}
                                   name="itemCharge"
-                                  placeholder="item Price"
+                                  placeholder="Item Charge"
                                   disabled="true"
                                   value={val.itemCharge}
                                 />
@@ -1339,13 +2673,13 @@ let chequeDate = document.getElementById("chequeDate").value
                                 <input
                                   type="number"
                                   className=""
-                                  placeholder="Enter Quantity"
+                                  placeholder="Quantity"
                                   id={`itemQuantity${ind}`}
                                   name="itemQuantity"
                                   min="0"
                                   value={val.itemQuantity}
                                   onChange={(e) => {
-                                    handleOnchangeNumbers(e, ind);
+                                    handleCalculations(e, ind);
                                   }}
                                 />
                               </td>
@@ -1358,11 +2692,12 @@ let chequeDate = document.getElementById("chequeDate").value
           placeholder="0.0"
           id={`discountPer${ind}`}
           value={val.discountPer}
-          name="discountPer"
+          name="Discount%"
+          disabled={IsDiscountDisable}
           min="0"
           onChange={(e) => {
-            handleOnchangeNumbers(e, ind);
-          }}
+            handleCalculations(e, ind);
+          }} 
         />
             </td>
       )}
@@ -1373,12 +2708,13 @@ let chequeDate = document.getElementById("chequeDate").value
    className=""
    placeholder="0.0"
    id={`discountRs${ind}`}
-   name="discountRs"
+   name="DiscountRs"
    value={val.discountRs}
+   disabled={IsDiscountDisable}
    onKeyDown={handleTabKey}
    min="0"
    onChange={(e) => {
-     handleOnchangeNumbers(e, ind);
+     handleCalculations(e, ind);
    }}
  />
 </td>
@@ -1395,20 +2731,16 @@ let chequeDate = document.getElementById("chequeDate").value
                                   value={val.totalAmount}
                                   min="0"
                                   onChange={(e) => {
-                                    handleOnchangeNumbers(e, ind);
+                                    handleCalculations(e, ind);
                                   }}
                                 />
                               </td>
                               <td>
                                 <div className="action-button">
                                   {" "}
-                                  <i
-                                    class="bi bi-trash3"
-                                    id={`removeRowId${ind}`}
-                                    onClick={() => {
-                                      removeRow(ind);
-                                    }}
-                                  ></i>
+                                  <button onKeyDown={handleTabKey} style={{background : 'none' , border: 'none' ,outline: 'none',}}><i class="bi bi-plus" onClick={handleAddRow} title="Add Item" ></i></button>
+                                 <i class="bi bi-trash3" title="Remove Item" onClick={() => { removeRow(ind)}} id={`removeRowId${ind}`}></i>
+                                 
                                 </div>
                               </td>
                             </tr>
@@ -1419,32 +2751,11 @@ let chequeDate = document.getElementById("chequeDate").value
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* 
-          showToaster */}
-
-          {/* {showToster === 1 ? (
-            <SuccessToster
-              handle={setShowToster}
-              message="Data Save SuccessFully !!"
-            />
-          ) : (
-            ""
-          )}
-
-          {showAlertToster === 1 ? (
-            <AlertToster handle={setShowAlertToster} message={showMessage} />
-          ) : (
-            ""
-          )} */}
-
-         
-
-          <div className="row">
+              
+            <div className="row pe-4 ps-2">
             <div className="col-md-6 mt-3">
-              <div className="med-box">
-                <div class="title">Transaction Details</div>
+              <div className="fieldsett">
+                <span className='fieldse'>Transaction Details</span>
                 <div className="inner-content">
                   <div class="mb-2" id="discountByRemark">
                     <label for="DiscountBy" class="form-label">
@@ -1465,19 +2776,13 @@ let chequeDate = document.getElementById("chequeDate").value
                       <img src={imgPaymentMode} alt=''/> Payment Mode{" "}
                       <span class="starMandatory">*</span>
                     </label>
-                    <select id="Payment" disabled={isPaymentDisabled}
-                      class="form-control form-control-sm"
-                      value={pamentMode}
-                      onChange={handlePaymentMode}
-                    >
+                    <select id="Payment" disabled={isPaymentDisabled} class="form-control form-control-sm" value={pamentMode} onChange={handlePaymentMode}  >
                       <option value="0" selected>Select Payment Mode</option>
-                      <option value="1">
-                        By Cash
-                      </option>
-                      <option value="2">By Card</option>
-                      <option value="3">By Cheque</option>
-                      <option value="4">By Online Payment</option>
-                      {/* <option value={0}>By Online Payment</option> */}
+                      {PaymentModeList && PaymentModeList.map((val,index)=>{
+                        return (
+                          <option key={index} value={val.id}>{val.paymentMethodName}</option>
+                        )
+                      })}
                     </select>
                   </div>
 
@@ -1490,7 +2795,7 @@ let chequeDate = document.getElementById("chequeDate").value
                       type="text"
                       class="form-control form-control-sm"
                       id="byCard"
-                      placeholder="Enter Card Number"
+                      placeholder="Transaction No."
                       name="byCard"
                       onChange={HandlePaymentDetails}
                     />
@@ -1576,7 +2881,7 @@ let chequeDate = document.getElementById("chequeDate").value
                           type="text"
                           class="form-control form-control-sm"
                           id="bnkCardNo"
-                          placeholder="Enter Card No."
+                          placeholder="Transaction No."
                           name="bnkCardNo"
                           onChange={HandlePaymentDetails}
                         />
@@ -1638,42 +2943,42 @@ return(
               </div>
             </div>
 
-            <div className="col-md-6 mt-3">
-              <div className="med-box">
-                <div class="title">Amount Details</div>
+            <div className="fieldsett col-md-6 mt-3 pe-2">
+              <div className="">
+                <span  className='fieldse'>Amount Details</span>
                 <div className="med-table-section">
                   <table className="med-table border-bottom border_ striped_ mt-1">
                     <tbody>
                       <tr>
                         <td>
-                          <b className="color546788">Total Amount(Rs)</b>
+                          <b className="color546788">Total Amount</b>
                         </td>
                         <td>
-                          <b className="color546788">{totalSum}</b>
+                          <b className="color546788">{totalSum || 0}</b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <b className="color546788">Total Discount(Rs)</b>
+                          <b className="color546788">Total Discount</b>
                         </td>
                         <td>
                           <b className="color546788">{totalDiscountSum}</b>
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        {/* <td>
                           <b className="color546788">Advance Amount(Rs)</b>
                         </td>
                         <td>
-                          <b className="color546788">{advanceAmount}</b>
-                        </td>
+                          <b className="color546788">{payableAmount}</b>
+                        </td> */}
                       </tr>
                       <tr>
                         <td>
-                          <b className="color546788">Balance Amount(Rs)</b>
+                          <b className="color546788">Balance Amount</b>
                         </td>
                         <td>
-                          <b className="color546788">{balanceAmount}</b>
+                          <b className="color546788">{balanceAmount || 0}</b>
                         </td>
                       </tr>
                       <tr>
@@ -1683,22 +2988,22 @@ return(
                           </b>
                         </td>
                         <td>
-                          <b className="color546788">{payableAmount}</b>
+                          <b className="color546788">{ totalSum || 0}</b>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <b className="color319731">Paid Amount(Rs)</b>
+                          <b className="color319731">Paid Amount</b>
                         </td>
                         <td>
                           <input
                             type="number"
                             id="totalPaidAmount"
                             name="totalPaidAmount"
-                            value={totalPaidAmount}
+                            disabled = {IsPaidDisable}
                             className="color319731"
-                            onChange={handlePaidAmount}
-                            disabled
+                           value={totalSum}
+                            
                           ></input>
                         </td>
                       </tr>
@@ -1708,10 +3013,9 @@ return(
               </div>
             </div>
           </div>
-
           <div className="row mt-1">
             <div className="col-12">
-              <div className="med-box">
+              <div className="">
                 <div class="inner-content text-right">
                   <div class="mb-2 mt-2 relative">
                     <div>
@@ -1730,26 +3034,42 @@ return(
                       >
                         <img src={imgReset} alt='' /> Reset
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         class="btn btn-clear btn-sm mb-1_ me-1"
                         onClick={handlePrintBill}
                       >
                         <img src={imgPrint} alt=''/> Last Print
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+              
+              </div>
+              
+            </div>
+          </div>
+
+   
+
+         
+
+       
+
+        
         </div>
+  
+    
+        
         {showAlertToster === 1 ? (
               <AlertToster message={showMessage} handle={setShowAlertToster} />
             ) : (
               ""
             )}
-            {showSuccessToster === 1 ? (
+           {showSuccessToster === 1 ? (
               <SuccessToster
                 message={showMessage}
                 handle={setShowSuccessToster}
