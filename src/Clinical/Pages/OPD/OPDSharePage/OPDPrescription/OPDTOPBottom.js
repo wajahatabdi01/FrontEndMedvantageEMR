@@ -17,6 +17,7 @@ import OPDPatientMessagePopUp from './FHIROPDPopUp/OPDPatientMessagePopUp';
 import OPDViewDiscloserRecord from './FHIROPDPopUp/OPDViewDiscloserRecord';
 import FHIRAddPrescription from '../../../../../FHIRPrescription/Pages/FHIRAddPrescription';
 import FHIRPrescreptionList from '../../../../../FHIRPrescription/Pages/FHIRPrescreptionList';
+import FHIRClinicalNotes from '../../../../../FHIRPrescription/Pages/FHIRClinicalNotes';
 
 export default function OPDTOPBottom(props) {
     document.body.dir = i18n.dir();
@@ -163,6 +164,10 @@ export default function OPDTOPBottom(props) {
             </div>
             <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
                 <span data-bs-toggle="modal" data-bs-target="#PrescriptionPop">{t("Prescription")} </span>
+
+            </div>
+            <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
+                <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes">{t("Clinical Notes Form")} </span>
 
             </div>
 
@@ -431,6 +436,27 @@ export default function OPDTOPBottom(props) {
                 </div>
             </div>
             {/* -----------------------------------------------------------------------End Prescription Plan --------------------------------------------- */}
+            {/* -----------------------------------------------------------------------Start ClinicalNotes Plan --------------------------------------------- */}
+
+            <div className="modal fade" id="ClinicalNotes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Prescription</h1>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                {/* --------------------------Problem Tab Section----------------------------------------------- */}
+                                <div class="tab-pane fade show active" id="problem" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
+                                    <FHIRClinicalNotes setShowToster={setShowToster} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* -----------------------------------------------------------------------End ClinicalNotes Plan --------------------------------------------- */}
 
             {
                 showToster === 1 ?
