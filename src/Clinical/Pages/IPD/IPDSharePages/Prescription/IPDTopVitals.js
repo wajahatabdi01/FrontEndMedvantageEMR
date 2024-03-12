@@ -497,6 +497,8 @@ export default function IPDTopVitals(props) {
                                                 <td>{list.classificationName}</td>
                                                 <td>{list.occuranceName}</td>
                                                 <td>{list.verificationName}</td>
+                                                <td>{list.severityName ? list.severityName : '--'}</td>
+                                                <td>{list.reactionTitle ? list.reactionTitle:'--'}</td>
                                                 <td>{list.outComeName}</td>
                                                 <td>
                                                     <div className="action-button">

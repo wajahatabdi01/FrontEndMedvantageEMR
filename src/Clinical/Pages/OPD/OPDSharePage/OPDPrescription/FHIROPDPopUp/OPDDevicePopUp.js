@@ -49,7 +49,12 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         referredby: '',
         comments: '',
         outcomeId: '0',
-        destination: ''
+        destination: '',
+        reactionId: 0,
+        severityId: 0,
+        allergyType: 0,
+        allergyTypeId: 0,
+        udi:''
     })
 
     let getAllIssueOutCome = async () => {
@@ -177,16 +182,22 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
     let handleClear = () => {
         setDeviceData({
             title: '',
+            titleId: 0,
             coding: '',
             beginDateTime: '',
             endDateTime: '',
-            classificationTypeId: '0',
-            occurrenceId: '0',
-            verificationStatusId: '0',
+            classificationTypeId: 0,
+            occurrenceId: 0,
+            verificationStatusId: 0,
             referredby: '',
             comments: '',
-            outcomeId: '0',
-            destination: ''
+            outcomeId: 0,
+            destination: '',
+            reactionId: 0,
+            severityId: 0,
+            allergyType: 0,
+            allergyTypeId: 0,
+            udi:''
         })
         setUpdateBool(0);
         setTxtCoding([]);
@@ -349,7 +360,17 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                         <small id="errTitleDev" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                     </div>
+
                 </div>
+                <div className="col-10 mb-2">
+                    <label htmlFor="name" className="form-label">UDI<span className="starMandatory"></span></label>
+                    <div style={{ position: 'relative' }}>
+                        <input type="text" value={deviceData.udi} className='form-control form-control-sm' name='udi' placeholder={t("Search")} onChange={handleTitleInputChange}/>
+                        <span className="udisericon"><i class="fas fa-search"></i> Process UDI</span>
+                    </div>
+                </div>
+
+
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
