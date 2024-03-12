@@ -58,18 +58,18 @@ export default function OPDTOPBottom(props) {
 
 
   // Active Menu
-let getopdvitalbottom = document.querySelectorAll('.opdvitalbottom');
+  let getopdvitalbottom = document.querySelectorAll('.opdvitalbottom');
 
-let getopdvitalbottomArray = Array.from(getopdvitalbottom);
-getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
-  
-  getopdvitalbottomArray.forEach((el) => el.classList.remove('active'));
-  
-  e.target.parentNode.classList.add('active');
-}));
+  let getopdvitalbottomArray = Array.from(getopdvitalbottom);
+  getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
+
+    getopdvitalbottomArray.forEach((el) => el.classList.remove('active'));
+
+    e.target.parentNode.classList.add('active');
+  }));
 
 
-  
+
 
   // let [saveData, setSavedata] = useState()
 
@@ -149,27 +149,27 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
   return (
     <>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer active">
-      <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem")}}>
+        <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem") }}>
           {t("Problem")}
-      </span>
+        </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span  onClick={() => { props.setActiveComponent("allergyId"); props.setShowTheButton(true); props.setIssueID(2); props.setHeadingName("Allergy")}}>
+        <span onClick={() => { props.setActiveComponent("allergyId"); props.setShowTheButton(true); props.setIssueID(2); props.setHeadingName("Allergy") }}>
           {t("Allergy")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("medicationId"); props.setShowTheButton(true); props.setIssueID(3); props.setHeadingName("Medication")}}>
+        <span onClick={() => { props.setActiveComponent("medicationId"); props.setShowTheButton(true); props.setIssueID(3); props.setHeadingName("Medication") }}>
           {t("Medication")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("deviceId"); props.setShowTheButton(true); props.setIssueID(4); props.setHeadingName("Device")}}>
+        <span onClick={() => { props.setActiveComponent("deviceId"); props.setShowTheButton(true); props.setIssueID(4); props.setHeadingName("Device") }}>
           {t("Device")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery")}}>
+        <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery") }}>
           {t("Surgery")}{" "}
         </span>
       </div>
@@ -187,7 +187,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID"  onClick={() => setFamilyHistory(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => setFamilyHistory(1)}>
           {t("Family History")}{" "}
         </span>
       </div>
@@ -219,9 +219,10 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes">
           {t("Clinical Notes Form")}{" "}</span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => setClinicalPres(1)}>
-          {t("Clinical Instructions")}{" "}
-        </span>
+          {t("Clinical Instructions")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => setFunctionalAndCog(1)}>
@@ -229,7 +230,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
-     
+
       {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
 
       {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
@@ -420,10 +421,10 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
               </button>
             </div>
             <div className="modal-body">
-              
-                  {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  {familyHistory === 1 ? (  <FHIRFamilyHistoryEdit    setShowToster={setShowToster}    setFamilyHistory={setFamilyHistory}  />) : (  "")}
-                
+
+              {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
+              {familyHistory === 1 ? (<FHIRFamilyHistoryEdit setShowToster={setShowToster} setFamilyHistory={setFamilyHistory} />) : ("")}
+
             </div>
           </div>
         </div>
@@ -448,7 +449,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                 <div class="tab-pane fade show active" id="careplan" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  <FHIRCarePlan patientUhid={activePatient} setShowCarePlan= {true}/>
+                  <FHIRCarePlan patientUhid={activePatient} setShowCarePlan={true} />
                 </div>
               </div>
             </div>
@@ -490,14 +491,14 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title text-white">Add Prescription</h4>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setPrecription(0); }}>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setPrecription(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{precription === 1 ? (  <FHIRAddPrescription    setShowToster={setShowToster}    setPrecription={setPrecription}  />) : (  "")}
+            <div class="modal-body">{precription === 1 ? (<FHIRAddPrescription setShowToster={setShowToster} setPrecription={setPrecription} />) : ("")}
             </div>
-            
+
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>
           <a href="##" class="btn btn-primary">Save changes</a>
@@ -509,7 +510,7 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       {/* -----------------------------------------------------------------------End Prescription Plan --------------------------------------------- */}
       {/* -----------------------------------------------------------------------Start ClinicalNotes Plan --------------------------------------------- */}
 
- 
+
       <div
         className="modal fade"
         id="ClinicalNotes"
@@ -523,16 +524,16 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
           <div className="modal-content ">
             <div className="modal-header">
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
-              Clinical Notes Form
+                Clinical Notes Form
               </h1>
               <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
-              <div class="tab-content" id="myTabContent">               
+              <div class="tab-content" id="myTabContent">
                 <FHIRClinicalNotes />
-               
+
               </div>
             </div>
           </div>
@@ -548,14 +549,14 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title text-white">Clinical Instructions</h4>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setClinicalPres(0); }}>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setClinicalPres(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{clinicalPres === 1 ? (  <ClinicalInstructions    setShowToster={setShowToster}    setClinicalPres={setClinicalPres}  />) : (  "")}
+            <div class="modal-body">{clinicalPres === 1 ? (<ClinicalInstructions setShowToster={setShowToster} setClinicalPres={setClinicalPres} />) : ("")}
             </div>
-            
+
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>
           <a href="##" class="btn btn-primary">Save changes</a>
@@ -571,14 +572,14 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title text-white">Functional And Cognitive Status</h4>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {   setFunctionalAndCog(0); }}>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setFunctionalAndCog(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{functionalAndCog === 1 ? ( <FunctionalAndCognitive setShowToster={setShowToster} setFunctionalAndCog={setFunctionalAndCog} />) : (  "")}
+            <div class="modal-body">{functionalAndCog === 1 ? (<FunctionalAndCognitive setShowToster={setShowToster} setFunctionalAndCog={setFunctionalAndCog} />) : ("")}
             </div>
-            
+
             {/* <div class="modal-footer">
           <button  data-dismiss="modal" class="btn">Close</button>
           <a href="##" class="btn btn-primary">Save changes</a>
