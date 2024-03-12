@@ -19,6 +19,7 @@ import FHIRAddPrescription from "../../../../../FHIRPrescription/Pages/FHIRAddPr
 import FHIRPrescreptionList from "../../../../../FHIRPrescription/Pages/FHIRPrescreptionList";
 import OPDLifeStyle from "./FHIROPDPopUp/OPDLifeStyle";
 import OPDPrescriptionIndex from "./OPDPrescriptionIndex";
+import FHIRClinicalNotes from "./FHIROPDPopUp/FHIRClinicalNotes";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
@@ -209,6 +210,11 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#Lifestyle">
           {t("LifeStyle")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes">
+          {t("Clinical Notes Form")}{" "}
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
@@ -489,6 +495,40 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       </div>
 
       {/* -----------------------------------------------------------------------End Prescription Plan --------------------------------------------- */}
+      {/* -----------------------------------------------------------------------Start ClinicalNotes Plan --------------------------------------------- */}
+
+ 
+      <div
+        className="modal fade"
+        id="ClinicalNotes"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabe2"
+        aria-hidden="true"
+      >
+        <div className=" modal-dialog modal-dialog-scrollable modal-xl">
+          <div className="modal-content ">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+              Clinical Notes Form
+              </h1>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div class="tab-content" id="myTabContent">               
+                <FHIRClinicalNotes />
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* -----------------------------------------------------------------------End ClinicalNotes Plan --------------------------------------------- */}
 
       {showToster === 1 ? (
         <SuccessToster
