@@ -387,15 +387,15 @@ p.devName {
     position: relative;
 }
 
-span.starMandatory {
+/* span.starMandatory {
     color: red;
     font-size: 17px;
     position: absolute;
-    font-weight: 600;
+    font-weight: 900;
     top: -3px;
     right: -10px;
     position: relative;
-}
+} */
 
 .inner-content .form-label {
     margin-bottom: 0.1rem !important;

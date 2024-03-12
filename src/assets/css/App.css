@@ -753,6 +753,19 @@ span.starMandatory {
   right: 11px;
   top: 1px;
 }
+.udisericon {
+  background: #dee4f3;
+  border-radius: 0 3px 3px 0;
+  color: #777;
+  color: var(--secondary-color);
+  cursor: pointer;
+  font-size: 15px;
+  margin: 0;
+  padding: 3px 8px;
+  position: absolute;
+  right:-123px;
+  top: 1px;
+}
 
 .med-table-section {
   background: #FFFFFF;
@@ -11936,6 +11949,15 @@ button.btndelt:hover {
 
 .investigationbox {
   height: 34vh;
+}
+span.starMandatory {
+  color: red;
+  font-size: 16px;
+  position: absolute;
+  font-weight: 800;
+  top: -1px;
+  right: -3px;
+  position: relative;
 }
 
 .tbl_Heading {
