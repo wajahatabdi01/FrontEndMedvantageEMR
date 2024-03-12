@@ -392,6 +392,7 @@ import FHIRIssueOutComeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOutC
 import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferralSourceMaster';
 import FHIRReligionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReligionMaster';
 import FHIRPatientProfile from '../Registartion/Pages/OPDRegistration/FHIRPatientProfile';
+import ClinicalInstructions from '../FHIIRClinicalInstruction/Pages/ClinicalInstructions';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -977,6 +978,12 @@ export default function ApiRoutes() {
                   <Route path="/fhiraddprescription/" element={<ProtectedRoutes Compnent={<FHIRAddPrescription />} />} />
                   <Route path="/fhirprescreptionlist/" element={<ProtectedRoutes Compnent={<FHIRPrescreptionList />} />} />
                   {/* -----------------------------------End Medvantage Prescription SEction----------------------------------------- */}
+
+                  {/* -----------------------------------Start Medvantage FHIR Clinical Instruction SEction----------------------------------------- */}
+                  <Route path="/fhirclinicalinstructions/" element={<ProtectedRoutes Compnent={<ClinicalInstructions />} />} />
+                  {/* -----------------------------------End Medvantage FHIR Clinical Instruction SEction----------------------------------------- */}
+
+
             </Routes>
 
       )
