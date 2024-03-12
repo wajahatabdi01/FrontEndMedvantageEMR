@@ -657,6 +657,22 @@ getopdvitalbottomArray.forEach((item) => item.addEventListener('click', (e) => {
       ) : (
         ""
       )}
+      {showToster === 27 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Functional and Cognitive saved successfully !!"
+        />
+      ) : (
+        ""
+      )}
+      {showToster === 28 ? (
+        <SuccessToster
+          handle={setShowToster}
+          message="Functional and Cognitive deleted successfully !!"
+        />
+      ) : (
+        ""
+      )}
 
       {showAlertToster === 1 ? (
         <AlertToster handle={setShowAlertToster} message={showMessage} />
