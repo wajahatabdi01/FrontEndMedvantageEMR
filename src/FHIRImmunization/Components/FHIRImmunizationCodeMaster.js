@@ -53,51 +53,10 @@ export default function FHIRImmunizationCodeMaster(props) {
     const resCVXList = await GetImmunizationCVXCodeList();
     if(resCVXList.status === 1) {
         setLoader(0);
-        console.log('resCVXList : ', resCVXList);
         setCodeBindList(resCVXList.responseValue.immunizationList)
     }
-    return;
-      if (getCode === '' && getCode === undefined && getCode === null && codeName !== "") {
-          alert('Please select code.');
-      }
-      else {
-          setLoader(1);
-          //const codeNames = codeName = ""?codeName:getCode;
-          const codeNames = getCode;
-          if(codeName !== undefined){
-              let getBindRes = await GetCodeBind(codeName, textSearch);
-              if(getBindRes.status === 0) {
-                  setLoader(0);
-                  setShowImage(1);
-              }
-              else{
-                  setLoader(0)
-              setShowImage(0)
-              setCodeBindList(getBindRes.responseValue.slice(0,50))
-              }
-          }
-          else{
-              let getBindRes = await GetCodeBind(codeNames, textSearch);
-              if(getBindRes.status === 0) {
-                  setLoader(0);
-                  setShowImage(1);
-              }
-              else{
-                  const result = getBindRes.responseValue;
-              setLoader(0)
-              setShowImage(0)
-              setCodeBindList(result.slice(0,50))
-              }
-          }
-          // if (getBindRes.responseValue.length === 0) {
-          //     setLoader(0);
-          //     setShowImage(1);
-          // }
-          // else {
-              
-          // }
-          
-      }
+    
+      
 
   }
 
