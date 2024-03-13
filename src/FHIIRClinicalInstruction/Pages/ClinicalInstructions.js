@@ -48,7 +48,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
           clientId: clientID,
           uhid:activeUHID
         }
-        console.log('finalObj : ', finalObj)
+       
         const saveRes = await PostClinicalInstructionList(finalObj);
         if(saveRes.status === 1){
           getClinicalList();
@@ -67,7 +67,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
 
     //////////////////////// Update The data ///////////////////////
     const handleUpdate = async (list) => {
-      console.log('list : ', list)
+      
       setShowSave(0)
       setShowUpdate(1)
       setSendForm((prev) => ({
@@ -110,7 +110,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
     const handleDelete = async (id) => {
       if(window.confirm("Do you wish to delete?"))
       {
-        console.log('deleted with id : ', id)
+       
         const resDel = await DeleteClinicalInstructionList(id, window.userId);
         if(resDel.status === 1){
           getClinicalList();
@@ -137,6 +137,9 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
       if(resClinicalLisat.status === 1)
       {
         setClinicalInstructionList(resClinicalLisat.responseValue)
+      }
+      else{
+        setClinicalInstructionList([])
       }
     }
 

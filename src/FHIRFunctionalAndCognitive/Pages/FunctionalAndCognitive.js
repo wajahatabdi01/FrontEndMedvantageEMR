@@ -20,7 +20,6 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
 
 ///////////////////////////////// USE STATES ////////////////////////////////////////////////////////
   const [carePlanRow, setCarePlanRow] = useState([{  rowID: 1, },]);
-  const [getCarePlanTypeList, setCarePlanTypeList] = useState([]);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [PopUpId, setPopUpId] = useState('');
   let [makeData, setMakeData] = useState([]);
@@ -57,8 +56,6 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
     
     data.splice(index, 1);
     makeData.splice(index,1)
-    console.log('ddd data : ', data);
-    console.log('the make data : ', makeData)
     
     for (let i = 0; i < data.length; i++) {
       const code = document.getElementById('funCodeInputID' + data[i].rowID).value;
@@ -101,9 +98,6 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
 };
 
   const SelectedData = (data, modalID) => {
-
-    console.log('modalID : ', modalID);
-    console.log('data : ', data);
     let t = {
       moduleId: modalID,
       data: data
@@ -115,7 +109,7 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
     for (var i = 0; i < data.length; i++) {
       temp = data[i].code
     }
-    console.log('temp : ', temp)
+    
     document.getElementById(modalID).value = temp
 
   }
@@ -137,14 +131,11 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
   const handleSave =async () => {
     
     const getresponse = await dataMaker(makeData);
-    console.log('carePlanRow : ', carePlanRow);
-    console.log('getresponse : ', getresponse);
    
     if(carePlanRow.length === getresponse.length)
     {
       let tempArrList = [];
     const data = [...carePlanRow];
-    console.log('new data ; ', data)
     for (let i = 0; i < data.length; i++) {
       const date = document.getElementById('funCareDateID' + data[i].rowID).value;
       const mentalStatusCheck = document.getElementById('mentalStatusID' + data[i].rowID);
@@ -179,7 +170,7 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
           getfunAndCog();
           setShowToster(27);
           setTimeout(() => {
-            // handleClear();
+           handleClear();
             setShowToster(27)
           }, 2000)
         }
@@ -222,6 +213,7 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
     }));
     }
     setMakeData([]);
+    setCarePlanRow([{  rowID: 1, },])
   }
 
   const getfunAndCog = async () => {
@@ -229,21 +221,23 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
     if(resFun.status === 1){
       setFunAndCogList(resFun.responseValue)
     }
+    else{
+      setFunAndCogList([]);
+    }
   }
 
   const handleDelete = async (id) => {
-    
     if(window.confirm("Do you wish to delete?"))
       {
-        console.log('deleted with id : ', id)
         const resDel = await DeleteFunctionAndCog(id, window.userId);
         if(resDel.status === 1){
-          getfunAndCog();
+          
           
         setShowToster(28);
             setTimeout(() => {
               setShowToster(28)
             },2000);
+            getfunAndCog();
 
         }
       }
@@ -252,12 +246,11 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
   
   const handleEdit = async (list) => {
     setToShowButtons(0)
-    console.log('list : ', list)
     setTheRowId(list.id)
     const inputDate =list.date;
     const parts = inputDate.split('-');
     const formattedDate = parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
-    console.log(formattedDate); // Output: "2024-11-16"
+     // Output: "YYYY-MM-DD"
 
     for(let i = 0; i<carePlanRow.length; i++) {
       document.getElementById('funCodeInputID'+carePlanRow[i].rowID).value = list.code;
