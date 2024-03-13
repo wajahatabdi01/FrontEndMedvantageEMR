@@ -8,6 +8,7 @@ import GetCodeBind from '../../FHIRLab/API/GET/GetCodeBindList'
 import Search from  '../../assets/images/icons/search_7079548.png';
 import Delete from '../../assets/images/icons/delete.svg';
 import NoDataFound from '../../assets/images/icons/No data-rafiki.svg'
+import GetImmunizationCVXCodeList from '../API/GET/GetImmunizationCVXCodeList'
 
 
 
@@ -48,6 +49,14 @@ export default function FHIRImmunizationCodeMaster(props) {
 
   /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
   let funBindCodeList = async (e, codeName ) => {
+    setLoader(1);
+    const resCVXList = await GetImmunizationCVXCodeList();
+    if(resCVXList.status === 1) {
+        setLoader(0);
+        console.log('resCVXList : ', resCVXList);
+        setCodeBindList(resCVXList.responseValue.immunizationList)
+    }
+    return;
       if (getCode === '' && getCode === undefined && getCode === null && codeName !== "") {
           alert('Please select code.');
       }
@@ -139,9 +148,9 @@ export default function FHIRImmunizationCodeMaster(props) {
       console.log('haiiiiiiiiiiiii L: ', hai)
       if (hai.length !== 0) {
           setTimeout(()=>{
-              document.getElementById("dropdownName").value = hai[0].dropdownName
-              setCode(hai[0].dropdownName)
-              funBindCodeList("", hai[0].dropdownName)
+            //   document.getElementById("dropdownName").value = "CVX"
+              setCode("CVX")
+              funBindCodeList("", "CVX")
 
           }, 2000)
       }
@@ -174,16 +183,17 @@ export default function FHIRImmunizationCodeMaster(props) {
                                             </ul>
                                             </div>
                                         </div> */}
-                                            <select className='form-select form-select-sm' style={{ width: '179px' }} id="dropdownName" onChange={(event) => funSetCode(event.target.value)}>
+                                            {/* <select className='form-select form-select-sm' style={{ width: '179px' }} id="dropdownName" onChange={(event) => funSetCode(event.target.value)}>
                                                 <option value='0'>Select Code</option>
                                                 {getCodeList && getCodeList.map((list, ind) => (
                                                     <option key={ind} value={list.codeName}>{list.codeName}</option>
                                                 ))}
-                                            </select>
+                                            </select> */}
+                                            <input type="text" className='form-control form-control-sm' value="CVX" readOnly/>
                                         </div>
-                                        <div className="mb-2 me-2">
+                                        {/* <div className="mb-2 me-2">
                                             <input type="text" value={textSearch} className='form-control form-control-sm' placeholder="Search..." onChange={handleSearchChange} />
-                                        </div>
+                                        </div> */}
                                         <div className="mb-2 me-2 " style={{ backgroundColor: '#ffefef' }}>
                                             <img src={Search} alt='' title='Search' style={{ cursor: 'pointer', width: '20px', height: '20px' }} onClick={funBindCodeList} />
                                         </div>
@@ -213,8 +223,7 @@ export default function FHIRImmunizationCodeMaster(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
-                                            {getCodeBindList && getCodeBindList.map((bindList, ind) => {
+                                        {getCodeBindList && getCodeBindList.map((bindList, ind) => {
                                                 return (                                                  
                                                     <>
                                                     <tr key={bindList.code}>
@@ -236,9 +245,6 @@ export default function FHIRImmunizationCodeMaster(props) {
 
                                                 )
                                             })}
-                                        </>
-
-                                        }
                                     </tbody>
                                 </table>
                             </div>
