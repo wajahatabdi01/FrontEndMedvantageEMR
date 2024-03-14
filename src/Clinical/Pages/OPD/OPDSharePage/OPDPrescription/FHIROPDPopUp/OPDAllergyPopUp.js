@@ -16,7 +16,7 @@ import { t } from 'i18next';
 import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
 import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
 import GetFoodListByPrefixText from '../../../../../API/KnowMedsAPI/GetFoodListByPrefixText';
-function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
+function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,severity,reaction, isCloseModal, fnisClose }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -414,6 +414,8 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
+        console.log("severity",severity)
+        console.log("reaction",reaction)
         setAllergyData({
             id: rowId,
             issueTypeId: 2,
@@ -428,13 +430,15 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
+            severityId: severity && severity !== '' ? severity : '',
+            reactionId: reaction && reaction !== '' ? reaction : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formatCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
         console.log('formatCodingData', formatCodingData)
         setTxtCoding(formatCodingData)
 
-    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,severity,reaction,])
     // Used To Clear Modal
     useEffect(() => {
         if (isCloseModal === 1) {

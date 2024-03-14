@@ -50,6 +50,8 @@ export default function IPDTopVitals(props) {
     const [verificationStatusId, setVerificationStatusId] = useState('');
     const [outcomeId, setOutcomeId] = useState('');
     const [titleId, setTitleId] = useState('');
+    const [severityId, setSeverityId] = useState('');
+    const [reactionId, setReactionId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
 
@@ -65,7 +67,7 @@ export default function IPDTopVitals(props) {
         let obj = {
             Id: rowId
         }
-       
+
         // return;
         let response = await DeleteEncounter(obj)
         if (response.status === 1) {
@@ -184,7 +186,7 @@ export default function IPDTopVitals(props) {
                 "maxLimit": 272
             }]
     );
-  
+
 
     let handleOnchange = (e) => {
         let value = e.target.value;
@@ -350,7 +352,7 @@ export default function IPDTopVitals(props) {
 
     }
 
-    let handleUpdate = (encounterId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationTypeId, occurrenceId, verificationStatusId, outcomeId, encounterComments, encounterDestination, titleId) => {
+    let handleUpdate = (encounterId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationTypeId, occurrenceId, verificationStatusId, outcomeId, encounterComments, encounterDestination,titleId,severityId,reactionId) => {
         setUpdateBool(1)
         setRowId(encounterId)
         setEncounterTitle(encounterTitle);
@@ -365,6 +367,8 @@ export default function IPDTopVitals(props) {
         setEncounterComments(encounterComments);
         setEncounterDestination(encounterDestination);
         setTitleId(titleId);
+        setSeverityId(severityId);
+        setReactionId(reactionId);
     }
 
     useEffect(() => {
@@ -475,7 +479,7 @@ export default function IPDTopVitals(props) {
                                 <tbody>
                                     {getEncounterList && getEncounterList.map((list, ind) => {
                                         const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-                                       
+
                                         return (
                                             <tr className="text-center" key={list.id}>
                                                 <td className="text-center">{ind + 1}</td>
@@ -498,22 +502,22 @@ export default function IPDTopVitals(props) {
                                                 <td>{list.occuranceName}</td>
                                                 <td>{list.verificationName}</td>
                                                 <td>{list.severityName ? list.severityName : '--'}</td>
-                                                <td>{list.reactionTitle ? list.reactionTitle:'--'}</td>
+                                                <td>{list.reactionTitle ? list.reactionTitle : '--'}</td>
                                                 <td>{list.outComeName}</td>
                                                 <td>
                                                     <div className="action-button">
                                                         {getIssueID === 1 ?
-                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId, list.severityId, list.reactionId) }}><img src={IconEdit} alt='' /></div>
                                                             :
                                                             getIssueID === 2 ?
-                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId, list.severityId, list.reactionId) }}><img src={IconEdit} alt='' /></div>
                                                                 :
                                                                 getIssueID === 3 ?
-                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId, list.severityId, list.reactionId) }}><img src={IconEdit} alt='' /></div>
                                                                     : getIssueID === 4 ?
-                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId, list.severityId, list.reactionId) }}><img src={IconEdit} alt='' /></div>
                                                                         : getIssueID === 5 ?
-                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId, list.severityId, list.reactionId) }}><img src={IconEdit} alt='' /></div>
                                                                             : ''
                                                         }
 
@@ -616,6 +620,8 @@ export default function IPDTopVitals(props) {
                                             encounterComments={encounterComments}
                                             encounterDestination={encounterDestination}
                                             titleId={titleId}
+                                            severity={severityId}
+                                            reaction={reactionId}
                                             isCloseModal={isClose}
                                             fnisClose={setisClose}
                                         />
@@ -763,7 +769,7 @@ export default function IPDTopVitals(props) {
             {showToster === 1 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem saved successFully !!"
+                    message="Problem saved successfully !!"
                 />
             ) : (
                 ""
@@ -771,7 +777,7 @@ export default function IPDTopVitals(props) {
             {showToster === 2 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Allergy saved successFully !!"
+                    message="Allergy saved successfully !!"
                 />
             ) : (
                 ""
@@ -779,7 +785,7 @@ export default function IPDTopVitals(props) {
             {showToster === 3 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Medication saved successFully !!"
+                    message="Medication saved successfully !!"
                 />
             ) : (
                 ""
@@ -787,7 +793,7 @@ export default function IPDTopVitals(props) {
             {showToster === 4 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Device saved successFully !!"
+                    message="Device saved successfully !!"
                 />
             ) : (
                 ""
@@ -795,7 +801,7 @@ export default function IPDTopVitals(props) {
             {showToster === 5 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem deleted successFully !!"
+                    message="Problem deleted successfully !!"
                 />
             ) : (
                 ""
@@ -803,7 +809,7 @@ export default function IPDTopVitals(props) {
             {showToster === 6 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Problem updated successFully !!"
+                    message="Problem updated successfully !!"
                 />
             ) : (
                 ""
@@ -811,7 +817,7 @@ export default function IPDTopVitals(props) {
             {showToster === 7 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Allergy updated successFully !!"
+                    message="Allergy updated successfully !!"
                 />
             ) : (
                 ""
@@ -819,7 +825,7 @@ export default function IPDTopVitals(props) {
             {showToster === 8 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Medication updated successFully !!"
+                    message="Medication updated successfully !!"
                 />
             ) : (
                 ""
@@ -827,7 +833,7 @@ export default function IPDTopVitals(props) {
             {showToster === 9 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Allergy deleted successFully !!"
+                    message="Allergy deleted successfully !!"
                 />
             ) : (
                 ""
@@ -835,7 +841,7 @@ export default function IPDTopVitals(props) {
             {showToster === 10 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Medication deleted successFully !!"
+                    message="Medication deleted successfully !!"
                 />
             ) : (
                 ""
@@ -843,7 +849,7 @@ export default function IPDTopVitals(props) {
             {showToster === 11 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Device updated successFully !!"
+                    message="Device updated successfully !!"
                 />
             ) : (
                 ""
@@ -851,7 +857,7 @@ export default function IPDTopVitals(props) {
             {showToster === 12 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Device deleted successFully !!"
+                    message="Device deleted successfully !!"
                 />
             ) : (
                 ""
@@ -859,7 +865,7 @@ export default function IPDTopVitals(props) {
             {showToster === 13 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Surgery updated successFully !!"
+                    message="Surgery updated successfully !!"
                 />
             ) : (
                 ""
@@ -867,7 +873,7 @@ export default function IPDTopVitals(props) {
             {showToster === 14 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Surgery deleted successFully !!"
+                    message="Surgery deleted successfully !!"
                 />
             ) : (
                 ""
@@ -875,7 +881,7 @@ export default function IPDTopVitals(props) {
             {showToster === 15 ? (
                 <SuccessToster
                     handle={setShowToster}
-                    message="Surgery saved successFully !!"
+                    message="Surgery saved successfully !!"
                 />
             ) : (
                 ""
