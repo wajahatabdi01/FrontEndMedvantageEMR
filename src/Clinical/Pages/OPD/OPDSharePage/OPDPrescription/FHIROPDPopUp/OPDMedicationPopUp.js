@@ -49,7 +49,11 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
         referredby: '',
         comments: '',
         outcomeId: '0',
-        destination: ''
+        destination: '',
+        reactionId: 0,
+        severityId: 0,
+        allergyType: 0,
+        allergyTypeId: 0,
     })
 
     let getAllBrandList = async () => {
