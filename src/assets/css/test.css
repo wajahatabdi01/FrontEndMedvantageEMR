@@ -421,8 +421,23 @@ span.starMandatory {
     border: 1px solid #002F75;
     font-weight: 700;
 }
+.btn-savenotes {
+    color: #002F75;
+    min-width: 80px;
+    border-radius: 3px;
+    border: 1px solid #002F75;
+    font-weight: 700;
+    margin-top: 80px;
+}
 
 .btn-save-opt {
+    color: #002F75;
+    min-width: 40px;
+    border-radius: 3px;
+    border: 1px solid #002F75;
+    font-weight: 700;
+}
+.btn-savenotes-opt {
     color: #002F75;
     min-width: 40px;
     border-radius: 3px;
@@ -436,6 +451,15 @@ span.starMandatory {
 }
 
 .btn-save-opt:hover {
+    color: white;
+    background-color: #002F75;
+}
+.btn-savenotes:hover {
+    color: white;
+    background-color: #002F75;
+}
+
+.btn-savenotes-opt:hover {
     color: white;
     background-color: #002F75;
 }

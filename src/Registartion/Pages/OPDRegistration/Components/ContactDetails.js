@@ -267,15 +267,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
 
         const addcountryID = document.getElementById('countryIdd').value;
         getAddStateList(addcountryID);
-
-        // const addstateID = document.getElementById('stateIDD').value;
-        // if (addstateID === "0" || addstateID === undefined || addstateID === null) {
-        //     setCityList([]);
-        // }
-        // else {
-        //     let data = await GetCityList(addstateID);
-        //     setCityList(data.responseValue);
-        // }
         const additionalAddressjsonData = JSON.stringify(divs);
         console.log(additionalAddressjsonData);
         setContactDetails((prevData) => ({

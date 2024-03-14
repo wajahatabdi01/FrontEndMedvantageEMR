@@ -50,7 +50,11 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         referredby: '',
         comments: '',
         outcomeId: '0',
-        destination: ''
+        destination: '',
+        reactionId: 0,
+        severityId: 0,
+        allergyType: 0,
+        allergyTypeId: 0,
     })
 
     let getAllSurgeryList = async () => {
