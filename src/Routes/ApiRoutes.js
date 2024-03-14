@@ -393,6 +393,8 @@ import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferra
 import FHIRReligionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReligionMaster';
 import FHIRPatientProfile from '../Registartion/Pages/OPDRegistration/FHIRPatientProfile';
 import ClinicalInstructions from '../FHIIRClinicalInstruction/Pages/ClinicalInstructions';
+import FHIRViewCCDA from '../FHIRViewCCDA/Pages/FHIRViewCCDA';
+import FHIRViewCCDAData from '../FHIRViewCCDA/Pages/FHIRViewCCDAData';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -982,6 +984,11 @@ export default function ApiRoutes() {
                   {/* -----------------------------------Start Medvantage FHIR Clinical Instruction SEction----------------------------------------- */}
                   <Route path="/fhirclinicalinstructions/" element={<ProtectedRoutes Compnent={<ClinicalInstructions />} />} />
                   {/* -----------------------------------End Medvantage FHIR Clinical Instruction SEction----------------------------------------- */}
+                  {/* -----------------------------------Start Medvantage FHIR View CCDA SEction----------------------------------------- */}
+                  
+                  <Route path="/fhirviewccda/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRViewCCDA />} name="ViewCCDA" />} />} />
+                  <Route path="/fhirviewccdadata/" element={<FHIRViewCCDAData/>}/>
+                  {/* -----------------------------------End Medvantage FHIR View CCDA SEction----------------------------------------- */}
 
 
             </Routes>
