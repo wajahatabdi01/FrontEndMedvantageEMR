@@ -24,6 +24,7 @@ export default function FHIRViewCCDA() {
                     <div className="title">Please click on view button to view patient data.&nbsp;<span>
                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={navigateToPage}>View</button></span></div>
                 </div>
+                
             </div>
           </div>
         </div>
