@@ -65,7 +65,6 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
         setCoding(selectProblem);
-        console.log('selectProblem', selectProblem);
         setCodingSelected(true);
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
@@ -75,7 +74,6 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
         // temp["coding"] = selectProblem
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Medication": t }));
-        console.log(issueDetailss)
     };
 
     let getAllBrandList = async () => {
@@ -121,7 +119,6 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
     }
 
     const SelectedData = (data, modalID) => {
-        console.log("modalID",modalID)
         let t = {
           moduleId: modalID,
           data: data
@@ -132,17 +129,10 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
         for (var i = 0; i < data.length; i++) {
           temp +=  data[i].dropdownName +':'+ data[i].code +';'
         }
-        // document.getElementById(modalID).value = temp
-        console.log('temp',temp);
-        
-        // issueDetailss.forEach(element => {
-        //     element["coding"] = temp
-        // });
         let issueDetail ={
             ...issueDetailss,
             coding:temp
         }
-        console.log("issueDetailss", issueDetailss) 
         issueDetailsData((prev) => ({ ...prev, "Medication":issueDetail}));
         const splitData = temp.split(';').slice(0,-1);
         setTxtCoding(splitData);
@@ -155,12 +145,6 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
-        // issueDetailsData(issueDetailss)
-        // console.log("issueDetailss", issueDetailss)
-        // setIssueDetails(issueDetailss.Allergy)
-        // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
-        console.log("issueDetailss",issueDetailss)
-
     }, [issueDetailsData]);
     return (
         <>
@@ -185,7 +169,6 @@ const Medication = ({issueDetailss, issueDetailsData, id}) => {
                 <div className='problemhead-inn'>
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                        {/* {console.log('issueDetailss check',issueDetailss)} */}
                         <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                     </div>
                 </div>

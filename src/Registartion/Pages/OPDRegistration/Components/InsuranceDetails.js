@@ -298,7 +298,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         const response = await GetUserListByRoleId(param)
         if (response.status === 1) {
             setProviderList(response.responseValue)
-            console.log("ProviderList", response.responseValue)
         }
     }
 
@@ -310,23 +309,18 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     }
 
     let getCountryList = async () => {
-        console.log('fetch country');
         let response = await GetCountryList();
-        console.log('fetch country', response);
         if (response.status === 1) {
             setCountryList(response.responseValue);
-            //getStateList(countryID);
         }
     }
     let getStateListPrimary = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListPrimary(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListPrimary([]);
         }
     }
@@ -340,18 +334,15 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
 
     let getSEStateListPrimary = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListSEPrimary(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListSEPrimary([]);
         }
     }
     let onChangeCountryParimary = async (e) => {
-        console.log('e.target', e.target.value);
         getStateListPrimary(e.target.value);
         setSendFormPrimary((prevData) => ({
             ...prevData,
@@ -359,7 +350,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }))
     };
     let onChangeCountrySEPrimary = async (e) => {
-        console.log('e.target', e.target.value);
         getSEStateListPrimary(e.target.value);
         setSendFormPrimary((prevData) => ({
             ...prevData,
@@ -370,30 +360,25 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     //Secondry 
     let getStateListSecondry = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListSecondry(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListSecondry([]);
         }
     }
     let getSEStateListSecondry = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListSESecondry(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListSESecondry([]);
         }
     }
     let onChangeCountrySecondry = async (e) => {
-        console.log('e.target', e.target.value);
         getStateListSecondry(e.target.value);
         setSendFormSecondary((prevData) => ({
             ...prevData,
@@ -401,7 +386,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }))
     };
     let onChangeCountrySESecondry = async (e) => {
-        console.log('e.target', e.target.value);
         getSEStateListSecondry(e.target.value);
         setSendFormSecondary((prevData) => ({
             ...prevData,
@@ -412,30 +396,25 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     //Tertiary
     let getStateListTertiary = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListTertiary(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListTertiary([]);
         }
     }
     let getSEStateListTertiary = async (param) => {
         let data = await GetStateList(param);
-        console.log('state list', data);
         if (data.status === 1) {
 
             setStateListSETertiary(data.responseValue);
         }
         else {
-            console.error(data.responseValue);
             setStateListSETertiary([]);
         }
     }
     let onChangeCountryTertiary = async (e) => {
-        console.log('e.target', e.target.value);
         getStateListTertiary(e.target.value);
         setSendFormTri((prevData) => ({
             ...prevData,
@@ -443,7 +422,6 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }))
     };
     let onChangeCountrySETertiary = async (e) => {
-        console.log('e.target', e.target.value);
         getSEStateListTertiary(e.target.value);
         setSendFormTri((prevData) => ({
             ...prevData,
