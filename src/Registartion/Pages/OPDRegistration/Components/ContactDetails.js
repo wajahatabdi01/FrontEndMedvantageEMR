@@ -43,7 +43,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     useEffect(() => {
         getCountryList();
         contactDetailsData(contactDetails);
-        console.log('contactDetails', contactDetails)
         if (clearStatus === 1) {
             setClearStatus(0)
             setContactDetails({
@@ -79,9 +78,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     }, [contactDetails, contactDetailsData, clearStatus]);
 
     let getCountryList = async () => {
-        console.log('fetch country');
         let response = await GetCountryList();
-        console.log('fetch country', response);
         if (response.status === 1) {
             setCountryList(response.responseValue);
             //getStateList(countryID);
@@ -91,7 +88,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     }
     let onChangeCountry = async () => {
         const countryID = document.getElementById('ddlCountry').value;
-        console.log("countryID", countryID);
         getStateList(countryID);
         setContactDetails((prevData) => ({
             ...prevData,
@@ -113,7 +109,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     let getCityListByState = async () => {
         // clearErrorMessages();
         const stateID = document.getElementById('ddlState').value;
-        console.log("stateID", stateID)
         if (stateID === "0" || stateID === undefined || stateID === null) {
             setCityList([]);
         }
@@ -129,7 +124,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     let getAddCityListByState = async () => {
         // clearErrorMessages();
         const stateID = document.getElementById('stateIDD').value;
-        console.log("stateID", stateID)
         if (stateID === "0" || stateID === undefined || stateID === null) {
             setCityList([]);
         }
@@ -148,9 +142,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     };
     let getStateListAdditional = async (index, val) => {
         let data = await GetStateList(val);
-        console.log(data);
         setStateListAdd({ [index]: data.responseValue });
-        console.log(stateListAdd);
     }
 
     // Used to Get Value From Dropdown
@@ -158,7 +150,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     let getCityListByStateAdditional = async (index) => {
         // clearErrorMessages();
         const stateID = document.getElementById('ddlState' + index).value;
-        console.log(stateID)
         if (stateID === "0" || stateID === undefined || stateID === null) {
             setCityListAdd({ [index]: [] });
         }
@@ -268,7 +259,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         const addcountryID = document.getElementById('countryIdd').value;
         getAddStateList(addcountryID);
         const additionalAddressjsonData = JSON.stringify(divs);
-        console.log(additionalAddressjsonData);
         setContactDetails((prevData) => ({
             ...prevData,
             additionalAddressJsonString: additionalAddressjsonData
@@ -301,7 +291,6 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
     const handleSaveData = () => {
         // Convert divs data to JSON
         const jsonData = JSON.stringify(divs);
-        console.log(jsonData);
         // You can send this jsonData to your backend or wherever you need
     };
     return (

@@ -83,7 +83,6 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         const response = await GetFoodListByPrefixText();
         if (response.status === 1) {
             setFoodList(response.responseValue);
-            console.log("food", response.responseValue)
             setFoodTempList(response.responseValue.slice(0, 15));
         }
     };
@@ -172,7 +171,6 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -227,19 +225,16 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setAllery(selectProblem);
         setCoding(selectProblem);
-        console.log('selectProblem', selectProblem)
         setCodingSelected(true);
         setAllergyData((prev) => ({
             ...prev,
             title: selectProblem,
-            // coding: 'ICD10:' + selectProblem,
             titleId: ddlAllergyId,
             allergyTypeId: ddlAllergyId,
             issueTypeId: 2
         }))
     }
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID, data)
         let t = {
             moduleId: modalID,
             data: data
@@ -250,7 +245,6 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         for (var i = 0; i < data.length; i++) {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        console.log('temp', temp);
         setAllergyData((prevIssueDetails) => ({
             ...prevIssueDetails,
             coding: temp,
@@ -311,7 +305,6 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 clientId: window.clientId,
                 userId: window.userId
             }
-            console.log("pobj", pobj)
             // return;
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
@@ -401,21 +394,15 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
                 return formattedDate;
             } else {
-                // Log an error if the date string format is incorrect
-                console.error("Invalid date string format:", dateString);
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-            // Log an error if dateString is undefined
-            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-        console.log("severity",severity)
-        console.log("reaction",reaction)
         setAllergyData({
             id: rowId,
             issueTypeId: 2,
@@ -435,7 +422,6 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formatCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
-        console.log('formatCodingData', formatCodingData)
         setTxtCoding(formatCodingData)
 
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,severity,reaction,])

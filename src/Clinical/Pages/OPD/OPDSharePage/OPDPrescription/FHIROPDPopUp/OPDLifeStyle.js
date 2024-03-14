@@ -202,7 +202,6 @@ function OPDLifeStyle({ setShowToster }) {
     }
     // const handleCommon = (param,type)=>{
     //     if(type === 'Coffe'){
-    //         console.log('param',param,key);
     //         let temDataNew="";
     //         setisShowCoffe(param);
     //         for (var i = 0; i < smokingList.length; i++) {

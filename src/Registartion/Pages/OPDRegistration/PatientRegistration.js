@@ -333,28 +333,24 @@ export default function PatientRegistration() {
         let InsuranceList = await GetInsuranceCompanyList()
         if (InsuranceList.status === 1) {
             setInsuranceCompanyList(InsuranceList.responseValue)
-            console.log("InsuranceList", InsuranceList.responseValue)
         }
     }
     const GetGenderList = async () => {
         let response = await GetGender()
         if (response.status === 1) {
             setGenderList(response.responseValue)
-            console.log("genderList", response.responseValue)
         }
     }
     const getreferralList = async () => {
         let response = await GetAllReferralSourceData()
         if (response.status === 1) {
             setReferralList(response.responseValue)
-            console.log("referralList", response.responseValue)
         }
     }
     const getGuardianRelationList = async () => {
         const response = await GetAllGuardianRelation()
         if (response.status === 1) {
             setGuardianRelationList(response.responseValue)
-            console.log("response", response.responseValue)
         }
     }
 
@@ -378,8 +374,6 @@ export default function PatientRegistration() {
         }
     }
     let handlerChange2 = (e, value) => {
-        console.log('value', value);
-
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
@@ -481,7 +475,6 @@ export default function PatientRegistration() {
     }
 
     let saveButtonObjCheck = () => {
-        console.log(registrationObj);
         save()
     }
 
@@ -581,7 +574,6 @@ export default function PatientRegistration() {
         const response = await GetUserListByRoleId(param)
         if (response.status === 1) {
             setProviderList(response.responseValue)
-            console.log("ProviderList", response.responseValue)
         }
     }
 
@@ -889,7 +881,6 @@ export default function PatientRegistration() {
             }, 2000);
         } else {
             setShowAlertToster(2)
-            console.log("No data filled. Cannot save.");
         }
 
         setShowPreviousNamesPopUp(false);
@@ -898,12 +889,6 @@ export default function PatientRegistration() {
 
 
     let handleValidation = (data, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo) => {
-
-        console.log('data', data);
-        console.log('insuranceDetailsPrimary', insuranceDetailsPrimary);
-        console.log('insuranceDetailsSecondry', insuranceDetailsSecondry);
-        console.log('insuranceDetailsTertiary', insuranceDetailsTertiary);
-
         if (data.mobileNo.trim() !== "" && data.titleId.trim() !== "" && data.patientName.trim() !== ""
             && data.lastName.trim() !== ""
             && data.dob.trim() !== "" && data.age.toString().trim() !== "" && data.ageUnitId.trim() !== "" && data.genderId.trim() !== ""
@@ -991,7 +976,6 @@ export default function PatientRegistration() {
             return false
         }
         else if (data.genderId === "0" || data.genderId === undefined || data.genderId === null || data.genderId === "") {
-            console.log('data.genderId', data.genderId)
             document.getElementById("errPatientGender").style.display = "block";
             document.getElementById("errPatientGender").innerHTML = "Please select gender";
             return false;
@@ -1355,7 +1339,6 @@ export default function PatientRegistration() {
 
     }
     let handleClear = () => {
-        console.log("Invoked")
         setClearStatus(1)
         setEmployerDetailsJsonString({
             occupation: '',
@@ -1403,7 +1386,6 @@ export default function PatientRegistration() {
 
     let save = async () => {
         const pp= issueDetails.Problem
-        console.log("Problem",pp)
         const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
         const ddlDepartment = document.getElementById('ddlDepartment').value;
         const ddlDoctor = document.getElementById('ddlDoctor').value;
@@ -1412,12 +1394,6 @@ export default function PatientRegistration() {
         tempArr.push(insuranceDetailsPrimary);
         tempArr.push(insuranceDetailsSecondry);
         tempArr.push(insuranceDetailsTertiary);
-        // console.log('tempArr',)
-        console.log('contactDetails', contactDetails);
-        console.log('visitDetails', visitDetails);
-        console.log('patientChoiceDetails', patientChoiceDetails);
-        console.log('registrationObj', registrationObj);
-        console.log('issueDetails', issueDetails);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
 
         var makeDataObj = {
@@ -1438,10 +1414,8 @@ export default function PatientRegistration() {
             ...patientDetails,
 
         }
-        console.log("makeDataObj", makeDataObj);
         var sendDataObj = { ...makeDataObj, previousNamesJsonString: JSON.stringify(makeDataObj.previousNamesJsonString) }
 
-        console.log("sendDataObj", sendDataObj);
         // return;
         if (respValidation) {
             const response = await InsertPatientDemographicData(sendDataObj);

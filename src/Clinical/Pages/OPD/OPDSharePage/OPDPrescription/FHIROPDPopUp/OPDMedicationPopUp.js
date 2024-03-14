@@ -105,7 +105,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -140,7 +139,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
         }));
     }
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID, data)
         let t = {
             moduleId: modalID,
             data: data
@@ -151,7 +149,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
         for (var i = 0; i < data.length; i++) {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        console.log('temp', temp);
         setMedicationData((prevIssueDetails) => ({
             ...prevIssueDetails,
             coding: temp,
@@ -168,7 +165,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setMedication(selectProblem);
         setCoding(selectProblem);
-        console.log('selectProblem', selectProblem)
         setCodingSelected(true);
         setMedicationData((prev) => ({
             ...prev,
@@ -231,7 +227,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
                 clientId: window.clientId,
                 userId: window.userId
             }
-            console.log("pobj", pobj)
             // return;
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
@@ -295,13 +290,9 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
                 const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
                 return formattedDate;
             } else {
-                // Log an error if the date string format is incorrect
-                console.error("Invalid date string format:", dateString);
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-            // Log an error if dateString is undefined
-            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -326,7 +317,6 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
-        console.log('formattCodingData', formattCodingData)
         setTxtCoding(formattCodingData)
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
     // Used To Clear Modal

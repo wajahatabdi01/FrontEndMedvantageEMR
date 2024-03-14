@@ -49,7 +49,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -64,7 +63,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
             ...issueDetailss,
             coding: tempNew
         }
-        console.log("tempissueDetailNew", tempissueDetailNew)
         issueDetailsData((prev) => ({ ...prev, "Problem": tempissueDetailNew }));
         setTxtCoding(tempData);
 
@@ -85,18 +83,14 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
-        // setCoding(selectProblem);
-        console.log('selectProblem', selectProblem);
         setCodingSelected(true);
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
         temp["issueTypeId"] = id
         temp[name] = value
         temp["title"] = selectProblem
-        //temp["coding"] = selectProblem
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Problem": t }));
-        console.log(issueDetailss)
     };
 
 
@@ -142,7 +136,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         // setPopUpId('');
     }
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID)
         let t = {
             moduleId: modalID,
             data: data
@@ -153,17 +146,10 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         for (var i = 0; i < data.length; i++) {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        // document.getElementById(modalID).value = temp
-        console.log('temp', temp);
-
-        // issueDetailss.forEach(element => {
-        //     element["coding"] = temp
-        // });
         let issueDetail = {
             ...issueDetailss,
             coding: temp
         }
-        console.log("issueDetailss", issueDetailss)
         issueDetailsData((prev) => ({ ...prev, "Problem": issueDetail }));
         const splitData = temp.split(';').slice(0, -1);
         setTxtCoding(splitData);
@@ -174,11 +160,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
-        // issueDetailsData(issueDetailss)
-        // console.log("issueDetailss", issueDetailss)
-        // setIssueDetails(issueDetailss.Problem)
-        // setIssueDetails(issueDetailss ?  issueDetailss : issueDetailss)
-
     }, [issueDetailsData]);
     return (
         <>
@@ -203,7 +184,6 @@ const Problem = ({ issueDetailss, issueDetailsData, id }) => {
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                            {/* {console.log('issueDetailss check',issueDetailss)} */}
                             <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                         </div>
                         <small id="errTitleISSUE" className="form-text text-danger" style={{ display: 'none' }} />

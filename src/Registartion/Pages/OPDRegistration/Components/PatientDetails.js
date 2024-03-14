@@ -47,9 +47,7 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     });
     const today = new Date().toISOString().split('T')[0];
     let getCountryList = async () => {
-        console.log('fetch country');
         let response = await GetCountryList();
-        console.log('fetch country', response);
         if (response.status === 1) {
             setCountryList(response.responseValue);
             //getStateList(countryID);
@@ -80,7 +78,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         if (response.status === 1) {
             setGetPatientGender(response.responseValue)
         }
-        console.log("GetGender", response)
     }
     let getAllGenderIdentities = async () => {
         const response = await GetAllGenderIdentities();
@@ -123,7 +120,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
         if (initialPatientDetails) {
             setPatientDetails(initialPatientDetails);
         }
-        console.log('patientDetails', patientDetails)
         if (clearStatus === 1) {
             setClearStatus(0)
             setPatientDetails({
@@ -165,7 +161,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
 
     const handlePatientDetailsChange = (e) => {
         const ageUnit = document.getElementById('ddlAgeUnit').value;
-        console.log('characterValidation', characterValidation)
         const { name, value } = e.target;
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
@@ -239,8 +234,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
             [name]: value,
             ageUnitId: ageUnit
         }));
-        console.log("name", name)
-
     };
     const handlePatientDetailsAdd = (e) => {
         isShowPriviousModal = !isShowPriviousModal
@@ -248,8 +241,6 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
     }
     const { t } = useTranslation();
     let onSelect = (selectedList, selectedItem) => {
-        console.log(selectedList);
-        console.log(selectedItem);
         setPatientDetails((prevPatientDetails) => ({
             ...prevPatientDetails,
             previousNamesJsonString: selectedList,

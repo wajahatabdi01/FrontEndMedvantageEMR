@@ -109,7 +109,6 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
     //     const selectProblem = selectedOption ? selectedOption.textContent : "";
     //     setAllery(selectProblem);
     //     setCoding(selectProblem);
-    //     console.log('selectProblem', selectProblem)
     //     setCodingSelected(true);
     //     setDeviceData((prev) => ({
     //         ...prev,
@@ -129,7 +128,6 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         }));
     };
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID, data)
         let t = {
             moduleId: modalID,
             data: data
@@ -140,7 +138,6 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         for (var i = 0; i < data.length; i++) {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        console.log('temp', temp);
         setDeviceData((prevIssueDetails) => ({
             ...prevIssueDetails,
             coding: temp,
@@ -153,7 +150,6 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -226,7 +222,6 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                 clientId: window.clientId,
                 userId: window.userId
             }
-            console.log("pobj", pobj)
             // return;
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
@@ -289,13 +284,9 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                 const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
                 return formattedDate;
             } else {
-                // Log an error if the date string format is incorrect
-                console.error("Invalid date string format:", dateString);
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-            // Log an error if dateString is undefined
-            // console.error("Date string is undefined");
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -318,9 +309,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
-        console.log('formattCodingData', formattCodingData)
         setTxtCoding(formattCodingData)
-
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination])
     // Used To Clear Modal
     useEffect(() => {

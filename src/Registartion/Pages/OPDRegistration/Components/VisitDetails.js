@@ -16,7 +16,6 @@ import AlertToster from '../../../../Component/AlertToster';
 import Dental from '../IssuesPopUpComponents/Dental';
 const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
-    // console.log("issueValue", issueValue);
     let [problem, setProblem] = useState('');
     let [issueDetailss, setIssueDetailss] = useState()
     let [coding, setCoding] = useState('');
@@ -41,7 +40,6 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
         document.getElementById("errTitleISSUE").style.display = "none";
     }
     let handleClear = () => {
-        console.log("dat delet")
         issueDetailData(
             {
                 Problem: {
@@ -132,7 +130,6 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
         );
     }
     let handleValidation = (problemData, allergyData,medicationData) => {
-        console.log("ISSUEdata", problemData)
         if (problemData.title.trim() !== "" && problemData.beginDateTime.trim() !== "" ||
             allergyData.title.trim() !== "" && allergyData.beginDateTime.trim() !== "") {
             return true
@@ -162,7 +159,6 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     let handleSaveIssues = async () => {
         // let respValidation = handleValidation(issueDetails.Problem, issueDetails.Allergy,issueDetails.Medication)
         // if (respValidation) {
-            console.log("Function Invoked", issueDetails);
             // setShowToster(1); // Set showToster to 1 only when condition is met
             // setTimeout(() => {
             //     setShowToster(0); // Set back showToster to 0 after 2 seconds
@@ -200,7 +196,6 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
     }
 
     let handleIssueDetailsChange = (e) => {
-        // console.log("issueDetailData", issueDetailData)
         // const { name, value } = e.target;
         // setIssueDetails((prevIssueDetails) => ({
         //     ...prevIssueDetails,
@@ -213,7 +208,6 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails }) => {
         // const selectedProblem = selectProblem.options[selectProblem.selectedIndex].text
         // setProblem(selectedProblem);
         // setCoding(selectedProblem);
-        // console.log('selectProblem', selectedProblem)
         // setCodingSelected(true);
         // setIssueDetailss((prev) => ({
         //     ...prev,

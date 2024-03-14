@@ -62,7 +62,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -77,7 +76,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
             ...issueDetailss,
             coding: tempNew
         }
-        console.log("tempissueDetailNew", tempissueDetailNew)
         issueDetailsData((prev) => ({ ...prev, "Allergy": tempissueDetailNew }));
         setTxtCoding(tempData);
 
@@ -97,12 +95,10 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         document.getElementById("errTitleAllergies").style.display = "none";
         const ddlProblems = document.getElementById("ddlallergy");
         const ddlAllergyId = document.getElementById("ddlallergy").value;
-        console.log("ddlAllergyId",ddlAllergyId)
         const selectedOption = ddlProblems.options[ddlProblems.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
         setCoding(selectProblem);
-        console.log('selectProblem', selectProblem);
         setCodingSelected(true);
         const { name, value } = e.target;
         let temp = { ...issueDetailss }
@@ -113,7 +109,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         // temp["coding"] = selectProblem
         let t = { ...issueDetailss, ...temp }
         issueDetailsData((prev) => ({ ...prev, "Allergy": t }));
-        console.log(issueDetailss)
     };
 
     const getAllBrandList = async () => {
@@ -128,7 +123,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         const response = await GetFoodListByPrefixText();
         if (response.status === 1) {
             setFoodList(response.responseValue);
-            console.log("food", response.responseValue)
             setFoodTempList(response.responseValue.slice(0, 15));
         }
     };
@@ -255,7 +249,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
     //     // document.getElementById(modalID).value = temp
     //   }
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID)
         let t = {
             moduleId: modalID,
             data: data
@@ -267,7 +260,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
         // document.getElementById(modalID).value = temp
-        console.log('temp', temp);
 
         // issueDetailss.forEach(element => {
         //     element["coding"] = temp
@@ -276,7 +268,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
             ...issueDetailss,
             coding: temp
         }
-        console.log("issueDetailss", issueDetailss)
         issueDetailsData((prev) => ({ ...prev, "Allergy": issueDetail }));
         const splitData = temp.split(';').slice(0, -1);
         setTxtCoding(splitData);
@@ -296,7 +287,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         getClassificationlist();
         getAllSeverityData();
         getAllReactionList();
-        console.log("issueDetailss", issueDetailss)
 
     }, [issueDetailsData]);
     return (
@@ -350,7 +340,6 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                     <div className='problemhead-inn'>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Title</b></label>
-                            {/* {console.log('issueDetailss check',issueDetailss)} */}
                             <input type="text" value={issueDetailss.title} className="form-control form-control-sm" name="title" id='title' placeholder="Enter title" onChange={handleTitleInputChange} />
                         </div>
                         <small id="errTitleAllergies" className="form-text text-danger" style={{ display: 'none' }} />

@@ -144,7 +144,6 @@ function OPDPatientMessagePopUp() {
     let handleUpdate = async (id, providerId, typeId, description) => {
         setUpdateBool(1)
         clearValidationErrMessage();
-        console.log("description", description)
         setShowMessage(0)
         setSendForm(sendForm => ({
             ...sendForm,

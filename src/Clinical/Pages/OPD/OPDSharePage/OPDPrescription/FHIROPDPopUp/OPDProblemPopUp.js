@@ -53,7 +53,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         allergyType: 0,
         allergyTypeId: 0,
     })
-    console.log("encounterCoding", encounterCoding)
 
 
     let getAllProblem = async () => {
@@ -116,7 +115,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            console.log('ddd', document.getElementById("ddlCoding" + i).checked)
             if (!document.getElementById("ddlCoding" + i).checked) {
                 tempData.push(tempAr[i])
             }
@@ -136,7 +134,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     }
 
     const SelectedData = (data, modalID) => {
-        console.log("modalID", modalID, data)
         let t = {
             moduleId: modalID,
             data: data
@@ -147,7 +144,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         for (var i = 0; i < data.length; i++) {
             temp += data[i].dropdownName + ':' + data[i].code + ';'
         }
-        console.log('temp', temp);
         setProblemData((prevIssueDetails) => ({
             ...prevIssueDetails,
             coding: temp,
@@ -164,7 +160,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         const selectProblem = selectedOption ? selectedOption.textContent : "";
         setProblem(selectProblem);
         setCoding(selectProblem);
-        console.log('selectProblem', selectProblem)
         setCodingSelected(true);
         setProblemData((prev) => ({
             ...prev,
@@ -235,7 +230,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 clientId: window.clientId,
                 userId: window.userId
             }
-            console.log("pobj", pobj)
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
                 setShowUnderProcess(0);
@@ -299,20 +293,16 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
                 return formattedDate;
             } else {
-                // Log an error if the date string format is incorrect
-                console.error("Invalid date string format:", dateString);
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-            // Log an error if dateString is undefined
-            // console.error("Date string is undefined");
+          
             return null; // Or return an appropriate value indicating an error
         }
     }
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
     useEffect(() => {
-       console.log('encounterCoding',encounterCoding)
         setProblemData({
             id: rowId,
             issueTypeId: 1,
@@ -330,10 +320,9 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formattCodingData=encounterCoding ? encounterCoding.split(';').slice(0,-1):[];
-        console.log('formattCodingData',formattCodingData)
         setTxtCoding(formattCodingData)
-      
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    
     useEffect(() => {
         getAllProblem();
         getAllIssueOutCome();
@@ -532,7 +521,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 </div>
             </div> */}
             <div class="modal-footer">
-                {console.log('updatebool11',  isCloseModal)}
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
