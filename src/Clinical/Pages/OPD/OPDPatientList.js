@@ -255,7 +255,7 @@ export default function OPDPatientList(props) {
                                         <tr>
                                             <td className='text-center pe-1'>{ind + 1}</td>
                                             <td>
-                                                <span className='txtb'>{val.patientName.toUpperCase()}</span> <span className='txtb1'>({val.age ? val.age : "-"}{val.ageTyepe ? val.ageTyepe : ''}/{val.genderName ? val.genderName : "-"})</span>
+                                                <span className='txtb'>{val.patientName.toUpperCase()}</span><span className='txtb'> {val.lastName.toUpperCase()?val.lastName.toUpperCase():''}</span> <span className='txtb1'>({val.age ? val.age : "-"}{val.ageTyepe ? val.ageTyepe : ''}/{val.genderName ? val.genderName : "-"})</span>
                                                 <span className='uhidnao'>{val.uhid}</span>
                                             </td>
                                             {/* <td>{val.uhid}</td> */}

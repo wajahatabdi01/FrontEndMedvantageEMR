@@ -17,20 +17,14 @@ import DeleteFHIRMessage from '../../../../../API/OPDPatientMessage/DeleteFHIRMe
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
+import InsertClinicalNotesForm from '../../../../../API/FHIRClinicalNotes/InsertClinicalNotesForm';
 function FHIRClinicalNotes() {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
-    let [sendForm, setSendForm] = useState({
-        "typeId": 0,
-        "providerId": 0,
-        "description": '',
-        "userId": window.userId,
-        "clientId": window.clientId
-    })
-
-
-
+    const [divs, setDivs] = useState([{
+        rowID: 1
+    }]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
@@ -46,24 +40,67 @@ function FHIRClinicalNotes() {
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
-
     let [showMessage, setShowMessage] = useState(1)
-    
+    let [sendForm, setSendForm] = useState({
+        form_id: 0,
+        code: '',
+        codetext: '',
+        description: '',
+        clinical_notes_type: 0,
+        clinical_notes_category: 0,
+        note_related_to: '',
+        date: '',
+        jsonFormClinicalNotes: '[]',
+    })
 
     //Handle Change
     let handleChange = (e) => {
-        clearValidationErrMessage();
         let name = e.target.name;
         let value = e.target.value;
-        setSendForm(sendForm => ({
-            ...sendForm,
-            [name]: value
-        }))
+        const date=e.target.value
+        console.log("Date",date)
+        if (name === "date") {
+            setDivs([{
+                ...divs,
+                date: value
+            }]);
+            clearValidationErrMessage();
+        } 
     }
 
-    const handleAddNew = async () => {
-        // setShowMessage(0);
-    }
+
+    const handleAddBtnChange = async (e, index) => {
+        const { name, value } = e.target;
+        const updatedDivs = [...divs];
+        updatedDivs[index][name] = value;
+        setDivs(updatedDivs);
+
+        const jsonFormClinicalNotes = JSON.stringify(divs);
+        console.log(jsonFormClinicalNotes);
+        setSendForm((prevData) => ({
+            ...prevData,
+            jsonFormClinicalNotes: jsonFormClinicalNotes
+        }))
+    };
+
+    const handleAddDiv = (value) => {
+        clearValidationErrMessage()
+        const getRowId = divs.length + 1;
+        setDivs([...divs,
+        {
+            rowID: getRowId
+        }]);
+    };
+
+    const handleRemoveDiv = (index) => {
+        const notesList = divs;
+        notesList.splice(index, 1)
+        setDivs([...notesList]);
+
+        // const updatedDivs = [...divs];
+        // updatedDivs.splice(index, 1);
+        // setDivs(updatedDivs);
+    };
 
     //Get MessageType
     const getpatientMessageType = async () => {
@@ -95,29 +132,55 @@ function FHIRClinicalNotes() {
 
     //Handle Save
     const handlerSave = async () => {
-        if (sendForm.typeId === '' || sendForm.typeId === null || sendForm.typeId === undefined || sendForm.typeId === 0 || sendForm.typeId === "0") {
-            document.getElementById('errType').innerHTML = "Select message type";
+        if (divs.date === '' || divs.date === null || divs.date === undefined || divs.date === 0 || divs.date === "0") {
+            document.getElementById('errDate').innerHTML = "Select date";
+            document.getElementById('errDate').style.display = "block";
+        }
+        else if (divs.clinical_notes_type === '' || divs.clinical_notes_type === null || divs.clinical_notes_type === undefined || divs.clinical_notes_type === 0 || divs.clinical_notes_type === "0") {
+            document.getElementById('errType').innerHTML = "Select notes type";
             document.getElementById('errType').style.display = "block";
         }
-        else if (sendForm.providerId === '' || sendForm.providerId === null || sendForm.providerId === undefined || sendForm.providerId === 0 || sendForm.providerId === "0") {
-            document.getElementById('errProvider').innerHTML = "select provider";
-            document.getElementById('errProvider').style.display = "block";
+        else if (divs.clinical_notes_category === '' || divs.clinical_notes_category === null || divs.clinical_notes_category === undefined || divs.clinical_notes_category === 0 || divs.clinical_notes_category === "0") {
+            document.getElementById('errCategory').innerHTML = "select category type";
+            document.getElementById('errCategory').style.display = "block";
         }
-        else if (sendForm.description === '' || sendForm.description.trim().length === 0 || sendForm.description === null || sendForm.description === undefined) {
-            document.getElementById('errMessage').innerHTML = "Message can't be blank";
-            document.getElementById('errMessage').style.display = "block";
+        else if (divs.note_related_to === '' || divs.note_related_to.trim().length === 0 || divs.note_related_to === null || divs.note_related_to === undefined) {
+            document.getElementById('errNarrative').innerHTML = "Enter narrative";
+            document.getElementById('errNarrative').style.display = "block";
         }
         else {
-            setShowUnderProcess(1);
-            var obj = {
-                "uhid": activeUHID,
-                "providerId": sendForm.providerId,
-                "typeId": sendForm.typeId,
-                "description": sendForm.description,
-                "clientId": clientID,
-                "userId": window.userId
+            const notesList = divs;
+            let tempArr = [];
+            console.log('notesList', notesList);
+            for (var i = 0; i < notesList.length; i++) {
+                const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
+                const getNotesType = document.getElementById("typeId" + notesList[i].rowID).value;
+                const getNotesCategory = document.getElementById("providerId" + notesList[i].rowID).value;
+                const getNotesDescription = document.getElementById("note_related_to" + notesList[i].rowID).value;
+                tempArr.push({
+                    // id: notesList[i].rowID,
+                    id: 0,
+                    form_id: 0,
+                    code: '',
+                    codetext: '',
+                    description: '',
+                    date: getNotesDate,
+                    clinical_notes_type: getNotesType,
+                    clinical_notes_category: getNotesCategory,
+                    note_related_to: getNotesDescription
+                })
             }
-            const response = await InsertFHIRMessage(obj);
+            console.log('tempArr', tempArr)
+            let obj = {
+                uhid: activeUHID,
+                clientId: clientID,
+                userId: window.userId,
+                jsonFormClinicalNotes: JSON.stringify(tempArr)
+            }
+            console.log(obj);
+            // return;
+            const response = await InsertClinicalNotesForm(obj);
+            setShowUnderProcess(1);
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -161,12 +224,12 @@ function FHIRClinicalNotes() {
     //Handle Update
     const handlerUpdate = async () => {
         // clearValidationErrMessage();    
-        if (sendForm.description === '' || sendForm.description.trim().length === '' || sendForm.description === null || sendForm.description === undefined) {
+        if (divs.note_related_to === '' || divs.note_related_to.trim().length === '' || divs.note_related_to === null || divs.note_related_to === undefined) {
             document.getElementById('errMessage').innerHTML = "Message can't be blank";
             document.getElementById('errMessage').style.display = "block";
         } else {
-            if (sendForm.typeId !== 0 && sendForm.typeId !== "0") {
-                if (sendForm.providerId !== 0 && sendForm.providerId !== "0") {
+            if (divs.clinical_notes_type !== 0 && divs.clinical_notes_type !== "0") {
+                if (divs.clinical_notes_category !== 0 && divs.clinical_notes_category !== "0") {
                     setShowUnderProcess(1);
                     const response = await PutFHIRMessage({
                         ...sendForm,
@@ -234,7 +297,7 @@ function FHIRClinicalNotes() {
     //Clear Error Message
     const clearValidationErrMessage = () => {
 
-        const errTypeElement = document.getElementById('errType');
+        const errTypeElement = document.getElementById('errDate');
         if (errTypeElement) {
             errTypeElement.style.display = "none";
         }
@@ -253,8 +316,6 @@ function FHIRClinicalNotes() {
         clearValidationErrMessage();
         setUpdateBool(0);
         setShowMessage(1)
-        setSendForm({ "userId": window.userId, clientId: window.clientId, "typeId": 0, "providerId": 0, 'description': "" })
-
     }
 
     useEffect(() => {
@@ -267,153 +328,104 @@ function FHIRClinicalNotes() {
             <div className="container-fluid">
                 <div className='row'>
                     <div className='col-12'>
-                        {/* {showMessage === 1 ? */}
-                            {/* <div className='msgTbl'>
-                                <div className='tbl_Heading'>
-                                    <h3>Clinical Notes List</h3>
-                                    <div className='newptmsg'>
-                                        <label htmlFor="ddlRelationshipTertiary" className="form-label" onClick={handleAddNew}><i className='fa fa-plus'></i> Add New</label>
+                        <div className='problemhead'>
+                            {divs.map((div, index) => (
+                                <div className="dflex" key={div.rowID}>
+                                    <div className='col-12'>
+                                        <div className="row">
+                                            <div className="col-4 mb-2">
+                                                <label htmlFor="typeId" className="form-label">Date<span className="starMandatory">*</span></label>
+                                                <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' />
+                                                <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                            </div>
+
+                                            <div className="col-4 mb-2">
+                                                <label htmlFor="typeId" className="form-label">Type<span className="starMandatory">*</span></label>
+                                                <select className="form-select form-select-sm" id={"typeId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_type'>
+                                                    <option value="0">{t("Select Note Type")}</option>
+                                                    {messageTypeList && messageTypeList.map((list) => {
+                                                        return (
+                                                            <option value={list.id}>{list.name}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                                <small id="errType" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                            </div>
+                                            <div className="col-4 mb-2">
+                                                <label htmlFor="providerId" className="form-label">Category<span className="starMandatory">*</span></label>
+                                                <select className="form-select form-select-sm" id={"providerId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_category' >
+                                                    {/* <select className="form-select form-select-sm" id="providerId" aria-label="form-select-sm example" onChange={(e) => handleAddBtnChange(e, index)} name='clinical_notes_category' value={div.clinical_notes_category}> */}
+                                                    <option value="0">{t("Select Note Category")}</option>
+                                                    {providerList && providerList.map((list) => {
+                                                        return (
+                                                            <option value={list.id}>{list.name}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                                <small id="errCategory" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div className='col-12'>
+                                        <div className="row">
+                                            <div className="col-10 mb-2">
+                                                <label htmlFor="description" className="form-label">Narrative<span className="starMandatory">*</span></label>
+                                                <textarea className='mt-1 form-control' name='note_related_to' id={"note_related_to" + div.rowID} rows="3" cols="40" style={{ height: '90px' }} ></textarea>
+                                                {/* <textarea className='mt-1 form-control' id="description" rows="3" cols="40" style={{ height: '90px' }} onChange={(e) => handleAddBtnChange(e, index)} name='description' value={div.description}></textarea> */}
+                                                <small id="errNarrative" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                            </div>
+                                            <div className='col-2'>
+                                                {div.rowID === 1 ?
+
+                                                    <button type="button" style={{ marginTop: '70px' }} class="btnaddtnotes" id="addPriviousNames" onClick={() => { handleAddDiv(div) }}><i class="bi bi-plus-lg"></i> Add</button>
+                                                    :
+                                                    <button type="button" style={{ marginTop: '70px' }} class="btndeltnotes" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i></button>
+                                                }
+                                            </div>
+                                            {/* <div className='col-2 mb-2'>
+                                                {div.rowID === 1 ?
+                                                    <div className="col-md-2 addvisitbtn_ mt-5">
+                                                        <label htmlFor="ddlEmpty" className="form-label"></label>
+                                                        <button type="button" class="btnaddtnotes" id="addPriviousNames" onClick={() => { handleAddDiv(div) }}><i class="bi bi-plus-lg"></i> Add</button>
+                                                    </div>
+                                                    :
+                                                    <div className="col-md-2 addvisitbtn_ mt-5">
+                                                        <label htmlFor="ddlEmpty" className="form-label"></label>
+                                                        <button type="button" class="btndeltnotes" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i></button>
+                                                    </div>
+                                                }
+                                            </div> */}
+                                        </div>
+                                    </div>
+
                                 </div>
+                            ))}
 
-                                <div className="med-table-section msgspantr" style={{ maxHeight: '50vh', minHeight: '30vh', overflow: 'scroll' }}>
-                                    <TableContainer>
-                                        <thead>
-                                            <tr>
-                                                <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                <th>Date</th>
-                                                <th>Type</th>
-                                                <th>Category</th>
-                                                <th>Updated By</th>
-                                                <th className="text-center">Active</th>
-                                                <th>status</th>
-                                                <th style={{ "width": "10%" }} className="text-center">Action</th>
-                                            </tr>
-                                        </thead>
+                            <div className="mb-2 mt-3 relative">
+                                <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
+                                    {showUnderProcess === 1 ? <TosterUnderProcess /> :
+                                        <>
+                                            {showToster === 1 ?
+                                                <Toster value={tosterValue} message={tosterMessage} />
 
-                                        <tbody>
-                                            {messageList && messageList.length > 0 ? (
-                                                messageList.map((list, ind) => (
-                                                    <tr key={list.id}>
-                                                        <td className="text-center">{ind + 1}</td>
-                                                        <td style={{ color: '#03A9F4', fontWeight: '600' }}>{list.typeName}</td>
-                                                        <td>
-                                                            {list.createdDate}&nbsp;
-                                                            ({list.fromUserName} to {list.toUserName})
-                                                            <span>{list.description}</span>
-                                                        </td>
-                                                        <td>{list.lastUpdated}</td>
-                                                        <td>{list.updatedUserName}</td>
-                                                        <td className="text-center">
-                                                            <div className="form-check ps-0" style={{marginTop:'7px'}}>
-                                                                <input type="checkbox" id={`active-${list.id}`} checked={list.isActive === 1} readOnly />
-                                                            </div>
-                                                        </td>
-                                                        <td>{list.messageStatus}</td>
-                                                        <td className="text-center">
-                                                            <div className="action-button">
-                                                                <div>
-                                                                    <img src={editBtnIcon} className='' alt='' onClick={() => { handleUpdate(list.id, list.providerId, list.typeId, list.description) }} />
-                                                                </div>
-                                                                <div >
-                                                                    <img src={deleteBtnIcon} className='' alt='' onClick={() => { handleDeleteRow(list.id) }} />
-                                                                </div>
-                                                             
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">No data available</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </TableContainer>
-                                 
-
-
+                                                : <div>
+                                                    {updateBool === 0 ?
+                                                        <>
+                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />Save</button>
+                                                            <button type="button" className="btn btn-clear btn-sm mb-1" data-bs-dismiss="modal" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' />Cancel</button>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlerUpdate}>Update</button>
+                                                            <button type="button" className="btn btn-clear btn-sm mb-1"  onClick={"handleClear"}>Cancel</button>
+                                                        </>
+                                                    }
+                                                </div>}
+                                        </>
+                                    }
                                 </div>
                             </div>
-                            : */}
-                            <div className='problemhead'>
-                                <div className='col-12'>
-                                    <div className="row">
-
-                                    <div className="col-6 mb-2">
-                                            <label htmlFor="typeId" className="form-label">Date:<span className="starMandatory1">*</span></label>
-                                            <input id="notesDate" type="date" className="form-control form-control-sm" name="notesDate"/>
-                                            <small id="errType" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                        </div>
-
-                                        <div className="col-6 mb-2">
-                                            <label htmlFor="typeId" className="form-label">Type:<span className="starMandatory1">*</span></label>
-                                            <select value={sendForm.typeId} className="form-select form-select-sm" id="typeId" aria-label="form-select-sm example" name='typeId' onChange={handleChange}>
-                                                <option value="0">{t("Select Message Type")}</option>
-                                                {messageTypeList && messageTypeList.map((list) => {
-                                                    return (
-                                                        <option value={list.id}>{list.name}</option>
-                                                    )
-                                                })}
-                                            </select>
-                                            <small id="errType" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                        </div>
-                                        <div className="col-6 mb-2">
-                                            <label htmlFor="providerId" className="form-label">Category:<span className="starMandatory1">*</span></label>
-                                            <select value={sendForm.providerId} className="form-select form-select-sm" id="providerId" aria-label="form-select-sm example" name='providerId' onChange={handleChange}>
-                                                <option value="0">{t("Select_Provider")}</option>
-                                                {providerList && providerList.map((list) => {
-                                                    return (
-                                                        <option value={list.id}>{list.name}</option>
-                                                    )
-                                                })}
-                                            </select>
-                                            <small id="errProvider" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='col-12'>
-                                    <div className="row">
-                                        <div className="col-12 mb-2">
-                                            <label htmlFor="description" className="form-label">Narrative:<span className="starMandatory1">*</span></label>
-                                            <textarea value={sendForm.description} className='mt-1 form-control' id="description" name="description" rows="3" cols="40" style={{ height: '121px' }} onChange={handleChange}></textarea>
-                                            <small id="errMessage" className="form-text text-danger" style={{ display: 'none' }}></small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* <div className='newptmsg'>
-                                        <label htmlFor="ddlRelationshipTertiary" className="form-label" onClick={handleAddNew}><i className='fa fa-plus'></i> Add New</label>
-                                    </div> */}
-                                <div className="mb-2 relative">
-                                    <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
-                                        {showUnderProcess === 1 ? <TosterUnderProcess /> :
-                                            <>
-                                                {showToster === 1 ?
-                                                    <Toster value={tosterValue} message={tosterMessage} />
-
-                                                    : <div>
-                                                        {updateBool === 0 ?
-                                                            <>
-                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlerSave}><img src={saveButtonIcon} className='icnn' alt='' />Save</button>
-                                                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' />Cancel</button>
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlerUpdate}>Update</button>
-                                                                <button type="button" className="btn btn-clear btn-sm mb-1" onClick={handleClear}>Cancel</button>
-                                                            </>
-                                                        }
-                                                    </div>}
-                                            </>
-                                        }
-                                    </div>
-                                </div>
-
-                            </div>
-                        {/* // } */}
-
+                        </div>
                     </div>
                 </div>
 
