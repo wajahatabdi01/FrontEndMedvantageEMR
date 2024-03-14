@@ -362,17 +362,19 @@ export default function FHIRImmunization({ setShowToster }) {
         let investMaker = '';
         let investCodeText = '';
         for (let j = 0; j < investigationArr.length; j++) {
-          investMaker = investMaker.length === 0 ? investigationArr[j].dropdownName + ':' + investigationArr[j].code : investMaker + ';' + investigationArr[j].dropdownName + ':' + investigationArr[j].code;
+          
+          investMaker = investMaker.length === 0 ? investigationArr[j].id : '';
+
           investCodeText = investCodeText.length === 0 ? (investigationArr[j].codeText ? investigationArr[j].codeText : '') : investCodeText + '|' + (investigationArr[j].codeText ? investigationArr[j].codeText : '');
         }
-        var investConCat = investMaker + ' ' + investCodeText;
+        var investConCat = investMaker;
       }
       if (getresponse[i].moduleId === 'ReasonId') {
         const investigationArr = getresponse[i].data;
         let investMakerResaon = '';
         let investCodeTextReason = '';
         for (let k = 0; k < investigationArr.length; k++) {
-          investMakerResaon = investMakerResaon.length === 0 ? investigationArr[k].dropdownName + ':' + investigationArr[k].code : investMakerResaon + ';' + investigationArr[k].dropdownName + ':' + investigationArr[k].code;
+          investMakerResaon = investMakerResaon.length === 0 ? 'CVX' + ':' + investigationArr[k].code : investMakerResaon + ';' + "CVX" + ':' + investigationArr[k].code;
           investCodeTextReason = investCodeTextReason.length === 0 ? (investigationArr[k].codeText ? investigationArr[k].codeText : '') : investCodeTextReason + '|' + (investigationArr[k].codeText ? investigationArr[k].codeText : '');
         }
         var investConCatReason = investMakerResaon + ' ' + investCodeTextReason;
@@ -392,7 +394,7 @@ export default function FHIRImmunization({ setShowToster }) {
           const investigationArr = getresponse[b].data;
 
           for (let j = 0; j < investigationArr.length; j++) {
-            investMakerD = investigationArr[j].dropdownName;
+            investMakerD = "CVX";
             investCodeCVXD = investigationArr[j].code;
             investCodeTextD = investigationArr[j].codeText;
           }
@@ -404,12 +406,12 @@ export default function FHIRImmunization({ setShowToster }) {
           investDropDown = investMakerD;
           investCodeName = investCodeCVXD;
           investCodeTextF = investCodeTextD;
-
+          
         }
         if (getresponse[b].moduleId === 'SNOMED-CTCodeId' + observationRow[c].rowID) {
           const investigationArr = getresponse[b].data;
           for (let j = 0; j < investigationArr.length; j++) {
-            investMakerD = investigationArr[j].dropdownName;
+            investMakerD = "CVX";
             investCodeCVXD = investigationArr[j].code;
             investCodeTextD = investigationArr[j].codeText;
           }

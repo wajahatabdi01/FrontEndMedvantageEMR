@@ -30,6 +30,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
       ...prev,
       [name]: value,
     }));
+    document.getElementById("errInstruction").style.display = "none";
     }
 
     const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -47,7 +48,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
           clientId: clientID,
           uhid:activeUHID
         }
-        console.log('finalObj : ', finalObj)
+       
         const saveRes = await PostClinicalInstructionList(finalObj);
         if(saveRes.status === 1){
           getClinicalList();
@@ -58,12 +59,15 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
             handleClear();
         }
       }
+      else{
+        document.getElementById("errInstruction").style.display = "block";
+      }
       
     }
 
     //////////////////////// Update The data ///////////////////////
     const handleUpdate = async (list) => {
-      console.log('list : ', list)
+      
       setShowSave(0)
       setShowUpdate(1)
       setSendForm((prev) => ({
@@ -77,30 +81,36 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
     }
 
     const handleUpdateSave = async () => {
-      const finalObjUpdate = {
-        id : theRowId,
-        instruction: sendForm.instructionText,
-        userId: window.userId,
-        clientId: clientID,
-        uhid: activeUHID
+      if(sendForm.instructionText && sendForm.instructionText.trim() !== ""){
+        const finalObjUpdate = {
+          id : theRowId,
+          instruction: sendForm.instructionText,
+          userId: window.userId,
+          clientId: clientID,
+          uhid: activeUHID
+        }
+        const resUpdate = await PutClinicalInstructionList(finalObjUpdate);
+        if(resUpdate.status === 1){
+          getClinicalList();
+          setShowSave(1);
+          setShowUpdate(0);
+          setShowToster(25);
+              setTimeout(() => {
+                setShowToster(25)
+              },2000);
+              handleClear();
+        }
       }
-      const resUpdate = await PutClinicalInstructionList(finalObjUpdate);
-      if(resUpdate.status === 1){
-        getClinicalList();
-        setShowSave(1);
-        setShowUpdate(0);
-        setShowToster(25);
-            setTimeout(() => {
-              setShowToster(25)
-            },2000);
-            handleClear();
+      else{
+        document.getElementById("errInstruction").style.display = "block";
       }
+      
     }
 
     const handleDelete = async (id) => {
       if(window.confirm("Do you wish to delete?"))
       {
-        console.log('deleted with id : ', id)
+       
         const resDel = await DeleteClinicalInstructionList(id, window.userId);
         if(resDel.status === 1){
           getClinicalList();
@@ -128,6 +138,9 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
       {
         setClinicalInstructionList(resClinicalLisat.responseValue)
       }
+      else{
+        setClinicalInstructionList([])
+      }
     }
 
     useEffect(() => {
@@ -152,6 +165,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
                                 Notes
                               </label> */}
                               <textarea id="instructionTextId" type="text" className="form-control form-control-sm" name="instructionText" value={sendForm.instructionText} onChange={handleChange}/>
+                              <small id="errInstruction" className="form-text text-danger" style={{display:'none'}}>Instructions cannot be empty.</small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2">
                               <div className="row align-items-center p-2">
@@ -213,8 +227,6 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
                             <button type="button" className="btn btn-secondary btn-sm btn-save-fill mb-1 me-1" onClick={() => {handleUpdate(list)}}>
                               <img src={editIcon} className="icnn" alt="" />
                             </button>
-                            {/* <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Send Prescription" 
-                            ><img src={sendIcon} className="icnn" alt="" /></button> */}
                           </td>
                       </tr>
                     )

@@ -783,7 +783,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
 
           <div className="col-12 mt-2">
             <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
-              <table className="med-table border_ striped mt-3">
+              <table className="med-table border striped mt-3">
                 <thead style={{ zIndex: "0" }}>
                   <tr>
                     <th className="text-center" style={{ width: "5%" }}>
