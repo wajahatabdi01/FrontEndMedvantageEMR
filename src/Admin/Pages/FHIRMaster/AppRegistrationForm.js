@@ -35,6 +35,9 @@ function AppRegistrationForm() {
 
     let handleConfidentialRadio = () => {
         setIsPublic(true);
+        setTimeout(() => {
+            document.getElementById("systemCLient").checked = true
+        }, 200)
     }
     let handlePublicRadio = () => {
         setIsPublic(false);
@@ -90,6 +93,8 @@ function AppRegistrationForm() {
         setUserType(tempArr)
     }
     useEffect(() => {
+        handleConfidentialRadio();
+        handlePublicRadio();
         setIsPublic(true);
     }, [])
     return (
@@ -104,12 +109,12 @@ function AppRegistrationForm() {
                                 <label htmlFor="name" className="form-label">Application Type<span className="starMandatory">*</span></label>
                                 <div className='lifestyleStatus'>
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" onClick={handleConfidentialRadio} checked={isPublic} />
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault1" onClick={handleConfidentialRadio} checked={isPublic} />
                                         <label className="form-check-label" htmlFor="flexRadioDefault1">Confidential</label>
                                     </div>
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" onClick={handlePublicRadio} checked={!isPublic} />
-                                        <label className="form-check-label" htmlFor="flexRadioDefault2">Public</label>
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault1" onClick={handlePublicRadio} checked={!isPublic} />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault">Public</label>
                                     </div>
                                 </div>
                             </div>
@@ -119,22 +124,22 @@ function AppRegistrationForm() {
                                     <div className='lifestyleStatus'>
                                         <div className="form-check form-check-inline">
                                             <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault3">Single Patient Application
+                                            <label className="form-check-label" htmlFor="flexRadioDefault">Single Patient Application
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
                                             <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault4">Multiple Patients Application
+                                            <label className="form-check-label" htmlFor="flexRadioDefault">Multiple Patients Application
+                                            </label>
+                                        </div>
+                                        <div className="form-check form-check-inline">
+                                            <input className="form-check-input" type="radio" id="systemCLient" name="flexRadioDefault" />
+                                            <label className="form-check-label" htmlFor="flexRadioDefault">System Client Application
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
                                             <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault5">System Client Application
-                                            </label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault6">Multipurpose Application
+                                            <label className="form-check-label" htmlFor="flexRadioDefault">Multipurpose Application
                                             </label>
                                         </div>
                                     </div>
@@ -144,24 +149,23 @@ function AppRegistrationForm() {
                                     <label htmlFor="name" className="form-label">Application Context<span className="starMandatory">*</span></label>
                                     <div className='lifestyleStatus'>
                                         <div className="form-check form-check-inline">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault3" >Single Patient Application
+                                            <input className="form-check-input" type="radio" name="ApplicationContext" />
+                                            <label className="form-check-label" htmlFor="ApplicationContext" >Single Patient Application
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault4">Multiple Patients Application
+                                            <input className="form-check-input" type="radio" name="ApplicationContext" />
+                                            <label className="form-check-label" htmlFor="ApplicationContext">Multiple Patients Application
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault6">Multipurpose Application
+                                            <input className="form-check-input" type="radio" name="ApplicationContext" />
+                                            <label className="form-check-label" htmlFor="ApplicationContext">Multipurpose Application
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             }
-
                         </div>
 
                     </BoxContainer>
@@ -251,10 +255,6 @@ function AppRegistrationForm() {
                     <div className='btnfooter'>
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={'handleSave'}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
                     </div>
-
-
-
-
                 </div>
             </section>
         </>
