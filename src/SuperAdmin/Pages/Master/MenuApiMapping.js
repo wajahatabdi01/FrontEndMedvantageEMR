@@ -92,7 +92,7 @@ export default function MenuApiMapping() {
     let getResponse = await GetMenuApiMapping();
     let getMenu = await GetAllMenuMaster();
     let getApi = await GetApiMaster();
-    console.log("bfnbcfs", getResponse)
+    
 
     if (getResponse.status === 1) {
       setMenuMappingList(getResponse.responseValue)
@@ -148,7 +148,7 @@ export default function MenuApiMapping() {
       "apiID": apiID,
       "userId": superAdminUserId,
     }))
-    console.log("menuId", menuId)
+   
     setEditMenu(menuName)
     setEditApi(apiName)
     // document.getElementById("menuID").value = menuId;

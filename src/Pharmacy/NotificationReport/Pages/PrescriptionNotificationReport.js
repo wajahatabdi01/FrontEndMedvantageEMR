@@ -38,7 +38,7 @@ export default function PrescriptionNotificationReport() {
   };
 
   let showPopUp = (param) => {
-    console.log('param : ', param);
+   
     const dataRes = JSON.parse(param.prescriptionDetails);
     let dataParser = [];
     dataParser.push(dataRes);
@@ -86,6 +86,7 @@ export default function PrescriptionNotificationReport() {
     const patientDetails = [];
     const medicineDetails = [];
     const data = [medData.medicineData];
+    
     for (var i = 0; i < data.length; i++) {
       // const findID = "check" + data[i].id + data[i].drugName;
       const findID = "check" + data[i].id;
@@ -98,7 +99,7 @@ export default function PrescriptionNotificationReport() {
           medID: data[i].id,
           isAvailable: 1,
           alternative: getALTValue,
-          drugName: data[i].drugName
+          drugName: data[i].drug
         })
       }
       else if (getALTValue !== "" && getALTValue !== null && getALTValue.trim() !== '' && getALTValue !== undefined) {
@@ -106,7 +107,7 @@ export default function PrescriptionNotificationReport() {
           medID: data[i].id,
           isAvailable: 0,
           alternative: getALTValue,
-          drugName: data[i].drugName
+          drugName: data[i].drug
         })
       }
     }
@@ -137,8 +138,6 @@ export default function PrescriptionNotificationReport() {
         recieverId: medData.userId,
         userId: window.userId,
       }
-
-console.log('obj : ', obj)
 
 
       let finalData = await PostPrescriptionRecord(obj);
@@ -278,7 +277,7 @@ console.log('obj : ', obj)
                                   </tr>
                                 </thead>
                                 <tbody>
-                                {console.log('the medData : ', medData.medicineData)}
+                               
                                   {/* {medData.medicineData && console.log("data", medData.medicineData)} */}
                                   {/* {medData.medicineData && medData.medicineData.map((list, index) => {
                                     return (

@@ -29,7 +29,7 @@ export default function VerifyOtp() {
         }
         else{
             let data= await Verify_Otp(otp,emailOrMobile);
-            console.log('data Response',data);
+            
             if(data.status === 1){
                 navigate('/signup');
             }
@@ -45,7 +45,7 @@ export default function VerifyOtp() {
         document.getElementById('failureResponse').style.display="none";
         document.getElementById('success').style.display="none";
          let data = await VerifyEmailOrMobile(emailOrMobile);
-         console.log('data',data);
+         
          if(data.status === 1){
             document.getElementById('success').style.display="block";
          }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import GetViewCCDAData from '../API/GetViewCCDAData';
 
 export default function FHIRViewCCDA() {
 
@@ -7,11 +7,14 @@ export default function FHIRViewCCDA() {
   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
-  const navigate = useNavigate();
-  const navigateToPage = () => {
+  const navigateToPage = async() => {
     // navigate('/fhirviewccdadata/')
-    window.sessionStorage.setItem("activeUHID",activeUHID)
-    window.open('/fhirviewccdadata/')
+    const resView = await GetViewCCDAData(1);
+    if(resView) {
+      let newwindow = window.open('', '_blank');
+    newwindow.document.write(resView);
+    }
+    // window.open('/fhirviewccdadata/')
   }
 
   return (
@@ -24,6 +27,7 @@ export default function FHIRViewCCDA() {
                     <div className="title">Please click on view button to view patient data.&nbsp;<span>
                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={navigateToPage}>View</button></span></div>
                 </div>
+                
             </div>
           </div>
         </div>

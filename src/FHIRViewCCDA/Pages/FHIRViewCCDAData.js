@@ -7,8 +7,14 @@ export default function FHIRViewCCDAData() {
 
   const getViewData = async () => {
     const resView = await GetViewCCDAData(1);
-    setHtmlData(resView);
-    console.log('resView', resView);
+    if(resView)
+    {
+      let newwindow = window.open('', '_blank');
+      newwindow.document.write(resView);
+
+      // setHtmlData(resView);
+      // console.log('resView', resView);
+    }
   };
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export default function FHIRViewCCDAData() {
   return (
     <React.Fragment>
       {/* Pass htmlData inside an object with the __html property */}
-      <div dangerouslySetInnerHTML={{ __html: htmlData }}></div>
+      {/* <div dangerouslySetInnerHTML={{ __html: htmlData }}></div> */}
     </React.Fragment>
   );
 }

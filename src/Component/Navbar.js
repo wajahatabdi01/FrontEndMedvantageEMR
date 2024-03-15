@@ -170,7 +170,7 @@ export default function Navbar(props) {
     }
 
     setUhid(param.Uhid);
-    setPatientName(param.patientName);
+    setPatientName(param.PatientName);
     };
 
     
@@ -500,8 +500,8 @@ export default function Navbar(props) {
                                                                     return (
                                                                         <tr>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{list.drug}</td>
-                                                                            <td>{list.alternative}</td>
+                                                                            <td>{list.drugName}</td>
+                                                                            <td>{list.alternative ? list.alternative : 'No alternative'}</td>
                                                                             {/* <td>{list.duration}</td>
                                                                             <td>{list.remark}</td>
                                                                             <td><input type='text' className='form-control form-control-sm ' id={'alternativeTxt' + list.id + list.drugName} /></td> */}

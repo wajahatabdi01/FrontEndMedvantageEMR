@@ -106,7 +106,7 @@ export default function PatientChoices() {
       let data = await GetPatientData()
       if(data.status === 1){
         const patientRegistrationData = data.responseValue.patientregistration[0];
-                  console.log("Patientdata>>", patientRegistrationData);
+                 
                   setPatientData(patientRegistrationData);
 
                   setsendForm({
