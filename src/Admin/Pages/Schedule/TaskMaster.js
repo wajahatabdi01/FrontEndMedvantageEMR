@@ -90,7 +90,7 @@ export default function TaskMaster() {
                 "categoryId": selectedcategory,
                 "methodName": ""
             }
-            console.log("Saved Data:::::>",obj)
+            
             // return;
             setShowUnderProcess(1);
 
@@ -126,7 +126,7 @@ export default function TaskMaster() {
     let getCategoryList = async () => {
         const response = await GetNotificationCategory();
         if (response.status === 1) {
-            console.log("responseValue", response.responseValue)
+            
             setCategoryList(response.responseValue);
         }
     }
@@ -134,7 +134,7 @@ export default function TaskMaster() {
     let getTemplateList = async () => {
         const response = await GetAllTemplate();
         if (response.status === 1) {
-            console.log("responseValue", response.responseValue)
+            
             setTemplateList(response.responseValue);
         }
     }
@@ -150,10 +150,10 @@ export default function TaskMaster() {
     const handlerTemplate = async (e) => {
         document.getElementById('errTemplate').style.display = "none";
         const key = e.target.value;
-        console.log('e.target.value', e.target.value)
+       
         for (var i = 0; i < templateList.length; i++) {
             if (templateList[i].id === key) {
-                console.log('templateList[i].id === key', templateList[i])
+                
                 setSelectedTemplateData(templateList[i])
             }
         }

@@ -10,8 +10,10 @@ export default function FHIRViewCCDA() {
   const navigateToPage = async() => {
     // navigate('/fhirviewccdadata/')
     const resView = await GetViewCCDAData(1);
-    let newwindow = window.open('', '_blank');
+    if(resView) {
+      let newwindow = window.open('', '_blank');
     newwindow.document.write(resView);
+    }
     // window.open('/fhirviewccdadata/')
   }
 

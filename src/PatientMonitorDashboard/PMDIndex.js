@@ -214,7 +214,6 @@ export default function PatientMonitoringDashboard() {
 
   // handle search 
   let handleSearch = (e, val) => {
-    console.log("coming", e)
     if (typeof e === "object") {
       if (val === 1) {
         handleSearchs(e, tempFullPatientDataList, setFullPatientDataList)

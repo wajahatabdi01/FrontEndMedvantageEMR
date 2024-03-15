@@ -86,8 +86,7 @@ export default function PatientEmployerDetails() {
     const Patientdata = async()=>{
       let data = await GetPatientData()
       if(data.status === 1){
-        const patientRegistrationData = data.responseValue.patientemployerdetails[0];
-                  console.log("Patientdata>>", patientRegistrationData);
+        const patientRegistrationData = data.responseValue.patientemployerdetails[0];                 
                   setPatientData(patientRegistrationData);
 
                   setsendForm({

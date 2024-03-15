@@ -52,12 +52,12 @@ const Patientdata = async()=>{
   let data = await GetPatientData()
   if(data.status === 1){
     const patientRegistrationData = data.responseValue.patientregistration[0];
-      console.log("Patientdata>>", patientRegistrationData);
+     
      setPatientData(patientRegistrationData);
      setPrimaryInsuranceDetails(data.responseValue.patientinsurancedetails[0])
      setSecondaryInsuranceDetails(data.responseValue.patientinsurancedetails[1])
      setTertiaryInsuranceDetails(data.responseValue.patientinsurancedetails[2])
-     console.log("SecondaryInsuranceDetails",data.responseValue.patientinsurancedetails[2])
+   
   }
 
  }
@@ -66,7 +66,7 @@ const Patientdata = async()=>{
 const GetChiefComplaintData = async()=>{
   let data = await GetChiefComplaint()
   if(data.status === 1){
-      console.log("ChiefComplaint>>", data.responseValue);
+    
       setchiefComplainData(data.responseValue);
   }
   
@@ -77,7 +77,7 @@ const GetChiefComplaintData = async()=>{
   let data = await GetPatientMedicationDetails()
   if(data.status === 1){
     setMedicationDetails(data.responseValue)
-    console.log('medications' ,data.responseValue )
+    
   }
  }
 
@@ -85,7 +85,7 @@ const GetChiefComplaintData = async()=>{
   let data = await GetInvestigationDetails()
   if(data.status === 1){
     setInvestigationData(data.responseValue)
-    console.log("Investigation" , data.responseValue)
+  
   }
  }
 

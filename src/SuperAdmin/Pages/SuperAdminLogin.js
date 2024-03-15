@@ -35,7 +35,7 @@ export default function SuperAdminLogin() {
         setLoder(0)
         setShowAlert(0)
         let resp = response.responseValue;
-        console.log(response)
+       
         window.sessionStorage.setItem('SuperAdminData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName }))
         window.superAdminUserId = resp.id
         window.SuperAdminToken = response.token
@@ -48,7 +48,7 @@ export default function SuperAdminLogin() {
       }
     }
     else {
-      console.log("data", validationResponse)
+      
       setLoder(0)
       setShowAlert(1)
       setAlertmesg(validationResponse[1])
@@ -65,7 +65,7 @@ export default function SuperAdminLogin() {
       if (validationResponse) {
 
         let response = await SuperLoginPost(sendForm)
-        console.log("dsfsfsd", response)
+      
 
         if (response.status === 1) {
           let resp = response.responseValue;

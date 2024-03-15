@@ -163,7 +163,7 @@ export default function HeadMaster() {
       setShowUnderProcess(1)
 
       let rspon = await FileUpload(imagePath)
-      console.log("p[ppppppp", rspon.data)
+      
 
       if (rspon.data.status === 1) {
 
@@ -171,7 +171,7 @@ export default function HeadMaster() {
         temp["imageURL"] = rspon.data.responseValue
         let a = async () => {
           let response = await PutHeadMaster(temp)
-          console.log("dcsdcscsdc", rspon)
+          
 
           if (response.status === 1) {
             setShowUnderProcess(0)
@@ -221,12 +221,11 @@ export default function HeadMaster() {
 
   //Handle File Upload
   let handleUploadFile = async (e) => {
-    console.log('file', e.target.files[0]);
+    
     const selectedFile = e.target.files[0];
     const data = new FormData();
     data.append('fileName', selectedFile.name);
-    //  console.log('selectedFile.name',selectedFile.name)
-    //  console.log('daata',data)
+   
   }
 
 

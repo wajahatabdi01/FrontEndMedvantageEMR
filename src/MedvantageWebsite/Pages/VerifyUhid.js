@@ -66,7 +66,7 @@ export default function VerifyUHID() {
             let response = await ExportPatientDataVerifyOtp(obj);
             if (response.status === 1) {
                 window.sessionStorage.setItem('key', uhid);
-                console.log('navigateTo',navigateTo)
+                
                  if (parseInt(navigateTo) === 1) {
 
                     navigate("/patientData/");

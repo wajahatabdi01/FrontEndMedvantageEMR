@@ -24,7 +24,7 @@ export default function MessageInbox() {
     const handleTextboxChange = (event) => {
         if (event.target.name === "remarkmsg") {
             setremarkmsg(event.target.value);
-            console.log('SetValue in TextBox',getremarkmsg)
+           
         }
     };
     const handleOnMsgClikc = () => {

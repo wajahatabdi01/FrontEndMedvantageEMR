@@ -44,7 +44,7 @@ export default function MenuMaster() {
 
     //Handle Save
     let saveForm = async () => {
-        console.log("sendFormdata", sendForm);
+        
         let valresponse = ValidationMenuMaster(sendForm.menuName, sendForm.url, sendForm.imgUrl, sendForm.tableName, sendForm.description, sendForm.content)
 
         if (valresponse) {
@@ -55,7 +55,7 @@ export default function MenuMaster() {
                 temp["imgUrl"] = rspon.data.responseValue
                 temp["isShortcut"] = isShortcut
 
-                console.log("dssfdsfs", rspon.data.responseValue)
+                
                 let response = await PostMenuMaster(temp);
                 if (response.status === 1) {
                     setShowUnderProcess(0)
@@ -95,7 +95,7 @@ export default function MenuMaster() {
     //Get data
     let getdata = async () => {
         let getResponse = await GetAllMenuMaster();
-        console.log("prent", getResponse.responseValue)
+       
         if (getResponse.status === 1) {
             setMenuList(getResponse.responseValue)
         }
@@ -132,11 +132,10 @@ export default function MenuMaster() {
 
     const handleShortcutChange = () => {
         setIsShortcut(isShortcut === false ? true : false);
-        console.log(isShortcut === false ? true : false)
-
+       
 
         // setIsShortcut(!isShortcut);
-        // console.log(isShortcut);
+       
     };
 
 
@@ -169,7 +168,7 @@ export default function MenuMaster() {
 
     //Handle Button Change
     let handleUpdate = async (id, parentId, menuName, url, tableName, description, superAdminUserId, content, IsShortcut) => {
-        console.log(id, parentId, menuName, url, tableName)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,
