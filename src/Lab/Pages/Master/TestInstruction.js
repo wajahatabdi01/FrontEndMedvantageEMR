@@ -123,7 +123,7 @@ export default function TestInstruction() {
 }
     //Handle Button Change
     let handleUpdate = async (id, instructions, UserId) => {
-        console.log("id", id)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

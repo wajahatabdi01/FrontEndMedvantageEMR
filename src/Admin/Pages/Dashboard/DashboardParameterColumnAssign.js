@@ -187,7 +187,7 @@ export default function DashboardParameterColumnAssign() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationDashboardParameterColumnAssign(sendForm.parameterId)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutDashboardParameterColumnAssign(sendForm)

@@ -126,7 +126,7 @@ export default function SubCategoryMaster() {
     }
     //Handle Button Change
     let handleUpdate = async (id, subCategoryName, categoryId, UserId) => {
-        console.log("id", id)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,
@@ -151,7 +151,7 @@ export default function SubCategoryMaster() {
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutSubCategoryMaster(sendForm.subCategoryName, sendForm.categoryId, sendForm.Id, userID)
-            console.log("response", response)
+           
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)

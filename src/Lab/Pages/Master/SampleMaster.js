@@ -123,7 +123,7 @@ export default function SampleMaster() {
     }
     //Handle Button Change
     let handleUpdate = async (id, sampleName, reamark, UserId) => {
-        console.log("id", id)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

@@ -41,7 +41,7 @@ export default function LanguageHeadMaster() {
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PostLanguageHeadMaster(sendForm);
-            console.log("sendForm", sendForm)
+           
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)
@@ -83,7 +83,7 @@ export default function LanguageHeadMaster() {
         let getResponse = await GetLanguageHeadMaster();
         let getLangResponse = await GetLanguageMaster();
         let getHeadMasterResponse = await GetHeadMaster();
-        console.log("getResponse", getResponse)
+      
 
         if (getResponse.status === 1) {
             setLanguageHeadMasterData(getResponse.responseValue)
@@ -185,7 +185,7 @@ export default function LanguageHeadMaster() {
     // Handle Update
     let saveUpdate = async () => {
         let valresponse = ValidationLanguageHeadMaster(sendForm.languageID)
-        console.log("valresponse", valresponse);
+       
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutLanguageHeadMaster(sendForm)

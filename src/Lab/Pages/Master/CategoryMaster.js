@@ -77,7 +77,7 @@ export default function CategoryMaster() {
     let getdata = async () => {
         let getResponse = await GetCategoryMaster(clientID);
 
-console.log("response",getResponse)
+
         if (getResponse.status === 1) {
             // setLoder(0)
             setCategoryList(getResponse.responseValue)
@@ -122,7 +122,7 @@ console.log("response",getResponse)
         }
     //Handle Button Change
     let handleUpdate = async (id, categoryName, remark, UserId) => {
-        console.log("id", id)
+        
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

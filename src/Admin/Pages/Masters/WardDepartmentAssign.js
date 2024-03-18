@@ -115,7 +115,7 @@ export default function WardDepartmentAssign() {
     let handleChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
-        console.log("name", name, "value", value)
+       
         seteditWardName("")
         SetEditDepartment("")
         setSendForm(sendForm => ({
@@ -155,7 +155,7 @@ export default function WardDepartmentAssign() {
     //Handle Button Change
     let handleUpdate = async (id, wardId, departmentId, userId, wardName, departName) => {
         setUpdateBool(1)
-        console.log("wardId", wardId)
+     
         setSendForm(sendForm => ({
             ...sendForm,
             "id": id,
@@ -172,7 +172,7 @@ export default function WardDepartmentAssign() {
 
     // Handle Update
     let saveUpdate = async () => {
-        console.log("sendForm", sendForm)
+     
         let valresponse = ValidationWardDepartmentAssign(sendForm.wardID, sendForm.departmentID)
 
         if (valresponse) {
@@ -215,7 +215,7 @@ export default function WardDepartmentAssign() {
 
     //Handle Clear
     let handleClear = (value) => {
-        console.log(value)
+        
         setClearDropdown(value)
         seteditWardName("")
         SetEditDepartment("")

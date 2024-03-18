@@ -125,7 +125,7 @@ export default function SubTestMaster() {
     }
     //Handle Button Change
     let handleUpdate = async (id, subTestName, reamark,chemicalCompoundId,testtemplate, UserId) => {
-        console.log("id", id)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,
@@ -283,7 +283,7 @@ export default function SubTestMaster() {
 
                                     <tbody>
                                         {subTestList && subTestList.map((val, ind) => {
-                                            console.log('val : ', val)
+                                            
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{ind + 1}</td>

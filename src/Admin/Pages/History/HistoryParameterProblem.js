@@ -50,7 +50,7 @@ export default function HistoryParameterProblem() {
   //Handle Save
   let saveForm = async () => {
     let valresponse = ValidationHistoryParameterProblem(sendForm.parameterId)
-    console.log("valresponse", valresponse)
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostHistoryParameterProblem(sendForm);
@@ -183,7 +183,7 @@ export default function HistoryParameterProblem() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationHistoryParameterProblem(sendForm.parameterId)
-    console.log("valresponse", valresponse);
+
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutHistoryParameterProblem(sendForm)

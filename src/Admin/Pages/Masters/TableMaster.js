@@ -38,7 +38,7 @@ export default function TableMaster() {
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PostTableMaster(sendForm);
-            console.log("sendForm", sendForm)
+            
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)
@@ -79,7 +79,7 @@ export default function TableMaster() {
 
         let getResponse = await GetTableMaster();
         let getApiResponse = await GetApiMaster();
-        console.log("getResponse", getResponse)
+        
 
         if (getResponse.status === 1) {
             setTableMasterData(getResponse.responseValue)
@@ -174,7 +174,7 @@ export default function TableMaster() {
     // Handle Update
     let saveUpdate = async () => {
         let valresponse = ValidationTableMaster(sendForm.tableName)
-        console.log("valresponse", valresponse);
+        
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutTableMaster(sendForm)

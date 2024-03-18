@@ -203,7 +203,7 @@ export default function ExportPatientDataCCDA() {
                
             })
         const data = arrFormat;
-        console.log('daraa xml',data)
+        
         const fileName = 'PatientCCDA-Data' + uhid;
         const exportType = exportFromJSON.types.xml;
         exportFromJSON({data, fileName, exportType });

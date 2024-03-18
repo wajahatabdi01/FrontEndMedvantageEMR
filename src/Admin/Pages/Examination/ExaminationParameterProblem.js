@@ -52,7 +52,7 @@ export default function ExaminationParameterProblem() {
   //Handle Save
   let saveForm = async () => {
     let valresponse = ValidationExaminationParameterProblem(sendForm.parameterId)
-    console.log("valresponse", valresponse)
+    
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostExaminationParameterProblem(sendForm);
@@ -200,7 +200,7 @@ export default function ExaminationParameterProblem() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationExaminationParameterProblem(sendForm.parameterId)
-    console.log("valresponse", valresponse);
+  
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutExaminationParameterProblem(sendForm)

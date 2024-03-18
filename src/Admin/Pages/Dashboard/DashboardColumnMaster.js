@@ -43,7 +43,7 @@ export default function DashboardColumnMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostDashboardColumnMaster(sendForm);
-      console.log("sendForm", sendForm)
+      
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -166,7 +166,7 @@ export default function DashboardColumnMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationDashboardColumnMaster(sendForm.columnName)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutDashboardColumnMaster(sendForm)

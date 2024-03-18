@@ -44,7 +44,7 @@ export default function EquipmentNameMaster() {
   //Handle Save
   let saveForm = async () => {
     let valresponse = ValidationEquipmentNameMaster(sendForm.equipmentName, sendForm.locationId, sendForm.equipmentTypeId)
-    console.log("valresponse", valresponse)
+    
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostEquipmentNameMaster(sendForm);
@@ -184,7 +184,7 @@ export default function EquipmentNameMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationEquipmentNameMaster(sendForm.equipmentName, sendForm.locationId, sendForm.equipmentTypeId)
-    console.log("valresponse", valresponse);
+    
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutEquipmentNameMaster(sendForm)

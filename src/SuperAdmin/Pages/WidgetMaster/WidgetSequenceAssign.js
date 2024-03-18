@@ -45,7 +45,7 @@ export const WidgetSequenceAssign = () => {
     const getWidgetList = await GetWidgetMaster();
     const getUserList = await GetUserList();
     const getWidgetSequenceAssignList = await GetWidgetSequenceAssign();
-    console.log('getWidgetSequenceAssignList.responseValue', getUserList);
+    
 
     if (getWidgetList.status === 1) {
       setWidgetList(getWidgetList.responseValue);
