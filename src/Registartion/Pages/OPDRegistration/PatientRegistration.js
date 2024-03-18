@@ -1385,7 +1385,7 @@ export default function PatientRegistration() {
 
 
     let save = async () => {
-        const pp= issueDetails.Problem
+        const pp = issueDetails.Problem
         const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
         const ddlDepartment = document.getElementById('ddlDepartment').value;
         const ddlDoctor = document.getElementById('ddlDoctor').value;
