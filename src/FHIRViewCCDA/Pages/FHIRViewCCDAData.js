@@ -6,15 +6,15 @@ export default function FHIRViewCCDAData() {
   const [htmlData, setHtmlData] = useState('');
 
   const getViewData = async () => {
-    const resView = await GetViewCCDAData(1);
-    if(resView)
-    {
-      let newwindow = window.open('', '_blank');
-      newwindow.document.write(resView);
+    // const resView = await GetViewCCDAData(1);
+    // if(resView)
+    // {
+    //   let newwindow = window.open('', '_blank');
+    //   newwindow.document.write(resView);
 
-      // setHtmlData(resView);
-      // console.log('resView', resView);
-    }
+    //   // setHtmlData(resView);
+    //   // console.log('resView', resView);
+    // }
   };
 
   useEffect(() => {

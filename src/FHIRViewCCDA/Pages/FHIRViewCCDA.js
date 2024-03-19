@@ -1,21 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import GetViewCCDAData from '../API/GetViewCCDAData';
+import GetPidFromUhid from '../API/GetPidFromUhid';
 
 export default function FHIRViewCCDA() {
+
+  const [getPID, setPID] = useState('');
 
   let activeUHID = window.sessionStorage.getItem("activePatient")
   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
-  const navigateToPage = async() => {
-    // navigate('/fhirviewccdadata/')
-    const resView = await GetViewCCDAData(1);
-    if(resView) {
-      let newwindow = window.open('', '_blank');
-    newwindow.document.write(resView);
-    }
-    // window.open('/fhirviewccdadata/')
+  const getUHIDFromPID = async () => {
+    const resUHID = await GetPidFromUhid(activeUHID);
+    console.log('resUHID.responseValue[0].pid : ', resUHID.responseValue[0].pid)
+    setPID(resUHID.responseValue[0].pid)
   }
+
+  const navigateToPage = async () => {
+    var ddd= '{"status":0,"message":"failure","responseValue":"The given key userID was not present in the dictionary....}';
+    console.log('dddddd',ddd.length)
+
+    const resView = await GetViewCCDAData(1);
+    console.log('resview length : ', resView.length)
+    if(ddd.length === resView.length){
+      console.log('resView : ', resView);
+        const jsonResponse = JSON.parse(resView);
+        const status = jsonResponse.status;
+        if (status === 0) {
+          alert('Data not available.');
+          // You can choose to show an alert or handle this case in another way
+          return;
+      }
+    }    
+      else{
+        let newWindow = window.open('', '_blank');
+        newWindow.document.write(resView);
+      }
+
+    // try {
+    //     const resView = await GetViewCCDAData(1);
+    //     const jsonResponse = JSON.parse(resView);
+    //     const status = jsonResponse.status;
+
+    //     // Check the status and handle accordingly
+    //     if (status === 0) {
+    //         alert('Data not available.')
+    //         console.log('Message:', jsonResponse.message);
+    //         // You can choose to show an alert or handle this case in another way
+    //         return;
+    //     }
+
+    //     let newWindow = window.open('', '_blank');
+    //     newWindow.document.write(resView);
+    // } catch (error) {
+    //     console.error('Error fetching or displaying CCDA data:', error);
+    //     // Handle the error accordingly, such as showing an error message to the user
+    // }
+};
+
+
+  useEffect(() => {
+    getUHIDFromPID();
+  },[])
 
   return (
     <>

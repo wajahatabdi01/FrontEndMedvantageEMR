@@ -19,12 +19,14 @@ async function GetViewCCDAData(uhid) {
           headers: head,
           method: 'POST'
       });
-      if (!response.ok) {
-        throw new Error('Failed to fetch CCDA data');
-      }
+      
+      // if (!response.ok) {
+        
+      //   throw new Error('Failed to fetch CCDA data');
+      // }
       // Assuming you want to return the HTML content as a string
       let data = await response.text();
-
+      
       return data;
   } catch (error) {
       console.error('Error fetching CCDA data:', error);
