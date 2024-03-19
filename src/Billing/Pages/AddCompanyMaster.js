@@ -78,13 +78,13 @@ export default function SurgeryMaster() {
     //    value : disease.id,
     //    label : disease.problemName
     //     })));
-    //     console.log('data', data);
+    
     // }
     let getAllItemList = async () => {
         setShowLoder(1)
         let data = await getAllTpaCompany();
         
-        console.log('Data',data);
+      
         if (data.status === 1) {
             setShowLoder(0)
             setcompanyList(data.responseValue);
@@ -130,7 +130,7 @@ export default function SurgeryMaster() {
                 userId: userID
             }
             let data = await SaveTpaCompany(obj);
-console.log('OBJ',obj);
+
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -161,7 +161,7 @@ console.log('OBJ',obj);
 //Edit List 
 
     let edit = (list) => {
-        console.log('sss',list);
+       
         document.getElementById('errCompany').style.display = "none";
         setRowID(list.id);
         setIsUpdateBtnShow(true);
@@ -206,7 +206,7 @@ console.log('OBJ',obj);
             status: true,
             userId: userID
         }
-          console.log('obj update', obj);
+        
              let data = await UpdateTpaCompany(obj);
              if (data.status === 1) {
                 setShowUnderProcess(0);
@@ -277,10 +277,10 @@ console.log('OBJ',obj);
         id: rowID,
         userID: userID
         }
-        console.log('object',obj);
+       
     let data = await DeleteTpaCompany(obj);
 
-        console.log('s'.data);
+        
         if (data.status === 1) {
             setShowUnderProcess(0);
             setShowToster(1);
@@ -314,9 +314,7 @@ console.log('OBJ',obj);
 
 
     }, []);
-    let GetId = (id)=>{
-        console.log("ID", id)
-    }
+    
     return (
         <>
             <section className="main-content mt-5 pt-3">

@@ -402,7 +402,7 @@ export default function CultureLaboratoryReport() {
 
     }
 
-    //console.log('save text obj : ', obj );
+  
     
     let saveTextData = await PostCultureLabReport(obj);
     if(saveTextData.status === 1)

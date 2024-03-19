@@ -65,7 +65,7 @@ export default function PatientProfileForDB() {
   }
   useEffect(() => {
     let activeUHID = window["uhid"] === null ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : window["uhid"];
-    console.log("cdscsdcsd", activeUHID)
+   
     getPatientDetails();
     getPatientIPDAllHistory()
   }, []);

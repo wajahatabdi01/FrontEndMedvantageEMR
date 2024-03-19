@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Editor } from "react-draft-wysiwyg";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Heading from "../../../../../Component/Heading";
-import { EditorState } from "draft-js";
-import GetDischargePatientList from "../../../../API/IPD/GetDischargePatientList";
+
 import GetDischargeCard from "./API/GetDischargeCard";
 import Loder from "../../../../../Component/Loader";
 import TextEditor from "../../../../../Component/TextEditor";
@@ -37,9 +36,9 @@ export default function IPDDischargeRightSide(props) {
     }
   };
   let getDischarge = async () => {
-    let procedure = "";
-    let remark = "";
-    let invest = "";
+    // let procedure = "";
+    // let remark = "";
+    // let invest = "";
     let UhId = JSON.parse(
       window.sessionStorage.getItem("IPDactivePatient")
     ).Uhid;

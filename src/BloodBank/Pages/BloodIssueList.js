@@ -54,7 +54,7 @@ export default function BloodIssueList() {
     let getAllRequest = async () => 
     {
       let data = await GetAllBloodRequestList();
-      console.log('test : ', data);
+  
       setAllRequestList(data.responseValue);
      
     }
@@ -66,11 +66,11 @@ export default function BloodIssueList() {
       let productID = list.productID;
       let data = await GetIssueList(bloodGroupID,productID);
       setAllIssueList(data.responseValue);
-      console.log('getAllIssueList : ', data);
+     
     }
 
     let edit = (list) => {
-      console.log('edit', list);
+   
       setpatientName(list.patientName)
       setdepartment(list.department)
       sethospitalName(list.hospitalName)
@@ -87,7 +87,7 @@ export default function BloodIssueList() {
     let updateData = async () => {
       const updateStatus = parseInt(document.getElementById('ddlUpdateStatus').value);
       const res = BloodIssueValidations(updateStatus);
-      console.log('res',res);
+   
       // document.getElementById('errupdateStatus').style.display = 'none';
       var id = res[1];
       if (res === true) {
@@ -97,7 +97,7 @@ export default function BloodIssueList() {
           remark: remark,
           userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
         }
-        console.log('update obj : ', obj);
+        
         let data = await PostBloodIssueStatus(obj);
         if (data.status === 1) {
           setShowUnderProcess(0);
@@ -210,7 +210,7 @@ export default function BloodIssueList() {
 
 
 {/* ///////////////////////////////// Extubate Modal POP up/////////////////////////// */}
-{console.log('setIsShowIssueModel',isShowIssueModel)}
+
 {isShowIssueModel === 1 ?
   <div className={`modal d-${isShowIssueModel === 1 ?"block":""}`} id="EditModal" data-bs-backdrop="static">
 

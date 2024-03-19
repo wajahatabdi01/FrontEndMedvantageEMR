@@ -43,7 +43,7 @@ export default function PharmacyProductMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostProduct(sendForm);
-      console.log("sendForm", sendForm)
+   
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -84,7 +84,7 @@ export default function PharmacyProductMaster() {
     let getResponse = await GetProduct();
     let getItemResponse = await GetManufacturer();
     
-    console.log("getResponse", getResponse)
+   
 
     if (getResponse.status === 1) {
       setProductData(getResponse.responseValue)
@@ -164,7 +164,7 @@ export default function PharmacyProductMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationProductMaster(sendForm.manufacturerId)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutProduct(sendForm)

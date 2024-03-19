@@ -80,7 +80,7 @@ const ReturnSale = () => {
 
 
                 setUhid(uhid)
-                console.log("uhid", uhid)
+             
 
                 let detailsresponse = await GetRegisterDetailsByUHID(uhid);
                 setPatientData(detailsresponse.responseValue.admittedPatientDetails[0])
@@ -101,9 +101,9 @@ const ReturnSale = () => {
 
         for (var i = 0; i < stockList.length; i++) {
             const findID = stockList[i].subid;
-            console.log("findID", findID)
+         
             const isChecked = document.getElementById(findID).checked;
-            console.log("isChecked", isChecked)
+         
             if (isChecked === true) {
                 const retQ = document.getElementById(`returnQty${i}`).value;
                 tempArray.push({
@@ -122,7 +122,7 @@ const ReturnSale = () => {
 
         setSendJsonSaleReturn([...tempArray]);
         setTotalReturnAmount(totalAmount);
-        console.log("sendJsonSaleReturn", [...tempArray])
+       
 
     }
 
@@ -149,7 +149,7 @@ const ReturnSale = () => {
                     let amount = document.getElementById("returnAmount" + ind).value;
                     totalAmount += parseInt(amount);
                 });
-                console.log("arr", arr)
+               
                 setSendJsonSaleReturn([...arr]);
                 setTotalReturnAmount(totalAmount);
             } else {
@@ -158,10 +158,10 @@ const ReturnSale = () => {
 
                 });
                 document.getElementById(-1).checked = false;
-                console.log("arr", [...arr])
+              
                 setSendJsonSaleReturn([]);
                 setTotalReturnAmount(0);
-                console.log("setSendJsonSaleReturn", [setSendJsonSaleReturn])
+               
             }
 
         }
@@ -170,7 +170,7 @@ const ReturnSale = () => {
 
 
     let handleSave = async () => {
-        console.log("setSendJsonSaleReturn", setSendJsonSaleReturn)
+     
         try {
 
             const returnData = {
@@ -182,7 +182,7 @@ const ReturnSale = () => {
                 userId: window.userId,
 
             };
-            console.log("returnData", returnData)
+           
 
             let valresponse = ValidationReturnSale(inputValues.returnRemarks)
 

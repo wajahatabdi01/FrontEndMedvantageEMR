@@ -49,7 +49,7 @@ export default function VehicleRenewal() {
 
   const getDropdownData = async () => {
     let dropdownData = await GetServiceTypeMaster();
-    console.log('dropdowndata', dropdownData);
+   
     if (dropdownData.status === 1) {
       setServiceTypeList(dropdownData.responseValue.map(Services => ({
         value: Services.id,
@@ -66,7 +66,7 @@ export default function VehicleRenewal() {
     } else {
       setShowLoder(0);
     }
-    // console.log('itemcategory', tabledata.responseValue);
+
   };
 
   const handleOnChange = (e) => {
@@ -165,7 +165,7 @@ export default function VehicleRenewal() {
       id: rowID,
       userId: userID
     };
-    // console.log(obj);
+    
 
     let data = await DeleteVehicleRenewal(obj);
 

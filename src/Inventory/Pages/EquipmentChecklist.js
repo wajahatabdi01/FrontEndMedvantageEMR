@@ -59,7 +59,7 @@ export default function EquipmentChecklist() {
     let dropdownmenu = async () => {
       let dataGet = await GetStatusMaster();
       if (dataGet.status === 1) {
-        console.log("Location Data", dataGet.responseValue)
+      
         setStatusList(dataGet.responseValue.map(Status => ({
           value: Status.id,
           label: Status.remark
@@ -69,7 +69,7 @@ export default function EquipmentChecklist() {
       let NamedataGet = await GeitemMaster();
       if (NamedataGet.status === 1) {
        
-        console.log("Name Data", NamedataGet.responseValue)
+        
         setItemNameList(NamedataGet.responseValue.map(Itemname => ({
           value: Itemname.id,
           label: Itemname.itemName,
@@ -77,7 +77,7 @@ export default function EquipmentChecklist() {
       }
       let FeedbackBy = await GetUserAccessedBy()
       if (FeedbackBy.status === 1) {
-        console.log("FeedbackBy", FeedbackBy.responseValue)
+       
         setFeedbackByTable(FeedbackBy.responseValue.map(responsiblePerson => ({
           value: responsiblePerson.id,
           label: responsiblePerson.name
@@ -93,10 +93,10 @@ export default function EquipmentChecklist() {
   let AllEquipmentChecklist = async () => {
     let Checklist = await GetAllEquimentChecklist();
     if (Checklist.status === 1) {
-      console.log("locationdata", Checklist.responseValue)
+    
       setShowLoder(0);
       setDataAllEquipment(Checklist.responseValue);
-      console.log("Checklist" ,Checklist.responseValue);
+     
       
     }
   }
@@ -208,7 +208,7 @@ export default function EquipmentChecklist() {
     document.getElementById("errStatus").style.display="none"
     document.getElementById("errFeedBack").style.display="none" ;
 
-    // console.log('clear')
+    
     setRemark("")
     setSerialNumber("")
     setSelectedItemName(null)

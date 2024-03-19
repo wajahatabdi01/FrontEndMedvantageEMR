@@ -76,7 +76,7 @@ export default function IPDFile() {
             vitalDate = [];
 
             //Get Prescription Data & Date
-            for (var i = 0; i < medIPDFileResp.responseValue.prescription.length; i++) {
+            for (let i = 0; i < medIPDFileResp.responseValue.prescription.length; i++) {
                 prescriptionData.push(medIPDFileResp.responseValue.prescription[i]);
                 prescriptionDate.push(medIPDFileResp.responseValue.prescription[i].medDate);
             }
@@ -88,7 +88,7 @@ export default function IPDFile() {
 
         //Get Lab IPD Data
         if (labIPDFileResp.status === 1) {
-            for (var i = 0; i < labIPDFileResp.responseValue.labIPDFileData.length; i++) {
+            for (let i = 0; i < labIPDFileResp.responseValue.labIPDFileData.length; i++) {
                 labData.push(labIPDFileResp.responseValue.labIPDFileData[i]);
                 labTest.push(labIPDFileResp.responseValue.labIPDFileData[i].testname);
                 labSubtest.push(labIPDFileResp.responseValue.labIPDFileData[i].subTestName);
@@ -111,7 +111,7 @@ export default function IPDFile() {
 
         //Get Intake IPD data
         if (intakeIPDFileResp.status === 1) {
-            for (var i = 0; i < intakeIPDFileResp.responseValue.intakeIPDFileData.length; i++) {
+            for (let i = 0; i < intakeIPDFileResp.responseValue.intakeIPDFileData.length; i++) {
                 intakeData.push(intakeIPDFileResp.responseValue.intakeIPDFileData[i]);
                 intakeDate.push(intakeIPDFileResp.responseValue.intakeIPDFileData[i].datee);
             }
@@ -143,7 +143,7 @@ export default function IPDFile() {
     
     //////////
     let arrData = [];
-    let tempObj = {};
+    // let tempObj = {};
     for (var i = 0; i < uniqueTestNames.length; i++) {
         for (var j = 0; j < labIPDFileData.length; j++) {
             if (uniqueTestNames[i] === labIPDFileData[j].testname) {
@@ -187,7 +187,7 @@ export default function IPDFile() {
                         <div className='pdetailstxt'>
                             <table className='ipdtbl table-certificate'>
                                 <tr>
-                                    <td align='left'><img src={logo} /></td>
+                                    <td align='left'><img src={logo} alt='' /></td>
                                     <td align='right'>
                                         <div className='era'>{t("ERA's Lucknow Medical College")} <br />{t("and")}{t("Hospital-Lucknow")}<br />
                                             <span>{t("Sarfarazganj-Hardoi-Road-Lucknow-226003")}</span>
@@ -270,11 +270,11 @@ export default function IPDFile() {
                                 <tr>
                                     <td align='left'>
                                         <p className='uhidtxt'>{t("Uhid")}</p>
-                                        <img src={bar1} />
+                                        <img src={bar1} alt=''/>
                                     </td>
                                     <td align='right'>
                                         <p className='uhidtxt'>{t("IPNo")}</p>
-                                        <img src={bar2} />
+                                        <img src={bar2} alt = ''/>
                                     </td>
                                 </tr>
                             </table>
@@ -530,7 +530,7 @@ export default function IPDFile() {
                                                 {vitals && vitals.map((vitalsList, index) => {
                                                     if (dateList === vitalsList.datee) {
                                                         return (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td>{vitalsList.vitalName}</td>
                                                                 <td>{vitalsList.aM12}</td>
                                                                 <td>{vitalsList.aM01}</td>
@@ -559,7 +559,10 @@ export default function IPDFile() {
                                                             </tr>
                                                         )
                                                     }
-
+                                                    else {
+                                                             return null; // Return null if the condition is not met
+                                                         }
+                                                    
                                                 })}
 
                                             </tbody>

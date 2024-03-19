@@ -47,7 +47,7 @@ export const HealthViewNutritionalAchievement = () => {
                         <tbody>
     <tr>
         <td className="text-center">1</td>
-        <td><img src={Sodium} className='icnn' /> {t('SODIUM')}</td>
+        <td><img src={Sodium} className='icnn' alt=''/> {t('SODIUM')}</td>
         <td> - </td>
         <td> - </td>
         <td>
@@ -71,7 +71,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">2</td>
-        <td><img src={Magnesium} className='icnn' /> {t('MAGNESIUM')}</td>
+        <td><img src={Magnesium} className='icnn' alt=''/> {t('MAGNESIUM')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>
@@ -83,7 +83,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">3</td>
-        <td><img src={Protein} className='icnn' /> {t('PROTEIN')}</td>
+        <td><img src={Protein} className='icnn' alt=''/> {t('PROTEIN')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>
@@ -101,7 +101,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">4</td>
-        <td><img src={Phosphorus} className='icnn' /> {t('PHOSPHORUS')}</td>
+        <td><img src={Phosphorus} className='icnn' alt=''/> {t('PHOSPHORUS')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>
@@ -113,7 +113,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">5</td>
-        <td><img src={Creatinine} className='icnn' /> {t('CREATININE')}</td>
+        <td><img src={Creatinine} className='icnn' alt=''/> {t('CREATININE')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>
@@ -125,7 +125,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">6</td>
-        <td><img src={Potassium} className='icnn' /> {t('POTASSIUM')}</td>
+        <td><img src={Potassium} className='icnn' alt=''/> {t('POTASSIUM')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>
@@ -137,7 +137,7 @@ export const HealthViewNutritionalAchievement = () => {
     </tr>
     <tr>
         <td className="text-center">7</td>
-        <td><img src={Sodium1} className='icnn' /> {t('SODIUM_1')}</td>
+        <td><img src={Sodium1} className='icnn' alt='' /> {t('SODIUM_1')}</td>
         <td> - </td>
         <td> - </td>
         <td> - </td>

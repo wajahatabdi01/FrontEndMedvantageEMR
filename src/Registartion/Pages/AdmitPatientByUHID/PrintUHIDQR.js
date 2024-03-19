@@ -22,7 +22,7 @@ export default function PrintUHIDQR(props) {
       height: "24px",
       displayValue: true,
     });
-    console.log('dataNew',dataNew)
+   
     window.print("");
   }, []);
   return (

@@ -45,7 +45,7 @@ export const EquipmentMaster = () => {
 
   let Dropdown = async () => {
     let data = await GetItemCatgoryMaster();
-    console.log('data', data);
+  
     if (data.status === 1) {
       setShowLoder(0);
       setItemCategoryTable(data.responseValue.map(ItemCat =>({

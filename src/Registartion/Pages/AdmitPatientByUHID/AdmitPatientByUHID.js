@@ -70,7 +70,7 @@ const GetInsuranceList = async()=>{
     let InsuranceList = await GetInsuranceCompanyList()
     if(InsuranceList.status === 1){
         setInsuranceCompanyList(InsuranceList.responseValue)
-        console.log("InsuranceList" ,InsuranceList.responseValue)
+       
     }
 }
 
@@ -98,7 +98,7 @@ const GetInsuranceList = async()=>{
         let name = e.target.name
         let value = e.target.value
 
-        console.log("e", e.target.selectedName)
+       
         if (name === "uhid") {
 
             let response = await GetRegisterDetailsByUHID(value)
@@ -143,12 +143,12 @@ const GetInsuranceList = async()=>{
 
         let UHID = ""
         let bedL = ""
-        console.log('patientSendData',patientSendData)
+        
         let validationreponse = AdmitPatientValidation(patientSendData.uhid, patientSendData.departmentId, patientSendData.wardID, patientSendData.doctorId, patientSendData.bedId)
         if (validationreponse[0]) {
             setShowUnderProcess(1)
             let response = await POSTAdmitPatientByUHID(patientSendData)
-            console.log("patientSendData", patientSendData)
+         
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)
@@ -160,7 +160,7 @@ const GetInsuranceList = async()=>{
                 }, 2000)
                 // UHID = uhid;
                 // let allptresponse = await GetAdmitDetailsByUhid(UHID);
-                // console.log("allptresponse", allptresponse)
+             
                 // if (allptresponse.status === 1) {
                 //     const allPt = allptresponse.responseValue.admittedPatientDetails[0];
                 //     // if (allPt.length > 0) {
@@ -169,8 +169,7 @@ const GetInsuranceList = async()=>{
                 //     const wardL = allPt.ward;
                 //     const bedL = allPt.ptBed;
                 //     const doctorL = allPt.consultant;
-                //     console.log("doctorL", doctorL)
-                //     console.log("bedL", bedL)
+                
                    
                 //     // window.sessionStorage.setItem("PrintAdmitDetailsQR", JSON.stringify({"patientData":patientData, "uhid":patientSendData.uhid}))
                 //     // const wardIDD = wardID;
@@ -194,7 +193,7 @@ const GetInsuranceList = async()=>{
             else {
                 setShowUnderProcess(0)
                 setShowToster(1)
-                console.log("csdcs", response.responseValue)
+             
                 setTosterMessage(response.responseValue ? response.responseValue : "Data Not Saved")
                 setTosterValue(1)
                 setTimeout(() => {
@@ -222,7 +221,7 @@ let SaveInsuranceDetails = async()=>{
         cardNo: CardNo, 
         userId: userID
         }
-        console.log("InsuranceDetails" , obj)
+       
         let data = await PostInsuranceDetails(obj)
         if(data.status === 1){
         setShowToster(1)
@@ -365,7 +364,7 @@ let SaveInsuranceDetails = async()=>{
                                                                 <td>{t("Bed")}</td>
                                                                 <td className=' d-flex justify-content-end'>
                                                                     <div className='registrationinput'>
-                                                                        {console.log("ward", bedList)}
+                                                                        
                                                                         {bedList &&
 
                                                                             <DropdownWithSearch defaulNname={t("select_Bed")} name="bedId" list={bedList} valueName="bedId" displayName="bedName" getvalue={handleChange} editdata={""} clear={clearDropdown} clearFun={handleClear} />

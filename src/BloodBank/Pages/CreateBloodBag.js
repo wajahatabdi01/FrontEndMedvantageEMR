@@ -92,7 +92,7 @@ export default function CreateBloodBag() {
            
           }
         )
-        console.log("arr",[...arr])
+        
       }
      
       let obj = 
@@ -101,7 +101,7 @@ export default function CreateBloodBag() {
         userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
         visitID:visitID
       }
-      console.log("obj",[obj])
+     
       
       let data = await PostCreateBagComponent(obj);
       if(data.status === 1)

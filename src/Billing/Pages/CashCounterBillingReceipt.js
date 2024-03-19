@@ -17,12 +17,12 @@ export default function CashCounterBillingReceipt() {
     var converter = require('number-to-words');
 
     let getBillingDetails = () => {
-        console.log('object show'); 
+        
         let data =JSON.parse(window.sessionStorage.getItem("PrintBillingDetails"));      
-        // console.log('itemDitemD>datadata', data[0]);
+       
        setBillPrint(data[0]);
        let itemD = JSON.parse(data[0].itemDetails);
-    console.log('itemDitemD>', itemD);
+  
        setItmeDetailByBill(itemD);
      
     }
@@ -30,7 +30,7 @@ export default function CashCounterBillingReceipt() {
 
     const ClientData=()=>{
       let data = JSON.parse(window.sessionStorage.getItem("LoginData")).clientdata;
-      console.log('ClientData' , data)
+     
       setclientData(data)
     }
 
@@ -56,7 +56,7 @@ export default function CashCounterBillingReceipt() {
     
 
     // useEffect(() => {
-    //     console.log('this is useEffect>');
+   
         // getBillingDetails();         
         // document.title = `Cash Bill: ${pDeatails}`; // Set the desired title here
 

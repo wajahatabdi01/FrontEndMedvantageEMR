@@ -81,7 +81,7 @@ export default function SurgeryMaster() {
         setShowLoder(1)
         let data = await getAllTpaCompany();
         
-        console.log('Data',data);
+        
         if (data.status === 1) {
             setShowLoder(0)
             setcompanyList(data.responseValue.map(Tpa=>({
@@ -99,7 +99,7 @@ export default function SurgeryMaster() {
    let itemRates = await GerItemRateByCompany(companyId)
    if(itemRates.status === 1){
     setAllItemRateList(itemRates.responseValue)
-    console.log('RatesList' , itemRates.responseValue)
+   
       }
     }
     let handlerSave = async (selectedOption) => {
@@ -131,9 +131,9 @@ export default function SurgeryMaster() {
                 status: true,
                 userId: userID
             }
-            console.log('OBJ',obj);
+           
             let data = await SaveItemMaster(obj);
-              console.log('OBJ',obj);
+             
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -186,7 +186,7 @@ export default function SurgeryMaster() {
             status: true,
             userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
         }
-          console.log('obj update', obj);
+        
              let data = await UpdateItemMaster(obj);
              if (data.status === 1) {
                 setShowUnderProcess(0);
@@ -232,11 +232,11 @@ export default function SurgeryMaster() {
 
 
     let deleteRow = async () => {
-        console.log(rowID);
+    
         setShowUnderProcess(1);
         const userID = JSON.parse(window.sessionStorage.getItem("LoginData")).userId;
         let data = await DeleteTpaCompany(rowID, userID);
-        console.log('s'.data);
+   
         if (data.status === 1) {
             setShowUnderProcess(0);
             setShowToster(1);

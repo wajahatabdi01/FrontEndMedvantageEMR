@@ -11,9 +11,9 @@ export default function MedicalHistoryReportForDashboard(props) {
     let [showMessage, setShowMessage] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     const getGetMedicalHistoryDetails = async () => {
-        console.log('props.patientdata.uhid', props.patientdata.UhId);
+       
         let response = await GetMedicalHistory(props.patientdata.UhId);
-        console.log('response', response)
+       
         if (response.status === 1) {
             setMedicalHistory(response.responseValue.table)
         }
@@ -26,7 +26,7 @@ export default function MedicalHistoryReportForDashboard(props) {
         getGetMedicalHistoryDetails();
     }, []);
 
-    console.log('medicalHistory', medicalHistory);
+   
     return (
         <>
 

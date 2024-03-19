@@ -101,8 +101,7 @@ const ReturnPurchase = () => {
   //         quantity: retQ,
   //       });
   //       setSendJsonPurchaseReturn([...tempArray])
-  //       console.log("tempArray", tempArray)
-  //       console.log("sendJsonPurchaseReturn", [...tempArray])
+
   //       let amount = document.getElementById("returnAmount" + index).value
 
   //       let t = parseInt(totalReturnAmount)
@@ -110,11 +109,11 @@ const ReturnPurchase = () => {
   //         return ;
   //     }
   //     else if (isChecked === false){
-  //       console.log("tempArray", tempArray)
+
   //       setSendJsonPurchaseReturn([...tempArray])
-  //       console.log("sendJsonPurchaseReturn", [...tempArray])
+
   //       let amount = document.getElementById("returnAmount" + index).value
-  //       console.log("amount", amount, totalReturnAmount)
+
   //       let t = parseInt(totalReturnAmount)
   //       setTotalReturnAmount(t - parseInt(amount));
   //     }
@@ -132,7 +131,7 @@ const ReturnPurchase = () => {
     for (var i = 0; i < purchaseList.length; i++) {
       const findID = purchaseList[i].id;
       const isChecked = document.getElementById(findID).checked;
-      console.log("isChecked", isChecked)
+     
       if (isChecked === true) {
         const retQ = document.getElementById(`returnQty${i}`).value;
         tempArray.push({
@@ -175,7 +174,7 @@ const ReturnPurchase = () => {
           let amount = document.getElementById("returnAmount" + ind).value;
           totalAmount += parseInt(amount);
         });
-        console.log("arr", arr)
+       
 
         setSendJsonPurchaseReturn([...arr]);
         setTotalReturnAmount(totalAmount);
@@ -185,10 +184,10 @@ const ReturnPurchase = () => {
 
         });
         document.getElementById(-1).checked = false;
-        console.log("arr", [...arr])
+       
         setSendJsonPurchaseReturn([]);
         setTotalReturnAmount(0);
-        console.log("sendJsonPurchaseReturn", [sendJsonPurchaseReturn])
+       
       }
 
     }
@@ -197,7 +196,7 @@ const ReturnPurchase = () => {
 
 
   let handleSave = async () => {
-    console.log("sendJsonPurchaseReturn", sendJsonPurchaseReturn)
+    
     try {
 
       const returnData = {
@@ -209,7 +208,7 @@ const ReturnPurchase = () => {
         userId: window.userId,
 
       };
-      console.log("returnData", returnData)
+   
 
       let valresponse = ValidationReturnPurchase(inputValues.returnRemarks)
 

@@ -41,8 +41,7 @@ const [totalEntries, setTotalEntries] = useState(0)
  const handleOnChange = (e) => {
   
   const { name, value } = e.target;
-  console.log('name:', name);
-  console.log('value:', value);
+ 
   if (name === 'fromDate') {
     setfromDate(value)
     
@@ -87,7 +86,7 @@ const DepartmentList = async()=>{
   let department = await GetAllDepartmentList()
   if(department.status === 1){
     setDeparmentlist(department.responseValue);
-    console.log("DepartmentList" , department.responseValue)
+  
   }
 }
 
@@ -101,7 +100,7 @@ const handleOnsearch = async () => {
     let VisitRevistData = await GetAllPatientVisitReport(vist, UHID,Department, patientName, mobileNo, guardianName, emailID,pageSize);
     if (VisitRevistData.status === 1) {
       setVisitRevist(VisitRevistData.responseValue);
-      console.log("VisitData", VisitRevistData.responseValue);
+     
     }
     setShowLoder(0);
   }, 1000); 

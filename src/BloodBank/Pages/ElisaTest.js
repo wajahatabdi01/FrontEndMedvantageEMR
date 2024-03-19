@@ -66,7 +66,7 @@ export default function ElisaTest() {
 
   ///////////////////////////// For Fields to be auto filled when clicked on button //////////////////////////
   let fillTest = (list) => {
-    console.log('the test list : ', list)
+    
     setSaveButtonDisable(false);
     setDonorName(list.donorName);
     setDonorID(list.donorID);
@@ -96,7 +96,7 @@ export default function ElisaTest() {
   let handleSelect = (e, listID) => {
     let t = {}
     let index = tempArray.findIndex(value => value.elisaTestID === listID)
-    console.log("index",index)
+   
     if (index === -1) {
       t = {
         elisaTestID: listID,
@@ -110,7 +110,7 @@ export default function ElisaTest() {
       let t = [...tempArray]
       t[index].resultMasterID = e.target.value
       setTempArray(t)
-      console.log("tempArray",tempArray)
+    
     }
 
 
@@ -140,7 +140,7 @@ export default function ElisaTest() {
       // for(var j = 0; j < testName.length; j++)
       // {
 
-      //   console.log('ddlTestResult'+testName[j].id)
+      
       //   for(var k = 0; k<testResult.length; k++)
       //   {
 
@@ -159,7 +159,7 @@ export default function ElisaTest() {
         jsonelisaTest: JSON.stringify(tempArray),
         userId:JSON.parse(window.sessionStorage.getItem('LoginData')).userId
       }
-      console.log('ur obj : ', obj);
+    
       
       let saveData = await PostUploadElisaTestResult(obj);
       if(saveData.status === 1){

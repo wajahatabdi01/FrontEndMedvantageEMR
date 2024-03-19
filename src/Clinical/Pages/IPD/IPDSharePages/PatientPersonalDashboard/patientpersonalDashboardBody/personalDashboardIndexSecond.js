@@ -76,7 +76,7 @@ import GetPatientLifeSupportAssign from '../../../../../API/IPD/personalDashboar
 export default function PersonalDashboardIndexSecond(props) {
     let [IPDHistoryList, setIPDHistoryList] = useState()
     let [vitalList, setVitalList] = useState()
-    console.log('vitalList', vitalList)
+   
     let [patientDetailsList, setPatientDetailsList] = useState()
     let [patientLifeSupportList, setPatientLifeSupportList] = useState()
 

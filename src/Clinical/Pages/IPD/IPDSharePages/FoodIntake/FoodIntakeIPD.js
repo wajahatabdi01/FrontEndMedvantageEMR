@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import editbtn from '../../../../../assets/images/icons/editbtn.svg'
-import delbtn from '../../../../../assets/images/icons/delbtn.svg'
+// import editbtn from '../../../../../assets/images/icons/editbtn.svg'
+// import delbtn from '../../../../../assets/images/icons/delbtn.svg'
 import savewhite from '../../../../../assets/images/icons/save.svg'
 import reset from '../../../../../assets/images/icons/reset.svg'
-import transfer from '../../../../../assets/images/icons/transfer.svg'
-import del from '../../../../../assets/images/icons/del.svg'
+// import transfer from '../../../../../assets/images/icons/transfer.svg'
+// import del from '../../../../../assets/images/icons/del.svg'
 import calender from '../../../../../assets/images/icons/calender.svg'
 import clock from '../../../../../assets/images/icons/clock.svg'
 import dish from '../../../../../assets/images/icons/dish.svg'
@@ -14,11 +14,11 @@ import BoxContainer from '../../../../../Components/BoxContainer'
 import TableContainer from '../../../../../Components/TableContainer'
 import GetFoodList from '../../../../Api/IPD/FoodInrakeIPD/GetFoodList'
 import GetUnitList from '../../../../Api/IPD/FoodInrakeIPD/GetUnitList'
-import FoodIntakeValidation from '../../../../../Validations/IPD/FoodIntakeValidation'
-import PostFoodIntake from '../../../../Api/IPD/FoodInrakeIPD/PostFoodIntake'
+// import FoodIntakeValidation from '../../../../../Validations/IPD/FoodIntakeValidation'
+// import PostFoodIntake from '../../../../Api/IPD/FoodInrakeIPD/PostFoodIntake'
 import TosterUnderProcess from '../../../../../Components/TosterUnderProcess';
 import Toster from '../../../../../Components/Toster';
-import GetIntakeList from '../../../../Api/IPD/FoodInrakeIPD/GetIntakeList'
+// import GetIntakeList from '../../../../Api/IPD/FoodInrakeIPD/GetIntakeList'
 import GetFoodIntakeList from '../../../../../Dietetics/API/FoodIntake/GetFoodIntakeList'
 import DieteticsFoodIntakeValidation from '../../../../../Dietetics/API/FoodIntake/DieteticsFoodIntakeValidation'
 import SaveFoodIntake from '../../../../../Dietetics/API/FoodIntake/SaveFoodIntake'
@@ -43,8 +43,8 @@ export default function FoodIntakeIPD() {
     let [showToster, setShowToster] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
     let [tosterValue, setTosterValue] = useState(0);
-    let [showMessage, setShowMessage] = useState(0);
-    let [showAlertToster, setShowAlertToster] = useState(0);
+    // let [showMessage, setShowMessage] = useState(0);
+    // let [showAlertToster, setShowAlertToster] = useState(0);
     let [clearDropdown, setClearDropdown] = useState(0)
 
     let getDate=()=>{
@@ -68,7 +68,7 @@ export default function FoodIntakeIPD() {
     let handleChangeDropdown = (e)=>{
       clearError();
       let value = e.target.value 
-      let name = e.target.name
+      // let name = e.target.name
       getData(value)
       setFood(value);
   
@@ -248,7 +248,7 @@ export default function FoodIntakeIPD() {
                    <span className='fieldse'>{t("Food Intake")}</span>
                     <BoxContainer>
                     <div className="mb-2 me-2">
-                      <img src={calender} className='icnn'/> <label htmlFor="txtDate" className="form-label">{t("DATE")}</label>
+                      <img src={calender} className='icnn' alt=''/> <label htmlFor="txtDate" className="form-label">{t("DATE")}</label>
                         <input type="date"  value={txtDate} className="form-control form-control-sm" id="txtDate" name="txtDate" placeholder={t("Enter Date")} onChange={handleChange}/>
                         <small id='errDate' className='form-text text-danger' style={{ display: 'none' }}></small>
                       </div>
@@ -258,24 +258,24 @@ export default function FoodIntakeIPD() {
                         <small id='errDate' className='form-text text-danger' style={{ display: 'none' }}></small>
                       </div> */}
                       <div className="mb-2 me-2">
-                      <img src={clock} className='icnn'/> <label htmlFor="time" className="form-label">{t("TIME")}</label>
+                      <img src={clock} className='icnn' alt=''/> <label htmlFor="time" className="form-label">{t("TIME")}</label>
                         <input type="time" className="form-control form-control-sm" id="time" name="time" placeholder={t("Enter Time")} onChange={handleChange}/>
                         <small id='errTime' className='form-text text-danger' style={{display:'none'}}></small>
                       </div>
                       <div className="mb-2 me-2">
-                      <img src={dish} className='icnn'/> <label htmlFor="dish" className="form-label">{t("Food")}</label>
+                      <img src={dish} className='icnn' alt=''/> <label htmlFor="dish" className="form-label">{t("Food")}</label>
                       
                         {foodList && <DropdownWithSearch defaulNname={t("Select Food")} name="foodName" id="foodName" list={foodList} valueName="id" displayName="foodName"  getvalue={handleChangeDropdown} editdata={""} clear={clearDropdown} clearFun={clear}/>
                         }
                         <small id='errFood' className='form-text text-danger' style={{display:'none'}}></small>
                       </div>             
                       <div className="mb-2 me-2">
-                      <img src={quantity1} className='icnn'/> <label htmlFor="Quantity" className="form-label" >{t("Quantity")}</label>
+                      <img src={quantity1} className='icnn' alt=''/> <label htmlFor="Quantity" className="form-label" >{t("Quantity")}</label>
                         <input type="text" className="form-control form-control-sm" id="quantity" name="quantity" value={Quantity} onChange={handleChange} placeholder={t("Enter Quantity")} />
                         <small id='errQuantity' className='form-text text-danger' style={{display:'none'}}></small>
                       </div>  
                       <div className="mb-2 me-2">
-                      <img src={unitIcon} className='icnn'/> <label htmlFor="Unit" className="form-label">{t("Unit")}</label>
+                      <img src={unitIcon} className='icnn' alt=''/> <label htmlFor="Unit" className="form-label">{t("Unit")}</label>
                         <select className="form-select form-select-sm" aria-label=".form-select-sm example" id='unit' name='unit' onChange={handleChange} >
                         <option value="0">{t("Select Unit")}</option> {unitList && unitList.map((val, index) => { return (<option value={val.unitId}>{val.unitName}</option>) })}
                         </select>
@@ -295,8 +295,8 @@ export default function FoodIntakeIPD() {
                         :
                         <div>
                           <>
-                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={savewhite} className='icnn'/> {t("Save")}</button>
-                            <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1" onClick={()=>{clear(1)}}><img src={reset} className='icnn'/> {t("Reset")}</button>
+                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={save}><img src={savewhite} className='icnn' alt=''/> {t("Save")}</button>
+                            <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1" onClick={()=>{clear(1)}}><img src={reset} className='icnn' alt=''/> {t("Reset")}</button>
                           </> 
                            
                           

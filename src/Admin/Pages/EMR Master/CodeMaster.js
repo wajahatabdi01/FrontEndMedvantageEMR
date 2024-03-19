@@ -8,7 +8,7 @@ import Search from '../../../assets/images/icons/search_7079548.png'
 import '../../../assets/css/multipleSelectDropdown.css'
 import '../../../assets/css/App.css'
 import NoDataFound from '../../../assets/images/icons/No data-rafiki.svg'
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+
 import Loader from '../../../Component/Loader';
 import GetCarePlanType from '../../../FHIRCarePlan/API/GetCarePlanType';
 
@@ -82,7 +82,7 @@ export const CodeMaster = (props) => {
                 }
             }
             
-            // console.log('result ............ : ', result)
+          
             // if (getBindRes.responseValue.length === 0) {
             //     setLoader(0);
             //     setShowImage(1);

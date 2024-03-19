@@ -6,7 +6,7 @@ import GetMachineList from '../../../../API/AssignMachinetoPatient/GetMachineLis
 import PostAssignMachineToPatient from '../../../../API/AssignMachinetoPatient/PostAssignMachineToPatient'
 import GetListofAssignedMachine from '../../../../API/AssignMachinetoPatient/GetListofAssignedMachine'
  import deleteBtnIcon from '../../../../../assets/images/icons/delete.svg';
- import editBtnIcon from '../../../../../assets/images/icons/edit.svg';
+//  import editBtnIcon from '../../../../../assets/images/icons/edit.svg';
 import RemoveMachine from  '../../../../API/AssignMachinetoPatient/RemoveMachine'
 import DeleteAssignedMachine from '../../../../API/AssignMachinetoPatient/DeleteAssignedMachine'
 import AlertToster from '../../../../../Component/AlertToster';
@@ -14,7 +14,7 @@ import SuccessToster from '../../../../../Component/SuccessToster';
 import Loader from '../../../../../Component/Loader';
 import { useTranslation } from 'react-i18next';
 import  i18n from "i18next";
-import send from '../../../../../assets/images/icons/send.svg'
+// import send from '../../../../../assets/images/icons/send.svg'
 import save from '../../../../../assets/images/icons/save.svg'
 import clear from '../../../../../assets/images/icons/clear.svg'
 
@@ -23,7 +23,7 @@ import clear from '../../../../../assets/images/icons/clear.svg'
 export default function AssignMachinetoPatient() {
     const {t} = useTranslation();
     document.body.dir = i18n.dir();
-    let [isUpdateBtnShow, setIsUpdateBtnShow] = useState(false);
+    // let [isUpdateBtnShow, setIsUpdateBtnShow] = useState(false);
     let [machineTypeList, setMachineTypeList] = useState([]);
     let [machineList, setMachineList] = useState([]);
     let [machineTypeID, setMachineTypeID] = useState('0');
@@ -75,6 +75,7 @@ export default function AssignMachinetoPatient() {
                     getpmID =  val.pmId ; 
                     return;
                 }
+                
              });
         const response= await GetListofAssignedMachine(getpmID);
         if(response.status === 1){
@@ -111,6 +112,7 @@ export default function AssignMachinetoPatient() {
                     getPmID=  val.pmId ; 
                     return;
                 }
+                
              });
              if(getPmID !== "" || getPmID !== null || getPmID !== undefined){
 

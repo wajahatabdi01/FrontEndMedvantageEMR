@@ -44,7 +44,7 @@ function AppRegistrationForm() {
     }
     let changeUser = (ids) => {
         let data = [...userType]
-        console.log("data", ids)
+        
         if (data.length === 0) {
             data.push(
                 {
@@ -53,9 +53,9 @@ function AppRegistrationForm() {
             )
         }
         else {
-            console.log('data List', data)
+            
             var index = data.findIndex((arr, i) => arr.id === ids);
-            console.log('index', index)
+          
 
             if (index !== -1) {
                 document.getElementById('ddlSelectAllUser').checked = false;
@@ -75,7 +75,7 @@ function AppRegistrationForm() {
     let handlerSelectAll = () => {
         const isSelectedAll = document.getElementById("ddlSelectAllUser").checked;
         let tempArr = [];
-        console.log('isSelectedAll', isSelectedAll)
+       
         for (var i = 0; i < scopesList.length; i++) {
             let getID = scopesList[i].id;
             if (isSelectedAll === true) {
@@ -89,7 +89,7 @@ function AppRegistrationForm() {
             }
         }
 
-        console.log('tempArr', tempArr)
+        
         setUserType(tempArr)
     }
     useEffect(() => {

@@ -41,7 +41,7 @@ export default function HSNCodeMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostHSNCode(sendForm);
-      console.log("sendForm", sendForm)
+   
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -78,7 +78,7 @@ export default function HSNCodeMaster() {
   //Get data
   let getdata = async () => {
     let getResponse = await GetHSNCode();
-    console.log("getResponse", getResponse)
+    
 
     if (getResponse.status === 1) {
       // setLoder(0)
@@ -151,7 +151,7 @@ export default function HSNCodeMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationHSNCodeMaster(sendForm.hsnCode)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutHSNCode(sendForm)

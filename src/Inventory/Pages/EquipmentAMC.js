@@ -77,7 +77,7 @@ export const EquipmentAMC = () => {
                 value: serviceType.id,
                 label: serviceType.serviceType,
             })))
-            console.log('ServiceType', serviceTypelist.responseValue)
+          
         }
     }
 
@@ -102,7 +102,7 @@ export const EquipmentAMC = () => {
     const getEquipmentAMCData = async () => {
         setShowLoder(1);
         const data = await GetTableData();
-        console.log('data', data);
+    
         if (data.status === 1) {
             setShowLoder(0);
             setEquipmentAMCList(data.responseValue);

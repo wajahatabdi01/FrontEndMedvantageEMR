@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import injection from '../../../../../../assets/images/icons/injection.svg';
-import capsule from '../../../../../../assets/images/icons/capsule.svg';
-import Urine from '../../../../../../assets/images/HistoryViewIcons/Urine.svg';
+// import injection from '../../../../../../assets/images/icons/injection.svg';
+// import capsule from '../../../../../../assets/images/icons/capsule.svg';
+// import Urine from '../../../../../../assets/images/HistoryViewIcons/Urine.svg';
 import GetHealthViewIntakeOutput from '../../../../../API/IPD/HealthView/GetHealthViewIntakeOutput';
 import { FindByQuery } from '../../../../../../Code/Serach';
 import { useTranslation } from 'react-i18next';

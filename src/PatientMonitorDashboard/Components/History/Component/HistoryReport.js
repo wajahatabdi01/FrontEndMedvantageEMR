@@ -13,9 +13,9 @@ export default function HistoryReport(props) {
     let [showMessage, setShowMessage] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     const getGetFamilyHistoryDetails = async ()=>{
-        console.log('props.patientdata.UhId', props);
+     
         let response = await GetFamilyHistoryReport(props.patientdata.UhId);
-        console.log('response',response)
+     
         if(response.status ===  1){
             setFamilyHistory(response.responseValue)
         }

@@ -39,7 +39,7 @@ export default function ItemSubCategoryMaster() {
 
   const getDropdownData = async () => {
     let dropdownData = await GetItemCategoryMaster();
-    console.log('dropdowndata', dropdownData);
+   
     if (dropdownData.status === 1) {
       setcategorylist(dropdownData.responseValue.map(category => ({
         value: category.id,
@@ -56,7 +56,7 @@ export default function ItemSubCategoryMaster() {
     } else {
       setShowLoder(0);
     }
-    // console.log('itemcategory', tabledata.responseValue);
+   
   };
 
   const handleOnChange = (e) => {
@@ -155,7 +155,7 @@ export default function ItemSubCategoryMaster() {
       id: rowID,
       userId: userID
     };
-    // console.log(obj);
+
 
     let data = await DeleteItemSubCategory(obj);
 

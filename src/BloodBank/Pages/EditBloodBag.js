@@ -46,7 +46,7 @@ export default function EditBloodBag() {
   let [rowID, setRowID] = useState('');
 
   let edit = (list) => {
-    console.log(list);
+    
     document.getElementById('ddlBagComponent').value = list.bagCompositionID;
     setDonorName(list.donorName);
     setDonorID(list.donorID);
@@ -55,7 +55,7 @@ export default function EditBloodBag() {
     setBloodGroup(list.groupName);
     getProductMapping(list.bagCompositionID);
     setVisitID(list.visitID);
-    console.log('bagCompositionID : ', list.bagCompositionID)
+   
   }
 
   let updateData = async () => {
@@ -72,17 +72,17 @@ export default function EditBloodBag() {
           }
         )
       }
-      console.log('to check json : ', arr);
+ 
 
       let obj = {
         jsonbagComposition: JSON.stringify(arr),
         userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
         visitID: visitID,
       }
-      console.log('obj : ', obj);
+     
 
       let data = await PutBloodBag(obj)
-      console.log('gdgdgdgd : ', data);
+      
       if (data.status === 1) {
         setShowUnderProcess(0);
         setTosterValue(0);
@@ -116,13 +116,13 @@ export default function EditBloodBag() {
   }
 
   let deleteData = async () => {
-    console.log('rowID : ', rowID);
+   
     const userID = JSON.parse(window.sessionStorage.getItem('LoginData')).userId;
     var obj = {
       visitID: rowID,
       userId: userID,
     }
-    console.log('delete id : ', obj);
+    
 
     let data = await DeleteBloodBag(obj);
 
@@ -151,16 +151,16 @@ export default function EditBloodBag() {
   }
 
   let getProductMapping = async (id) => {
-    console.log('id : ', id)
+    
     let data = await GetBagProductMapping(id)
     setProductComponent(data.responseValue)
-    console.log('product mapping : ', data)
+  
   }
 
   let productsToUpdate = async () => {
     const bagCompoID = document.getElementById('ddlBagComponent').value;
     let data = await GetBagProductMapping(bagCompoID);
-    console.log('bag ID for new product : ', data);
+    
     setProductComponent(data.responseValue);
 
   }
@@ -323,7 +323,7 @@ export default function EditBloodBag() {
                   </thead>
 
                   <tbody>
-                    {console.log('listttt : ', allCreatedBagList)}
+                   
                     {allCreatedBagList && allCreatedBagList.map((list, index) => {
                       return (
                         <tr>

@@ -31,10 +31,10 @@ export default function SalePrint() {
     let getPTData = async () => {
         let ptData = JSON.parse(window.sessionStorage.getItem("PrintSaleByBillNoData"));
         // let ptData = JSON.parse(window.sessionStorage.getItem("PrintBillData"));
-        console.log("ptData",ptData)
+        
         setPrintData(ptData);
         const billNo = ptData.billNo;
-        console.log("billNo",billNo)
+        
         setBillNo(billNo)
     }
 
@@ -67,7 +67,7 @@ export default function SalePrint() {
     //                 // }));
     //                 // Now, make the API request using the billNo
     //                 let salesubresponse = await GetAllSaleByBillNo(billNo);
-    //                 console.log("salesubresponse", salesubresponse);
+    //                 
 
     //                 if (salesubresponse.status === 1) {
     //                     setJsonPrintData(salesubresponse.responseValue);
@@ -89,7 +89,7 @@ export default function SalePrint() {
         
         
         let salesubresponse = await GetAllSaleByBillNo(billNo);
-                     console.log("salesubresponse", salesubresponse);
+                   
     
                        if (salesubresponse.status === 1) {
                              setJsonPrintData(salesubresponse.responseValue);

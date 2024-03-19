@@ -56,7 +56,7 @@ export default function CreditLimit() {
    let insuranceDetails = await GetAllinsuranceDetails(UHID)
    if(insuranceDetails.status === 1){
     setCreditLimitList(insuranceDetails.responseValue)
-    console.log('Insurance Details',insuranceDetails.responseValue )
+    
    }
  
   }
@@ -99,7 +99,7 @@ if(name === "remark"){
   userID: userID
  }
 
- console.log("obj" , RowIndex)
+
 
     let data = await PostCreditLimit(obj);
     if (data.status === 1) {
@@ -146,7 +146,7 @@ const handleCrediRowClick=async(index)=>{
   setrowUHID(RowIndex.uhid)
   setrowCompanyName(RowIndex.companyname)
   setrowCardNo(RowIndex.cardNo)
-  console.log("Row" ,RowIndex)
+ 
 }
 
   // const handleUpdate = async () => {
@@ -212,7 +212,7 @@ const handleCrediRowClick=async(index)=>{
     //   setisNewRowAdded(false)
     //   GetComplaintCategory()
     //   handleClear()
-    //   console.log('success')
+   
     //   setTimeout(() => {
     //     setShowToster(0);
 

@@ -56,7 +56,7 @@ export default function SurgeryMaster() {
     //    value : disease.id,
     //    label : disease.problemName
     //     })));
-    //     console.log('data', data);
+    
     // }
     let getAllItemList = async () => {
         setShowLoder(1)
@@ -89,7 +89,7 @@ export default function SurgeryMaster() {
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
             let data = await SaveItemMaster(obj);
-console.log('OBJ',obj);
+
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -144,7 +144,7 @@ console.log('OBJ',obj);
             status: true,
             userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
         }
-          console.log('obj update', obj);
+          
              let data = await UpdateItemMaster(obj);
              if (data.status === 1) {
                 setShowUnderProcess(0);
@@ -194,11 +194,11 @@ console.log('OBJ',obj);
         setRowID(id);
     }
     let deleteRow = async () => {
-        console.log(rowID);
+        
         setShowUnderProcess(1);
         const userID = JSON.parse(window.sessionStorage.getItem("LoginData")).userId;
         let data = await DeleteItem(rowID, userID);
-        console.log('s'.data);
+       
         if (data.status === 1) {
             setShowUnderProcess(0);
             setShowToster(1);
@@ -230,9 +230,7 @@ console.log('OBJ',obj);
 
 
     }, []);
-    let GetId = (id)=>{
-        console.log("ID", id)
-    }
+    
     return (
         <>
             <section className="main-content mt-5 pt-3">

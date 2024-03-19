@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../../../assets/css/CertificateCard.css'
 import logo from '../../../assets/images/Navbar/offcanvas-logo.png'
 import bar1 from '../../../assets/images/icons/bar1.png'
@@ -26,7 +26,7 @@ export default function IPDFile1() {
                                <div className='pdetailstxt' style={{'display':'none1'}}>
                                     <table className='ipdtbl table-certificate'>
                                         <tr>
-                                            <td align='left'><img src={logo} /></td>
+                                            <td align='left'><img src={logo} alt=''/></td>
                                             <td align='right'>
                                                 <div className='era'>ERA's Lucknow Medical College <br/>& Hospital,Lucknow<br/>
                                                 <span>Sarfarazganj, Hardoi Road, Lucknow-226003</span>
@@ -99,11 +99,11 @@ export default function IPDFile1() {
                                         <tr>
                                             <td align='left'>
                                                 <p className='uhidtxt'>UHID</p>
-                                                <img src={bar1} />
+                                                <img src={bar1} alt=''/>
                                             </td>
                                             <td align='right'>
                                                 <p className='uhidtxt'>IPNO</p>
-                                                <img src={bar2} />
+                                                <img src={bar2} alt=''/>
                                             </td>
                                         </tr>
                                     </table>                                    

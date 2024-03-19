@@ -32,7 +32,7 @@ export default function SalePrint() {
     let getPTData = async () => {
         let ptData = JSON.parse(window.sessionStorage.getItem("PrintSaleData"));
         // let ptData = JSON.parse(window.sessionStorage.getItem("PrintBillData"));
-        console.log("ptData", ptData);
+       
         setPrintData(ptData);
         // setBillData(ptData)
     }
@@ -40,7 +40,7 @@ export default function SalePrint() {
     let functionGetLoginData = () => {
         let response = JSON.parse(window.sessionStorage.getItem("LoginData"));
         let getLoginData = response.clientdata
-        console.log("getLoginData", getLoginData);
+       
         setLoginData(getLoginData)
         let username = response
       setUserName(username)
@@ -76,7 +76,7 @@ export default function SalePrint() {
                     // }));
                     // Now, make the API request using the billNo
                     let salesubresponse = await GetAllSaleByBillNo(billNo);
-                    console.log("salesubresponse", salesubresponse);
+                    
 
                     if (salesubresponse.status === 1) {
                         setJsonPrintData(salesubresponse.responseValue);

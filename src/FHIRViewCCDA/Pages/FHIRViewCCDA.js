@@ -12,18 +12,18 @@ export default function FHIRViewCCDA() {
 
   const getUHIDFromPID = async () => {
     const resUHID = await GetPidFromUhid(activeUHID);
-    console.log('resUHID.responseValue[0].pid : ', resUHID.responseValue[0].pid)
+   
     setPID(resUHID.responseValue[0].pid)
   }
 
   const navigateToPage = async () => {
     var ddd= '{"status":0,"message":"failure","responseValue":"The given key userID was not present in the dictionary....}';
-    console.log('dddddd',ddd.length)
+   
 
     const resView = await GetViewCCDAData(1);
-    console.log('resview length : ', resView.length)
+    
     if(ddd.length === resView.length){
-      console.log('resView : ', resView);
+    
         const jsonResponse = JSON.parse(resView);
         const status = jsonResponse.status;
         if (status === 0) {
@@ -45,7 +45,7 @@ export default function FHIRViewCCDA() {
     //     // Check the status and handle accordingly
     //     if (status === 0) {
     //         alert('Data not available.')
-    //         console.log('Message:', jsonResponse.message);
+  
     //         // You can choose to show an alert or handle this case in another way
     //         return;
     //     }
@@ -53,7 +53,7 @@ export default function FHIRViewCCDA() {
     //     let newWindow = window.open('', '_blank');
     //     newWindow.document.write(resView);
     // } catch (error) {
-    //     console.error('Error fetching or displaying CCDA data:', error);
+   
     //     // Handle the error accordingly, such as showing an error message to the user
     // }
 };

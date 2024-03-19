@@ -56,10 +56,10 @@ export function User() {
     const name = e.target.name;
     const value = e.target.value;
 
-    console.log('name', name)
+  
 
     if (name === "subject") {
-      console.log('namevalue', value)
+    
       setTxtSubject(value)
     }
     else if (name === "ddlPriority") {
@@ -69,7 +69,7 @@ export function User() {
   }
   const getPriorityList = async () => {
     const response = await GetPriorityList();
-    console.log('response', response)
+   
     if (response.status === 1) {
       setPriorityList(response.responseValue)
     }
@@ -83,9 +83,9 @@ export function User() {
       UserId: 10104
       // UserId:userID
     }
-    console.log('obj', obj)
+    
     const response = await GetTicketList(obj);
-    console.log('response all ticket', response)
+   
     if (response.status === 1) {
       setTicketList(response.responseValue)
       setShowLoder(0);
@@ -98,15 +98,14 @@ export function User() {
   }
   const getStatusList= async ()=>{
     const response = await GetStatusList();
-    console.log('Status Res--->',response)
+    
     if(response.status === 1){
       setTicketStatusList(response.responseValue)
     }
   }
   const handleGenerateTicket = async () => {
     const validationSuccess = handleSaveValidation(txtSubject, selectedPriority, editorValue);
-    console.log('validationSuccess', validationSuccess)
-    console.log('selectedPriority', selectedPriority);
+   
     if (validationSuccess === true) {
       setShowUnderProcess(1)
       var obj = {
@@ -120,9 +119,9 @@ export function User() {
         Subject: txtSubject,
         FilePath: attachmentUrl
       }
-      console.log('obj->::', obj)
+    
       const response = await GenerateTicket(obj);
-      console.log('response', response)
+      
       if (response.status === 1) {
         setShowUnderProcess(0)
         setTosterValue(0);
@@ -174,11 +173,11 @@ export function User() {
   }
   const handlerUploadAttachment = async (e) => {
     const fileData = e.target.files[0];
-    console.log('e.target.files[0]', fileData);
+  
     const formData = new FormData();
     formData.append('file', fileData)
     const response = await UploadAttachment(formData);
-    console.log('response', response);
+   
     setAttachmentURl(response)
   }
   const handlerClear = (value) => {
@@ -200,7 +199,7 @@ export function User() {
 
   }
   const handleEdit = (params) => {
-    console.log('params', params);
+   
     setTxtSubject(params.subject);
     setEditorValue(params.description);
     setSelectedPriority(params.priorityId);
@@ -223,7 +222,7 @@ export function User() {
         Subject: txtSubject,
         FilePath: ''
       }
-      console.log('obj->::', obj);
+    
       const response = await UpdateTicket(obj);
       if (response.status === 1) {
         setShowUnderProcess(0)
@@ -257,7 +256,7 @@ export function User() {
       ClientId: 5,
       UserId: 10104
     }
-    console.log('delete obj', obj)
+   
     const response = await DeleteTicket(obj);
     if (response.status === 1) {
       setisShowToaster(1)
@@ -277,9 +276,9 @@ export function User() {
     }
   }
   const handleTrackTicket = async (params) => {
-    console.log('param', params);
+  
     const response = await TrackTicketActivity(params.id);
-    console.log('data', response)
+ 
     if (response.status === 1) {
       setTicketActivityList(response.responseValue)
       setsSowTicketActivity(1)
@@ -295,7 +294,7 @@ export function User() {
       StatusId:parseInt(getValue),
       UserId:10104
     }
-    console.log('filter obj',obj)
+  
     const response = await GetTicketList(obj)
     if (response.status === 1) {
       setTicketList(response.responseValue)

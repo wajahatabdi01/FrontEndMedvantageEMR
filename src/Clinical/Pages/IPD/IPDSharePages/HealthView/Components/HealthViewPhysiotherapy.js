@@ -60,7 +60,7 @@ export const HealthViewPhysiotherapy = () => {
                         <tbody>
                             <tr>
                                 <td className="text-center">1</td>
-                                <td><img src={ManualTherapy} className='icnn' /> {t("Manual Therapy")}</td>
+                                <td><img src={ManualTherapy} className='icnn' alt=''/> {t("Manual Therapy")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -90,7 +90,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">2</td>
-                                <td><img src={TherapeuticExercises} className='icnn' /> {t("Therapeutic Exercises")}</td>
+                                <td><img src={TherapeuticExercises} className='icnn' alt=''/> {t("Therapeutic Exercises")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -120,7 +120,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">3</td>
-                                <td><img src={Electrotherapy} className='icnn' /> {t("Electrotherapy")}</td>
+                                <td><img src={Electrotherapy} className='icnn' alt=''/> {t("Electrotherapy")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -150,7 +150,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">4</td>
-                                <td><img src={HeatColdTherapy} className='icnn' /> {t("Heat and Cold Therapy")}</td>
+                                <td><img src={HeatColdTherapy} className='icnn' alt=''/> {t("Heat and Cold Therapy")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -180,7 +180,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">5</td>
-                                <td><img src={Hydrotherapy} className='icnn' /> {t('Hydrotherapy')}</td>
+                                <td><img src={Hydrotherapy} className='icnn' alt=''/> {t('Hydrotherapy')}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -210,7 +210,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">6</td>
-                                <td><img src={MassageTherapy} className='icnn' /> {t("Massage Therapy")}</td>
+                                <td><img src={MassageTherapy} className='icnn' alt=''/> {t("Massage Therapy")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -240,7 +240,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">7</td>
-                                <td><img src={Traction} className='icnn' /> {t("Traction")}</td>
+                                <td><img src={Traction} className='icnn' alt=''/> {t("Traction")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -270,7 +270,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">8</td>
-                                <td><img src={TherapeuticExercises1} className='icnn' /> {t("Therapeutic Exercises")}</td>
+                                <td><img src={TherapeuticExercises1} className='icnn' alt=''/> {t("Therapeutic Exercises")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -300,7 +300,7 @@ export const HealthViewPhysiotherapy = () => {
 
                             <tr>
                                 <td className="text-center">9</td>
-                                <td><img src={LaserTherapy} className='icnn' /> {t("Laser Therapy")}</td>
+                                <td><img src={LaserTherapy} className='icnn' alt=''/> {t("Laser Therapy")}</td>
                                 <td>{t("Yes")}</td>
                                 <td>-</td>
                                 <td>-</td>

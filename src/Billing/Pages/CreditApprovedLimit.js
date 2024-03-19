@@ -20,8 +20,8 @@ export default function CreditApprovedLimit() {
     const [creditAmount, setcreditAmount] = useState('');
     const [rowCompanyName, setrowCompanyName] = useState('');
     const [rowCardNo, setrowCardNo] = useState('')
-    const [remark, setremark] = useState('')
-    let [showAlertToster, setShowAlertToster] = useState(0);
+    // const [remark, setremark] = useState('')
+    // let [showAlertToster, setShowAlertToster] = useState(0);
     let [showSuccessToster, setShowSuccessToster] = useState(0)
     let [showMessage, setShowMeassage] = useState("");
     const [rowID, setRowID] = useState(0);
@@ -36,7 +36,7 @@ const GetApprovedList = async()=>{
     let List = await GetCreditLimitlist()
     if(List.status === 1){
         setCreditApproveList(List.responseValue)
-        console.log("ApproveList" ,List.responseValue )
+      
     }
 }
 
@@ -79,7 +79,7 @@ const handleUpdateApproveCredit = async(index)=>{
    id : RowIndex.id,
   currentStatus: 1,
     }
-    console.log(obj)
+
     let approveCredt = await UpdateCredit(obj)
     if (approveCredt.status === 1) {
       setShowSuccessToster(1)
@@ -94,7 +94,7 @@ const handleUpdateHoldCredit = async(index)=>{
   id : RowIndex.id,
   currentStatus: 2,
     }
-    console.log(obj)
+
     let approveCredt = await UpdateCredit(obj)
     if (approveCredt.status === 1) {
       setShowSuccessToster(1)
@@ -161,7 +161,7 @@ const handleSearch = async()=>{
                           <div>
                       
                               <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSearch} ><i class="bi bi-search mx-2"></i>Search</button>
-                              <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear} ><img src={clearIcon} className='icnn' />Clear</button>
+                              <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear} ><img src={clearIcon} className='icnn' alt=''/>Clear</button>
                    
                      
                        

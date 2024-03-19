@@ -32,7 +32,7 @@ export default function Profile() {
   
   const handleOnchange = async(e) => {
     const selectedLanguageId = e.target.value;
-      console.log("data", selectedLanguageId)
+      
       window.languageId  = selectedLanguageId
     setLanguageselect(selectedLanguageId);
     const selectedOption = LanguageList.find(val => val.id == selectedLanguageId);
@@ -41,7 +41,7 @@ export default function Profile() {
     let respDepMenu = await GetMenuAndDeptByHeadId(wardId, selectedLanguageId)
     if(respDepMenu.status === 1)
     {
-    console.log("sdasfs", respDepMenu)
+   
       let data = JSON.parse(window.sessionStorage.getItem("departmentmenu"))
       data.departmentList = respDepMenu.responseValue.departmentList
       data.menuList = respDepMenu.responseValue.menuList

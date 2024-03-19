@@ -37,7 +37,7 @@ export default function ManufacturerMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostManufacturer(sendForm);
-      console.log("sendForm", sendForm)
+    
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -74,7 +74,7 @@ export default function ManufacturerMaster() {
   //Get data
   let getdata = async () => {
     let getResponse = await GetManufacturer();
-    console.log("getResponse", getResponse)
+    
 
     if (getResponse.status === 1) {
       // setLoder(0)
@@ -143,7 +143,7 @@ export default function ManufacturerMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationManufacturerMaster(sendForm.manufacturer)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutManufacturer(sendForm)

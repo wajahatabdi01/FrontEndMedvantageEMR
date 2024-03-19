@@ -82,7 +82,7 @@ export default function ReceivedClaim() {
         setShowLoder(1)
         let data = await getAllTpaCompany();
         
-        console.log('Data',data);
+        
         if (data.status === 1) {
             setShowLoder(0)
             setcompanyList(data.responseValue.map(Tpa=>({
@@ -99,7 +99,7 @@ export default function ReceivedClaim() {
        let trackPolicy = await TrackPolicyNo(companyId , PolicyNo)
     if(trackPolicy.status === 1 ){
       setTrackPolicyList(trackPolicy.responseValue)
-      console.log("trackPolicy" , trackPolicy.responseValue)
+     
     
     }
    
@@ -116,7 +116,7 @@ export default function ReceivedClaim() {
     setrowAmount(IndexData.amount)
     setrowID(IndexData.id)
     setrowReceivedAmount(IndexData.receivedAmount)
-    console.log('index', IndexData)
+    
   }
 
 
@@ -135,7 +135,7 @@ return
     uhid: rowUHID
   }
 
-  console.log('obj' , obj)
+  
   let data = await UpdateClaim(obj)
   if(data.status === 1){
     setShowToster(1)

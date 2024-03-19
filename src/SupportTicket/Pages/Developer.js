@@ -29,9 +29,9 @@ export function Developer(){
       UserId: 10024
       // UserId:userID
     }
-    console.log('obj', obj)
+
     const response = await GetTicketListForDevelopers(obj);
-    console.log('response all ticket', response)
+    
     if (response.status === 1) {
         setDevTicketList(response.responseValue)
       setShowLoder(0);
@@ -44,7 +44,7 @@ export function Developer(){
   }
   const getStatusList= async ()=>{
     const response = await GetStatusList();
-    console.log('Status Res--->',response)
+  
     if(response.status === 1){
       setTicketStatusList(response.responseValue)
     }
@@ -57,7 +57,7 @@ export function Developer(){
       StatusId:parseInt(getValue),
       UserId:10024
     }
-    console.log('filter obj',obj)
+   
     const response = await GetTicketListForDevelopers(obj)
     if (response.status === 1) {
       setTicketStatusList(response.responseValue)

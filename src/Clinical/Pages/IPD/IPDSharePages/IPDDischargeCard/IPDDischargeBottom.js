@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import PostDischargeCard from "./API/PostDischargeCard";
-import { Link, useNavigate } from 'react-router-dom'
-import GetDischargeCard from "./API/GetDischargeCard";
-import { useEffect } from "react";
+import {  useNavigate } from 'react-router-dom'
+// import GetDischargeCard from "./API/GetDischargeCard";
+// import { useEffect } from "react";
 import save from '../../../../../assets/images/icons/save.svg'
-import print from '../../../../../assets/images/icons/print.svg'
-import clear from '../../../../../assets/images/icons/clear.svg'
-import bed from '../../../../../assets/images/icons/bed.svg'
+// import print from '../../../../../assets/images/icons/print.svg'
+// import clear from '../../../../../assets/images/icons/clear.svg'
+// import bed from '../../../../../assets/images/icons/bed.svg'
 import SuccessToster from "../../../../../Component/SuccessToster";
 import AlertToster from "../../../../../Component/AlertToster";
 import { useTranslation } from 'react-i18next';
@@ -89,76 +89,76 @@ export default function IPDDischargeBottom(props) {
   }
   };
 
-  let handleDischarge = async () => {
-     if(props.followUpDate === "" || props.followUpDate === null || props.followUpDate === undefined){
-       setShowAlertToster(1);
-       setShowMessage(t('Please Select Follow-Up-Date '));
-     }
-    // else if(props.sendremarks === "" || props.sendremarks === null || props.sendremarks === undefined){
-    //   setShowAlertToster(1);
-    //   setShowMessage('Fill Additional Remarks..!!');
-    // }
-    // else if(props.sendinvestigation === "" || props.sendinvestigation === null || props.sendinvestigation === undefined){
-    //   setShowAlertToster(1);
-    //   setShowMessage('Fill Additional Investigation..!!');
-    // }
-     else{
+  // let handleDischarge = async () => {
+  //    if(props.followUpDate === "" || props.followUpDate === null || props.followUpDate === undefined){
+  //      setShowAlertToster(1);
+  //      setShowMessage(t('Please Select Follow-Up-Date '));
+  //    }
+  //   // else if(props.sendremarks === "" || props.sendremarks === null || props.sendremarks === undefined){
+  //   //   setShowAlertToster(1);
+  //   //   setShowMessage('Fill Additional Remarks..!!');
+  //   // }
+  //   // else if(props.sendinvestigation === "" || props.sendinvestigation === null || props.sendinvestigation === undefined){
+  //   //   setShowAlertToster(1);
+  //   //   setShowMessage('Fill Additional Investigation..!!');
+  //   // }
+  //    else{
       
     
     
-    // props.allMedication.pop()
-    let procedure = {
-      problemId: 0,
-      problemName: props.sendprocedure,
-      pdmId: 5,
-    };
-    let sendremarks = {
-      problemId: 0,
-      problemName: props.sendremarks,
-      pdmId: 12,
-    };
-    let sendinvestigation = {
-      problemId: 0,
-      problemName: props.sendinvestigation,
-      pdmId: 13,
-    };
-    props.allComplain.push(procedure);
-    props.allComplain.push(sendremarks);
-    props.allComplain.push(sendinvestigation);
+  //   // props.allMedication.pop()
+  //   let procedure = {
+  //     problemId: 0,
+  //     problemName: props.sendprocedure,
+  //     pdmId: 5,
+  //   };
+  //   let sendremarks = {
+  //     problemId: 0,
+  //     problemName: props.sendremarks,
+  //     pdmId: 12,
+  //   };
+  //   let sendinvestigation = {
+  //     problemId: 0,
+  //     problemName: props.sendinvestigation,
+  //     pdmId: 13,
+  //   };
+  //   props.allComplain.push(procedure);
+  //   props.allComplain.push(sendremarks);
+  //   props.allComplain.push(sendinvestigation);
 
-    var obj = {
-      JsonMedication: JSON.stringify(props.allMedication),
-      JsonDaignosis: JSON.stringify(props.allComplain),
-      followUpDate: props.followUpDate,
-      dischargeTypeId: 2,
-      // DischargeType:props.DischargeType,
-      uhID: window.JSON.parse(sessionStorage.getItem("IPDactivePatient")).Uhid,
-      // uhID:'UHID00287',
-      deptID: 1,
-      userID: window.userId,
-    };
+  //   var obj = {
+  //     JsonMedication: JSON.stringify(props.allMedication),
+  //     JsonDaignosis: JSON.stringify(props.allComplain),
+  //     followUpDate: props.followUpDate,
+  //     dischargeTypeId: 2,
+  //     // DischargeType:props.DischargeType,
+  //     uhID: window.JSON.parse(sessionStorage.getItem("IPDactivePatient")).Uhid,
+  //     // uhID:'UHID00287',
+  //     deptID: 1,
+  //     userID: window.userId,
+  //   };
     
 
-    let reponse = await PostDischargeCard(obj);
+  //   let reponse = await PostDischargeCard(obj);
     
-      if(reponse.status === 1){
-        setShowToster(1);
-        setTimeout(()=>{
-            navigate("/ipdpatientlist/");
-        },1500);
-      }
-      else{
-        setShowAlertToster(1);
-        setShowMessage(reponse.responseValue);
-      }
-    }
+  //     if(reponse.status === 1){
+  //       setShowToster(1);
+  //       setTimeout(()=>{
+  //           navigate("/ipdpatientlist/");
+  //       },1500);
+  //     }
+  //     else{
+  //       setShowAlertToster(1);
+  //       setShowMessage(reponse.responseValue);
+  //     }
+  //   }
     
     
-  };
-  let  handleLastPrint =()=>{
+  // };
+  // let  handleLastPrint =()=>{
    
-    window.open("/printDischargeCard/", "noopener,noreferrer");
-  }
+  //   window.open("/printDischargeCard/", "noopener,noreferrer");
+  // }
 
   return (
     <div className={`boxcontainer mt-1 boxs disrt`} >

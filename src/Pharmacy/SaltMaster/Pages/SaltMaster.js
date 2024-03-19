@@ -37,7 +37,7 @@ export default function SaltMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostSalt(sendForm);
-      console.log("sendForm", sendForm)
+     
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -74,7 +74,7 @@ export default function SaltMaster() {
   //Get data
   let getdata = async () => {
     let getResponse = await GetSalt();
-    console.log("getResponse", getResponse)
+   
 
     if (getResponse.status === 1) {
       // setLoder(0)
@@ -143,7 +143,7 @@ export default function SaltMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationSaltMaster(sendForm.saltName)
-    console.log("valresponse", valresponse);
+
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutSalt(sendForm)

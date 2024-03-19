@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 // import logomain from '../../../assets/images/Navbar/offcanvas-logo.png'
 import logomain from '../../../assets/images/Navbar/blankLogo.svg'
-import ImgBarcode from '../../../assets/images/OPD/barcodedemo.png'
-import waterMark from '../../../assets/images/Navbar/water-mark.png'
 import '../../../assets/css/CertificateCard.css'
-import { useSelector } from 'react-redux'
+
 
 export default function OpdPrintout() {
 
@@ -14,8 +12,8 @@ export default function OpdPrintout() {
     // let organizationAddress = JSON.parse(window.sessionStorage.getItem("address")).address
     // let organizationContact = JSON.parse(window.sessionStorage.getItem("mobileNo")).mobileNo  
 
-    // console.table("LocalStorage",organizationName, organizationAddress,organizationContact)
-    let patientsendData = useSelector((state) => state.PatientSendData["patientSendData"])
+   
+    // let patientsendData = useSelector((state) => state.PatientSendData["patientSendData"])
     let [printData, setPrintData] = useState([])
     
     
@@ -25,9 +23,9 @@ export default function OpdPrintout() {
 
     let [investdata, setInvestdata] = useState([])
     let [activeWard, setactiveWard] = useState()
-    let dateY = new Date().getFullYear()
-    let dateM = new Date().getMonth()
-    let dateD = new Date().getDate()
+    // let dateY = new Date().getFullYear()
+    // let dateM = new Date().getMonth()
+    // let dateD = new Date().getDate()
     let getData = async () => {
         setactiveWard(JSON.parse(window.sessionStorage.getItem("activePage")))
         let patientdata = JSON.parse(window.sessionStorage.getItem("patientsendData"))
@@ -53,7 +51,7 @@ export default function OpdPrintout() {
                     }
                     else if (key[0] === "jsonDiagnosis") {
 
-                        if (tempSendData.jsonDiagnosis != undefined || tempSendData.jsonDiagnosis != null) {
+                        if (tempSendData.jsonDiagnosis !== undefined || tempSendData.jsonDiagnosis != null) {
                             tempSendData["jsonDiagnosis"] = [...tempSendData.jsonDiagnosis, ...val.jsonDiagnosis]
 
                         }
@@ -64,7 +62,7 @@ export default function OpdPrintout() {
 
                     }
                     else if (key[0] === "jsonFood") {
-                        if (tempSendData.jsonDiagnosis != undefined || tempSendData.jsonDiagnosis != null) {
+                        if (tempSendData.jsonDiagnosis !== undefined || tempSendData.jsonDiagnosis != null) {
                             tempSendData["jsonDiagnosis"] = [...tempSendData.jsonDiagnosis, ...val.jsonFood]
 
                         }
@@ -100,18 +98,20 @@ export default function OpdPrintout() {
             if (val.id === 0 && val.drugName === "") {
                 temparray.splice(ind, 1)
             }
+         
         })
         tempSendData["jsonArray"] = temparray
 
 
         let temp = JSON.parse(window.sessionStorage.getItem("patientList"))
-        // console.log("dadasd", temp)
+       
         let patientData = JSON.parse(window.sessionStorage.getItem("LoginData"))
         
         temp.map((val, ind) => {
             if (val.uhId === activePatient) {
                 tempSendData["patientData"] = val
             }
+        
         })
         tempSendData["userData"] = patientData
         tempSendData["userId"] = window.userId
@@ -126,7 +126,7 @@ export default function OpdPrintout() {
     useEffect(() => {
         getData()
         // patientPersonaldata()
-        // console.log("dssdd", printData)
+       
         setTimeout(() => {
             window.print()
             window.close()
@@ -135,7 +135,7 @@ export default function OpdPrintout() {
 
     }, [])
     // let handlePrint=()=>{
-    //     console.log("cdsj")
+    //     
     //     window.print()
     // }
     return (
@@ -168,7 +168,7 @@ export default function OpdPrintout() {
                                         {printData.dataClient &&
                                             <>
                                              {/* {printData.dataClient.logoUrl == null ? <img src={logomain} alt='Brand Logo' title='Brand Logo'/> : <img src={printData.dataClient.logoUrl} alt='Brand Logo' title='Brand Logo'/>} */}
-                                                {/* {console.log("printData.userData", printData.dataClient.address)} */}
+                                                
                                                 <div className='organizationName'> {printData.dataClient.clientName}</div>
                                                 <div className='organizationAddress'> {printData.dataClient.address}</div> 
                                                 {printData.dataClient.emailID == null ? '' : <div className='email'>Email: {printData.dataClient.emailID}</div>}                        
@@ -204,7 +204,7 @@ export default function OpdPrintout() {
                                             </tr>
                                             <tr>
                                                 <td><strong>Gender/Age</strong></td>
-                                                {console.log("object, ", printData.patientData)}
+                                               
                                                 <td>:<span style={{ paddingLeft: '5px' }}>{printData.patientData.age} {printData.patientData.ageUnit}/{printData.patientData.gender}</span></td>
                                                 <td><strong>Prescribed By</strong></td>
                                                 <td>:<span style={{ paddingLeft: '5px' }}>{printData.userData.name}</span></td>
@@ -250,6 +250,9 @@ export default function OpdPrintout() {
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else{
+                                                        return null;
+                                                    }
                                                 })}
                                             </td>
                                         </tr>
@@ -263,6 +266,7 @@ export default function OpdPrintout() {
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else{ return null;}
                                                 })}
                                             </td>
                                         </tr>
@@ -276,6 +280,7 @@ export default function OpdPrintout() {
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else{return null;}
                                                 })}
                                             </td>
                                         </tr>
@@ -336,7 +341,7 @@ export default function OpdPrintout() {
                                             </thead>
                                             <tbody>
                                                 {investdata && investdata.map((val, ind) => {
-                                                    console.log("vvv", val)
+                                                   
                                                     return (
                                                         <tr>
                                                             <td>{val}</td>
@@ -368,12 +373,13 @@ export default function OpdPrintout() {
                                             <td><strong>Recommended Diet Advice:</strong></td>
                                             <td>
                                                 {printData.jsonDiagnosis && printData.jsonDiagnosis.map((val, ind) => {
-                                                    console.log('val diet : ', val)
+                                                    
                                                     if (val.pdmId === 9) {
                                                         return (<span className='commaSeparatedValues'>
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else {return null;}
                                                 })}
                                             </td>
                                         </tr>
@@ -387,6 +393,7 @@ export default function OpdPrintout() {
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else{ return null;}
                                                 })}
                                             </td>
                                         </tr>
@@ -400,6 +407,7 @@ export default function OpdPrintout() {
                                                             {val.problemName}
                                                         </span>)
                                                     }
+                                                    else{ return null;}
                                                 })}
                                             </td>
                                         </tr>

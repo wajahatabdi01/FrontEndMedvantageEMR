@@ -278,7 +278,7 @@ export default function PrescriptionNotificationReport() {
                                 </thead>
                                 <tbody>
                                
-                                  {/* {medData.medicineData && console.log("data", medData.medicineData)} */}
+                                 
                                   {/* {medData.medicineData && medData.medicineData.map((list, index) => {
                                     return (
                                       <tr>

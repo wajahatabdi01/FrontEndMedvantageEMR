@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import bottal from '../../../../../../assets/images/HistoryViewIcons/bottal.svg';
-import bluebottal from '../../../../../../assets/images/HistoryViewIcons/bluebottal.svg';
-import graybottal from '../../../../../../assets/images/HistoryViewIcons/graybottal.svg';
+// import bottal from '../../../../../../assets/images/HistoryViewIcons/bottal.svg';
+// import bluebottal from '../../../../../../assets/images/HistoryViewIcons/bluebottal.svg';
+// import graybottal from '../../../../../../assets/images/HistoryViewIcons/graybottal.svg';
 import Ventilator from '../../../../../../assets/images/HistoryViewIcons/Ventilator.svg';
-import InfusionNORAD from '../../../../../../assets/images/HistoryViewIcons/InfusionNORAD.svg';
-import InfusionPump from '../../../../../../assets/images/HistoryViewIcons/InfusionPump.svg';
-import IVFluid from '../../../../../../assets/images/HistoryViewIcons/IVFluid.svg';
+// import InfusionNORAD from '../../../../../../assets/images/HistoryViewIcons/InfusionNORAD.svg';
+// import InfusionPump from '../../../../../../assets/images/HistoryViewIcons/InfusionPump.svg';
+// import IVFluid from '../../../../../../assets/images/HistoryViewIcons/IVFluid.svg';
 import GetHealthViewLifeSupport from '../../../../../API/IPD/HealthView/GetHealthViewLifeSupport';
 import { FindByQuery } from '../../../../../../Code/Serach'; import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
@@ -19,7 +19,7 @@ export const HealthViewLifeSupport = () => {
     let [patientLifeSupportData, setPatientLifeSupportData] = useState([]);
     let [lifeSupportId, setLifeSupportId] = useState([]);
     let [lifeSupportName, setLifeSupportName] = useState([]);
-    let [mainData, setMainData] = useState([]);
+    // let [mainData, setMainData] = useState([]);
     let getLifeSupportData = async () => {
         let lifeSupportResp = await GetHealthViewLifeSupport(uhID);
         

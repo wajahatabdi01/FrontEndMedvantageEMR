@@ -50,13 +50,13 @@ export default function ClaimedPolicies() {
     let ClaimedList = await GetAllClaim(FromDate , ToDate)
     if(ClaimedList.status===1){
       setbillReport(ClaimedList.responseValue)
-      console.log("ClaimedList" , ClaimedList.responseValue)
+    
     }
   }
 
   const ShowBillingDetails = async(index)=>{
     // let IndexData = billReport[index]
-    // console.log('index', billReport[index])
+   
     // let UHID  = IndexData.uhid
     // let BillNo = IndexData.billNo
     // let ShowBillingDetails = await getPatientDetailByUhid(UHID , BillNo)
@@ -66,9 +66,9 @@ export default function ClaimedPolicies() {
     //   let data = ShowBillingDetails.responseValue;
     //   setbillDetails(data[0]);
     //   let itemD = JSON.parse(data[0].itemDetails);
-    //   console.log('itemD', itemD);
+  
     //   setItmeDetailByBill(itemD);
-    //   console.log("ShowBillingDetails" , ShowBillingDetails.responseValue)
+    
     //   setIsShowBillItemsModel(1);
     // }
   }
@@ -80,14 +80,14 @@ const handleClear=()=>{
 
 let handlePrintBill = async (index) => {
   // let IndexData = billReport[index]
-  // console.log('index', billReport[index])
+  
   // let UHID  = IndexData.uhid
   // let BillNo = IndexData.billNo
 
-  // console.log('uhid ::' ,UHID );
+
 
   // let data = await PatientDetail(UHID, BillNo);
-  // console.log('data' , data.responseValue)
+  
   // if (data.status === 1) {
     
   //   window.sessionStorage.setItem(
