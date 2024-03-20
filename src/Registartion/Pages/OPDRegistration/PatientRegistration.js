@@ -1402,6 +1402,24 @@ export default function PatientRegistration() {
             guardianemail: ''
         })
 
+        setBillingObj({
+            itemId: '',
+            itemName: '',
+            itemCharge: 500,
+            categoryId: 0,
+            itemQuantity: 0,
+            discountRs: 0,
+            discountPer: 0,
+            totalAmount: 0,
+            actualTotalAmount: 0,
+            billMasterID: 0,
+            billNo: 0,
+            billTypeId: 0,
+            tpaCompanyID: "",
+            tpaReferenceNo: '',
+            totalDiscount: 0,
+            uhid: '',
+        })
         document.getElementById('ddlDepartment').value = '';
         document.getElementById('ddlDoctor').value = '';
         document.getElementById('ddlRoomNo').value = '';
@@ -2423,7 +2441,7 @@ export default function PatientRegistration() {
                                                 </div>
                                                 <div className="col-2 mb-2">
                                                     <label htmlFor="txtGaurdianGender" className="form-label"><img src={IconPatientRelation} className='icnn' />Patient Visit Charge</label>
-                                                    <select className="form-select form-select-sm" aria-label=".form-select-sm example" id="itemId" name='itemId' onChange={(e) => { handleBilling("itemId", e.target.value) }} >
+                                                    <select className="form-select form-select-sm" aria-label=".form-select-sm example" id="itemId" name='itemId' value={billingObj.itemId} onChange={(e) => { handleBilling("itemId", e.target.value) }} >
                                                         <option value="0">Select Visit Charge</option>
                                                         {itemList && itemList.map((list) => {
                                                             return (
