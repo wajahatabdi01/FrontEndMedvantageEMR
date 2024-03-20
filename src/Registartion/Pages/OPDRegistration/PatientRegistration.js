@@ -16,7 +16,6 @@ import GetRaceType from '../../API/GET/GetRaceType';
 import GetEthinicity from '../../API/GET/GetEthinicity';
 import GetLanguage from '../../API/GET/GetLanguage';
 import GetGender from '../../API/GET/GetGender';
-
 import PatientDetails from './Components/PatientDetails';
 import ContactDetails from './Components/ContactDetails';
 import InsuranceDetails from './Components/InsuranceDetails';
@@ -53,11 +52,7 @@ import GetRegisterDetailsByUHID from '../../API/GET/GetRegisterDetailsByUHID';
 import GetPatientPersonalDashboardByUHID from '../../API/GET/GetPatientPersonalDashboardByUHID';
 import GetCountryById from '../../API/GET/GetCountryById';
 import { useTranslation } from 'react-i18next';
-
-
 import GetInsuranceCompanyList from '../../API/GET/GetInsuranceCompanyList'
-
-
 import i18n from "i18next";
 import GetAllSexualOrientation from '../../API/GET/GetAllSexualOrientation';
 import GetAllIndustryData from '../../API/GET/GetAllIndustryData';
@@ -67,10 +62,13 @@ import GetAllGuardianRelation from '../../API/GET/GetAllGuardianRelation';
 import GetUserListByRoleId from '../../API/GET/GetUserListByRoleId';
 import GetAllReferralSourceData from '../../API/GET/GetAllReferralSourceData';
 import VisitDetails from './Components/VisitDetails';
+import GetAllItem from './UserProfile/API/GetAllItem';
+import saveBillingDetails from '../../../Billing/API/saveBillingDetails';
 
 
 export default function PatientRegistration() {
     let [stateList, setStateList] = useState([]);
+    let [registrationData, setRegistrationData] = useState('')
     let [cityList, setCityList] = useState([]);
     let [deparetmentList, setDepartmentList] = useState([]);
     let [providerList, setProviderList] = useState([]);
@@ -81,7 +79,7 @@ export default function PatientRegistration() {
     let [religionList, setReligionList] = useState([]);
     let [maritalStatusList, setmMaritalStatusList] = useState([]);
     let [priviousNameList, setPriviousNameList] = useState([]);
-    let [patientMobileNo, setPatientMobileNo] = useState('');
+    let [itemList, setItemList] = useState([]);
     let [patientName, setPatientName] = useState('');
     let [patientHomeMobNo, setPatientHomeMobNo] = useState('');
     let [email, setEmail] = useState('');
@@ -300,6 +298,24 @@ export default function PatientRegistration() {
         stateId: '0',
         postalCode: '',
     });
+    const [billingObj, setBillingObj] = useState({
+        itemId: '',
+        itemName: '',
+        itemCharge: 500,
+        categoryId: 0,
+        itemQuantity: 0,
+        discountRs: 0,
+        discountPer: 0,
+        totalAmount: 0,
+        actualTotalAmount: 0,
+        billMasterID: 0,
+        billNo: 0,
+        billTypeId: 0,
+        tpaCompanyID: "",
+        tpaReferenceNo: '',
+        totalDiscount: 0,
+        uhid: '',
+    });
     const [registrationObj, setRegistrationObj] = useState({
         deceasedDate: '',
         deceasedReason: '',
@@ -318,16 +334,6 @@ export default function PatientRegistration() {
             [name]: value
         }))
     }
-    //   
-
-    // let Content = JSON.parse(window.sessionStorage.getItem("departmentmenu")).content;
-   
-
-    //changes done by wajahat
-    // let langId = JSON.parse(window.sessionStorage.getItem("languageId")).languageId;
-   
-
-    // Insurance Company List
 
     const GetInsuranceList = async () => {
         let InsuranceList = await GetInsuranceCompanyList()
@@ -339,6 +345,12 @@ export default function PatientRegistration() {
         let response = await GetGender()
         if (response.status === 1) {
             setGenderList(response.responseValue)
+        }
+    }
+    const getItemList = async () => {
+        let response = await GetAllItem()
+        if (response.status === 1) {
+            setItemList(response.responseValue)
         }
     }
     const getreferralList = async () => {
@@ -374,6 +386,7 @@ export default function PatientRegistration() {
         }
     }
     let handlerChange2 = (e, value) => {
+
         const isValidInput = (input) => {
             // Trim input to remove leading and trailing spaces
             const trimmedInput = input.trim();
@@ -413,9 +426,20 @@ export default function PatientRegistration() {
                 [e]: value,
             }));
         }
+
     }
 
+    let handleBilling = (e, value) => {
+        const ddlItem = document.getElementById("itemId");
+        const selectedOption = ddlItem.options[ddlItem.selectedIndex];
+        const selectedItem = selectedOption ? selectedOption.textContent : "";
 
+        setBillingObj((prevData) => ({
+            ...prevData,
+            [e]: value,
+            itemName: selectedItem,
+        }))
+    }
 
     let handleemployerDetails = (e, value) => {
         const isValidInput = (input) => {
@@ -1378,6 +1402,24 @@ export default function PatientRegistration() {
             guardianemail: ''
         })
 
+        setBillingObj({
+            itemId: '',
+            itemName: '',
+            itemCharge: 500,
+            categoryId: 0,
+            itemQuantity: 0,
+            discountRs: 0,
+            discountPer: 0,
+            totalAmount: 0,
+            actualTotalAmount: 0,
+            billMasterID: 0,
+            billNo: 0,
+            billTypeId: 0,
+            tpaCompanyID: "",
+            tpaReferenceNo: '',
+            totalDiscount: 0,
+            uhid: '',
+        })
         document.getElementById('ddlDepartment').value = '';
         document.getElementById('ddlDoctor').value = '';
         document.getElementById('ddlRoomNo').value = '';
@@ -1415,17 +1457,42 @@ export default function PatientRegistration() {
 
         }
         var sendDataObj = { ...makeDataObj, previousNamesJsonString: JSON.stringify(makeDataObj.previousNamesJsonString) }
-
+        const billjson = JSON.stringify(billingObj)
         // return;
         if (respValidation) {
             const response = await InsertPatientDemographicData(sendDataObj);
             if (response.status === 1) {
-                setShowUnderProcess(0);
-                setShowToster(1)
-                setTimeout(() => {
-                    setShowToster(0);
-                }, 2000)
-                handleClear();
+                const billObj = {
+                    uhid: response.responseValue[0].uhID,
+                    billTypeId: 1,
+                    CompanyId: 0,
+                    TotalAmount: 455,
+                    TotalDiscount: 0,
+                    TotalPaybleAmount: 455,
+                    TotalPaidAmount: 455,
+                    TotalBalanceAmount: 0,
+                    DiscountRemark: '',
+                    UserID: 0,
+                    PaymentMode: 1,
+                    JsonData: billjson,
+                    cardNo: 0,
+                    bankId: 0,
+                    ChequeNo: 0,
+                    ChequeDate: "",
+                    trustTypeId: 0,
+                    tpaReferenceNo: ""
+
+                }
+                // return;
+                const billresponse = await saveBillingDetails(billObj)
+                if (billresponse.status === 1) {
+                    setShowUnderProcess(0);
+                    setShowToster(1)
+                    setTimeout(() => {
+                        setShowToster(0);
+                    }, 2000)
+                    handleClear();
+                }
             }
             else {
                 setShowUnderProcess(0)
@@ -1686,6 +1753,7 @@ export default function PatientRegistration() {
         clearErrorMessages();
     }
     useEffect(() => {
+        getItemList();
         getUserListByRoleId();
         getreferralList();
         GetGenderList();
@@ -2371,10 +2439,21 @@ export default function PatientRegistration() {
                                                     </select>
                                                     <small id="errRoom" className="form-text text-danger" style={{ display: 'none' }}></small>
                                                 </div>
-                                                <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                                                <div className="col-2 mb-2">
+                                                    <label htmlFor="txtGaurdianGender" className="form-label"><img src={IconPatientRelation} className='icnn' />Patient Visit Charge</label>
+                                                    <select className="form-select form-select-sm" aria-label=".form-select-sm example" id="itemId" name='itemId' value={billingObj.itemId} onChange={(e) => { handleBilling("itemId", e.target.value) }} >
+                                                        <option value="0">Select Visit Charge</option>
+                                                        {itemList && itemList.map((list) => {
+                                                            return (
+                                                                <option value={list.id}>{list.itemName}</option>
+                                                            )
+                                                        })}
+                                                    </select>
+                                                </div>
+                                                {/* <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                                                     <label htmlFor="txtConsultantFee" className="form-label">{t("Consultant_Fee")}</label>
                                                     <input type="text" disabled className="form-control form-control-sm" id="txtConsultantFee" placeholder={t("Consultant_Fee")} name='consultantFee' value={consultantFee} style={{ width: '100px' }} />
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

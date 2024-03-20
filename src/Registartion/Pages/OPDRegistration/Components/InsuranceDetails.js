@@ -30,6 +30,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
     const today = new Date().toISOString().split('T')[0];
     let [sendFormPrimary, setSendFormPrimary] = useState(
         {
+            type:'primary',
             insuranceProviderId: '',
             planName: '',
             subscriber1: '',
@@ -60,6 +61,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         }
     );
     let [sendFormSecondary, setSendFormSecondary] = useState({
+        type:'secondry',
         insuranceProviderId: '',
         planName: '',
         subscriber1: '',
@@ -89,6 +91,7 @@ const InsuranceDetails = ({ initialPatientChoiceDetails, onInsuranceDetailsChang
         isAcceptAssignment: '',
     })
     let [sendFormTri, setSendFormTri] = useState({
+        type:'tertiary ',
         insuranceProviderId: '',
         planName: '',
         subscriber1: '',
