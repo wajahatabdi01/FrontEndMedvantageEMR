@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React from 'react'
 import { Routes, Route, } from "react-router-dom";
 import CommonLayout from '../CommonLayout/CommonLayout';
 import Login from '../Login/Login';
@@ -18,7 +18,6 @@ import ForgotPasswordLayout from '../MedvantageWebsite/Layouts/ForgotPasswordLay
 import LayoutVerifyEmail from '../MedvantageWebsite/Layouts/VerifyEmailLayout';
 import LayoutVerifyOtp from '../MedvantageWebsite/Layouts/VerifyOtpLayout';
 import IPDPrecriptionIndex from '../Clinical/Pages/IPD/IPDSharePages/Prescription/IPDPrecriptionIndex';
-import IPDPatientPersonalDashboardIndex from '../Clinical/Pages/IPD/IPDSharePages/PatientPersonalDashboard/IPDPatientPersonalDashboardIndex';
 import PatientRegistration from '../Registartion/Pages/OPDRegistration/PatientRegistration';
 import AdmitPatientByUHID from '../Registartion/Pages/AdmitPatientByUHID/AdmitPatientByUHID';
 import Profile from '../Registartion/Pages/Profile';
@@ -93,7 +92,6 @@ import MachineTypeMaster from '../Admin/Pages/Masters/MachineTypeMaster';
 import EthinicityMaster from '../Admin/Pages/Masters/EthinicityMaster';
 import LifeSupportMode from '../Admin/Pages/Masters/LifeSupportMode';
 import LifeSupportModeMapping from '../Admin/Pages/Masters/LifeSupportModeMapping';
-import GetExaminationCategoryMasterAPI from '../Admin/Api/Master/ExaminationCategoryMasterAPI/GetExaminationCategoryMasterAPI';
 import ExaminationCategoryDepartmentAssign from '../Admin/Pages/Examination/ExaminationCategoryDepartmentAssign';
 import ExaminationMaster from '../SuperAdmin/Pages/Master/ExaminationMaster';
 import ExaminationSubCategory from '../SuperAdmin/Pages/Master/ExaminationSubCategory';
@@ -111,7 +109,7 @@ import DashboardParameterMaster from '../Admin/Pages/Masters/DashboardParameterM
 import DashboardColumnSequence from '../Admin/Pages/Dashboard/DashboardColumnSequence';
 import DashboardColumnMaster from '../Admin/Pages/Dashboard/DashboardColumnMaster';
 import DashboardParameterColumnAssign from '../Admin/Pages/Dashboard/DashboardParameterColumnAssign';
-import AddUserMaster from '../Admin/Pages/UserService/AddUserMaster';
+
 
 import { HealthViewIndex } from '../Clinical/Pages/IPD/IPDSharePages/HealthView/HealthViewIndex';
 import PharmacyPurchase from '../../src/Pharmacy/Purchase/Pages/PharmacyPurchase'
@@ -274,8 +272,7 @@ import OPDCalculatorIndex from '../Clinical/Pages/OPD/OPDSharePage/OPDCalculator
 import ConversionMaster from '../Pharmacy/ConversionMaster/Pages/ConversionMaster'
 import DischargeCard from '../Component/DischargeCard';
 import NotificationTemplate from '../SuperAdmin/Pages/Notification/NotificationTemplate';
-import { LayouChallanForm } from '../BmsServices/Layouts/LayouChallanForm';
-import { LayoutChallanReport } from '../BmsServices/Layouts/LayoutChallanReport';
+
 import ImportCqmData from '../Component/ImportCqmData';
 import PrintUHIDQR from '../Registartion/Pages/AdmitPatientByUHID/PrintUHIDQR';
 import PrintAdmitDetails from '../Registartion/Pages/AdmitPatientByUHID/PrintAdmitDetails';
@@ -335,7 +332,7 @@ import TaskMaster from '../Admin/Pages/Schedule/TaskMaster';
 import OrganDepartmentMapping from '../Admin/Pages/OrganDepartmentMapping/OrganDepartmentMapping';
 import { CodeMaster } from '../Admin/Pages/EMR Master/CodeMaster';
 import ListEditorMaster from '../Admin/Pages/EMR Master/ListEditorMaster';
-import LabNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
+
 import { RadioLabNotificationReport } from '../FHIRLab/Pages/RadioLabNotificationReport';
 import PathologyNotificationReport from '../FHIRLab/Pages/PathologyNotificationReport';
 import MicrobiologyNotificationReport from '../FHIRLab/Pages/MicrobiologyNotificationReport';
@@ -370,7 +367,7 @@ import LayoutPatientAppointment from '../PatientPortal/Layout/LayoutPatientAppoi
 import LayoutMyAppointment from '../PatientPortal/Layout/LayoutMyAppointment';
 import LayoutHippaDocuments from '../PatientPortal/Layout/LayoutHippaDocuments';
 import LayoutMedicalHistory from '../PatientPortal/Layout/LayoutMedicalHistory';
-import LayoutMessageIndox from '../PatientPortal/Layout/LayoutMessageInbox';
+
 import LayoutMessageInbox from '../PatientPortal/Layout/LayoutMessageInbox';
 import LayoutPrivacyPolicy from '../PatientPortal/Layout/LayoutPrivacyPolicy';
 import VerificationStatus from '../Admin/Pages/FHIRMaster/VerificationStatus';
@@ -382,11 +379,6 @@ import FHIRTypeOfDisclosureMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRTypeO
 import LogsViewer from '../Admin/Pages/FHIRMaster/LogsViewer';
 import AppRegistrationForm from '../Admin/Pages/FHIRMaster/AppRegistrationForm';
 import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
-import FHIRIssueOccurenceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOccurenceMaster';
-import FHIRSeverityMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRSeverityMaster';
-import FHIRReactionMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReactionMaster';
-import FHIRConditionVerificationMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRConditionVerificationMaster';
-import FHIRIndustryMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIndustryMaster';
 import FHIRRelationshipMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRRelationshipMaster';
 import FHIRIssueOutComeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRIssueOutComeMaster';
 import FHIRReferralSourceMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRReferralSourceMaster';

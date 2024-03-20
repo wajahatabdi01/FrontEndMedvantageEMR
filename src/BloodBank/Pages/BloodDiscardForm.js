@@ -75,7 +75,7 @@ export default function BloodDiscardForm() {
   ////////////////////////////// Get Details By Bag No ///////////////////////////////////
   let getDetailsByBagNo = async () => {
     try{
-    console.log('bag no : ', bagNumber);
+   
     document.getElementById('shwFld').style.display = 'block';
     let data = await GetDetailsByBagNo(parseInt(bagNumber));
     setGetDonorID(data.responseValue[0].donorId);
@@ -94,16 +94,16 @@ export default function BloodDiscardForm() {
     document.getElementById('errDonorID').style.display = 'none';
     const res = BloodDiscardSearchValidation(donorID, 'dummy');
     var id = res[1]
-    console.log('iddddd ; ', id);
+  
     
     if (res === true) {
       setListFlag(true);
-      console.log('donor ID: ', donorID);
+    
       let data = await GetBagsByDonorID(donorID);
       setDonorIDBagList(data.responseValue);
       let discardData = await GetDiscardTypeReason();
       setDiscardType(discardData.responseValue);
-      console.log('GetDiscardTypeReason : ', discardData);
+      
     }
     else {
       document.getElementById(id).style.display = 'block';
@@ -129,7 +129,7 @@ export default function BloodDiscardForm() {
       setListFlag(false);
       let data = await GetBagByBagNo(bagNo);
       setBagNoBagList(data.responseValue);
-      console.log('bag no: ', bagNo);
+      
       let discardData = await GetDiscardTypeReason();
       setDiscardType(discardData.responseValue);
     }
@@ -153,7 +153,7 @@ export default function BloodDiscardForm() {
   let discardTheBag = async (val) => {
     //document.getElementById('errDiscard').style.display = 'none';
     const discardTypeID = parseInt(document.getElementById('discardTypeID').value);
-    console.log('to discard id : ', discardTypeID);
+    
       const resD = BloodDiscardTypeValidation(discardTypeID);
       var id = resD[1];
       if (resD === true)
@@ -165,11 +165,11 @@ export default function BloodDiscardForm() {
           discardTypeID: discardTypeID,
           userID: window.userId
         }
-        console.log(' objjjjjjjjjj : ', obj);
+        
   
         let data = await PostDiscardBag(obj);
         if (data.status === 1) {
-          console.log('for data : ', true)
+        
           setShowUnderProcess(0);
           setTosterValue(0);
           setShowToster(1);
@@ -191,7 +191,7 @@ export default function BloodDiscardForm() {
           }, 2000);
       }
       else {
-        console.log('for data : ', false)
+     
         setShowUnderProcess(0);
         setShowToster(1);
         setTosterMessage(data.responseValue);
@@ -212,14 +212,13 @@ export default function BloodDiscardForm() {
   }
 
   let getDonorIDField = async () => {
-    console.log('for donor id') 
+ 
     setBagNoFlag(false);
     setDonorIdFlag(true);
     clearBagNo();
   }
 
-  console.log('donor id field : ', donorIdFlag);
-  console.log('bag id field : ', bagNoFlag);
+ 
 
   let getBagNoField = async () => {
     setDonorIdFlag(false);
@@ -227,10 +226,7 @@ export default function BloodDiscardForm() {
     clearDonorID();
   }
 
-  // let searchBags = async () => {
-  //   console.log('Donor ID : ', donorID);
-  //   console.log('BagNO : ', bagNo);
-  // }
+  
 
   let clearDonorID = () => {
     setDonorID('');

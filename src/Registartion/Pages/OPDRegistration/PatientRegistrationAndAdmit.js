@@ -615,7 +615,7 @@ export default function PatientRegistrationAndAdmit() {
             // const sexualOrientation = document.getElementById('ddlsexualOrientation').value;
             const res = ValidationRegistrationandadmit(patientMobileNo, patientName, patientAddress, state, city, dob, patientAge, patientGender, patientHeight, patientWeight, selectedDept, selectedDoctor, selectedWard, selectedBed);
             var id = res[1];
-            console.log('id', id)
+           
             // const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
             if (res === true) {
                 var dataObj = {
@@ -657,7 +657,7 @@ export default function PatientRegistrationAndAdmit() {
                     clientId: window.clientId
                     // sexualOrientation:sexualOrientation
                 }
-                // console.log("csdcs", dataObj)
+             
                 // window.open("/opdPrint/", 'noopener,noreferrer');
                 // return
                 let data = await RegisAdmit(dataObj);

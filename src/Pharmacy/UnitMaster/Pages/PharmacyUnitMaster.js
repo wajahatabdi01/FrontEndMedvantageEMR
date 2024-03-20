@@ -39,7 +39,7 @@ export default function PharmacyUnitMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostUnitMaster(sendForm);
-      console.log("sendForm", sendForm)
+    
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -76,7 +76,7 @@ export default function PharmacyUnitMaster() {
   //Get data
   let getdata = async () => {
     let getResponse = await GetUnitMaster();
-    console.log("getResponse", getResponse)
+   
 
     if (getResponse.status === 1) {
       // setLoder(0)
@@ -145,7 +145,7 @@ export default function PharmacyUnitMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationUnitMaster(sendForm.unitName)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutUnitMaster(sendForm)

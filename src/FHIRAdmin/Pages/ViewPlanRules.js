@@ -77,7 +77,7 @@ export default function ViewPlanRules() {
             if (getResponse.status === 1) {
                 setPlanList(getResponse.responseValue);
             } else {
-                console.error("Failed to fetch data:", getResponse.responseValue);
+               
                 setShowErrMessage(getResponse.responseValue);
                 setShowLoder(0);
                 setShowAlertToster(1);
@@ -215,7 +215,7 @@ export default function ViewPlanRules() {
         //     JsonPlanRuleDetails: JSON.stringify(modifiedPayload).replace(/\\/g, '')
         // }
         //tempjson.JsonPlanRuleDetails = JSON.parse(tempjson.JsonPlanRuleDetails);
-        console.log("tempjson:", modifiedPayload)
+       
         const response = await InsertPlanRule(JSON.stringify(modifiedPayload));
         if (response.status === 1) {
             setShowUnderProcess(0);
@@ -243,7 +243,7 @@ export default function ViewPlanRules() {
     //HandleChange
     const handleChange = async (e) => {
         let selectedRule = document.getElementById("planId").value
-        console.log("selectedRule", selectedRule)
+       
         setShowData(selectedRule);
         setEditPlan("");
         getAllRule();

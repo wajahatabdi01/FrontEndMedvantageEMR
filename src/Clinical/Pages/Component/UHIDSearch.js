@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GetCheckCrNo from '../../Api/OPD/Prescription/GetCheckCrNo'
 import { getUHIDSearch } from '../../../Reduce/OPD/UHIDSearch'
 import searcIcon from "../../../../src/assets/images/Navbar/search.svg"
 import store from '../../../Store'
 import { getPatientData } from '../../../Reduce/OPD/PatientData'
-import { useSelector } from 'react-redux'
-import { getPatinetSendData } from '../../../Reduce/OPD/PatinetSendData'
+// import { useSelector } from 'react-redux'
+// import { getPatinetSendData } from '../../../Reduce/OPD/PatinetSendData'
 
 export default function UHIDSearch(props) {
     let navigate = useNavigate()
@@ -118,7 +118,7 @@ export default function UHIDSearch(props) {
     return (
         <div className='searchbar ps-2 pe-2'>
             <input type='text' className='OPDSideBarSearch' placeholder='Search UHID' value={serachdata != "" ? serachdata : ""} id="uhidsearch" onKeyDown={handleSearckKey} onChange={handlechange} />
-            <img src={searcIcon} width="" height="" onClick={handleSearckKeyClick} style={{ right: "20px" }} />
+            <img src={searcIcon} width="" height="" onClick={handleSearckKeyClick} style={{ right: "20px" }} alt=''/>
         </div>
     )
 }

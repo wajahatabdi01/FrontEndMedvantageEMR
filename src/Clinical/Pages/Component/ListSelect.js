@@ -1,5 +1,5 @@
-let update = 0
-let old = 0
+// let update = 0
+// let old = 0
 let DownKey = (ul, liSelected, index, next, oldData) => {
     if (ul.getElementsByTagName('li') !== null) {
         let list = ul.getElementsByTagName("li");
@@ -10,10 +10,10 @@ let DownKey = (ul, liSelected, index, next, oldData) => {
             // console.log("csdcscsd", liSelected.current)
             removeClass(liSelected.current, 'selected');
             next.current = ul.getElementsByTagName('li')[index.current];
-            if (typeof next.current !== undefined && index.current <= len) {
-
+            if (next.current !== undefined && index.current <= len) {
                 liSelected.current = next.current;
-            } else {
+            }
+             else {
                 index.current = 0;
                 liSelected.current = ul.getElementsByTagName('li')[0];
             }
@@ -63,7 +63,7 @@ let UpKey = (ul, liSelected, index, next, oldData) => {
             index.current = index.current - 1
             // console.log(index);
             next.current = list[index.current];
-            if (typeof next.current !== undefined && index.current >= 0) {
+            if ( next.current !== undefined && index.current >= 0) {
                 liSelected.current = next.current;
             } else {
                 index.current = len;

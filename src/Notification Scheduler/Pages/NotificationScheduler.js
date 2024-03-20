@@ -127,7 +127,7 @@ export default function NotificationScheduler() {
    let getAllUsers = async () => {
       const response = await GetAllUsers();
       if (response.status === 1) {
-         console.log("responseValue", response.responseValue)
+         
          setUserList(response.responseValue);
       }
    }
@@ -144,7 +144,7 @@ export default function NotificationScheduler() {
    let getFrequencyList = async () => {
       const response = await GetAllFrequency();
       if (response.status === 1) {
-         console.log("responseValue", response.responseValue)
+        
          setFrequencyList(response.responseValue);
       }
    }
@@ -152,7 +152,7 @@ export default function NotificationScheduler() {
    let getTemplateList = async () => {
       const response = await GetAllTemplate();
       if (response.status === 1) {
-         console.log("responseValue", response.responseValue)
+       
          setTemplateList(response.responseValue);
       }
    }
@@ -160,7 +160,7 @@ export default function NotificationScheduler() {
    let getScheduleTypeList = async () => {
       const response = await GetAllScheduleType();
       if (response.status === 1) {
-         console.log("responseValue", response.responseValue)
+      
          setScheduleList(response.responseValue);
       }
    }
@@ -177,7 +177,7 @@ export default function NotificationScheduler() {
       setSelectedDepartment(getKey)
       const response = await GetAllUsers(getKey);
       if (response.status === 1) {
-         console.log("responseValue", response.responseValue)
+      
          setUserList(response.responseValue);
 
       }
@@ -186,7 +186,7 @@ export default function NotificationScheduler() {
    // Change Select Schedule  
    let changeSchedule = (id) => {
       let data = [...scheduleType]
-      console.log('data 1', data)
+      
       if (data.length === 0) {
          data.push({
             typeId: id
@@ -194,7 +194,7 @@ export default function NotificationScheduler() {
       }
       else {
          var index = data.findIndex((arr) => arr.typeId === id);
-         console.log('index', index)
+        
          if (index !== -1) {
             document.getElementById('ddlSelectSchedule').checked = false;
             data.splice(index, 1)
@@ -206,13 +206,13 @@ export default function NotificationScheduler() {
          }
 
       }
-      console.log('Final data', data)
+     
       setScheduleType(data)
    };
 
    let changeUser = (ids) => {
       let data = [...userType]
-      console.log("data", ids)
+      
       if (data.length === 0) {
          data.push(
             {
@@ -221,9 +221,9 @@ export default function NotificationScheduler() {
          )
       }
       else {
-         console.log('data List', data)
+         
          var index = data.findIndex((arr, i) => arr.id === ids);
-         console.log('index', index)
+ 
 
          if (index !== -1) {
             document.getElementById('ddlSelectAllUser').checked = false;
@@ -244,7 +244,7 @@ export default function NotificationScheduler() {
    let handlerSelectAll = () => {
       const isSelectedAll = document.getElementById("ddlSelectAllUser").checked;
       let tempArr = [];
-      console.log('isSelectedAll', isSelectedAll)
+
       for (var i = 0; i < userList.length; i++) {
          let getID = userList[i].id;
          if (isSelectedAll === true) {
@@ -258,7 +258,7 @@ export default function NotificationScheduler() {
          }
       }
 
-      console.log('tempArr', tempArr)
+     
       setUserType(tempArr)
 
    }
@@ -266,7 +266,7 @@ export default function NotificationScheduler() {
    let handlerSelectAllSchedule = () => {
       const isSelectedAll = document.getElementById("ddlSelectSchedule").checked;
       let tempArr = [];
-      console.log('isSelectedAll', isSelectedAll)
+      
       for (var i = 0; i < scheduleList.length; i++) {
          let getID = scheduleList[i].id;
          if (isSelectedAll === true) {
@@ -280,7 +280,7 @@ export default function NotificationScheduler() {
          }
       }
 
-      console.log('tempArr', tempArr)
+    
       setScheduleType(tempArr)
 
    }
@@ -317,7 +317,7 @@ export default function NotificationScheduler() {
             // header:header,
             // body:body
          })
-         console.log('notificationobj', notificationobj)
+        
          const obj = {
             sendTo: tempCol,
             frequencyId: selectedFrequency,
@@ -331,7 +331,7 @@ export default function NotificationScheduler() {
             userID: userID
          }
 
-         console.log('obj', obj)
+     
 
          setShowUnderProcess(1);
          const response = await PostNotificationScheduler(obj);
@@ -441,11 +441,11 @@ export default function NotificationScheduler() {
    const handlerTemplate = async (e) => {
       document.getElementById('errTemplate').style.display = "none";
       const key = e.target.value;
-      console.log('e.target.value', e.target.value)
+    
       // const response= await GetAllTemplate(key);
       for (var i = 0; i < templateList.length; i++) {
          if (templateList[i].id === key) {
-            console.log('templateList[i].id === key', templateList[i])
+         
             setSelectedTemplateData(templateList[i])
             // break;
          }
@@ -456,7 +456,7 @@ export default function NotificationScheduler() {
       const key = e.target.value;
       for (var i = 0; i < apiList.length; i++) {
          if (apiList[i].id === key) {
-            console.log('apiList[i].id === key', apiList[i])
+         
             setSelectedAPIUrl(apiList[i])
          }
       }

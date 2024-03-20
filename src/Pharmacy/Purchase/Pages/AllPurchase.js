@@ -64,7 +64,7 @@ function AllPurchase() {
     try {
 
       let purchasesubresponse = await GetAllOtherPurchase(billNo);
-      console.log("purchasesubresponse", purchasesubresponse)
+      
       if (purchasesubresponse.status === 1) {
         setPurchaseSubList(purchasesubresponse.responseValue)
         const purchasesub = purchasesubresponse.responseValue[0];
@@ -103,7 +103,7 @@ function AllPurchase() {
     let obj = {
       id: rowId
     }
-    console.log("obj", obj)
+   
     let response = await DeletePurchase(obj)
     if (response.status === 1) {
       setShowUnderProcess(0)

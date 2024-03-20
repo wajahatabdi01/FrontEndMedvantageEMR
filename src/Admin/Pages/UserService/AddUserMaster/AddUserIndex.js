@@ -31,11 +31,11 @@ export default function AddUserIndex() {
     let [showLoader, setShowLoader] = useState(1)
 
     let handlePrevious = () => {
-        console.log("stwep", step)
+     
         setStep(step - 1)
     }
     let handleNext = () => {
-        console.log("stwep", step)
+       
         if (step === 1) {
             // setStep(step + 1)
 
@@ -75,7 +75,7 @@ export default function AddUserIndex() {
 
     let setEditData = (index, val) => {
         if (val === 0) {
-            console.log("call edit", userList[index].menuList, index)
+            
 
             setEditCall(1)
             setEditedUserData(userList[index].userDetails)

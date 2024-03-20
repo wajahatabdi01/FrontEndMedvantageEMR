@@ -108,7 +108,7 @@ else {
    
   setAlertBorder(false)
   let data = await PatientDetailforadvancepayment(UHID);
-  console.log('data' , data.responseValue)
+
   let dt = data.responseValue[0];
   setPatientDetails(dt); 
   setshowPaymentDetails(true)
@@ -292,7 +292,7 @@ else{
    
      }
     
-     console.log('obj' , obj)
+     
  let data = await PostAdvancePaymentDetails(obj)
  window.sessionStorage.setItem("DepositAmountDetails", JSON.stringify(objSession))
  if(data.status === 1){
@@ -371,7 +371,7 @@ setCompanyType(response.responseValue);
     let advancepayment = await GetAdvancePaymentList(searchUHID,FromDate,ToDate)
     if(advancepayment.status === 1){
         setAdvancepaymentList(advancepayment.responseValue)
-        console.log("advancepayment",advancepayment.responseValue)
+       
     }
  }
 
@@ -392,7 +392,7 @@ setCompanyType(response.responseValue);
   //*******Print */
   let handlePrintBill = async (rowData) => {
     sessionStorage.setItem('AdvancePaymentData', JSON.stringify(rowData));
-    console.log("rowData" , rowData)
+  
   
   };
 
@@ -404,7 +404,7 @@ setCompanyType(response.responseValue);
   id : RowIndex.id,
   limitStatus: 1,
       }
-      console.log(obj)
+  
       let approveCredt = await UpdateAdvance(obj)
       if (approveCredt.status === 1) {
         setShowSuccessToster(1)
@@ -420,7 +420,7 @@ setCompanyType(response.responseValue);
     id : RowIndex.id,
     limitStatus: 2,
       }
-      console.log(obj)
+     
       let approveCredt = await UpdateAdvance(obj)
       if (approveCredt.status === 1) {
         setShowSuccessToster(1)
@@ -433,7 +433,7 @@ setCompanyType(response.responseValue);
   let GetBankList = async () => {
     var response = await GetBankNameList();
     setBankList(response.responseValue);
-    console.log("this is responsesss", response);
+   
   };
 
 
@@ -476,14 +476,14 @@ setCompanyType(response.responseValue);
       document.getElementById("chequeDate").style.display = "none";
       document.getElementById("chequeNo").style.display = "none";
     }
-    console.log("payment Value" , mode)
+    
   };
 
   let GetPaymentModes = async()=>{
     let PaymentMode = await GetallPaymentMode()
     if(PaymentMode.status === 1){
       setPaymentModeList(PaymentMode.responseValue)
-      console.log("PaymentMode",PaymentMode.responseValue)
+    
     }
   }
 

@@ -57,7 +57,7 @@ export default function EquipmentLocation() {
     let dropdownmenu = async () => {
       let dataGet = await GetEquipmentLocationDropdown();
       if (dataGet.status === 1) {
-        console.log("Location Data", dataGet.responseValue)
+       
         setequipmentloactionlist(dataGet.responseValue.map(location=>({
           value : location.id,
           label : `${location.floorName} Floor ${location.buildingName} Building ${location.roomNumber}`
@@ -65,7 +65,7 @@ export default function EquipmentLocation() {
       }
       let NamedataGet = await GetAllEquipmentName();
       if (NamedataGet.status === 1) {
-        console.log("Name Data", NamedataGet.responseValue)
+       
         setEquipmentNameList(NamedataGet.responseValue.map(SerialNumber=>({
           value: SerialNumber.id,
           label : SerialNumber.serialNumber,
@@ -85,7 +85,7 @@ export default function EquipmentLocation() {
   let AllEquipmentLocation = async () => {
     let locationdata = await GetAllEquimentLocation();
     if (locationdata.status === 1) {
-      console.log("locationdata", locationdata.responseValue)
+    
       setShowLoder(0);
       setDataAllEquipment(locationdata.responseValue);
     }
@@ -185,7 +185,7 @@ export default function EquipmentLocation() {
     document.getElementById("errserviceEggname").style.display = "none";
     document.getElementById('errserviceEngContact').style.display = 'none';
    
-    // console.log('clear')
+   
     setserviceEngContact("")
     setserviceEngName("")
     setSelectedSerialNumber(null)

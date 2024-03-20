@@ -53,7 +53,7 @@ export default function PharmacyPurchase() {
             let response = await GetKnowmedItems()
             let supresponse = await GetVendorMaster()
             let hsnresponse = await GetHSNMaster()
-            console.log("response", response)
+           
 
             if (response.status === 1) {
                 setItemList(response.responseValue)
@@ -76,7 +76,7 @@ export default function PharmacyPurchase() {
     let funcConversionUnit = async (rowId, productId) => {
 
         let conversresponse = await GetConversionByProductId(productId);
-        console.log("conversresponse", conversresponse)
+        
 
         const conversionDetails = conversresponse.responseValue[0];
         // setUnitId(conversionDetails.unitID)
@@ -131,7 +131,7 @@ export default function PharmacyPurchase() {
         }
 
         const updatedRows = [...rows];
-        console.log("ddd", rows)
+     
         const rowIndex = updatedRows.findIndex(row => row.id === rowId);
         if (name === "productId" || name === "hsnCodeId") {
             // Update the specific field in the row
@@ -167,9 +167,9 @@ export default function PharmacyPurchase() {
     //         name: `Row ${rows.length + 1}`,
     //     }
     //     // const newRowId = rows.length + 1; // Generate sequential IDs
-    //     console.log('new Row:', newRow);
+   
     //     setRows([...rows, newRow]);
-    //     console.log('rows:', rows);
+
     // };
 
 
@@ -218,8 +218,7 @@ export default function PharmacyPurchase() {
 
     const handlePriceQuantityChange = (rowId, purchasePrice, quantity) => {
 
-        console.log("purchasePrice:", purchasePrice);
-        console.log("quantity:", quantity);
+    
         const price = parseFloat(purchasePrice);
         const qty = parseInt(quantity);
 
@@ -233,7 +232,7 @@ export default function PharmacyPurchase() {
         });
         setRows(updatedRows);
         const newTotalAmount = updatedRows.reduce((sum, row) => sum + (row.netAmount || 0), 0);
-        console.log("newTotalAmount:", newTotalAmount);
+   
 
         setTotalAmount(newTotalAmount);
         setTotalPayableAmount(newTotalAmount)
@@ -296,7 +295,7 @@ export default function PharmacyPurchase() {
             const collectedData = rows.map((row, index) => {
                 const productId = rows[index].productId;
                 const conversionDetails = conversionDetailsMap[productId] || {};
-                console.log("conversionDetails:", conversionDetails);
+                
                 return {
 
 
@@ -317,7 +316,7 @@ export default function PharmacyPurchase() {
 
 
             const filteredData = collectedData.filter(item => Object.values(item).some(value => value !== null && value !== ''));
-            console.log("filteredData:", filteredData);
+          
             const purchaseData = {
 
                 supplierId: inputValues.supplierId,

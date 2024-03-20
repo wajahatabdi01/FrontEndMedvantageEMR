@@ -58,7 +58,7 @@ export default function FHIRClassificationTypeMaster()
     const response = await GetFHIRClassificationTypeMaster();
 
     if (response.status === 1) {
-      console.log("testrname is",response)
+     
       // setDischargeDispositionList(response.responseValue);
       setClassificationList(response.responseValue);
       setDischargeDispositionListMain(response.responseValue)
@@ -138,7 +138,7 @@ export default function FHIRClassificationTypeMaster()
       "code": code,
       "userId": window.userId,
     }))
-console.log("test result eidit",sendForm);
+
     document.getElementById("name").value = name;
     document.getElementById("code").value = code;
   }
@@ -156,7 +156,7 @@ console.log("test result eidit",sendForm);
         ...sendForm,
       });
       if (response.status === 1) {
-        console.log("Updated test result eidit",response);
+        
         setShowUnderProcess(0);
         setTosterValue(0);
         setShowToster(1);

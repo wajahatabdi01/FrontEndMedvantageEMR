@@ -141,7 +141,7 @@ export default function EquipmentTypeMaster() {
     }
     //Handle Button Change
     let handleUpdate = async (id, lifeSupport, remark, UserId) => {
-        console.log("id", id)
+       
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

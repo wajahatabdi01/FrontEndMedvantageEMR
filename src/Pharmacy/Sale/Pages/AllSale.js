@@ -68,7 +68,7 @@ function AllSale() {
     try {
       
       let salesubresponse = await GetAllSaleByBillNo(billNo);
-      console.log("salesubresponse", salesubresponse)
+     
       if (salesubresponse.status === 1) {
         setSaleData(salesubresponse.responseValue)
         const allSales = salesubresponse.responseValue;
@@ -78,7 +78,7 @@ function AllSale() {
         const netAmount = allSales[0].netAmount;
         const pmId = allSales[0].pmId;
         const discount = allSales[0].discount;
-        console.log("pmId", pmId)
+       
         // setPmId(pmId) 
         // setUhid(uhid)
         // setBillNo(billNo)
@@ -123,7 +123,7 @@ function AllSale() {
   //     try {
 
   //       let purchasesubresponse = await GetAllOtherPurchase(billNo);
-  //       console.log("purchasesubresponse", purchasesubresponse)
+ 
   //       if (purchasesubresponse.status === 1) {
   //         setPurchaseSubList(purchasesubresponse.responseValue)
   //         const purchasesub = purchasesubresponse.responseValue[0];
@@ -146,7 +146,7 @@ function AllSale() {
     let obj = {
       id: rowId
     }
-    console.log("obj", obj)
+
     let response = await DeletePurchase(obj)
     if (response.status === 1) {
       setShowUnderProcess(0)

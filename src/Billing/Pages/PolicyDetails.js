@@ -70,13 +70,13 @@ export default function PolicyDetails() {
     let PolicyLists = await GetAllPolicyList(UHID)
     if(PolicyLists.status===1){
       setpolicyList(PolicyLists.responseValue)
-      console.log("GetPolicyList" , PolicyLists.responseValue)
+      
     }
   }
 
   const ShowAllBills = async(index)=>{
     let IndexData = PolicyList[index]
-    console.log('index', IndexData.uhid)
+  
     let UHID  = IndexData.uhid
     let policyNo = IndexData.tpaReferenceNo
     let ShowBillList = await GetPolicyBills(UHID , policyNo)
@@ -84,7 +84,7 @@ export default function PolicyDetails() {
       let data = ShowBillList.responseValue;
       setallbills(data);
       setIsShowBillModel(1);
-      console.log('setallbills', data[0])
+     
     }
   }
   
@@ -98,12 +98,12 @@ export default function PolicyDetails() {
     setrowPolicyNo(IndexData.tpaReferenceNo)
     // setrowAmount(IndexData.totalAmountSumByTpaReferenceNo)
     setclaimAmount(IndexData.totaltotalBalanceSumByTpaReferenceNo)
-    console.log('index', IndexData)
+   
  
   }
   const ShowBillingDetails = async(index)=>{
     let IndexData = allbills[index]
-    console.log('index', allbills[index])
+    
     let UHID  = IndexData.uhid
     let BillNo = IndexData.billNo
     let ShowBillingDetails = await getPatientDetailByUhid(UHID , BillNo)
@@ -111,9 +111,9 @@ export default function PolicyDetails() {
       let data = ShowBillingDetails.responseValue;
       setbillDetails(data[0]);
       let itemD = JSON.parse(data[0].itemDetails);
-      console.log('itemD', itemD);
+   
       setItmeDetailByBill(itemD);
-      console.log("ShowBillingDetails" , ShowBillingDetails.responseValue)
+     
       setIsShowBillItemsModel(1);
     }
   }
@@ -150,10 +150,10 @@ export default function PolicyDetails() {
         claimDate : claimDate,
         isCashless : 0,
       }
-      console.log('post' , obj)
+   
       let data = await PostClaimAmount(obj)
       if(data.status === 1){
-        console.log('post' , obj)
+     
         setShowUnderProcess(0);
         setshowClaimModel(0);
         setShowToster(1);

@@ -54,7 +54,7 @@ export default function ConversionMaster() {
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PostProductSaltMapping(sendForm);
-            console.log("sendForm", sendForm)
+        
             if (response.status === 1) {
                 setShowUnderProcess(0)
                 setShowToster(1)
@@ -98,7 +98,7 @@ export default function ConversionMaster() {
         let getProductResponse = await GetProduct();
         let getUnitResponse = await GetUnitMaster();
         let getConsumeTypeResponse = await GetConsumeType();
-        console.log("getResponse", getResponse)
+       
 
         if (getResponse.status === 1) {
             setProductSaltMappingData(getResponse.responseValue)
@@ -217,7 +217,7 @@ export default function ConversionMaster() {
     // Handle Update
     let saveUpdate = async () => {
         let valresponse = ValidationProductSaltMapping(sendForm.saltId, sendForm.manufacturerId, sendForm.productId, sendForm.unitID, sendForm.consumeTypeId)
-        console.log("valresponse", valresponse);
+       
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutProductSaltMapping(sendForm)

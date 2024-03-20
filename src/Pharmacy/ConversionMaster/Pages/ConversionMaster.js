@@ -52,7 +52,7 @@ export default function ConversionMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostConversionMaster(sendForm);
-      console.log("sendForm", sendForm)
+    
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -93,7 +93,7 @@ export default function ConversionMaster() {
     let getResponse = await GetConversionMaster();
     let getItemResponse = await GetKnowmedItems();
     let getUnitResponse = await GetUnitMaster();
-    console.log("getResponse", getResponse)
+  
 
     if (getResponse.status === 1) {
       setConversionData(getResponse.responseValue)
@@ -198,7 +198,7 @@ export default function ConversionMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationConversionMaster(sendForm.productId)
-    console.log("valresponse", valresponse);
+   
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutConversionMaster(sendForm)

@@ -32,7 +32,7 @@ const [showUnderProcess, setShowUnderProcess] = useState(0);
 const [showToster, setShowToster] = useState(0);
 const [tosterMessage, setTosterMessage] = useState("");
 const [tosterValue, setTosterValue] = useState(0);
-let [corncallUrl, setCorncallUrl] = useState("")
+// let [corncallUrl, setCorncallUrl] = useState("")
 let uhID = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
 
 const handleDateTimeClick = (popUpDate, popUpTime, rowID) => {
@@ -148,7 +148,7 @@ const handleDateTimeClick = (popUpDate, popUpTime, rowID) => {
                  
                  
                   
-                  {/* else{return(<><th style={{width:'7%'}}>&nbsp;</th> </>)} */}
+                  
                 }) ) : <th colSpan={ptMedDate.length + 1} className="text-center" style={{ fontWeight: 'bold' }}>
                         {t("No Record Found")}
                       </th>}
@@ -176,7 +176,7 @@ const handleDateTimeClick = (popUpDate, popUpTime, rowID) => {
                     <td>
                       <div
                         className="d-flex flex-nowrap gap-1 align-items-center">
-                        <img src={dList.dosageForm === 'tab' ? capsule : dList.dosageForm === 'injection' ? injection : dList.dosageForm === 'fluid' ? fluid : ''} className="icnn"/>
+                        <img src={dList.dosageForm === 'tab' ? capsule : dList.dosageForm === 'injection' ? injection : dList.dosageForm === 'fluid' ? fluid : ''} className="icnn" alt=''/>
                         <span style={{width: '120px'}}> {dList.dosageForm === ddlist.dosageForm ? dList.drugName : ''}</span>
                       </div>
                     </td>

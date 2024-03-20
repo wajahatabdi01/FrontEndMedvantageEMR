@@ -2779,7 +2779,7 @@ let chequeDate = document.getElementById("chequeDate").value
                     <select id="Payment" disabled={isPaymentDisabled} class="form-control form-control-sm" value={pamentMode} onChange={handlePaymentMode}  >
                       <option value="0" selected>Select Payment Mode</option>
                       {PaymentModeList && PaymentModeList.map((val,index)=>{
-                        console.log('PaymentModeList : ', val)
+                       
                         return (
                           <option key={index} value={val.id}>{val.paymentMethodName}</option>
                         )

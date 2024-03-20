@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import timeclok from '../../../../../../assets/images/HistoryViewIcons/timeclok.svg';
+// import timeclok from '../../../../../../assets/images/HistoryViewIcons/timeclok.svg';
 import bp from '../../../../../../assets/images/HistoryViewIcons/bp.svg';
-import oxygen from '../../../../../../assets/images/HistoryViewIcons/oxygen.svg';
-import bpmean from '../../../../../../assets/images/HistoryViewIcons/bpmean.svg';
+// import oxygen from '../../../../../../assets/images/HistoryViewIcons/oxygen.svg';
+// import bpmean from '../../../../../../assets/images/HistoryViewIcons/bpmean.svg';
 import heartrate from '../../../../../../assets/images/HistoryViewIcons/heartrrate.svg';
-import map from '../../../../../../assets/images/HistoryViewIcons/map.svg';
+// import map from '../../../../../../assets/images/HistoryViewIcons/map.svg';
 import pulse from '../../../../../../assets/images/HistoryViewIcons/pulse.svg';
-import pvc from '../../../../../../assets/images/HistoryViewIcons/pvc.svg';
-import rbs from '../../../../../../assets/images/HistoryViewIcons/rbs.svg';
+// import pvc from '../../../../../../assets/images/HistoryViewIcons/pvc.svg';
+// import rbs from '../../../../../../assets/images/HistoryViewIcons/rbs.svg';
 import resprate from '../../../../../../assets/images/HistoryViewIcons/resprate.svg';
 import spo from '../../../../../../assets/images/HistoryViewIcons/spo.svg';
 import temprature from '../../../../../../assets/images/HistoryViewIcons/temprature.svg';
@@ -22,7 +22,7 @@ export const HealthViewVitals = () => {
     const {t} = useTranslation();
     document.body.dir = i18n.dir();
 
-    let [respLen, setRespLen] = useState(0);
+    // let [respLen, setRespLen] = useState(0);
     let [vitalsDate, setVitalsDate] = useState([]);
     let [testVitals, setTestVitals] = useState();
     let [vitalNumber, setVitalNumber] = useState([4, 7, 56, 3, 5, 74, 10, 6]);
@@ -188,7 +188,7 @@ export const HealthViewVitals = () => {
                                         <tr>
                                             <td>
                                                 <div className='d-flex align-items-center'>
-                                                    {val !== 6 ? <img src={vitalImg[ind].icon} className='icnn' /> : ""}
+                                                    {val !== 6 ? <img src={vitalImg[ind].icon} className='icnn' alt='' /> : ""}
                                                     {val !== 6 ? <span>{vitalImg[ind].name}</span> : ""}
                                                 </div>
                                             </td>

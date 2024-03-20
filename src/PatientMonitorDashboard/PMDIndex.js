@@ -206,8 +206,8 @@ export default function PatientMonitoringDashboard() {
   let createWardList = (patientdatas) => {
     let temp = []
     temp = [...new Set(patientdatas.map(q => JSON.parse(q.patientDataList).Ward))];
-    // patientdatas.map(q => console.log("ward name", q.patientDataList))
-    // console.log("ward", temp)
+   
+ 
     setAllWard(temp.filter(item => item))
 
   }
@@ -347,7 +347,7 @@ export default function PatientMonitoringDashboard() {
     }
     else {
       setUpdateData()
-      // console.log("serach value")
+    
       handleSearchs(searchvalue, tempFullPatientDataList, setFullPatientDataList)
       // handleSearch(searchvalue)
       // setFullPatientDataList(tempFullPatientDataList)

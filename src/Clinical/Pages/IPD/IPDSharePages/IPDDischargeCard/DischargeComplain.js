@@ -26,11 +26,11 @@ export default function DischargeComplain(props) {
     let [sendData, setSendData] = useState([])
 
     let [showDignosis, setShowDignosis] = useState(1)
-    let [symptomsPopUp, setSymptomsPopUp] = useState(0)
-    let [allergiesPopUP, setAllergiesPopUP] = useState(0)
-    let [consultantPopUP, setConsultantPopUP] = useState(0)
+    // let [symptomsPopUp, setSymptomsPopUp] = useState(0)
+    // let [allergiesPopUP, setAllergiesPopUP] = useState(0)
+    // let [consultantPopUP, setConsultantPopUP] = useState(0)
     let [diagnosisSuggestionPopUP, setDiagnosisSuggestionPopUP] = useState(0)
-    let [showAntibiogram, setShowAntibiogram] = useState(0)
+    // let [showAntibiogram, setShowAntibiogram] = useState(0)
     let liSelected = useRef()
     let index = useRef(-1)
     let next = useRef()
@@ -59,7 +59,7 @@ export default function DischargeComplain(props) {
                     setShowSearchBoxProblem(1)
                 }
                 else {
-                    let t = 0
+                    // let t = 0
                     row["problemId"] = 0
                     row["problemName"] = value
                     row["pdmId"] = 2
@@ -70,6 +70,7 @@ export default function DischargeComplain(props) {
                             temp[ind]["problemName"] = value
                             flag = 1
                         }
+                       
                     })
                     if (flag != 1) {
                         setSendData([...data, row])
@@ -101,7 +102,7 @@ export default function DischargeComplain(props) {
                     setShowSearchBoxProblemConsultant(1)
                 }
                 else {
-                    let t = 0
+                    // let t = 0
                     row["problemId"] = 0
                     row["problemName"] = value
                     row["pdmId"] = 4
@@ -112,6 +113,7 @@ export default function DischargeComplain(props) {
                             temp[ind]["problemName"] = value
                             flag = 1
                         }
+                        
                     })
                     if (flag != 1) {
                         setSendData([...data, row])
@@ -144,7 +146,7 @@ export default function DischargeComplain(props) {
     let handleClick = (boxname, id, name) => {
         let data = [...sendData].filter(n => n)
         if (boxname === "symptomsData") {
-            let t = 0
+            // let t = 0
             row["problemId"] = id
             row["problemName"] = name
             row["pdmId"] = 2
@@ -175,6 +177,7 @@ export default function DischargeComplain(props) {
                 if (val.pdmId === 2 && val.problemId === 0) {
                     delete temp[ind]
                 }
+               
             })
             setSendData([...temp.filter(n => n), row])
             // SaveIPDData([...temp.filter(n => n), row], "jsonDiagnosis")
@@ -186,7 +189,7 @@ export default function DischargeComplain(props) {
 
         }
         else if (boxname === "consultantData") {
-            let t = 0
+            // let t = 0
             row["problemId"] = id
             row["problemName"] = name
             row["pdmId"] = 4
@@ -216,6 +219,7 @@ export default function DischargeComplain(props) {
                 if (val.pdmId === 4 && val.problemId === 0) {
                     delete temp[ind]
                 }
+                
             })
             // getDataFood([...consultantData, row])
             document.getElementById("consultantData").focus();
@@ -456,6 +460,7 @@ export default function DischargeComplain(props) {
                                                                 <li className='pointer' onClick={(e) => { handleClick("symptomsData", val.id, val.problemName) }}>{val.problemName}</li>
                                                             )
                                                         }
+                                                       else{ return null;}
                                                     })
                                                 )
                                             })}
@@ -489,7 +494,7 @@ export default function DischargeComplain(props) {
                         <div className='row p-0 m-0 opd-prescription-box'>
                             <div className=' m-0  col-sm-3 col-12 img-text-box-back-opd pdd1'>
                                 <div className='d-flex flex-row gap-2  m-0'>
-                                    <img src={ProvisionalDiagonisys} className='compcon' />
+                                    <img src={ProvisionalDiagonisys} className='compcon' alt=''/>
                                     <label className='cheifc'>{t("Consultant Diagnosis")}</label>
                                 </div>
 
@@ -517,6 +522,7 @@ export default function DischargeComplain(props) {
                                                                 <li className='pointer' onClick={(e) => { handleClick("consultantData", val.id, val.problemName) }}>{val.problemName}</li>
                                                             )
                                                         }
+                                                        else{ return null;}
                                                     })
                                                 )
                                             })}

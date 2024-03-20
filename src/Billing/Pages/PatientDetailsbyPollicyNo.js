@@ -72,7 +72,7 @@ export default function PatientDetailsbyPollicyNo() {
     setShowLoder(1)
     let data = await getAllTpaCompany();
     
-    console.log('Data',data);
+
     if (data.status === 1) {
         setShowLoder(0)
         setcompanyList(data.responseValue.map(Tpa=>({
@@ -92,9 +92,9 @@ const GetuhidbyPolicyNo = async (companyId) => {
         let BillingList = await GetUHIDbyPolicyNo(companyId.value, PolicyNo);
         if (BillingList.status === 1) {
           setbillReport(BillingList.responseValue);
-          console.log("BillingList", BillingList.responseValue);
+         
           ShowUhidDetails(BillingList.responseValue[0].uhid);
-          console.log(BillingList.responseValue[0].uhid)
+        
           return
         }
     }
@@ -103,11 +103,11 @@ const GetuhidbyPolicyNo = async (companyId) => {
   
 
   const ShowUhidDetails= async(uhid)=>{
-    console.log(uhid)
+   
   let getPatientdetails = await getPatientDetailByUhid(uhid);
   if(getPatientdetails.status === 1){
     setpatientDetails(getPatientdetails.responseValue);
-    console.log("getPatientdetails", getPatientdetails.responseValue);
+   
   }
   }
 const handleClear=()=>{

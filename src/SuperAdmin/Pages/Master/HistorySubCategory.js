@@ -89,7 +89,7 @@ export default function HistorySubCategory() {
     let getdata = async () => {
         let getResponse = await GetHistorySubCategory();
         let getCategory = await GetHistoryCategory();
-        console.log("dadadad", getResponse)
+        
         if (getResponse.status === 1) {
             setLoder(0)
             setHistorySubCategoryList(getResponse.responseValue)

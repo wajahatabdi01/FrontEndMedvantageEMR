@@ -85,7 +85,7 @@ export default function PharmacySale() {
     let funcStockByProductId = async (rowId, productId) => {
 
         let stockresponse = await GetAllCurrentStockByProductId(productId);
-        console.log("stockresponse", stockresponse)
+       
         const stockDetails = stockresponse.responseValue[0];
 
         if (stockresponse.status === 1) {
@@ -129,7 +129,7 @@ export default function PharmacySale() {
         try {
 
             let pmIdresponse = await GetPatientDetailsByUHID(uhId);
-            console.log("pmIdresponse", pmIdresponse)
+           
             if (uhId.trim() !== '' && pmIdresponse.status === 1) {
                 setInputValues(inputValues => ({
                     ...inputValues,
@@ -180,7 +180,7 @@ export default function PharmacySale() {
             setProductId(event.target.value);
         }
         const updatedRows = [...rows];
-        console.log("ddd", rows)
+     
         const rowIndex = updatedRows.findIndex(row => row.id === rowId);
         if (name === "productId") {
             // Update the specific field in the row
@@ -239,7 +239,7 @@ export default function PharmacySale() {
 
     //     setRows([...rows, newRow]);
     //     setRows([...rows, newRow]);
-    //     console.log("rows",rows)
+    
 
     // };
 
@@ -333,7 +333,7 @@ export default function PharmacySale() {
 
 
             }));
-            console.log("collectedData", collectedData)
+         
 
             // Filter out rows with all null/empty values
             const filteredData = collectedData.filter(item => Object.values(item).some(value => value !== null && value !== ''));
@@ -357,7 +357,7 @@ export default function PharmacySale() {
 
 
                 let allsaleresponse = await GetAllSale();
-                console.log("allsaleresponse", allsaleresponse)
+               
                 if (allsaleresponse.status === 1) {
                     const allSales = allsaleresponse.responseValue;
 

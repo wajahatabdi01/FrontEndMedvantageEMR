@@ -50,10 +50,10 @@ export default function LogDetails() {
             pSize:pageSize,
             pNumber:getPageNo
         }
-        console.log('obj',obj)
+        
         setShowLoder(1)
         let response = await GetLogDetails(obj);
-        console.log('response',response)
+      
         if(response.status === 1){
             setLogList(response.responseValue)
             setShowLoder(0);
@@ -69,7 +69,7 @@ export default function LogDetails() {
         let getPageNo=0;
         let fromDate=document.getElementById("fromDate").value;
         let toDate=document.getElementById("toDate").value;
-        console.log('activePageNumber',activePageNumber);
+        
         getPageNo=parseInt(activePageNumber)+1;
         getPageNo < 4 ? document.getElementById("ddlPagination").value=getPageNo:document.getElementById("ddlPagination").value=3;
         setActivePageNumber(getPageNo)
@@ -79,10 +79,10 @@ export default function LogDetails() {
             pSize:pageSize,
             pNumber:getPageNo
         }
-        console.log('obj next page',obj)
+      
         setShowLoder(1)
         let response = await GetLogDetails(obj);
-        console.log('response',response)
+       
         if(response.status === 1){
             setLogList(response.responseValue)
             setShowLoder(0);
@@ -97,7 +97,7 @@ export default function LogDetails() {
         let getPageNo=0;
         let fromDate=document.getElementById("fromDate").value;
         let toDate=document.getElementById("toDate").value;
-        console.log('activePageNumber',activePageNumber);
+        
         getPageNo=parseInt(activePageNumber)-1;
         getPageNo < 4 ? document.getElementById("ddlPagination").value=getPageNo:document.getElementById("ddlPagination").value=3;
         setActivePageNumber(getPageNo)
@@ -107,10 +107,10 @@ export default function LogDetails() {
             pSize:pageSize,
             pNumber:getPageNo
         }
-        console.log('obj next page',obj)
+        
         setShowLoder(1)
         let response = await GetLogDetails(obj);
-        console.log('response',response)
+       
         if(response.status === 1){
             setLogList(response.responseValue)
             setShowLoder(0);
@@ -193,7 +193,7 @@ export default function LogDetails() {
                                                     <td>
                                                         <div className="text-break">
                                                             <table>
-                                                            {   console.log('parser',arrayFromObject)}
+                                                            
                                                                 <thead>
                                                                 {arrayFromObject.map((li)=>{
                                                                     return(

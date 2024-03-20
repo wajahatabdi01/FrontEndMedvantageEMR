@@ -157,9 +157,9 @@ export default function BloodDonorRegestration() {
   }
   let getIdentityType = async () => {
     let data = await GetIdentity();
-    console.log("data", data)
+   
     // const idtype = data.responseValue.idName
-    // console.log("idtype",idtype)
+    
     setIdentityType(data.responseValue)
 
 
@@ -228,10 +228,10 @@ export default function BloodDonorRegestration() {
         setTosterValue(0);//0 for save and warning 1 for Erro
 
         let allptresponse = await GetAllDonorList();
-        console.log("allptresponse", allptresponse)
+       
         if (allptresponse.status === 1) {
           const allDonor = allptresponse.responseValue;
-          console.log("allDonor", allDonor)
+         
 
           if (allDonor.length > 0) {
             const lastDonor = allDonor[allDonor.length - 1];
@@ -411,7 +411,7 @@ export default function BloodDonorRegestration() {
       let contactNumber = document.getElementById('contact').value;
       const countryCode = document.getElementById('countryCode').value;
 
-      console.log("countryCode", countryCode)
+  
       setContact(contactNumber);
 
       if (contactNumber.length === 10) {

@@ -158,7 +158,7 @@ export default function TestMaster() {
       "InstructionId": instructionId,
       "UserId": userId,
     }))
-    console.log("handleUpdate", setSendForm);
+  
 
     document.getElementById("TestName").value = testname;
     document.getElementById("CategoryId").value = categoryId;

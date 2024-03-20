@@ -51,7 +51,7 @@ export default function DoctorTimeSlotMapping() {
     //Handle Save
     let saveForm = async () => {
         let valresponse = ValidationDoctorTimeSlotMapping(sendForm.doctorId, sendForm.timeslotId, sendForm.dayId)
-        console.log("sendForm", sendForm)
+        
         // return ("sendForm")
         if (valresponse) {
             setShowUnderProcess(1)
@@ -176,7 +176,7 @@ export default function DoctorTimeSlotMapping() {
     // Handle Update
     let saveUpdate = async () => {
         let valresponse = ValidationDoctorTimeSlotMapping(sendForm.doctorId, sendForm.timeslotId, sendForm.dayId)
-        console.log("valresponse", valresponse);
+      
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutDoctorTimeSlotMapping(sendForm)

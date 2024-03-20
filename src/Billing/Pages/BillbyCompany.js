@@ -49,14 +49,13 @@ export default function BillbyCompany() {
     let BillingList = await GetAllClaim(FromDate , ToDate)
     if(BillingList.status===1){
       setbillReport(BillingList.responseValue)
-      console.log("BillingList" , BillingList.responseValue)
+      
     }
   }
 
   const ShowBillingDetails = async(index)=>{
     // let IndexData = billReport[index]
-    // console.log('index', billReport[index])
-    // let UHID  = IndexData.uhid
+    
     // let BillNo = IndexData.billNo
     // let ShowBillingDetails = await getPatientDetailByUhid(UHID , BillNo)
     // if(ShowBillingDetails.status===1){
@@ -65,9 +64,9 @@ export default function BillbyCompany() {
     //   let data = ShowBillingDetails.responseValue;
     //   setbillDetails(data[0]);
     //   let itemD = JSON.parse(data[0].itemDetails);
-    //   console.log('itemD', itemD);
+
     //   setItmeDetailByBill(itemD);
-    //   console.log("ShowBillingDetails" , ShowBillingDetails.responseValue)
+  
     //   setIsShowBillItemsModel(1);
     // }
   }

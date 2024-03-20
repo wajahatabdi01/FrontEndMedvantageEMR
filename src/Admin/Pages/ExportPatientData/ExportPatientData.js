@@ -146,7 +146,7 @@ export default function ExportPatientData() {
               temp["uhid"] = val.uhId 
               selectedParameterList.map((list) => {
                   let tempobj = Object.keys(val);
-                  console.log('tempobj',tempobj)
+                
                   tempobj.map((par, ind)=>{
                     if(list.parameterName === "Care Team Member(s)"){
                         if(JSON.parse(val.teamMember).length > 0){

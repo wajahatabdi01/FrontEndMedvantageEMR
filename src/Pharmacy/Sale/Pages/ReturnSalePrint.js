@@ -22,7 +22,7 @@ export default function ReturnSalePrint() {
     useEffect(() => {
         functionGetLoginData();
         //get data from lop
-        // console.log("daTA",data)
+      
         // JsBarcode("#barcode", data.uhid, { height: '24px', displayValue: false });
         window.print("");
         setDateTime(date.toLocaleDateString() + " " + date.toLocaleTimeString());

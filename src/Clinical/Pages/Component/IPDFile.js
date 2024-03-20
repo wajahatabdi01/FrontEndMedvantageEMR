@@ -65,9 +65,9 @@ export default function IPDFile() {
             vitalDate = [];
 
             //Get Prescription Data & Date
-            for (var i = 0; i < medIPDFileResp.responseValue.prescription.length; i++) {
-                prescriptionData.push(medIPDFileResp.responseValue.prescription[i]);
-                prescriptionDate.push(medIPDFileResp.responseValue.prescription[i].medDate);
+            for (var j = 0; j < medIPDFileResp.responseValue.prescription.length; j++) {
+                prescriptionData.push(medIPDFileResp.responseValue.prescription[j]);
+                prescriptionDate.push(medIPDFileResp.responseValue.prescription[j].medDate);
             }
             setPrescription([...prescriptionData]);
             setPrescriptionMedDate([...prescriptionDate]);
@@ -77,7 +77,7 @@ export default function IPDFile() {
 
         //Get Lab IPD Data
         if (labIPDFileResp.status === 1) {
-            for (var i = 0; i < labIPDFileResp.responseValue.labIPDFileData.length; i++) {
+            for (let i = 0; i < labIPDFileResp.responseValue.labIPDFileData.length; i++) {
                 labData.push(labIPDFileResp.responseValue.labIPDFileData[i]);
                 labTest.push(labIPDFileResp.responseValue.labIPDFileData[i].testname);
                 labSubtest.push(labIPDFileResp.responseValue.labIPDFileData[i].subTestName);
@@ -95,7 +95,7 @@ export default function IPDFile() {
 
         //Get Intake IPD data
         if (intakeIPDFileResp.status === 1) {
-            for (var i = 0; i < intakeIPDFileResp.responseValue.intakeIPDFileData.length; i++) {
+            for (let i = 0; i < intakeIPDFileResp.responseValue.intakeIPDFileData.length; i++) {
                 intakeData.push(intakeIPDFileResp.responseValue.intakeIPDFileData[i]);
                 intakeDate.push(intakeIPDFileResp.responseValue.intakeIPDFileData[i].datee);
             }
@@ -485,7 +485,7 @@ let handleIPDPrint = ()=> {
                                                                     </tr>
                                                                 )
                                                             }
-
+                                                            else{ return null;}
                                                         })}
 
                                                     </tbody>
@@ -517,22 +517,24 @@ let handleIPDPrint = ()=> {
                                                     </thead>
 
                                                     <tbody>
-                                                        {prescription && prescription.map((medList, index) => {
-                                                            if (medDateList === medList.medDate) {
-                                                                return (
-                                                                    <tr>
-                                                                        <td>{medList.dosageForm}</td>
-                                                                        <td>{medList.drugName}</td>
-                                                                        <td>{medList.dosageStrength}</td>
-                                                                        <td>{medList.doseFrequency}</td>
-                                                                        <td>{medList.medTime}</td>
-                                                                        <td>{medList.duration}</td>
-                                                                        <td>{medList.remark}</td>
-                                                                    </tr>
-                                                                )
-                                                            }
+                                                    {prescription && prescription.map((medList, index) => {
+                                                        if (medDateList === medList.medDate) {
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td>{medList.dosageForm}</td>
+                                                                    <td>{medList.drugName}</td>
+                                                                    <td>{medList.dosageStrength}</td>
+                                                                    <td>{medList.doseFrequency}</td>
+                                                                    <td>{medList.medTime}</td>
+                                                                    <td>{medList.duration}</td>
+                                                                    <td>{medList.remark}</td>
+                                                                </tr>
+                                                            )
+                                                        }
+                                                        // Add a default return value
+                                                        else{ return null;}
+                                                    })}
 
-                                                        })}
 
                                                     </tbody>
                                                 </>
@@ -559,6 +561,7 @@ let handleIPDPrint = ()=> {
                                                                         <th>{labHeadList.subTestName}</th>
                                                                     )
                                                                 }
+                                                                else{ return null;}
                                                             })
 
                                                             }
@@ -578,13 +581,15 @@ let handleIPDPrint = ()=> {
                                                                                 <>
 
                                                                                     {uniqueSubTestNames && [...uniqueSubTestNames].map((subTestName, index) => {
-                                                                                        if (subTestName === labBodyList.subTestName && uniqueDate === labBodyList.collectionDateTime)
+                                                                                        if (subTestName === labBodyList.subTestName && uniqueDate === labBodyList.collectionDateTime){
                                                                                             return (
 
 
-                                                                                                <td>{labBodyList.result}</td>
+                                                                                        <td>{labBodyList.result}</td>
 
-                                                                                            )
+                                                                                                            )
+                                                                                        }
+                                                                                        else{ return null;}
 
                                                                                     }
                                                                                     )}
@@ -592,7 +597,7 @@ let handleIPDPrint = ()=> {
 
                                                                             )
                                                                         }
-
+                                                                        else{ return null;}
 
                                                                     })}
                                                                 </tr>
@@ -644,6 +649,7 @@ let handleIPDPrint = ()=> {
                                                                     </tr>
                                                                 )
                                                             }
+                                                            else{ return null;}
 
                                                         })}
 

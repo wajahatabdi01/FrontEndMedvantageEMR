@@ -46,7 +46,7 @@ export default function AlertEscalationMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostAlertEscalation(sendForm);
-      console.log("sendForm", sendForm)
+     
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -184,7 +184,7 @@ export default function AlertEscalationMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationAlertEscalationMaster(sendForm.alertTypeId)
-    console.log("valresponse", valresponse);
+    
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutAlertEscalation(sendForm)

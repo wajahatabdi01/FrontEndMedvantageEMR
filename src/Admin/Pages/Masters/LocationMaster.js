@@ -51,7 +51,7 @@ export default function LocationMaster() {
     //Handle Save
     let saveForm = async () => {
         let valresponse = ValidationLocationMaster(sendForm.buildingID, sendForm.floorID, sendForm.roomID, sendForm.careTakerID)
-        console.log("valresponse", valresponse)
+       
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PostLocationMaster(sendForm);
@@ -181,7 +181,7 @@ export default function LocationMaster() {
     // Handle Update
     let saveUpdate = async () => {
         let valresponse = ValidationLocationMaster(sendForm.buildingID, sendForm.floorID, sendForm.roomID, sendForm.careTakerID)
-        console.log("valresponse", valresponse);
+       
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutLocationMaster(sendForm)

@@ -9,7 +9,7 @@ export default function IPDBottomButtons(props) {
   const {t} = useTranslation();
   document.body.dir = i18n.dir()
 
-  let [bloodList, setBloodList] = useState();
+  // let [bloodList, setBloodList] = useState();
   let [dischargeTypeList, setDischargeTypeList] = useState();
   let [bloodId, setBloodId] = useState([])
   let [followUpDate, setFollowUpDate] = useState('')
@@ -32,32 +32,50 @@ export default function IPDBottomButtons(props) {
   let getDischargePatient = async () => {
     let uhid = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
     let response = await GetDischargePatientList()
-    if (response.status === 1) {
-      response.responseValue.map((val, ind)=>{    
-         if(val.uhId === uhid)
-        {
-          //setBloodId(val.bloodGroupId)
-          setFollowUpDate(val.followUpDate)
-          props.followUpDate(val.followUpDate)
-        }
-    })
+    // if (response.status === 1) {
+    //   response.responseValue.map((val, ind)=>{    
+    //      if(val.uhId === uhid)
+    //     {
+    //       //setBloodId(val.bloodGroupId)
+    //       setFollowUpDate(val.followUpDate)
+    //       props.followUpDate(val.followUpDate)
+    //     }
+    // })
     
-    }
+    // }
+    if (response.status === 1) {
+      response.responseValue.forEach((val, ind) => {    
+          if (val.uhId === uhid) {
+              //setBloodId(val.bloodGroupId)
+              setFollowUpDate(val.followUpDate)
+              props.followUpDate(val.followUpDate)
+          }
+      })
+  }
+  
 }
 
 let getAdmitedPatient = async () => {
   let uhid = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
   let response = await GetPatientList()
-  if (response.status === 1) {
-    response.responseValue.map((val, ind)=>{    
-       if(val.uhId === uhid)
-      {
-        setBloodId(val.bloodGroupId)
+  // if (response.status === 1) {
+  //   response.responseValue.map((val, ind)=>{    
+  //      if(val.uhId === uhid)
+  //     {
+  //       setBloodId(val.bloodGroupId)
         
-      }
-  })
+  //     }
+  // })
    
+  // }
+  if (response.status === 1) {
+    response.responseValue.forEach((val, ind) => {
+      if (val.uhId === uhid) {
+        setBloodId(val.bloodGroupId);
+      }
+    });
   }
+  
 }
 
   let handleChange = (e) => {

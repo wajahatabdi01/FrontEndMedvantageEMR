@@ -164,7 +164,7 @@ export default function ItemMaster() {
     document.getElementById("errItemName").style.display = "none";
     document.getElementById('errItemcategoryName').style.display = 'none';
     document.getElementById('errItemsubcategoryName').style.display = 'none';
-    console.log('clear')
+  
     setSelectedcategory(null)
     setitemname('');
     setitemsubcategoryname('');
@@ -271,7 +271,7 @@ export default function ItemMaster() {
       setNewlyAddedRowIndex(false)
       setIsUpdateBtnShow(false)
       getAllItemMaster();
-      // console.log('success')
+     
       setTimeout(() => {
         setShowToster(0);
         handleClear();

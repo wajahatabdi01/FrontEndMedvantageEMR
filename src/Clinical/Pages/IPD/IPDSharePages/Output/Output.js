@@ -43,7 +43,7 @@ export default function Output() {
     let [outputTypeList, setOutputTypeList] = useState([]);
     let [unitList, setUnitList] = useState([]);
     let [rowID, setRowID] = useState(0);
-    let [pmID, setpmID] = useState(0);
+    // let [pmID, setpmID] = useState(0);
     let [clearDropdown, setClearDropdown] = useState(0);
     let [handlerEditUnit, setHandlerEditUnit] = useState('');
     let [handlerEditOutputType, setHandlerEditOutputType] = useState('');

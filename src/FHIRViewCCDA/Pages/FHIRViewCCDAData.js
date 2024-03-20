@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import GetViewCCDAData from '../API/GetViewCCDAData';
+import React, { useEffect } from 'react';
+
 
 export default function FHIRViewCCDAData() {
-  const [getUHID, setUHID] = useState('');
-  const [htmlData, setHtmlData] = useState('');
+ 
+ 
 
   const getViewData = async () => {
-    const resView = await GetViewCCDAData(1);
-    if(resView)
-    {
-      let newwindow = window.open('', '_blank');
-      newwindow.document.write(resView);
+    // const resView = await GetViewCCDAData(1);
+    // if(resView)
+    // {
+    //   let newwindow = window.open('', '_blank');
+    //   newwindow.document.write(resView);
 
-      // setHtmlData(resView);
-      // console.log('resView', resView);
-    }
+    //   // setHtmlData(resView);
+
+    // }
   };
 
   useEffect(() => {
-    setUHID(window.sessionStorage.getItem('activeUHID'));
+    
     getViewData();
   }, []);
 

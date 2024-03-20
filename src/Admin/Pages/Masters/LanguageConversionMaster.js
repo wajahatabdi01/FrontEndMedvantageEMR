@@ -51,7 +51,7 @@ export default function LanguageConversionMaster() {
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PostLanguageConversionMaster(sendForm);
-      console.log("sendForm", sendForm)
+     
       if (response.status === 1) {
         setShowUnderProcess(0)
         setShowToster(1)
@@ -92,8 +92,7 @@ export default function LanguageConversionMaster() {
     let getResponse = await GetLanguageConversionMaster();
     let getItemResponse = await GetTableMaster();
     let getUnitResponse = await GetLanguageMaster();
-    console.log("getResponse", getResponse)
-
+  
     if (getResponse.status === 1) {
       setLanguageConversionList(getResponse.responseValue)
     }
@@ -108,16 +107,16 @@ export default function LanguageConversionMaster() {
   let funcTableId = async (ids) => {
     setTableId(tableId)
     const id = tableId !== "" ? tableId : ids
-    console.log("id", id)
+   
     let apiUrl = ""
     let tableData = await GetTableMasterById(id);
     
     if (tableData.status === 1) {
       const tableDataById = tableData.responseValue[0];
-      console.log("tableDataById", tableDataById)
+      
       apiUrl = tableDataById.apiUrl;
       setApiUrl(apiUrl)
-      console.log("apiUrl", apiUrl)
+     
     }
     else {
       setApiUrl(0)
@@ -127,10 +126,10 @@ export default function LanguageConversionMaster() {
     const apiUrlD = apiUrl;
     const response = await fetch(apiUrlD);
 
-    console.log("response", response)
+   
     if (response.ok) {
       const data = await response.json(); // Assuming the response is in JSON format
-      console.log("data", data);
+      
       const apiUrlData = data.responseValue;
       if (apiUrlData != 0) {
         setApiUrlData(apiUrlData)
@@ -240,7 +239,7 @@ export default function LanguageConversionMaster() {
   // Handle Update
   let saveUpdate = async () => {
     let valresponse = ValidationLanguageConversionMaster(sendForm.languageText, sendForm.tableRowId, sendForm.languageId, sendForm.languageText)
-    console.log("valresponse", valresponse);
+    
     if (valresponse) {
       setShowUnderProcess(1)
       let response = await PutLanguageConversionMaster(sendForm)

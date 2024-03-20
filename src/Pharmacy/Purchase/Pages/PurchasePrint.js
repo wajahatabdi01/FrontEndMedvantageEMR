@@ -31,14 +31,14 @@ export default function PurchasePrint() {
         setBillNo(billNo)
         try {
             let ptData = JSON.parse(window.sessionStorage.getItem("PrintPurchaseData"));
-            console.log("123", ptData)
+           
             const billNo = ptData.billNo;
-            console.log("billNum", billNo)
+         
             let purchasesubresponse = await GetAllOtherPurchase(billNo);
-            console.log("purchasesubresponse", purchasesubresponse)
+            
             if (purchasesubresponse.status === 1) {
                 setJsonPrintData(purchasesubresponse.responseValue)
-                console.log("jsonPrintData", jsonPrintData)
+                
 
             }
 

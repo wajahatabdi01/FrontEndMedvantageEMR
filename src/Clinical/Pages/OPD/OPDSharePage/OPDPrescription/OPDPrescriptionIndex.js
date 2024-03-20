@@ -829,7 +829,7 @@ export default function OPDPrescriptionIndex(props) {
                                         {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
                                     getAllEncoutersAsPerIssueID();
                                     // Close the modal manually
-                                    document.getElementById('problem').classList.remove('show');console.log('gggggggg')
+                                    
                                 }}>
                                 <i className="fa fa-times"></i>
                             </button> */}

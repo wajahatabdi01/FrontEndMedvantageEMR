@@ -145,7 +145,7 @@ let handleChange = (e) => {
     var id = res[1];
     if (res === true) {
       let temp = [...arrProduct]
-      console.log('prdctID',prdctID);
+  
       if(temp.length === 0){
         temp.push({
           ProductID: prdctID,
@@ -156,7 +156,7 @@ let handleChange = (e) => {
       else{
         
         var duplicate = temp.findIndex((arry)=> arry.ProductID == prdctID);
-        console.log('select name : ',   selectedOptionName)
+   
          if(duplicate != -1){
           
           var id1 = 'errAddProduct';
@@ -175,7 +175,7 @@ let handleChange = (e) => {
       }
       setArrProduct(temp)
       //clearArr();
-      console.log('arrproduct : ', temp)
+     
     }
     
     else{
@@ -204,8 +204,7 @@ let handleChange = (e) => {
     const departmentID = document.getElementById('departmentID').value;
     const genderType = patientGender === 'M' ? document.getElementById('male').value : document.getElementById('female').value;
 
-    console.log('product ID aa rhi : ',productID);
-    console.log('reqstQty ID aa rhi : ',reqstQty);
+
     
     const res = BloodRequestValidation(patientUhid,patientName, patientAge, requestDate, requestTime,hospitalName, hospitalAddress,bldGroup,productID,reqstQty);
     var id = res[1];
@@ -221,7 +220,7 @@ let handleChange = (e) => {
           requestedQuantity : arrProduct[i].requestedQuantity
         })
       }
-      console.log('save temp m kya aa rha h : ', JSON.parse(window.sessionStorage.getItem("LoginData")).userId);
+
       
       
       let obj = {
@@ -240,7 +239,7 @@ let handleChange = (e) => {
         userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
       }
 
-      console.log('ur obj : ', obj);
+   
       
 
       let data = await PostBloodRequest(obj);
@@ -270,7 +269,6 @@ let handleChange = (e) => {
     }
     else
     {
-      console.log('else clicked');
       document.getElementById(id).style.display = 'block';
       document.getElementById(id).innerHTML = res[0];
     }

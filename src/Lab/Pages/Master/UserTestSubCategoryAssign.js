@@ -127,8 +127,7 @@ export default function UserTestSubCategoryAssign() {
     }
     //Handle Button Change
     let handleUpdate = async (id, subCategoryID, labUserID, UserId) => {
-        console.log("subCategoryID", subCategoryID);
-        console.log("labUserID", labUserID);
+        
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,
@@ -149,7 +148,7 @@ export default function UserTestSubCategoryAssign() {
         
        
         let valresponse = ValidationUserTestSubCategory(sendForm.subCategoryID, sendForm.labuserId)
-console.log('valresponse : ', valresponse)
+
         if (valresponse) {
             setShowUnderProcess(1)
             let response = await PutUserTestSubCategoryAssign(sendForm.subCategoryID, sendForm.labuserId, sendForm.Id, userID)
@@ -214,7 +213,7 @@ console.log('valresponse : ', valresponse)
                                     <select name='subCategoryID' id="subCategoryID" onChange={handleChange} className="form-select form-select-sm" aria-label=".form-select-sm example">
                                         <option value="0">{t("SELECT")}</option>
                                         {testSubCategoryList && testSubCategoryList.map((val, index) => {
-                                            console.log('val testSubCategoryList : ', val)
+                                        
                                             return (
                                                 <option value={val.id}>{t(val.subCategoryName)}</option>
                                             )
@@ -279,7 +278,7 @@ console.log('valresponse : ', valresponse)
                                         {subCategoryUserAssignList !== 'No record found' ?
                                         <>
                                         {subCategoryUserAssignList && subCategoryUserAssignList.map((val, ind) => {
-                                            console.log('val : ', val)
+                                        
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{ind + 1}</td>

@@ -38,7 +38,7 @@ export default function PatientProfile() {
     let activeUHID = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid//window["uhid"] === null ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : window["uhid"]; //"UHID00688"
     setUHID(activeUHID);
     const response = await GetPatientDetails(activeUHID);
-    // console.log('Patient Details', response.responseValue);
+  
     if (response.status === 1) {
       setShowLoder(0);
       setPatientDetails(response.responseValue[0])
@@ -55,7 +55,7 @@ export default function PatientProfile() {
     setShowMedicationLoader(1)
     let activeUHID = JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid //window["uhid"] === null ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : window["uhid"];
     const response = await GetPatientIPDAllHistory(activeUHID, userID);
-    // console.log('Historty', response.responseValue)
+   
     if (response.status === 1) {
       setShowMedicationLoader(0);
       setMedicationList(response.responseValue.runningPrescription);

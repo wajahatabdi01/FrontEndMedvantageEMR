@@ -117,9 +117,9 @@ function FHIRPatientProfile() {
     });
 
     let getCountryList = async () => {
-        console.log('fetch country');
+      
         let response = await GetCountryList();
-        console.log('fetch country', response);
+       
         if (response.status === 1) {
             setCountryList(response.responseValue);
         }
@@ -147,7 +147,7 @@ function FHIRPatientProfile() {
         if (response.status === 1) {
             setGetPatientGender(response.responseValue)
         }
-        console.log("GetGender", response)
+     
     }
     let getAllGenderIdentities = async () => {
         const response = await GetAllGenderIdentities();
@@ -159,14 +159,14 @@ function FHIRPatientProfile() {
         const response = await GetAllGuardianRelation()
         if (response.status === 1) {
             setGuardianRelationList(response.responseValue)
-            console.log("response", response.responseValue)
+           
         }
     }
     const GetGenderList = async () => {
         let response = await GetGender()
         if (response.status === 1) {
             setGenderList(response.responseValue)
-            console.log("genderList", response.responseValue)
+            
         }
     }
     let getFHIRDemographicList = async () => {
@@ -178,8 +178,7 @@ function FHIRPatientProfile() {
             setPatientData(response.responseValue.patientregistration[0])
             setPatientStatsData(response.responseValue.patientstats[0])
         }
-        console.log("PatientData", response.responseValue.patientregistration[0])
-        console.log("patientStats", response.responseValue.patientstats[0])
+       
     }
     let getRaceTypeList = async () => {
         let data = await GetRaceType()
@@ -217,7 +216,7 @@ function FHIRPatientProfile() {
         setShowDisabled(0)
     }
     let handleUpdate = async () => {
-        console.log("Invoked")
+        
         setUpdateBool(0)
         setShowDisabled(1)
         const updateDataObj = {
@@ -225,7 +224,7 @@ function FHIRPatientProfile() {
             ...registrationObj,
             statsJsonString: JSON.stringify([statsJsonString])
         }
-        console.log("updateDataObj", updateDataObj)
+       
         // return
         const response = await UpdateDemographicData(updateDataObj);
         if (response.status === 1) {
@@ -243,7 +242,7 @@ function FHIRPatientProfile() {
     }
 
     let handleBack = () => {
-        console.log("Navigated")
+       
         navigate("/opdpatientlist/")
     }
 

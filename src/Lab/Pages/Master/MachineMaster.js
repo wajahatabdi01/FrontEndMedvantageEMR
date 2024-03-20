@@ -120,7 +120,7 @@ export default function MachineMaster() {
     }
     //Handle Button Change
     let handleUpdate = async (id, machineName, remark, UserId) => {
-        console.log("id", id)
+        
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

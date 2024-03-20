@@ -84,7 +84,7 @@ export default function ExaminationMaster() {
     //Get data
     let getdata = async () => {
         let getResponse = await GetExaminationMaster();
-        console.log("dadadad", getResponse)
+       
         if (getResponse.status === 1) {
             setLoder(0)
             setExamCategoryList(getResponse.responseValue)

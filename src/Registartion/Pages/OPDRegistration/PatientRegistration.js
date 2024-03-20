@@ -321,11 +321,11 @@ export default function PatientRegistration() {
     //   
 
     // let Content = JSON.parse(window.sessionStorage.getItem("departmentmenu")).content;
-    // console.log("Content----->",Content)
+   
 
     //changes done by wajahat
     // let langId = JSON.parse(window.sessionStorage.getItem("languageId")).languageId;
-    // console.log('langId',langId);
+   
 
     // Insurance Company List
 

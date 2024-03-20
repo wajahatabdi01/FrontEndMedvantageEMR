@@ -39,7 +39,7 @@ export default function BedMaster() {
 
     //Handle Save
     let saveForm = async () => {
-        console.log('sendForm', sendForm)
+        
         let valresponse = ValidationBedMaster(sendForm.bedName)
         if (valresponse) {
             setShowUnderProcess(1)
@@ -83,7 +83,7 @@ export default function BedMaster() {
     // get data from api
     let getdata = async () => {
         let response = await GetAPIBedMaster();
-        // console.log(response);
+       
         if (response.status === 1) {
             setLoder(0)
             setBeddata(response.responseValue)
@@ -104,7 +104,7 @@ export default function BedMaster() {
 
     // get data for update 
     let handleUpdate = (id, bedname, userId) => {
-        // console.table(id, bedname);
+    
         setUpdateBool(1)
         setSendForm(sendForm => ({
             ...sendForm,

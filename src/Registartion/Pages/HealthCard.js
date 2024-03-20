@@ -39,7 +39,7 @@ export default function HealthCard() {
     let response = await GetPatientPersonalDashboardByUHID(value);
     if (response.status === 1) {
       setPatientData(response.responseValue[0]);
-      console.log(response.responseValue);
+      
       window.sessionStorage.setItem(
         "UHIDQRData",
         JSON.stringify({
@@ -65,7 +65,7 @@ export default function HealthCard() {
   };
 
   let handleSave = async () => {
-    console.log(patientData)
+   
     window.sessionStorage.setItem(
       "UHIDQRData",
       JSON.stringify({ patientData: patientData, uhid: patientSendData.uhid })
@@ -89,7 +89,7 @@ export default function HealthCard() {
       } else {
         setShowUnderProcess(0);
         setShowToster(1);
-        console.log("csdcs", response.responseValue);
+       
         setTosterMessage(
           response.responseValue ? response.responseValue : "Data Not Saved"
         );
@@ -289,7 +289,7 @@ export default function HealthCard() {
                                                             <td>Bed</td>
                                                             <td className=' d-flex justify-content-end'>
                                                                 <div className='registrationinput'>
-                                                                    {console.log("ward", bedList)}
+                                                                    
                                                                     {bedList &&
 
                                                                         <DropdownWithSearch defaulNname="Select Bed" name="bedId" list={bedList} valueName="id" displayName="bedName" getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />

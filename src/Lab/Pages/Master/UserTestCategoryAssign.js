@@ -91,7 +91,7 @@ export default function UserTestCategoryAssign() {
 
 
        
-            //console.log("first",getCategory.responseValue)
+            
             setcategoryUserAssignList(getResponse.responseValue)
             setTestCategoryList(getCategory.responseValue)
             setLabUserList(getUser.responseValue)

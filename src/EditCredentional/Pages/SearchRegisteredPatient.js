@@ -203,7 +203,7 @@ function SearchRegisteredPatient() {
         if (name === "externalId") {
             setExternalId(value)
         }
-        console.log("SocialSecurityNo", value)
+       
     }
 
     // Calculate start index and last index based on page number and page size

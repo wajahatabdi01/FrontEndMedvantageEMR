@@ -1,14 +1,14 @@
 import React from 'react'
 import TableContainer from '../../../../../../Component/TableContainer';
 import lines from '../../../../../../assets/images/HistoryViewIcons/lines.svg';
-import insertion from '../../../../../../assets/images/HistoryViewIcons/insertion.svg';
-import removallines from '../../../../../../assets/images/HistoryViewIcons/removallines.svg';
+// import insertion from '../../../../../../assets/images/HistoryViewIcons/insertion.svg';
+// import removallines from '../../../../../../assets/images/HistoryViewIcons/removallines.svg';
 import Foleys from '../../../../../../assets/images/HistoryViewIcons/Foleys.svg';
 import NGTube from '../../../../../../assets/images/HistoryViewIcons/NGTube.svg';
 import lines1 from '../../../../../../assets/images/HistoryViewIcons/lines1.svg';
 import CVP1 from '../../../../../../assets/images/HistoryViewIcons/CVP1.svg';
-import insertiontube from '../../../../../../assets/images/HistoryViewIcons/insertiontube.svg';
-import tuberemoval from '../../../../../../assets/images/HistoryViewIcons/tuberemoval.svg';
+// import insertiontube from '../../../../../../assets/images/HistoryViewIcons/insertiontube.svg';
+// import tuberemoval from '../../../../../../assets/images/HistoryViewIcons/tuberemoval.svg';
 import { useTranslation } from 'react-i18next';
 import  i18n from "i18next";
 
@@ -43,7 +43,7 @@ export const HealthViewLines = () => {
                         <tbody>
     <tr>
         <td className="text-center">1</td>
-        <td><img src={lines} className='icnn' /> {t('LINE_1')}</td>
+        <td><img src={lines} className='icnn' alt=''/> {t('LINE_1')}</td>
         <td>{t('INSERTION_1')}</td>
         <td>-</td>
         <td>-</td>
@@ -54,7 +54,7 @@ export const HealthViewLines = () => {
     </tr>
     <tr>
         <td className="text-center">2</td>
-        <td><img src={Foleys} className='icnn' /> {t('FOLEYS')}</td>
+        <td><img src={Foleys} className='icnn' alt=''/> {t('FOLEYS')}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
@@ -65,7 +65,7 @@ export const HealthViewLines = () => {
     </tr>
     <tr>
         <td className="text-center">3</td>
-        <td><img src={NGTube} className='icnn' /> {t('NG_TUBE')}</td>
+        <td><img src={NGTube} className='icnn' alt=''/> {t('NG_TUBE')}</td>
         <td>-</td>
         <td>-</td>
         <td>{t('INSERTION_2')}</td>
@@ -76,7 +76,7 @@ export const HealthViewLines = () => {
     </tr>
     <tr>
         <td className="text-center">4</td>
-        <td><img src={lines1} className='icnn' /> {t('LINE_1')}</td>
+        <td><img src={lines1} className='icnn' alt=''/> {t('LINE_1')}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
@@ -87,7 +87,7 @@ export const HealthViewLines = () => {
     </tr>
     <tr>
         <td className="text-center">5</td>
-        <td><img src={CVP1} className='icnn' /> {t('CVP_1')}</td>
+        <td><img src={CVP1} className='icnn' alt=''/> {t('CVP_1')}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>

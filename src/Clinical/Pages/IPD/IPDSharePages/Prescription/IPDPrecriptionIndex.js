@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import IPDTopVitals from './IPDTopVitals'
-import IPDHistory from './IPDHistory'
-import IPDPatientComplaintConsultant from './IPDPatientComplaintConsultant'
-import IPDMedication from './IPDMedication'
-import IPDMedicationHistory from './IPDMedicationHistory'
-import IPDVentilator from './IPDVentilator'
-import IPDVentiBottom from './IPDVentiBottom'
-import BottomButtons from './BottomButtons'
-import GetPatientIPDAllHistory from '../../../../API/IPD/Prescription/GetPatientIPDAllHistory'
-import SaveIPDData from '../../../../../Code/SaveIPDData'
+// import IPDHistory from './IPDHistory'
+// import IPDPatientComplaintConsultant from './IPDPatientComplaintConsultant'
+// import IPDMedication from './IPDMedication'
+// import IPDMedicationHistory from './IPDMedicationHistory'
+// import IPDVentilator from './IPDVentilator'
+// import IPDVentiBottom from './IPDVentiBottom'
+// import BottomButtons from './BottomButtons'
+// import GetPatientIPDAllHistory from '../../../../API/IPD/Prescription/GetPatientIPDAllHistory'
+// import SaveIPDData from '../../../../../Code/SaveIPDData'
 import store from '../../../../../Store'
 import { getIPDPatientData } from '../../../../../Reduce/IPD/IPDPatientData'
 import { useSelector } from 'react-redux'
 import Loader from '../../../../../Component/Loader'
-import IPDPatientLabData from './IPDPatientLabData'
-import Search from '../../../../../Code/Serach'
+// import IPDPatientLabData from './IPDPatientLabData'
+// import Search from '../../../../../Code/Serach'
 import { useLocation } from 'react-router-dom'
 import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
 import IPDInvestigation from './Popup/IPDInvestigation'
@@ -26,31 +26,31 @@ export default function IPDPrecriptionIndex(props) {
   let location = useLocation()
 
 
-  let getOnlySpecificData = async () => {
-    setLoader(1)
-    let temp = window.sessionStorage.getItem("IPDpatientsendData") ? JSON.parse(window.sessionStorage.getItem("IPDpatientsendData")) : []
-    let activeUHID = window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
-    let response = await GetPatientIPDAllHistory(activeUHID)
-    if (response.status === 1) {
-      let val = response.responseValue
-      let key = Object.keys(val)
-      let flags = 0
-      key.map((vals, ind) => {
-        if (vals === "runningPrescription") {
-          SaveIPDData(val.runningPrescription, "jsonArray")
-        }
+  // let getOnlySpecificData = async () => {
+  //   setLoader(1)
+  //   let temp = window.sessionStorage.getItem("IPDpatientsendData") ? JSON.parse(window.sessionStorage.getItem("IPDpatientsendData")) : []
+  //   let activeUHID = window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+  //   let response = await GetPatientIPDAllHistory(activeUHID)
+  //   if (response.status === 1) {
+  //     let val = response.responseValue
+  //     let key = Object.keys(val)
+  //     let flags = 0
+  //     key.map((vals, ind) => {
+  //       if (vals === "runningPrescription") {
+  //         SaveIPDData(val.runningPrescription, "jsonArray")
+  //       }
 
-        else if (vals === "prescriptionHistory") {
-          SaveIPDData(val.prescriptionHistory, "prescriptionHistory")
-        }
+  //       else if (vals === "prescriptionHistory") {
+  //         SaveIPDData(val.prescriptionHistory, "prescriptionHistory")
+  //       }
 
-        flags = 1
+  //       flags = 1
 
-      })
+  //     })
 
-    }
-    setLoader(0)
-  }
+  //   }
+  //   setLoader(0)
+  // }
 
   let getData = async () => {
     setLoader(1)
@@ -67,55 +67,55 @@ export default function IPDPrecriptionIndex(props) {
       }
     })
     // if (!t.includes("dataget")) {
-    let response = await GetPatientIPDAllHistory(activeUHID)
-    if (response.status === 1) {
-      let val = response.responseValue
-      let key = Object.keys(val)
-      let flags = 0
-      key.map((vals, ind) => {
-        if (vals === "runningPrescription") {
-          SaveIPDData(val.runningPrescription, "jsonArray")
-        }
-        else if (vals === "patientVitals") {
-          SaveIPDData(val.patientVitals, "jsonVital")
-        }
-        else if (vals === "patientHistoryCategoryResultExistance") {
-          SaveIPDData(val.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
-        }
-        else if (vals === "patientComplainHistory") {
-          SaveIPDData(val.patientComplainHistory, "jsonDiagnosis")
-        }
-        else if (vals === "prescriptionHistory") {
-          SaveIPDData(val.prescriptionHistory, "prescriptionHistory")
-        }
-        else if (vals === "patientCategoryResult") {
-          SaveIPDData(val.patientCategoryResult, "patientCategoryResult")
-        }
-        else if (vals === "patientExaminationResult") {
-          SaveIPDData(val.patientExaminationResult, "patientExaminationResult")
-        }
-        else if (vals === "patientHistoryCategoryResult") {
-          SaveIPDData(val.patientHistoryCategoryResult, "patientHistoryCategoryResult")
-        }
-        else if (vals === "patientInvestigation") {
-          SaveIPDData(val.patientInvestigation, "patientInvestigation")
-        }
-        flags = 1
+    // let response = await GetPatientIPDAllHistory(activeUHID)
+    // if (response.status === 1) {
+    //   let val = response.responseValue
+    //   let key = Object.keys(val)
+    //   let flags = 0
+    //   key.map((vals, ind) => {
+    //     if (vals === "runningPrescription") {
+    //       SaveIPDData(val.runningPrescription, "jsonArray")
+    //     }
+    //     else if (vals === "patientVitals") {
+    //       SaveIPDData(val.patientVitals, "jsonVital")
+    //     }
+    //     else if (vals === "patientHistoryCategoryResultExistance") {
+    //       SaveIPDData(val.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
+    //     }
+    //     else if (vals === "patientComplainHistory") {
+    //       SaveIPDData(val.patientComplainHistory, "jsonDiagnosis")
+    //     }
+    //     else if (vals === "prescriptionHistory") {
+    //       SaveIPDData(val.prescriptionHistory, "prescriptionHistory")
+    //     }
+    //     else if (vals === "patientCategoryResult") {
+    //       SaveIPDData(val.patientCategoryResult, "patientCategoryResult")
+    //     }
+    //     else if (vals === "patientExaminationResult") {
+    //       SaveIPDData(val.patientExaminationResult, "patientExaminationResult")
+    //     }
+    //     else if (vals === "patientHistoryCategoryResult") {
+    //       SaveIPDData(val.patientHistoryCategoryResult, "patientHistoryCategoryResult")
+    //     }
+    //     else if (vals === "patientInvestigation") {
+    //       SaveIPDData(val.patientInvestigation, "patientInvestigation")
+    //     }
+    //     flags = 1
 
-      })
-      SaveIPDData(1, "dataget")
-      if (flags === 1) {
-        store.dispatch(getIPDPatientData(val))
-      }
-    }
+    //   })
+    //   SaveIPDData(1, "dataget")
+    //   if (flags === 1) {
+    //     store.dispatch(getIPDPatientData(val))
+    //   }
     // }
-    else {
-      temp.map((values, index) => {
-        if (values[0] === activeUHID) {
-          store.dispatch(getIPDPatientData(values))
-        }
-      })
-    }
+    // // }
+    // else {
+    //   temp.map((values, index) => {
+    //     if (values[0] === activeUHID) {
+    //       store.dispatch(getIPDPatientData(values))
+    //     }
+    //   })
+    // }
     setLoader(0)
 
   }

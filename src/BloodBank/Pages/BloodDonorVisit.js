@@ -150,9 +150,9 @@ export default function BloodDonorVisit() {
     // let donorsID = document.getElementById('DonorID').value;
     document.getElementById('errDonor').style.display = 'none';
     let donorsId = !isNaN(e) ? e : e.target.value;
-    console.log("eeeee", donorsId)
+   
     setDonorId(donorsId)
-    //console.log('donor id : ', donorId);
+    
     let data = await GetDonorByDonorID(donorsId);
     if (data.status === 1) {
 
@@ -166,12 +166,12 @@ export default function BloodDonorVisit() {
       setDob(response.dobEdit);
       setIdentityType(response.idName);
       //setCountryCode(response.countryCode);
-      console.log('response.countryCode : ', document.getElementById('countryCode').value = response.countryCode);
+   
 
 
-      console.log('contact no : ', contact);
+    
 
-      console.log('get by donor id : ', response)
+    
     }
   }
   catch (e) {
@@ -229,7 +229,7 @@ export default function BloodDonorVisit() {
         donationTypeID: donationTypeId,
         userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userID,
       }
-      console.log('save data : ', dataObj);
+      
 
       let data = await PostBloodDonorVisit(dataObj);
       if (data.status === 1) {
@@ -264,7 +264,7 @@ export default function BloodDonorVisit() {
   //**************************** Edit data ********************************* */
   let edit = (list) => {
 
-    console.log('edit', list);
+ 
     setRowID(list.visitID)
     setUhid(list.patientUHID);
     setsegmentNo(list.segmentNo);
@@ -333,8 +333,7 @@ export default function BloodDonorVisit() {
 
         userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userID,
       }
-      console.log('update obj : ', obj);
-
+  
 
       let data = await PutBloodDonorVisit(obj);
       if (data.status === 1) {
@@ -368,7 +367,7 @@ export default function BloodDonorVisit() {
   //**************************** Edit data end******************************** */
 
   let deleteData = async () => {
-    console.log('rowID : ', rowID);
+
     const userID = JSON.parse(window.sessionStorage.getItem('LoginData')).userID;
     var obj = {
       id: rowID,

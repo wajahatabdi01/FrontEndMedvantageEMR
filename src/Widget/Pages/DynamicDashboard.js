@@ -34,7 +34,7 @@ export default function DynamicDashboard() {
             })
             Promise.all(data).then((val)=>{
                 setWidgetBoxData(val)
-                console.log("val", val)
+               
             })
         }
 
