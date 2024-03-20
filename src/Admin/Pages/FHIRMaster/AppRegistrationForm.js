@@ -100,7 +100,6 @@ function AppRegistrationForm() {
                 document.getElementById('systemclient').checked = true
             }, 2000);
         }
-
        
     }
     const filteredOptions = scopeData ? scopeData.filter(data => {
@@ -123,6 +122,10 @@ function AppRegistrationForm() {
         const logoutredirecturi = formatData(logoutredirecturis);
         const jwksdata = JSON.stringify(jwks);
 
+        const scopesjson = JSON.stringify(userType); // Convert tempArr to a JSON string
+        const parsedScopes = JSON.parse(scopesjson); // Parse the JSON string back to an array
+        const formattedScopes = parsedScopes.map(item => item.scope).join(' '); // Use map() on the array
+        console.log('formattedScopes', formattedScopes);
         // #CONSOLES
         // console.log("client_name", clientname)
         // console.log("application_type", application)
@@ -141,7 +144,7 @@ function AppRegistrationForm() {
         formData.append("post_logout_redirect_uris", logoutredirecturi);
         formData.append("jwks_uri", jwksUri);
         formData.append("jwks", jwksdata);
-        formData.append("scope", userType);
+        formData.append("scope", formattedScopes);
 
         // Log FormData entries
         for (let pair of formData.entries()) {
@@ -164,7 +167,7 @@ function AppRegistrationForm() {
             document.getElementById("errScopes").style.display = "block"
         }
         else {
-            // return
+            return
             const response = await PostAppRegistrationForm(formData);
             setClientData(response)
             console.log('response', response)
@@ -194,10 +197,12 @@ function AppRegistrationForm() {
     let changeUser = (name) => {
         document.getElementById("errScopes").style.display = "none"
         let data = [...userType];
-        console.log("data", name);
+        console.log("userType of", typeof userType );
+        console.log("userType",  userType );
+        console.log("arr", data);
+        console.log("param value", name);
         const index = data.findIndex((arr) => arr.scope === name);
         console.log('index', index);
-
         if (index !== -1) {
             // Remove the item at the found index
             data.splice(index, 1);
@@ -205,18 +210,15 @@ function AppRegistrationForm() {
             // Add the new item
             console.log("LIST OF DATA", name);
             data.push({
-                ...name,
                 scope: name
             });
         }
-
+         console.log('object',data);
+        
         // Update the "Select All" checkbox state
         const allSelected = data.length === scopeData.length;
         document.getElementById('ddlSelectAllUser').checked = allSelected;
-
         console.log("FINAL", data);
-
-        // Update userType with the array of selected scopes
         setUserType(data);
     };
 
@@ -242,11 +244,7 @@ function AppRegistrationForm() {
             }
         }
         console.log('tempArr', tempArr);
-        const scopesjson = JSON.stringify(tempArr); // Convert tempArr to a JSON string
-        const parsedScopes = JSON.parse(scopesjson); // Parse the JSON string back to an array
-        const formattedScopes = parsedScopes.map(item => item.scope).join(' '); // Use map() on the array
-        console.log('formattedScopes', formattedScopes);
-        setUserType(formattedScopes);
+        setUserType(tempArr);
 
     };
 
@@ -266,6 +264,9 @@ function AppRegistrationForm() {
     useEffect(() => {
         getAllScopes();
         document.getElementById('systemclient').checked = true
+        setTimeout(() => {
+            document.getElementById('contactEmail').value = ""
+        }, 200);
     }, [])
     return (
         <>
