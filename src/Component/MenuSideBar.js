@@ -4,8 +4,8 @@ import MaskGroup from "../assets/images/Navbar/MaskGroup.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import masterNavLinkicon from "../assets/images/Navbar/user.svg";
-import scheduleNavLinkicon from "../assets/images/Navbar/Layer.svg";
-import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
+// import scheduleNavLinkicon from "../assets/images/Navbar/Layer.svg";
+// import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
 import dashboardIcon from "../assets/images/icons/dashboard.svg";
 import userpatientRegistrationIcon from "../assets/images/icons/userpatientRegistration.svg";
 // import { NavLink } from "react-router-dom";
@@ -79,11 +79,11 @@ export default function MenuSideBar(props) {
       <div className="offcanvas-header offcanvas-header-custome">
         <div className="offcanvas-logo-username">
           <div className="offcanvas-logoBorderBottom p-2_">
-            <img src={MaskGroup} className="logoLeft" />
+            <img src={MaskGroup} className="logoLeft" alt=""/>
             <div className="offcanvas-logo">
               <Link to={props.isSuperadmin === false ? "/dashboard/" : ""}>
                 {" "}
-                <img src={OffcanvasLogo} className="OffcanvasLogo" />{" "}
+                <img src={OffcanvasLogo} className="OffcanvasLogo" alt="" />{" "}
               </Link>
             </div>
           </div>

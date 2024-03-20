@@ -134,7 +134,7 @@ export default function CommonLayout(props) {
 
                 if (response.responseValue.menuList[0].subMenuList.length !== 0) {
                     let flag = 0
-                    let url = ""
+                    
                     response.responseValue.menuList.map((v, ind) => {
                         if (v.subMenuList.url === "/patientregistration/") {
                             flag = 1

@@ -22,14 +22,15 @@ import OPDPrescriptionIndex from "./OPDPrescriptionIndex";
 import FHIRClinicalNotes from "./FHIROPDPopUp/FHIRClinicalNotes";
 import ClinicalInstructions from "../../../../../FHIIRClinicalInstruction/Pages/ClinicalInstructions";
 import FunctionalAndCognitive from "../../../../../FHIRFunctionalAndCognitive/Pages/FunctionalAndCognitive";
+import FHIRObservation from "../../../../../FHIRObservation/Pages/FHIRObservation";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
   const { t } = useTranslation();
 
-  let [activeBox, setActiveBox] = useState();
+  // let [activeBox, setActiveBox] = useState();
   // let [showPhysicalExamination, setShowPhysicalExamination] = useState()
-  let [showAlergies, setShowAlergies] = useState();
+  // let [showAlergies, setShowAlergies] = useState();
   let [disable, setDisable] = useState(0);
   let [patientCategoryResult, setPatientCategoryResult] = useState([]);
   // let [patientExaminationResult, setPatientExaminationResult] = useState([])
@@ -49,6 +50,7 @@ export default function OPDTOPBottom(props) {
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showMessage, setShowMessage] = useState(0);
   let [precription, setPrecription] = useState(0);
+  let [observation, setObservation] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
   let [functionalAndCog, setFunctionalAndCog] = useState(0);
   let [familyHistory, setFamilyHistory] = useState(0);
@@ -227,6 +229,11 @@ export default function OPDTOPBottom(props) {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => setFunctionalAndCog(1)}>
           {t("Functional And Cognitive Status")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => setObservation(1)}>
+          {t("Observation")}{" "}
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
@@ -566,7 +573,7 @@ export default function OPDTOPBottom(props) {
       </div>
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
 
-      {/* -----------------------------------------------------------------------Start Clinical Instructions Plan --------------------------------------------- */}
+      {/* -----------------------------------------------------------------------Start Functional Instructions Plan --------------------------------------------- */}
       <div class="modal fade" id="FunctionalAndCognitive" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
@@ -588,6 +595,31 @@ export default function OPDTOPBottom(props) {
         </div>
       </div>
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
+
+      {/* -----------------------------------------------------------------------Start observation Plan --------------------------------------------- */}
+
+      <div class="modal fade" id="ObservationPopList" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title text-white">Add Observation</h4>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setObservation(0); }}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">{observation === 1 ? (<FHIRObservation setShowToster={setShowToster} setObservation={setObservation} />) : ("")}
+            </div>
+
+            {/* <div class="modal-footer">
+          <button  data-dismiss="modal" class="btn">Close</button>
+          <a href="##" class="btn btn-primary">Save changes</a>
+        </div> */}
+          </div>
+        </div>
+      </div>
+
+      {/* -----------------------------------------------------------------------End observation Plan --------------------------------------------- */}
 
 
 
@@ -711,6 +743,7 @@ export default function OPDTOPBottom(props) {
       ) : (
         ""
       )}
+      {showToster === 29 ? (<SuccessToster  handle={setShowToster}  message="Observation deleted successfully !!"/>) : (  "")}
 
       {showAlertToster === 1 ? (
         <AlertToster handle={setShowAlertToster} message={showMessage} />

@@ -22,12 +22,12 @@ export default function ForgotPasswordApp() {
   const [successMessages, setSuccessMessages] = useState([]);
   const [errorMessages, setErrorMessages] = useState([]);
 
-  const addSuccessMessage = (message) => {
-    setSuccessMessages((prevMessages) => [...prevMessages, message]);
-  };
-  const addErrorMessage = (message) => {
-    setSuccessMessages((prevMessages) => [...prevMessages, message]);
-  };
+  // const addSuccessMessage = (message) => {
+  //   setSuccessMessages((prevMessages) => [...prevMessages, message]);
+  // };
+  // const addErrorMessage = (message) => {
+  //   setSuccessMessages((prevMessages) => [...prevMessages, message]);
+  // };
 
 
 
@@ -40,7 +40,7 @@ export default function ForgotPasswordApp() {
   let [userName, setUserName] = useState('');
   let [newPassword, setNewPassword] = useState('');
   const [currentStep, setCurrentStep] = useState('getOTP');
-  let [notReceipt, setNotReceipt] = useState(false);
+  // let [notReceipt, setNotReceipt] = useState(false);
   
 
   let togglePassword = () => {

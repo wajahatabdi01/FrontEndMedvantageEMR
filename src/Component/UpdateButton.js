@@ -18,7 +18,7 @@ export default function UpdateButton(props) {
     return (
         <>
             {
-                showUpdate === 1 ? <button type="button" className="btn btn-save btn-save-fill btn-sm mt-2" onClick={() => { props.onClick() }}><img src={save} className='icnn' /> Update</button> : ""
+                showUpdate === 1 ? <button type="button" className="btn btn-save btn-save-fill btn-sm mt-2" onClick={() => { props.onClick() }}><img src={save} className='icnn' alt='' /> Update</button> : ""
             }
         </>
 

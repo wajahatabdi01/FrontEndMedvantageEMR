@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import GetDieteticsPatientList from "../API/GetDieteticsPatientList";
-import { Link, useNavigate } from "react-router-dom";
-import OffcanvasLogo from "../../assets/images/Navbar/offcanvas-logo.png";
-import { getIPDUHIDChangeData } from "../../Reduce/IPD/IPDUHIDChange";
-import store from "../../Store";
-import Search from "../../Code/Serach";
-import Navbar from "../../Component/Navbar";
-import searchIcon from "../../assets/images/Navbar/search.svg";
+import { Link } from "react-router-dom";
+// import Search from "../../Code/Serach";
+
 import GetAPIDepartmentMaster from "../../Admin/Api/Master/DepartmentMasterAPI/GetAPIDepartmentMaster";
 import { useTranslation } from 'react-i18next';
 import  i18n from "i18next";
@@ -43,25 +39,25 @@ export default function DieteticsPatientList(props) {
     props.setShowMenu(1)
   };
 
-  let handleSearch = (e) => {
-    if (e.target.value !== "") {
-      let result = Search(patientList, e.target.value);
-      if (result.length != 0) {
-        setPatientListTemp(result);
-      }
-      // else {
-      //     setPatientListTemp(patientList)
-      // }
-    } else {
-      setPatientListTemp(patientList);
-    }
-  };
+  // let handleSearch = (e) => {
+  //   if (e.target.value !== "") {
+  //     let result = Search(patientList, e.target.value);
+  //     if (result.length != 0) {
+  //       setPatientListTemp(result);
+  //     }
+  //     // else {
+  //     //     setPatientListTemp(patientList)
+  //     // }
+  //   } else {
+  //     setPatientListTemp(patientList);
+  //   }
+  // };
 
-  let handleChange = (e)=>{
+  // let handleChange = (e)=>{
 
-    getDieteticsPatientList(e.target.value);
+  //   getDieteticsPatientList(e.target.value);
 
-  }
+  // }
   useEffect(() => {
     getDieteticsPatientList(13);
     getAllDeptList();

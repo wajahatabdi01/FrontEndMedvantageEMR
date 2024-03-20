@@ -56,7 +56,6 @@ export default function FHIRCarePlan(props) {
 
   const SelectedData = (data, modalID) => {
 
-
     let t = {
       moduleId: modalID,
       data: data

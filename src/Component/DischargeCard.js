@@ -4,7 +4,7 @@ import mainlogo from '../../src/assets/images/Navbar/blankLogo.svg'
 import "../assets/css/CertificateCard.css";
 import { useState } from "react";
 // import GetPatientPersonalDashboardByUHID from "../Registration/API/GET/GetPatientPersonalDashboardByUHID";
-import l from "@linways/table-to-excel";
+// import l from "@linways/table-to-excel";
 
 export default function DischargeCard() {
   let [patientDetails, setPatientDetails] = useState([]);

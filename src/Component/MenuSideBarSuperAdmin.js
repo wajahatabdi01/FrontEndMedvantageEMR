@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import OffcanvasLogo from "../assets/images/Navbar/offcanvas-logo.png";
 import MaskGroup from "../assets/images/Navbar/MaskGroup.png";
 import masterNavLinkicon from "../assets/images/Navbar/user.svg";
-import scheduleNavLinkicon from "../assets/images/Navbar/Layer.svg";
-import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
+// import scheduleNavLinkicon from "../assets/images/Navbar/Layer.svg";
+// import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
 export default function MenuSideBarSuperAdmin(props) {
 
     return (
@@ -13,11 +13,11 @@ export default function MenuSideBarSuperAdmin(props) {
                 <div className="offcanvas-header offcanvas-header-custome">
                     <div className="offcanvas-logo-username">
                         <div className="offcanvas-logoBorderBottom p-2_">
-                            <img src={MaskGroup} className="logoLeft" />
+                            <img src={MaskGroup} className="logoLeft" alt=''/>
                             <div className="offcanvas-logo">
                                 <Link to={props.isSuperadmin === false ? "/dashboard/" : ""}>
                                     {" "}
-                                    <img src={OffcanvasLogo} className="OffcanvasLogo" />{" "}
+                                    <img src={OffcanvasLogo} className="OffcanvasLogo" alt=''/>{" "}
                                 </Link>
                             </div>
                         </div>

@@ -12,7 +12,7 @@ export default function PageNotFound() {
             <div className='layOutSurgeryOTNavbar'>
                 <div>
                     <div className="offcanvas-logo">
-                        <Link to="/dashboard/"><img src={OffcanvasLogo} /></Link>
+                        <Link to="/dashboard/"><img src={OffcanvasLogo} alt=''/></Link>
                     </div>
                 </div>
                 <Navbar />
@@ -20,7 +20,7 @@ export default function PageNotFound() {
             <div className='otDashboardWrapper'>
                 <div className='d-flex justify-content-center align-items-center' style={{ height: "90vh" }}>
                     <div className='d-flex flex-column gap-2'>
-                        <img src={PageNotfound} />
+                        <img src={PageNotfound} alt=''/>
                         <div className='d-flex flex-column justify-content-center align-items-center gap-2' >
                             <span className='text-center' style={{ font: "normal normal 600 30px/37px Poppins", color: "#081834", width: "342px" }}>
                                 We can't find the page you're looking for.

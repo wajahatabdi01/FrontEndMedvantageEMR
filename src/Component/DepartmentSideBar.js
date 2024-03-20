@@ -69,7 +69,7 @@ export default function DepartmentSideBar(props) {
                 <div className='d-flex flex-column gap-1  pt-2 gap-3'>
                     <div className='d-flex flex-column searchbar gap-1  pt-2 mb-3'>
                         <input type='text' className='ps-3 pe-5 pb-2 pt-2 serchbox' autoComplete='off' id="searchDep" placeholder='Search....' onChange={handleSearch} />
-                        <img src={searcIcon} className='rightsidebarsearchicon' />
+                        <img src={searcIcon} className='rightsidebarsearchicon' alt=''/>
                     </div>
 
                     {

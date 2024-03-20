@@ -1,9 +1,7 @@
 import React from 'react'
-import Heading from '../../Components/Heading';
+
 import BoxContainer from '../../Components/BoxContainer';
 import TableContainer from '../../Components/TableContainer';
-
- 
 
 import save from '../../assets/images/icons/save.svg'
 import clear from '../../assets/images/icons/clear.svg'
@@ -63,21 +61,21 @@ export default function CustomiseRDA() {
                     <BoxContainer>
                   
                       <div className="mb-2 me-2">
-                        <img src={nutrient} className='icnn'/> <label htmlFor="Nutrient" className="form-label">Nutrient</label>
+                        <img src={nutrient} className='icnn' alt=''/> <label htmlFor="Nutrient" className="form-label">Nutrient</label>
                         <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                           <option selected>Calcium</option>
                         </select>
                       </div>
                       <div className="mb-2 me-2">
-                      <img src={rda} className='icnn'/> <label htmlFor="RDA" className="form-label">RDA</label>
+                      <img src={rda} className='icnn' alt=''/> <label htmlFor="RDA" className="form-label">RDA</label>
                         <input type="text" className="form-control form-control-sm" id="RDA" name="RDA" placeholder="Enter 1200 mg" />
                       </div>
                       <div className="mb-2 me-2">
-                      <img src={rda} className='icnn'/> <label htmlFor="RDA1" className="form-label">RDA %</label>
+                      <img src={rda} className='icnn' alt=''/> <label htmlFor="RDA1" className="form-label">RDA %</label>
                         <input type="text" className="form-control form-control-sm" id="RDA1" name="RDA1" placeholder="Enter 40" />
                       </div>                 
                       <div className="mb-2 me-2">
-                      <img src={calender} className='icnn'/> <label htmlFor="Date" className="form-label">Date</label>
+                      <img src={calender} className='icnn' alt=''/> <label htmlFor="Date" className="form-label">Date</label>
                         <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                           <option selected>Select Date</option>
                         </select>
@@ -85,8 +83,8 @@ export default function CustomiseRDA() {
                     <div className="mb-2">
                       <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
                       <div className='diet-btn'>
-                        <button type="button" className="btn btn-save btn-save-fill btn-sm"><img src={save} className='icnn'/> Save</button>
-                        <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={clear} className='icnn'/> Clear</button>
+                        <button type="button" className="btn btn-save btn-save-fill btn-sm"><img src={save} className='icnn' alt=''/> Save</button>
+                        <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={clear} className='icnn' alt=''/> Clear</button>
                       </div>
                     </div>   
                     </BoxContainer>
@@ -135,8 +133,8 @@ export default function CustomiseRDA() {
                       <td>06/09/2022 - 07/09/2022</td>
                       <td>
                         <div className="action-button">
-                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className=''/></span></div>
-                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn'/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className='' alt=''/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn' alt=''/></span></div>
                         </div>
                       </td>
                     </tr>
@@ -149,8 +147,8 @@ export default function CustomiseRDA() {
                       <td>06/09/2022 06:36 PM</td>
                       <td>
                       <div className="action-button">
-                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className=''/></span></div>
-                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn'/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className='' alt=''/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn' alt=''/></span></div>
                         </div>
                       </td>
                     </tr>
@@ -163,8 +161,8 @@ export default function CustomiseRDA() {
                       <td>06/09/2022 06:36 PM</td>
                       <td>
                       <div className="action-button">
-                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className=''/></span></div>
-                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn'/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className='' alt=''/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn' alt=''/></span></div>
                         </div>
                       </td>
                     </tr>
@@ -177,8 +175,8 @@ export default function CustomiseRDA() {
                       <td>06/09/2022 06:36 PM</td>
                       <td>
                       <div className="action-button">
-                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className=''/></span></div>
-                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn'/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEDD2" }}><img src={editbtn} className='' alt=''/></span></div>
+                          <div data-bs-toggle="tooltip" data-bs-title="Delete Row" data-bs-placement="bottom"><span className='btnbg'  style={{ background: "#FFEFEF" }}><img src={delbtn} className='icnn' alt=''/></span></div>
                         </div>
                       </td>
                     </tr>

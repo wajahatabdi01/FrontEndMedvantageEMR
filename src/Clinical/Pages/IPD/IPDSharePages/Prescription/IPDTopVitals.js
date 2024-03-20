@@ -39,7 +39,7 @@ export default function IPDTopVitals(props) {
     const [updatebool, setUpdateBool] = useState(0);
     const [getHeadingName, setHeadingName] = useState('');
     let [showImage, setShowImage] = useState(0);
-    let [problemData, setProblemData] = useState()
+    // let [problemData, setProblemData] = useState()
     const [encounterTitle, setEncounterTitle] = useState('');
     const [encounterBeginDate, setEncounterBeginDate] = useState('');
     const [encounterEndDate, setEncounterEndDate] = useState('');

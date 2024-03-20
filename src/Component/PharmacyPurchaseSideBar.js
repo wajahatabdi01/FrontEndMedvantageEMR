@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import OffcanvasLogo from "../assets/images/Navbar/offcanvas-logo.png";
 import MaskGroup from "../assets/images/Navbar/MaskGroup.png";
-import { useState } from "react";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
 import shoppingBag from "../assets/images/icons/shoppingBag.svg";
 import unitIcon from "../assets/images/icons/unitIcon.svg";
@@ -50,11 +50,11 @@ export default function PharmacyPurchaseSideBar() {
       <div className="offcanvas-header offcanvas-header-custome">
         <div className="offcanvas-logo-username">
           <div className="offcanvas-logoBorderBottom">
-            <img src={MaskGroup} className="logoLeft" />
+            <img src={MaskGroup} className="logoLeft" alt=""/>
             <div className="offcanvas-logo">
               <Link to="/dashboard/">
                 {" "}
-                <img src={OffcanvasLogo} className="OffcanvasLogo" />{" "}
+                <img src={OffcanvasLogo} className="OffcanvasLogo" alt=""/>{" "}
               </Link>
             </div>
           </div>

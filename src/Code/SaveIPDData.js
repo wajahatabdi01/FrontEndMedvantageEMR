@@ -1,5 +1,4 @@
-import  { getPatinetSendData } from "../Reduce/OPD/PatinetSendData"
-import store from "../Store"
+
 
 export default function SaveIPDData(data, jsonName) {
     let name = "" + jsonName

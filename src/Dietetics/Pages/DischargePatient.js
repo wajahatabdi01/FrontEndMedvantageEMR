@@ -1,9 +1,4 @@
-import React, { useState } from 'react'
-import Heading from '../../Components/Heading';
-import BoxContainer from '../../Components/BoxContainer';
-import TableContainer from '../../Components/TableContainer';
-
-
+import React from 'react'
 
 import profilepic from '../../assets/images/DischargePatient/Profile.png'
 import m1 from '../../assets/images/DischargePatient/m1.png'
@@ -28,7 +23,7 @@ export default function DischargePatient() {
               <div className='whitebg'>
                 <div className='cheifcProfile-in'>
                    <div className='cheifcProfile1'>
-                     <div className='cheifp'><img src={profilepic}/></div>
+                     <div className='cheifp'><img src={profilepic} alt=''/></div>
                    </div>
                    <div className='cheifcProfile'>
                    <div className='cprp'>
@@ -94,7 +89,7 @@ export default function DischargePatient() {
                       <table >
                         <tr className='didp_d2'>
                           <td className='didp_d2_in'>
-                            <img src={m1}/>
+                            <img src={m1} alt=''/>
                           </td>
                           <td className='didp_d2_in'>
                             <h3>Inha-Respule-Duolin - 500mg Inha-Respule-Duolin - 500mg</h3>
@@ -106,7 +101,7 @@ export default function DischargePatient() {
                         </tr>
                         <tr className='didp_d2'>
                           <td className='didp_d2_in'>
-                            <img src={m2}/>
+                            <img src={m2} alt=''/>
                           </td>
                           <td className='didp_d2_in'>
                             <h3>Inha-Respule-Duolin - 500mg</h3>
@@ -118,7 +113,7 @@ export default function DischargePatient() {
                         </tr>
                         <tr className='didp_d2'>
                           <td className='didp_d2_in'>
-                            <img src={m3}/>
+                            <img src={m3} alt=''/>
                           </td>
                           <td className='didp_d2_in'>
                             <h3>Inha-Respule-Duolin</h3>
@@ -130,7 +125,7 @@ export default function DischargePatient() {
                         </tr>
                         <tr className='didp_d2'>
                           <td className='didp_d2_in'>
-                            <img src={m4}/>
+                            <img src={m4} alt=''/>
                           </td>
                           <td className='didp_d2_in'>
                             <h3>Inha-Respule-Duolin</h3>
@@ -142,7 +137,7 @@ export default function DischargePatient() {
                         </tr>
                         <tr className='didp_d2'>
                           <td className='didp_d2_in'>
-                            <img src={m5}/>
+                            <img src={m5} alt=''/>
                           </td>
                           <td className='didp_d2_in'>
                             <h3>Inha-Respule-Duolin - 500mg</h3>

@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import BoxHeading from './BoxHeading'
+
 import "../assets/css/patientMonitoringDashboard.css"
 import Monochrome from "../assets/images/icons/Monochrome.png";
 import Saturation from "../assets/images/icons/Saturation.png";
 import Contrast from "../assets/images/icons/Contrast.png";
 
-import BlindUsers from "../assets/images/icons/BlindUsers.png";
+
 import Mute from "../assets/images/icons/Mute.png";
 import ReadMask from "../assets/images/icons/ReadMask.png";
-import HoverEffect from "../assets/images/icons/HoverEffect.png";
-import Reset from "../assets/images/icons/Reset.png";
+
 
 
 
