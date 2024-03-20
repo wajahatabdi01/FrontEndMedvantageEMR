@@ -2157,7 +2157,7 @@ input[type=number] {
   background: var(--primary-bg-btn-text-color);
   border: 1px solid #d5d5d5 !important;
   font-size: 14px;
-  color: #272727 !important;
+  color: #b5b5b5 !important;
   width: 100%;
 }
 
@@ -4567,6 +4567,7 @@ th.bord-rt {
   /* color: #546788; */
   color: var(--secondary-color);
   font-size: 13px !important;
+
 }
 
 .border-right-none {
@@ -5191,6 +5192,7 @@ span.satu img {
 }
 
 ul.dropdown-menu.multistyl {
+  cursor: pointer;
   min-width: 235px;
   overflow-y: auto;
   height: 30vh;
@@ -11938,9 +11940,11 @@ button.btnaddtnotes {
   background: var(--primary-bg-btn-color);
   margin-top: 80px;
 }
+
 .opdvitalbottom span {
   white-space: nowrap;
 }
+
 button.btnaddtnotes:hover {
   background: #fff;
   color: var(--primary-bg-btn-color);
@@ -11957,6 +11961,7 @@ button.btnaddtnotes:hover {
   gap: 5px;
   margin: 5px 0;
 }
+
 .clientSecret {
   display: flex;
   justify-content: space-between;
@@ -11977,15 +11982,18 @@ button.btnaddtnotes:hover {
   box-shadow: 1px 1px 4px #ddd;
   color: #1d4999;
 }
+
 span.clientdata {
   font-weight: 600;
   font-size: 14px;
 }
+
 span.clientdatadetails {
   color: #777777;
   font-style: italic;
   font-size: 12px;
 }
+
 /* .clientSecret-inn span {
   font-size: 14px;
   font-weight: 600;

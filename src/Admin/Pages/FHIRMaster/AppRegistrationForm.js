@@ -95,12 +95,12 @@ function AppRegistrationForm() {
         setApplicationType(isChecked);
         setApplication(type);
         setFilterScopeData(value)
-        if(value==='private'){
+        if (value === 'private') {
             setTimeout(() => {
                 document.getElementById('systemclient').checked = true
             }, 2000);
         }
-       
+
     }
     const filteredOptions = scopeData ? scopeData.filter(data => {
         if (typeof data.name === 'string') {
@@ -197,8 +197,8 @@ function AppRegistrationForm() {
     let changeUser = (name) => {
         document.getElementById("errScopes").style.display = "none"
         let data = [...userType];
-        console.log("userType of", typeof userType );
-        console.log("userType",  userType );
+        console.log("userType of", typeof userType);
+        console.log("userType", userType);
         console.log("arr", data);
         console.log("param value", name);
         const index = data.findIndex((arr) => arr.scope === name);
@@ -213,8 +213,8 @@ function AppRegistrationForm() {
                 scope: name
             });
         }
-         console.log('object',data);
-        
+        console.log('object', data);
+
         // Update the "Select All" checkbox state
         const allSelected = data.length === scopeData.length;
         document.getElementById('ddlSelectAllUser').checked = allSelected;
@@ -350,7 +350,6 @@ function AppRegistrationForm() {
                             }
 
                         </div>
-
                     </BoxContainer>
 
                     <BoxContainer>
@@ -427,7 +426,7 @@ function AppRegistrationForm() {
                                                 </div>
 
                                                 <div className="col-12 mb-2">
-                                                    <label htmlFor="txtPatientRelationAddress" className="form-label">JSON Web Key Set (Note a hosted web URI is preferred and this feature may be removed in future SMART versions)</label>
+                                                    <label htmlFor="txtPatientRelationAddress" className="form-label">JSON Web Key Set <span style={{ fontStyle: 'italic' }}>(Note a hosted web URI is preferred and this feature may be removed in future SMART versions)</span></label>
                                                     <textarea className='mt-1 form-control' id="descriptionOfTheDisclosure" name="jwks_uri" value={jwksUri} style={{ height: '110px' }} onChange={handleInputChange} ></textarea>
                                                 </div>
                                             </div>
