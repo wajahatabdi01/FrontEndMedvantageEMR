@@ -11,6 +11,7 @@ import FHIRGetObservation from '../API/FHIRGetObservation';
 import IconEdit from '../../assets/images/icons/IconEdit.svg';
 import IconDelete from '../../assets/images/icons/IconDelete.svg';
 import FHIRDeleteObservation from '../API/FHIRDeleteObservation';
+import FHIRPutObservation from '../API/FHIRPutObservation';
 
 export default function FHIRObservation({setShowToster, setObservation}) {
 
@@ -66,16 +67,13 @@ export default function FHIRObservation({setShowToster, setObservation}) {
   
 
   const handleSave =async () => {
-    const getresponse = await dataMaker(makeData);
-    console.log('getresponse.length : ', getresponse.length);
-    console.log('observationRow.length : ', observationRow.length);
+     
+      const getresponse = await dataMaker(makeData);
     if(observationRow.length === getresponse.length)
     {
-      let tempArrList = [];
+      const tempArrList = [];
     const data = [...observationRow];
-    
-
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       
      
       const date = document.getElementById('obDateID' + data[i].rowID).value;
@@ -88,10 +86,6 @@ export default function FHIRObservation({setShowToster, setObservation}) {
        const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
        const reasonStatusElement = document.getElementById('reasonObStatusID' + data[i].rowID);
        const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
-      // const reasonRecordingDateElement = document.getElementById('reasonRecordingDateID' + data[i].rowID);
-      // const reasonRecordingDate = reasonRecordingDateElement ? reasonRecordingDateElement.value : '';
-      // const reasonEndDateElement = document.getElementById('reasonEndDateID' + data[i].rowID);
-      // const reasonEndDate = reasonEndDateElement ? reasonEndDateElement.value : '';
        var arr=getresponse[i].data;
        var maker="";
        var codeTextMaker= "";
@@ -112,51 +106,32 @@ export default function FHIRObservation({setShowToster, setObservation}) {
         // reason_date_high: reasonEndDate,
       });
     }
-   
-    if(theRowId === 0){
       let finalObj = {
         uhid : activeUHID,
         clientId: clientID,
         userId: window.userId,
         jsonObservationData : JSON.stringify(tempArrList)
-      }   
-      
-     
-      const saveObj = await FHIRPostObservation(finalObj);
+      }     
+   
+     const saveObj = await FHIRPostObservation(finalObj);
       
         if(saveObj.status === 1){
-          alert('Data saved of observation');
+          setShowToster(31);
+        setTimeout(() => {
+          // handleClear();
+          setShowToster(31)
+        }, 2000)
           handleClear();
-          
+          funGetObservationList();
         }
         else{
           alert('Data Not saved')
         }
-    }
-    else{
-      let finalUpdateObj = {
-        jsonObservationData : JSON.stringify(tempArrList.push({ id: theRowId }))
-      }   
-      
-     console.log('finalUpdateObj : ', finalUpdateObj);
-     return;
-      const saveObj = await FHIRPostObservation(finalUpdateObj);
-      
-        if(saveObj.status === 1){
-          alert('Data saved of observation');
-          handleClear();
-          
-        }
-        else{
-          alert('Data Not saved')
-        }
-    }
-    
     }
     else{
       alert('Please select the code.');
     }
-  
+    
   }
 
   const handleOpenModal = (modalID) => {
@@ -270,7 +245,7 @@ export default function FHIRObservation({setShowToster, setObservation}) {
         if(resDel.status === 1){
           
           
-        setShowToster(28);
+        setShowToster(29);
             setTimeout(() => {
               setShowToster(29)
             },2000);
@@ -291,9 +266,6 @@ export default function FHIRObservation({setShowToster, setObservation}) {
      const inputEndDate =list.endDate;
     const partsEndDate = inputEndDate.split('-');
     const formattedEndDate = partsEndDate[2] + '-' + partsEndDate[1].padStart(2, '0') + '-' + partsEndDate[0].padStart(2, '0');
-
-    console.log('formattedDate : ', formattedDate);
-    console.log('formattedEndDate : ', formattedEndDate);
 
      // Output: "YYYY-MM-DD"
 
@@ -318,10 +290,65 @@ export default function FHIRObservation({setShowToster, setObservation}) {
     }
   }
 
-  const handleEditSave = () => {
-    handleSave();
-    setMakeData(['test'])
+  const handleEditSave = async () => {
+    const getresponse = await dataMaker(makeData); 
+    const tempArrList = [];
+    const data = [...observationRow];
+    for (let i = 0; i < data.length; i++) {
+       
+      const date = document.getElementById('obDateID' + data[i].rowID).value;
+      const type = document.getElementById('obTypeID' + data[i].rowID).value;
+      const description = document.getElementById('obCommentID' + data[i].rowID).value;
+      const valueforOb = document.getElementById('obValueID' + data[i].rowID).value;
+      const unitforOb = document.getElementById('obUnitID' + data[i].rowID).value;
+      const endDate = document.getElementById('obEndDateID' + data[i].rowID).value;
+       const reasonCodeElement = document.getElementById('reasonobcodeInputID' + data[i].rowID);
+       const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
+       const reasonStatusElement = document.getElementById('reasonObStatusID' + data[i].rowID);
+       const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
+       if(getresponse.length !== 0){
+        const arr=getresponse[i].data;
+       var maker="";
+       var codeTextMaker= "";
+       for(var j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownName +':'+arr[j].code  : maker +','+arr[j].dropdownName +':'+arr[j].code;
+                                          codeTextMaker =  codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker +'|'+arr[j].codeText;}
+       }
+       else{
+        var codePre = document.getElementById('obcodeInputID'+data[i].rowID).value
+       }
+       
+      tempArrList.push({
+        id: theRowId,
+        date: date,
+        code: maker ? maker : codePre,
+        // codeText: codeTextMaker,
+        observation: type,
+        description: description,
+        ob_value : valueforOb,
+        ob_unit : unitforOb,
+        date_end: endDate,
+        ob_reason_code: reasonCode,
+         ob_reason_status: reasonStatus,
+        // reason_date_low: reasonRecordingDate,
+        // reason_date_high: reasonEndDate,
+      });
+    }
+    const updObj = {JsonObservationData : JSON.stringify(tempArrList)}
+    
+    const resUpdate = await FHIRPutObservation(updObj);
+    if(resUpdate.status === 1){
+      setShowToster(32);
+        setTimeout(() => {
+          // handleClear();
+          setShowToster(32)
+        }, 2000)
+      funGetObservationList();
+    }
+    else{
+      alert('Data not updated!')
+    }
   }
+  
   
   const funGetObservationList = async () => {
     const resGet = await FHIRGetObservation(activeUHID);
@@ -383,8 +410,9 @@ export default function FHIRObservation({setShowToster, setObservation}) {
                           <textarea className='form-control form-control-sm' id={'obCommentID' + observationPlan.rowID} />
                         </div>
 
-                        {(toShowButtons === 1) && 
-                          <div className="col-xl-4 col-lg-6 col-md-6 mb-2">
+                        <div className="col-xl-4 col-lg-6 col-md-6 mb-2">
+                        {(toShowButtons === 1)? 
+                          <>
                           <label className='form-label'>&nbsp;</label>
                           <div className="mb-2 d-flex justify-content-end_ flex-wrap">
                             <div>
@@ -396,8 +424,15 @@ export default function FHIRObservation({setShowToster, setObservation}) {
                             <div>
                               <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2" style={{ borderColor: 'black' }} onClick={() => { handleOpenReasonModal(observationPlan.rowID) }}><img src={asterik} className='icnn' alt='' />Add Reason</button>
                             </div>
-                          </div>
-                        </div>}
+                            
+                          
+                        </div>
+                        </>:
+                        <div >
+                              <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2 mt-3" style={{ borderColor: 'black' }} onClick={() => { handleOpenReasonModal(observationPlan.rowID) }}><img src={asterik} className='icnn' alt='' />Add Reason</button>
+                            </div>}
+                        
+                        </div>
                       </div>
                       
                     </>
@@ -420,9 +455,9 @@ export default function FHIRObservation({setShowToster, setObservation}) {
                               <label htmlFor="" className="form-label">Reason Status</label>
                               <select className='form-select form-select-sm' id={'reasonObStatusID' + observationPlan.rowID}>
                                 <option value='0'>Select Code</option>
-                                <option value='1'>Pending</option>
-                                <option value='2'>Completed</option>
-                                <option value='3'>Negated</option>
+                                <option value='Pending'>Pending</option>
+                                <option value='Completed'>Completed</option>
+                                <option value='Completed'>Negated</option>
                               </select>
                             </div>
 
@@ -492,13 +527,13 @@ export default function FHIRObservation({setShowToster, setObservation}) {
                         <td>{list.ob_value}</td>
                         <td>{list.description}</td>
                         <td>{list.observation}</td>
-                        <td>{list.ob_reason_code}</td>
-                        <td>{list.ob_reason_status}</td>
+                        <td>{list.ob_reason_code?list.ob_reason_code:'---'}</td>
+                        <td>{list.ob_reason_status?list.ob_reason_status:'---'}</td>
                         <td>
                           <div className="action-button">
                               {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
-                              {/* <div onClick={() => {handleEdit(list)}}><img src={IconEdit} alt='' title='Edit Immunization'/></div> */}
-                              <div onClick={() => {handleDelete(list.id)}}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
+                              <div onClick={() => {handleEdit(list)}}><img src={IconEdit} alt='' title='Edit Observation'/></div>
+                              <div onClick={() => {handleDelete(list.id)}}><img src={IconDelete} title='Delete Observation' alt='' /></div>
                             </div>
                         </td>
                       </tr>

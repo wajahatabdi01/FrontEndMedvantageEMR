@@ -152,31 +152,9 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
         code: maker,
         codetext: codeTextMaker? codeTextMaker : '',
         description : description
-
       })
     }
-    if(theRowId === 0)
-    {
-      let finalObj = {
-        id : theRowId,
-        uhid: activeUHID,
-        jsonCognitiveStatusDetails: JSON.stringify(tempArrList),
-        userId: window.userId,
-        clientId: clientID
-      }
-      
-      const resSave = await PostFunctionAndCog(finalObj);
-        if(resSave.status === 1) {
-          getfunAndCog();
-          setShowToster(27);
-          setTimeout(() => {
-           handleClear();
-            setShowToster(27)
-          }, 2000)
-        }
-    }
-    else
-    {
+       
       let finalObj = {
         id : theRowId,
         uhid: activeUHID,
@@ -193,8 +171,8 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
             // handleClear();
             setShowToster(27)
           }, 2000)
-        }
-    }
+          handleClear();
+        }  
     }
     else{
       alert('Please select the code.');
@@ -263,8 +241,57 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
     }
   }
 
-  const handleEditSave = () => {
-    handleSave()
+  const handleEditSave =async () => {
+    const getresponse = await dataMaker(makeData); 
+    const tempArrList = [];
+    const data = [...carePlanRow];
+    for (let i = 0; i < data.length; i++) {
+      const date = document.getElementById('funCareDateID' + data[i].rowID).value;
+      const mentalStatusCheck = document.getElementById('mentalStatusID' + data[i].rowID);
+      const description = document.getElementById('funCareDescriptionID' + data[i].rowID).value;
+      const mentalStatus = mentalStatusCheck.checked;
+      if(getresponse.length !== 0)
+      {
+        let arr=getresponse[i].data;
+       var maker="";
+       var codeTextMaker= "";
+       for(let j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownName +':'+arr[j].code  : maker +','+arr[j].dropdownName +':'+arr[j].code;
+                                          codeTextMaker =  codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker +'|'+arr[j].codeText;}
+      }
+      else{
+        var codeUp = document.getElementById('funCodeInputID'+data[i].rowID).value
+      }
+      
+      tempArrList.push({
+        date: date,
+        activity : mentalStatus? 1: 0,
+        code: maker?maker:codeUp,
+        codetext: codeTextMaker? codeTextMaker : '',
+        description : description
+
+      });
+      
+    }
+    let finalUpdateObj = {
+      id : theRowId,
+      uhid: activeUHID,
+      jsonCognitiveStatusDetails: JSON.stringify(tempArrList),
+      userId: window.userId,
+      clientId: clientID
+    }
+    const resSave = await PostFunctionAndCog(finalUpdateObj);
+      if(resSave.status === 1) {
+        getfunAndCog();
+        setShowToster(30);
+        setTimeout(() => {
+          // handleClear();
+          setShowToster(30)
+        }, 2000)
+        handleClear();
+      }
+      else{
+        alert('Data not updated!');
+      }
   }
 
 

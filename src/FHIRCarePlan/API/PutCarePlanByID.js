@@ -1,5 +1,5 @@
-const FHIRPutObservation = async(params)=>{
-  let url = window.AppbaseUrl+"/api/FHIRObservation/UpdateObservation";
+const PutCarePlanByID = async(params)=>{
+  let url = window.AppbaseUrl+"/api/FHIRPatientCarePlan/UpdatePatientCarePlan";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {
@@ -13,4 +13,4 @@ const FHIRPutObservation = async(params)=>{
 
   return responsonse
 }
-export default FHIRPutObservation;
+export default PutCarePlanByID;
