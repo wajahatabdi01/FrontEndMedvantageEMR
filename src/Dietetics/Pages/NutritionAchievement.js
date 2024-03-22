@@ -1,13 +1,8 @@
 import React from 'react'
-import Heading from '../../Components/Heading';
+
 import BoxContainer from '../../Components/BoxContainer';
 import TableContainer from '../../Components/TableContainer';
 
- 
-import save from '../../assets/images/icons/save.svg'
-import clear from '../../assets/images/icons/clear.svg'
-import editbtn from '../../assets/images/icons/editbtn.svg'
-import delbtn from '../../assets/images/icons/delbtn.svg'
 import printer from '../../assets/images/icons/printer.svg'
 import exportfile from '../../assets/images/icons/exportfile.svg'
 
@@ -63,33 +58,33 @@ export default function NutritionAchievement() {
                    <span className='fieldse'>Food Intake</span>
                    <BoxContainer>
                    <div className="mb-2 me-2">
-                     <img src={calender} className='icnn'/> <label htmlFor="Date" className="form-label">Date</label>
+                     <img src={calender} className='icnn' alt=''/> <label htmlFor="Date" className="form-label">Date</label>
                      <input type="date" className="form-control form-control-sm" id="RDA" name="RDA" placeholder="Select Date" />
                   </div> 
                    
                   <div className="mb-2 me-2">
-                    <img src={combination} className='icnn'/> <label htmlFor="Nutrient" className="form-label">Combination</label>
+                    <img src={combination} className='icnn' alt=''/> <label htmlFor="Nutrient" className="form-label">Combination</label>
                     <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                       <option selected>Combination</option>
                     </select>
                   </div>
                  
                   <div className="mb-2 me-2">
-                    <img src={rda} className='icnn'/> <label htmlFor="Nutrient" className="form-label">RDA Required</label>
+                    <img src={rda} className='icnn' alt=''/> <label htmlFor="Nutrient" className="form-label">RDA Required</label>
                     <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                       <option selected>Select RDA Required</option>
                     </select>
                   </div>
 
                   <div className="mb-2 me-2">
-                    <img src={diet} className='icnn'/> <label htmlFor="Nutrient" className="form-label">Diet Type</label>
+                    <img src={diet} className='icnn' alt=''/> <label htmlFor="Nutrient" className="form-label">Diet Type</label>
                     <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                       <option selected>Diet Type</option>
                     </select>
                   </div>  
 
                   <div className="mb-2 me-2">
-                  <img src={nutrient} className='icnn'/> <label htmlFor="RDA" className="form-label">Nutrient</label>
+                  <img src={nutrient} className='icnn' alt=''/> <label htmlFor="RDA" className="form-label">Nutrient</label>
                     <input type="text" className="form-control form-control-sm" id="RDA" name="RDA" placeholder="Enter Nutrient" />
                   </div>  
 
@@ -112,8 +107,8 @@ export default function NutritionAchievement() {
                    <div className='listd-in showing'>Showing 1-8 of 250 entries</div> 
                 </div>
                 <div className='listdetailsct-in'>
-                  <div className='listd-in'><img src={printer} className='btl-icnn'/></div>
-                  <div className='listd-in'><img src={exportfile} className='btl-icnn'/></div>
+                  <div className='listd-in'><img src={printer} className='btl-icnn' alt=''/></div>
+                  <div className='listd-in'><img src={exportfile} className='btl-icnn' alt=''/></div>
                 </div>
               </div>
 

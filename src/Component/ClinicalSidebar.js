@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import OffcanvasLogo from '../assets/images/Navbar/offcanvas-logo.png'
 import MaskGroup from "../assets/images/Navbar/MaskGroup.png"
-import uhidNavLinkicon from "../assets/images/Navbar/medical-report.svg";
+
 import { Link, NavLink } from 'react-router-dom'
-import Select from 'react-select';
+
 
 //Icons
 import dashboardIcon from "../assets/images/dashboard/patientPortalDashboard/patientportal.svg";
@@ -13,30 +13,30 @@ import documenticn from "../assets/images/dashboard/patientPortalDashboard/docum
 import reposticn from "../assets/images/dashboard/patientPortalDashboard/reposticn.svg";
 import sign from "../assets/images/dashboard/patientPortalDashboard/sign.svg";
 import inbox from "../assets/images/dashboard/patientPortalDashboard/inbox.svg";
-import registrationIcon from "../assets/images/icons/registration1.svg";
-import admin from "../assets/images/icons/admin.svg";
-import admitPatientIcon from "../assets/images/icons/admitPatient.svg";
-import patientRegistrationIcon from "../assets/images/icons/patientRegistration.svg";
-import dieteticsIcon from "../assets/images/icons/dietetics.svg";
-import operationTheatreIcon from "../assets/images/icons/operationTheatre.svg";
-import billingIcon from "../assets/images/icons/billing.svg";
-import vaccinationChartIcon from "../assets/images/icons/vaccinationChart.svg";
-import bloodBankIcon from "../assets/images/icons/bloodBank.svg";
-import InventoryIcon from "../assets/images/icons/Inventory.svg";
-import settingIcon from "../assets/images/icons/setting.svg";
+// import registrationIcon from "../assets/images/icons/registration1.svg";
+// import admin from "../assets/images/icons/admin.svg";
+// import admitPatientIcon from "../assets/images/icons/admitPatient.svg";
+// import patientRegistrationIcon from "../assets/images/icons/patientRegistration.svg";
+// import dieteticsIcon from "../assets/images/icons/dietetics.svg";
+// import operationTheatreIcon from "../assets/images/icons/operationTheatre.svg";
+// import billingIcon from "../assets/images/icons/billing.svg";
+// import vaccinationChartIcon from "../assets/images/icons/vaccinationChart.svg";
+// import bloodBankIcon from "../assets/images/icons/bloodBank.svg";
+// import InventoryIcon from "../assets/images/icons/Inventory.svg";
+// import settingIcon from "../assets/images/icons/setting.svg";
 
-import LaboratoryIcon from "../assets/images/icons/Laboratory.svg";
-import Inventory1Icon from "../assets/images/icons/Inventory1.svg";
-import BMSServicesIcon from "../assets/images/icons/BMSServices.svg";
-import MaintenanceIcon from "../assets/images/icons/Maintenance.svg";
-import SpringboardIcon from "../assets/images/icons/Springboard.svg";
-import PatientonVentilatorIcon from "../assets/images/icons/PatientonVentilator.svg";
-import PharmacyIcon from "../assets/images/icons/Pharmacy.svg";
+// import LaboratoryIcon from "../assets/images/icons/Laboratory.svg";
+// import Inventory1Icon from "../assets/images/icons/Inventory1.svg";
+// import BMSServicesIcon from "../assets/images/icons/BMSServices.svg";
+// import MaintenanceIcon from "../assets/images/icons/Maintenance.svg";
+// import SpringboardIcon from "../assets/images/icons/Springboard.svg";
+// import PatientonVentilatorIcon from "../assets/images/icons/PatientonVentilator.svg";
+// import PharmacyIcon from "../assets/images/icons/Pharmacy.svg";
 
-import CityMasterIcon from "../assets/images/icons/CityMaster.svg";
-import HealthCardIcon from "../assets/images/icons/HealthCard.svg";
+// import CityMasterIcon from "../assets/images/icons/CityMaster.svg";
+// import HealthCardIcon from "../assets/images/icons/HealthCard.svg";
 import userpatientRegistrationIcon from "../assets/images/icons/userpatientRegistration.svg";
-import { useNavigate } from 'react-router-dom'; 
+// import { useNavigate } from 'react-router-dom'; 
 //import GetAssignProject from '../../SpringBoard/API/AssignProject/GetAssignProject'
 
 export default function ClinicalSidebar() {
@@ -100,9 +100,9 @@ export default function ClinicalSidebar() {
 
                 <div className='offcanvas-logo-username'>
                     <div className='offcanvas-logoBorderBottom p-2' style={{borderBottom: '0px'}}>
-                        <img src={MaskGroup} className="logoLeft" />
+                        <img src={MaskGroup} className="logoLeft" alt="" />
                         <div className='offcanvas-logo '>
-                            <Link to="/PatientPortalDashboard/"> <img src={OffcanvasLogo} className="OffcanvasLogo" /></Link>
+                            <Link to="/PatientPortalDashboard/"> <img src={OffcanvasLogo} className="OffcanvasLogo" alt=""/></Link>
                         </div>
                     </div>
                     {/* <h5 className="offcanvas-title text-uppercase user-name text-center pt-3" id="offcanvasExampleLabel">UserName</h5> */}

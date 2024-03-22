@@ -19,7 +19,7 @@ export default function SaveButton(props) {
     return (
         <>
             {
-                showSave === 1 ? <button type="button" className="btn btn-save btn-save-fill btn-sm mt-2" onClick={() => { props.onClick() }}><img src={save} className='icnn' /> Save</button>:""
+                showSave === 1 ? <button type="button" className="btn btn-save btn-save-fill btn-sm mt-2" onClick={() => { props.onClick() }}><img src={save} className='icnn' alt=''/> Save</button>:""
             }
         </>
 

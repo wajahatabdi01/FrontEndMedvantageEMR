@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Heading from "../../Component/Heading";
+
 import BoxContainer from "../../Component/BoxContainer";
 import TableContainer from "../../Component/TableContainer";
 
 import save from "../../assets/images/icons/save.svg";
 import reset from "../../assets/images/icons/reset.svg";
-import transfer from "../../assets/images/icons/transfer.svg";
-import del from "../../assets/images/icons/del.svg";
-
-import editbtn from "../../assets/images/icons/editbtn.svg";
-import delbtn from "../../assets/images/icons/delbtn.svg";
 
 import calender from "../../assets/images/icons/calender.svg";
 import clock from "../../assets/images/icons/clock.svg";
 import dish from "../../assets/images/icons/dish.svg";
 import quantity from "../../assets/images/icons/quantity.svg";
 import unitIcon from "../../assets/images/icons/unit.svg";
-import { async } from "q";
+
 import GetFoodList from "../API/FoodIntake/GetFoodList";
 import GetUnitList from "../API/FoodIntake/GetUnitList";
 import DropdownWithSearch from "../../Component/DropdownWithSearch";
@@ -123,7 +118,7 @@ export default function FoodIntake() {
   let handleChangeDropdown = (e) => {
     clearError();
     let value = e.target.value;
-    let name = e.target.name;
+    // let name = e.target.name;
     getData(value);
     setFood(value);
   };
@@ -236,7 +231,7 @@ export default function FoodIntake() {
                   <span className="fieldse">Recommended Food</span>
                   <BoxContainer>
                     <div className="mb-2 me-2">
-                      <img src={calender} className="icnn" />{" "}
+                      <img src={calender} className="icnn" alt="" />{" "}
                       <label htmlFor="txtDate" className="form-label">
                         Date
                       </label>
@@ -256,7 +251,7 @@ export default function FoodIntake() {
                       ></small>
                     </div>
                     <div className="mb-2 me-2">
-                      <img src={clock} className="icnn" />{" "}
+                      <img src={clock} className="icnn" alt=""/>{" "}
                       <label htmlFor="time" className="form-label">
                         Time
                       </label>
@@ -279,7 +274,7 @@ export default function FoodIntake() {
                         <input type="text" className="form-control form-control-sm" id="dish" name="dish" placeholder="Enter Dish" />
                       </div>    */}
                     <div className="mb-2 me-2">
-                      <img src={dish} className="icnn" />{" "}
+                      <img src={dish} className="icnn" alt=""/>{" "}
                       <label htmlFor="dish" className="form-label">
                         Food
                       </label>
@@ -304,7 +299,7 @@ export default function FoodIntake() {
                       ></small>
                     </div>
                     <div className="mb-2 me-2">
-                      <img src={quantity} className="icnn" />{" "}
+                      <img src={quantity} className="icnn" alt=""/>{" "}
                       <label htmlFor="Quantity" className="form-label">
                         Quantity
                       </label>
@@ -325,7 +320,7 @@ export default function FoodIntake() {
                     </div>
 
                     <div className="mb-2 me-2">
-                      <img src={unitIcon} className="icnn" />{" "}
+                      <img src={unitIcon} className="icnn" alt=""/>{" "}
                       <label htmlFor="Unit" className="form-label">
                         Unit
                       </label>
@@ -362,8 +357,8 @@ export default function FoodIntake() {
                       showToster === 1 ? <Toster value={tosterValue} message={tosterMessage} />
                         :
                   <div className='diet-btn'>
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveFoodIntake}><img src={save} className='icnn'/> Save</button>
-                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>clear(1)}><img src={reset} className='icnn'/> Reset</button>
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveFoodIntake}><img src={save} className='icnn' alt=""/> Save</button>
+                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>clear(1)}><img src={reset} className='icnn' alt=""/> Reset</button>
                     {/* <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={transfer} className='icnn'/> Repeat Last Day Food</button>
                     <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={del} className='icnn'/> Delete All Food</button> */}
                       </div>

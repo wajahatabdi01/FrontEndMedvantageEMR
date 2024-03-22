@@ -22,14 +22,15 @@ import OPDPrescriptionIndex from "./OPDPrescriptionIndex";
 import FHIRClinicalNotes from "./FHIROPDPopUp/FHIRClinicalNotes";
 import ClinicalInstructions from "../../../../../FHIIRClinicalInstruction/Pages/ClinicalInstructions";
 import FunctionalAndCognitive from "../../../../../FHIRFunctionalAndCognitive/Pages/FunctionalAndCognitive";
+import FHIRObservation from "../../../../../FHIRObservation/Pages/FHIRObservation";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
   const { t } = useTranslation();
 
-  let [activeBox, setActiveBox] = useState();
+  // let [activeBox, setActiveBox] = useState();
   // let [showPhysicalExamination, setShowPhysicalExamination] = useState()
-  let [showAlergies, setShowAlergies] = useState();
+  // let [showAlergies, setShowAlergies] = useState();
   let [disable, setDisable] = useState(0);
   let [patientCategoryResult, setPatientCategoryResult] = useState([]);
   // let [patientExaminationResult, setPatientExaminationResult] = useState([])
@@ -49,6 +50,8 @@ export default function OPDTOPBottom(props) {
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showMessage, setShowMessage] = useState(0);
   let [precription, setPrecription] = useState(0);
+  let [observation, setObservation] = useState(0);
+  let [carePlan, setCarePlan] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
   let [functionalAndCog, setFunctionalAndCog] = useState(0);
   let [familyHistory, setFamilyHistory] = useState(0);
@@ -178,7 +181,7 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#carePlanId" >
+        <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => {setCarePlan(1)}}>
           {t("Care Plan")}{" "}
         </span>
       </div>
@@ -227,6 +230,11 @@ export default function OPDTOPBottom(props) {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => setFunctionalAndCog(1)}>
           {t("Functional And Cognitive Status")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => setObservation(1)}>
+          {t("Observation")}{" "}
         </span>
       </div>
       {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
@@ -440,7 +448,7 @@ export default function OPDTOPBottom(props) {
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Care Plan
               </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setCarePlan(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
@@ -449,7 +457,7 @@ export default function OPDTOPBottom(props) {
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                 <div class="tab-pane fade show active" id="careplan" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  <FHIRCarePlan patientUhid={activePatient} setShowCarePlan={true} />
+                  {carePlan === 1 ? (<FHIRCarePlan patientUhid={activePatient} setShowCarePlan={true} setShowToster={setShowToster} setCarePlan = {setCarePlan}/>):("")}
                 </div>
               </div>
             </div>
@@ -566,7 +574,7 @@ export default function OPDTOPBottom(props) {
       </div>
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
 
-      {/* -----------------------------------------------------------------------Start Clinical Instructions Plan --------------------------------------------- */}
+      {/* -----------------------------------------------------------------------Start Functional Instructions Plan --------------------------------------------- */}
       <div class="modal fade" id="FunctionalAndCognitive" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
@@ -589,154 +597,65 @@ export default function OPDTOPBottom(props) {
       </div>
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
 
+      {/* -----------------------------------------------------------------------Start observation Plan --------------------------------------------- */}
+
+      <div class="modal fade" id="ObservationPopList" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title text-white">Add Observation</h4>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setObservation(0); }}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">{observation === 1 ? (<FHIRObservation setShowToster={setShowToster} setObservation={setObservation} />) : ("")}
+            </div>
+
+            {/* <div class="modal-footer">
+          <button  data-dismiss="modal" class="btn">Close</button>
+          <a href="##" class="btn btn-primary">Save changes</a>
+        </div> */}
+          </div>
+        </div>
+      </div>
+
+      {/* -----------------------------------------------------------------------End observation Plan --------------------------------------------- */}
 
 
-      {showToster === 1 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Problem saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 2 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Allergy saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 3 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Medication saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 4 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Device saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 5 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Surgery saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 6 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="History saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 7 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Immunization saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 8 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Lifestyle saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 22 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Prescription saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 23 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Prescription sent successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 24 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Clinical Instruction saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 25 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Clinical Instruction updated successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 26 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Clinical Instruction deleted successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 27 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Functional and Cognitive saved successfully !!"
-        />
-      ) : (
-        ""
-      )}
-      {showToster === 28 ? (
-        <SuccessToster
-          handle={setShowToster}
-          message="Functional and Cognitive deleted successfully !!"
-        />
-      ) : (
-        ""
-      )}
+
+      {showToster === 1 ? (<SuccessToster  handle={setShowToster}  message="Problem saved successfully !!"/>) : (  "")}
+      {showToster === 2 ? (<SuccessToster  handle={setShowToster}  message="Allergy saved successfully !!"/>) : (  "")}
+      {showToster === 3 ? (<SuccessToster  handle={setShowToster}  message="Medication saved successfully !!"/>) : (  "")}
+      {showToster === 4 ? (<SuccessToster  handle={setShowToster}  message="Device saved successfully !!"/>) : (  "")}
+      {showToster === 5 ? (<SuccessToster  handle={setShowToster}  message="Surgery saved successfully !!"/>) : (  "")}
+      {showToster === 6 ? (<SuccessToster  handle={setShowToster}  message="History saved successfully !!"/>) : (  "")}
+      {showToster === 7 ? (<SuccessToster  handle={setShowToster}  message="Immunization saved successfully !!"/>) : (  "")}
+      {showToster === 8 ? (<SuccessToster  handle={setShowToster}  message="Lifestyle saved successfully !!"/>) : (  "")}
+      {showToster === 9 ? (<SuccessToster  handle={setShowToster}  message="Careplan deleted successfully !!"/>) : (  "")}
+      {showToster === 10 ? (<SuccessToster  handle={setShowToster}  message="Careplan updated successfully !!"/>) : (  "")}
+      {showToster === 22 ? (<SuccessToster  handle={setShowToster}  message="Prescription saved successfully !!"/>) : (  "")}
+      {showToster === 23 ? (<SuccessToster  handle={setShowToster}  message="Prescription sent successfully !!"/>) : (  "")}
+      {showToster === 24 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction saved successfully !!"/>) : (  "")}
+      {showToster === 25 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction updated successfully !!"/>) : (  "")}
+      {showToster === 26 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction deleted successfully !!"/>) : (  "")}
+      {showToster === 27 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive saved successfully !!"/>) : (  "")}
+      {showToster === 28 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive deleted successfully !!"/>) : (  "")}
+      {showToster === 29 ? (<SuccessToster  handle={setShowToster}  message="Observation deleted successfully !!"/>) : (  "")}
+      {showToster === 30 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive updated successfully !!"/>) : (  "")}
+      {showToster === 31 ? (<SuccessToster  handle={setShowToster}  message="Observation saved successfully !!"/>) : (  "")}
+      {showToster === 32 ? (<SuccessToster  handle={setShowToster}  message="Observation updated successfully !!"/>) : (  "")}
 
       {showAlertToster === 1 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />
-      ) : (
-        ""
-      )}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
       {showAlertToster === 2 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />
-      ) : (
-        ""
-      )}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
       {showAlertToster === 3 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />
-      ) : (
-        ""
-      )}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
       {showAlertToster === 4 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />
-      ) : (
-        ""
-      )}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
       {showAlertToster === 5 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />
-      ) : (
-        ""
-      )}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
     </>
   );
 }

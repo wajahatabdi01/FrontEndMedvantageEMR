@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import Heading from '../../Component/Heading'
 import plus from '../../assets/images/icons/icons8-plus-30.png'
 import deleteIcon from '../../assets/images/icons/icons8-delete-30.png'
 import asterik from '../../assets/images/icons/icons8-asterisk-30.png'
 import save from '../../assets/images/icons/save.svg';
 import clear from '../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster'
-import GetIssueSubType from '../API/GetIssueSubType'
 import POSTFHIRCarePlan from '../API/POSTFHIRCarePlan'
 import GetCarePlanType from '../API/GetCarePlanType'
 import GetCarePlanByUhid from '../API/GetCarePlanByUhid'
+import IconEdit from '../../assets/images/icons/IconEdit.svg';
+import IconDelete from '../../assets/images/icons/IconDelete.svg'
+import DeleteCareplanByID from '../API/DeleteCareplanByID'
+import PutCarePlanByID from '../API/PutCarePlanByID';
 
 
-export default function FHIRCarePlan(props) {
+export default function FHIRCarePlan({setCarePlan, setShowToster}) {
   const [getCarePlanTypeList, setCarePlanTypeList] = useState([])
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -33,6 +35,8 @@ export default function FHIRCarePlan(props) {
     },
   ]);
   const [getCarePlanList,setCarePlanList] = useState([]);
+  const [toShowButtons, setToShowButtons] = useState(1);
+  const [theRowId, setTheRowId] = useState(0)
 
 
   // const handleTextChange  =(e) =>{
@@ -55,7 +59,6 @@ export default function FHIRCarePlan(props) {
 }
 
   const SelectedData = (data, modalID) => {
-
 
     let t = {
       moduleId: modalID,
@@ -234,9 +237,127 @@ export default function FHIRCarePlan(props) {
   }
 
   const getCarePlanListByUhid = async () => { 
+   
     const getListRes = await GetCarePlanByUhid(activeUHID);
     if(getListRes.status === 1){
       setCarePlanList(getListRes.responseValue);
+    }
+  }
+
+  const handleEdit = async (list) => {
+   
+     setToShowButtons(0);
+    setTheRowId(list.id)
+    const inputDate =list.date;
+    const parts = inputDate.split('-');
+    const formattedDate = parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
+     // Output: "YYYY-MM-DD"
+    const reasonDateLow =list.date;
+    const partsLow = reasonDateLow.split('-');
+    const formattedLowDate = partsLow[2] + '-' + partsLow[1].padStart(2, '0') + '-' + partsLow[0].padStart(2, '0');
+     // Output: "YYYY-MM-DD"
+    const reasonDateHigh =list.date;
+    const partsHigh = reasonDateHigh.split('-');
+    const formattedHighDate = partsHigh[2] + '-' + partsHigh[1].padStart(2, '0') + '-' + partsHigh[0].padStart(2, '0');
+     // Output: "YYYY-MM-DD"
+
+     for(let i = 0; i<carePlanRow.length; i++) {
+      document.getElementById('codeInputID'+carePlanRow[i].rowID).value = list.code;
+      document.getElementById('careTypeID'+carePlanRow[i].rowID).value = list.care_plan_type;
+      document.getElementById('careDateID'+carePlanRow[i].rowID).value = formattedDate;
+      document.getElementById('careDescriptionID'+carePlanRow[i].rowID).value = list.description;
+      if(list.reason_code || list.reason_description || list.reason_date_low || list.reason_date_high){
+        setReasonSectionOpen((prevState) => ({
+          ...prevState,
+          [1]: true,
+        }));
+        setTimeout(() => {
+          document.getElementById('reasonCodeInputID'+carePlanRow[i].rowID).value = list.reason_code;
+      document.getElementById('reasonStatusID'+carePlanRow[i].rowID).value = list.reason_status;
+      document.getElementById('reasonRecordingDateID'+carePlanRow[i].rowID).value = formattedLowDate;
+      document.getElementById('reasonEndDateID'+carePlanRow[i].rowID).value = formattedHighDate;
+        }, 100)
+      }
+    }
+  }
+
+  const handleEditSave = async () => {
+    const getresponse = await dataMaker(makeData); 
+    const tempArrList = [];
+    const data = [...carePlanRow];
+    for (let i = 0; i < data.length; i++) {
+       
+      const date = document.getElementById('careDateID' + data[i].rowID).value;
+      const type = document.getElementById('careTypeID' + data[i].rowID).value;
+      const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
+      const reasonCodeElement = document.getElementById('reasonCodeInputID' + data[i].rowID);
+      const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
+      const reasonStatusElement = document.getElementById('reasonStatusID' + data[i].rowID);
+      const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
+      const lowDateElement = document.getElementById('reasonRecordingDateID' + data[i].rowID);
+      const lowDate = lowDateElement ? lowDateElement.value : '';
+      const highDateElement = document.getElementById('reasonEndDateID' + data[i].rowID);
+      const highDate = highDateElement ? highDateElement.value : '';
+      //  const reasonCodeElement = document.getElementById('reasonobcodeInputID' + data[i].rowID);
+      //  const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
+      //  const reasonStatusElement = document.getElementById('reasonObStatusID' + data[i].rowID);
+      //  const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
+       if(getresponse.length !== 0){
+        const arr=getresponse[i].data;
+       var maker="";
+       var codeTextMaker= "";
+       for(var j=0; j < arr.length; j++){ maker=maker.length === 0 ? arr[j].dropdownName +':'+arr[j].code  : maker +','+arr[j].dropdownName +':'+arr[j].code;
+                                          codeTextMaker =  codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker +'|'+arr[j].codeText;}
+       }
+       else{
+        var codePre = document.getElementById('reasonCodeInputID'+data[i].rowID).value
+       }
+       
+      tempArrList.push({
+        id: theRowId,
+        date: date,
+        codeType: maker ? maker : codePre,
+        codeText: codeTextMaker,
+        care_plan_type: type,
+        description: description,
+        reason_code: reasonCode,
+        reason_status: reasonStatus,
+        reason_date_low: lowDate,
+        reason_date_high: highDate,
+      });
+    }
+    const updObj = {userId : window.userId,
+      jsonCarePlanData : JSON.stringify(tempArrList)}
+
+      const resUpdate = await PutCarePlanByID(updObj);
+    if(resUpdate.status === 1){
+      setShowToster(10);
+        setTimeout(() => {
+          // handleClear();
+          setShowToster(10)
+        }, 2000)
+        getCarePlanListByUhid();
+        handleClear();
+    }
+    else{
+      alert('Data not updated!')
+    }
+    
+  }
+
+  const handleDelete = async (id) =>{
+    if(window.confirm('Do you wish to delete!')){
+      const resDel = await DeleteCareplanByID(id);
+      if(resDel.status === 1){
+          
+          
+        setShowToster(9);
+            setTimeout(() => {
+              setShowToster(9)
+            },2000);
+            getCarePlanListByUhid();
+
+        }
     }
   }
 
@@ -244,13 +365,13 @@ export default function FHIRCarePlan(props) {
   // useEffect(() => {
   //   funGetCarePlanTypeList();
   //   getCarePlanListByUhid();
-  // },[props.setShowCarePlan])
+  // },[props.setCarePlan])
   useEffect(() => {
-    if (props.setShowCarePlan) {
+    if (setCarePlan) {
       funGetCarePlanTypeList();
       getCarePlanListByUhid();
     }
-  }, [props.setShowCarePlan]);
+  }, [setCarePlan]);
 
   return (
     <>
@@ -284,12 +405,14 @@ export default function FHIRCarePlan(props) {
                             
                           </select>
                         </div>
-                        <div className="col-xl-3 col-lg-6 col-md-6 mb-2">
+                        <div className="col-xl-4 col-lg-6 col-md-6 mb-2">
                           <label className='form-label'>Description :</label>
                           <textarea className='form-control form-control-sm' id={'careDescriptionID' + carePlan.rowID} />
                         </div>
 
-                        <div className="col-xl-3 col-lg-6 col-md-6 mb-2">
+                        <div className="col-xl-4 col-lg-6 col-md-6 mb-2">
+                        {(toShowButtons === 1)? 
+                          <>
                           <label className='form-label'>&nbsp;</label>
                           <div className="mb-2 d-flex justify-content-end_ flex-wrap">
                             <div>
@@ -301,7 +424,14 @@ export default function FHIRCarePlan(props) {
                             <div>
                               <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2" style={{ borderColor: 'black' }} onClick={() => { handleOpenReasonModal(carePlan.rowID) }}><img src={asterik} className='icnn' alt='' />Add Reason</button>
                             </div>
-                          </div>
+                            
+                          
+                        </div>
+                        </>:
+                        <div >
+                              <button type="button" className="btn btn-light btn-sm btn-light-fill mb-1 ms-2 mt-3" style={{ borderColor: 'black' }} onClick={() => { handleOpenReasonModal(carePlan.rowID) }}><img src={asterik} className='icnn' alt='' />Add Reason</button>
+                            </div>}
+                        
                         </div>
                       </div>
                       
@@ -356,7 +486,10 @@ export default function FHIRCarePlan(props) {
               <div className="col-12">
                 <div className="whitebg" style={{ padding: '3px' }}>
                   <div className="d-flex gap-2 mt-2 samplebtnn">
-                    <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button>
+                  {(toShowButtons === 1) ?
+                    <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={handleSave}><img src={save} className='icnn' alt='' />Save</button> :
+                    <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={handleEditSave}><img src={save} className='icnn' alt='' />Update</button>}
+                    
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1 btnbluehover" onClick={handleClear}><img src={clear} className='icnn' alt='' />Clear</button>
                   </div>
                 </div>
@@ -366,7 +499,7 @@ export default function FHIRCarePlan(props) {
         </div>
         <div className="col-12 mt-2">
             <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
-              <table className="med-table border_ striped mt-3">
+              <table className="med-table border striped mt-3">
                 <thead style={{ zIndex: "0" }}>
                   <tr>
                     <th className="text-center" style={{ width: "5%" }}>
@@ -381,6 +514,7 @@ export default function FHIRCarePlan(props) {
                     <th>Reason Description</th>
                     <th>Reason Recording Date</th>
                     <th>Reason End Date</th>
+                    <th>Action</th>
                     {/* <th>Action</th> */}
                   </tr>
                 </thead>
@@ -398,6 +532,13 @@ export default function FHIRCarePlan(props) {
                         <td>{list.reason_description?list.reason_description:'Not Available'}</td>
                         <td>{list.reason_date_low}</td>
                         <td>{list.reason_date_high}</td>
+                        <td>
+                          <div className="action-button">
+                              {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
+                              <div onClick={() => {handleEdit(list)}}><img src={IconEdit} alt='' title='Edit Careplan'/></div>
+                              <div onClick={() => {handleDelete(list.id)}}><img src={IconDelete} title='Delete Careplan' alt='' /></div>
+                            </div>
+                        </td>
                       </tr>
                     </>)
                   })}

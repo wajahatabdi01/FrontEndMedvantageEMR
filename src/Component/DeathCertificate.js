@@ -17,7 +17,7 @@ export default function DeathCertificate() {
                 <div className="dis-hed">
                     <div className="discharge-logo">
                         <div className="logo-main">
-                            <img src={mainlogo} />
+                            <img src={mainlogo} alt=''/>
                         </div>
                     </div>
                     <div className="address-section">

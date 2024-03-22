@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import Logog from '../assets/images/Navbar/NavbarLogo.png'
+// import Logog from '../assets/images/Navbar/NavbarLogo.png'
 import Monitor from '../assets/images/Navbar/Navbarmonitor.png'
-import Notification from '../assets/images/Navbar/NavbarRing.png'
-import Setting from '../assets/images/Navbar/NavbarSetting.png'
-import Exit from '../assets/images/Navbar/NavbarExit.png'
+// import Notification from '../assets/images/Navbar/NavbarRing.png'
+// import Setting from '../assets/images/Navbar/NavbarSetting.png'
+// import Exit from '../assets/images/Navbar/NavbarExit.png'
 import Home from '../assets/images/Navbar/Home.png'
-import Search from '../assets/images/Navbar/search.svg'
+// import Search from '../assets/images/Navbar/search.svg'
 import DoctorLogo from "../assets/images/Navbar/DoctorLogo.png"
 import { Link, useNavigate } from 'react-router-dom'
 import SearchGlobal from '../Code/SearchGlobal'
 import profilepic from "../assets/images/icons/profilepic.png"
-import changepassword from "../assets/images/LoginPage/changepassword.jpg"
+// import changepassword from "../assets/images/LoginPage/changepassword.jpg"
 import * as signalR from '@microsoft/signalr';
 import TableContainer from './TableContainer'
-import store from '../Store'
-import { getNotificationData } from '../Reduce/Notification/Notifications'
-import HandleLanguage from '../Code/LanguageManage';
+// import store from '../Store'
+// import { getNotificationData } from '../Reduce/Notification/Notifications'
+// import HandleLanguage from '../Code/LanguageManage';
 import { useTranslation } from 'react-i18next';
 import  i18n from "i18next";
-import languageIcon from "../assets/images/icons/languageIcon.png";
+// import languageIcon from "../assets/images/icons/languageIcon.png";
 import ChangePassword from '../Registartion/Pages/OPDRegistration/UserProfile/ChangePassword'
 
 export default function Navbar(props) {
@@ -47,21 +47,21 @@ export default function Navbar(props) {
 
     }
 
-    let searchGlobal = (e) => {
-        if (e.keyCode === 13) {
+    // let searchGlobal = (e) => {
+    //     if (e.keyCode === 13) {
 
-            SearchGlobal(e.target.value)
-        }
-        else if (e.keyCode === 40) {
+    //         SearchGlobal(e.target.value)
+    //     }
+    //     else if (e.keyCode === 40) {
 
-            SearchGlobal(e.target.value)
-        }
+    //         SearchGlobal(e.target.value)
+    //     }
 
-    }
+    // }
 
-    let searchGlobals = (e) => {
-        SearchGlobal(e.target.value)
-    }
+    // let searchGlobals = (e) => {
+    //     SearchGlobal(e.target.value)
+    // }
 
     let handleHomeIcon = () => {
 

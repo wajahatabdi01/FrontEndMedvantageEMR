@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Heading from "../../Component/Heading";
+
 import BoxContainer from "../../Component/BoxContainer";
 import TableContainer from "../../Component/TableContainer";
 
 import save from "../../assets/images/icons/save.svg";
 import reset from "../../assets/images/icons/reset.svg";
-import transfer from "../../assets/images/icons/transfer.svg";
-import del from "../../assets/images/icons/del.svg";
 
-import editbtn from "../../assets/images/icons/editbtn.svg";
-import delbtn from "../../assets/images/icons/delbtn.svg";
 
 import calender from "../../assets/images/icons/calender.svg";
 import clock from "../../assets/images/icons/clock.svg";
 import dish from "../../assets/images/icons/dish.svg";
 import quantity from "../../assets/images/icons/quantity.svg";
 import unitIcon from "../../assets/images/icons/unit.svg";
-import { async } from "q";
+
 import GetFoodList from "../API/FoodIntake/GetFoodList";
 import GetUnitList from "../API/FoodIntake/GetUnitList";
 import GetUnitListSP from '../API/SupplementIntake/GetUnitList';
@@ -54,7 +50,7 @@ export default function FoodIntake() {
   let [sendForm, setSendForm]=useState({"userId": window.userId})
   let [txtDateSp, settxtDateSp] = useState();
   let [showLoder, setShowLoder] = useState(0);
-  let [timeSp, setTimeSp] = useState();
+  // let [timeSp, setTimeSp] = useState();
   let [supplementData,setSupplementData]=useState();
   let [supplementDataList, setsupplementDataList] = useState([]);
   
@@ -62,7 +58,7 @@ export default function FoodIntake() {
   let [supplimentName, setsupplimentName] = useState();
   let [unitListSp,setUnitListSp]=useState();
   let [qty, setQty]=useState();
-  let [unitSp, setunitSp]=useState();
+  // let [unitSp, setunitSp]=useState();
   let [showUnderProcessSp,setShowUnderProcessSp]=useState(0);
   let [showTosterSp,setShowTosterSp]=useState(0)
   let [tosterMessageSp,setTosterMessageSp] = useState("")
@@ -188,7 +184,7 @@ export default function FoodIntake() {
   let handleChangeDropdown = (e) => {
     clearError();
     let value = e.target.value;
-    let name = e.target.name;
+    // let name = e.target.name;
     getData(value);
     setFood(value);
   };
@@ -378,9 +374,9 @@ return false;
   console.log("csd", data.status)
   if (data.status === 1) {
     let date = new Date()
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1; //January is 0!
-    var yyyy = date.getFullYear();
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1; //January is 0!
+    let yyyy = date.getFullYear();
      setShowUnderProcessSp(0);
      setTosterValueSp(0);
      setShowTosterSp(1);
@@ -462,7 +458,7 @@ let deleteRow = async () => {
                   <span className="fieldse"> Food Intake</span>
                   <BoxContainer>
                     <div className="mb-2 me-2">
-                      <img src={calender} className="icnn" />{" "}
+                      <img src={calender} className="icnn" alt=""/>{" "}
                       <label htmlFor="txtDate" className="form-label">
                         Date
                       </label>
@@ -482,7 +478,7 @@ let deleteRow = async () => {
                       ></small>
                     </div>
                     <div className="mb-2 me-2">
-                      <img src={clock} className="icnn" />{" "}
+                      <img src={clock} className="icnn" alt=""/>{" "}
                       <label htmlFor="time" className="form-label">
                         Time
                       </label>
@@ -505,7 +501,7 @@ let deleteRow = async () => {
                         <input type="text" className="form-control form-control-sm" id="dish" name="dish" placeholder="Enter Dish" />
                       </div>    */}
                     <div className="mb-2 me-2">
-                      <img src={dish} className="icnn" />{" "}
+                      <img src={dish} className="icnn" alt=""/>{" "}
                       <label htmlFor="dish" className="form-label">
                         Food
                       </label>
@@ -530,7 +526,7 @@ let deleteRow = async () => {
                       ></small>
                     </div>
                     <div className="mb-2 me-2">
-                      <img src={quantity} className="icnn" />{" "}
+                      <img src={quantity} className="icnn" alt=""/>{" "}
                       <label htmlFor="Quantity" className="form-label">
                         Quantity
                       </label>
@@ -551,7 +547,7 @@ let deleteRow = async () => {
                     </div>
 
                     <div className="mb-2 me-2">
-                      <img src={unitIcon} className="icnn" />{" "}
+                      <img src={unitIcon} className="icnn" alt=""/>{" "}
                       <label htmlFor="Unit" className="form-label">
                         Unit
                       </label>
@@ -588,8 +584,8 @@ let deleteRow = async () => {
                       showToster === 1 ? <Toster value={tosterValue} message={tosterMessage} />
                         :
                   <div className='diet-btn'>
-                    <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveFoodIntake}><img src={save} className='icnn'/> Save</button>
-                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>clear(1)}><img src={reset} className='icnn'/> Reset</button>
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveFoodIntake}><img src={save} className='icnn' alt=""/> Save</button>
+                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>clear(1)}><img src={reset} className='icnn' alt=""/> Reset</button>
                     {/* <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={transfer} className='icnn'/> Repeat Last Day Food</button>
                     <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={del} className='icnn'/> Delete All Food</button> */}
                       </div>
@@ -680,7 +676,7 @@ let deleteRow = async () => {
                     <BoxContainer>
                   
                     <div className="mb-2 me-2">
-                      <img src={calender} className="icnn" />{" "}
+                      <img src={calender} className="icnn" alt=""/>{" "}
                       <label htmlFor="txtDateSp" className="form-label">
                         Date
                       </label>
@@ -700,7 +696,7 @@ let deleteRow = async () => {
                       ></small>
                     </div>
                     <div className="mb-2 me-2">
-                      <img src={clock} className="icnn" />{" "}
+                      <img src={clock} className="icnn" alt=""/>{" "}
                       <label htmlFor="time" className="form-label">
                         Time
                       </label>
@@ -726,14 +722,14 @@ let deleteRow = async () => {
 
                       </div>
                       <div className="mb-2 me-2">
-                      <img src={quantity} className='icnn'/> <label htmlFor="Quantity" className="form-label">Quantity</label>
+                      <img src={quantity} className='icnn' alt=""/> <label htmlFor="Quantity" className="form-label">Quantity</label>
                       <input type="number" className="form-control form-control-sm" id="quantity" name="quantity" value={qty} onChange={handleChangeSp}
                         placeholder="Enter Quantity"/>
                         <small id="errQuantitySp" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                       </div>
                       <div className="mb-2 me-2">
-                      <img src={unitIcon} className='icnn'/> <label htmlFor="Unit" className="form-label">Unit</label>
+                      <img src={unitIcon} className='icnn' alt=""/> <label htmlFor="Unit" className="form-label">Unit</label>
                         <select className="form-select form-select-sm" aria-label=".form-select-sm example" id='unitSp' name='unitSp' onChange={handleChangeSp}>
                           <option value='0'>Select Unit</option>{" "}
                           {unitListSp && unitListSp.map((val,index) => {
@@ -758,8 +754,8 @@ let deleteRow = async () => {
                       showTosterSp === 1 ? <Toster value={tosterValueSp} message={tosterMessageSp} />
                         :
                   <div className='diet-btn'>
-                  <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveSupplement}><img src={save} className='icnn'/> Save</button>
-                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>{clear(1)}}><img src={reset} className='icnn'/> Reset</button>
+                  <button type="button" className="btn btn-save btn-save-fill btn-sm" onClick={saveSupplement}><img src={save} className='icnn' alt=""/> Save</button>
+                    <button type="button" className="btn btn-save btn-sm btnbluehover" onClick={()=>{clear(1)}}><img src={reset} className='icnn' alt=""/> Reset</button>
                     {/* <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={transfer} className='icnn'/> Repeat Last Day Food</button>
                     <button type="button" className="btn btn-save btn-sm btnbluehover"><img src={del} className='icnn'/> Delete All Food</button> */}
                       </div>

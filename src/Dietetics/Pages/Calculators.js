@@ -1,10 +1,6 @@
 import React from 'react'
-import Heading from '../../Components/Heading';
-import BoxContainer from '../../Components/BoxContainer';
+
 import TableContainer from '../../Components/TableContainer';
-
- 
-
 
 import sex from '../../assets/images/icons/sex.svg'
 import age from '../../assets/images/icons/age.svg'
@@ -129,7 +125,7 @@ export default function Calculators() {
                   <div className="col-lg-9 col-md-12 plt_" style={{maxHeight:'681px', overflow:'auto'}}>  
                       <div className='listdetailsct gen box-shadow-none'>
                         <div className='listdetailsct-in pictext'>
-                          <img src={sex} className='icnn'/> Sex  
+                          <img src={sex} className='icnn' alt=''/> Sex  
                         </div>
                         <div className='listdetailsct-in'>
                             <div className="d-flex flex-direction-column gap-2">
@@ -145,7 +141,7 @@ export default function Calculators() {
                       
                       <div className='listdetailsct box-shadow-none'>
                         <div className='listdetailsct-in pictext'>
-                          <img src={age} className='icnn'/> Age  
+                          <img src={age} className='icnn' alt=''/> Age  
                         </div>
                         <div className='listdetailsct-in'>
                             <div className='inputtxt form-group'>
@@ -157,7 +153,7 @@ export default function Calculators() {
 
                       <div className='listdetailsct box-shadow-none'>
                         <div className='listdetailsct-in pictext'>
-                          <img src={weight} className='icnn'/> Age  
+                          <img src={weight} className='icnn' alt=''/> Age  
                         </div>
                         <div className='listdetailsct-in'>
                             <div className='inputtxt form-group'>
@@ -170,7 +166,7 @@ export default function Calculators() {
 
                       <div className='listdetailsct box-shadow-none'>
                         <div className='listdetailsct-in pictext'>
-                          <img src={height} className='icnn'/> Height  
+                          <img src={height} className='icnn' alt=''/> Height  
                         </div>
                         <div className='listdetailsct-in'>
                             <div className='inputtxt form-group'>
@@ -182,7 +178,7 @@ export default function Calculators() {
 
                       <div className='listdetailsct box-shadow-none'>
                         <div className='listdetailsct-in pictext'>
-                          <img src={Creatinine} className='icnn'/> Creatinine  
+                          <img src={Creatinine} className='icnn' alt=''/> Creatinine  
                         </div>
                         <div className='listdetailsct-in'>
                             <div className='inputtxt form-group'>

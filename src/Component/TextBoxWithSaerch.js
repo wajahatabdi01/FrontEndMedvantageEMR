@@ -13,7 +13,7 @@ export default function TextBoxWithSaerch(props) {
 
     let handleOnchange = (e) => {
         let value = e.target.value;
-        let name = e.target.name;
+        // let name = e.target.name;
         props.getTextOnchange(value);
         if (value.length !== 0) {
             let response = FindByQuery(props.list, value, props.searchParameter);

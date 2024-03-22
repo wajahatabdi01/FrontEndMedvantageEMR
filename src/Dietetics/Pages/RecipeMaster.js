@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import Heading from "../../Component/Heading";
+
 import BoxContainer from "../../Component/BoxContainer";
 import TableContainer from "../../Component/TableContainer";
 
 import save from "../../assets/images/icons/save.svg";
 import reset from "../../assets/images/icons/reset.svg";
-import transfer from "../../assets/images/icons/transfer.svg";
-import editbtn from "../../assets/images/icons/editbtn.svg";
+
 import delbtn from "../../assets/images/icons/delbtn.svg";
 
 import unitIcon from "../../assets/images/icons/unit.svg";
-import Ingredient from "../../assets/images/icons/Ingredient.svg";
+
 import dish from "../../assets/images/icons/dish.svg";
 
 import quantity from "../../assets/images/icons/quantity.svg";
@@ -18,7 +17,7 @@ import DropdownWithSearch from "../../Component/DropdownWithSearch";
 import { useState } from "react";
 import GetFoodList from "../API/FoodIntake/GetFoodList";
 import GetUnitList from "../API/FoodIntake/GetUnitList";
-import { json } from "react-router-dom";
+
 import SaveRecipeMaster from "../API/Recipe/SaveRecipeMaster";
 import GetRecipeMain from "../API/Recipe/GetRecipeMain";
 import TosterUnderProcess from "../../Component/TosterUnderProcess";
@@ -92,14 +91,14 @@ export default function RecipeMaster() {
         ["unitName"]: text,
       }));
     }
-    console.log("after change", row);
+  
   };
   let handleChangeIngDropdown = (e) => {
     clearIngError();
     let value = e.target.value;
     let name = e.target.selectedName;
     // setFood(value);
-    console.log(e);
+ 
 
     setRow((sendForm) => ({
       ...sendForm,
@@ -111,18 +110,18 @@ export default function RecipeMaster() {
     }));
     // row["ingredientId"] = value;
     // row["ingredientName"] = name;
-    // console.log("name, id", row)
+    
     getUnitIngList(value);
   };
   let getUnitList = async (value) => {
-    console.log(value, "foodId");
+    
     let unitList = await GetUnitList(value);
     if (unitList.status === 1) {
       setUnitList(unitList.responseValue);
     }
   };
   let getUnitIngList = async (value) => {
-    console.log(value, "foodId");
+   
     let unitIngList = await GetUnitList(value);
     if (unitIngList.status === 1) {
       setUnitIngList(unitIngList.responseValue);
@@ -138,14 +137,14 @@ export default function RecipeMaster() {
       setFoodUnit(value);
     }
   };
-  let handleIngChange = (e) => {
-    // clearError();
-    let value = e.target.value;
-    let name = e.target.name;
-    if (name === "unit") {
-      setUnit(value);
-    }
-  };
+  // let handleIngChange = (e) => {
+  //   // clearError();
+  //   let value = e.target.value;
+  //   let name = e.target.name;
+  //   if (name === "unit") {
+  //     setUnit(value);
+  //   }
+  // };
   let clearError = async () => {
     document.getElementById("errFood").style.display = "none";
     document.getElementById("errQuantity").style.display = "none";
@@ -182,7 +181,7 @@ export default function RecipeMaster() {
         userID: window.userId,
         jsonData: JSON.stringify(showIngredientList),
       };
-      console.log(recipeObj, "rec");
+     
       let data = await SaveRecipeMaster(recipeObj);
       if (data.status === 1) {
         setShowUnderProcess(0);
@@ -229,7 +228,7 @@ export default function RecipeMaster() {
   };
   // let removeIngredient =(ind)=>{
 
-  //   console.log('indd',showIngredientList);
+
   //   setShowIngredientList(showIngredientList.splice(ind, 1));
 
   // }
@@ -253,7 +252,7 @@ export default function RecipeMaster() {
       setRecipeMainId(mainFoodId);
 
       let recipeMainUpd = getRecipeMain.recipeMainList[0];
-      console.log("fff", getRecipeMain, getRecipeMain.recipeMainList[0].foodId);
+      
       setEditFood(recipeMainUpd.foodName);
       setUnitList(getRecipeMain.unitListByFoodFId);
       setFood(getRecipeMain.recipeMainList[0].foodId);
@@ -264,7 +263,7 @@ export default function RecipeMaster() {
           getRecipeMain.recipeMainList[0].unitId.toString();
       }, 500);
       //  let t = document.getElementById("foodUnit");
-      //  console.log(t)
+      
 
       // setShowIngredientList([getRecipeMain.ingredientLists, row]);
       let arrIngList = getRecipeMain.ingredientLists;
@@ -285,8 +284,7 @@ export default function RecipeMaster() {
       document.getElementById("qtyMain").value = recipeMainUpd.foodQuantity;
       document.getElementById("foodUnit").value = recipeMainUpd.unitId;
     }
-    console.log("faina", getRecipeMain);
-    console.log("reciMain", recipesMainId);
+    
   };
   //  let handleChange = (e) => {
   //   clearError();
@@ -334,7 +332,7 @@ export default function RecipeMaster() {
         jsonData: JSON.stringify(showIngredientList),
         recipeMainId: recipesMainId,
       };
-      console.log(recipeObj, "rec");
+      
       let data = await UpdateRecipeMasterClick(recipeObj);
       if (data.status === 1) {
         setShowUnderProcess(0);
@@ -373,7 +371,7 @@ export default function RecipeMaster() {
       foodId: mainFoodId,
       recipeMainId: recipesMainId,
     };
-    console.log("del", delObj);
+    
     setShowUnderProcess(1);
     let response = await DeleteRecipe(delObj);
     if (response.status === 1) {
@@ -437,7 +435,7 @@ export default function RecipeMaster() {
                             </select>
                           </div>  */}
                         <div className="mb-2 me-2">
-                          <img src={dish} className="icnn" />{" "}
+                          <img src={dish} className="icnn" alt=""/>{" "}
                           <label htmlFor="dish" className="form-label">
                             Food
                           </label>
@@ -480,7 +478,7 @@ export default function RecipeMaster() {
                             </select>
                           </div>  */}
                         <div className="mb-2 me-2">
-                          <img src={dish} className="icnn" />{" "}
+                          <img src={dish} className="icnn" alt=""/>{" "}
                           <label htmlFor="dish" className="form-label">
                             Ingredient
                           </label>
@@ -506,7 +504,7 @@ export default function RecipeMaster() {
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={quantity} className="icnn" />{" "}
+                          <img src={quantity} className="icnn" alt=""/>{" "}
                           <label htmlFor="RDA" className="form-label">
                             Quantity
                           </label>
@@ -526,7 +524,7 @@ export default function RecipeMaster() {
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={unitIcon} className="icnn" />{" "}
+                          <img src={unitIcon} className="icnn" alt=""/>{" "}
                           <label htmlFor="Unit" className="form-label">
                             Unit
                           </label>
@@ -600,7 +598,7 @@ export default function RecipeMaster() {
                               <tbody>
                                 {showIngredientList &&
                                   showIngredientList.map((val, ind) => {
-                                    console.log(val);
+                                    
                                     return (
                                       <tr>
                                         <td className="text-center">
@@ -625,7 +623,7 @@ export default function RecipeMaster() {
                                               <img
                                                 src={delbtn}
                                                 className="icnn"
-                                              />
+                                               alt=""/>
                                             </span>
                                           </div>
                                         </td>
@@ -642,7 +640,7 @@ export default function RecipeMaster() {
 
                       <BoxContainer>
                         <div className="mb-2 me-2">
-                          <img src={quantity} className="icnn" />{" "}
+                          <img src={quantity} className="icnn" alt=""/>{" "}
                           <label htmlFor="qtyMain" className="form-label">
                             Quantity
                           </label>
@@ -662,7 +660,7 @@ export default function RecipeMaster() {
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={unitIcon} className="icnn" />{" "}
+                          <img src={unitIcon} className="icnn" alt=""/>{" "}
                           <label htmlFor="foodUnit" className="form-label">
                             Unit
                           </label>
@@ -720,14 +718,14 @@ export default function RecipeMaster() {
                                     className="btn btn-save btn-save-fill btn-sm"
                                     onClick={SaveRecipeMasterClick}
                                   >
-                                    <img src={save} className="icnn" /> Save{" "}
+                                    <img src={save} className="icnn" alt=""/> Save{" "}
                                   </button>
                                   <button
                                     type="button"
                                     className="btn btn-save btn-sm btnbluehover"
                                     onClick={() => clear(1)}
                                   >
-                                    <img src={reset} className="icnn" /> Reset
+                                    <img src={reset} className="icnn" alt=""/> Reset
                                   </button>
                                 </>
                               ) : (
