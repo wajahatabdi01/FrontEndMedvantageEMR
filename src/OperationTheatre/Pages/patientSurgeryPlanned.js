@@ -112,13 +112,13 @@ export default function PatientSurgeryPlanned() {
     let temp = [...rows]
 
     temp[temp.length - 1]["device"] = vak.id
-    console.log(temp)
+   
 
     setRows([...temp])
   };
 
   let handleClear = (val) => {
-    console.log("scs", val)
+    
     
    
     setClearTextBox(val)
@@ -170,7 +170,7 @@ export default function PatientSurgeryPlanned() {
     
     if (e.target.name === "Surgery") {
       var slctdSurgery = e.target.value;
-      console.log('slctdSurgery', slctdSurgery);
+     
       var arr = [...selectedsurgeryList];
       // var tempVitalList=[...selectedVitalList];
       for (var i = 0; i < surgeryList.length; i++) {
@@ -185,7 +185,7 @@ export default function PatientSurgeryPlanned() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctdSurgery);
-            console.log('index', index);
+            
             if (index !== -1) {
              
               document.getElementById('errSurgery').style.display = "block";
@@ -198,7 +198,7 @@ export default function PatientSurgeryPlanned() {
               document.getElementById('errSurgery').style.display = "none";
             }
           }
-          console.log('setSelectedsurgeryList', arr);
+        
          
           setSelectedsurgeryList(arr);
         }
@@ -207,7 +207,7 @@ export default function PatientSurgeryPlanned() {
 
     if (e.target.name === "Anesthesia") {
       var slctderAnesthesia = e.target.value;
-      console.log('slctderAnesthesia', slctderAnesthesia);
+      
       var arr = [...selectedAnesthesiaList];
       // var tempVitalList=[...selectedVitalList];
       for (var i = 0; i < ddlAnesthesia.length; i++) {
@@ -220,7 +220,7 @@ export default function PatientSurgeryPlanned() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctderAnesthesia);
-            console.log('index', index);
+            
             if (index !== -1) {
               document.getElementById('errAnesthesia').style.display = "block";
             }
@@ -231,7 +231,7 @@ export default function PatientSurgeryPlanned() {
               });
             }
           }
-          console.log('setSelectedAnesthesiaList', arr);
+         
           setSelectedAnesthesiaList(arr);
         }
       }
@@ -239,7 +239,7 @@ export default function PatientSurgeryPlanned() {
 
     if (e.target.name === "Anesthesiologist") {
       var slctderAnesthesiologist = e.target.value;
-      console.log('slctderAnesthesiologist', slctderAnesthesiologist);
+      
       var arr = [...selectedAnesthesiologist];
       // var tempVitalList=[...selectedVitalList];
       for (var i = 0; i < ddlAnesthesiaDoctor.length; i++) {
@@ -252,7 +252,7 @@ export default function PatientSurgeryPlanned() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctderAnesthesiologist);
-            console.log('index', index);
+           
             if (index !== -1) {
               document.getElementById('errAnesthesiologist').style.display = "block";
             }
@@ -263,7 +263,7 @@ export default function PatientSurgeryPlanned() {
               });
             }
           }
-          console.log('setSelectedAnesthesiologist', arr);
+          
           setSelectedAnesthesiologist(arr);
         }
       }
@@ -271,7 +271,7 @@ export default function PatientSurgeryPlanned() {
 
     if (e.target.name === "Surgeon") {
       var slctderSurgeon = e.target.value;
-      console.log('slctderAnesthesiologist', slctderSurgeon);
+     
       var arr = [...selectedSurgeon];
       // var tempVitalList=[...selectedVitalList];
       for (var i = 0; i < ddlSurgeon.length; i++) {
@@ -284,7 +284,7 @@ export default function PatientSurgeryPlanned() {
           }
           else {
             var index = arr.findIndex((val) => val.id === slctderSurgeon);
-            console.log('index', index);
+           
             if (index !== -1) {
               document.getElementById('errSurgeon').style.display = "block";
             }
@@ -295,7 +295,7 @@ export default function PatientSurgeryPlanned() {
               });
             }
           }
-          console.log('setselectedSurgeon', arr);
+         
           setselectedSurgeon(arr);
         }
       }
@@ -371,7 +371,7 @@ export default function PatientSurgeryPlanned() {
 
   let getSurgeryList = async () => {
     let data = await GetSurgeryList();
-    console.log('datasur', data);
+  
     if (data.status === 1) {
       setSurgeryList(data.responseValue);
     }
@@ -379,7 +379,7 @@ export default function PatientSurgeryPlanned() {
 
   let Anesthesiologist = async () => {
     let data = await GetAnesthesiologist();
-    console.log('Anesthesiologist', data);
+   
     if (data.status === 1) {
       setAnesthesiaDoctorList(data.responseValue);
     }
@@ -387,7 +387,7 @@ export default function PatientSurgeryPlanned() {
 
   let SurgeonList = async () => {
     let data = await GetSurgeonList();
-    console.log('SurgeonList', data);
+    
     if (data.status === 1) {
       setddlSurgeonList(data.responseValue);
     }
@@ -399,7 +399,7 @@ export default function PatientSurgeryPlanned() {
   let operationTheaterList = async () => {
     setShowLoder(1);
     let data = await GetOperationTheaterList();
-    console.log('ot List', data);
+  
     if (data.status === 1) {
       setShowLoder(0);
       setOTList(data.responseValue);
@@ -409,7 +409,7 @@ export default function PatientSurgeryPlanned() {
   let GetAnesthesia = async () => {
 
     let data = await GetAnesthesiaList();
-    console.log('ddlAnesthesia List', data);
+   
     if (data.status === 1) {
       setShowLoder(0);
       setGetAnesthesiaList(data.responseValue);
@@ -421,7 +421,7 @@ export default function PatientSurgeryPlanned() {
   let GetSurgeryPlanned = async () => {
 
     let data = await GetSurgeryPlannedList();
-    console.log('GetSurgeryPlanned List', data);
+   
     if (data.status === 1) {
       setShowLoder(0);
        setGetSurgeryPlannedList(data.responseValue);
@@ -432,7 +432,7 @@ export default function PatientSurgeryPlanned() {
   let GetDevices = async () => {
     let deviceName = 'r';
     let data = await GetDevicesList(deviceName);
-    console.log('Devices List', data);
+ 
     if (data.status === 1) {
       setShowLoder(0);
       setGetDevicesList(data.responseValue);
@@ -458,18 +458,18 @@ export default function PatientSurgeryPlanned() {
     //   // setTxtAge(response.age);
     //   // setTxtGender(response.genderName);
     //   // 
-    //   console.log('GetPatientDataAPI List', responsedaignosis);
+    
     //   setShowLoder(0);
     //   setGetPatientData(data.responseValue);
     // }
     
     if (data.status === 1) {
       let responsedaignosis = data.responseValue.patientComplainHistory.filter(item => item.pdmId === 4);
-      console.log('GetPatientDataAPI List', responsedaignosis);
+     
     
       // Extract problem names from the filtered array
       const problemNames = responsedaignosis.map(item => item.problemName);
-      console.log('GetPatientDataproblemName', problemNames);
+    
     
       // Assuming setTxtDiagnosisDetails expects an array of problem names
       setTxtDiagnosisDetails(problemNames);
@@ -510,7 +510,7 @@ export default function PatientSurgeryPlanned() {
 
     setData(filteredData);
     return filteredData;
-    console.log('DevvicesSelected', filteredData); // Log collected data to the console
+   
 
   };
 
@@ -534,7 +534,7 @@ export default function PatientSurgeryPlanned() {
     const pmIderr = pmId;
     const selectedDevicelen = selectData;
 
-    //console.log('setSelectedsurgeryList',selectedDevicelen);
+    
 
     const res = ValidationPatientSurgeryPlanned(uhid, surgeryDate, surgeryTime, durationHour, ddlOperationTheater, selectedsurgery, selectedAnesthesia, selectedSurgeonlen, selectedAnesthesiologistlen, pmIderr);
     var id = res[1];
@@ -554,7 +554,7 @@ export default function PatientSurgeryPlanned() {
         anaesthesiologistIDJson: JSON.stringify(selectedAnesthesiologist),
         anesthesiaJson: JSON.stringify(selectedAnesthesiaList)
       }
-      console.log('obj', obj);
+     
       let response = await SaveSurgeryPlan(obj);
       if (response.status === 1) {
         setShowUnderProcess(0);
@@ -587,25 +587,25 @@ export default function PatientSurgeryPlanned() {
   //Used To Remove Selected Vitals
   let removeSelectedSurgery = (index) => {
     var tempArr = [...selectedsurgeryList]
-    console.log('index :', index);
+ 
     tempArr.splice(index, 1);
     setSelectedsurgeryList(tempArr)
   }
   let removeSelectedAnesthesia = (index) => {
     var tempArr = [...selectedAnesthesiaList]
-    console.log('index :', index);
+    
     tempArr.splice(index, 1);
     setSelectedAnesthesiaList(tempArr)
   }
   let removeselectedAnesthesiologist = (index) => {
     var tempArr = [...selectedAnesthesiologist]
-    console.log('index :', index);
+
     tempArr.splice(index, 1);
     setSelectedAnesthesiologist(tempArr)
   }
   let removeselectedSurgeon = (index) => {
     var tempArr = [...selectedSurgeon]
-    console.log('index :', index);
+  
     tempArr.splice(index, 1);
     setSelectedSurgeon(tempArr)
   }
@@ -690,12 +690,12 @@ export default function PatientSurgeryPlanned() {
       setTxtPatientName(data.responseValue[0].patientName);
       setTxtAge(data.responseValue[0].age);
       setTxtGender(data.responseValue[0].gender);
-      console.log('GetPatientDetailsByUHID', data);
+     
     }
   }
 
   let viewDevices = (list) => {
-    console.log('edit', list);
+  
     setrowId(list.surgeryPlannedID)
   }
 
@@ -703,7 +703,7 @@ export default function PatientSurgeryPlanned() {
   let GetDevicesDetail = async (rowId) => {
     let SrowId = rowId;
     let data = await GetDeviceDetails(SrowId);
-    console.log('Devices Details', data);
+    
     if (data.status === 1) {
       setShowLoder(0);
       setGetDevicesDetailList(data.responseValue);
@@ -738,21 +738,21 @@ export default function PatientSurgeryPlanned() {
                         <div className="gridFothItemsItems">
                           <div className="row">
                             <div className="col-md-4 mb-2">
-                              <label htmlFor="FullName*" className="form-label"><img src={uhidIcon} className='icnn' />{t("Uhid")}<span className="starMandatory">*</span></label>
+                              <label htmlFor="FullName*" className="form-label"><img src={uhidIcon} className='icnn' alt=""/>{t("Uhid")}<span className="starMandatory">*</span></label>
                               <input type="text" className="form-control form-control-sm" id="txtUHID" name="txtUHID" value={uhid} placeholder={t("UHID")} onChange={handleChange} />
                               <small id='errUhid' className='form-text text-danger' style={{ display: 'none' }}></small>
                             </div>
 
                             <div className="col-md-8 mb-2">
-                              <label htmlFor="FullName*" className="form-label"><img src={patientIcon} className='icnn' />{t("Patient_Name")}</label>
+                              <label htmlFor="FullName*" className="form-label"><img src={patientIcon} className='icnn' alt=""/>{t("Patient_Name")}</label>
                               <input type="text" className="form-control form-control-sm" id="txtPatientName" name="txtPatientName" value={txtPatientName} placeholder={t("Enter_Patient_Name")} onChange={handleChange} disabled />
                             </div>
 
-                            <div className="col-md-6 mb-2"><label htmlFor="txtAge*" className="form-label"><img src={ageIcon} className='icnn' />{t("Age")}</label>
+                            <div className="col-md-6 mb-2"><label htmlFor="txtAge*" className="form-label"><img src={ageIcon} className='icnn' alt=""/>{t("Age")}</label>
                               <input type="text" className="form-control form-control-sm" id="txtAge" name="txtAge" placeholder={t("Age")} value={txtAge} onChange={handleChange} disabled />
                             </div>
 
-                            <div className="col-md-6 mb-2"><label htmlFor="txtGender*" className="form-label"><img src={genderIcon} className='icnn' />{t("Gender")}</label>
+                            <div className="col-md-6 mb-2"><label htmlFor="txtGender*" className="form-label"><img src={genderIcon} className='icnn' alt=""/>{t("Gender")}</label>
                               <input type="text" className="form-control form-control-sm" id="txtGender" name="txtGender" placeholder={t("Gender")} value={txtGender} onChange={handleChange} disabled />
                             </div>
 
@@ -794,7 +794,7 @@ export default function PatientSurgeryPlanned() {
                             </div>
 
                             <div className="col-md-6 mb-2">
-                              <label htmlFor="dob" className="form-label"><img src={timeIcon} className='icnn' />{t("Start_Time")}</label>
+                              <label htmlFor="dob" className="form-label"><img src={timeIcon} className='icnn' alt=""/>{t("Start_Time")}</label>
                               <input type="time" className="form-control form-control-sm" id='surgeryTime' name='surgeryTime' value={surgeryTime} placeholder={t("Start_Time")} onChange={handleSurgeryTimeChange} />
                               <small id='errStartTime' className='form-text text-danger' style={{ display: 'none' }}></small>
 
@@ -813,13 +813,13 @@ export default function PatientSurgeryPlanned() {
                             </div>
 
                             <div className="col-md-6 mb-2">
-                              <label htmlFor="dob" className="form-label"><img src={dateIcon} className='icnn' />{t("End_Date")}</label>
+                              <label htmlFor="dob" className="form-label"><img src={dateIcon} className='icnn' alt=""/>{t("End_Date")}</label>
                               <input type="text" className="form-control form-control-sm" id='surgeryExpectedDate' name='surgeryExpectedDate' value={surgeryExpectedDate} onChange={handleChange} disabled />
                               <small id='errEndDate' className='form-text text-danger' style={{ display: 'none' }}></small>
 
                             </div>
                             <div className="col-md-6 mb-2">
-                              <label htmlFor="dob" className="form-label"><img src={timeIcon} className='icnn' />{t("End_Time")}</label>
+                              <label htmlFor="dob" className="form-label"><img src={timeIcon} className='icnn' alt=""/>{t("End_Time")}</label>
                               <input type="text" className="form-control form-control-sm" id='surgeryExpectedTime' name='surgeryExpectedTime' value={surgeryExpectedTime} onChange={handleChange} disabled />
                               <small id='errEndTime' className='form-text text-danger' style={{ display: 'none' }}></small>
 
@@ -1089,7 +1089,7 @@ editdata={""} clear={""} clearFun={""} />}  */}
                
                   <tbody>
                     {getSurgeryPlannedList && getSurgeryPlannedList.map((list, index) => {
-                      console.log('list : ', list)
+                     
                       return (
                         <tr>
                           <td className='' style={{ paddingLeft: '7px', fontSize: '13px' }}>{index + 1}</td>

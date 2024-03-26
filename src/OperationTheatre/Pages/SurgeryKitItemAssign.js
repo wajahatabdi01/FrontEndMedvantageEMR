@@ -38,7 +38,7 @@ export default function SurgeryKitItemAssign() {
     let getSurgerykitItemAssignList = async () => {
         setShowLoder(1);
         var data = await GetKitItemAssignList();
-        console.log('itemlistsur',data.responseValue);
+      
         if (data.status === 1) {
             setShowLoder(0);
             setSurgerykitItemAssignList(data.responseValue);
@@ -47,7 +47,7 @@ export default function SurgeryKitItemAssign() {
     }
     let getKitList = async () => {
         var data = await GetKitList();
-        console.log(data.responseValue);
+        
         if (data.status === 1) {
             setKitList(data.responseValue);
         }
@@ -55,7 +55,7 @@ export default function SurgeryKitItemAssign() {
     }
     let getItemList = async () => {
         let data = await GetItemList();
-        console.log('itemlist',data);
+        
         if (data.status === 1) {
             setItemList(data.responseValue);
         }
@@ -63,7 +63,7 @@ export default function SurgeryKitItemAssign() {
     }
     let getUnitList = async () => {
         let data = await GetUnitList();
-        console.log('UnitList',data);
+        
         if (data.status === 1) {
             setUnitList(data.responseValue);
         }
@@ -109,9 +109,9 @@ export default function SurgeryKitItemAssign() {
                 status:true,
                 userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
             }
-            console.log('obj', obj);
+          
             let data = await SaveKitAssign(obj);
-            console.log('data', data);
+           
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -137,7 +137,7 @@ export default function SurgeryKitItemAssign() {
 
     }
     let edit = (list) => {
-        console.log(list);
+      
         setIsUpdateBtnShow(true);
         setRowID(list.id);
         document.getElementById("ddlKit").value = list.kitId;
@@ -185,9 +185,9 @@ export default function SurgeryKitItemAssign() {
                 unitID: UnitID,
                 userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userID,
             }
-            console.log('obj', obj);
+           
             let response = await UpdateKitItemAssignMaster(obj);
-            console.log('response', response);
+            
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -231,7 +231,7 @@ export default function SurgeryKitItemAssign() {
         document.getElementById('errddlUnit').style.display = "none";
     }
     let deleteRow = async()=>{
-        console.log(rowID)
+        
         setShowUnderProcess(1);
         let response = await DeleteSurgeryKitItemAssignMaster(rowID,window.userId);
         if (response.status === 1) {

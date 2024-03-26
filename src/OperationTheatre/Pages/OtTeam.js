@@ -30,7 +30,7 @@ export default function OtTeam() {
     const {t} = useTranslation();
     let getRoleList = async () => {
         let data = await GetRoleList();
-        console.log('dta', data);
+       
         if (data.status === 1) {
             setRoleList(data.responseValue);
         }
@@ -39,7 +39,7 @@ export default function OtTeam() {
     let operationTheaterList = async () => {
         setShowLoder(1);
         let data = await GetOperationTheaterList();
-        console.log('ot List', data);
+        
         if (data.status === 1) {
             setShowLoder(0);
             setOTList(data.responseValue);
@@ -49,7 +49,7 @@ export default function OtTeam() {
     let otTeamList = async () => {
         setShowLoder(1);
         let data = await GetOtTeamList();
-        console.log('ot team', data);
+      
         if (data.status === 1) {
             setShowLoder(0);
             setOTTeamList(data.responseValue);
@@ -59,7 +59,7 @@ export default function OtTeam() {
     let getTeamMemberList = async () => {
         setShowLoder(1);
         let data = await GetUserList();
-        console.log('team member', data);
+       
         if (data.status === 1) {
             setShowLoder(0);
             setTeamMemberList(data.responseValue);
@@ -96,9 +96,9 @@ export default function OtTeam() {
                 userID: 99
 
             }
-             console.log('obj', obj);
+           
             let data = await SaveOtTeam(obj);
-            console.log('data', data);
+           
             if(data.status===1){
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -126,7 +126,7 @@ export default function OtTeam() {
 
     }
     let edit = (list) => {
-        console.log(list);
+        
         setisUpdateBtnShow(true);
         setRowID(list.id);
         document.getElementById('ddlOT').value = list.otID;
@@ -165,7 +165,7 @@ export default function OtTeam() {
               
 
             }
-            console.log('obj', obj);
+           
             let data= await UpdateOtTeam(obj);
             if(data.status === 1){
                 setShowUnderProcess(0);
@@ -215,7 +215,7 @@ export default function OtTeam() {
     }
     let deleteRow = async() => {
         let userID=JSON.parse(window.sessionStorage.getItem("LoginData")).userId
-        console.log(rowID,userID);
+      
         let data = await DeleteOtTeam(rowID,userID);
         if(data.status === 1){
             setShowUnderProcess(0);

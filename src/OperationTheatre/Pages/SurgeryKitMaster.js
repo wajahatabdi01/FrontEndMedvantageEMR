@@ -38,7 +38,7 @@ export default function SurgeryKitMaster() {
     let getKitList = async () => {
         setShowLoder(1)
         let data = await GetKitList();
-        console.log('data', data);
+    
         if (data.status === 1) {
             setShowLoder(0)
             setKitList(data.responseValue);
@@ -66,9 +66,9 @@ export default function SurgeryKitMaster() {
                 status: 1,
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj', obj);
+         
             let data = await SaveKitMaster(obj);
-            console.log(data);
+         
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -100,7 +100,7 @@ export default function SurgeryKitMaster() {
         setKitName('');
     }
     let edit = (list) => {
-        console.log(list);
+       
         setisUpdateBtnShow(true);
         setKitName(list.kitName);
         setRowID(list.id);
@@ -120,10 +120,10 @@ export default function SurgeryKitMaster() {
                 status: 1,
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj', obj);
+            
 
             let data = await UpdateKitMaster(obj);
-            console.log(data);
+           
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);

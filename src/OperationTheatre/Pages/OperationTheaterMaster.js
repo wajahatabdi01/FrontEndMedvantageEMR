@@ -32,7 +32,7 @@ export default function OperationTheaterMaster() {
     const {t} = useTranslation();
     let getLocation=async()=>{
         let data= await GetLocationList();
-        console.log('data',data);
+        
         if(data.status === 1){
             setLocationList(data.responseValue);
         }
@@ -44,7 +44,7 @@ export default function OperationTheaterMaster() {
     let getOperationTheaterList=async()=>{
         setShowLoder(1)
         let data= await GetOperationTheaterList();
-        console.log('data mOT',data);
+       
         if(data.status === 1){
             setShowLoder(0);
             setOtList(data.responseValue);
@@ -97,9 +97,9 @@ export default function OperationTheaterMaster() {
                 operationTheaterDescription:otDescription,
                 userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj',obj);
+           
             let data= await SaveOTMaster(obj);
-            console.log('save',data);
+            
             if(data.status === 1){
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -127,7 +127,7 @@ export default function OperationTheaterMaster() {
         }
     }
     let edit = async(list)=>{
-        console.log('list',list);
+        
         setIsUpdateBtnShow(true);
          setRowID(list.id);
          setottheatername(list.operationTheterName);
@@ -165,10 +165,10 @@ export default function OperationTheaterMaster() {
                 id:rowID,
                 userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj update',obj);
+           
 
             let data = await UpdateOtMaster(obj);
-            console.log('data',data);
+          
             if(data.status === 1){
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -217,7 +217,7 @@ export default function OperationTheaterMaster() {
         setShowUnderProcess(1);
         let userID=JSON.parse(window.sessionStorage.getItem("LoginData")).userId;
         let data = await DeleteOtMaster(rowID,userID);
-        console.log('data',data);
+       
         if(data.status === 1){
             setShowUnderProcess(0);
                 setTosterValue(0);
