@@ -322,9 +322,9 @@ import PrintBloodDonorRegistration from '../BloodBank/Pages/PrintBloodDonorRegis
 import AdvancePayment from '../Billing/Pages/AdvancePayment';
 import CreditLimit from '../Billing/Pages/CreditLimit';
 import CreditApprovedLimit from '../Billing/Pages/CreditApprovedLimit';
- import DeveloperProjectRole from '../SpringBoard/Pages/DeveloperProjectRole';
- import ProjectWiseTask from '../SpringBoard/Pages/ProjectWiseTask';
- import Meeting from '../SpringBoard/Pages/Meeting';
+import DeveloperProjectRole from '../SpringBoard/Pages/DeveloperProjectRole';
+import ProjectWiseTask from '../SpringBoard/Pages/ProjectWiseTask';
+import Meeting from '../SpringBoard/Pages/Meeting';
 import Discussion from '../SpringBoard/Pages/Discussion';
 import { User } from '../SupportTicket/Pages/User';
 import { Developer } from '../SupportTicket/Pages/Developer';
@@ -387,6 +387,7 @@ import FHIRPatientProfile from '../Registartion/Pages/OPDRegistration/FHIRPatien
 import ClinicalInstructions from '../FHIIRClinicalInstruction/Pages/ClinicalInstructions';
 import FHIRViewCCDA from '../FHIRViewCCDA/Pages/FHIRViewCCDA';
 import FHIRViewCCDAData from '../FHIRViewCCDA/Pages/FHIRViewCCDAData';
+import AddressBook from '../Admin/Pages/FHIRMaster/AddressBook';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -407,14 +408,14 @@ export default function ApiRoutes() {
                         <Route path='/confirmidentity/' element={<ConfirmIdentityLayout />} />
                         <Route path='/forgotpassword/' element={<ForgotPasswordLayout />} />
                         <Route path='/registration' element={<LayoutVerifyEmail />} />
-                        <Route path='/registeraspatient/' element={<LayoutPatientSignup/>} />
-                        <Route path='/PatientContact/' element={<LayoutPatientContact/>} />
-                        <Route path='/PatientChoices/' element={<LayoutPatientChoices/>} />
-                        <Route path='/Patientemployerdetail/' element={<LayoutPatientEmployerDetails/>} />
-                        <Route path='/Patientstatsdetail/' element={<LayoutPatientStatsDetails/>} />
-                        <Route path='/Patientmisc/' element={<LayoutPatientMisc/>} />
-                        <Route path='/Patientgurdiandetail/' element={<LayoutPatientGuradian/>} />
-                        <Route path='/Patientinsurancedetail/' element={<LayoutPatientInsuranceDetails/>} />
+                        <Route path='/registeraspatient/' element={<LayoutPatientSignup />} />
+                        <Route path='/PatientContact/' element={<LayoutPatientContact />} />
+                        <Route path='/PatientChoices/' element={<LayoutPatientChoices />} />
+                        <Route path='/Patientemployerdetail/' element={<LayoutPatientEmployerDetails />} />
+                        <Route path='/Patientstatsdetail/' element={<LayoutPatientStatsDetails />} />
+                        <Route path='/Patientmisc/' element={<LayoutPatientMisc />} />
+                        <Route path='/Patientgurdiandetail/' element={<LayoutPatientGuradian />} />
+                        <Route path='/Patientinsurancedetail/' element={<LayoutPatientInsuranceDetails />} />
                         <Route path='/verify-otp' element={<LayoutVerifyOtp />} />
                         <Route path='/deathcertificate/' element={<DeathCertificate />} />
                         <Route path="/login/" element={<Login />} />
@@ -430,24 +431,27 @@ export default function ApiRoutes() {
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
                         <Route path='/verification/' element={<VerificationStatus />} />
+                        <Route path="/fhircarecoordination/" element={<FHIRCareCoordination />} />
+                        <Route path="/addressBook/" element={<AddressBook />} />
+
                         {/* <Route path='/fhirpatientprofile/' element={<FHIRPatientProfile />} /> */}
 
                   </>
-                    {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
-                    <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard/>} />
-                    <Route path='/PatientAppointment/' element={<LayoutPatientAppointment/>}/>
-                    <Route path='/myappointmentlist/' element={<LayoutMyAppointment/>}/>
-                    <Route path='/hippadeclaration/' element={<LayoutHippaDocuments/>}/>
-                    <Route path='/medicalhistory/' element={<LayoutMedicalHistory/>}/>
-                      {/* -----------------------------new pages PatientPortalDashboard Routing----------------------- */}
-                    <Route path='/messageinbox/' element={<LayoutMessageInbox/>}/>
-                    <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy/>}/>
-                    <Route path='/documenthistory/' element={<LayoutDocumentHistory/>}/>
-                    <Route path='/signature/' element={<LayoutSignature/>}/>
-                     <Route path='/DownloadChartedDocument/' element={<LayoutDownloadChartedDocument/>}/>
-                    <Route path='/reportcontent/' element={<LayoutReportContent/>}/>
-                    
-                    {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
+                  {/* -----------------------------Starting PatientPortalDashboard Routing----------------------- */}
+                  <Route path='/PatientPortalDashboard/' element={<LayoutPatientPortalDashboard />} />
+                  <Route path='/PatientAppointment/' element={<LayoutPatientAppointment />} />
+                  <Route path='/myappointmentlist/' element={<LayoutMyAppointment />} />
+                  <Route path='/hippadeclaration/' element={<LayoutHippaDocuments />} />
+                  <Route path='/medicalhistory/' element={<LayoutMedicalHistory />} />
+                  {/* -----------------------------new pages PatientPortalDashboard Routing----------------------- */}
+                  <Route path='/messageinbox/' element={<LayoutMessageInbox />} />
+                  <Route path='/privacypolicy/' element={<LayoutPrivacyPolicy />} />
+                  <Route path='/documenthistory/' element={<LayoutDocumentHistory />} />
+                  <Route path='/signature/' element={<LayoutSignature />} />
+                  <Route path='/DownloadChartedDocument/' element={<LayoutDownloadChartedDocument />} />
+                  <Route path='/reportcontent/' element={<LayoutReportContent />} />
+
+                  {/* -----------------------------Ending PatientPortalDashboard Routing----------------------- */}
 
                   {/* -----------------------------End Website Routing----------------------- */}
 
@@ -579,7 +583,7 @@ export default function ApiRoutes() {
                         <Route path="/languageconversionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LanguageConversionMaster />} name="LanguageConversionMaster" />} />} />
                         <Route path="/logdetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogDetails />} name="LogDetails" />} />} />
                         <Route path="/organdepartmentmapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OrganDepartmentMapping />} name="OrganDepartmentMapping" />} />} />
-                        <Route path="/fhirclassmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRClassMaster/>} name="FHIRClassMaster" />} />} />
+                        <Route path="/fhirclassmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRClassMaster />} name="FHIRClassMaster" />} />} />
                         <Route path="/fhirtypemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRTypeMaster />} name="FHIRTypeMaster" />} />} />
                         <Route path="/fhirsensitivitymaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRSensitivityMaster />} name="FHIRSensitivityMaster" />} />} />
                         <Route path="/fhirdischargedispositionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRDischargeDispositionMaster />} name="FHIRDischargeDispositionMaster" />} />} />
@@ -667,7 +671,7 @@ export default function ApiRoutes() {
                         <Route path="/patientpersonalDashboardpmdDashboard/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientProfileForDB />} name="null" />} />} />
                         <Route path="/patientoutput/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Output />} name="ipd" />} />} />
                         <Route path="/patientphysicalactivity/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientPhysicalActivity />} name="ipd" />} />} />
-                       
+
                   </>
                   {/* -----------------------------End IPD Routing---------------------- */}
 
@@ -692,21 +696,21 @@ export default function ApiRoutes() {
 
                   {/* -----------------------------Start Billing Routing---------------------- */}
                   <>
-                  <Route path="/billing/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Billing />} name="billing" />} />} />
-                  <Route path="/additems/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddItems />} name="additems" />} />} />
-                  <Route path="/addCompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddCompanyMaster />} name="addCompany" />} />} />
-                  <Route path="/addItemRate/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddtemRate />} name="addItemRate" />} />} />
-                  <Route path="/billingList/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillingLists/>} name="billingList" />} />} />
-                  <Route path="/billistListwithCompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillingListwithCompany/>} name="billingList" />} />} />
-                  <Route path="/policydetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PolicyDetails/>} name="policydetails" />} />} />
-                  <Route path="/patientdetailbypolicyno/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientDetailsbyPollicyNo/>} name="patientdetailbypolicyno" />} />} />
-                  <Route path="/claimedpolicies/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ClaimedPolicies/>} name="claimedpolicies" />} />} />
-                  <Route path="/claimreceivedlist/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ClaimReceivedList/>} name="claimreceivedlist" />} />} />
-                  <Route path="/receivedclaim/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ReceivedClaim/>} name="receivedclaim" />} />} />
-                  <Route path="/billbycompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillbyCompany/>} name="billbycompany" />} />} />
-                  <Route path="/AdvancePayment/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AdvancePayment/>} name="AdvancePayment" />} />} />
-                  <Route path="/creditlimit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CreditLimit/>} name="creditlimit" />} />} />
-                  <Route path="/creditapproveimit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CreditApprovedLimit/>} name="Creditapproveimit" />} />} />
+                        <Route path="/billing/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Billing />} name="billing" />} />} />
+                        <Route path="/additems/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddItems />} name="additems" />} />} />
+                        <Route path="/addCompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddCompanyMaster />} name="addCompany" />} />} />
+                        <Route path="/addItemRate/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddtemRate />} name="addItemRate" />} />} />
+                        <Route path="/billingList/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillingLists />} name="billingList" />} />} />
+                        <Route path="/billistListwithCompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillingListwithCompany />} name="billingList" />} />} />
+                        <Route path="/policydetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PolicyDetails />} name="policydetails" />} />} />
+                        <Route path="/patientdetailbypolicyno/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientDetailsbyPollicyNo />} name="patientdetailbypolicyno" />} />} />
+                        <Route path="/claimedpolicies/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ClaimedPolicies />} name="claimedpolicies" />} />} />
+                        <Route path="/claimreceivedlist/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ClaimReceivedList />} name="claimreceivedlist" />} />} />
+                        <Route path="/receivedclaim/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ReceivedClaim />} name="receivedclaim" />} />} />
+                        <Route path="/billbycompany/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<BillbyCompany />} name="billbycompany" />} />} />
+                        <Route path="/AdvancePayment/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AdvancePayment />} name="AdvancePayment" />} />} />
+                        <Route path="/creditlimit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CreditLimit />} name="creditlimit" />} />} />
+                        <Route path="/creditapproveimit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CreditApprovedLimit />} name="Creditapproveimit" />} />} />
 
                   </>
                   {/* -----------------------------End Billing Routing---------------------- */}
@@ -914,13 +918,13 @@ export default function ApiRoutes() {
                   <Route path="/patientVentilatorAssign/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientOnVentilator />} name="null" />} />} />
                   {/* -----------------------------------End Patient On Ventilator----------------------------------------- */}
 
-                                                   {/* Support Ticket Routing Start Here */}
-                   <Route path="/userDashoard/" element={<ProtectedRoutes Compnent={ <CommonLayout Component={<User />} name="null" />    } />} />
-                   <Route path="/developerDashoard/" element={<ProtectedRoutes Compnent={ <CommonLayout Component={<Developer />} name="null" />    } />} />
-                 
-                   {/* -----------------------------------Start Medvantage EMR Master----------------------------------------- */}
-                   <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
-                   <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="EMRMaster" />} />} />
+                  {/* Support Ticket Routing Start Here */}
+                  <Route path="/userDashoard/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<User />} name="null" />} />} />
+                  <Route path="/developerDashoard/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Developer />} name="null" />} />} />
+
+                  {/* -----------------------------------Start Medvantage EMR Master----------------------------------------- */}
+                  <Route path="/codemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<CodeMaster isExcludeCss="0" />} name="EMRMaster" />} />} />
+                  <Route path="/listeditormaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<ListEditorMaster />} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage EMR Master----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage FHIRLab----------------------------------------- */}
@@ -939,7 +943,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------------End Medvantage CarePlan SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage CareCoordination SEction----------------------------------------- */}
-                  <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} />
+                  {/* <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} /> */}
                   {/* -----------------------------------End Medvantage CareCoordination SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage Clinical SEction----------------------------------------- */}
@@ -966,7 +970,7 @@ export default function ApiRoutes() {
 
                   {/* -----------------------------------Start Medvantage Immunization SEction----------------------------------------- */}
                   <Route path="/fhirimmunization/" element={<ProtectedRoutes Compnent={<FHIRImmunization />} />} />
-                  <Route path="/fhirimmunizationcodemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRImmunizationCodeMaster isExcludeCss="0"/>} name="EMRMaster" />} />} />
+                  <Route path="/fhirimmunizationcodemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRImmunizationCodeMaster isExcludeCss="0" />} name="EMRMaster" />} />} />
                   {/* -----------------------------------End Medvantage Immunization SEction----------------------------------------- */}
                   {/* -----------------------------------Start Medvantage Prescription SEction----------------------------------------- */}
                   <Route path="/fhiraddprescription/" element={<ProtectedRoutes Compnent={<FHIRAddPrescription />} />} />
@@ -977,9 +981,9 @@ export default function ApiRoutes() {
                   <Route path="/fhirclinicalinstructions/" element={<ProtectedRoutes Compnent={<ClinicalInstructions />} />} />
                   {/* -----------------------------------End Medvantage FHIR Clinical Instruction SEction----------------------------------------- */}
                   {/* -----------------------------------Start Medvantage FHIR View CCDA SEction----------------------------------------- */}
-                  
+
                   <Route path="/fhirviewccda/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRViewCCDA />} name="ViewCCDA" />} />} />
-                  <Route path="/fhirviewccdadata/" element={<FHIRViewCCDAData/>}/>
+                  <Route path="/fhirviewccdadata/" element={<FHIRViewCCDAData />} />
                   {/* -----------------------------------End Medvantage FHIR View CCDA SEction----------------------------------------- */}
 
 

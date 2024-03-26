@@ -4,7 +4,201 @@ import ParseDocument from "../API/ParseDocument";
 import NoDataFound from '../../assets/images/icons/No data-rafiki.svg';
 const FHIRCareCoordinationImport = () => {
     const [selectedFile, setSelectedFile] = useState("");
-    const [parsedData, setParsedData] = useState([]);
+    const [parsedData, setParsedData] = useState([
+        {
+            "records": [
+                {
+                    "amid": "674",
+                    "name": "CCDA",
+                    "fname": "Administrator",
+                    "lname": "Administrator",
+                    "imported": "1",
+                    "size": "13282",
+                    "date": "2024-03-20 10:51:51",
+                    "couch_docid": null,
+                    "couch_revid": null,
+                    "file_url": "file://C:/xamppLatest/htdocs/openemr7/sites/default/documents/00/8405/9b9ba79b-88a1-4a21-96cc-ba5d15123f6f",
+                    "document_id": "1509",
+                    "document_data": "{\"xsd\":[],\"errorCount\":1,\"warningCount\":0,\"ignoredCount\":5,\"errors\":[{\"type\":\"error\",\"test\":\"count(cda:informationRecipient)=1\",\"simplifiedTest\":null,\"description\":\"SHALL contain exactly one [1..1] informationRecipient (CONF:4444-16703_C01).\",\"line\":1,\"path\":\"\/ClinicalDocument[1]\",\"patternId\":\"QRDA_Category_I_Report_CMS-pattern-errors\",\"ruleId\":\"QRDA_Category_I_Report_CMS-errors\",\"assertionId\":\"a-4444-16703_C01-error\",\"context\":\"cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.24.1.3'][@extension='2020-02-01']]\",\"xml\":\"<ClinicalDocument xmlns:xsi=\\\"http:\/\/www.w3.org\/2001\/XMLSchema-instance\\\" xmlns=\\\"urn:hl7-org:v3\\\" xmlns:voc=\\\"urn:hl7-org:v3\/voc\\\" xmlns:sdtc=\\\"urn:hl7-org:sdtc\\\"><!-- QRDA Header --><realmCode code=\\\"US\\\"\/><t...\"}],\"warnings\":[],\"ignored\":[{\"errorMessage\":\"XPath parse error\",\"type\":\"error\",\"test\":\"@typeCode=document('voc.xml')\/voc:systems\/voc:system[@valueSetOid='2.16.840.1.113883.1.11.19601']\/voc:code\/@value\",\"simplifiedTest\":\"@typeCode(='PRF' or ='SPRF' or ='PPRF')\",\"description\":\"The performer, if present, SHALL contain exactly one [1..1] @typeCode, which SHALL be selected from ValueSet x_ServiceEventPerformer urn:oid:2.16.840.1.113883.1.11.19601 STATIC (CONF:1198-14840).\",\"patternId\":\"US_Realm-pattern-errors\",\"ruleId\":\"US_Realm-documentationOf-serviceEvent-performer-errors\",\"assertionId\":\"a-1198-14840-error\",\"context\":\"cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1'][@extension='2015-08-01']]\/cda:documentationOf\/cda:serviceEvent\/cda:performer\"},{\"errorMessage\":\"Undeclared variable: $n\",\"type\":\"error\",\"test\":\"not(@extension) or $n = 10\",\"simplifiedTest\":null,\"description\":\"The NPI should have 10 digits. (CONF: CMS_0115)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0115-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $s\",\"type\":\"error\",\"test\":\"not(@extension) or number($s)=$s\",\"simplifiedTest\":null,\"description\":\"The NPI should be composed of all digits. (CONF: CMS_0116)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0116-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $s\",\"type\":\"error\",\"test\":\"not(@extension) or number(substring($s, $n, 1)) = (10 - ($sum mod 10)) mod 10\",\"simplifiedTest\":null,\"description\":\"The NPI should have a correct checksum, using the Luhn algorithm. (CONF: CMS_0117)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0117-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $timeZoneExists\",\"type\":\"error\",\"test\":\"string-length(normalize-space(@value)) <= 8 or (parent::node()[parent::node()[parent::node()[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.17.3.8.1'][@extension='2016-03-01']]]]]) or ($timeZoneExists=(contains(normalize-space(@value), '-') or contains(normalize-space(@value), '+'))) or @nullFlavor\",\"simplifiedTest\":null,\"description\":\"A Coordinated Universal Time (UTC time) offset should not be used anywhere in a QRDA Category I file or, if a UTC time offset is needed anywhere, then it must be specified everywhere a time field is provided (CONF: CMS_0121).\",\"patternId\":\"p-validate_TZ-errors\",\"ruleId\":\"r-validate_TZ-errors\",\"assertionId\":\"a-CMS_0121-error\",\"context\":\"\/\/cda:time[@value] | \/\/cda:effectiveTime[@value] | \/\/cda:time\/cda:low[@value] | \/\/cda:time\/cda:high[@value] | \/\/cda:effectiveTime\/cda:low[@value] | \/\/cda:effectiveTime\/cda:high[@value]\"}]}",
+                    "is_qrda_document": "1",
+                    "is_unstructured_document": "0",
+                    "ad_lname": "Garcia",
+                    "ad_fname": "Emily",
+                    "dob_raw": "19610301080000",
+                    "enc_count": "1",
+                    "prb_count": "0",
+                    "cp_count": "0",
+                    "ob_count": "0",
+                    "proc_count": "0",
+                    "med_count": "0",
+                    "race": "1002-5",
+                    "ethnicity": "hisp_or_latin",
+                    "pid": "262",
+                    "pat_name": "Garcia Emily",
+                    "dob": "1961-03-01",
+                    "matched_patient": "Garcia Emily",
+                    "dupl_patient": "Matched Demographic and DOB"
+                },
+                {
+                    "amid": "674",
+                    "name": "CCDA",
+                    "fname": "Administrator",
+                    "lname": "Administrator",
+                    "imported": "1",
+                    "size": "13282",
+                    "date": "2024-03-20 10:51:51",
+                    "couch_docid": null,
+                    "couch_revid": null,
+                    "file_url": "file://C:/xamppLatest/htdocs/openemr7/sites/default/documents/00/8405/9b9ba79b-88a1-4a21-96cc-ba5d15123f6f",
+                    "document_id": "1509",
+                    "document_data": "{\"xsd\":[],\"errorCount\":1,\"warningCount\":0,\"ignoredCount\":5,\"errors\":[{\"type\":\"error\",\"test\":\"count(cda:informationRecipient)=1\",\"simplifiedTest\":null,\"description\":\"SHALL contain exactly one [1..1] informationRecipient (CONF:4444-16703_C01).\",\"line\":1,\"path\":\"\/ClinicalDocument[1]\",\"patternId\":\"QRDA_Category_I_Report_CMS-pattern-errors\",\"ruleId\":\"QRDA_Category_I_Report_CMS-errors\",\"assertionId\":\"a-4444-16703_C01-error\",\"context\":\"cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.24.1.3'][@extension='2020-02-01']]\",\"xml\":\"<ClinicalDocument xmlns:xsi=\\\"http:\/\/www.w3.org\/2001\/XMLSchema-instance\\\" xmlns=\\\"urn:hl7-org:v3\\\" xmlns:voc=\\\"urn:hl7-org:v3\/voc\\\" xmlns:sdtc=\\\"urn:hl7-org:sdtc\\\"><!-- QRDA Header --><realmCode code=\\\"US\\\"\/><t...\"}],\"warnings\":[],\"ignored\":[{\"errorMessage\":\"XPath parse error\",\"type\":\"error\",\"test\":\"@typeCode=document('voc.xml')\/voc:systems\/voc:system[@valueSetOid='2.16.840.1.113883.1.11.19601']\/voc:code\/@value\",\"simplifiedTest\":\"@typeCode(='PRF' or ='SPRF' or ='PPRF')\",\"description\":\"The performer, if present, SHALL contain exactly one [1..1] @typeCode, which SHALL be selected from ValueSet x_ServiceEventPerformer urn:oid:2.16.840.1.113883.1.11.19601 STATIC (CONF:1198-14840).\",\"patternId\":\"US_Realm-pattern-errors\",\"ruleId\":\"US_Realm-documentationOf-serviceEvent-performer-errors\",\"assertionId\":\"a-1198-14840-error\",\"context\":\"cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1'][@extension='2015-08-01']]\/cda:documentationOf\/cda:serviceEvent\/cda:performer\"},{\"errorMessage\":\"Undeclared variable: $n\",\"type\":\"error\",\"test\":\"not(@extension) or $n = 10\",\"simplifiedTest\":null,\"description\":\"The NPI should have 10 digits. (CONF: CMS_0115)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0115-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $s\",\"type\":\"error\",\"test\":\"not(@extension) or number($s)=$s\",\"simplifiedTest\":null,\"description\":\"The NPI should be composed of all digits. (CONF: CMS_0116)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0116-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $s\",\"type\":\"error\",\"test\":\"not(@extension) or number(substring($s, $n, 1)) = (10 - ($sum mod 10)) mod 10\",\"simplifiedTest\":null,\"description\":\"The NPI should have a correct checksum, using the Luhn algorithm. (CONF: CMS_0117)\",\"patternId\":\"p-validate_NPI_format-errors\",\"ruleId\":\"r-validate_NPI_format-errors\",\"assertionId\":\"a-CMS_0117-error\",\"context\":\"\/\/cda:id[@root='2.16.840.1.113883.4.6']\"},{\"errorMessage\":\"Undeclared variable: $timeZoneExists\",\"type\":\"error\",\"test\":\"string-length(normalize-space(@value)) <= 8 or (parent::node()[parent::node()[parent::node()[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.17.3.8.1'][@extension='2016-03-01']]]]]) or ($timeZoneExists=(contains(normalize-space(@value), '-') or contains(normalize-space(@value), '+'))) or @nullFlavor\",\"simplifiedTest\":null,\"description\":\"A Coordinated Universal Time (UTC time) offset should not be used anywhere in a QRDA Category I file or, if a UTC time offset is needed anywhere, then it must be specified everywhere a time field is provided (CONF: CMS_0121).\",\"patternId\":\"p-validate_TZ-errors\",\"ruleId\":\"r-validate_TZ-errors\",\"assertionId\":\"a-CMS_0121-error\",\"context\":\"\/\/cda:time[@value] | \/\/cda:effectiveTime[@value] | \/\/cda:time\/cda:low[@value] | \/\/cda:time\/cda:high[@value] | \/\/cda:effectiveTime\/cda:low[@value] | \/\/cda:effectiveTime\/cda:high[@value]\"}]}",
+                    "is_qrda_document": "1",
+                    "is_unstructured_document": "0",
+                    "ad_lname": "Garcia",
+                    "ad_fname": "Emily",
+                    "dob_raw": "19610301080000",
+                    "enc_count": "1",
+                    "prb_count": "0",
+                    "cp_count": "0",
+                    "ob_count": "0",
+                    "proc_count": "0",
+                    "med_count": "0",
+                    "race": "1002-5",
+                    "ethnicity": "hisp_or_latin",
+                    "pid": "263",
+                    "pat_name": "Garcia Emily",
+                    "dob": "1961-03-01",
+                    "matched_patient": "Garcia Emily",
+                    "dupl_patient": "Matched Demographic and DOB"
+                }
+            ],
+            "category_id": "13",
+            "file_location": "14_Emily_Garcia.xml",
+            "patient_id": "00",
+            "listenerObject": {}
+        }
+    ]);
+
+    // const [parsedData, setParsedData] = useState([{
+    //     "data": [
+    //         {
+    //             "record_id": 674,
+    //             "document_name": "CCDA",
+    //             "imported_by": "Administrator Administrator",
+    //             "file_size": "13282",
+    //             "import_date": "2024-03-20 10:51:51",
+    //             "file_url": "file://C:/xamppLatest/htdocs/openemr7/sites/default/documents/00/8405/9b9ba79b-88a1-4a21-96cc-ba5d15123f6f",
+    //             "document_id": "1509",
+    //             "errors": [
+    //                 {
+    //                     "type": "error",
+    //                     "test": "count(cda:informationRecipient)=1",
+    //                     "description": "SHALL contain exactly one [1..1] informationRecipient (CONF:4444-16703_C01).",
+    //                     "line": 1
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "XPath parse error",
+    //                     "description": "The performer, if present, SHALL contain exactly one [1..1] @typeCode, which SHALL be selected from ValueSet x_ServiceEventPerformer urn:oid:2.16.840.1.113883.1.11.19601 STATIC (CONF:1198-14840)."
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $n",
+    //                     "description": "The NPI should have 10 digits. (CONF: CMS_0115)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $s",
+    //                     "description": "The NPI should be composed of all digits. (CONF: CMS_0116)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $s",
+    //                     "description": "The NPI should have a correct checksum, using the Luhn algorithm. (CONF: CMS_0117)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $timeZoneExists",
+    //                     "description": "A Coordinated Universal Time (UTC time) offset should not be used anywhere in a QRDA Category I file or, if a UTC time offset is needed anywhere, then it must be specified everywhere a time field is provided (CONF: CMS_0121)"
+    //                 }
+    //             ],
+    //             "patient_details": {
+    //                 "last_name": "Garcia",
+    //                 "first_name": "Emily",
+    //                 "dob": "1961-03-01",
+    //                 "encounter_count": "1",
+    //                 "problem_count": "0",
+    //                 "procedure_count": "0",
+    //                 "medication_count": "0",
+    //                 "race": "1002-5",
+    //                 "ethnicity": "hisp_or_latin",
+    //                 "patient_id": "262",
+    //                 "matched_patient": "Garcia Emily",
+    //                 "duplicate_status": "Matched Demographic and DOB"
+    //             }
+    //         },
+    //         {
+    //             "record_id": "674",
+    //             "document_name": "CCDA",
+    //             "imported_by": "Administrator Administrator",
+    //             "file_size": "13282",
+    //             "import_date": "2024-03-20 10:51:51",
+    //             "file_url": "file://C:/xamppLatest/htdocs/openemr7/sites/default/documents/00/8405/9b9ba79b-88a1-4a21-96cc-ba5d15123f6f",
+    //             "document_id": "1509",
+    //             "errors": [
+    //                 {
+    //                     "type": "error",
+    //                     "test": "count(cda:informationRecipient)=1",
+    //                     "description": "SHALL contain exactly one [1..1] informationRecipient (CONF:4444-16703_C01).",
+    //                     "line": 1
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "XPath parse error",
+    //                     "description": "The performer, if present, SHALL contain exactly one [1..1] @typeCode, which SHALL be selected from ValueSet x_ServiceEventPerformer urn:oid:2.16.840.1.113883.1.11.19601 STATIC (CONF:1198-14840)."
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $n",
+    //                     "description": "The NPI should have 10 digits. (CONF: CMS_0115)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $s",
+    //                     "description": "The NPI should be composed of all digits. (CONF: CMS_0116)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $s",
+    //                     "description": "The NPI should have a correct checksum, using the Luhn algorithm. (CONF: CMS_0117)"
+    //                 },
+    //                 {
+    //                     "type": "error",
+    //                     "test": "Undeclared variable: $timeZoneExists",
+    //                     "description": "A Coordinated Universal Time (UTC time) offset should not be used anywhere in a QRDA Category I file or, if a UTC time offset is needed anywhere, then it must be specified everywhere a time field is provided (CONF: CMS_0121)"
+    //                 }
+    //             ],
+    //             "patient_details": {
+    //                 "last_name": "Garcia",
+    //                 "first_name": "Emily",
+    //                 "dob": "1961-03-01",
+    //                 "encounter_count": "1",
+    //                 "problem_count": "0",
+    //                 "procedure_count": "0",
+    //                 "medication_count": "0",
+    //                 "race": "1002-5",
+    //                 "ethnicity": "hisp_or_latin",
+    //                 "patient_id": "263",
+    //                 "matched_patient": "Garcia Emily",
+    //                 "duplicate_status": "Matched Demographic and DOB"
+    //             }
+    //         }
+    //     ],
+    //     "category_id": "13",
+    //     "file_location": "14_Emily_Garcia.xml",
+    //     "patient_id": "00"
+    // }
+    // ]);
     const handleChange = (e) => {
         setSelectedFile(e.target.files[0])
     };
@@ -17,15 +211,15 @@ const FHIRCareCoordinationImport = () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        const resp = await ParseDocument(formData);
-        if (resp.status === 1) {
-            setParsedData(resp.data.field_name_value_array.patient_data);
-        }
+        // const resp = await ParseDocument(formData);
+        // if (resp.status === 1) {
+        //     setParsedData(resp.data.field_name_value_array.patient_data);
+        // }
     };
 
 
     useEffect(() => {
-
+        console.log('data', parsedData);
     }, []);
     return (
         <>
@@ -83,6 +277,55 @@ const FHIRCareCoordinationImport = () => {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="med-table-section" style={{ "height": "74vh" }}>
+                                                <table className="med-table border_ striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Date</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Owner</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>DOB</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Race</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Enc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>CP</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>OB</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Proc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Prob</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Med</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Type</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {parsedData && parsedData[0].records.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td>{index + 1}</td>
+                                                                <td>{item.date}</td>
+                                                                <td>{item.fname} {item.lname} </td>
+                                                                <td> {item.pat_name} </td>
+                                                                <td> {item.dob} </td>
+                                                                <td> {item.race} </td>
+                                                                <td> {item.ethnicity} </td>
+                                                                <td> {item.enc_count} </td>
+                                                                <td> {item.cp_count} </td>
+                                                                <td> {item.ob_count} </td>
+                                                                <td> {item.proc_count} </td>
+                                                                <td> {item.prb_count} </td>
+                                                                <td> {item.med_count} </td>
+                                                                <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
+                                                                <td> {item.matched_patient} </td>
+                                                                <td> {item.dupl_patient} </td>
+                                                                <td> {item.name} </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -133,6 +376,55 @@ const FHIRCareCoordinationImport = () => {
                                                         <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" ><img src={save} className='icnn' alt='' />Save</button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="med-table-section" style={{ "height": "74vh" }}>
+                                                <table className="med-table border_ striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Date</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Owner</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>DOB</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Race</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Enc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>CP</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>OB</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Proc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Prob</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Med</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Type</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {parsedData && parsedData[0].records.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td>{index + 1}</td>
+                                                                <td>{item.date}</td>
+                                                                <td>{item.fname} {item.lname} </td>
+                                                                <td> {item.pat_name} </td>
+                                                                <td> {item.dob} </td>
+                                                                <td> {item.race} </td>
+                                                                <td> {item.ethnicity} </td>
+                                                                <td> {item.enc_count} </td>
+                                                                <td> {item.cp_count} </td>
+                                                                <td> {item.ob_count} </td>
+                                                                <td> {item.proc_count} </td>
+                                                                <td> {item.prb_count} </td>
+                                                                <td> {item.med_count} </td>
+                                                                <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
+                                                                <td> {item.matched_patient} </td>
+                                                                <td> {item.dupl_patient} </td>
+                                                                <td> {item.name} </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
 
@@ -187,67 +479,56 @@ const FHIRCareCoordinationImport = () => {
 
                                                 </div>
                                             </div>
-                                            {parsedData.length > 0 ? 
                                             <div className="med-table-section" style={{ "height": "74vh" }}>
                                                 <table className="med-table border_ striped">
                                                     <thead>
                                                         <tr>
                                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Title</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>First Name</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Middle Name</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Last Name</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Suffix</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Date</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Owner</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
                                                             <th className="text-center" style={{ "width": "5%" }}>DOB</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Sex</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>PubPid</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>ReferrerID</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Street</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Street Line 2</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>City</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>State</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Postal Code</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Country Code</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Phone Home</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Status</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Religion</th>
                                                             <th className="text-center" style={{ "width": "5%" }}>Race</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Ethnicity</th>
-                                                            <th className="text-center" style={{ "width": "5%" }}>Language</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Enc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>CP</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>OB</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Proc</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Prob</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Med</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Type</th>
+                                                            <th className="text-center" style={{ "width": "5%" }}>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {parsedData && parsedData.map((list, index) => {
-                                                            return (
-                                                                <>
-                                                                    <td>{index + 1}</td>
-                                                                    <td>{list.title}</td>
-                                                                    <td>{list.fname}</td>
-                                                                    <td>{list.mname}</td>
-                                                                    <td>{list.lname}</td>
-                                                                    <td>{list.suffix}</td>
-                                                                    <td>{list.DOB}</td>
-                                                                    <td>{list.sex}</td>
-                                                                    <td>{list.pubpid}</td>
-                                                                    <td>{list.referrerID}</td>
-                                                                    <td>{list.street}</td>
-                                                                    <td>{list.street_line_2}</td>
-                                                                    <td>{list.city}</td>
-                                                                    <td>{list.state}</td>
-                                                                    <td>{list.postal_code}</td>
-                                                                    <td>{list.country_code}</td>
-                                                                    <td>{list.phone_home}</td>
-                                                                    <td>{list.status}</td>
-                                                                    <td>{list.religion}</td>
-                                                                    <td>{list.race}</td>
-                                                                    <td>{list.ethnicity}</td>
-                                                                    <td>{list.language}</td>
-                                                                </>
-                                                            )
-                                                        })}
+                                                        {parsedData && parsedData[0].records.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td>{index + 1}</td>
+                                                                <td>{item.date}</td>
+                                                                <td>{item.fname} {item.lname} </td>
+                                                                <td> {item.pat_name} </td>
+                                                                <td> {item.dob} </td>
+                                                                <td> {item.race} </td>
+                                                                <td> {item.ethnicity} </td>
+                                                                <td> {item.enc_count} </td>
+                                                                <td> {item.cp_count} </td>
+                                                                <td> {item.ob_count} </td>
+                                                                <td> {item.proc_count} </td>
+                                                                <td> {item.prb_count} </td>
+                                                                <td> {item.med_count} </td>
+                                                                <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
+                                                                <td> {item.matched_patient} </td>
+                                                                <td> {item.dupl_patient} </td>
+                                                                <td> {item.name} </td>
+                                                            </tr>
+                                                        ))}
                                                     </tbody>
                                                 </table>
-                                            </div> : <div className='imageNoDataFound' style={{ marginTop: '68px' }}><img src={NoDataFound} alt="imageNoDataFound" /></div>}
+                                            </div>
+
 
                                         </div>
                                     </div>
