@@ -20,7 +20,7 @@ export default function FHIRViewCCDA() {
     var ddd= '{"status":0,"message":"failure","responseValue":"The given key userID was not present in the dictionary....}';
    
 
-    const resView = await GetViewCCDAData(1);
+    const resView = await GetViewCCDAData(getPID);
     
     if(ddd.length === resView.length){
     
