@@ -1,5 +1,5 @@
 const GetDepartmentByID = async (key) => {
-    const url = `${window.AppbaseUrl}/api/DepartmentMaster/GetDepartmentMasterById?id=${key}`;
+    const url = `${window.AdminbaseUrl}/api/DepartmentMaster/GetDepartmentMasterById?id=${key}`;
     const headers = {
         'Content-Type': 'application/json',
         'accept': '*/*',
@@ -14,13 +14,13 @@ const GetDepartmentByID = async (key) => {
         if (!response.ok) {
             return false;
         }
-        else{
+        else {
             const data = await response.json();
             // console.log('response', data);
             return data;
         }
 
-        
+
     } catch (error) {
         console.error('Error:', error);
         return false;
