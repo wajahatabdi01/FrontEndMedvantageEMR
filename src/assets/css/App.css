@@ -12305,3 +12305,7 @@ span.starMandatory {
   align-items: end;
   padding: 10px;
 }
+
+.v-top td{
+vertical-align: top;
+}
