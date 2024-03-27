@@ -65,19 +65,7 @@ export default function FHIRImmunization({ setShowToster }) {
     id : 0
   })
 
-  let [observationRow, setObservationRow] = useState([
-    {
-      rowID: 1,
-      Date: '',
-      Code: '',
-      Type: 0,
-      Description: '',
-      reasonCode: '',
-      reasonStatus: '',
-      reasonRecordingDate: '',
-      reasonEndDate: '',
-    },
-  ]);
+  let [observationRow, setObservationRow] = useState([{rowID: 1,Date: '',Code: '',Type: 0,Description: '',reasonCode: '',reasonStatus: '',reasonRecordingDate: '',reasonEndDate: '',},]);
 
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -86,7 +74,13 @@ export default function FHIRImmunization({ setShowToster }) {
   // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+  
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+    
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -475,7 +469,9 @@ export default function FHIRImmunization({ setShowToster }) {
         refusalReason: sendForm.SubstanceRefusalReason,
         orderingProvider: sendForm.ImmunizationOrderingProvider,
         note: sendForm.Notes,
-        jsonObservationCriteriaDetails: JSON.stringify(tempArrList)
+        jsonObservationCriteriaDetails: JSON.stringify(tempArrList),
+        doctorId : activeDocID,
+        departmentId : activeDeptID
 
       }
      

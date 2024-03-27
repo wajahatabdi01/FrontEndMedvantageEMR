@@ -18,13 +18,18 @@ import Loader from '../../../../../Component/Loader'
 import { useLocation } from 'react-router-dom'
 import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
 import IPDInvestigation from './Popup/IPDInvestigation'
+import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
 
 
 export default function IPDPrecriptionIndex(props) {
 
   let [loader, setLoader] = useState(1)
   let location = useLocation()
+  const [theEncounterList, setTheEncounterList] = useState([])
 
+  let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
   // let getOnlySpecificData = async () => {
   //   setLoader(1)
@@ -122,7 +127,16 @@ export default function IPDPrecriptionIndex(props) {
 
   let IPDUHIDChange = useSelector((state) => state.IPDUHIDChange)
 
-
+  const getPatientVisit = async () => {
+    const resVisit = await GetPatientVisitsEncounter(activeUHID);
+    if(resVisit.status === 1) {
+       
+        setTheEncounterList(resVisit.responseValue)
+    }
+}
+useEffect(() => {
+  getPatientVisit()
+}, [])
 
   useEffect(() => {
     let temp = window.sessionStorage.getItem("IPDpatientsendData") ? JSON.parse(window.sessionStorage.getItem("IPDpatientsendData")) : []
@@ -147,9 +161,30 @@ export default function IPDPrecriptionIndex(props) {
   }, [IPDUHIDChange])
   return (
     <>
+    
       <div className=" row">
+      <div class="col-12">
+                        <div class="med-box commong">
+                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
+                                Select Encounter&nbsp;
+                                <div>
+                                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>View</button> */}
+                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
+                                        <option value="0" selected>Select</option>
+                                        {theEncounterList && theEncounterList.map((list, ind) => {
+                                            return(
+                                                <option value={list.encounterId} selected>{list.visitDate}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
         <div className='col-md-9 col-sm-12 plt'>
-          <IPDTopVitals />
+
+          <IPDTopVitals theEncounterList = {theEncounterList}/>
           {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
           {/* <IPDHistory /> */}
           {/* <IPDPatientComplaintConsultant /> */}

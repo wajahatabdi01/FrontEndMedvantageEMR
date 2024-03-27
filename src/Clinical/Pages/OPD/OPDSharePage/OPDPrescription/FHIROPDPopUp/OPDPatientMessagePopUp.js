@@ -21,15 +21,7 @@ function OPDPatientMessagePopUp() {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
-    let [sendForm, setSendForm] = useState({
-        "typeId": 0,
-        "providerId": 0,
-        "description": '',
-        "userId": window.userId,
-        "clientId": window.clientId
-    })
-
-
+    let [sendForm, setSendForm] = useState({"typeId": 0,"providerId": 0,"description": '',"userId": window.userId,"clientId": window.clientId })
 
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0);
@@ -41,11 +33,16 @@ function OPDPatientMessagePopUp() {
     let [showErrMessage, setShowErrMessage] = useState('');
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
     let [updateBool, setUpdateBool] = useState(0);
-    let [rowId, setRowId] = useState(0);
+    // let [rowId, setRowId] = useState(0);
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+  
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [showMessage, setShowMessage] = useState(1)
 
@@ -114,7 +111,9 @@ function OPDPatientMessagePopUp() {
                 "typeId": sendForm.typeId,
                 "description": sendForm.description,
                 "clientId": clientID,
-                "userId": window.userId
+                "userId": window.userId,
+                doctorId : activeDocID,
+                departmentId : activeDeptID
             }
             const response = await InsertFHIRMessage(obj);
             if (response.status === 1) {

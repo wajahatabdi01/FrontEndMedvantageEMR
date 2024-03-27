@@ -50,7 +50,13 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+        
+        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [allergyData, setAllergyData] = useState({
         titleId: '',
@@ -303,7 +309,9 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([allergyData]),
                 clientId: window.clientId,
-                userId: window.userId
+                userId: window.userId,
+                doctorId : activeDocID,
+    departmentId : activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);

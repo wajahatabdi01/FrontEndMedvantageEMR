@@ -12,55 +12,30 @@ function OPDLifeStyle({ setShowToster }) {
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    let [tosterMessage, setTosterMessage] = useState("");
-    let [tosterValue, setTosterValue] = useState(0);
+    // let [tosterMessage, setTosterMessage] = useState("");
+    // let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     let [rowId, setRowId] = useState(0);
     const [isShow, setisShow] = useState('');
 
     let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
-        window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-    let [tobaccoDetails, setTobaccoDetails] = useState({
-        name: '',
-        tobaccoId: '',
-        tobaccoStatus: '',
-        code: "",
-        date: '',
-        lifestylestatus: '',
-    });
+        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+        
+        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
-    let [coffeDetails, setCoffeDetails] = useState({
-        coffeeName: '',
-        Coffeelifestylestatus: '',
-        coffeedate: '',
-    });
-    let [alcoholDetails, setAlcoholDetails] = useState({
-        alcoholName: '',
-        alcohollifestylestatus: '',
-        alcoholdate: '',
-    });
-    let [recreationalDetails, setRecreationalDetails] = useState({
-        recreationalName: '',
-        recreationallifestylestatus: '',
-        recreationaldate: '',
-    });
-    let [counselingDetails, setCounselingDetails] = useState({
-        counselingName: '',
-        counselinglifestylestatus: '',
-        counselingdate: '',
-    });
-    let [exerciseDetails, setExerciseDetails] = useState({
-        exerciseName: '',
-        exerciselifestylestatus: '',
-        exercisedate: '',
-    });
-    let [hazardousDetails, setHazardousDetails] = useState({
-        hazardousName: '',
-        hazardouslifestylestatus: '',
-        hazardousdate: '',
-    });
+    let [tobaccoDetails, setTobaccoDetails] = useState({name: '',tobaccoId: '',tobaccoStatus: '',code: "",date: '',lifestylestatus: '',});
+
+    let [coffeDetails, setCoffeDetails] = useState({coffeeName: '',Coffeelifestylestatus: '',coffeedate: '',});
+    let [alcoholDetails, setAlcoholDetails] = useState({alcoholName: '',alcohollifestylestatus: '',alcoholdate: '',});
+    let [recreationalDetails, setRecreationalDetails] = useState({recreationalName: '',recreationallifestylestatus: '',recreationaldate: '',});
+    let [counselingDetails, setCounselingDetails] = useState({counselingName: '',counselinglifestylestatus: '',counselingdate: '',});
+    let [exerciseDetails, setExerciseDetails] = useState({exerciseName: '',exerciselifestylestatus: '',exercisedate: '',});
+    let [hazardousDetails, setHazardousDetails] = useState({hazardousName: '',hazardouslifestylestatus: '',hazardousdate: '',});
 
 
     let getAllSmokingStatus = async () => {
@@ -457,7 +432,9 @@ function OPDLifeStyle({ setShowToster }) {
             "sleepPatternsData": "",
             "seatbeltUseData": "",
             "clientId": window.clientId,
-            "userId": window.userId
+            "userId": window.userId,
+            doctorId : activeDocID,
+            departmentId : activeDeptID
         }
 
         

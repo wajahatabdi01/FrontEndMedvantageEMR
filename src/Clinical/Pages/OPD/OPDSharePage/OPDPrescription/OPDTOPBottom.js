@@ -25,6 +25,7 @@ import FunctionalAndCognitive from "../../../../../FHIRFunctionalAndCognitive/Pa
 import FHIRObservation from "../../../../../FHIRObservation/Pages/FHIRObservation";
 
 export default function OPDTOPBottom(props) {
+  console.log('the propsss : ', props.theEncounterList[0])
   document.body.dir = i18n.dir();
   const { t } = useTranslation();
 

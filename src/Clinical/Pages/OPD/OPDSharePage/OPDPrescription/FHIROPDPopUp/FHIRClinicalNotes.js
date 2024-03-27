@@ -22,9 +22,7 @@ function FHIRClinicalNotes() {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
-    const [divs, setDivs] = useState([{
-        rowID: 1
-    }]);
+    const [divs, setDivs] = useState([{rowID: 1 }]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
@@ -40,6 +38,11 @@ function FHIRClinicalNotes() {
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+  
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
     let [showMessage, setShowMessage] = useState(1)
     let [sendForm, setSendForm] = useState({
         form_id: 0,
@@ -58,7 +61,7 @@ function FHIRClinicalNotes() {
         let name = e.target.name;
         let value = e.target.value;
         const date=e.target.value
-        console.log("Date",date)
+   
         if (name === "date") {
             setDivs([{
                 ...divs,
@@ -76,7 +79,7 @@ function FHIRClinicalNotes() {
         setDivs(updatedDivs);
 
         const jsonFormClinicalNotes = JSON.stringify(divs);
-        console.log(jsonFormClinicalNotes);
+      
         setSendForm((prevData) => ({
             ...prevData,
             jsonFormClinicalNotes: jsonFormClinicalNotes
@@ -151,7 +154,7 @@ function FHIRClinicalNotes() {
         else {
             const notesList = divs;
             let tempArr = [];
-            console.log('notesList', notesList);
+     
             for (var i = 0; i < notesList.length; i++) {
                 const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
                 const getNotesType = document.getElementById("typeId" + notesList[i].rowID).value;
@@ -170,14 +173,14 @@ function FHIRClinicalNotes() {
                     note_related_to: getNotesDescription
                 })
             }
-            console.log('tempArr', tempArr)
             let obj = {
                 uhid: activeUHID,
                 clientId: clientID,
                 userId: window.userId,
-                jsonFormClinicalNotes: JSON.stringify(tempArr)
+                jsonFormClinicalNotes: JSON.stringify(tempArr),
+                doctorId : activeDocID,
+                departmentId : activeDeptID
             }
-            console.log(obj);
             // return;
             const response = await InsertClinicalNotesForm(obj);
             setShowUnderProcess(1);
@@ -208,7 +211,7 @@ function FHIRClinicalNotes() {
     let handleUpdate = async (id, providerId, typeId, description) => {
         setUpdateBool(1)
         clearValidationErrMessage();
-        console.log("description", description)
+        
         setShowMessage(0)
         setSendForm(sendForm => ({
             ...sendForm,

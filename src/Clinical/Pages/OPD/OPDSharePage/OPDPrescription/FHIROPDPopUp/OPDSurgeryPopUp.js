@@ -22,8 +22,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [surgeryList, setSurgeryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    let [tosterMessage, setTosterMessage] = useState("");
-    let [tosterValue, setTosterValue] = useState(0);
+    // let [tosterMessage, setTosterMessage] = useState("");
+    // let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -35,7 +35,13 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+    
+        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+        
+        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [surgeryData, setSurgeryData] = useState({
         issueTypeId: 5,
@@ -223,7 +229,9 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([surgeryData]),
                 clientId: window.clientId,
-                userId: window.userId
+                userId: window.userId,
+                doctorId : activeDocID,
+                departmentId : activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);

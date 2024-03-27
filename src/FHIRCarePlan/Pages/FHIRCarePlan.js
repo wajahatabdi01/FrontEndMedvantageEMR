@@ -21,19 +21,7 @@ export default function FHIRCarePlan({setCarePlan, setShowToster}) {
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [reasonSectionOpen, setReasonSectionOpen] = useState({});
   const [PopUpId, setPopUpId] = useState('');
-  const [carePlanRow, setCarePlanRow] = useState([
-    {
-      rowID: 1,
-      Date: '',
-      Code: '',
-      Type: 0,
-      Description: '',
-      reasonCode: '',
-      reasonStatus: '',
-      reasonRecordingDate: '',
-      reasonEndDate: '',
-    },
-  ]);
+  const [carePlanRow, setCarePlanRow] = useState([{  rowID: 1,  Date: '',  Code: '',  Type: 0,  Description: '',  reasonCode: '',  reasonStatus: '',  reasonRecordingDate: '',  reasonEndDate: '',},]);
   const [getCarePlanList,setCarePlanList] = useState([]);
   const [toShowButtons, setToShowButtons] = useState(1);
   const [theRowId, setTheRowId] = useState(0)
@@ -49,7 +37,13 @@ export default function FHIRCarePlan({setCarePlan, setShowToster}) {
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+    
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
   //////////////////////////////////////  TO Get Care Plan Type List ///////////////////////////////
 
@@ -199,7 +193,9 @@ export default function FHIRCarePlan({setCarePlan, setShowToster}) {
       uhid : activeUHID,
       clientId: clientID,
       userId: window.userId,
-      jsonCarePlanData : JSON.stringify(tempArrList)
+      jsonCarePlanData : JSON.stringify(tempArrList),
+      doctorId : activeDocID,
+    departmentId : activeDeptID
     }   
     
    

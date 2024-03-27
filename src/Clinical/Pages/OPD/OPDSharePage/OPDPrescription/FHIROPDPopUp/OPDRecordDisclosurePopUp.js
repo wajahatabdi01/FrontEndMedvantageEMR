@@ -20,15 +20,15 @@ import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 function OPDRecordDisclosurePopUp() {
-    let [rowId, setRowId] = useState('')
+    // let [rowId, setRowId] = useState('')
     let [recordList, setRecordList] = useState([])
     let [disclosureTypeList, setDisclosureTypeList] = useState([])
     let [date, setDate] = useState('');
     const { t } = useTranslation();
     let [discloserId, setDiscloserId] = useState('');
     let [searchTearm, setSearchTerm] = useState('');
-    let [recipientOfDisclosure, setRecipientOfDisclosure] = useState('');
-    let [descriptionOfTheDisclosure, setDescriptionOfTheDisclosure] = useState('');
+    // let [recipientOfDisclosure, setRecipientOfDisclosure] = useState('');
+    // let [descriptionOfTheDisclosure, setDescriptionOfTheDisclosure] = useState('');
     let [sendForm, setSendForm] = useState({
         "disclosureDate": '',
         "typeOfDisclosure": 0,
@@ -60,6 +60,12 @@ function OPDRecordDisclosurePopUp() {
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     let providerName = window.sessionStorage.getItem("LoginData") ? JSON.parse(window.sessionStorage.getItem("LoginData")).name : ""
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+  
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let getAllRecords = async () => {
         // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -120,7 +126,9 @@ function OPDRecordDisclosurePopUp() {
                 "descriptionOfTheDisclosure": sendForm.descriptionOfTheDisclosure,
                 "providerName": providerName,
                 "userId": window.userId,
-                "clientId": window.clientId
+                "clientId": window.clientId,
+                doctorId : activeDocID,
+                departmentId : activeDeptID
             }
             const response = await PostRecordDiscloser(obj);
             if (response.status === 1) {
