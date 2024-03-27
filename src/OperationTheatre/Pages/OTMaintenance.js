@@ -48,7 +48,7 @@ export default function OTMaintenance(){
     let getOTList=async()=>{
         setShowLoder(1);
         let response= await GetOperationTheaterList();
-        console.log('response ot',response);
+        
         if(response.status ===1){
             setShowLoder(0);
             setOtList(response.responseValue);
@@ -57,7 +57,7 @@ export default function OTMaintenance(){
     let getUserList=async()=>{
         setShowLoder(1);
         let response= await GetUserList();
-        console.log('response',response);
+       
         if(response.status ===1){
             setShowLoder(0);
              setUserList(response.responseValue);
@@ -66,7 +66,7 @@ export default function OTMaintenance(){
     let getOTMaintenanceList=async()=>{
         setShowLoder(1);
         let response= await GetOTMaintenanceList();
-        console.log('ot list',response);
+        
         if(response.status ===1){
             setShowLoder(0);
             setOTMaintenanceList(response.responseValue);
@@ -75,7 +75,7 @@ export default function OTMaintenance(){
     let handlerSave=async()=>{
         const operationTheaterID=document.getElementById('ddlOT').value;
         const repondentID=document.getElementById('ddlRespondent').value;
-        console.log('repondentID',repondentID);
+    
         if(operationTheaterID.toString() === "0" || operationTheaterID === undefined || operationTheaterID === null){
             document.getElementById('erOT').style.display="block";
             document.getElementById('erOT').innerHTML="Please Select OT";
@@ -105,9 +105,9 @@ export default function OTMaintenance(){
                 userID: JSON.parse(window.sessionStorage.getItem('LoginData')).userId,
                 nextScheduledDate: nextScheduledDate
             }
-            console.log('obj',obj)
+            
             let response = await SaveOTMaintenance(obj); 
-              console.log('response save',response)
+            
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -135,7 +135,7 @@ export default function OTMaintenance(){
     let handlerUpdate=async()=>{
         const operationTheaterID=document.getElementById('ddlOT').value;
         const repondentID=document.getElementById('ddlRespondent').value;
-        console.log('repondentID',repondentID);
+       
         if(operationTheaterID.toString() === "0" || operationTheaterID === undefined || operationTheaterID === null){
             document.getElementById('erOT').style.display="block";
             document.getElementById('erOT').innerHTML="Please Select OT";
@@ -167,9 +167,9 @@ export default function OTMaintenance(){
                 userID: window.sessionStorage.getItem("userID"),
                 nextScheduledDate: nextScheduledDate
             }
-            console.log('obj',obj)
+           
             let response = await UpdateOTMaintenance(obj); 
-              console.log('response update',response)
+            
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -230,10 +230,10 @@ export default function OTMaintenance(){
     }
     }
     let edit=async(value)=>{
-        console.log('EDIT',value);
+        
         let date=value.nextScheduledDate.split('/');
         const formatDate=date[2]+'-'+date[1]+'-'+date[0]
-        console.log('formatDate',formatDate);
+      
         setRowID(value.id);
         document.getElementById('ddlOT').value=value.otId;
         document.getElementById('ddlRespondent').value=value.respondentID;

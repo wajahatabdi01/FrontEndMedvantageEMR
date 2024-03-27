@@ -16,7 +16,13 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+  
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+    
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
 ///////////////////////////////// USE STATES ////////////////////////////////////////////////////////
   const [carePlanRow, setCarePlanRow] = useState([{  rowID: 1, },]);
@@ -160,7 +166,9 @@ export default function FunctionalAndCognitive({setFunctionalAndCog, setShowTost
         uhid: activeUHID,
         jsonCognitiveStatusDetails: JSON.stringify(tempArrList),
         userId: window.userId,
-        clientId: clientID
+        clientId: clientID,
+        doctorId : activeDocID,
+        departmentId : activeDeptID
       }
       
       const resSave = await PostFunctionAndCog(finalObj);

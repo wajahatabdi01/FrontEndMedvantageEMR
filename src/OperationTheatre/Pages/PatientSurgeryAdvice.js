@@ -50,7 +50,7 @@ export default function PatientSurgeryAdvice() {
     let getSurgeryAdviceList = async () => {
         setShowLoder(1);
         let data = await GetSurgeryAdviceList();
-        console.log('advice list', data);
+       
         if (data.status === 1) {
             setShowLoder(0);
             setSurgeryAdviceList(data.responseValue);
@@ -83,9 +83,9 @@ export default function PatientSurgeryAdvice() {
                 remark: remark,
                 userID: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj', obj);
+          
             let data = await SavePatientSurgeryAdvice(obj);
-            console.log('dtaa', data);
+           
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -112,7 +112,7 @@ export default function PatientSurgeryAdvice() {
     let edit = (list) => {
         const date = list.expectedSurgeryDate.split('/');
         const expctSurgeryDate = date[2] + '-' + date[1] + '-' + date[0];
-        console.log('date part', date);
+        
         setRowID(list.id);
         setisUpdateBtnShow(true);
         setptUhid(list.uhId);
@@ -148,7 +148,7 @@ export default function PatientSurgeryAdvice() {
                 remark: remark,
                 userI: JSON.parse(window.sessionStorage.getItem("LoginData")).userId,
             }
-            console.log('obj', obj);
+            
             let data = await UpdatePatientSurgeryAdvice(obj);
             if (data.status === 1) {
                 setShowUnderProcess(0);
@@ -191,10 +191,10 @@ export default function PatientSurgeryAdvice() {
     }
     let deleteRow = async () => {
         setShowUnderProcess(1);
-        console.log(rowID);
+      
         let userID = JSON.parse(window.sessionStorage.getItem("LoginData")).userId
         let data = await DeletePatientSurgeryAdvice(rowID, userID)
-        console.log('data', data);
+        
         if (data.status === 1) {
             setShowUnderProcess(0);
             setTosterValue(0);

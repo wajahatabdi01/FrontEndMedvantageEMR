@@ -29,21 +29,21 @@ export default function SurgeryKitAssign() {
 
     let getSurgeryList = async () => {
         let data = await GetSurgeryList();
-        console.log('datasur', data);
+       
         if (data.status === 1) {
             setSurgeryList(data.responseValue);
         }
     }
     let getKitList = async () => {
         let data = await GetKitList();
-        console.log('datakit', data);
+        
         if (data.status === 1) {
             setKitList(data.responseValue);
         }
     }
     let getAssignSurgeryKitList = async () => {
         let response = await GetSurgeryKitAssignList();
-        console.log('response', response);
+        
         if (response.status === 1) {
             setSurgeryKitAssignList(response.responseValue)
         }
@@ -69,7 +69,7 @@ export default function SurgeryKitAssign() {
                 userID: JSON.parse(window.sessionStorage.getItem('LoginData')).userId
             }
             let response = await SaveSurgeryKitAssign(obj);
-            console.log('response', response);
+           
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -114,10 +114,10 @@ export default function SurgeryKitAssign() {
                 kitID: parseInt(kitID),
                 userID: JSON.parse(window.sessionStorage.getItem('LoginData')).userId
             }
-            console.log('obj',obj);
+            
            
             let response = await UpdateSurgeryKitAssign(obj);
-            console.log('response', response);
+          
             if (response.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -150,7 +150,7 @@ export default function SurgeryKitAssign() {
     }
     let deleteRow = async () => {
         let response= await DeleteSurgeryKitAssign(rowID);
-        console.log('response',response);
+        
         if (response.status === 1) {
             setShowUnderProcess(0);
             setTosterValue(0);
@@ -178,7 +178,7 @@ export default function SurgeryKitAssign() {
         document.getElementById("ddlSurgery").value = value.surgeryID;
         document.getElementById("ddlKit").value = value.kitID;
         setIsUpdateBtnShow(true);
-        console.log('value', value);
+        
     }
     let clearToasterOrError = async () => {
         document.getElementById('errddlSurgery').style.display = "none";

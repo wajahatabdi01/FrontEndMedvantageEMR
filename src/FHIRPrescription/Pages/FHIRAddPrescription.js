@@ -52,7 +52,13 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+    
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
   const funGetAllList = async () => {
     
@@ -235,6 +241,8 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
         userId: userId,
         rxnormDrugCode: "1432537",
         clientId: clientID,
+        doctorId : activeDocID,
+    departmentId : activeDeptID
       };
       if(window.localStorage.getItem("medName")){
         

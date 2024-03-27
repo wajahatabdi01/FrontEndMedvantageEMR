@@ -30,9 +30,18 @@ export default function FHIRFamilyHistoryEdit({setShowToster,setFamilyHistory}) 
   const customStyle={marginLeft:'0px'};
   // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+
   let activeUHID = window.sessionStorage.getItem("activePatient")
   ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[]
+  : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid:[];
+
+  const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+  
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+
+  console.log('activeDocID : ', activeDocID , 'activeDeptID : ', activeDeptID)
   let SelectedData =(data,modalID)=>{ 
     
     let t = {
@@ -95,7 +104,9 @@ export default function FHIRFamilyHistoryEdit({setShowToster,setFamilyHistory}) 
     jsonData : JSON.stringify(temDataMaker),
     clientId : clientID,
     userId : window.userId,
-    rowId:rowID
+    rowId:rowID,
+    doctorId : activeDocID,
+    departmentId : activeDeptID
   }
   
 

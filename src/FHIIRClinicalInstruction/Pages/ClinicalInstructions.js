@@ -18,8 +18,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
   const [showSave, setShowSave] = useState(1);
 
   const [theRowId, setTheRowId] = useState('');
-  const [sendForm, setSendForm] = useState({
-    userId: window.userId, clientId: window.clientId, instructionText: ''});
+  const [sendForm, setSendForm] = useState({userId: window.userId, clientId: window.clientId, instructionText: ''});
 
     const [getClinicalInstructionList, setClinicalInstructionList] = useState([]);
 
@@ -36,7 +35,13 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
     const clientID=JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+    
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
     
     /////////////////////// Save the data //////////////////////////
     const handleSave = async () => {
@@ -46,7 +51,9 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
           instruction: sendForm.instructionText,
           userId: window.userId,
           clientId: clientID,
-          uhid:activeUHID
+          uhid:activeUHID,
+          doctorId : activeDocID,
+          departmentId : activeDeptID
         }
        
         const saveRes = await PostClinicalInstructionList(finalObj);

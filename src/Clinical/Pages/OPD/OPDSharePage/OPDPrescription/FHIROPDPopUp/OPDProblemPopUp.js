@@ -33,7 +33,13 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     let [getData, setgetData] = useState([]);
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+        
+        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [problemData, setProblemData] = useState({
         titleId: '',
@@ -228,7 +234,9 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 uhid: activeUHID,
                 encounterDetailsJsonString: JSON.stringify([problemData]),
                 clientId: window.clientId,
-                userId: window.userId
+                userId: window.userId,
+                doctorId : activeDocID,
+                departmentId : activeDeptID
             }
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {

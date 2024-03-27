@@ -437,7 +437,7 @@ export default function IPDTopVitals(props) {
             <div className='col-md-12 col-sm-12 plt1'>
                 {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                 <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                    <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} />
+                    <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterList = {[props.theEncounterList]}/>
                 </div>
                 {showTheButton && (
                     <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
@@ -548,7 +548,7 @@ export default function IPDTopVitals(props) {
                                 {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
                                     getAllEncoutersAsPerIssueID();
                                     // Close the modal manually
-                                    document.getElementById('problem').classList.remove('show');console.log('gggggggg')
+                                    document.getElementById('problem').classList.remove('show');
                                 }}>
                                 <i className="fa fa-times"></i>
                             </button> */}

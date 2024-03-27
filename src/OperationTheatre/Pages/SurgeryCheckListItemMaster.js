@@ -35,7 +35,7 @@ export default function SurgeryCheckListItemMaster() {
         if (data.status === 1) {
             setShowLoder(0);
             setCheckListItemList(data.responseValue);
-            console.log('data', data);
+            
         }
 
     }
@@ -57,9 +57,9 @@ export default function SurgeryCheckListItemMaster() {
                 status: true,
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj', obj);
+           
             let data = await SaveSurgeryChecklistItem(obj);
-            console.log(data);
+           
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -107,9 +107,9 @@ export default function SurgeryCheckListItemMaster() {
                 status: 1,
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj', obj);
+          
             let data = await UpdateSurgeryChecklistItem(obj);
-            console.log(data);
+          
             if (data.status === 1) {
                 setShowUnderProcess(0);
                 setTosterValue(0);
@@ -149,7 +149,7 @@ export default function SurgeryCheckListItemMaster() {
 
     let deleteRow = async () => {
         let data = await DeleteSurgeryChecklistItem(rowID);
-        console.log('data', data);
+        
         setShowUnderProcess(1);
         if (data.status === 1) {
             setShowUnderProcess(0);

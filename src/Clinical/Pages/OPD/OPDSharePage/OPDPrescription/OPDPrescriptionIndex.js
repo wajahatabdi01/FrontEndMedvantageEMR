@@ -1,13 +1,13 @@
-import React, { useEffect, useImperativeHandle, useState } from 'react'
+import React, { useEffect,  useState } from 'react'
 // import BoxContainer from '../../../../../Components/BoxContainer'
 // import TableContainer from '../../../../../Components/TableContainer'
 // import Heading from '../../../../../Components/Heading'
 // import OPDTopVitals from './OPDTopVitals'
 import OPDInvestigationProcedure from './OPDInvestigationProcedure'
-import OPDPatientInputData from './OPDPatientInputData'
-import OPDPatientMedicationAssign from './OPDPatientMedicationAssign'
-import OPDPatientLabDetails from './OPDPatientLabDetails'
-import OPDBottomSection from './OPDBottomSection'
+// import OPDPatientInputData from './OPDPatientInputData'
+// import OPDPatientMedicationAssign from './OPDPatientMedicationAssign'
+// import OPDPatientLabDetails from './OPDPatientLabDetails'
+// import OPDBottomSection from './OPDBottomSection'
 // import OPDPatientTabs from './OPDPatientTabs'
 import GetPatientHistory from '../../../../API/OPD/Prescription/GetPatientHistory'
 import SaveOPDData from '../../../../../Code/SaveOPDData'
@@ -34,6 +34,7 @@ import NoDataFound from '../../../../../assets/images/icons/No data-rafiki.svg'
 import { t } from 'i18next'
 import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import OPDTopVitals from './OPDTopVitals'
+import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
 export default function OPDPrescriptionIndex(props) {
 
 
@@ -47,7 +48,6 @@ export default function OPDPrescriptionIndex(props) {
     let [message, setMessage] = useState(0)
     let [disable, setDisable] = useState(0)
     let [showLoader, setShowLoader] = useState(1)
-    let [foodData, setFoodData] = useState([])
     let [activeComponent, setActiveComponent] = useState('');
     let [showTheButton, setShowTheButton] = useState(false);
     let [getIssueID, setIssueID] = useState('');
@@ -56,7 +56,6 @@ export default function OPDPrescriptionIndex(props) {
     const [getEncounterList, setEncounterList] = useState([]);
     const [getHeadingName, setHeadingName] = useState('');
     let [showImage, setShowImage] = useState(0);
-    let [problemData, setProblemData] = useState()
     const [encounterTitle, setEncounterTitle] = useState('');
     const [encounterBeginDate, setEncounterBeginDate] = useState('');
     const [encounterEndDate, setEncounterEndDate] = useState('');
@@ -69,6 +68,8 @@ export default function OPDPrescriptionIndex(props) {
     const [titleId, setTitleId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
+    const [theEncounterList, setTheEncounterList] = useState([])
+    
 
     const [activeTab, setActiveTab] = useState('problem');
     let activeUHID = window.sessionStorage.getItem("activePatient")
@@ -690,6 +691,14 @@ export default function OPDPrescriptionIndex(props) {
         setTitleId(titleId);
     }
 
+    const getPatientVisit = async () => {
+        const resVisit = await GetPatientVisitsEncounter(activeUHID);
+        if(resVisit.status === 1) {
+           
+            setTheEncounterList(resVisit.responseValue)
+        }
+    }
+
     useEffect(() => {
         if (showTheButton === true) {
 
@@ -697,6 +706,9 @@ export default function OPDPrescriptionIndex(props) {
         }
     }, [showTheButton, getIssueID]);
 
+    useEffect(() => {
+        getPatientVisit()
+    }, [])
 
 
 
@@ -706,12 +718,34 @@ export default function OPDPrescriptionIndex(props) {
 
             {showPopUp != 1 ?
                 <div className=''>
+                <div className="row">
+                    <div class="col-12">
+                        <div class="med-box commong">
+                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
+                                Select Encounter&nbsp;
+                                <div>
+                                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>View</button> */}
+                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
+                                        <option value="0" selected>Select</option>
+                                        {theEncounterList && theEncounterList.map((list, ind) => {
+                                            return(
+                                                <option value={list.encounterId} selected>{list.visitDate}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
                     <OPDTopVitals />
                     <div className="row" >
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} />
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterList = {theEncounterList}/>
                             </div>
                             {showTheButton && (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>

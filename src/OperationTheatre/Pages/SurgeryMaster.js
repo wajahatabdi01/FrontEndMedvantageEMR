@@ -53,7 +53,7 @@ export default function SurgeryMaster() {
        value : disease.id,
        label : disease.problemName
         })));
-        console.log('data', data);
+        
     }
     let getSurgeryList = async () => {
         setShowLoder(1)
@@ -167,7 +167,7 @@ export default function SurgeryMaster() {
                 status: 1,
                 userId: JSON.parse(window.sessionStorage.getItem("LoginData")).userId
             }
-            console.log('obj update', obj);
+           
             let data = await UpdateSurgeryMaster(obj);
             if (data.status === 1) {
                 setShowUnderProcess(0);
@@ -222,11 +222,11 @@ export default function SurgeryMaster() {
         setRowID(id);
     }
     let deleteRow = async () => {
-        console.log(rowID);
+        
         setShowUnderProcess(1);
         const userID = JSON.parse(window.sessionStorage.getItem("LoginData")).userId;
         let data = await DeleteSurgery(rowID, userID);
-        console.log('s'.data);
+       
         if (data.status === 1) {
             setShowUnderProcess(0);
             setShowToster(1);
@@ -258,9 +258,7 @@ export default function SurgeryMaster() {
 
 
     }, []);
-    let GetId = (id)=>{
-        console.log("ID", id)
-    }
+   
     document.body.dir = i18n.dir();
     return (
         <>

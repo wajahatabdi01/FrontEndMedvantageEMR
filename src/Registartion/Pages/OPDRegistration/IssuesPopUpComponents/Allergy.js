@@ -235,7 +235,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         // setPopUpId('');
     }
     // const SelectedData = (data, modalID) => {
-    //     console.log("modalID",modalID)
+    
     //     let t = {
     //       moduleId: modalID,
     //       data: data
