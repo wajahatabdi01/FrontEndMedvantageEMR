@@ -1,5 +1,5 @@
-async function GetRecordDiscloser(activePatient) {
-    let url = window.AppbaseUrl + "/api/FHIRRecordDisclosure/GetAllRecordDisclosure?Uhid="+activePatient;
+async function GetRecordDiscloser(activePatient, encounterId) {
+    let url = window.AppbaseUrl + "/api/FHIRRecordDisclosure/GetAllRecordDisclosure?Uhid="+activePatient+"&EncounterId="+encounterId;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, { 
         headers: head,

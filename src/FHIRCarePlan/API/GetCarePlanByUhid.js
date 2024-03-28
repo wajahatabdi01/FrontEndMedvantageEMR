@@ -1,6 +1,6 @@
-async function GetCarePlanByUhid(uhid) {
+async function GetCarePlanByUhid(uhid, encounterId) {
   // let url = window.fhiropenEMR+"/api/FHIRCarePlanTypeMaster/GetAllCarePlanType";
-  let url = window.AppbaseUrl+"/api/FHIRPatientCarePlan/GetAllPatientCarePlan?Uhid="+uhid;
+  let url = window.AppbaseUrl+"/api/FHIRPatientCarePlan/GetAllPatientCarePlan?Uhid="+uhid+"&EncounterId="+encounterId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

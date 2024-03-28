@@ -13,7 +13,7 @@ import IconDelete from '../../assets/images/icons/IconDelete.svg';
 import FHIRDeleteObservation from '../API/FHIRDeleteObservation';
 import FHIRPutObservation from '../API/FHIRPutObservation';
 
-export default function FHIRObservation({setShowToster, setObservation}) {
+export default function FHIRObservation({setShowToster, setObservation, theEncounterId}) {
 
   const [reasonSectionOpen, setReasonSectionOpen] = useState({});
   const [observationRow, setObservationRow] = useState([{  rowID: 1,},]);
@@ -359,7 +359,7 @@ export default function FHIRObservation({setShowToster, setObservation}) {
   
   
   const funGetObservationList = async () => {
-    const resGet = await FHIRGetObservation(activeUHID);
+    const resGet = await FHIRGetObservation(activeUHID, theEncounterId);
     if(resGet.status === 1) {
       setObservationList(resGet.responseValue)
     }

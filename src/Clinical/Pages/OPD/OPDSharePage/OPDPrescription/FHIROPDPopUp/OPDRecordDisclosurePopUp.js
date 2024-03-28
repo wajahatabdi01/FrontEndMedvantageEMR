@@ -19,7 +19,7 @@ import DeleteRecordDiscloser from '../../../../../API/OPDRecordDiscloser/DeleteR
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDRecordDisclosurePopUp() {
+function OPDRecordDisclosurePopUp({theEncounterId}) {
     // let [rowId, setRowId] = useState('')
     let [recordList, setRecordList] = useState([])
     let [disclosureTypeList, setDisclosureTypeList] = useState([])
@@ -69,7 +69,7 @@ function OPDRecordDisclosurePopUp() {
 
     let getAllRecords = async () => {
         // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        const response = await GetRecordDiscloser(activeUHID);
+        const response = await GetRecordDiscloser(activeUHID, theEncounterId);
         if (response.status === 1) {
             setRecordList(response.responseValue);
         }
