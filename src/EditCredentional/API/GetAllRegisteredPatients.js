@@ -1,5 +1,5 @@
-let GetAllRegisteredPatients = async(pageNumber,pageSize,patientName,socialSecurityNo,dob,externalId)=>{
-    let url = window.AppbaseUrl +"/api/PatientRegistration/GetAllRegisteredPatientlistForFHIRByPatientnameANDSsnANDDobANDExternalId?pageNumber="+pageNumber+"&pageSize="+pageSize+"&patientName="+patientName+"&socialSecurityNo="+socialSecurityNo+"&dob="+dob+"&externalId="+externalId;
+let GetAllRegisteredPatients = async (pageNumber, pageSize, firstName, lastName, socialSecurityNo, dob, externalId) => {
+    let url = window.AppbaseUrl + "/api/PatientRegistration/GetAllRegisteredPatientlistForFHIRByPatientnameANDSsnANDDobANDExternalId?pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&patientName=" + firstName + "&lastName=" + lastName + "&socialSecurityNo=" + socialSecurityNo + "&dob=" + dob + "&externalId=" + externalId;
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let response = "";
     await fetch(url, {

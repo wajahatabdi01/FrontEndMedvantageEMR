@@ -20,6 +20,7 @@ import GetMenuByDepartmentIdAndUserId from '../../Clinical/API/RemotePatientMoni
 import GetDepartmentByID from '../API/GetDepartmentByID';
 import GetMenuByHead from '../API/GetMenuByHead';
 import { useNavigate } from 'react-router-dom';
+import AlertToster from '../../Component/AlertToster';
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -36,24 +37,42 @@ function SearchRegisteredPatient() {
     let [searchByDobList, setSearchByDobList] = useState([])
     const [showSearchBox, setShowSearchBox] = useState(false);
     let [showUnderProcess, setShowUnderProcess] = useState(0)
+    let [showAlertToster, setShowAlertToster] = useState(0)
+    let [showErrMessage, setShowErrMessage] = useState('');
+    let [showMessage, setShowMessage] = useState(0)
     let [showToster, setShowToster] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
     let [tosterValue, setTosterValue] = useState(0)
     let [updateBool, setUpdateBool] = useState(0);
     let [filteredNameList, setFilteredNameList] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const navigate = useNavigate();
     const pageSize = 15;
+
     let getData = async (pageNumbers) => {
-        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, socialSecurityNo, selectedDate, externalId);
+        console.log("selectedPatient", selectedPatient);
+        const parts = selectedPatient.split(' ');
+        let firstName = '';
+        let lastName = '';
+
+        if (parts.length >= 2) {
+            firstName = parts.slice(0, -1).join(' ');
+            lastName = parts.slice(-1).join(' ');
+        }
+
+        const response = await GetAllRegisteredPatients(pageNumbers, pageSize, firstName, lastName, socialSecurityNo, selectedDate, externalId);
         if (response.status === 1) {
             setRegisteredPatientList(response.responseValue.searchResult);
-            setPatientCountData(response.responseValue.totalCount)
+            setPatientCountData(response.responseValue.totalCount);
         }
         window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
+
 
     let getAllNames = async (query) => {
         const response = await GetAllSearchByName(query);
@@ -114,7 +133,7 @@ function SearchRegisteredPatient() {
     }
 
     const handleSelectPatient = (param) => {
-        setSelectedPatient(param.patientName);
+        setSelectedPatient(param.patientName + ' ' + param.lastName);
         document.getElementById('ddlDataContainer').style.display = "none";
 
     }
@@ -142,22 +161,51 @@ function SearchRegisteredPatient() {
     const handleDateChange = (e) => {
         setSelectedDate(e.target.value)
     }
+    function convertDateFormat(dateString) {
+        // Check if dateString is defined
+        if (dateString) {
+            // Split the date string by "-"
+            const parts = dateString.split("-");
 
-    const handleClear = () => {
-        getData(pageNumbers);
+            // Check if parts contains three elements
+            if (parts.length === 3) {
+                // Rearrange the parts in the format yyyy-mm-dd
+                const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                return formattedDate;
+            } else {
+                return null; // Or return an appropriate value indicating an error
+            }
+        } else {
+            return null; // Or return an appropriate value indicating an error
+        }
+    }
+
+    const handleClear = (pageNumbers, pageSize) => {
+        console.log(("pageNumbers", pageNumbers))
+        console.log(("pageSize", pageSize))
+        setFirstName('');
+        setLastName('');
         setSearchByName('');
         setSelectedPatient('');
         setSelectedDate('');
-        setRegisteredPatientList('');
+        setRegisteredPatientList([]);
         setSocialSecurityNo('');
         setExternalId('');
+        getData(pageNumbers, pageSize);
     }
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Note: January is 0
+    const day = currentDate.getDate();
+
+    // Formatting the date as YYYY-MM-DD
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+    console.log(formattedDate); // Output: e.g., "2024-03-28"
 
     const handleRedirect = async (key) => {
         // const menuDetails = taskDetails.menuData;
         let resp = await GetPatientDetailsByUHID(key);
-
-
         if (resp.status === 1) {
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
@@ -221,13 +269,23 @@ function SearchRegisteredPatient() {
                             "menuId": 51
                         }))
                         // window.open('/prescriptionopd/')
-                        navigate('/prescriptionopd/')
+                        if (patientList.responseValue[0].createdDate === formattedDate) {
+
+                            navigate('/prescriptionopd/')
+                        }
+                        else {
+                            console.log('createdDate', patientList.responseValue[0].createdDate, ' ', 'formattedDate', formattedDate);
+                            setShowAlertToster(1)
+                            setShowErrMessage("Patient is not currently in the OPD.")
+                            setTimeout(() => {
+                                setShowAlertToster(0)
+                            }, 2000)
+                        }
                     }
 
                 }
             }
             else {
-
                 console.error('Something went wrong..');
             }
             // newWindow["uhid"] = props.patientData.UhId
@@ -275,7 +333,7 @@ function SearchRegisteredPatient() {
                                             filteredNameList.map((val, index) => {
                                                 return (
                                                     <ul class="list-items">
-                                                        <li onClick={() => { handleSelectPatient(val) }}>{val.patientName}</li>
+                                                        <li onClick={() => { handleSelectPatient(val) }}>{val.patientName} {val.lastName}</li>
                                                     </ul>
                                                 );
                                             })}
@@ -310,7 +368,7 @@ function SearchRegisteredPatient() {
                                 <div className="mb-2 relative">
                                     <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
                                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { getData(pageNumbers) }}>Show <i class="fa-regular fa-eye" style={{ color: "#ffffff" }}></i> </button>
-                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => handleClear(1, 15)}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
                                 </div>
                             </BoxContainer>
 
@@ -341,7 +399,7 @@ function SearchRegisteredPatient() {
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{adjustedIndex}</td>
-                                                    <td>{val.patientName}</td>
+                                                    <td>{val.patientName} {val.middleName} {val.lastName}</td>
                                                     <td>{val.socialSecurityNo}</td>
                                                     <td>{val.externalId}</td>
                                                     <td>{val.dob.substring(0, 10)}</td>
@@ -407,6 +465,11 @@ function SearchRegisteredPatient() {
                     </div>
                 </div>
             </section>
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
+
         </>
     )
 }
