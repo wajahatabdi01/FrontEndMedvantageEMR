@@ -19,6 +19,7 @@ import GetPatientDetailsByUHID from '../../Clinical/API/RemotePatientMonitorDash
 import GetMenuByDepartmentIdAndUserId from '../../Clinical/API/RemotePatientMonitorDashboard/GetMenuByDepartmentIdAndUserId';
 import GetDepartmentByID from '../API/GetDepartmentByID';
 import GetMenuByHead from '../API/GetMenuByHead';
+import { useNavigate } from 'react-router-dom';
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -43,6 +44,7 @@ function SearchRegisteredPatient() {
     const [selectedPatient, setSelectedPatient] = useState('');
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+    const navigate = useNavigate();
     const pageSize = 15;
     let getData = async (pageNumbers) => {
         const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, socialSecurityNo, selectedDate, externalId);
@@ -184,11 +186,8 @@ function SearchRegisteredPatient() {
                             "menuId": 51
                         }))
                         // window.open(menuDetails.url)
-
-
-                        window.open('/prescriptionipd/')
-
-
+                        // window.open('/prescriptionipd/')
+                        navigate('/prescriptionipd/')
                     }
 
 
@@ -221,7 +220,8 @@ function SearchRegisteredPatient() {
                             "menuName": "Prescription",
                             "menuId": 51
                         }))
-                        window.open('/prescriptionopd/')
+                        // window.open('/prescriptionopd/')
+                        navigate('/prescriptionopd/')
                     }
 
                 }
