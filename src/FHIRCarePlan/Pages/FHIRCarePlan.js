@@ -14,7 +14,7 @@ import DeleteCareplanByID from '../API/DeleteCareplanByID'
 import PutCarePlanByID from '../API/PutCarePlanByID';
 
 
-export default function FHIRCarePlan({setCarePlan, setShowToster}) {
+export default function FHIRCarePlan({setCarePlan, setShowToster, theEncounterId}) {
   const [getCarePlanTypeList, setCarePlanTypeList] = useState([])
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -234,7 +234,7 @@ export default function FHIRCarePlan({setCarePlan, setShowToster}) {
 
   const getCarePlanListByUhid = async () => { 
    
-    const getListRes = await GetCarePlanByUhid(activeUHID);
+    const getListRes = await GetCarePlanByUhid(activeUHID,theEncounterId);
     if(getListRes.status === 1){
       setCarePlanList(getListRes.responseValue);
     }

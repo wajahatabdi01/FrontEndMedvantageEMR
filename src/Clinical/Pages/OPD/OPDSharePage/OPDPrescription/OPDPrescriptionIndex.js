@@ -12,7 +12,7 @@ import OPDInvestigationProcedure from './OPDInvestigationProcedure'
 import GetPatientHistory from '../../../../API/OPD/Prescription/GetPatientHistory'
 import SaveOPDData from '../../../../../Code/SaveOPDData'
 import SuccessToster from '../../../../../Component/SuccessToster'
-import AlertToster from '../../../../../Component/AlertToster'
+// import AlertToster from '../../../../../Component/AlertToster'
 import Loader from '../../../../../Component/Loader'
 import GetCheckCrNo from '../../../../API/OPD/Prescription/GetCheckCrNo'
 import POSTVisitRevisit from '../../../../API/OPD/Prescription/POSTVisitRevisit'
@@ -36,10 +36,6 @@ import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import OPDTopVitals from './OPDTopVitals'
 import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
 export default function OPDPrescriptionIndex(props) {
-
-
-
-
 
     let [showPopUp, setShowPopUp] = useState(1)
     let [patientHistory, setPatientHistory] = useState([])
@@ -68,10 +64,11 @@ export default function OPDPrescriptionIndex(props) {
     const [titleId, setTitleId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
-    const [theEncounterList, setTheEncounterList] = useState([])
+    const [theEncounterId, settheEncounterId] = useState([]);
+    const [toPassEncounter, setToPassEncounter] = useState();
     
 
-    const [activeTab, setActiveTab] = useState('problem');
+    // const [activeTab, setActiveTab] = useState('problem');
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
@@ -617,7 +614,7 @@ export default function OPDPrescriptionIndex(props) {
         }
     }
     const getAllEncoutersAsPerIssueID = async () => {
-        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
+        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, toPassEncounter);
 
         if (getRes.status === 1) {
             setEncounterList(getRes.responseValue);
@@ -695,11 +692,13 @@ export default function OPDPrescriptionIndex(props) {
         const resVisit = await GetPatientVisitsEncounter(activeUHID);
         if(resVisit.status === 1) {
            
-            setTheEncounterList(resVisit.responseValue)
+            settheEncounterId(resVisit.responseValue);
+            setToPassEncounter(resVisit.responseValue[0].encounterId)
         }
     }
 
     useEffect(() => {
+       
         if (showTheButton === true) {
 
             getAllEncoutersAsPerIssueID();
@@ -710,7 +709,10 @@ export default function OPDPrescriptionIndex(props) {
         getPatientVisit()
     }, [])
 
-
+    useEffect(() => {
+        
+        getAllEncoutersAsPerIssueID();
+    }, [toPassEncounter])
 
     return (
         <>
@@ -724,12 +726,12 @@ export default function OPDPrescriptionIndex(props) {
                             <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
                                 Select Encounter&nbsp;
                                 <div>
-                                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>View</button> */}
+                                   
                                     <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
                                         <option value="0" selected>Select</option>
-                                        {theEncounterList && theEncounterList.map((list, ind) => {
+                                        {theEncounterId && theEncounterId.map((list, ind) => {
                                             return(
-                                                <option value={list.encounterId} selected>{list.visitDate}</option>
+                                                <option key={ind} value={list.encounterId} selected>{list.visitDate}</option>
                                             )
                                         })}
                                     </select>
@@ -745,7 +747,7 @@ export default function OPDPrescriptionIndex(props) {
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterList = {theEncounterList}/>
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId = {toPassEncounter}/>
                             </div>
                             {showTheButton && (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
