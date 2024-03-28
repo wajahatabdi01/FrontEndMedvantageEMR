@@ -1,5 +1,7 @@
-export default async function GetPatientDetailsByUHID(uhid, headId = 0) {
-    let url = window.AppbaseUrl + "/api/PatientPersonalDashboard/GetPatientDetailsByUHID?UHID=" + uhid + "&HeadId=" + headId
+export default async function GetMenuByHead(deptId, headId) {
+
+    // console.log("Fsdfh")
+    let url = window.UserbaseUrl + "/api/Users/GetMenuByDepartmentIdUserIdAndMenuId?deptId=" + deptId + "&userId=" + window.userId + "&clientId=" + window.clientId + "&headId=" + headId
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let data = {};
     let responsonse = "";

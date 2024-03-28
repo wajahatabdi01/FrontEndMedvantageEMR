@@ -18,6 +18,8 @@ import GetAllDob from '../API/GetAllDob';
 import GetPatientDetailsByUHID from '../../Clinical/API/RemotePatientMonitorDashboard/GetPatientDetailsByUHID';
 import GetMenuByDepartmentIdAndUserId from '../../Clinical/API/RemotePatientMonitorDashboard/GetMenuByDepartmentIdAndUserId';
 import GetDepartmentByID from '../API/GetDepartmentByID';
+import GetMenuByHead from '../API/GetMenuByHead';
+import { useNavigate } from 'react-router-dom';
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -42,6 +44,7 @@ function SearchRegisteredPatient() {
     const [selectedPatient, setSelectedPatient] = useState('');
     // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+    const navigate = useNavigate();
     const pageSize = 15;
     let getData = async (pageNumbers) => {
         const response = await GetAllRegisteredPatients(pageNumbers, pageSize, selectedPatient, socialSecurityNo, selectedDate, externalId);
@@ -156,32 +159,71 @@ function SearchRegisteredPatient() {
 
 
         if (resp.status === 1) {
-            let deptmenu = await GetMenuByDepartmentIdAndUserId(resp.responseValue[0].deptId);
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
             if (deptResponse) {
-                if (deptmenu.status === 1) {
-                    window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
-                        resp.responseValue,
-                    ))
-                    window.sessionStorage.setItem("departmentmenu", JSON.stringify({
-                        "menuList": deptmenu.responseValue.menuList,
-                        "departmentList": deptmenu.responseValue.departmentList,
-                    }))
-                    window.sessionStorage.setItem("IPDpatientsendData", JSON.stringify(
-                        [[key]],
-                    ))
-                    window.sessionStorage.setItem("IPDactivePatient", JSON.stringify({ Uhid: key }))
-                    window.sessionStorage.setItem("activePage", JSON.stringify({
-                        "WardId": resp.responseValue[0].wardId,
-                        "wardName": resp.responseValue[0].wardName,
-                        "DepartmentId": resp.responseValue[0].deptId,
-                        "departmentName": deptResponse.departmentName,
-                        "menuName": "Prescription",
-                        "menuId": 51
-                    }))
-                    // window.open(menuDetails.url)
-                    window.open('/prescriptionipd/')
+                if (resp.responseValue[0].admitDoctorId !== 0) {
+                    let deptmenu = await GetMenuByHead(resp.responseValue[0].deptId, 4);
+                    if (deptmenu.status === 1) {
+                        let patientList = await GetPatientDetailsByUHID(key, 4)
+                        window.sessionStorage.setItem("IPDpatientList", JSON.stringify(
+                            patientList.responseValue,
+                        ))
+                        window.sessionStorage.setItem("departmentmenu", JSON.stringify({
+                            "menuList": deptmenu.responseValue.menuList,
+                            "departmentList": deptmenu.responseValue.departmentList,
+                        }))
+                        window.sessionStorage.setItem("IPDpatientsendData", JSON.stringify(
+                            [[key]],
+                        ))
+                        window.sessionStorage.setItem("IPDactivePatient", JSON.stringify({ Uhid: key }))
+                        window.sessionStorage.setItem("activePage", JSON.stringify({
+                            "WardId": resp.responseValue[0].wardId,
+                            "wardName": resp.responseValue[0].wardName,
+                            "DepartmentId": resp.responseValue[0].deptId,
+                            "departmentName": deptResponse.departmentName,
+                            "menuName": "Prescription",
+                            "menuId": 51
+                        }))
+                        // window.open(menuDetails.url)
+                        // window.open('/prescriptionipd/')
+                        navigate('/prescriptionipd/')
+                    }
+
+
+                }
+                else {
+                    let deptmenu = await GetMenuByHead(resp.responseValue[0].deptId, 1);
+
+                    if (deptmenu.status === 1) {
+                        let patientList = await GetPatientDetailsByUHID(key, 1)
+
+                        window.sessionStorage.setItem("patientList", JSON.stringify(
+                            patientList.responseValue,
+                        ))
+                        window.sessionStorage.setItem("OPDPatientData", JSON.stringify(
+                            resp.responseValue,
+                        ))
+                        window.sessionStorage.setItem("departmentmenu", JSON.stringify({
+                            "menuList": deptmenu.responseValue.menuList,
+                            "departmentList": deptmenu.responseValue.departmentList,
+                        }))
+                        window.sessionStorage.setItem("patientsendData", JSON.stringify(
+                            [[key]],
+                        ))
+                        window.sessionStorage.setItem("activePatient", JSON.stringify({ Uhid: key }))
+                        window.sessionStorage.setItem("activePage", JSON.stringify({
+                            "WardId": 1,
+                            "wardName": "OPD",
+                            "DepartmentId": resp.responseValue[0].deptId,
+                            "departmentName": deptResponse.departmentName,
+                            "menuName": "Prescription",
+                            "menuId": 51
+                        }))
+                        // window.open('/prescriptionopd/')
+                        navigate('/prescriptionopd/')
+                    }
+
                 }
             }
             else {
@@ -203,7 +245,7 @@ function SearchRegisteredPatient() {
         if (name === "externalId") {
             setExternalId(value)
         }
-       
+
     }
 
     // Calculate start index and last index based on page number and page size
@@ -325,11 +367,11 @@ function SearchRegisteredPatient() {
                                             <nav aria-label="...">
                                                 <ul class="pagination">
                                                     <li class="page-item">
-                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers - 1); getData(pageNumbers-1) }} disabled={pageNumbers === 1}>Previous</button>
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers - 1); getData(pageNumbers - 1) }} disabled={pageNumbers === 1}>Previous</button>
                                                     </li>
                                                     <li class="page-item active"><a class="page-link" href="#">{pageNumbers}</a></li>
                                                     <li class="page-item">
-                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers + 1); getData(pageNumbers+1) }}>Next</button>
+                                                        <button class="page-link" onClick={() => { handlePageChange(pageNumbers + 1); getData(pageNumbers + 1) }}>Next</button>
                                                     </li>
                                                 </ul>
                                             </nav>

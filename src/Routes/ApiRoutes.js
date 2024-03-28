@@ -432,7 +432,7 @@ export default function ApiRoutes() {
                         <Route path='/taskMaster/' element={<TaskMaster />} />
                         <Route path='/verification/' element={<VerificationStatus />} />
                         <Route path="/fhircarecoordination/" element={<FHIRCareCoordination />} />
-                        <Route path="/addressBook/" element={<AddressBook />} />
+                        {/* <Route path="/addressBook/" element={<AddressBook />} /> */}
 
                         {/* <Route path='/fhirpatientprofile/' element={<FHIRPatientProfile />} /> */}
 
@@ -584,6 +584,7 @@ export default function ApiRoutes() {
                         <Route path="/logdetails/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<LogDetails />} name="LogDetails" />} />} />
                         <Route path="/organdepartmentmapping/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<OrganDepartmentMapping />} name="OrganDepartmentMapping" />} />} />
                         <Route path="/fhirclassmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRClassMaster />} name="FHIRClassMaster" />} />} />
+                        <Route path="/addressBook/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AddressBook />} name="AddressBook" />} />} />
                         <Route path="/fhirtypemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRTypeMaster />} name="FHIRTypeMaster" />} />} />
                         <Route path="/fhirsensitivitymaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRSensitivityMaster />} name="FHIRSensitivityMaster" />} />} />
                         <Route path="/fhirdischargedispositionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRDischargeDispositionMaster />} name="FHIRDischargeDispositionMaster" />} />} />
