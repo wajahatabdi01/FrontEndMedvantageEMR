@@ -350,20 +350,20 @@ const handleSearchContainerClick = (event) => {
           <div className="row">
             <div className='med-table-section'>
               <table className="med-table border_ striped v-top">
-                <tdead>
+                <thead>
                   <tr>
-                    <td className="text-center" style={{ "widtd": "5%" }}>#</td>
-                    <td >PID</td>
-                    <td >Name</td>
-                    <td>Encounter Count</td>
-                    <td>Total Transfers</td>
-                    <td>Successful Transfers</td>
-                    <td>Last Visit</td>
-                    <td>Creation Date</td>
-                    <td style={{ "widtd": "5%" }}><input type='checkbox' role='switch'/></td>
-                    <td >Views</td>
+                    <th className="text-center" style={{ "widtd": "5%" }}>#</th>
+                    <th >PID</th>
+                    <th >Name</th>
+                    <th>Encounter Count</th>
+                    <th>Total Transfers</th>
+                    <th>Successful Transfers</th>
+                    <th>Last Visit</th>
+                    <th>Creation Date</th>
+                    <th style={{ "widtd": "5%" }}><input type='checkbox' role='switch'/></th>
+                    <th >Views</th>
                   </tr>
-                </tdead>
+                </thead>
                 <tbody>
                   <tr>
                     <td className="text-center" style={{ "widtd": "5%" }}>1</td>
