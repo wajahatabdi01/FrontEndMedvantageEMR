@@ -692,11 +692,18 @@ export default function OPDPrescriptionIndex(props) {
     const getPatientVisit = async () => {
         const resVisit = await GetPatientVisitsEncounter(activeUHID);
         if(resVisit.status === 1) {
-           
+           console.log('resVisit.responseValue : ', resVisit.responseValue);
+           console.log('resVisit.responseValue[0].encounterId : ', resVisit.responseValue[0].encounterId);
             settheEncounterId(resVisit.responseValue);
             setToPassEncounter(resVisit.responseValue[0].encounterId)
         }
     }
+    const handleChangeEncounter = (event) => {
+  
+        const selectedEncounterId = event.target.value;
+        setToPassEncounter(selectedEncounterId);
+        // setToRefreshComponent(true)
+      };
 
     useEffect(() => {
        
@@ -724,20 +731,18 @@ export default function OPDPrescriptionIndex(props) {
                 <div className="row">
                     <div class="col-12">
                         <div class="med-box commong">
-                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
-                                Select Encounter&nbsp;
-                                <div>
-                                   
-                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
-                                        <option value="0" selected>Select</option>
-                                        {theEncounterId && theEncounterId.map((list, ind) => {
-                                            return(
-                                                <option key={ind} value={list.encounterId} selected>{list.visitDate}</option>
-                                            )
-                                        })}
-                                    </select>
-                                </div>
-                            </div>
+                        <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
+    Select Encounter&nbsp;
+    <div>
+      {/* Ensure onChange event is bound to the select element */}
+      <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }} onChange={handleChangeEncounter}>
+        {/* Ensure theEncounterId is defined and mapped correctly */}
+        {theEncounterId && theEncounterId.map((list, ind) => (
+          <option key={ind} value={list.encounterId}>{list.visitDate}</option>
+        ))}
+      </select>
+    </div>
+  </div>
                         </div>
                     </div>
                 </div>
