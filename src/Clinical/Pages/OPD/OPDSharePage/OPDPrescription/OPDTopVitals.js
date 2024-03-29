@@ -19,15 +19,15 @@ import InsertPatientVitalForONC from '../../../../API/OPD/Vitals/InsertPatientVi
 
 export default function OPDTopVitals(props) {
     const deptId = JSON.parse(window.sessionStorage.getItem("activePage")).DepartmentId;
-   
+
     const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId;
-    
+
     const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-  const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  
-  let activeUHID = window.sessionStorage.getItem("activePatient")
-    ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-    : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+    const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
+
+    let activeUHID = window.sessionStorage.getItem("activePatient")
+        ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const { t } = useTranslation();
     document.body.dir = i18n.dir();
     // let [showVitalPopUp, setShowVitalPopUp] = useState()
@@ -153,7 +153,7 @@ export default function OPDTopVitals(props) {
                         //temp[ind].vmValue = parseFloat(value);
                     } else {
                         temp[ind].vmValue = parseFloat(value);
-                      
+
                         document.getElementById('vitalId' + parseInt(name)).style.border = "1px solid #e5e5e5";
                         document.getElementById('vitalLabel' + parseInt(name)).style.color = "#1d4999";
                     }
@@ -172,18 +172,18 @@ export default function OPDTopVitals(props) {
 
     const handleSaveVital = async () => {
         const saveObj = {
-            deptId : deptId,
-            doctorId : doctorId,
-            uhid :activeUHID,
+            deptId: deptId,
+            doctorId: doctorId,
+            uhid: activeUHID,
             userId: userId,
-            clientId : clientID,
-            jsonVital : JSON.stringify(sendVitals)
+            clientId: clientID,
+            jsonVital: JSON.stringify(sendVitals)
         }
         const saveRes = await InsertPatientVitalForONC(saveObj);
-        if(saveRes.status === 1) {
+        if (saveRes.status === 1) {
             alert('Data Saved For Vital');
         }
-        else{
+        else {
             alert('Not saved')
         }
     }
@@ -239,9 +239,9 @@ export default function OPDTopVitals(props) {
         let active = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
 
         a.map((val, ind) => {
-            
-            if (active === val.uhid) {
-                if (val.patientType === "New") {
+
+            if (active === val.uhid || active === val.uhId) {
+                if (val.patientType === "New" || val.patientType === "OPD") {
                     setShowPatientType("New Patient")
                 }
                 else {
@@ -283,12 +283,12 @@ export default function OPDTopVitals(props) {
                                     <div className=' d-flex flex-row didd' style={{ width: "250px", border: "1px solid #E5E5E5", borderRadius: "5px", 'margin-bottom': '0px' }} >
                                         <div className="did-floating-label-content pe-2 ">
                                             <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "108px", border: "none" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                            <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                            <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt='' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                         </div>
                                         <div className='pt-2'>/&nbsp;</div>
                                         <div className="did-floating-label-content pe-2 didd">
                                             <input autoComplete="off" className="did-floating-input" id={'vitalId' + 6} type="number" style={{ maxWidth: "108px", border: "none" }} name={6} placeholder=" " value={sendVitals[2].vmValue != "" ? sendVitals[2].vmValue : ""} onChange={handleOnchange} />
-                                            <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' alt=''/>{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
+                                            <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' alt='' />{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
                                         </div>
 
                                     </div>
@@ -299,7 +299,7 @@ export default function OPDTopVitals(props) {
 
                                     <div className="did-floating-label-content pe-2 didd">
                                         <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "90px" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt='' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                     </div>
                                 )
                             }
