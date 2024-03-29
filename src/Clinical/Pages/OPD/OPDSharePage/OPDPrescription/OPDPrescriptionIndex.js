@@ -66,6 +66,7 @@ export default function OPDPrescriptionIndex(props) {
     const [encounterDestination, setEncounterDestination] = useState('');
     const [theEncounterId, settheEncounterId] = useState([]);
     const [toPassEncounter, setToPassEncounter] = useState();
+    const [toShowDesiredList, setToShowDesiredList] = useState(false)
     
 
     // const [activeTab, setActiveTab] = useState('problem');
@@ -747,9 +748,9 @@ export default function OPDPrescriptionIndex(props) {
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId = {toPassEncounter}/>
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId = {toPassEncounter} setToShowDesiredList = {setToShowDesiredList}/>
                             </div>
-                            {showTheButton && (
+                            {showTheButton && toShowDesiredList ? (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
                                     <Heading text={getHeadingName} />
                                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent} >
@@ -757,14 +758,16 @@ export default function OPDPrescriptionIndex(props) {
                                         Add
                                     </button>
                                 </div>
-                            )}
+                            ) : null}
+
 
 
 
                             {/* {
                                 activeComponent ===1?<OPDProblemPopUp />:""
                             } */}
-                            <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
+                            {toShowDesiredList === true ?
+                                <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
                                 <table className="med-table border striped">
                                     {showImage === 1 ? (
                                         <div className='imageNoDataFound'>
@@ -844,6 +847,7 @@ export default function OPDPrescriptionIndex(props) {
                                     )}
                                 </table>
                             </div>
+                             : null}
 
                             {/* <OPDPatientMedicationAssign values={getD} funh={setGetD} foodData={foodData} /> */}
                         </div>
