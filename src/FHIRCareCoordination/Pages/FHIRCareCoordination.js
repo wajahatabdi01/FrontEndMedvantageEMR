@@ -1,4 +1,4 @@
-import FHIRCareCoordinationExport from "./FHIRCareCoordinationExport";
+import FHIRCareCoordinationExport from "./ExportPage/FHIRCareCoordinationExport";
 import FHIRCareCoordinationImport from "./FHIRCareCoordinationImport";
 
 const FHIRCareCoordination = () => {

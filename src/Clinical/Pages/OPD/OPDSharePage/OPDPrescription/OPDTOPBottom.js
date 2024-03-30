@@ -155,27 +155,27 @@ export default function OPDTOPBottom(props) {
   return (
     <>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem") }}>
+        <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem"); props.setToShowDesiredList(true)}}>
           {t("Problem")}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("allergyId"); props.setShowTheButton(true); props.setIssueID(2); props.setHeadingName("Allergy") }}>
+        <span onClick={() => { props.setActiveComponent("allergyId"); props.setShowTheButton(true); props.setIssueID(2); props.setHeadingName("Allergy"); props.setToShowDesiredList(true) }}>
           {t("Allergy")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("medicationId"); props.setShowTheButton(true); props.setIssueID(3); props.setHeadingName("Medication") }}>
+        <span onClick={() => { props.setActiveComponent("medicationId"); props.setShowTheButton(true); props.setIssueID(3); props.setHeadingName("Medication"); props.setToShowDesiredList(true) }}>
           {t("Medication")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("deviceId"); props.setShowTheButton(true); props.setIssueID(4); props.setHeadingName("Device") }}>
+        <span onClick={() => { props.setActiveComponent("deviceId"); props.setShowTheButton(true); props.setIssueID(4); props.setHeadingName("Device"); props.setToShowDesiredList(true) }}>
           {t("Device")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery") }}>
+        <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery"); props.setToShowDesiredList(true) }}>
           {t("Surgery")}{" "}
         </span>
       </div>
@@ -184,7 +184,7 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => {setCarePlan(1)}}>
+        <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => {setCarePlan(1); props.setToShowDesiredList(false)}}>
           {t("Care Plan")}{" "}
         </span>
       </div>
@@ -193,50 +193,50 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => setFamilyHistory(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => {setFamilyHistory(1); props.setToShowDesiredList(false)}}>
           {t("Family History")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ImmunizationPop" onClick={() => setImmunization(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#ImmunizationPop" onClick={() => {setImmunization(1);props.setToShowDesiredList(false)}}>
           {t("Immunization")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onClick={() => {props.setToShowDesiredList(false)}}>
           {t("Record Disclosure")}{" "}
         </span>
       </div>
-      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer" onClick={() => {props.setToShowDesiredList(false)}}>
         <span data-bs-toggle="modal" data-bs-target="#Message">
           {t("Patient Message")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#PrescriptionPopList" onClick={() => setPrecription(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#PrescriptionPopList" onClick={() => { setPrecription(1); props.setToShowDesiredList(false)}}>
           {t("Prescription")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#Lifestyle">
+        <span data-bs-toggle="modal" data-bs-target="#Lifestyle" onClick={() => {props.setToShowDesiredList(false)}}>
           {t("LifeStyle")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes">
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes" onClick={() => {props.setToShowDesiredList(false)}}>
           {t("Clinical Notes Form")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => setClinicalPres(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => { setClinicalPres(1); props.setToShowDesiredList(false)}}>
           {t("Clinical Instructions")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => setFunctionalAndCog(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => { setFunctionalAndCog(1); props.setToShowDesiredList(false)}}>
           {t("Functional And Cognitive Status")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => setObservation(1)}>
+        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => { setObservation(1); props.setToShowDesiredList(false)}}>
           {t("Observation")}{" "}
         </span>
       </div>
