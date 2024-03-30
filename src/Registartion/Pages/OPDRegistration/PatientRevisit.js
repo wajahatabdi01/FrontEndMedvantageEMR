@@ -19,6 +19,7 @@ import GetPatientDetailsByUHID from '../../../Clinical/API/RemotePatientMonitorD
 import GetMenuByHead from '../../../EditCredentional/API/GetMenuByHead';
 import { useNavigate } from 'react-router-dom';
 import AlertToster from '../../../Component/AlertToster';
+import SuccessToster from '../../../Component/SuccessToster';
 export default function PatientRevisit({ UHID }) {
     let [deparetmentList, setDepartmentList] = useState([]);
     let [roomList, setRoomList] = useState([]);
@@ -29,7 +30,10 @@ export default function PatientRevisit({ UHID }) {
     let [selectedDoctor, setSelectedDoctor] = useState('0');
     let [selectedRoom, setSelectedRoom] = useState('0');
     let [showAlertToster, setShowAlertToster] = useState(0)
+    let [showToster, setShowToster] = useState(0);
+    let [isShowToaster, setisShowToaster] = useState(0);
     let [showErrMessage, setShowErrMessage] = useState('');
+    let [showSuccessMsg, setShowSuccessMsg] = useState('');
     let [clearStatus, setClearStatus] = useState(0)
     const navigate = useNavigate();
     const [visitDetails, setVisitDetails] = useState();
@@ -353,7 +357,12 @@ export default function PatientRevisit({ UHID }) {
                 }
                 const billresponse = await saveBillingDetails(billObj)
                 if (billresponse.status === 1) {
-                    alert("Visited")
+                    // alert("Visited")
+                    setShowToster(1);
+                    setShowSuccessMsg("Patient visited successfully.");
+                    setTimeout(() => {
+                        setShowToster(0);
+                    }, 1500)
                 }
             }
             else {
@@ -494,6 +503,10 @@ export default function PatientRevisit({ UHID }) {
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
             </div>
+            {
+                isShowToaster === 1 ?
+                    <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
+            }
             {
                 showAlertToster === 1 ?
                     <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""

@@ -65,10 +65,10 @@ function SearchRegisteredPatient() {
         window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
 
-    let handleVisit = (patientName, Uhid) => {
+    let handleVisit = (patientName, Uhid, lastName) => {
         console.log("patientName", patientName)
         console.log("UHID", Uhid)
-        setPatientName(patientName)
+        setPatientName(patientName + ' ' + lastName)
         setUhid(Uhid)
     }
 
@@ -394,7 +394,7 @@ function SearchRegisteredPatient() {
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{adjustedIndex}</td>
-                                                    <td>{val.patientName} {val.middleName} {val.lastName}</td>
+                                                    <td>{val.patientName} {val.middleName} {val.lastName} <span style={{ color: '#f26b29' }}>({val.uhID})</span></td>
                                                     <td>{val.socialSecurityNo}</td>
                                                     <td>{val.externalId}</td>
                                                     <td>{val.dob.substring(0, 10)}</td>
@@ -404,7 +404,7 @@ function SearchRegisteredPatient() {
                                                                 <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
                                                             </div>
                                                             <div data-bs-toggle="modal" data-bs-target="#patientrevisit">
-                                                                <i class="fa-regular fa-clone" onClick={() => handleVisit(val.patientName, val.uhID)}></i>
+                                                                <i class="fa-regular fa-clone" onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
                                                             </div>
                                                         </div>
                                                     </td>
