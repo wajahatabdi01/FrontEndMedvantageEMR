@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import BoxContainer from '../../../../../Components/BoxContainer'
 // import TableContainer from '../../../../../Components/TableContainer'
 // import Heading from '../../../../../Components/Heading'
@@ -35,6 +35,7 @@ import { t } from 'i18next'
 import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import OPDTopVitals from './OPDTopVitals'
 import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
+import { Blur } from 'konva/lib/filters/Blur'
 export default function OPDPrescriptionIndex(props) {
 
     let [showPopUp, setShowPopUp] = useState(1)
@@ -66,7 +67,7 @@ export default function OPDPrescriptionIndex(props) {
     const [encounterDestination, setEncounterDestination] = useState('');
     const [theEncounterId, settheEncounterId] = useState([]);
     const [toPassEncounter, setToPassEncounter] = useState();
-    
+
 
     // const [activeTab, setActiveTab] = useState('problem');
     let activeUHID = window.sessionStorage.getItem("activePatient")
@@ -690,15 +691,15 @@ export default function OPDPrescriptionIndex(props) {
 
     const getPatientVisit = async () => {
         const resVisit = await GetPatientVisitsEncounter(activeUHID);
-        if(resVisit.status === 1) {
-           
+        if (resVisit.status === 1) {
+
             settheEncounterId(resVisit.responseValue);
             setToPassEncounter(resVisit.responseValue[0].encounterId)
         }
     }
 
     useEffect(() => {
-       
+
         if (showTheButton === true) {
 
             getAllEncoutersAsPerIssueID();
@@ -710,7 +711,7 @@ export default function OPDPrescriptionIndex(props) {
     }, [])
 
     useEffect(() => {
-        
+
         getAllEncoutersAsPerIssueID();
     }, [toPassEncounter])
 
@@ -720,34 +721,34 @@ export default function OPDPrescriptionIndex(props) {
 
             {showPopUp != 1 ?
                 <div className=''>
-                <div className="row">
-                    <div class="col-12">
-                        <div class="med-box commong">
-                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
-                                Select Encounter&nbsp;
-                                <div>
-                                   
-                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
-                                        <option value="0" selected>Select</option>
-                                        {theEncounterId && theEncounterId.map((list, ind) => {
-                                            return(
-                                                <option key={ind} value={list.encounterId} selected>{list.visitDate}</option>
-                                            )
-                                        })}
-                                    </select>
+                    <div className="row">
+                        <div class="col-12">
+                            <div class="med-box commong">
+                                <div className="title d-flex justify-content-end" style={{ paddingBottom: '2px' }}>
+                                    Select Encounter&nbsp;
+                                    <div>
+
+                                        <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
+                                            <option value="0" selected>Select</option>
+                                            {theEncounterId && theEncounterId.map((list, ind) => {
+                                                return (
+                                                    <option key={ind} value={list.encounterId} selected>{list.visitDate}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                
+
                     <OPDTopVitals />
                     <div className="row" >
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId = {toPassEncounter}/>
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId={toPassEncounter} />
                             </div>
                             {showTheButton && (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
@@ -791,9 +792,9 @@ export default function OPDPrescriptionIndex(props) {
                                             </thead>
                                             <tbody>
                                                 {getEncounterList && getEncounterList.map((list, ind) => {
-                                                   
+
                                                     const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-                                                   
+
                                                     return (
                                                         <tr className="text-center" key={list.id}>
                                                             <td className="text-center">{ind + 1}</td>
