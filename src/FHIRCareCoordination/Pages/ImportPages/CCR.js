@@ -21,8 +21,8 @@ const CCR = () => {
         console.log(userData);
         const formData = new FormData();
         formData.append('file', selectedFile);
-        formData.append('document_category', 13);
-        formData.append('patient_id', 1);
+        formData.append('document_category', 11);
+        formData.append('patient_id', 0);
         formData.append('upload', 1);
         formData.append('userId', userData.userId);
 
@@ -104,106 +104,45 @@ const CCR = () => {
                     </div>
 
                     <div className="col-md-6">
-                        <div className='d-flex justify-content-end'>
-                            <div class="mb-2">
-                                <label for="chooseFile" className="form-label d-block">&nbsp;</label>
-                                <div class="form-check form-check-inline">
-                                    <input className="form-check-input" type="checkbox" id="Ascending" value="option1" />
-                                    <label className="form-check-label" for="Ascending">Ascending</label>
-                                </div>
-                            </div>
-
-                            <div class="mb-2">
-                                <label for="chooseFile" className="form-label d-block">&nbsp;</label>
-                                <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" ><img src={save} className='icnn' alt='' />Save</button>
-                            </div>
-
-
-                        </div>
+                    
                     </div>
                     <div className="med-table-section accordion" style={{ "height": "74vh" }} >
                         <table className="med-table border_ striped v-top">
-                            <thead>
+                        <thead>
                                 <tr>
-                                    <th>Toggle</th>
+                                   
                                     <th className="text-center" style={{ "width": "5%" }}>#</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Date</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Owner</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
                                     <th className="text-center" style={{ "width": "5%" }}>DOB</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Race</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Enc</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>CP</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>OB</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Proc</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Prob</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Med</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Type</th>
                                     <th className="text-center" style={{ "width": "5%" }}>Action</th>
                                 </tr>
                             </thead>
                             {parsedData.length > 0 ?
-                                <tbody >
+                               <tbody >
 
-                                    {parsedData && parsedData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>
-                                                <div className="accordion-header">
-                                                    <button style={{ padding: '0', width: '0' }}
-                                                        className="accordion-button collapsed expandCompDetails"
-                                                        type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target={"#dataView" + item.document_id}
-                                                        aria-expanded="false"
-                                                        aria-controls="panelsStayOpen-collapseOne"
-                                                        onClick={() => handleDataByDocumentId(item.document_id)}
-                                                    >
-                                                    </button>
-                                                </div>
-                                                <div
-                                                    id={"dataView" + item.document_id}
-                                                    className="accordion-collapse collapse" onClick={handleExpandCompDetailsClick}>
-                                                    <div className="accordion-body" >
-                                                        {/* <Loader /> */}
-                                                        <div style={{ position: 'absolute', bottom: '290px', left: '55%', transform: 'translateX(-50%)' }}>
-                                                            <span class="loader"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
+                               {parsedData && parsedData.map((item, index) => (
+                                   <tr key={index}>
+                                      
 
-                                            <td className="text-center">{index + 1}</td>
-                                            <td>{item.date}</td>
-                                            <td>{item.fname} {item.lname} </td>
-                                            <td> {item.pat_name} </td>
-                                            <td> {item.dob} </td>
-                                            <td> {item.race} </td>
-                                            <td> {item.ethnicity} </td>
-                                            <td> {item.enc_count} </td>
-                                            <td> {item.cp_count} </td>
-                                            <td> {item.ob_count} </td>
-                                            <td> {item.proc_count} </td>
-                                            <td> {item.prb_count} </td>
-                                            <td> {item.med_count} </td>
-                                            <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
-                                            <td> {item.matched_patient} </td>
-                                            <td style={{ color: 'red' }}> {item.dupl_patient} </td>
-                                            <td> {item.name} </td>
-                                            <td>
-                                                <div className="d-flex gap-1">
-                                                    <i class="bi bi-intersect" title="File Merge"></i>
-                                                    <i class="bi bi-calendar3" title="File Two"></i>
-                                                    <i class="bi bi-person-fill" title="User"></i>
-                                                </div>
+                                       <td className="text-center">{index + 1}</td>
+                                       <td>{item.date}</td>
+                                       <td>{item.fname} {item.lname} </td>
+                                       <td> {item.pat_name} </td>
+                                       <td> {item.dob} </td>
+                                       <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
+                                       <td> {item.matched_patient} </td>
+                                      
+                                       <td>
+                                       <i class="bi bi-calendar3" title="File Two"></i>
+                                       </td>
+                                   </tr>
+                               ))}
+                           </tbody>
 
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
                                 : <div style={{ position: 'absolute', bottom: '290px', left: '55%', transform: 'translateX(-50%)' }}>
                                     <span class="loader"></span>
                                 </div>}

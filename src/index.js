@@ -18,8 +18,9 @@ window.UserbaseUrl = "http://192.168.11.101:6084"
 window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
 window.LabServicebaseUrl = "http://192.168.11.101:6090"
 window.NotificationUrl = "http://192.168.11.101:6101"
-
+window.AppbaseUrl2 = "http://192.168.11.101:6082"
 // End For FHIR
+
 
 window.BillingbaseUrl = "http://192.168.11.101:6088"
 window.OTBaseURL = "http://172.16.61.31:7091/api/"
