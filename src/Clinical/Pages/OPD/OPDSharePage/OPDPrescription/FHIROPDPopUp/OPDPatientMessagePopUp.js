@@ -17,7 +17,7 @@ import DeleteFHIRMessage from '../../../../../API/OPDPatientMessage/DeleteFHIRMe
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDPatientMessagePopUp() {
+function OPDPatientMessagePopUp({theEncounterId}) {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
@@ -83,7 +83,7 @@ function OPDPatientMessagePopUp() {
     //getPatient Message by uhid and clientId
     const patientMessage = async () => {
         const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
-        const getResponse = await GetFHIRMessage({ Uhid: activeUHID, ClientId: clientID });
+        const getResponse = await GetFHIRMessage({ Uhid: activeUHID, ClientId: clientID, EncounterId : theEncounterId });
         if (getResponse.status === 1) {
             setMessageList(getResponse.responseValue.responseValue);
         }

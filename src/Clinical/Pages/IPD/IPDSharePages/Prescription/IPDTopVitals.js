@@ -6,7 +6,7 @@ import PulseRate from "../../../../../assets/images/OPD/pulse.svg"
 import RespiratoryRate from "../../../../../assets/images/OPD/ChestPain.svg"
 import SaveIPDData from '../../../../../Code/SaveIPDData'
 import { useSelector } from 'react-redux'
-import store from '../../../../../Store'
+// import store from '../../../../../Store'
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
@@ -20,13 +20,16 @@ import OPDAllergyPopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPo
 import OPDMedicationPopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPopUp/OPDMedicationPopUp'
 import OPDDevicePopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPopUp/OPDDevicePopUp'
 import OPDSurgeryPopUp from '../../../OPD/OPDSharePage/OPDPrescription/FHIROPDPopUp/OPDSurgeryPopUp'
-import OPDInvestigationProcedure from '../../../OPD/OPDSharePage/OPDPrescription/OPDInvestigationProcedure'
+// import OPDInvestigationProcedure from '../../../OPD/OPDSharePage/OPDPrescription/OPDInvestigationProcedure'
 import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import IconEdit from '../../../../../assets/images/icons/IconEdit.svg'
-import IconDelete from '../../../../../assets/images/icons/IconDelete.svg'
+import IconDelete from '../../../../../assets/images/icons/IconDelete.svg';
+import saveButtonIcon from '../../../../../assets/images/icons/saveButton.svg'
+import InsertPatientVitalForONC from '../../../../API/OPD/Vitals/InsertPatientVitalForONC'
 
 
 export default function IPDTopVitals(props) {
+    
     const { t } = useTranslation();
     document.body.dir = i18n.dir()
     let [showToster, setShowToster] = useState(0)
@@ -54,11 +57,21 @@ export default function IPDTopVitals(props) {
     const [reactionId, setReactionId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
+    const [toShowDesiredList, setToShowDesiredList] = useState(false)
 
     const [getEncounterList, setEncounterList] = useState([]);
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
-        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
+        : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
+        const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
+
+  const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+        
+        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     const [isClose, setisClose] = useState(0);
 
@@ -340,7 +353,7 @@ export default function IPDTopVitals(props) {
     // }, [sendVitals])
 
     const getAllEncoutersAsPerIssueID = async () => {
-        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
+        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, props.theEncounterId);
 
         if (getRes.status === 1) {
             setEncounterList(getRes.responseValue);
@@ -371,6 +384,24 @@ export default function IPDTopVitals(props) {
         setReactionId(reactionId);
     }
 
+    const handleSaveVital = async () => {
+        const saveObj = {
+            deptId : activeDeptID,
+            doctorId : activeDocID,
+            uhid :activeUHID,
+            userId: userId,
+            clientId : clientID,
+            jsonVital : JSON.stringify(sendVitals)
+        }
+        const saveRes = await InsertPatientVitalForONC(saveObj);
+        if(saveRes.status === 1) {
+            alert('Data Saved For Vital');
+        }
+        else{
+            alert('Not saved')
+        }
+    }
+
     useEffect(() => {
         setData()
     }, [patientsendDataChange])
@@ -381,10 +412,15 @@ export default function IPDTopVitals(props) {
             getAllEncoutersAsPerIssueID();
         }
     }, [showTheButton, getIssueID]);
+    useEffect(() => {
+        
+        getAllEncoutersAsPerIssueID();
+    }, [props.theEncounterId])
 
     return (
         <div className='roww'>
-            {/* <div className={`col-12 d-flex flex-wrap  gap-1 ps-3 pt-2 pb-2 boxcontainer pe-3 boxs`}>
+            
+            <div className={`col m-0 vitasopd boxcontainer`}>
 
                     {sendVitals && sendVitals.map((val, ind) => {
                         if (val.vmId === 4) {
@@ -392,12 +428,12 @@ export default function IPDTopVitals(props) {
                                 <div className=' d-flex flex-row didd' style={{ width: "250px", border: "1px solid #E5E5E5", borderRadius: "5px", 'margin-bottom': '10px' }} >
                                     <div className="did-floating-label-content pe-2 ">
                                         <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "108px", border: "none" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                        <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                     </div>
                                     <div className='pt-2'>/&nbsp;</div>
                                     <div className="did-floating-label-content pe-2 didd">
                                         <input autoComplete="off" className="did-floating-input" id={'vitalId' + 6} type="number" style={{ maxWidth: "108px", border: "none" }} name={6} placeholder=" " value={sendVitals[2].vmValue != "" ? sendVitals[2].vmValue : ""} onChange={handleOnchange} />
-                                        <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' />{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
+                                        <label className={`${(sendVitals[2].vmValue === "") || (sendVitals[2].vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + 6}> <img src={val.img} className='pe-1' alt=''/>{sendVitals[2].shortname} <span className='vitalUnit'>{sendVitals[2].unit}</span></label>
                                     </div>
 
                                 </div>
@@ -408,14 +444,14 @@ export default function IPDTopVitals(props) {
 
                                 <div className="did-floating-label-content pe-2 didd">
                                     <input autoComplete="off" className="did-floating-input" type="number" id={'vitalId' + val.vmId} style={{ maxWidth: "108px" }} name={val.vmId} placeholder=" " value={val.vmValue != "" ? val.vmValue : ""} onChange={handleOnchange} />
-                                    <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' />{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
+                                    <label className={`${(val.vmValue === "") || (val.vmValue === 0) ? "did-floating-label" : !Number.isNaN(val.vmValue) ? "temp-did-floating-label" : "did-floating-label"} `} id={'vitalLabel' + val.vmId}> <img src={val.img} className='pe-1' alt=''/>{val.shortname} <span className='vitalUnit'>{val.unit}</span></label>
                                 </div>
                             )
                         }
                     })}
 
-                    
-                </div> */}
+                    <button type="button" className="btn btn-save btn-save-fill btn-sm did-floating-input mb-1 me-1" onClick={handleSaveVital}><img src={saveButtonIcon} className='icnn' alt="" />Save</button>
+                </div>  
 
             {/* <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
 
@@ -437,18 +473,19 @@ export default function IPDTopVitals(props) {
             <div className='col-md-12 col-sm-12 plt1'>
                 {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                 <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                    <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterList = {[props.theEncounterList]}/>
+                    <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId = {props.theEncounterId} setToShowDesiredList = {setToShowDesiredList}/>
                 </div>
-                {showTheButton && (
-                    <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
-                        <Heading text={getHeadingName} />
-                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent}>
-                            <img src={addIcon} className='icnn' alt='' />
-                            Add
-                        </button>
-                    </div>
-                )}
-                <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
+                {showTheButton && toShowDesiredList ? (
+                                <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
+                                    <Heading text={getHeadingName} />
+                                    <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent} >
+                                        <img src={addIcon} className='icnn' alt='' />
+                                        Add
+                                    </button>
+                                </div>
+                            ) : null}
+                {toShowDesiredList === true ?
+                    <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
                     <table className="med-table border striped">
                         {showImage === 1 ? (
                             <div className='imageNoDataFound'>
@@ -532,6 +569,7 @@ export default function IPDTopVitals(props) {
                         )}
                     </table>
                 </div>
+                 : null}
 
 
 

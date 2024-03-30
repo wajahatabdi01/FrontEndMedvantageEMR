@@ -12,7 +12,7 @@ import DeleteClinicalInstructionList from '../API/DeleteClinicalInstructionList'
 
 
 
-export default function ClinicalInstructions({setShowToster , setClinicalPres}) {
+export default function ClinicalInstructions({setShowToster , setClinicalPres, theEncounterId}) {
 
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
@@ -140,7 +140,7 @@ export default function ClinicalInstructions({setShowToster , setClinicalPres}) 
     }
 
     const getClinicalList = async () => {
-      const resClinicalLisat = await GetClinicalInstructionListListByUhid(activeUHID);
+      const resClinicalLisat = await GetClinicalInstructionListListByUhid(activeUHID, theEncounterId);
       if(resClinicalLisat.status === 1)
       {
         setClinicalInstructionList(resClinicalLisat.responseValue)

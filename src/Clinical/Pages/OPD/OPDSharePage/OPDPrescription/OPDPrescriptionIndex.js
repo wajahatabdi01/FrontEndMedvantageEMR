@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import BoxContainer from '../../../../../Components/BoxContainer'
 // import TableContainer from '../../../../../Components/TableContainer'
 // import Heading from '../../../../../Components/Heading'
@@ -12,7 +12,7 @@ import OPDInvestigationProcedure from './OPDInvestigationProcedure'
 import GetPatientHistory from '../../../../API/OPD/Prescription/GetPatientHistory'
 import SaveOPDData from '../../../../../Code/SaveOPDData'
 import SuccessToster from '../../../../../Component/SuccessToster'
-import AlertToster from '../../../../../Component/AlertToster'
+// import AlertToster from '../../../../../Component/AlertToster'
 import Loader from '../../../../../Component/Loader'
 import GetCheckCrNo from '../../../../API/OPD/Prescription/GetCheckCrNo'
 import POSTVisitRevisit from '../../../../API/OPD/Prescription/POSTVisitRevisit'
@@ -35,11 +35,8 @@ import { t } from 'i18next'
 import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import OPDTopVitals from './OPDTopVitals'
 import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
+import { Blur } from 'konva/lib/filters/Blur'
 export default function OPDPrescriptionIndex(props) {
-
-
-
-
 
     let [showPopUp, setShowPopUp] = useState(1)
     let [patientHistory, setPatientHistory] = useState([])
@@ -68,10 +65,12 @@ export default function OPDPrescriptionIndex(props) {
     const [titleId, setTitleId] = useState('');
     const [encounterComments, setEncounterComments] = useState('');
     const [encounterDestination, setEncounterDestination] = useState('');
-    const [theEncounterList, setTheEncounterList] = useState([])
-    
+    const [theEncounterId, settheEncounterId] = useState([]);
+    const [toPassEncounter, setToPassEncounter] = useState();
+    const [toShowDesiredList, setToShowDesiredList] = useState(false)
 
-    const [activeTab, setActiveTab] = useState('problem');
+
+    // const [activeTab, setActiveTab] = useState('problem');
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
@@ -617,7 +616,7 @@ export default function OPDPrescriptionIndex(props) {
         }
     }
     const getAllEncoutersAsPerIssueID = async () => {
-        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID);
+        const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, toPassEncounter);
 
         if (getRes.status === 1) {
             setEncounterList(getRes.responseValue);
@@ -693,13 +692,22 @@ export default function OPDPrescriptionIndex(props) {
 
     const getPatientVisit = async () => {
         const resVisit = await GetPatientVisitsEncounter(activeUHID);
-        if(resVisit.status === 1) {
-           
-            setTheEncounterList(resVisit.responseValue)
+        if (resVisit.status === 1) {
+            console.log('resVisit.responseValue : ', resVisit.responseValue);
+            console.log('resVisit.responseValue[0].encounterId : ', resVisit.responseValue[0].encounterId);
+            settheEncounterId(resVisit.responseValue);
+            setToPassEncounter(resVisit.responseValue[0].encounterId)
         }
     }
+    const handleChangeEncounter = (event) => {
+
+        const selectedEncounterId = event.target.value;
+        setToPassEncounter(selectedEncounterId);
+        // setToRefreshComponent(true)
+    };
 
     useEffect(() => {
+
         if (showTheButton === true) {
 
             getAllEncoutersAsPerIssueID();
@@ -710,7 +718,10 @@ export default function OPDPrescriptionIndex(props) {
         getPatientVisit()
     }, [])
 
+    useEffect(() => {
 
+        getAllEncoutersAsPerIssueID();
+    }, [toPassEncounter])
 
     return (
         <>
@@ -718,36 +729,34 @@ export default function OPDPrescriptionIndex(props) {
 
             {showPopUp != 1 ?
                 <div className=''>
-                <div className="row">
-                    <div class="col-12">
-                        <div class="med-box commong">
-                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
-                                Select Encounter&nbsp;
-                                <div>
-                                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>View</button> */}
-                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
-                                        <option value="0" selected>Select</option>
-                                        {theEncounterList && theEncounterList.map((list, ind) => {
-                                            return(
-                                                <option value={list.encounterId} selected>{list.visitDate}</option>
-                                            )
-                                        })}
-                                    </select>
+                    <div className="row">
+                        <div class="col-12">
+                            <div class="med-box commong">
+                                <div className="title d-flex justify-content-end" style={{ paddingBottom: '2px' }}>
+                                    Select Encounter&nbsp;
+                                    <div>
+                                        {/* Ensure onChange event is bound to the select element */}
+                                        <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }} onChange={handleChangeEncounter}>
+                                            {/* Ensure theEncounterId is defined and mapped correctly */}
+                                            {theEncounterId && theEncounterId.map((list, ind) => (
+                                                <option key={ind} value={list.encounterId}>{list.visitDate}</option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                
+
                     <OPDTopVitals />
                     <div className="row" >
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
-                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterList = {theEncounterList}/>
+                                <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId={toPassEncounter} setToShowDesiredList={setToShowDesiredList} />
                             </div>
-                            {showTheButton && (
+                            {showTheButton && toShowDesiredList ? (
                                 <div className={`d-flex justify-content-between align-items-center boxcontainer mt-2`} style={{ padding: "7px", overflowX: "auto" }}>
                                     <Heading text={getHeadingName} />
                                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-toggle="modal" data-bs-target={'#' + activeComponent} >
@@ -755,93 +764,96 @@ export default function OPDPrescriptionIndex(props) {
                                         Add
                                     </button>
                                 </div>
-                            )}
+                            ) : null}
+
 
 
 
                             {/* {
                                 activeComponent ===1?<OPDProblemPopUp />:""
                             } */}
-                            <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
-                                <table className="med-table border striped">
-                                    {showImage === 1 ? (
-                                        <div className='imageNoDataFound'>
-                                            <img src={NoDataFound} alt="imageNoDataFound" />
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <thead>
-                                                <tr>
-                                                    <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                    <th>Title</th>
-                                                    <th>Coding</th>
-                                                    <th>Begin Date</th>
-                                                    <th>End Date</th>
-                                                    <th>Referred By</th>
-                                                    <th>Comments</th>
-                                                    <th>Destination</th>
-                                                    <th>Classification Name</th>
-                                                    <th>Occurance Name</th>
-                                                    <th>Verification Name</th>
-                                                    <th>Outcome Name</th>
-                                                    <th style={{ "width": "10%" }} className="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {getEncounterList && getEncounterList.map((list, ind) => {
-                                                   
-                                                    const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-                                                   
-                                                    return (
-                                                        <tr className="text-center" key={list.id}>
-                                                            <td className="text-center">{ind + 1}</td>
-                                                            <td style={{ whiteSpace: 'nowrap' }}>{list.encounterTitle}</td>
-                                                            {/* <td>{list.encounterCoding}</td> */}
-                                                            <td>
-                                                                <div className='codeSplit'>
-                                                                    {codingListItem.map((coding, index) => (
-                                                                        coding.trim() !== '' &&
-                                                                        <span key={index} className="">{coding}</span>
-                                                                    ))}
-                                                                </div>
-                                                            </td>
-                                                            <td style={{ whiteSpace: 'nowrap' }}>{list.encounterBeginDate}</td>
-                                                            <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate}</td>
-                                                            <td>{list.encounterReferredBy}</td>
-                                                            <td>{list.encounterComments}</td>
-                                                            <td>{list.encounterDestination}</td>
-                                                            <td>{list.classificationName}</td>
-                                                            <td>{list.occuranceName}</td>
-                                                            <td>{list.verificationName}</td>
-                                                            <td>{list.outComeName}</td>
-                                                            <td>
-                                                                <div className="action-button">
-                                                                    {getIssueID === 1 ?
-                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                        :
-                                                                        getIssueID === 2 ?
-                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                            :
-                                                                            getIssueID === 3 ?
-                                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                                : getIssueID === 4 ?
-                                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                                    : getIssueID === 5 ?
-                                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
-                                                                                        : ''
-                                                                    }
+                            {toShowDesiredList === true ?
+                                <div className="med-table-section" style={{ minHeight: '40vh', maxHeight: "73vh", position: 'relative' }}>
+                                    <table className="med-table border striped">
+                                        {showImage === 1 ? (
+                                            <div className='imageNoDataFound'>
+                                                <img src={NoDataFound} alt="imageNoDataFound" />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <thead>
+                                                    <tr>
+                                                        <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                                        <th>Title</th>
+                                                        <th>Coding</th>
+                                                        <th>Begin Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Referred By</th>
+                                                        <th>Comments</th>
+                                                        <th>Destination</th>
+                                                        <th>Classification Name</th>
+                                                        <th>Occurance Name</th>
+                                                        <th>Verification Name</th>
+                                                        <th>Outcome Name</th>
+                                                        <th style={{ "width": "10%" }} className="text-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {getEncounterList && getEncounterList.map((list, ind) => {
 
-                                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                })}
-                                            </tbody>
-                                        </>
-                                    )}
-                                </table>
-                            </div>
+                                                        const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
+
+                                                        return (
+                                                            <tr className="text-center" key={list.id}>
+                                                                <td className="text-center">{ind + 1}</td>
+                                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterTitle}</td>
+                                                                {/* <td>{list.encounterCoding}</td> */}
+                                                                <td>
+                                                                    <div className='codeSplit'>
+                                                                        {codingListItem.map((coding, index) => (
+                                                                            coding.trim() !== '' &&
+                                                                            <span key={index} className="">{coding}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                </td>
+                                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterBeginDate}</td>
+                                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate}</td>
+                                                                <td>{list.encounterReferredBy}</td>
+                                                                <td>{list.encounterComments}</td>
+                                                                <td>{list.encounterDestination}</td>
+                                                                <td>{list.classificationName}</td>
+                                                                <td>{list.occuranceName}</td>
+                                                                <td>{list.verificationName}</td>
+                                                                <td>{list.outComeName}</td>
+                                                                <td>
+                                                                    <div className="action-button">
+                                                                        {getIssueID === 1 ?
+                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#problemId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                            :
+                                                                            getIssueID === 2 ?
+                                                                                <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#allergyId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                :
+                                                                                getIssueID === 3 ?
+                                                                                    <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#medicationId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                    : getIssueID === 4 ?
+                                                                                        <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#deviceId" title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                        : getIssueID === 5 ?
+                                                                                            <div data-bs-toggle="modal" data-bs-title="Edit Row" data-bs-placement="bottom" data-bs-target="#surgeryId  " title="Edit Row" onClick={() => { handleUpdate(list.encounterId, list.encounterTitle, list.encounterBeginDate, list.encounterEndDate, list.encounterReferredBy, list.encounterCoding, list.classificationTypeId, list.occurrenceId, list.verificationStatusId, list.outcomeId, list.encounterComments, list.encounterDestination, list.titleId) }}><img src={IconEdit} alt='' /></div>
+                                                                                            : ''
+                                                                        }
+
+                                                                        <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setRowId(list.encounterId) }} alt='' /></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </>
+                                        )}
+                                    </table>
+                                </div>
+                                : null}
 
                             {/* <OPDPatientMedicationAssign values={getD} funh={setGetD} foodData={foodData} /> */}
                         </div>

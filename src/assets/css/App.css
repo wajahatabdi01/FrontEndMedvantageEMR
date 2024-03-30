@@ -2079,7 +2079,8 @@ input[type=number] {
 }
 
 .modal.d-block {
-  background: #000000e8;
+  backdrop-filter: blur(5px);
+  /* background: #000000e8; */
 }
 
 .PopUpModal .modal-content {
@@ -12306,6 +12307,19 @@ span.starMandatory {
   padding: 10px;
 }
 
-.v-top td{
-vertical-align: top;
+.v-top td {
+  vertical-align: top;
+}
+
+
+.card-toaster {
+  display: block;
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  max-width: 450px;
+  height: auto;
+  padding: 3px;
+  box-shadow: 5px 5px 14px #1d4999b5;
+  width: 100%;
 }

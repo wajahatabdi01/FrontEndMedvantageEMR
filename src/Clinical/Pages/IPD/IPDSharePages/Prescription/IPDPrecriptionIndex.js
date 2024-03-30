@@ -15,8 +15,8 @@ import { useSelector } from 'react-redux'
 import Loader from '../../../../../Component/Loader'
 // import IPDPatientLabData from './IPDPatientLabData'
 // import Search from '../../../../../Code/Serach'
-import { useLocation } from 'react-router-dom'
-import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
+// import { useLocation } from 'react-router-dom'
+// import OPDTOPBottom from '../../../OPD/OPDSharePage/OPDPrescription/OPDTOPBottom'
 import IPDInvestigation from './Popup/IPDInvestigation'
 import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
 
@@ -24,8 +24,10 @@ import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPati
 export default function IPDPrecriptionIndex(props) {
 
   let [loader, setLoader] = useState(1)
-  let location = useLocation()
-  const [theEncounterList, setTheEncounterList] = useState([])
+  // let location = useLocation()
+  const [theEncounterId, settheEncounterId] = useState([]);
+  const [toPassEncounter, setToPassEncounter] = useState();
+  const [toRefreshComponent, setToRefreshComponent] = useState(false)
 
   let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -130,10 +132,19 @@ export default function IPDPrecriptionIndex(props) {
   const getPatientVisit = async () => {
     const resVisit = await GetPatientVisitsEncounter(activeUHID);
     if(resVisit.status === 1) {
-       
-        setTheEncounterList(resVisit.responseValue)
+        console.log('resVisit.responseValue : ', resVisit.responseValue);
+        console.log('resVisit.responseValue[0].encounterId : ', resVisit.responseValue[0].encounterId);
+        settheEncounterId(resVisit.responseValue)
+        setToPassEncounter(resVisit.responseValue[0].encounterId)
     }
 }
+
+const handleChangeEncounter = (event) => {
+  
+  const selectedEncounterId = event.target.value;
+  setToPassEncounter(selectedEncounterId);
+  setToRefreshComponent(true)
+};
 useEffect(() => {
   getPatientVisit()
 }, [])
@@ -164,27 +175,25 @@ useEffect(() => {
     
       <div className=" row">
       <div class="col-12">
-                        <div class="med-box commong">
-                            <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
-                                Select Encounter&nbsp;
-                                <div>
-                                    {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={''}>View</button> */}
-                                    <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }}>
-                                        <option value="0" selected>Select</option>
-                                        {theEncounterList && theEncounterList.map((list, ind) => {
-                                            return(
-                                                <option value={list.encounterId} selected>{list.visitDate}</option>
-                                            )
-                                        })}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+      <div class="med-box commong">
+  <div className="title d-flex justify-content-end" style={{paddingBottom: '2px'}}>
+    Select Encounter&nbsp;
+    <div>
+      {/* Ensure onChange event is bound to the select element */}
+      <select name="encounterName" id="encounterId" className='form-select form-select-sm' style={{ width: '180px' }} onChange={handleChangeEncounter}>
+        {/* Ensure theEncounterId is defined and mapped correctly */}
+        {theEncounterId && theEncounterId.map((list, ind) => (
+          <option key={ind} value={list.encounterId}>{list.visitDate}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+</div>
                     </div>
 
         <div className='col-md-9 col-sm-12 plt'>
 
-          <IPDTopVitals theEncounterList = {theEncounterList}/>
+          <IPDTopVitals theEncounterId = {toPassEncounter} toRefreshComponent = {toRefreshComponent}/>
           {/* <OPDTOPBottom values={props.values} funh={props.funh}/> */}
           {/* <IPDHistory /> */}
           {/* <IPDPatientComplaintConsultant /> */}

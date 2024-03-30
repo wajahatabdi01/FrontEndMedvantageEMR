@@ -4,8 +4,8 @@ import GetAllIssueOccurence from '../../../../../../Registartion/API/GET/GetAllI
 import GetAllVarificationStatus from '../../../../../../Registartion/API/GET/GetAllVarificationStatus';
 import GetAllClassification from '../../../../../../Registartion/API/GET/GetAllClassification';
 import InsertEncounter from '../../../../../../Registartion/API/POST/InsertEncounter';
-import SuccessToster from '../../../../../../Component/SuccessToster';
-import AlertToster from '../../../../../../Component/AlertToster';
+// import SuccessToster from '../../../../../../Component/SuccessToster';
+// import AlertToster from '../../../../../../Component/AlertToster';
 import GetAllSurgeryIssueList from '../../../../../../Registartion/API/GET/GetAllSurgeryIssueList';
 import saveButtonIcon from '../../../../../../assets/images/icons/saveButton.svg';
 import clearIcon from '../../../../../../assets/images/icons/clear.svg';
@@ -118,7 +118,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
 
     let handleSelectProblem = (e) => {
         document.getElementById("errTitleSurgery").style.display = "none";
-        const ddlProblems = document.getElementById("ddlsurgery");
+        // const ddlProblems = document.getElementById("ddlsurgery");
         const ddlSurgeryId = e.target.value;
         const selectedOption = e.target.options[e.target.selectedIndex];
         const selectProblem = selectedOption ? selectedOption.textContent : "";

@@ -1,5 +1,5 @@
 export default async function InsertPatientVitalForONC(sendData) {
-  let url = "https://localhost:5001/api/PatientPrescriptionVital/InsertPatientPrescriptionVital"
+  let url = window.AppbaseUrl + "/api/PatientPrescriptionVital/InsertPatientPrescriptionVital"
   let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
   let data = {};
   let responsonse = "";

@@ -7,7 +7,7 @@ import TableContainer from '../../../../../../Component/TableContainer';
 import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingStatus';
 import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
-function OPDLifeStyle({ setShowToster }) {
+function OPDLifeStyle({ setShowToster, theEncounterId }) {
     let [showLifeStyle, setShowLifestyle] = useState(1);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
@@ -47,7 +47,8 @@ function OPDLifeStyle({ setShowToster }) {
     let getFamilyHistoryData = async () => {
         const param = {
             Uhid: activeUHID,
-            HistoryType: 2
+            HistoryType: 2,
+            EncounterId: theEncounterId
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {

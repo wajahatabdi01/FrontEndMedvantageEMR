@@ -19,7 +19,7 @@ import IconEdit from '../../assets/images/icons/IconEdit.svg'
 import GetAllImmunizationObservationList from '../API/GET/GetAllImmunizationObservationlist';
 
 
-export default function FHIRImmunization({ setShowToster }) {
+export default function FHIRImmunization({ setShowToster ,setImmunization, theEncounterId}) {
 
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -310,7 +310,7 @@ export default function FHIRImmunization({ setShowToster }) {
 
   /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
   const funGetAllImmunizationData = async () => {
-    const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID);
+    const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID , theEncounterId);
     if (getAllImmunizationDataRes.status === 1) {
       setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);
     }
@@ -705,7 +705,7 @@ export default function FHIRImmunization({ setShowToster }) {
   useEffect(() => {
     funToGetDropDownLists();
     funGetAllImmunizationData();
-  }, [])
+  }, [setImmunization])
   return (
 
     <>

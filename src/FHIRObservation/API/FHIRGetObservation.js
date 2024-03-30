@@ -1,6 +1,6 @@
-async function FHIRGetObservation(uhid, clientId) {
+async function FHIRGetObservation(uhid, encounterId) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/FHIRGetObservation";
-  let url = window.AppbaseUrl+"/api/FHIRObservation/GetAllObservation?Uhid="+uhid;
+  let url = window.AppbaseUrl+"/api/FHIRObservation/GetAllObservation?Uhid="+uhid+"&EncounterId="+encounterId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

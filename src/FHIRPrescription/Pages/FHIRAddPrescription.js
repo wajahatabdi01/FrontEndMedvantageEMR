@@ -22,7 +22,7 @@ import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 import GetAllRefills from "../API/GET/GetAllRefills";
 
-export default function FHIRAddPrescription({setShowToster, setPrecription}) {
+export default function FHIRAddPrescription({setShowToster, setPrecription, theEncounterId}) {
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0);
   const [editName, setEditName] = useState("");
@@ -64,7 +64,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription}) {
     
     const listRes = await FHIRGetAllPrescriptionListByUHID(
       activeUHID,
-      clientID
+      clientID, theEncounterId
     );
     if (listRes.status === 1) {
      

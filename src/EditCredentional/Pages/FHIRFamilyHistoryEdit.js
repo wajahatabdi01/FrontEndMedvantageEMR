@@ -11,7 +11,7 @@ import Toster from '../../Component/Toster'
 import saveButtonIcon from '../../assets/images/icons/saveButton.svg'
 import GetFamilyHistoryData from '../../Clinical/API/OPDLifestyle/GetFamilyHistoryData'
 
-export default function FHIRFamilyHistoryEdit({setShowToster,setFamilyHistory}) {
+export default function FHIRFamilyHistoryEdit({setShowToster,setFamilyHistory, theEncounterId}) {
   let [showFamilyHistoryList, setShowFamilyHistoryList] = useState(1);
   const [isShowPopUp, setIsShowPopUp] = useState(0);
   const [PopUpId, setPopUpId] = useState('');
@@ -211,7 +211,8 @@ const dataArray = Object.values(lastIndexMap);
  const funFamilyHistoryList = async () => {
   const param={
     Uhid:activeUHID,
-    HistoryType:1
+    HistoryType:1,
+    EncounterId : theEncounterId
 }
   const getHisListRes = await GetFamilyHistoryData(param);
  if(getHisListRes.status === 1){

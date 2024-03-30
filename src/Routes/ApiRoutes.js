@@ -944,7 +944,7 @@ export default function ApiRoutes() {
                   {/* -----------------------------------End Medvantage CarePlan SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage CareCoordination SEction----------------------------------------- */}
-                  {/* <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} /> */}
+                  <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} />
                   {/* -----------------------------------End Medvantage CareCoordination SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage Clinical SEction----------------------------------------- */}
