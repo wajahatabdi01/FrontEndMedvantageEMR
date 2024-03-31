@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ExportIndex from '../../API/ExportIndex';
+import DownloadAll from '../../API/DownloadAllApi';
+import DownloadAllApiQrda3 from '../../API/DownloadAllApiQrda3';
+import ViewDocumentsC from '../../API/ViewDocumentsC';
 
 export default function CCDAorQRDA() {
   const [activeCard, setActiveCard] = useState(null);
@@ -7,7 +10,7 @@ export default function CCDAorQRDA() {
   const [current_measures, setMeasureList] = useState([]);
   const [providersList, setProvidersList] = useState([]);
   const [billingList, setBillingList] = useState([]);
-  const [getRadioValue, setRadioValue] = useState(1);
+  
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [pid, setPid] = useState();
@@ -17,8 +20,14 @@ export default function CCDAorQRDA() {
   const [billing, setBilling] = useState();
   const searchRef = useRef(null);
   const popupsRef = useRef([]);
-  const [combination, setCombination] = useState([]);
+ 
   const [selectedSearchType, setSelectedSearchType] = useState('');
+  const [getRadioValue, setRadioValue] = useState('hie');
+  const [downloadformat, setDownloadformat] = useState('');
+  const [sendTo, setSendTo] = useState('');
+  const [components, setComponents] = useState([]);
+  const [combination, setCombination] = useState([]);
+
 
   const handlePatientSelectChange = (e) => {
     const { value, checked } = e.target;
@@ -29,7 +38,128 @@ export default function CCDAorQRDA() {
       setCombination(combination => combination.filter(comp => comp !== value));
     }
   };
+  const handleDownloadformatChange = (e) => {
+    setDownloadformat(e.target.value);
+  };
 
+  const handleComponentCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setComponents(prevComponents => [...prevComponents, value]);
+    } else {
+      setComponents(prevComponents => prevComponents.filter(comp => comp !== value));
+    }
+  };
+
+    const getComponentsString = () => {
+      return components.join('|');
+    };
+
+
+
+   
+    const getCombinationString = () => {
+      return combination.join('|');
+    };
+    const viewDocument = async (pid,docType) => {
+      const formData = new FormData();
+      let comp = getComponentsString();
+        formData.append('combination', pid);
+        formData.append('components', 'allergies|medications|problems|immunizations|procedures|results|plan_of_care|vitals|social_history|encounters|functional_status|referral|instructions|medical_devices|goals');
+        formData.append('doctype', docType);
+        formData.append('view', 1);
+        // formData.append('upload', 1);
+        // formData.append('userId', userData.userId);
+        // setIsListLoading(true);
+
+        const resp = await ViewDocumentsC(formData);
+        // setIsListLoading(false);
+        if (resp) {
+          // console.log(resp);
+          let newWindow = window.open('', '_blank');
+          newWindow.document.write(resp);
+            // setParsedData(resp.records);
+
+        }
+    }
+const sendToDownloadAll = async () => 
+{
+  let comp = getComponentsString();
+  let pids = getCombinationString();
+  console.log(pids);
+  if(getRadioValue == 'hie')
+  {
+
+  }
+  else if(getRadioValue == 'emr')
+  {
+
+  }
+  else if(getRadioValue == 'download_All')
+  {
+    if(combination.length == 0)
+    {
+      alert("Please select at least one patient.");
+  return ;
+    }
+    else
+    {
+      if(downloadformat == 'ccda')
+      {
+        const formData = new FormData();
+        formData.append('doctype', 'ccda');
+        formData.append('combination', pids);
+        formData.append('components', 'allergies|medications|problems|immunizations|procedures|results|plan_of_care|vitals|social_history|encounters|functional_status|referral|instructions|medical_devices|goals');
+        formData.append('downloadccda', 'download_ccda');
+        // formData.append('upload', 1);
+        // formData.append('userId', userData.userId);
+        // setIsListLoading(true);
+
+        const resp = await DownloadAll(formData);
+        // setIsListLoading(false);
+        if (resp) {
+            // setParsedData(resp.records);
+
+        }
+      }
+      else if(downloadformat == 'qrda1')
+      {
+        const formData = new FormData();
+        formData.append('combination', pids);
+        formData.append('components', 'allergies|medications|problems|immunizations|procedures|results|plan_of_care|vitals|social_history|encounters|functional_status|referral|instructions|medical_devices|goals');
+        formData.append('downloadqrda', 'download_qrda');
+        // formData.append('upload', 1);
+        // formData.append('userId', userData.userId);
+        // setIsListLoading(true);
+
+        const resp = await DownloadAll(formData);
+        // setIsListLoading(false);
+        if (resp) {
+            // setParsedData(resp.records);
+
+        }
+      }
+  else if(downloadformat == 'qrda3')
+      {
+        const formData = new FormData();
+        formData.append('combination', pids);
+        formData.append('components', 'allergies|medications|problems|immunizations|procedures|results|plan_of_care|vitals|social_history|encounters|functional_status|referral|instructions|medical_devices|goals');
+        formData.append('downloadqrda3', 'download_qrda3');
+        // formData.append('upload', 1);
+        // formData.append('userId', userData.userId);
+        // setIsListLoading(true);
+
+        const resp = await DownloadAllApiQrda3(formData);
+        // setIsListLoading(false);
+        if (resp) {
+            // setParsedData(resp.records);
+
+        }
+      } 
+    }
+  }
+
+}
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -60,11 +190,7 @@ export default function CCDAorQRDA() {
     setSelectedSearchType(e.target.value)
 
   }
-  const getCombinationString = () => {
-
-    return combination.join('|');
-
-  };
+  
 
   const funSetRadioValue = (radioValue) => {
     console.log('radioValue : ', radioValue)
@@ -117,7 +243,7 @@ export default function CCDAorQRDA() {
     }
   }
 
-  console.log('data', detailsList);
+  // console.log('data', detailsList);
 
 
 
@@ -278,17 +404,17 @@ export default function CCDAorQRDA() {
                         <div className="row">
                           <div className="col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                             <label>
-                              HIE <input type="radio" name="radioGroup" checked={getRadioValue === 1} onChange={() => funSetRadioValue(1)} />
+                              HIE <input type="radio" name="radioGroup" checked={getRadioValue === 'hie'} onChange={() => funSetRadioValue('hie')} />
                             </label>
                           </div>
                           <div className="col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                             <label>
-                              EMR Direct <input type="radio" name="radioGroup" onChange={() => funSetRadioValue(2)} />
+                              EMR Direct <input type="radio" name="radioGroup" checked={getRadioValue === 'emr'} onChange={() => funSetRadioValue('emr')} />
                             </label>
                           </div>
                           <div className="col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                             <label>
-                              Download <input type="radio" name="radioGroup" onChange={() => funSetRadioValue(3)} />
+                              Download <input type="radio" name="radioGroup" checked={getRadioValue === 'download_All'} onChange={() => funSetRadioValue('download_All')} />
                             </label>
                           </div>
 
@@ -306,10 +432,129 @@ export default function CCDAorQRDA() {
                                 </button>
                               </h2>
                               <div id="advanced" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div className="accordion-body">
-                                  <div className="row">
+                              <div className="accordion-body">
+                                
+                              <div className="row">
+                              <div className="col-sm-3" style={{ fontSize: '13px',whiteSpace:'nowrap' }}>
+                                          <label>
+                                              CCD <input type="radio" name="downloadformat_type" />
+                                          </label>
+                                      </div>
+                                      <div className="col-sm-3" >
+                                          <label>
+                                             Transition of Care <input type="radio" name="downloadformat_type" />
+                                          </label>
+                                      </div>
+                                      <div className="col-sm-3" style={{ fontSize: '13px',whiteSpace:'nowrap' }}>
+                                          <label>
+                                              CarePlan <input type="radio" name="downloadformat_type" />
+                                          </label>
+                                      </div>
+                                      <div className="col-sm-3" style={{ fontSize: '13px',whiteSpace:'nowrap' }}>
+                                          <label>
+                                              Referral <input type="radio" name="downloadformat_type" />
+                                          </label>
+                                      </div>
+                              </div>
+
+                              <div className='row'>
+                              <div>
+            <input type="checkbox" id="latest_ccda" />
+            Latest Medical Records      
+
+              </div>
+
+                              </div>
+
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp1" onChange={handleComponentCheckboxChange} className='check_component1' value = "allergies" checked="true" />  Allergies  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp2" onChange={handleComponentCheckboxChange} className='check_component1' value = "medications" checked="true" />  Medications  </div>
+                              </div>
+                              </div>
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp3" onChange={handleComponentCheckboxChange} className='check_component1' value = "problems" checked="true" />  Problems  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp4" onChange={handleComponentCheckboxChange} className='check_component1' value = "Immunizations" checked="true" />  Immunizations  </div>
+                              </div>
+                              </div>
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp5" onChange={handleComponentCheckboxChange} className='check_component1' value = "Procedures" checked="true" />  procedures  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp6" onChange={handleComponentCheckboxChange} className='check_component1' value = "results" checked="true" />  Results  </div>
+                              </div>
+                              </div>
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp7" onChange={handleComponentCheckboxChange} className='check_component1' value = "plan_of_care" checked="true" />  Plan Of Care  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp8" onChange={handleComponentCheckboxChange} className='check_component1' value = "vitals" checked="true" />  Vitals  </div>
+                              </div>
+                              </div>
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp9" onChange={handleComponentCheckboxChange} className='check_component1' value = "social_history" checked="true" />  Social History  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp10" onChange={handleComponentCheckboxChange} className='check_component1' value = "encounters" checked="true" />  Encounters  </div>
+                              </div>
+                              </div>
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp11" onChange={handleComponentCheckboxChange} className='check_component1' value = "functional_status" checked="true" />  Functional Status  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp12" onChange={handleComponentCheckboxChange} className='check_component1' value = "referral" checked="true" />  Reason for Referral  </div>
+                              </div>
+                              </div>
+
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp11" onChange={handleComponentCheckboxChange} className='check_component1' value = "instructions" checked="true" />  Instructions  </div>
+                              </div>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp12" onChange={handleComponentCheckboxChange} className='check_component1' value = "medical_devices" checked="true" />  Medical Devices  </div>
+                              </div>
+                              </div>
+
+                              <div className='row'>
+                              <div className="col-sm-6" >
+                              <div>  <input type="checkbox" id="comp11" onChange={handleComponentCheckboxChange} className='check_component1' value = "goals" checked="true" />  Goals  </div>
+                              </div>
+                              <div className="col-sm-6" >
+
+                              </div>
+                              </div>
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
                                     <div className="row mt-2">
-                                      {getRadioValue === 1 ? (
+                                      {getRadioValue === 'hie' ? (
                                         <>
                                           <div className="col-md-6 col-sm-6" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                                             <label>
@@ -418,23 +663,26 @@ export default function CCDAorQRDA() {
                                             </div> */}
                                           </div>
                                         </>) : null}
-                                      {getRadioValue === 3 ? (
+                                      {getRadioValue === 'download_All' ? (
                                         <>
                                           <div className="col-12 ">
                                             <div className="row mt-2">
                                               <div className=" col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                                                 <label>
-                                                  CCDA <input type="radio" name="radioGroupDownload" id='ccdaDownID' />
+                                                CCDA <input type="radio" name="radioGroupDownload" id='ccdaDownID' value="ccda" checked={downloadformat === 'ccda'}
+          onChange={handleDownloadformatChange}/>
                                                 </label>
                                               </div>
                                               <div className=" col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                                                 <label>
-                                                  QRDA I <input type="radio" name="radioGroupDownload" id='qrdaiID' />
+                                                QRDA I <input type="radio" name="radioGroupDownload"  id='qrdaiID' value="qrda1" checked={downloadformat === 'qrda1'}
+          onChange={handleDownloadformatChange} />
                                                 </label>
                                               </div>
                                               <div className=" col-sm-4" style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
                                                 <label>
-                                                  QRDA III <input type="radio" name="radioGroupDownload" id='qrdaiiiID' />
+                                                QRDA III <input type="radio" name="radioGroupDownload" id='qrdaiiiID' value="qrda3" checked={downloadformat === 'qrda3'}
+          onChange={handleDownloadformatChange}/>
                                                 </label>
                                               </div>
 
@@ -448,17 +696,10 @@ export default function CCDAorQRDA() {
                                     </div>
 
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
                       <div className="col-md-12">
                         <div className="d-flex justify-content-end">
                           <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1">Send Filtered</button>
-                          <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1">Send</button>
+                          <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={sendToDownloadAll}>Send</button>
                         </div>
                       </div>
                     </div>
@@ -488,7 +729,7 @@ export default function CCDAorQRDA() {
                     <th >Views</th>
                   </tr>
                 </thead>
-                {console.log("vallllllllllll", detailsList)}
+                {/* {console.log("vallllllllllll", detailsList)} */}
                 {detailsList && detailsList.map((val, index) => {
                   return (
                     <tbody>
@@ -501,11 +742,11 @@ export default function CCDAorQRDA() {
                         <td >{val.ccda_successfull_transfer_count}</td>
                         <td >{val.last_visit_date}</td>
                         <td >{val.patient_creation_date}</td>
-                        <td style={{ "widtd": "5%" }}><input type='checkbox' role='switch' onChange={handlePatientSelectChange} /></td>
+                        <td style={{ "widtd": "5%" }}><input type='checkbox' role='switch' value={val.pid} onChange={handlePatientSelectChange} /></td>
                         <td >
                           <div className="d-flex gap-1">
-                            <i class="bi bi-calendar3" title="File One"></i>
-                            <i class="bi bi-calendar3" title="File One"></i>
+                            <i class="bi bi-calendar3" title="File One" onClick={ () => viewDocument(val.pid,'ccda') }></i>
+                            <i class="bi bi-calendar3" title="File One" onClick={ () => viewDocument(val.pid,'qrda') }></i>
                           </div>
                         </td>
                       </tr>
