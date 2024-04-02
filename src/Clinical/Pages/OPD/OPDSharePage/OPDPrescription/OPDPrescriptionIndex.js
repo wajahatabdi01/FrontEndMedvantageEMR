@@ -416,8 +416,8 @@ export default function OPDPrescriptionIndex(props) {
                         setShowLoader(0)
                     }, 1500)
 
+                    setShowLoader(0)
                     return
-
                 }
                 else if (NoYes != 1) {
                     let response = await GetPatientHistory()
@@ -587,8 +587,9 @@ export default function OPDPrescriptionIndex(props) {
                     else {
                         setTimeout(() => {
                             setShowLoader(0)
-                        }, 1500)
+                        }, 100)
                     }
+                    setShowLoader(0)
 
                     return
                 }
@@ -650,12 +651,12 @@ export default function OPDPrescriptionIndex(props) {
                     if (v.disable === 0) {
                         getdata(0, 1)
                         setShowPopUp(0)
-                        // setShowLoader(0)
+                        setShowLoader(0)
                     }
                     else if (v.disable === 1) {
                         getdata(2, 2)
                         setShowPopUp(0)
-                        // setShowLoader(0)
+                        setShowLoader(0)
                     }
                 })
             }

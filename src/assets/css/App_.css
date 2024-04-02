@@ -2079,7 +2079,8 @@ input[type=number] {
 }
 
 .modal.d-block {
-  background: #000000e8;
+  backdrop-filter: blur(5px);
+  /* background: #000000e8; */
 }
 
 .PopUpModal .modal-content {
@@ -12322,5 +12323,3 @@ span.starMandatory {
   box-shadow: 5px 5px 14px #1d4999b5;
   width: 100%;
 }
-
-/* test */

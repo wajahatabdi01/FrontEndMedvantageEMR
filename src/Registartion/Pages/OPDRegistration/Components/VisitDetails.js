@@ -14,20 +14,19 @@ import clearIcon from '../../../../assets/images/icons/clear.svg';
 import SuccessToster from '../../../../Component/SuccessToster';
 import AlertToster from '../../../../Component/AlertToster';
 import Dental from '../IssuesPopUpComponents/Dental';
+import GetAllvisitreason from '../../../API/GET/GetAllvisitreason';
+import GetAllFHIRVisitCategory from '../../../API/GET/GetAllFHIRVisitCategory';
 const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearStatus, setClearStatus }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     let [isModelOpen, setIsModelOpen] = useState(0)
-    let [problem, setProblem] = useState('');
-    let [issueDetailss, setIssueDetailss] = useState()
-    let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
     let [statuslist, setStatusList] = useState([]);
     let [classificationList, setClassificationList] = useState([]);
-    const [isCodingSelected, setCodingSelected] = useState(false);
     let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
-
+    let [visitReasonList, setVisitReasonList] = useState([])
+    let [visitCategoryList, setVisitCategoryList] = useState([])
     const [visitDetails, setVisitDetails] = useState({
         classId: '0',
         typeId: '0',
@@ -35,8 +34,22 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
         encounterProviderId: '0',
         dischargeDispositionId: '0',
         reasonforVisit: '',
+        visitCategoryId: 0,
+        visitReasonId: 0,
     });
 
+    const getAllVisitReason = async () => {
+        const response = await GetAllvisitreason();
+        if (response.status === 1) {
+            setVisitReasonList(response.responseValue)
+        }
+    }
+    const getAllVisitCategory = async () => {
+        const response = await GetAllFHIRVisitCategory();
+        if (response.status === 1) {
+            setVisitCategoryList(response.responseValue)
+        }
+    }
     let handleErrorClear = () => {
         document.getElementById("errTitleISSUE").style.display = "none";
     }
@@ -250,6 +263,8 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
         }
     }
     useEffect(() => {
+        getAllVisitCategory();
+        getAllVisitReason();
         getAllIssueOutCome();
         getAllIssueOccurence();
         getAllVarificationStatus();
@@ -264,6 +279,8 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                 encounterProviderId: 0,
                 dischargeDispositionId: 0,
                 reasonforVisit: '',
+                visitCategoryId: 0,
+                visitReasonId: 0,
             })
         }
         // issueDetailData(issueDetails)
@@ -335,6 +352,36 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                             <option value="3">Alternative Home</option>
                             <option value="4">Other healthcare facility</option>
                             <option value="5">Expired</option>
+                        </select>
+                    </div>
+                    <small id="errDischarge" className="form-text text-danger" style={{ display: 'none' }}></small>
+                </div>
+                <div className="col-md-2 mb-2">
+                    <label htmlFor="ddlSEStateTertiary" className="form-label">Visit Category</label>
+                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                    <div className='d-flex gap-3' >
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='visitCategoryId' value={visitDetails.visitCategoryId} onChange={handleVisitDetailsChange}>
+                            <option value="0" selected>Select Visit Reason</option>
+                            {visitCategoryList && visitCategoryList.map((list) => {
+                                return (
+                                    <option value={list.id} >{list.name}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    <small id="errDischarge" className="form-text text-danger" style={{ display: 'none' }}></small>
+                </div>
+                <div className="col-md-2 mb-2">
+                    <label htmlFor="ddlSEStateTertiary" className="form-label"> Visit Reason</label>
+                    {/* <sup style={{ color: "red" }}>*</sup> */}
+                    <div className='d-flex gap-3' >
+                        <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='visitReasonId' value={visitDetails.visitReasonId} onChange={handleVisitDetailsChange}>
+                            <option value="0" selected>Select Visit Reason</option>
+                            {visitReasonList && visitReasonList.map((list) => {
+                                return (
+                                    <option value={list.id} >{list.name}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <small id="errDischarge" className="form-text text-danger" style={{ display: 'none' }}></small>

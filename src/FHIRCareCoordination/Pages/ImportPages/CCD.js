@@ -35,7 +35,7 @@ const CCD = () => {
     };
 
 
-    
+
     return (
         <>
             <div class="title">CCD</div>
@@ -57,21 +57,21 @@ const CCD = () => {
                     </div>
 
                     <div className="col-md-6">
-                        
+
                     </div>
                     <div className="med-table-section accordion" style={{ "height": "74vh" }} >
                         <table className="med-table border_ striped v-top">
                             <thead>
                                 <tr>
-                                   
-                                    <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Date</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Owner</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>DOB</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Action</th>
+
+                                    <th className="text-center" style={{ "width": "2%" }}>#</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Date</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Owner</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Patient Name</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>DOB</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Match Found</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Matched Patient</th>
+                                    <th className="text-center_" style={{ "width": "5%" }}>Action</th>
                                 </tr>
                             </thead>
                             {parsedData.length > 0 ?
@@ -79,7 +79,7 @@ const CCD = () => {
 
                                     {parsedData && parsedData.map((item, index) => (
                                         <tr key={index}>
-                                           
+
 
                                             <td className="text-center">{index + 1}</td>
                                             <td>{item.date}</td>
@@ -88,9 +88,9 @@ const CCD = () => {
                                             <td> {item.dob} </td>
                                             <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
                                             <td> {item.matched_patient} </td>
-                                           
+
                                             <td>
-                                            <i class="bi bi-calendar3" title="File Two"></i>
+                                                <i class="bi bi-calendar3" title="File Two"></i>
                                             </td>
                                         </tr>
                                     ))}

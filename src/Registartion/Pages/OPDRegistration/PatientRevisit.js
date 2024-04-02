@@ -325,8 +325,8 @@ export default function PatientRevisit({ UHID }) {
             "departmentId": ddlDepartment,
             "doctorId": ddlDoctor,
             "roomId": ddlRoomNo,
-            visitReasonId: 0,
-            visitCategoryId: 0,
+            // visitReasonId: 0,
+            // visitCategoryId: 0,
             encounterDetailsJsonString: JSON.stringify([issueDetails.Problem, issueDetails.Allergy, issueDetails.Medication, issueDetails.Device, issueDetails.Surgery, issueDetails.Dental]),
             ...visitDetails,
         }

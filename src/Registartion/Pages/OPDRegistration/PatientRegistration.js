@@ -1444,7 +1444,6 @@ export default function PatientRegistration() {
         tempArr.push(insuranceDetailsSecondry);
         tempArr.push(insuranceDetailsTertiary);
         let respValidation = handleValidation(patientDetails, insuranceDetailsPrimary, insuranceDetailsSecondry, insuranceDetailsTertiary, ddlDepartment, ddlDoctor, ddlRoomNo)
-
         var makeDataObj = {
 
             ...contactDetails,
@@ -1809,7 +1808,8 @@ export default function PatientRegistration() {
                     <div className="row ">
                         <div class="col-12">
                             <div class="med-box commong">
-                                <div className="title">{headingName ? headingName : 'Patient Registration'}</div>
+                                {/* <div className="title">{headingName ? headingName : 'Patient Registration'}</div> */}
+                                <div className="title">Patient Registration</div>
                             </div>
                         </div>
                         <div className="col-12">
