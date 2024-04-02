@@ -159,7 +159,14 @@ export default function PatientRegistration() {
     const [insuranceDetailsSecondry, setInsuranceDetailsSecondry] = useState();
     const [insuranceDetailsTertiary, setInsuranceDetailsTertiary] = useState();
     const [contactDetails, setContactDetails] = useState();
-    const [visitDetails, setVisitDetails] = useState();
+    const [visitDetails, setVisitDetails] = useState({
+        classId: '',
+        typeId: '',
+        sensitivityId: '',
+        encounterProviderId: '',
+        dischargeDispositionId: '',
+        reasonforVisit: '',
+    });
     const [issueDetails, setIssueDetails] = useState(
         {
             Problem: {
@@ -1420,9 +1427,9 @@ export default function PatientRegistration() {
             totalDiscount: 0,
             uhid: '',
         })
-        document.getElementById('ddlDepartment').value = '';
-        document.getElementById('ddlDoctor').value = '';
-        document.getElementById('ddlRoomNo').value = '';
+        document.getElementById('ddlDepartment').selectedIndex = 0;
+        document.getElementById('ddlDoctor').selectedIndex = 0;
+        document.getElementById('ddlRoomNo').selectedIndex = 0;
     }
 
 
@@ -2230,7 +2237,7 @@ export default function PatientRegistration() {
 
                                                 >
                                                     <div className="accordion-body">
-                                                        <VisitDetails visitDetailsData={setVisitDetails} issueDetailData={setIssueDetails} issueDetails={issueDetails} />
+                                                        <VisitDetails visitDetailsData={setVisitDetails} issueDetailData={setIssueDetails} issueDetails={issueDetails} setClearStatus={setClearStatus} clearStatus={clearStatus} />
 
                                                     </div>
                                                 </div>

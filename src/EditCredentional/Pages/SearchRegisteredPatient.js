@@ -21,6 +21,7 @@ import GetDepartmentByID from '../API/GetDepartmentByID';
 import GetMenuByHead from '../API/GetMenuByHead';
 import { useNavigate } from 'react-router-dom';
 import AlertToster from '../../Component/AlertToster';
+import PatientRevisit from '../../Registartion/Pages/OPDRegistration/PatientRevisit';
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -31,29 +32,20 @@ function SearchRegisteredPatient() {
     let [patientCountdata, setPatientCountData] = useState('')
     let [socialSecurityNo, setSocialSecurityNo] = useState('')
     let [externalId, setExternalId] = useState('')
+    let [patientName, setPatientName] = useState('')
+    let [uhid, setUhid] = useState('')
     const [searchTerm, setSearchTerm] = useState('');
     let [searchByNameList, setSearchByNameList] = useState([])
     let [searchByDob, setSearchByDob] = useState('')
     let [searchByDobList, setSearchByDobList] = useState([])
-    const [showSearchBox, setShowSearchBox] = useState(false);
-    let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showErrMessage, setShowErrMessage] = useState('');
-    let [showMessage, setShowMessage] = useState(0)
-    let [showToster, setShowToster] = useState(0)
-    let [tosterMessage, setTosterMessage] = useState("")
-    let [tosterValue, setTosterValue] = useState(0)
-    let [updateBool, setUpdateBool] = useState(0);
     let [filteredNameList, setFilteredNameList] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-
-    // const [selectedDob, setSelectedDob] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+
     const navigate = useNavigate();
     const pageSize = 15;
-
     let getData = async (pageNumbers) => {
         console.log("selectedPatient", selectedPatient);
         const parts = selectedPatient.split(' ');
@@ -73,6 +65,12 @@ function SearchRegisteredPatient() {
         window.sessionStorage.setItem("PatientDetails", JSON.stringify(response.responseValue));
     }
 
+    let handleVisit = (patientName, Uhid, lastName) => {
+        console.log("patientName", patientName)
+        console.log("UHID", Uhid)
+        setPatientName(patientName + ' ' + lastName)
+        setUhid(Uhid)
+    }
 
     let getAllNames = async (query) => {
         const response = await GetAllSearchByName(query);
@@ -181,10 +179,6 @@ function SearchRegisteredPatient() {
     }
 
     const handleClear = (pageNumbers, pageSize) => {
-        console.log(("pageNumbers", pageNumbers))
-        console.log(("pageSize", pageSize))
-        setFirstName('');
-        setLastName('');
         setSearchByName('');
         setSelectedPatient('');
         setSelectedDate('');
@@ -274,12 +268,13 @@ function SearchRegisteredPatient() {
                             navigate('/prescriptionopd/')
                         }
                         else {
-                            console.log('createdDate', patientList.responseValue[0].createdDate, ' ', 'formattedDate', formattedDate);
-                            setShowAlertToster(1)
-                            setShowErrMessage("Patient is not currently in the OPD.")
-                            setTimeout(() => {
-                                setShowAlertToster(0)
-                            }, 2000)
+                            navigate('/fhirpatientprofile/')
+                            // console.log('createdDate', patientList.responseValue[0].createdDate, ' ', 'formattedDate', formattedDate);
+                            // setShowAlertToster(1)
+                            // setShowErrMessage("Patient is not currently in the OPD.")
+                            // setTimeout(() => {
+                            //     setShowAlertToster(0)
+                            // }, 2000)
                         }
                     }
 
@@ -399,7 +394,7 @@ function SearchRegisteredPatient() {
                                             return (
                                                 <tr key={val.id}>
                                                     <td className="text-center">{adjustedIndex}</td>
-                                                    <td>{val.patientName} {val.middleName} {val.lastName}</td>
+                                                    <td>{val.patientName} {val.middleName} {val.lastName} <span style={{ color: '#f26b29' }}>({val.uhID})</span></td>
                                                     <td>{val.socialSecurityNo}</td>
                                                     <td>{val.externalId}</td>
                                                     <td>{val.dob.substring(0, 10)}</td>
@@ -407,6 +402,9 @@ function SearchRegisteredPatient() {
                                                         <div className="action-button">
                                                             <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
                                                                 <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
+                                                            </div>
+                                                            <div data-bs-toggle="modal" data-bs-target="#patientrevisit">
+                                                                <i class="fa-regular fa-clone" onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -436,31 +434,8 @@ function SearchRegisteredPatient() {
                                         </div>
                                     </div>)
                                 })}
-
-
                                 {/* ---------------------------End Pagination-------------------------- */}
-                                {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
-                                <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
-                                    <div className="modal-dialog modalDelete">
-                                        <div className="modal-content">
-
-                                            <div className="modal-body modelbdy text-center">
-                                                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
-                                                <div className='popDeleteTitle mt-3'> {t("Delete?")}</div>
-                                                <div className='popDeleteContent'>{t("Are_you_sure_you_want_to_delete?")}</div>
-                                            </div>
-                                            <div className="modal-footer1 text-center">
-
-                                                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">{t("Cancel")}</button>
-                                                <button type="button" className="btn-delete popBtnDelete" onClick={"handleDeleteRow"} data-bs-dismiss="modal">{t("Delete")}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -469,7 +444,29 @@ function SearchRegisteredPatient() {
                 showAlertToster === 1 ?
                     <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
             }
-
+            {/* ---------------------------------------------------Pateint Revisit Modal------------------------------------------------- */}
+            <div className="modal fade" id="patientrevisit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                <div className=" modal-dialog modal-dialog-scrollable modal-xl">
+                    <div className="modal-content ">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
+                                Patient Revisit
+                            </h1>
+                            <div style={{ marginRight: '38px' }}>{patientName} - {uhid}</div>
+                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+                                <i className="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="patientrevisit" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
+                                    <PatientRevisit UHID={uhid} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

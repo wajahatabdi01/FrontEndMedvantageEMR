@@ -167,7 +167,7 @@ function AppRegistrationForm() {
             document.getElementById("errScopes").style.display = "block"
         }
         else {
-            return
+            // return
             const response = await PostAppRegistrationForm(formData);
             setClientData(response)
             console.log('response', response)

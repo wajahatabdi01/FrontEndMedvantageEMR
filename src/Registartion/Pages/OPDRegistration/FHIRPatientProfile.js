@@ -67,8 +67,8 @@ function FHIRPatientProfile() {
         birthLastName: '',
         dob: '',
         age: '',
-        ageUnitId:0,
-        sexualOrientationId:0,
+        ageUnitId: 0,
+        sexualOrientationId: 0,
         externalId: '',
         socialSecurityNo: '',
         driversLicense: '',
@@ -117,9 +117,9 @@ function FHIRPatientProfile() {
     });
 
     let getCountryList = async () => {
-      
+
         let response = await GetCountryList();
-       
+
         if (response.status === 1) {
             setCountryList(response.responseValue);
         }
@@ -147,7 +147,7 @@ function FHIRPatientProfile() {
         if (response.status === 1) {
             setGetPatientGender(response.responseValue)
         }
-     
+
     }
     let getAllGenderIdentities = async () => {
         const response = await GetAllGenderIdentities();
@@ -159,14 +159,14 @@ function FHIRPatientProfile() {
         const response = await GetAllGuardianRelation()
         if (response.status === 1) {
             setGuardianRelationList(response.responseValue)
-           
+
         }
     }
     const GetGenderList = async () => {
         let response = await GetGender()
         if (response.status === 1) {
             setGenderList(response.responseValue)
-            
+
         }
     }
     let getFHIRDemographicList = async () => {
@@ -176,9 +176,11 @@ function FHIRPatientProfile() {
         const response = await GetFHIRDemographicData(param);
         if (response.status === 1) {
             setPatientData(response.responseValue.patientregistration[0])
-            setPatientStatsData(response.responseValue.patientstats[0])
+            if (response.responseValue.patientstats.length > 0) {
+                setPatientStatsData(response.responseValue.patientstats[0])
+            }
         }
-       
+
     }
     let getRaceTypeList = async () => {
         let data = await GetRaceType()
@@ -216,7 +218,7 @@ function FHIRPatientProfile() {
         setShowDisabled(0)
     }
     let handleUpdate = async () => {
-        
+
         setUpdateBool(0)
         setShowDisabled(1)
         const updateDataObj = {
@@ -224,7 +226,7 @@ function FHIRPatientProfile() {
             ...registrationObj,
             statsJsonString: JSON.stringify([statsJsonString])
         }
-       
+
         // return
         const response = await UpdateDemographicData(updateDataObj);
         if (response.status === 1) {
@@ -242,7 +244,7 @@ function FHIRPatientProfile() {
     }
 
     let handleBack = () => {
-       
+
         navigate("/opdpatientlist/")
     }
 
@@ -491,19 +493,19 @@ function FHIRPatientProfile() {
             genderidentityId: patientData.genderidentityId && patientData.genderidentityId !== '' ? patientData.genderidentityId : ''
         })
         setStatsJsonString({
-            id: patientStatsData.id && patientStatsData.id !== '' ? patientStatsData.id : '',
-            ethinicityId: patientStatsData.ethinicityId && patientStatsData.ethinicityId !== '' ? patientStatsData.ethinicityId : '',
-            languageId: patientStatsData.languageId && patientStatsData.languageId !== '' ? patientStatsData.languageId : '',
-            raceId: patientStatsData.raceId && patientStatsData.raceId !== '' ? patientStatsData.raceId : '',
+            id: patientStatsData.id && patientStatsData.id !== 0 ? patientStatsData.id : '',
+            ethinicityId: patientStatsData.ethinicityId && patientStatsData.ethinicityId !== 0 ? patientStatsData.ethinicityId : '',
+            languageId: patientStatsData.languageId && patientStatsData.languageId !== 0 ? patientStatsData.languageId : '',
+            raceId: patientStatsData.raceId && patientStatsData.raceId !== 0 ? patientStatsData.raceId : '',
             familySize: patientStatsData.familySize && patientStatsData.familySize !== '' ? patientStatsData.familySize : '',
             financialReviewDate: patientStatsData.financialReviewDate1 && patientStatsData.financialReviewDate1 !== '' ? patientStatsData.financialReviewDate1 : '',
             monthlyIncome: patientStatsData.monthlyIncome && patientStatsData.monthlyIncome !== '' ? patientStatsData.monthlyIncome : '',
             homeless: patientStatsData.homeless && patientStatsData.homeless !== '' ? patientStatsData.homeless : '',
             interpreter: patientStatsData.interpreter && patientStatsData.interpreter !== '' ? patientStatsData.interpreter : '',
             migrant: patientStatsData.migrant && patientStatsData.migrant !== '' ? patientStatsData.migrant : '',
-            referralSourceId: patientStatsData.referralSourceId && patientStatsData.referralSourceId !== '' ? patientStatsData.referralSourceId : '',
+            referralSourceId: patientStatsData.referralSourceId && patientStatsData.referralSourceId !== 0 ? patientStatsData.referralSourceId : '',
             isVFCEligible: patientStatsData.isVFCEligible && patientStatsData.isVFCEligible !== '' ? patientStatsData.isVFCEligible : '',
-            religionId: patientStatsData.religionId && patientStatsData.religionId !== '' ? patientStatsData.religionId : '',
+            religionId: patientStatsData.religionId && patientStatsData.religionId !== 0 ? patientStatsData.religionId : '',
         })
         setRegistrationObj({
             guardiansName: patientData.guardiansname && patientData.guardiansname !== '' ? patientData.guardiansname : '',

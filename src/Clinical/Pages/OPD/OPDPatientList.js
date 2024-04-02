@@ -42,7 +42,7 @@ export default function OPDPatientList(props) {
             if (patientList != "") {
                 let flag = null
                 flag = patientList.filter(item => item.uhId.toLowerCase().includes(response.responseValue[0].uhId.toLowerCase()));
-               
+
                 if (flag.length === 0 && flag != null) {
                     store.dispatch(getUHIDSearch(uhid))
                     store.dispatch(getPatientData(response))
@@ -50,7 +50,7 @@ export default function OPDPatientList(props) {
                     let t = [response.responseValue[0].uhId]
                     window.sessionStorage.setItem("patientsendData", JSON.stringify([...patientsendData, t]))
                     window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": uhid }))
-                    
+
                     if (props.showPatientListValue === 1) {
                         props.setShowPatientList(0)
                         if (props.setShowMenu !== undefined) {
@@ -87,7 +87,7 @@ export default function OPDPatientList(props) {
 
             }
             else {
-                
+
                 store.dispatch(getUHIDSearch(uhid))
                 store.dispatch(getPatientData(response))
                 window.sessionStorage.setItem("activePatient", JSON.stringify({ "Uhid": uhid }))
@@ -155,13 +155,13 @@ export default function OPDPatientList(props) {
                 let response = await GetCheckCrNo(data.uhid)
                 func(response, data.uhid)
                 if (window.sessionStorage.getItem("OPDPatientData")) {
-                   
+
                     let temp = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))
                     temp.push(data)
                     window.sessionStorage.setItem("OPDPatientData", JSON.stringify(temp))
                 }
                 else {
-                    
+
 
                     window.sessionStorage.setItem("OPDPatientData", JSON.stringify([data]))
 
@@ -173,13 +173,13 @@ export default function OPDPatientList(props) {
             let response = await GetCheckCrNo(data.uhid)
             func(response, data.uhid)
             if (window.sessionStorage.getItem("OPDPatientData")) {
-                
+
                 let temp = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))
                 temp.push(data)
                 window.sessionStorage.setItem("OPDPatientData", JSON.stringify(temp))
             }
             else {
-                
+
 
                 window.sessionStorage.setItem("OPDPatientData", JSON.stringify([data]))
 
@@ -255,7 +255,7 @@ export default function OPDPatientList(props) {
                                         <tr>
                                             <td className='text-center pe-1'>{ind + 1}</td>
                                             <td>
-                                                <span className='txtb'>{val.patientName.toUpperCase()}</span><span className='txtb'> {val.lastName.toUpperCase()?val.lastName.toUpperCase():''}</span> <span className='txtb1'>({val.age ? val.age : "-"}{val.ageTyepe ? val.ageTyepe : ''}/{val.genderName ? val.genderName : "-"})</span>
+                                                <span className='txtb'>{val.patientName.toUpperCase()}</span><span className='txtb'> {val.lastName.toUpperCase() ? val.lastName.toUpperCase() : ''}</span> <span className='txtb1'>({val.age ? val.age : "-"}{val.ageTyepe ? val.ageTyepe : ''}/{val.genderName ? val.genderName : "-"})</span>
                                                 <span className='uhidnao'>{val.uhid}</span>
                                             </td>
                                             {/* <td>{val.uhid}</td> */}
@@ -263,7 +263,7 @@ export default function OPDPatientList(props) {
                                             <td>{val.mobileNo}</td>
                                             <td>{val.visitDate}</td>
                                             <td>{val.doctorName || val.name}</td>
-                                            <td> <div className='text-center ps-2 pe-2' style={{ width: "80px", borderRadius: "5px", fontSize: "12px", fontWeight: "600", padding: "3px", color: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "12px", backgroundColor: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "FOLLOWUP" : val.patientType.toUpperCase()}</div> </td>
+                                            <td> <span className='text-center ps-2 pe-2' style={{ whiteSpace: 'nowrap', borderRadius: "5px", fontSize: "12px", fontWeight: "600", padding: "3px", color: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "12px", backgroundColor: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "Follow Up" : val.patientType.toUpperCase()}</span> </td>
                                             <td className='pointer' title='Open Profile'><span onClick={() => { handleActiveTab(val) }} title='Open Profile'> <img src={viewIcon} className='bgicn' alt='Open Profile' /></span></td>
                                         </tr>
                                     )

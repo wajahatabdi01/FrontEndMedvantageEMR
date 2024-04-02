@@ -245,7 +245,7 @@ export default function OPDTopVitals(props) {
                     setShowPatientType("New Patient")
                 }
                 else {
-                    setShowPatientType("Followup")
+                    setShowPatientType("Follow up")
 
                 }
             }
@@ -262,7 +262,7 @@ export default function OPDTopVitals(props) {
 
                         <div className='cb'>
                             {/* <input type="radio" id='newPatient' name="vital-radio" value="1" disabled={disable === 1 ? true : false} checked /> */}
-                            <label htmlFor='newPatient' className='vital-left justify-content-center d-flex align-items-center ' style={{ padding: "5px 10px", fontWeight: "bolder", height: "25px", borderRadius: "5px", color: `${showPatientType.toString().toLowerCase() === "Followup".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "11px", backgroundColor: `${showPatientType.toString().toLowerCase() === "Followup".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{showPatientType.toUpperCase()}</label>
+                            <label htmlFor='newPatient' className='vital-left justify-content-center d-flex align-items-center ' style={{ padding: "5px 10px", fontWeight: "bolder", height: "25px", borderRadius: "5px", color: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "11px", backgroundColor: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{showPatientType.toUpperCase()}</label>
                         </div>
 
                         {/* <div className='d-flex fex-row justify-content-center align-items-center'>
