@@ -14,10 +14,10 @@ const FHIRCareCoordination = () => {
                                     <div className='orders-navtabs'>
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="Import-tab" data-bs-toggle="tab" data-bs-target="#Import" type="button" role="tab" aria-controls="Import" aria-selected="true">Import</button>
+                                                <button class="nav-link active" id="Export-tab" data-bs-toggle="tab" data-bs-target="#Export" type="button" role="tab" aria-controls="Export" aria-selected="false">Export</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="Export-tab" data-bs-toggle="tab" data-bs-target="#Export" type="button" role="tab" aria-controls="Export" aria-selected="false">Export</button>
+                                                <button class="nav-link" id="Import-tab" data-bs-toggle="tab" data-bs-target="#Import" type="button" role="tab" aria-controls="Import" aria-selected="true">Import</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -26,13 +26,13 @@ const FHIRCareCoordination = () => {
                         </div>
                         <div class="tab-content mt-2" id="myTabContent">
                             {/* --------------------------------Start FHIR Care Coordination Import Section-------------------------------------------- */}
-                            <div class="tab-pane fade show active intab" id="Import" role="tabpanel" aria-labelledby="Import-tab">
+                            <div class="tab-pane fade intab" id="Import" role="tabpanel" aria-labelledby="Import-tab">
                                 <FHIRCareCoordinationImport />
                             </div>
                             {/* -----------------------------------End FHIR Care Coordination Import Section---------------------------------------------- */}
 
                             {/* -----------------------------------Start FHIR Care Coordination Export Section---------------------------------------------- */}
-                            <div class="tab-pane fade intab" id="Export" role="tabpanel" aria-labelledby="Export-tab">
+                            <div class="tab-pane fade show active intab" id="Export" role="tabpanel" aria-labelledby="Export-tab">
                                 <FHIRCareCoordinationExport />
                             </div>
                             {/* -----------------------------------Enf FHIR Care Coordination Export Section---------------------------------------------- */}

@@ -431,7 +431,7 @@ export default function ApiRoutes() {
                         <Route path='/groupKeywordAssign/' element={<GroupKeywordAssign />} />
                         <Route path='/taskMaster/' element={<TaskMaster />} />
                         <Route path='/verification/' element={<VerificationStatus />} />
-                        <Route path="/fhircarecoordination/" element={<FHIRCareCoordination />} />
+                        {/* <Route path="/fhircarecoordination/" element={<FHIRCareCoordination />} /> */}
                         {/* <Route path="/addressBook/" element={<AddressBook />} /> */}
 
                         {/* <Route path='/fhirpatientprofile/' element={<FHIRPatientProfile />} /> */}
@@ -944,7 +944,8 @@ export default function ApiRoutes() {
                   {/* -----------------------------------End Medvantage CarePlan SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage CareCoordination SEction----------------------------------------- */}
-                  <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} />
+                  {/* <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<FHIRCareCoordination />} />} /> */} 
+                  <Route path="/fhircarecoordination/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRCareCoordination />} name="FHIRCareCoordination" />} />} />
                   {/* -----------------------------------End Medvantage CareCoordination SEction----------------------------------------- */}
 
                   {/* -----------------------------------Start Medvantage Clinical SEction----------------------------------------- */}
