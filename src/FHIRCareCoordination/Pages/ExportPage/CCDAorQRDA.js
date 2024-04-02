@@ -408,7 +408,7 @@ const handleSearchContainerClick = (event) => {
       <div className="pagginationSection" style={{marginTop:'11px'}}>
         <div className="paginationItemContainer">
             <div className="d-flex gap-2 align-items-center">
-                <span className="spanText" style={{ minWidtd: '140px' }}>tde page you are on</span>
+                <span className="spanText" style={{ minWidtd: '140px' }}>the page you are on</span>
                 <select name="" id="" className="form-select form-select-sm pagginationDrp">
                     <option value="1">1</option>
                     <option value="2">2</option>
