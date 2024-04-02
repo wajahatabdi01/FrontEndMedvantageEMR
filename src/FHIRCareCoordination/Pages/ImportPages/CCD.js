@@ -3,6 +3,7 @@ import ParseDocument from '../../API/ParseDocument';
 import GetEachCCDAComponentDetails from '../../API/GetEachCCDAComponentDetails';
 import GetDocumentDetails from '../../API/GetDocumentDetails';
 import save from "../../../assets/images/icons/save.svg";
+import NoDataFound from "../../../assets/images/icons/No data-rafiki.svg"
 
 const CCD = () => {
     const [selectedFile, setSelectedFile] = useState("");
@@ -94,9 +95,9 @@ const CCD = () => {
                                         </tr>
                                     ))}
                                 </tbody>
-                                : <div style={{ position: 'absolute', bottom: '290px', left: '55%', transform: 'translateX(-50%)' }}>
-                                    <span class="loader"></span>
-                                </div>}
+                                :<div className='imageNoDataFound'>
+                                                <img src={NoDataFound} alt="imageNoDataFound" />
+                                            </div>}
 
                         </table>
                     </div>

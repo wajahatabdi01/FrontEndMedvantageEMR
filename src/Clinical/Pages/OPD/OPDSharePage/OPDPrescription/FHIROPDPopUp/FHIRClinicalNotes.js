@@ -18,7 +18,13 @@ import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
 import InsertClinicalNotesForm from '../../../../../API/FHIRClinicalNotes/InsertClinicalNotesForm';
-function FHIRClinicalNotes() {
+import GetClinicalNotesFormListByUHID from '../../../../../API/FHIRClinicalNotes/GetClinicalNotesFormListByUHID';
+
+import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg';
+import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg';
+import DeleteClinicalNotesFormById from '../../../../../API/FHIRClinicalNotes/DeleteClinicalNotesFormById';
+function FHIRClinicalNotes({theEncounterId, setClinicalForms}) {
+    console.log('the encounter ID : ', theEncounterId)
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
@@ -55,6 +61,10 @@ function FHIRClinicalNotes() {
         date: '',
         jsonFormClinicalNotes: '[]',
     })
+
+    const [clinicalNotesFormsList, setClinicalNotesFormList] = useState([]);
+    const [toShowButtons, setToShowButtons] = useState(1);
+  const [theRowId, setTheRowId] = useState(0)
 
     //Handle Change
     let handleChange = (e) => {
@@ -135,23 +145,7 @@ function FHIRClinicalNotes() {
 
     //Handle Save
     const handlerSave = async () => {
-        if (divs.date === '' || divs.date === null || divs.date === undefined || divs.date === 0 || divs.date === "0") {
-            document.getElementById('errDate').innerHTML = "Select date";
-            document.getElementById('errDate').style.display = "block";
-        }
-        else if (divs.clinical_notes_type === '' || divs.clinical_notes_type === null || divs.clinical_notes_type === undefined || divs.clinical_notes_type === 0 || divs.clinical_notes_type === "0") {
-            document.getElementById('errType').innerHTML = "Select notes type";
-            document.getElementById('errType').style.display = "block";
-        }
-        else if (divs.clinical_notes_category === '' || divs.clinical_notes_category === null || divs.clinical_notes_category === undefined || divs.clinical_notes_category === 0 || divs.clinical_notes_category === "0") {
-            document.getElementById('errCategory').innerHTML = "select category type";
-            document.getElementById('errCategory').style.display = "block";
-        }
-        else if (divs.note_related_to === '' || divs.note_related_to.trim().length === 0 || divs.note_related_to === null || divs.note_related_to === undefined) {
-            document.getElementById('errNarrative').innerHTML = "Enter narrative";
-            document.getElementById('errNarrative').style.display = "block";
-        }
-        else {
+        
             const notesList = divs;
             let tempArr = [];
      
@@ -173,6 +167,7 @@ function FHIRClinicalNotes() {
                     note_related_to: getNotesDescription
                 })
             }
+           
             let obj = {
                 uhid: activeUHID,
                 clientId: clientID,
@@ -194,6 +189,7 @@ function FHIRClinicalNotes() {
                     handleClear();
                 }, 1500)
                 patientMessage();
+                funGetClinicalNotesFormList();
             }
             else {
                 setShowUnderProcess(0);
@@ -205,7 +201,9 @@ function FHIRClinicalNotes() {
                 }, 1500)
             }
         }
-    }
+
+    
+    
 
     //Change handle button
     let handleUpdate = async (id, providerId, typeId, description) => {
@@ -271,30 +269,93 @@ function FHIRClinicalNotes() {
 
     //Handle Delete
     let handleDeleteRow = async (id) => {
-        var obj = {
-            "id": id,
-        }
-        let response = await DeleteFHIRMessage(obj)
-        if (response.status === 1) {
-            setShowLoder(0)
-            setisShowToaster(1);
-            setShowSuccessMsg("Deleted Successfully")
-            setShowMessage(1)
+        if(window.confirm("Do you wish to delete?"))
+      {
+        const resDel = await DeleteClinicalNotesFormById(id, window.userId);
+        if(resDel.status === 1){
+          
+          
+        setShowToster(28);
             setTimeout(() => {
-                setisShowToaster(0);
+              setShowToster(33)
+            },2000);
+            funGetClinicalNotesFormList();
+
+        }
+      }
+    }
+
+    // to fill data for updation
+    const handleEdit = async (list) => {
+        setToShowButtons(0)
+        setTheRowId(list.id)
+        setUpdateBool(1)
+        const inputDate =list.date;
+        const parts = inputDate.split('-');
+        const formattedDate = parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
+         // Output: "YYYY-MM-DD"
+    
+        for(let i = 0; i<divs.length; i++) {
+          document.getElementById('providerId'+divs[i].rowID).value = list.categoryId;
+          document.getElementById('notesDate'+divs[i].rowID).value = formattedDate;
+          document.getElementById('typeId'+divs[i].rowID).value = list.typeId;
+          document.getElementById('note_related_to'+divs[i].rowID).value = list.note_related_to;
+          
+        }
+      }
+
+    // to update the edited data
+    const handleEditSave = async () => {
+        const data = [...divs];
+        const tempArrList = [];
+        for (let i = 0; i < data.length; i++) {
+            const date = document.getElementById('notesDate' + data[i].rowID).value;
+            const categoryIdValue = document.getElementById('providerId' + data[i].rowID).value;
+            const typeIdValue = document.getElementById('typeId' + data[i].rowID).value;
+            const narrative = document.getElementById('note_related_to' + data[i].rowID).value;
+
+            tempArrList.push({
+                
+                id: theRowId,
+                    form_id: 0,
+                    date : date,
+                    clinical_notes_type : typeIdValue,
+                    clinical_notes_category : categoryIdValue,
+                    note_related_to : narrative
+              });
+        }
+        
+        let objupdate = {
+            uhid: activeUHID,
+                clientId: clientID,
+                userId: window.userId,
+                jsonFormClinicalNotes: JSON.stringify(tempArrList),
+                doctorId : activeDocID,
+                departmentId : activeDeptID
+        }
+        const resUpdate = await InsertClinicalNotesForm(objupdate);
+        setShowUnderProcess(1);
+            if (resUpdate.status === 1) {
+                setShowUnderProcess(0);
+                setTosterValue(0);
+                setShowToster(1);
+                setTosterMessage("Data Saved Successfully.");
+                setTimeout(() => {
+                    setShowToster(0);
+                    handleClear();
+                }, 1500)
                 patientMessage();
-            }, 2000)
-            handleClear();
-        }
-        else {
-            setShowLoder(0);
-            setShowMessage(1)
-            setShowAlertToster(1);
-            setShowErrMessage(response.responseValue);
-            setTimeout(() => {
-                setShowAlertToster(0);
-            }, 2000)
-        }
+                funGetClinicalNotesFormList();
+            }
+            else {
+                setShowUnderProcess(0);
+                setTosterValue(1);
+                setShowToster(1);
+                setTosterMessage(resUpdate.responseValue);
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 1500)
+            }
     }
 
     //Clear Error Message
@@ -319,13 +380,30 @@ function FHIRClinicalNotes() {
         clearValidationErrMessage();
         setUpdateBool(0);
         setShowMessage(1)
+        for(let i = 0; i<divs.length; i++){
+    
+            document.getElementById('notesDate' + divs[i].rowID).value = '';
+            document.getElementById('providerId' + divs[i].rowID).value = '';
+            document.getElementById('typeId' + divs[i].rowID).value = '';
+            document.getElementById('note_related_to' + divs[i].rowID).value = '';
+            
+          }
+          //setMakeData([]);
+          setDivs([{  rowID: 1, },])
+    }
+
+    const funGetClinicalNotesFormList = async () => {
+        const resGet = await GetClinicalNotesFormListByUHID(activeUHID, theEncounterId);
+        setClinicalNotesFormList(resGet.responseValue)
+        console.log('resGet : ', resGet)
     }
 
     useEffect(() => {
         getUserListByRoleId();
         getpatientMessageType();
         patientMessage();
-    }, []);
+        funGetClinicalNotesFormList();
+    }, [setClinicalForms]);
     return (
         <>
             <div className="container-fluid">
@@ -337,13 +415,13 @@ function FHIRClinicalNotes() {
                                     <div className='col-12'>
                                         <div className="row">
                                             <div className="col-4 mb-2">
-                                                <label htmlFor="typeId" className="form-label">Date<span className="starMandatory">*</span></label>
+                                                <label htmlFor="typeId" className="form-label">Date</label>
                                                 <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' />
-                                                <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                {/* <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}></small> */}
                                             </div>
 
                                             <div className="col-4 mb-2">
-                                                <label htmlFor="typeId" className="form-label">Type<span className="starMandatory">*</span></label>
+                                                <label htmlFor="typeId" className="form-label">Type</label>
                                                 <select className="form-select form-select-sm" id={"typeId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_type'>
                                                     <option value="0">{t("Select Note Type")}</option>
                                                     {messageTypeList && messageTypeList.map((list) => {
@@ -352,10 +430,10 @@ function FHIRClinicalNotes() {
                                                         )
                                                     })}
                                                 </select>
-                                                <small id="errType" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                {/* <small id="errType" className="form-text text-danger" style={{ display: 'none' }}></small> */}
                                             </div>
                                             <div className="col-4 mb-2">
-                                                <label htmlFor="providerId" className="form-label">Category<span className="starMandatory">*</span></label>
+                                                <label htmlFor="providerId" className="form-label">Category</label>
                                                 <select className="form-select form-select-sm" id={"providerId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_category' >
                                                     {/* <select className="form-select form-select-sm" id="providerId" aria-label="form-select-sm example" onChange={(e) => handleAddBtnChange(e, index)} name='clinical_notes_category' value={div.clinical_notes_category}> */}
                                                     <option value="0">{t("Select Note Category")}</option>
@@ -365,26 +443,27 @@ function FHIRClinicalNotes() {
                                                         )
                                                     })}
                                                 </select>
-                                                <small id="errCategory" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                {/* <small id="errCategory" className="form-text text-danger" style={{ display: 'none' }}></small> */}
                                             </div>
                                         </div>
                                     </div>
                                     <div className='col-12'>
                                         <div className="row">
                                             <div className="col-10 mb-2">
-                                                <label htmlFor="description" className="form-label">Narrative<span className="starMandatory">*</span></label>
+                                                <label htmlFor="description" className="form-label">Narrative</label>
                                                 <textarea className='mt-1 form-control' name='note_related_to' id={"note_related_to" + div.rowID} rows="3" cols="40" style={{ height: '90px' }} ></textarea>
                                                 {/* <textarea className='mt-1 form-control' id="description" rows="3" cols="40" style={{ height: '90px' }} onChange={(e) => handleAddBtnChange(e, index)} name='description' value={div.description}></textarea> */}
-                                                <small id="errNarrative" className="form-text text-danger" style={{ display: 'none' }}></small>
+                                                {/* <small id="errNarrative" className="form-text text-danger" style={{ display: 'none' }}></small> */}
                                             </div>
-                                            <div className='col-2'>
+                                            {(toShowButtons === 1) &&
+                                                <div className='col-2'>
                                                 {div.rowID === 1 ?
 
                                                     <button type="button" style={{ marginTop: '70px' }} class="btnaddtnotes" id="addPriviousNames" onClick={() => { handleAddDiv(div) }}><i class="bi bi-plus-lg"></i> Add</button>
                                                     :
                                                     <button type="button" style={{ marginTop: '70px' }} class="btndeltnotes" onClick={() => handleRemoveDiv(index)}><i class="bi bi-trash3"></i></button>
                                                 }
-                                            </div>
+                                            </div>}
                                             {/* <div className='col-2 mb-2'>
                                                 {div.rowID === 1 ?
                                                     <div className="col-md-2 addvisitbtn_ mt-5">
@@ -419,8 +498,8 @@ function FHIRClinicalNotes() {
                                                         </>
                                                         :
                                                         <>
-                                                            <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handlerUpdate}>Update</button>
-                                                            <button type="button" className="btn btn-clear btn-sm mb-1"  onClick={"handleClear"}>Cancel</button>
+                                                            <button type="button" className="btn btn-save btn-sm mb-1 me-1" onClick={handleEditSave}>Update</button>
+                                                            <button type="button" className="btn btn-clear btn-sm mb-1"  onClick={handleClear}>Clear</button>
                                                         </>
                                                     }
                                                 </div>}
@@ -430,6 +509,47 @@ function FHIRClinicalNotes() {
                             </div>
                         </div>
                     </div>
+
+                    <div className="col-12 mt-2">
+            <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
+              <table className="med-table border striped mt-3">
+                <thead style={{ zIndex: "0" }}>
+                  <tr>
+                    <th className="text-center" style={{ width: "5%" }}>
+                      #
+                    </th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Narrative</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {clinicalNotesFormsList &&
+                    clinicalNotesFormsList.map((list, ind) => {
+                      
+                      return (
+                        <tr>
+                          <td>{ind + 1}</td>
+                          <td>{list.date}</td>
+                          <td>{list.typeName}</td>
+                          <td>{list.categoryName}</td>
+                          <td>{list.note_related_to}</td>
+                          <td>
+                          <div className="action-button">
+                              {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
+                              <div onClick={() => handleEdit(list)}><img src={IconEdit} alt='' title='Edit Observation'/></div>
+                              <div onClick={() => {handleDeleteRow(list.id)}}><img src={IconDelete} title='Delete Observation' alt='' /></div>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
                 </div>
 
 

@@ -50,6 +50,7 @@ export default function OPDTOPBottom(props) {
   let [carePlan, setCarePlan] = useState(0);
   let [immunization, setImmunization] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
+  let [clinicalForms, setClinicalForms] = useState(0);
   let [functionalAndCog, setFunctionalAndCog] = useState(0);
   let [familyHistory, setFamilyHistory] = useState(0);
 
@@ -223,7 +224,7 @@ export default function OPDTOPBottom(props) {
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes" onClick={() => {props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes" onClick={() => {props.setToShowDesiredList(false); setClinicalForms(1)}}>
           {t("Clinical Notes Form")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
@@ -499,13 +500,13 @@ export default function OPDTOPBottom(props) {
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Clinical Notes Form
               </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setClinicalForms(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
             <div className="modal-body">
-              <div class="tab-content" id="myTabContent">
-                <FHIRClinicalNotes />
+              <div class="tab-content" id="myTabContent">{clinicalForms === 1 ? (<FHIRClinicalNotes theEncounterId = {props.theEncounterId} setClinicalForms = {setClinicalForms}/>) : ("")}
+                
 
               </div>
             </div>
@@ -610,6 +611,7 @@ export default function OPDTOPBottom(props) {
       {showToster === 30 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive updated successfully !!"/>) : (  "")}
       {showToster === 31 ? (<SuccessToster  handle={setShowToster}  message="Observation saved successfully !!"/>) : (  "")}
       {showToster === 32 ? (<SuccessToster  handle={setShowToster}  message="Observation updated successfully !!"/>) : (  "")}
+      {showToster === 33 ? (<SuccessToster  handle={setShowToster}  message="Deleted successfully !!"/>) : (  "")}
 
       {showAlertToster === 1 ? (
         <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
