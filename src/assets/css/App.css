@@ -12309,3 +12309,18 @@ span.starMandatory {
 .v-top td {
   vertical-align: top;
 }
+
+
+.card-toaster {
+  display: block;
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  max-width: 450px;
+  height: auto;
+  padding: 3px;
+  box-shadow: 5px 5px 14px #1d4999b5;
+  width: 100%;
+}
+
+/* test */
