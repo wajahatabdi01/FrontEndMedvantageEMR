@@ -863,7 +863,7 @@ export default function OPDPrescriptionIndex(props) {
                             <OPDInvestigationProcedure values={getD} funh={setGetD} />
                         </div>
 
-                        <div className="modal fade" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div className="modal fade opdpopUp" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
@@ -915,7 +915,7 @@ export default function OPDPrescriptionIndex(props) {
                         </div>
 
                         {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
-                        <div className="modal fade" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                        <div className="modal fade opdpopUp" id="allergyId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
@@ -961,7 +961,7 @@ export default function OPDPrescriptionIndex(props) {
                         {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
 
                         {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
-                        <div className="modal fade" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                        <div className="modal fade opdpopUp" id="medicationId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
@@ -1006,7 +1006,7 @@ export default function OPDPrescriptionIndex(props) {
                         {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
 
                         {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
-                        <div className="modal fade" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                        <div className="modal fade opdpopUp" id="deviceId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
@@ -1049,7 +1049,7 @@ export default function OPDPrescriptionIndex(props) {
                         {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
 
                         {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
-                        <div className="modal fade" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+                        <div className="modal fade opdpopUp" id="surgeryId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
