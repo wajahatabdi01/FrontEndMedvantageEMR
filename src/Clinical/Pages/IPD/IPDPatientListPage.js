@@ -22,11 +22,11 @@ import Search, { FindByQuery } from '../../../Code/Serach'
 import GetDischargePatientList from '../../API/IPD/GetDischargePatientList'
 import AlertToster from '../../../Component/AlertToster';
 import { useTranslation } from 'react-i18next';
-import  i18n from "i18next";
+import i18n from "i18next";
 
 export default function IPDPatientListPage(props) {
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     let patientsendData = window.sessionStorage.getItem("IPDpatientsendData") ? JSON.parse(window.sessionStorage.getItem("IPDpatientsendData")) : []
 
@@ -60,7 +60,7 @@ export default function IPDPatientListPage(props) {
     let handleActiveTab = (val) => {
         let oldPatientList = window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList")) : []
         let response = FindByQuery(oldPatientList, val.uhId, "uhId")
-        
+
         if (response.length === 0) {
 
             let menus = window.sessionStorage.getItem("departmentmenu") ? JSON.parse(window.sessionStorage.getItem("departmentmenu")).menuList : []
@@ -80,7 +80,7 @@ export default function IPDPatientListPage(props) {
             if (props.showNavbar === 0) {
                 props.setShowPatientList(0)
             }
-           
+
             if (menus.length !== 0) {
                 if (props.setShowMenu !== undefined) {
                     props.setShowMenu(1)
@@ -181,7 +181,7 @@ export default function IPDPatientListPage(props) {
                     <Navbar />
                 </div>
                 : ""} */}
-            <div className='main-content_ mt-5_ pt-3' style={{marginTop:'37px'}}>
+            <div className='main-content_ mt-5_ pt-3' style={{ marginTop: '37px' }}>
                 <div className='med-box py-2 ps-2 pe-2'>
                     <div className={`${props.showNavbar === 1 ? "otDashboardWrapper" : ""} `}>
                         <div className='tabular-section tabb pb-2'>
@@ -203,7 +203,7 @@ export default function IPDPatientListPage(props) {
                                     <div className='d-flex justify-content-between ps-2 pe-2'>
                                         <div className="title">{showTab === 0 ? `${t("ADMITTED_PATIENT_LIST")}` : `${t("DISCHARGED_PATIENT_LIST")}`}</div>
                                         <div className={`col-3 mt-2_ pt-2_ pe-2 position-relative serip`} >
-                                            <input type='text' placeholder=  {t("Search")}  className='searchBarOPD searchipdo' onChange={handleSearch} />
+                                            <input type='text' placeholder={t("Search")} className='searchBarOPD searchipdo_' onChange={handleSearch} />
                                             {/* <img src={searchIcon} className='searchBarOPDIcon' /> */}
                                             <i className='fa fa-search'></i>
                                         </div>
@@ -224,14 +224,14 @@ export default function IPDPatientListPage(props) {
                                                 <th className='text-center_'>{t("Action")}</th>
                                             </thead>
                                             <tbody>
-                                               
+
                                                 {showTab === 0 ? <>
                                                     {patientListTemp && patientListTemp.map((val, ind) => {
-                                                        
+
                                                         return (
                                                             <tr className=''>
                                                                 <td className='text-center pe-1'>{ind + 1}</td>
-                                                                <td className='pe-3'><span className='txtb'>{val.patientName.toUpperCase()}</span><span className='txtb1'> ({val.age ? val.age :''}{val.ageType ? val.ageType :''}/{val.gender})</span><span className='uhidnao'>{val.uhId}</span></td>
+                                                                <td className='pe-3'><span className='txtb'>{val.patientName.toUpperCase()}</span><span className='txtb1'> ({val.age ? val.age : ''}{val.ageType ? val.ageType : ''}/{val.gender})</span><span className='uhidnao'>{val.uhId}</span></td>
                                                                 {/* <td className='pe-3'>{val.uhId}</td> */}
                                                                 <td className='pe-3'>{val.ipNo}</td>
                                                                 <td className='pe-3'>{val.mobileNo}</td>
@@ -325,7 +325,7 @@ export default function IPDPatientListPage(props) {
                                         </table>
                                     </div>
 
-                                    <div className="pagginationSection" style={{marginTop:'11px'}}>
+                                    <div className="pagginationSection" style={{ marginTop: '11px' }}>
                                         <div className="paginationItemContainer">
                                             <div className="d-flex gap-2 align-items-center">
                                                 <span className="spanText" style={{ minWidth: '140px' }}> {t("THE_PAGE_YOU_ARE_ON")}</span>
@@ -355,7 +355,7 @@ export default function IPDPatientListPage(props) {
                 </div>
 
             </div>
-            {showAlert === 1 ? <AlertToster handle={setShowAlert} message= {t("PATIENT_ALREADY_EXISTS")}/> : ""}
+            {showAlert === 1 ? <AlertToster handle={setShowAlert} message={t("PATIENT_ALREADY_EXISTS")} /> : ""}
         </>
     )
 }
