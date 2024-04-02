@@ -178,6 +178,10 @@ function SearchRegisteredPatient() {
         }
     }
 
+    const redirectPaitent = () => {
+        navigate('/patientregistration/')
+    }
+
     const handleClear = (pageNumbers, pageSize) => {
         setSearchByName('');
         setSelectedPatient('');
@@ -204,6 +208,7 @@ function SearchRegisteredPatient() {
             // let deptResponse = await GetDepartmentByID(1);
             let deptResponse = await GetDepartmentByID(resp.responseValue[0].deptId);
             if (deptResponse) {
+
                 if (resp.responseValue[0].admitDoctorId !== 0) {
                     let deptmenu = await GetMenuByHead(resp.responseValue[0].deptId, 4);
                     if (deptmenu.status === 1) {
@@ -263,6 +268,7 @@ function SearchRegisteredPatient() {
                             "menuId": 51
                         }))
                         // window.open('/prescriptionopd/')
+                        // console.log("cdcsdcsdc", patientList.responseValue[0].createdDate, formattedDate)
                         if (patientList.responseValue[0].createdDate === formattedDate) {
 
                             navigate('/prescriptionopd/')
@@ -364,6 +370,7 @@ function SearchRegisteredPatient() {
                                     <label htmlFor="exampleFormControlInput1" className="form-label">&nbsp;</label>
                                     <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { getData(pageNumbers) }}>Show <i class="fa-regular fa-eye" style={{ color: "#ffffff" }}></i> </button>
                                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => handleClear(1, 15)}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={redirectPaitent}><i class="fa-solid fa-user-plus"></i> Add</button>
                                 </div>
                             </BoxContainer>
 

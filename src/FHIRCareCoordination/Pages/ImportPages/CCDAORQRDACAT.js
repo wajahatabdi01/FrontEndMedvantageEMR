@@ -4,7 +4,7 @@ import GetEachCCDAComponentDetails from '../../API/GetEachCCDAComponentDetails';
 import ViewDocument from '../../API/ViewDocuments';
 import GetDocumentDetails from '../../API/GetDocumentDetails';
 import save from "../../../assets/images/icons/save.svg";
-import styles  from "./carecoordination_style.css";
+// import styles  from "./carecoordination_style.css";
 const CCDAORQRDACAT = () => {
     const [selectedFile, setSelectedFile] = useState("");
     const [parsedData, setParsedData] = useState([]);
@@ -33,10 +33,10 @@ const CCDAORQRDACAT = () => {
         setIsListLoading(false);
         if (resp) {
             setParsedData(resp.records);
-           
+
         }
     };
-    const addAsNewPatient = async (amId,document_id) => {
+    const addAsNewPatient = async (amId, document_id) => {
         // if (!selectedFile) {
         //     console.error('No file selected');
         //     return;
@@ -86,14 +86,13 @@ const CCDAORQRDACAT = () => {
         formData.append('amid', amid);
 
         const resp = await GetEachCCDAComponentDetails(formData);
-        if( document.getElementById('hideComp-'+index))
-        {
-            document.getElementById('hideComp-'+index).innerHTML = resp;
+        if (document.getElementById('hideComp-' + index)) {
+            document.getElementById('hideComp-' + index).innerHTML = resp;
         }
-       
+
     };
 
-   
+
     const handleExpandCompDetailsClick = async (event) => {
         // const target = event.target;
         // const id = target.id;
@@ -137,21 +136,19 @@ const CCDAORQRDACAT = () => {
         if (isExpanded && event.target.classList.contains('se_in_23')) {
             event.target.classList.add("se_in_24");
             event.target.classList.remove("se_in_23");
-            if(document.getElementById('hideComp-' + arr[1]))
-            {
+            if (document.getElementById('hideComp-' + arr[1])) {
                 document.getElementById('hideComp-' + arr[1]).style.display = 'block';
             }
-            
+
             getEachCCDAComponentDetails(arr[1], component, amid);
-          } else if ( isExpanded && event.target.classList.contains('se_in_24')) {
+        } else if (isExpanded && event.target.classList.contains('se_in_24')) {
             event.target.classList.add("se_in_23");
             event.target.classList.remove("se_in_24");
-            if( document.getElementById('hideComp-' + arr[1]))
-            {
+            if (document.getElementById('hideComp-' + arr[1])) {
                 document.getElementById('hideComp-' + arr[1]).style.display = 'none';
             }
-       
-          }
+
+        }
     };
 
     const getCCDAComponents = async (id) => {
@@ -168,22 +165,22 @@ const CCDAORQRDACAT = () => {
         console.log(id);
         console.log(event.target.classList.contains('se_in_24'));
         // if (event.target.classList.contains('se_in_23')) {
-            if(!isExpanded) {
-                setIsExpanded(true);
-        //   event.target.classList.remove('se_in_23');
-          element.classList.remove('se_in_23');
-        //   event.target.classList.add('se_in_24');
-          element.classList.add('se_in_24');
-          document.getElementById('hide_' + arr[1]).style.display = 'block';
-          getCCDAComponents(arr[1]);
-        } 
+        if (!isExpanded) {
+            setIsExpanded(true);
+            //   event.target.classList.remove('se_in_23');
+            element.classList.remove('se_in_23');
+            //   event.target.classList.add('se_in_24');
+            element.classList.add('se_in_24');
+            document.getElementById('hide_' + arr[1]).style.display = 'block';
+            getCCDAComponents(arr[1]);
+        }
         else {
-        // if (event.target.classList.contains('se_in_24')) {
+            // if (event.target.classList.contains('se_in_24')) {
             console.log(arr[1]);
             setIsExpanded(false);
-          event.target.classList.remove('se_in_24');
-          event.target.classList.add('se_in_23');
-          document.getElementById('hide_' + arr[1]).style.display = 'none';
+            event.target.classList.remove('se_in_24');
+            event.target.classList.add('se_in_23');
+            document.getElementById('hide_' + arr[1]).style.display = 'none';
         }
         // const formData = new FormData();
         // formData.append('document_id', documentId)
@@ -192,28 +189,28 @@ const CCDAORQRDACAT = () => {
         // document.getElementById("dataView" + documentId).innerHTML = resp;
     };
     const viewDocument = async (documentId) => {
-       // var ddd= '{"status":0,"message":"failure","responseValue":"The given key userID was not present in the dictionary....}';
-       
-    
+        // var ddd= '{"status":0,"message":"failure","responseValue":"The given key userID was not present in the dictionary....}';
+
+
         const resView = await ViewDocument(documentId);
         console.log(resView);
-        if(resView.length == 0){
-        
+        if (resView.length == 0) {
+
             const jsonResponse = JSON.parse(resView);
             const status = jsonResponse.status;
             if (status === 0) {
-              alert('Data not available.');
-              // You can choose to show an alert or handle this case in another way
-              return;
-          }
-        }    
-          else{
+                alert('Data not available.');
+                // You can choose to show an alert or handle this case in another way
+                return;
+            }
+        }
+        else {
             let newWindow = window.open('', '_blank');
             newWindow.document.write(resView);
-          }
-
         }
-    useEffect(()=>{
+
+    }
+    useEffect(() => {
         handleParseData();
     }, []);
     return (
@@ -229,18 +226,18 @@ const CCDAORQRDACAT = () => {
                             </div>
 
                             {!isListLoading ?
-                             <div class="mb-2">
-                                <label for="chooseFile" className="form-label d-block">&nbsp;</label>
-                                <button type="button" className="btn btn-outline-success" onClick={handleParseData}>Import <i className="bi bi-arrow-down-short"></i></button>
-                            </div>
-                        :
-                        <div class="mb-2">
-                                <div class="spinner-border" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-                                </div>    
-                        }
-                            
+                                <div class="mb-2">
+                                    <label for="chooseFile" className="form-label d-block">&nbsp;</label>
+                                    <button type="button" className="btn btn-outline-success" onClick={handleParseData}>Import <i className="bi bi-arrow-down-short"></i></button>
+                                </div>
+                                :
+                                <div class="mb-2">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     </div>
 
@@ -257,87 +254,87 @@ const CCDAORQRDACAT = () => {
                                 <label for="chooseFile" className="form-label d-block">&nbsp;</label>
                                 <button type="button" className="btn btn-save btn-sm btn-save-fill mb-1 me-1" onClick={UndoImports}><img src={save} className='icnn' alt='' />Undo Imports</button>
                             </div>
-                            
+
 
                         </div>
                     </div>
                     {parsedData.length > 0 ?
-                    <div className="med-table-section accordion" style={{ "height": "74vh" }} >
-                        <table className="med-table border_ striped v-top">
-                            <thead>
-                                <tr>
-                                    <th>Toggle</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Date</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Owner</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>DOB</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Race</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Enc</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>CP</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>OB</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Proc</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Prob</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Med</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Type</th>
-                                    <th className="text-center" style={{ "width": "5%" }}>Action</th>
-                                </tr>
-                            </thead>
-                        
+                        <div className="med-table-section accordion" style={{ "height": "74vh" }} >
+                            <table className="med-table border_ striped v-top">
+                                <thead>
+                                    <tr>
+                                        <th>Toggle</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>#</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Date</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Owner</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Patient Name</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>DOB</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Race</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Ethnic</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Enc</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>CP</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>OB</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Proc</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Prob</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Med</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Match Found</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Matched Patient</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Duplicate</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Type</th>
+                                        <th className="text-center" style={{ "width": "5%" }}>Action</th>
+                                    </tr>
+                                </thead>
+
                                 <tbody onClick={handleExpandCompDetailsClick}>
 
                                     {parsedData && parsedData.map((item, index) => (
-                                            <React.Fragment key={index}>
-                                         <tr >
-                                            
-                                            <td id={"expandAuditDetails_" + item.amid + "-" + item.pid}  class="expandAuditDetails se_in_23"  onClick={(event) => handleDataByDocumentId(event)}></td>
-                                            <td className="text-center">{index + 1}</td>
-                                            <td>{item.date}</td>
-                                            <td>{item.fname} {item.lname} </td>
-                                            <td> {item.pat_name} </td>
-                                            <td> {item.dob} </td>
-                                            <td> {item.race} </td>
-                                            <td> {item.ethnicity} </td>
-                                            <td> {item.enc_count} </td>
-                                            <td> {item.cp_count} </td>
-                                            <td> {item.ob_count} </td>
-                                            <td> {item.proc_count} </td>
-                                            <td> {item.prb_count} </td>
-                                            <td> {item.med_count} </td>
-                                            <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
-                                            <td> {item.matched_patient} </td>
-                                            <td style={{ color: 'red' }}> {item.dupl_patient} </td>
-                                            <td> {item.name} </td>
-                                            <td>
-                                                <div className="d-flex gap-1">
-                                                {item.matched_patient !== "" ? (   <i class="bi bi-intersect" title="Review And Approve" style={{cursor:'pointer'}}></i> ) : (<i class="bi bi-intersect" title="Merge To Any Patient" style={{cursor:'pointer'}}></i>)}
-                                                    <i class="bi bi-calendar3" title="View Details" style={{cursor:'pointer'}} onClick={() => viewDocument(item.document_id)}></i>
-                                                    <i class="bi bi-person-fill" title="Add As New Patient" style={{cursor:'pointer'}} onClick={() => addAsNewPatient(item.amid,item.document_id)}></i>
-                                                </div>
+                                        <React.Fragment key={index}>
+                                            <tr >
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                        <td colspan="9" id = {"hide_" + item.amid  + "-" + item.pid } class="imported_ccda_details" style={{ display: 'none' }}></td>
-                                    </tr>
-                                       </React.Fragment>
+                                                <td id={"expandAuditDetails_" + item.amid + "-" + item.pid} class="expandAuditDetails se_in_23" onClick={(event) => handleDataByDocumentId(event)}></td>
+                                                <td className="text-center">{index + 1}</td>
+                                                <td>{item.date}</td>
+                                                <td>{item.fname} {item.lname} </td>
+                                                <td> {item.pat_name} </td>
+                                                <td> {item.dob} </td>
+                                                <td> {item.race} </td>
+                                                <td> {item.ethnicity} </td>
+                                                <td> {item.enc_count} </td>
+                                                <td> {item.cp_count} </td>
+                                                <td> {item.ob_count} </td>
+                                                <td> {item.proc_count} </td>
+                                                <td> {item.prb_count} </td>
+                                                <td> {item.med_count} </td>
+                                                <td> {item.matched_patient !== "" ? "Yes" : "No"} </td>
+                                                <td> {item.matched_patient} </td>
+                                                <td style={{ color: 'red' }}> {item.dupl_patient} </td>
+                                                <td> {item.name} </td>
+                                                <td>
+                                                    <div className="d-flex gap-1">
+                                                        {item.matched_patient !== "" ? (<i class="bi bi-intersect" title="Review And Approve" style={{ cursor: 'pointer' }}></i>) : (<i class="bi bi-intersect" title="Merge To Any Patient" style={{ cursor: 'pointer' }}></i>)}
+                                                        <i class="bi bi-calendar3" title="View Details" style={{ cursor: 'pointer' }} onClick={() => viewDocument(item.document_id)}></i>
+                                                        <i class="bi bi-person-fill" title="Add As New Patient" style={{ cursor: 'pointer' }} onClick={() => addAsNewPatient(item.amid, item.document_id)}></i>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9" id={"hide_" + item.amid + "-" + item.pid} class="imported_ccda_details" style={{ display: 'none' }}></td>
+                                            </tr>
+                                        </React.Fragment>
                                     )
                                     )
                                     }
                                 </tbody>
-                               
-                        </table>
-                    </div>
-                    : <div class="se_in_8">
-                   {/* <div id="uploadFlash" style={{"padding-top":"35px;", "height": "60px;", "width": "60%;", "margin-left": "auto;", "margin-right": "auto;", "margin-bottom": "1rem;", "border": "1px solid #CCCCCC;", "text-align":"center;", "font-size": "15px;", "font-weight": "bold;", "background": "#f7f7f7;"}}> */}
-                    <span id="uploadFlashText">Nothing to display</span>
-                {/* </div> */}
-                </div>
-            }
+
+                            </table>
+                        </div>
+                        : <div class="se_in_8">
+                            {/* <div id="uploadFlash" style={{"padding-top":"35px;", "height": "60px;", "width": "60%;", "margin-left": "auto;", "margin-right": "auto;", "margin-bottom": "1rem;", "border": "1px solid #CCCCCC;", "text-align":"center;", "font-size": "15px;", "font-weight": "bold;", "background": "#f7f7f7;"}}> */}
+                            <span id="uploadFlashText">Nothing to display</span>
+                            {/* </div> */}
+                        </div>
+                    }
 
                 </div>
             </div>
