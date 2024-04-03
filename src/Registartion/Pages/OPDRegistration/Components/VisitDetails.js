@@ -16,11 +16,20 @@ import AlertToster from '../../../../Component/AlertToster';
 import Dental from '../IssuesPopUpComponents/Dental';
 import GetAllvisitreason from '../../../API/GET/GetAllvisitreason';
 import GetAllFHIRVisitCategory from '../../../API/GET/GetAllFHIRVisitCategory';
+import GetUserListByRoleId from '../../../API/GET/GetUserListByRoleId';
+import { t } from 'i18next';
+import GetAllFHIRClass from '../../../API/GET/GetAllFHIRClass';
+import GetAllFHIRSensitivity from '../../../API/GET/GetAllFHIRSensitivity';
+import GetAllFHIRDischargeDispositio from '../../../API/GET/GetAllFHIRDischargeDispositio';
 const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearStatus, setClearStatus }) => {
     // const issueValue = document.getElementById('ddlProblem').getAttribute('value');
     let [isModelOpen, setIsModelOpen] = useState(0)
     let [outComelist, setOutcomeList] = useState([]);
     let [occurencelist, setOccurenceList] = useState([]);
+    let [classList, setClassList] = useState([]);
+    let [providerList, setProviderList] = useState([]);
+    let [sensitivityList, setSensitivityList] = useState([]);
+    let [dischargeList, setDischargeList] = useState([]);
     let [statuslist, setStatusList] = useState([]);
     let [classificationList, setClassificationList] = useState([]);
     let [showToster, setShowToster] = useState(0)
@@ -37,11 +46,38 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
         visitCategoryId: 0,
         visitReasonId: 0,
     });
-
+    const getUserListByRoleId = async () => {
+        const param = {
+            roleId: 2,
+            clientID: window.clientId,
+        }
+        const response = await GetUserListByRoleId(param)
+        if (response.status === 1) {
+            setProviderList(response.responseValue)
+        }
+    }
     const getAllVisitReason = async () => {
         const response = await GetAllvisitreason();
         if (response.status === 1) {
             setVisitReasonList(response.responseValue)
+        }
+    }
+    const getAllClass = async () => {
+        const response = await GetAllFHIRClass();
+        if (response.status === 1) {
+            setClassList(response.responseValue)
+        }
+    }
+    const getAllSensitivity = async () => {
+        const response = await GetAllFHIRSensitivity();
+        if (response.status === 1) {
+            setSensitivityList(response.responseValue)
+        }
+    }
+    const getAllFHIRDischarge = async () => {
+        const response = await GetAllFHIRDischargeDispositio();
+        if (response.status === 1) {
+            setDischargeList(response.responseValue)
         }
     }
     const getAllVisitCategory = async () => {
@@ -263,6 +299,10 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
         }
     }
     useEffect(() => {
+        getAllFHIRDischarge();
+        getAllSensitivity();
+        getAllClass();
+        getUserListByRoleId();
         getAllVisitCategory();
         getAllVisitReason();
         getAllIssueOutCome();
@@ -294,10 +334,11 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                     <div className='d-flex gap-3' >
                         <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='classId' value={visitDetails.classId} onChange={handleVisitDetailsChange}>
                             <option value="0" selected>Select Class</option>
-                            <option value="1">Outpatient</option>
-                            <option value="2">Emergency Dept</option>
-                            <option value="3">Out in Field</option>
-                            <option value="4">Home Health</option>
+                            {classList && classList.map((list) => {
+                                return (
+                                    <option value={list.id}>{list.name}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <small id="errClass" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -322,9 +363,11 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                     <div className='d-flex gap-3' >
                         <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='sensitivityId' value={visitDetails.sensitivityId} onChange={handleVisitDetailsChange}>
                             <option value="0" selected>Select Sensitivity</option>
-                            <option value="1">Normal</option>
-                            <option value="2">High</option>
-                            <option value="3">None</option>
+                            {sensitivityList && sensitivityList.map((list) => {
+                                return (
+                                    <option value={list.id}>{list.name}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <small id="errSensitivity" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -334,9 +377,12 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                     {/* <sup style={{ color: "red" }}>*</sup> */}
                     <div className='d-flex gap-3' >
                         <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='encounterProviderId' value={visitDetails.encounterProviderId} onChange={handleVisitDetailsChange}>
-                            <option value="0" selected>Select Encounter Provider</option>
-                            <option value="1">Administator</option>
-                            <option value="2">Provider External</option>
+                            <option value="0">{t("Select_Provider")}</option>
+                            {providerList && providerList.map((list) => {
+                                return (
+                                    <option value={list.id}>{list.name}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <small id="errEncounter" className="form-text text-danger" style={{ display: 'none' }}></small>
@@ -347,11 +393,11 @@ const VisitDetails = ({ visitDetailsData, issueDetailData, issueDetails, clearSt
                     <div className='d-flex gap-3' >
                         <select className="form-select form-select-sm" id="ddlSEStateTertiary" aria-label=".form-select-sm example" name='dischargeDispositionId' value={visitDetails.dischargeDispositionId} onChange={handleVisitDetailsChange}>
                             <option value="0" selected>Select Discharge Disposition</option>
-                            <option value="1">Home</option>
-                            <option value="2">Discharge to home for hospice care</option>
-                            <option value="3">Alternative Home</option>
-                            <option value="4">Other healthcare facility</option>
-                            <option value="5">Expired</option>
+                            {dischargeList && dischargeList.map((list) => {
+                                return (
+                                    <option value={list.id}>{list.name}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <small id="errDischarge" className="form-text text-danger" style={{ display: 'none' }}></small>

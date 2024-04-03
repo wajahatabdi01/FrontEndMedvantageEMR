@@ -13,7 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import FHIRGetEncounterByUHIDandIssueID from '../../../../../API/FHIRApi/GET/FHIRGetEncounterByUHIDandIssueID';
-function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,isCloseModal,fnisClose }) {
+function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [problem, setProblem] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -31,15 +31,17 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const [txtCoding, setTxtCoding] = useState([]);
     let [makeData, setMakeData] = useState([]);
     let [getData, setgetData] = useState([]);
+    let [showToster, setShowToster] = useState(0)
+
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-        
-        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [problemData, setProblemData] = useState({
         titleId: '',
@@ -200,7 +202,7 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             outcomeId: '0',
             destination: ''
         })
-        setUpdateBool(0);   
+        setUpdateBool(0);
         setTxtCoding([]);
         setProblemData((prevIssueDetails) => ({
             ...prevIssueDetails,
@@ -235,8 +237,8 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 encounterDetailsJsonString: JSON.stringify([problemData]),
                 clientId: window.clientId,
                 userId: window.userId,
-                doctorId : activeDocID,
-                departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
@@ -304,9 +306,21 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-          
+
             return null; // Or return an appropriate value indicating an error
         }
+    }
+    const codeName = {
+        'ICD10': '2.16.840.1.113883.6.90',
+        'SNOMED': '2.16.840.1.113883.6.96'
+    }
+    const redirectToHealthInfoPage = (param) => {
+        const tempData = param.split(":");
+        const codingType = tempData[0];
+        const codingValue = tempData[1];
+        const getCode = codeName[codingType];
+        const url = "https://connect.medlineplus.gov/application?mainSearchCriteria.v.cs=" + getCode + "&mainSearchCriteria.v.c=" + codingValue;
+        window.open(url, 'blank');
     }
     const newencounterBeginDate = convertDateFormat(encounterBeginDate);
     const newencounterEndDate = convertDateFormat(encounterEndDate);
@@ -327,27 +341,27 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             outcomeId: outcome && outcome !== '' ? outcome : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
-        const formattCodingData=encounterCoding ? encounterCoding.split(';').slice(0,-1):[];
+        const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
         setTxtCoding(formattCodingData)
     }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
-    
+
     useEffect(() => {
         getAllProblem();
         getAllIssueOutCome();
         getAllIssueOccurence();
         getAllVarificationStatus();
         getClassificationlist();
-        
-        
-       
+
+
+
     }, []);
     // Used To Clear Modal
-    useEffect(()=>{
-            if(isCloseModal === 1 ){
-                handleClear();
-            }
-        
-    },[isCloseModal]);
+    useEffect(() => {
+        if (isCloseModal === 1) {
+            handleClear();
+        }
+
+    }, [isCloseModal]);
     return (
         <>
             <div className='problemhead'>
@@ -380,24 +394,14 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                     <div className="col-12 mb-2">
                         <label htmlFor="txtPatientRelationAddress" className="form-label"><>Coding</></label>
                         <div>
-
-                            {/* <select  className='form-control' style={{ height: '8em' }} multiple name='coding' id='coding' >
-                                   {txtCoding && txtCoding.length > 0 ?
-                                       txtCoding.map((list,i)=>{
-                                           return(
-                                               <option value={list}>{list}</option>
-                                           )
-                                       })
-                                        
-                                       : ''}
-                               </select> */}
                             <div className='form-control' style={{ height: '8em', overflow: 'auto' }} multiple name='coding' id='coding' >
                                 {txtCoding && txtCoding.length > 0 ?
                                     txtCoding.map((list, i) => {
                                         return (
                                             <>
                                                 <span>
-                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />
+                                                    <span onClick={() => { redirectToHealthInfoPage(list) }}>{list}</span>
                                                 </span>
                                                 <br />
                                             </>
@@ -406,7 +410,6 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
 
                                     : ''}
                             </div>
-
                             {/* <span className='form-control' style={{ height: '8em' }}>{txtCoding}</span> */}
                         </div>
 
@@ -552,6 +555,16 @@ function OPDProblemPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                     </div>
                 </div>
                 : ''}
+
+
+            {showToster === 1 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
             {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
         </>
     )

@@ -7,13 +7,13 @@ import TableContainer from '../../../../../../Component/TableContainer';
 import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingStatus';
 import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
-function OPDLifeStyle({ setShowToster, theEncounterId }) {
+import SuccessToster from '../../../../../../Component/SuccessToster';
+function OPDLifeStyle({ theEncounterId }) {
     let [showLifeStyle, setShowLifestyle] = useState(1);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    // let [tosterMessage, setTosterMessage] = useState("");
-    // let [tosterValue, setTosterValue] = useState(0);
+    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     let [rowId, setRowId] = useState(0);
@@ -22,20 +22,20 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
     let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
         window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-        
-        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
 
-    let [tobaccoDetails, setTobaccoDetails] = useState({name: '',tobaccoId: '',tobaccoStatus: '',code: "",date: '',lifestylestatus: '',});
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
-    let [coffeDetails, setCoffeDetails] = useState({coffeeName: '',Coffeelifestylestatus: '',coffeedate: '',});
-    let [alcoholDetails, setAlcoholDetails] = useState({alcoholName: '',alcohollifestylestatus: '',alcoholdate: '',});
-    let [recreationalDetails, setRecreationalDetails] = useState({recreationalName: '',recreationallifestylestatus: '',recreationaldate: '',});
-    let [counselingDetails, setCounselingDetails] = useState({counselingName: '',counselinglifestylestatus: '',counselingdate: '',});
-    let [exerciseDetails, setExerciseDetails] = useState({exerciseName: '',exerciselifestylestatus: '',exercisedate: '',});
-    let [hazardousDetails, setHazardousDetails] = useState({hazardousName: '',hazardouslifestylestatus: '',hazardousdate: '',});
+    let [tobaccoDetails, setTobaccoDetails] = useState({ name: '', tobaccoId: '', tobaccoStatus: '', code: "", date: '', lifestylestatus: '', });
+
+    let [coffeDetails, setCoffeDetails] = useState({ coffeeName: '', Coffeelifestylestatus: '', coffeedate: '', });
+    let [alcoholDetails, setAlcoholDetails] = useState({ alcoholName: '', alcohollifestylestatus: '', alcoholdate: '', });
+    let [recreationalDetails, setRecreationalDetails] = useState({ recreationalName: '', recreationallifestylestatus: '', recreationaldate: '', });
+    let [counselingDetails, setCounselingDetails] = useState({ counselingName: '', counselinglifestylestatus: '', counselingdate: '', });
+    let [exerciseDetails, setExerciseDetails] = useState({ exerciseName: '', exerciselifestylestatus: '', exercisedate: '', });
+    let [hazardousDetails, setHazardousDetails] = useState({ hazardousName: '', hazardouslifestylestatus: '', hazardousdate: '', });
 
 
     let getAllSmokingStatus = async () => {
@@ -89,7 +89,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
         }
 
         if (name === "tobaccoId") {
-            
+
             setTobaccoDetails((prev) => ({
                 ...prev,
                 [name]: value,
@@ -107,7 +107,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
 
     }
     const handleRadioTobacco = (param, key) => {
-       
+
         let temDataNew = "";
         document.getElementById("ddlTobaccoId").value = key;
         const selectTobacco = document.getElementById("ddlTobaccoId");
@@ -213,7 +213,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
         const param = {
             Uhid: activeUHID,
             HistoryType: 2
-        }        
+        }
         setShowLifestyle(0);
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
@@ -298,7 +298,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
 
             if (validTobaccoData.length > 0) {
                 const firstTobaccoItem = validTobaccoData[0];
-                
+
                 const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
                 const lifestyleStatus = firstTobaccoItem[5];
                 document.getElementById("ddlTobaccoId").value = firstTobaccoItem[1];
@@ -313,7 +313,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validCoffeeData.length > 0) {
                 const firstCoffeeItem = validCoffeeData[0];
-               
+
                 const dateValue = firstCoffeeItem[2] ? formatDate(firstCoffeeItem[2]) : '';
                 setCoffeDetails((prev) => ({
                     ...prev,
@@ -324,7 +324,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validAlcoholData.length > 0) {
                 const firstAlcoholItem = validAlcoholData[0];
-                
+
                 const dateValue = firstAlcoholItem[2] ? formatDate(firstAlcoholItem[2]) : '';
                 setAlcoholDetails((prev) => ({
                     ...prev,
@@ -335,7 +335,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validRecreationalData.length > 0) {
                 const firstRecreationalItem = validRecreationalData[0];
-               
+
                 const dateValue = firstRecreationalItem[2] ? formatDate(firstRecreationalItem[2]) : '';
                 setRecreationalDetails((prev) => ({
                     ...prev,
@@ -346,7 +346,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validCounselingData.length > 0) {
                 const firstCounselingItem = validCounselingData[0];
-                
+
                 const dateValue = firstCounselingItem[2] ? formatDate(firstCounselingItem[2]) : '';
                 setCounselingDetails((prev) => ({
                     ...prev,
@@ -357,7 +357,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validExerciseData.length > 0) {
                 const firstExerciseItem = validExerciseData[0];
-                
+
                 const dateValue = firstExerciseItem[2] ? formatDate(firstExerciseItem[2]) : '';
                 setExerciseDetails((prev) => ({
                     ...prev,
@@ -368,7 +368,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
             if (validHazardousData.length > 0) {
                 const firsthazardousItem = validHazardousData[0];
-                
+
                 const dateValue = firsthazardousItem[2] ? formatDate(firsthazardousItem[2]) : '';
                 setHazardousDetails((prev) => ({
                     ...prev,
@@ -385,7 +385,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
 
 
     let handleSave = async () => {
-        
+
         setShowLifestyle(1);
         const jsonTobaccoData = JSON.stringify([tobaccoDetails])
         const jsonCoffeData = JSON.stringify([coffeDetails])
@@ -434,11 +434,11 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             "seatbeltUseData": "",
             "clientId": window.clientId,
             "userId": window.userId,
-            doctorId : activeDocID,
-            departmentId : activeDeptID
+            doctorId: activeDocID,
+            departmentId: activeDeptID
         }
 
-        
+
         // return;
         const response = await InsertLifeStyleData(sendData);
         if (response.status === 1) {
@@ -923,6 +923,7 @@ function OPDLifeStyle({ setShowToster, theEncounterId }) {
             }
 
 
+            {showToster === 8 ? (<SuccessToster handle={setShowToster} message="Lifestyle saved successfully !!" />) : ("")}
 
         </>
     )

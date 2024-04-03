@@ -16,7 +16,7 @@ import { t } from 'i18next';
 import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
 import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
 import GetFoodListByPrefixText from '../../../../../API/KnowMedsAPI/GetFoodListByPrefixText';
-function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,severity,reaction, isCloseModal, fnisClose }) {
+function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction, isCloseModal, fnisClose }) {
     let [allergy, setAllery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -31,6 +31,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     let [showList, setShowList] = useState(0);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [tosterMessage, setTosterMessage] = useState("");
+    let [showToster, setShowToster] = useState(0)
     let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
@@ -52,11 +53,11 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-        
-        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [allergyData, setAllergyData] = useState({
         titleId: '',
@@ -310,8 +311,8 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 encounterDetailsJsonString: JSON.stringify([allergyData]),
                 clientId: window.clientId,
                 userId: window.userId,
-                doctorId : activeDocID,
-    departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);
@@ -432,7 +433,7 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
         const formatCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
         setTxtCoding(formatCodingData)
 
-    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId,severity,reaction,])
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction,])
     // Used To Clear Modal
     useEffect(() => {
         if (isCloseModal === 1) {
@@ -715,6 +716,14 @@ function OPDAllergyPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 </div>
                 : ''}
             {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+            {showToster === 2 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Allergy saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
         </>
     )
 }

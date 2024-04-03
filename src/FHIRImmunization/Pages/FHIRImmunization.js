@@ -17,9 +17,10 @@ import DeleteImmunizationByRowId from '../API/DELETE/DeleteImmunizationByRowId';
 import IconDelete from '../../assets/images/icons/IconDelete.svg'
 import IconEdit from '../../assets/images/icons/IconEdit.svg'
 import GetAllImmunizationObservationList from '../API/GET/GetAllImmunizationObservationlist';
+import SuccessToster from '../../Component/SuccessToster';
 
 
-export default function FHIRImmunization({ setShowToster ,setImmunization, theEncounterId}) {
+export default function FHIRImmunization({ setImmunization, theEncounterId }) {
 
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
@@ -38,7 +39,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
   const [getImmunizationRoute, setImmunizationRoute] = useState([]);
   const [getImmunizationAdministrator, setImmunizationAdministrator] = useState([]);
   const [getAllImmunizationDataList, setAllImmunizationDataList] = useState([]);
-
+  let [showToster, setShowToster] = useState(0)
   const [observationArr, setObservationArr] = useState([])
   const [showUnderProcess, setShowUnderProcess] = useState(0);
 
@@ -62,25 +63,25 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
     SubstanceRefusalReason: 0,
     ImmunizationOrderingProvider: 0,
     Notes: '',
-    id : 0
+    id: 0
   })
 
-  let [observationRow, setObservationRow] = useState([{rowID: 1,Date: '',Code: '',Type: 0,Description: '',reasonCode: '',reasonStatus: '',reasonRecordingDate: '',reasonEndDate: '',},]);
+  let [observationRow, setObservationRow] = useState([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', },]);
 
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
-  
+
   // const activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
-  
-    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-    
-    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+
+  const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -110,7 +111,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
   //////////////////////////////////////////////// Open and close modal for CVX  Code //////////////////////
   const handleOpenModalCVX = (modalId, labelId) => {
-   
+
     setIsShowPopUpCvx(1)
     setPopUpId(modalId);
     setPopUpLabelId(labelId)
@@ -125,7 +126,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
   //////////////////////////////////////////////// Open and close modal for  SNOW Code //////////////////////
   const handleOpenModalSnow = (modalId, labelId) => {
-    
+
     setIsShowPopUpSnow(1)
     setPopUpId(modalId);
     setPopUpLabelId(labelId)
@@ -188,7 +189,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
   /////////////////////////////////// To send data in codemaster component for CVX Code /////////////////////////////////
   const SelectedDataCVX = (data, modalID, labelID) => {
-   
+
     const t = {
       labelId: labelID,
       moduleId: modalID,
@@ -202,17 +203,17 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
     for (let i = 0; i < data.length; i++) {
       temp = data[i].code;
       tempDropName = data[i].dropdownName;
-      
+
     }
-   
+
     document.getElementById(modalID).value = temp;
     //document.getElementById(labelID).value = tempDropName;
 
     // Set the tempDropName to the span element
-  const spanElement = document.getElementById(labelID);
-  if (spanElement) {
-    spanElement.textContent = tempDropName;
-  }
+    const spanElement = document.getElementById(labelID);
+    if (spanElement) {
+      spanElement.textContent = tempDropName;
+    }
   }
 
   /////////////////////////////////// To send data in codemaster component for SNOW Code /////////////////////////////////
@@ -235,10 +236,10 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
     document.getElementById(modalID).value = temp;
     // Set the tempDropName to the span element
-  const spanElement = document.getElementById(labelID);
-  if (spanElement) {
-    spanElement.textContent = tempDropName;
-  }
+    const spanElement = document.getElementById(labelID);
+    if (spanElement) {
+      spanElement.textContent = tempDropName;
+    }
 
   }
   /////////////////////////////////// To send data in codemaster component for Reason Code /////////////////////////////////
@@ -310,7 +311,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
   /////////////////////////////////////////////////////// function to get list of all immunization given /////////////////////////////////////////////
   const funGetAllImmunizationData = async () => {
-    const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID , theEncounterId);
+    const getAllImmunizationDataRes = await GetAllImmunizationData(activeUHID, theEncounterId);
     if (getAllImmunizationDataRes.status === 1) {
       setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);
     }
@@ -356,7 +357,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
         let investMaker = '';
         let investCodeText = '';
         for (let j = 0; j < investigationArr.length; j++) {
-          
+
           investMaker = investMaker.length === 0 ? investigationArr[j].id : '';
 
           investCodeText = investCodeText.length === 0 ? (investigationArr[j].codeText ? investigationArr[j].codeText : '') : investCodeText + '|' + (investigationArr[j].codeText ? investigationArr[j].codeText : '');
@@ -400,7 +401,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
           investDropDown = investMakerD;
           investCodeName = investCodeCVXD;
           investCodeTextF = investCodeTextD;
-          
+
         }
         if (getresponse[b].moduleId === 'SNOMED-CTCodeId' + observationRow[c].rowID) {
           const investigationArr = getresponse[b].data;
@@ -451,15 +452,15 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
         clientId: clientID,
         userId: userId,
         cvxCode: investConCat ? investConCat : document.getElementById('immunizationCode').value,
-        reasonCode: investConCatReason?investConCatReason : document.getElementById('ReasonId').value,
-        administeredDate: sendForm.DatenTimeAdministered,
+        reasonCode: investConCatReason ? investConCatReason : document.getElementById('ReasonId').value,
+        administeredDate: sendForm.DatenTimeAdministered ? sendForm.DatenTimeAdministered : null,
         amountAdministeredUnit: sendForm.AmountAdministeredUnit,
         amountAdministered: sendForm.AmountAdministered,
-        expirationDate: sendForm.ExpirationDate,
-        visDate: sendForm.DateofVISStatement,
+        expirationDate: sendForm.ExpirationDate ? sendForm.ExpirationDate : null,
+        visDate: sendForm.DateofVISStatement ? sendForm.DateofVISStatement : null,
         manufacturer: sendForm.ImmunizationManufacturer,
         lotNumber: sendForm.ImmunizationLotNumber,
-        dateImmunizationInformationStatementsGiven: sendForm.ImmunizationStatements,
+        dateImmunizationInformationStatementsGiven: sendForm.ImmunizationStatements ? sendForm.ImmunizationStatements : null,
         administeredById: sendForm.IDofImmunizationAdministrator,
         administeredBy: sendForm.IDofImmunizationAdministrator,
         route: sendForm.Route,
@@ -470,20 +471,16 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
         orderingProvider: sendForm.ImmunizationOrderingProvider,
         note: sendForm.Notes,
         jsonObservationCriteriaDetails: JSON.stringify(tempArrList),
-        doctorId : activeDocID,
-        departmentId : activeDeptID
+        doctorId: activeDocID,
+        departmentId: activeDeptID
 
       }
-     
+
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
-
-
         funGetAllImmunizationData();
         setShowUnderProcess(0);
-        // setTosterValue(0);
         setShowToster(7);
-        // setTosterMessage('Data Saved !');
         setTimeout(() => {
           handleClear();
           setShowToster(0)
@@ -512,134 +509,134 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////// To edit specific row of immunization //////////////////////////////////////////////////
-    const editImmunizationListData = async (list, observationId) => {
-      setShowObservation(true);
-      const observationRes = await GetAllImmunizationObservationList(observationId);
-   
-      setObservationArr(observationRes.responseValue.immunizationList);
-      const newObsArr = [];
-      for(let i =0; i<observationRes.responseValue.immunizationList.length;i++){
-       
-        newObsArr.push({
-          rowID: i+1,
-          Date: '',
-          Code: '',
-          Type: 0,
-          Description: '',
-          reasonCode: '',
-          reasonStatus: '',
-          reasonRecordingDate: '',
-          reasonEndDate: '',
-        });
+  const editImmunizationListData = async (list, observationId) => {
+    setShowObservation(true);
+    const observationRes = await GetAllImmunizationObservationList(observationId);
 
-        
-        // document.getElementById('ObservationCriteriaID'+i).value = observationRes.responseValue.immunizationList[i].imo_criteria
-      }
-    
-     setObservationRow([...newObsArr]);
-     
-    
-        
-      const dateStringAdministered = list.administered_date;
-      const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
-      const dateStringExpired = list.expiration_date;
-      const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; const formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
-      const dateStringIS = list.education_date;
-      const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; const formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
-      const dateStringVIS = list.vis_date;
-      const partsVIS = dateStringVIS.split("-"); const dayVIS = partsIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsIS[2]; const formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
-      
-      setSendForm((prev) => ({
-        ...prev,
-          DatenTimeAdministered : formattedDate,
-           AmountAdministered : list.amount_administered,
-           ExpirationDate: formattedExpiryDate,
-           ImmunizationManufacturer: list.manufacturerId,
-           ImmunizationLotNumber: list.lot_number,
-          ImmunizationStatements: formattedEducationDate,
-          NameAndTitleofImmunizationAdministrator: list.administered_by_id,
-          IDofImmunizationAdministrator:  list.administered_by_id,
-          DateofVISStatement: formattedVISDate,
-          Route: list.route,
-          InformationSource: list.information_source,
-          AdministrationSite: list.administration_site,
-          CompletionStatus: list.completion_status,
-          SubstanceRefusalReason: list.refusal_reason,
-          ImmunizationOrderingProvider: list.ordering_provider,
-          Notes: list.note,
-          id : list.id
-      }))
-      document.getElementById('immunizationCode').value = list.cvx_code;
-      document.getElementById('ReasonId').value = list.reason_code;
-      let data  = observationRes.responseValue.immunizationList;
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < newObsArr.length; j++) {
+    setObservationArr(observationRes.responseValue.immunizationList);
+    const newObsArr = [];
+    for (let i = 0; i < observationRes.responseValue.immunizationList.length; i++) {
 
-          if(parseInt(data[i].imo_criteria) === 2){
-            setSelectedValues(prevValues => ({
-              ...prevValues,
-              [i+1]: 2,
-            }));
-          }
-          else if(parseInt(data[i].imo_criteria) === 3){
-            setSelectedValues(prevValues => ({
-              ...prevValues,
-              [i+1]: 3,
-            }));
-          }
-          else if(parseInt(data[i].imo_criteria) === 4){
-            setSelectedValues(prevValues => ({
-              ...prevValues,
-              [i+1]: 4,
-            }));
-          }
+      newObsArr.push({
+        rowID: i + 1,
+        Date: '',
+        Code: '',
+        Type: 0,
+        Description: '',
+        reasonCode: '',
+        reasonStatus: '',
+        reasonRecordingDate: '',
+        reasonEndDate: '',
+      });
+
+
+      // document.getElementById('ObservationCriteriaID'+i).value = observationRes.responseValue.immunizationList[i].imo_criteria
+    }
+
+    setObservationRow([...newObsArr]);
+
+
+
+    const dateStringAdministered = list.administered_date;
+    const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
+    const dateStringExpired = list.expiration_date;
+    const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; const formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
+    const dateStringIS = list.education_date;
+    const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; const formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
+    const dateStringVIS = list.vis_date;
+    const partsVIS = dateStringVIS.split("-"); const dayVIS = partsIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsIS[2]; const formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
+
+    setSendForm((prev) => ({
+      ...prev,
+      DatenTimeAdministered: formattedDate,
+      AmountAdministered: list.amount_administered,
+      ExpirationDate: formattedExpiryDate,
+      ImmunizationManufacturer: list.manufacturerId,
+      ImmunizationLotNumber: list.lot_number,
+      ImmunizationStatements: formattedEducationDate,
+      NameAndTitleofImmunizationAdministrator: list.administered_by_id,
+      IDofImmunizationAdministrator: list.administered_by_id,
+      DateofVISStatement: formattedVISDate,
+      Route: list.route,
+      InformationSource: list.information_source,
+      AdministrationSite: list.administration_site,
+      CompletionStatus: list.completion_status,
+      SubstanceRefusalReason: list.refusal_reason,
+      ImmunizationOrderingProvider: list.ordering_provider,
+      Notes: list.note,
+      id: list.id
+    }))
+    document.getElementById('immunizationCode').value = list.cvx_code;
+    document.getElementById('ReasonId').value = list.reason_code;
+    let data = observationRes.responseValue.immunizationList;
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < newObsArr.length; j++) {
+
+        if (parseInt(data[i].imo_criteria) === 2) {
+          setSelectedValues(prevValues => ({
+            ...prevValues,
+            [i + 1]: 2,
+          }));
+        }
+        else if (parseInt(data[i].imo_criteria) === 3) {
+          setSelectedValues(prevValues => ({
+            ...prevValues,
+            [i + 1]: 3,
+          }));
+        }
+        else if (parseInt(data[i].imo_criteria) === 4) {
+          setSelectedValues(prevValues => ({
+            ...prevValues,
+            [i + 1]: 4,
+          }));
         }
       }
-
-      setTimeout(()=>{
-        getTestFun(observationRes.responseValue.immunizationList, newObsArr);
-      }, 1000)
     }
+
+    setTimeout(() => {
+      getTestFun(observationRes.responseValue.immunizationList, newObsArr);
+    }, 1000)
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const getTestFun = (data, arrayForRow) => {
     if (data.length > 0) {
-     
+
       for (let i = 0; i < data.length; i++) {
-        if(data[i].imo_criteria == "2"){
+        if (data[i].imo_criteria == "2") {
           setTimeout(() => {
-            document.getElementById('ObservationCriteriaValueID'+arrayForRow[i].rowID).value = data[i].imo_criteria_value;
+            document.getElementById('ObservationCriteriaValueID' + arrayForRow[i].rowID).value = data[i].imo_criteria_value;
           }, 100)
         }
-        if(parseInt(data[i].imo_criteria) === 3){
+        if (parseInt(data[i].imo_criteria) === 3) {
           setTimeout(() => {
-            const spanElement = document.getElementById('CVXLabelId'+arrayForRow[i].rowID);
+            const spanElement = document.getElementById('CVXLabelId' + arrayForRow[i].rowID);
             if (spanElement) {
-              spanElement.textContent =  data[i].imo_codetype;
+              spanElement.textContent = data[i].imo_codetype;
             }
-            document.getElementById('CVX_CodeId'+arrayForRow[i].rowID).value = data[i].imo_code;
-            document.getElementById('Date_VIS_Published_Id'+arrayForRow[i].rowID).value = data[i].imo_vis_date_published;
-            document.getElementById('Date_VIS_PresentedId'+arrayForRow[i].rowID).value = data[i].imo_vis_date_presented;
+            document.getElementById('CVX_CodeId' + arrayForRow[i].rowID).value = data[i].imo_code;
+            document.getElementById('Date_VIS_Published_Id' + arrayForRow[i].rowID).value = data[i].imo_vis_date_published;
+            document.getElementById('Date_VIS_PresentedId' + arrayForRow[i].rowID).value = data[i].imo_vis_date_presented;
           }, 100)
         }
-        if(parseInt(data[i].imo_criteria) === 4){
+        if (parseInt(data[i].imo_criteria) === 4) {
           setTimeout(() => {
-            const spanElement = document.getElementById('SNOWLabelId'+arrayForRow[i].rowID);
+            const spanElement = document.getElementById('SNOWLabelId' + arrayForRow[i].rowID);
             if (spanElement) {
-              spanElement.textContent =  data[i].imo_codetype;
+              spanElement.textContent = data[i].imo_codetype;
             }
-            document.getElementById('SNOMED-CTCodeId'+arrayForRow[i].rowID).value = data[i].imo_code;
+            document.getElementById('SNOMED-CTCodeId' + arrayForRow[i].rowID).value = data[i].imo_code;
           }, 100)
         }
       }
     }
   };
-  
-  
-  
+
+
+
   useEffect(() => {
     // This will run every time observationArr changes
-   // getTestFun();
+    // getTestFun();
   }, []);
 
   const handleClear = () => {
@@ -658,8 +655,10 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
       const dateVisPublishedId = 'Date_VIS_Published_Id' + rowID;
       const dateVisPresentedId = 'Date_VIS_PresentedId' + rowID;
       const snomedCTCodeId = 'SNOMED-CTCodeId' + rowID;
+      setTimeout(() => {
 
-      document.getElementById(observationCriteriaID).value = '1'; // Reset Observation Criteria to 'Unassigned'
+        document.getElementById(observationCriteriaID).value = '1'; // Reset Observation Criteria to 'Unassigned'
+      }, 200);
 
       // Check if CVX Code field exists before accessing it
       const observationCriteriaValueIDField = document.getElementById(observationCriteriaValueID);
@@ -709,7 +708,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
   return (
 
     <>
-    
+
       <div className='container-fluid'>
         <div className="row">
           <div className='col-12'>
@@ -862,7 +861,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
                               <div className='fieldsett fieldse '>
                                 <span className='fieldse'>Observation Results</span>
                                 {observationRow && observationRow.map((observeList, ind) => {
-                                  
+
                                   const isLastRow = ind === observationRow.length - 1; // Check if it's the last row
 
                                   return (
@@ -893,8 +892,8 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
                                       {parseInt(selectedValues[observeList.rowID]) === 3 && (
                                         <>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
-                                            <label htmlFor="CVX_Code" className="form-label">CVX Code : <span id={'CVXLabelId'+observeList.rowID}></span></label>
-                                            <input id={"CVX_CodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="CVX_CodeName" onClick={() => { handleOpenModalCVX('CVX_CodeId' + observeList.rowID, 'CVXLabelId'+observeList.rowID) }} />
+                                            <label htmlFor="CVX_Code" className="form-label">CVX Code : <span id={'CVXLabelId' + observeList.rowID}></span></label>
+                                            <input id={"CVX_CodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="CVX_CodeName" onClick={() => { handleOpenModalCVX('CVX_CodeId' + observeList.rowID, 'CVXLabelId' + observeList.rowID) }} />
                                           </div>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                             <label htmlFor="Date_VIS_Published" className="form-label">Date VIS Published</label>
@@ -909,8 +908,8 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
 
                                       {parseInt(selectedValues[observeList.rowID]) === 4 && (
                                         <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
-                                          <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code : <span id={'SNOWLabelId'+observeList.rowID}></span></label>
-                                          <input id={"SNOMED-CTCodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={() => { handleOpenModalSnow("SNOMED-CTCodeId" + observeList.rowID, 'SNOWLabelId'+observeList.rowID) }} />
+                                          <label htmlFor="SNOMED-CT_Code" className="form-label">SNOMED-CT Code : <span id={'SNOWLabelId' + observeList.rowID}></span></label>
+                                          <input id={"SNOMED-CTCodeId" + observeList.rowID} type="text" className="form-control form-control-sm" name="SNOMED-CTCodeName" onClick={() => { handleOpenModalSnow("SNOMED-CTCodeId" + observeList.rowID, 'SNOWLabelId' + observeList.rowID) }} />
                                         </div>
                                       )}
                                       <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
@@ -1018,7 +1017,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
                             </button> */}
                             <div className="action-button">
                               {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
-                              <div onClick={() => { editImmunizationListData(immunizationList, immunizationList.id) }}><img src={IconEdit} alt='' title='Edit Immunization'/></div>
+                              <div onClick={() => { editImmunizationListData(immunizationList, immunizationList.id) }}><img src={IconEdit} alt='' title='Edit Immunization' /></div>
                               <div onClick={() => { deleteImmunizationListData(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
                             </div>
                           </td>
@@ -1082,7 +1081,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
               </button>
               {observationRow && observationRow.map((observelist, observeInd) => (
                 (PopUpId === 'CVX_CodeId' + observelist.rowID && PopUpLabelId === 'CVXLabelId' + observelist.rowID) ?
-                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} labelID = {PopUpLabelId} isMultiple={false} />
+                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataCVX} defaultData={makeData} modalID={PopUpId} labelID={PopUpLabelId} isMultiple={false} />
                   : ''
               ))}
             </div>
@@ -1103,7 +1102,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
               </button>
               {observationRow && observationRow.map((observelist, observeInd) => (
                 ((PopUpId === 'SNOMED-CTCodeId' + observelist.rowID) && (PopUpLabelId === 'SNOWLabelId' + observelist.rowID)) ?
-                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} labelID = {PopUpLabelId} isMultiple={false} />
+                  <FHIRImmunizationCodeMaster style={customStyle} SelectedData={SelectedDataSnow} defaultData={makeData} modalID={PopUpId} labelID={PopUpLabelId} isMultiple={false} />
                   : ''
               ))}
             </div>
@@ -1112,6 +1111,7 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
       ) : ''}
 
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+      {showToster === 7 ? (<SuccessToster handle={setShowToster} message="Immunization saved successfully !!" />) : ("")}
     </>
 
   )

@@ -21,11 +21,13 @@ import GetCarePlanByUhid from "../../FHIRCarePlan/API/GetCarePlanByUhid";
 import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/Api/GetMedicalHistory";
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 import GetAllRefills from "../API/GET/GetAllRefills";
+import SuccessToster from "../../Component/SuccessToster";
 
-export default function FHIRAddPrescription({setShowToster, setPrecription, theEncounterId}) {
+export default function FHIRAddPrescription({ setPrecription, theEncounterId }) {
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0);
   const [editName, setEditName] = useState("");
+  let [showToster, setShowToster] = useState(0)
   const [providerList, setProviderList] = useState([]);
   const [getFormList, setFormList] = useState([]);
   const [getIntervalList, setIntervalList] = useState([]);
@@ -40,9 +42,9 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
   const [showSave, setShowSave] = useState(1);
   const [getMedName, setMedName] = useState('')
 
-  const [getRefillsList , setRefillsList] = useState([])
+  const [getRefillsList, setRefillsList] = useState([])
   let [showTosterMessage, setShowTosterMessage] = useState("");
-  
+
 
   //const [editBrand, setEditBrand] = useState("")
 
@@ -54,20 +56,20 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-    
-    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+  const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+    JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
   const funGetAllList = async () => {
-    
+
     const listRes = await FHIRGetAllPrescriptionListByUHID(
       activeUHID,
       clientID, theEncounterId
     );
     if (listRes.status === 1) {
-     
+
       setPrescreptionList(listRes.responseValue);
     }
   };
@@ -80,7 +82,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
   };
 
   const getAllBrandList = async () => {
-    
+
     const response = await GetBrandList();
     if (response.status === 1) {
       const slicedProblemList = response.responseValue.slice(0, 100);
@@ -90,7 +92,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
 
   const getAllRerfillsList = async () => {
     const response = await GetAllRefills();
-    if(response.status === 1) {
+    if (response.status === 1) {
       setRefillsList(response.responseValue)
     }
   }
@@ -100,14 +102,14 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
       clientID: clientID,
     };
     const providerRes = await GetUserListByRoleId(dataToProvider);
-    if(providerRes.status === 1){
+    if (providerRes.status === 1) {
       setProviderList(providerRes.responseValue);
     }
   };
 
   const getAllFromList = async () => {
     const formRes = await FHIRGetAllForm();
-   
+
     setFormList(formRes.responseValue);
   };
 
@@ -127,7 +129,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
 
   const handleChangeText = (e) => {
     const { name, value, type, checked } = e.target;
-   
+
     // If the input is a checkbox, handle it differently
     if (type === "checkbox") {
       // If the checkbox is checked, set the value to 1, otherwise set it to 0
@@ -160,21 +162,21 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
 
   //Handle Change
   const handleChange = async (e) => {
-  
+
     setMedName(e.target.selectedName)
     let name = e.target.name;
     let value = e.target.value;
-    
+
     const getAllergy = await GetMedicationAllergyStatus(activeUHID, clientID, value);
-   
-     if((getAllergy.status === 1) &&  (getAllergy.responseValue[0].allergyStatus === 'True')){
+
+    if ((getAllergy.status === 1) && (getAllergy.responseValue[0].allergyStatus === 'True')) {
       document.getElementById("errDrug").style.display = "block";
-      window.localStorage.setItem("medName",e.target.selectedName);
-     }
-     else{
+      window.localStorage.setItem("medName", e.target.selectedName);
+    }
+    else {
       document.getElementById("errDrug").style.display = "none";
-      window.localStorage.setItem("medName",'');
-     }
+      window.localStorage.setItem("medName", '');
+    }
     setEditName("");
     //setEditBrand("")
     // setSendForm(sendForm => ({
@@ -200,7 +202,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
   };
 
   //////////////////////////////// Final Save /////////////////////////
-  const handleSave = async () => {  
+  const handleSave = async () => {
     if (sendForm.startingdate === "") {
       document.getElementById("errDate").innerHTML = "Please select date.";
       document.getElementById("errDate").style.display = "block";
@@ -208,7 +210,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
       document.getElementById("errDrug").innerHTML = "Please select drug.";
       document.getElementById("errDrug").style.display = "block";
     } else {
-     const filterArr=brandList.filter((arr)=>{if(arr.medicineID===sendForm.brandList){return arr;}});
+      const filterArr = brandList.filter((arr) => { if (arr.medicineID === sendForm.brandList) { return arr; } });
 
       const finalObj = {
         uhid: activeUHID,
@@ -229,7 +231,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
         medication: sendForm.addToList,
         substitute: sendForm.ReasonName,
         drug:
-        filterArr[0].name +
+          filterArr[0].name +
           " " +
           sendForm.medicineStrength +
           " " +
@@ -241,38 +243,37 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
         userId: userId,
         rxnormDrugCode: "1432537",
         clientId: clientID,
-        doctorId : activeDocID,
-    departmentId : activeDeptID
+        doctorId: activeDocID,
+        departmentId: activeDeptID
       };
-      if(window.localStorage.getItem("medName")){
-        
-        if(window.confirm(`Patient is allergic to ${getMedName}. Do you wish to continue!`))
-        {
+      if (window.localStorage.getItem("medName")) {
+
+        if (window.confirm(`Patient is allergic to ${getMedName}. Do you wish to continue!`)) {
           const finalSave = await FHIRPostAddPrescreption(finalObj);
           if (finalSave.status === 1) {
-            
+
             funGetAllList();
             setShowToster(22);
             setTimeout(() => {
               setShowToster(22)
-            },2000);
+            }, 2000);
             handleClear();
           }
         }
-        
+
       }
-      else{
+      else {
         const finalSave = await FHIRPostAddPrescreption(finalObj);
         if (finalSave.status === 1) {
-          
+
           funGetAllList();
           setShowToster(22);
           setTimeout(() => {
             setShowToster(22)
-          },2000);
+          }, 2000);
           handleClear();
         }
-        } 
+      }
     }
   };
 
@@ -311,11 +312,11 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
     setShowSave(0);
     //
     const selectElement = document.getElementById("formID")
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
-      
-      //const selectedValue = selectedOption.value;
-      const selectedText = selectedOption.text;
-    
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+    //const selectedValue = selectedOption.value;
+    const selectedText = selectedOption.text;
+
     const startingDate = startDate.substring(0, startDate.indexOf(" "));
     const [day, month, year] = startingDate.split("-");
 
@@ -325,7 +326,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
     // Get the formatted date in YYYY-MM-DD format
     const formattedDate = dateConvert.toISOString().split("T")[0];
 
-  
+
     setSendForm((prev) => ({
       ...prev,
       currentlyActive: 1,
@@ -353,18 +354,18 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
   };
 
   const handleUpdateSave = async () => {
-   
-    if(sendForm.brandList) {
-      var filterArrUpName=brandList.filter((arr)=>{if(arr.medicineID===sendForm.brandList){return arr;}});
-      
+
+    if (sendForm.brandList) {
+      var filterArrUpName = brandList.filter((arr) => { if (arr.medicineID === sendForm.brandList) { return arr; } });
+
     }
-    else{
-      var filterArrUpId=brandList.filter((arr)=>{if(arr.name===editName){return arr;}});
-      
+    else {
+      var filterArrUpId = brandList.filter((arr) => { if (arr.name === editName) { return arr; } });
+
     }
-    
-    
-    
+
+
+
     const finalObjUpdate = {
       id: theRowId,
       uhid: activeUHID,
@@ -398,7 +399,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
       rxnormDrugCode: "1432537",
       clientId: clientID,
     };
-    
+
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
     if (updateRes.status === 1) {
       alert('Data updated successfully!');
@@ -407,7 +408,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
   };
 
   const handleSendPrescription = async (list) => {
-   
+
     sendNotification(list)
   }
 
@@ -416,18 +417,18 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
     //  let patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())?
     //                     JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString()):
     //                     JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
-    if(JSON.parse(window.sessionStorage.getItem("IPDpatientList"))){
+    if (JSON.parse(window.sessionStorage.getItem("IPDpatientList"))) {
       var patientname = JSON.parse(window.sessionStorage.getItem("IPDpatientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
     }
-    else if(JSON.parse(window.sessionStorage.getItem("patientList"))){
-     patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
+    else if (JSON.parse(window.sessionStorage.getItem("patientList"))) {
+      patientname = JSON.parse(window.sessionStorage.getItem("patientList")).filter((val) => val.uhId.toString() === activeUHID.toString())
     }
     let doctorName = JSON.parse(window.sessionStorage.getItem("LoginData")).name
     let data = {
       "userId": window.userId,
       "Uhid": activeUHID,
       "medicineData": datas,
-       "patientName": patientname[0].patientName,
+      "patientName": patientname[0].patientName,
       "doctorName": doctorName
     }
     let sendData = {
@@ -455,24 +456,24 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
       // "methodName": "receivePrescription"
     }
 
- 
+
     let response = await InsertPrescriptionNotification(sendData)
 
     if (response.status === 1) {
-       setShowToster(23)
-       setTimeout(() => {
+      setShowToster(23)
+      setTimeout(() => {
         setShowToster(0)
-      },2000);
-      
+      }, 2000);
+
     }
   }
 
-  
+
 
   useEffect(() => {
     getProviderList();
     funGetAllList();
-   
+
   }, []);
   useEffect(() => {
     getAllBrandList();
@@ -500,7 +501,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                               <label htmlFor="Administration" className="form-label">
                                 Currently Active
                               </label>
-                              <input className="form-check-input" type="checkbox" id="currentlyActiveID" checked={   sendForm.currentlyActive === 1 ? true : false } role="switch" name="currentlyActive" value={sendForm.currentlyActive} onChange={handleChangeText}/>
+                              <input className="form-check-input" type="checkbox" id="currentlyActiveID" checked={sendForm.currentlyActive === 1 ? true : false} role="switch" name="currentlyActive" value={sendForm.currentlyActive} onChange={handleChangeText} />
                             </div>
                             {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2 form-check'>
                               <label htmlFor="E-Prescription?" className="form-label">E-Prescription?</label>
@@ -521,7 +522,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                 Starting Date
                                 <span className="starMandatory">*</span>
                               </label>
-                              <input id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText}/>
+                              <input id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
                               <small id="errDate" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
@@ -553,7 +554,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     <label className="form-label" for="UseDefault">
                                       Use Default
                                     </label>
-                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value={0} onChange={handleChangeText} checked={sendForm.exampleRadios == 0}/>
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseDefault" value={0} onChange={handleChangeText} checked={sendForm.exampleRadios == 0} />
                                   </div>
                                 </div>
 
@@ -562,7 +563,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     <label className="form-label" for="UseRxNorm">
                                       Use RxNorm
                                     </label>
-                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value={1} onChange={handleChangeText} checked={sendForm.exampleRadios == 1}/>
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxNorm" value={1} onChange={handleChangeText} checked={sendForm.exampleRadios == 1} />
                                   </div>
                                 </div>
 
@@ -571,7 +572,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     <label className="form-label" for="UseRxCUI">
                                       Use RxCUI
                                     </label>
-                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI" value={2} onChange={handleChangeText} checked={sendForm.exampleRadios == 2}/>
+                                    <input className="form-check-input" type="radio" name="exampleRadios" id="UseRxCUI" value={2} onChange={handleChangeText} checked={sendForm.exampleRadios == 2} />
                                   </div>
                                 </div>
                               </div>
@@ -583,21 +584,21 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                               </label>
                               {/* <input  id="DrugSearchID" type="text" className="form-control form-control-sm" name="DrugSearchID" placeholder= "Enter Drug" onClick={''} /> */}
                               {brandList && (
-                                <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch}/>
+                                <DropdownWithSearch defaulNname="Search Medicine" name="brandList" list={brandList} valueName={"medicineID"} displayName="name" editdata={editName} getvalue={handleChange} clear={clearDropdown} clearFun={handleClearMedicineSearch} />
                               )}
-                              <small id="errDrug" className="form-text text-danger" style={{display:'none'}}>Allergic to {getMedName}.</small>
+                              <small id="errDrug" className="form-text text-danger" style={{ display: 'none' }}>Allergic to {getMedName}.</small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Quantity
                               </label>
-                              <input id="QuantityID" type="text" className="form-control form-control-sm" name="QuantityName" placeholder="Enter Quantity" value={sendForm.QuantityName} onChange={handleChangeText}/>
+                              <input id="QuantityID" type="text" className="form-control form-control-sm" name="QuantityName" placeholder="Enter Quantity" value={sendForm.QuantityName} onChange={handleChangeText} />
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
                                 Medicine Strength
                               </label>
-                              <input id="medicinestrengthID" type="text" className="form-control form-control-sm" name="medicineStrength" placeholder="Enter Medicine" value={sendForm.medicineStrength} onChange={handleChangeText}/>
+                              <input id="medicinestrengthID" type="text" className="form-control form-control-sm" name="medicineStrength" placeholder="Enter Medicine" value={sendForm.medicineStrength} onChange={handleChangeText} />
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <label htmlFor="Code" className="form-label">
@@ -621,19 +622,19 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     </option>
                                     {getRefillsList &&
                                       getRefillsList.map((list, ind) => {
-                                            return (
-                                              <option value={list.id}>
-                                                {list.refillsTimes}
-                                              </option>
-                                            );
-                                          })}
+                                        return (
+                                          <option value={list.id}>
+                                            {list.refillsTimes}
+                                          </option>
+                                        );
+                                      })}
                                   </select>
                                 </div>
                                 <div>
                                   <label htmlFor="Code" className="form-label">
                                     # of tablets:
                                   </label>
-                                  <input id="ofTabletsID" type="text" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText}/>
+                                  <input id="ofTabletsID" type="text" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText} />
                                 </div>
                               </div>
                             </div>
@@ -645,13 +646,13 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                       <label htmlFor="Code" className="form-label">
                                         Directions
                                       </label>
-                                      <input id="DirectionsID" type="text" className="form-control form-control-sm" name="DirectionsName" placeholder="Enter Directions" value={sendForm.DirectionsName} onChange={handleChangeText}/>
+                                      <input id="DirectionsID" type="text" className="form-control form-control-sm" name="DirectionsName" placeholder="Enter Directions" value={sendForm.DirectionsName} onChange={handleChangeText} />
                                     </div>
                                     <div>
                                       <label htmlFor="Code" className="form-label">
                                         Form
                                       </label>
-                                      
+
                                       <select name="formName" className="form-select form-select-sm" id="formID" value={sendForm.formName} onChange={handleChangeText}>
                                         <option value="0">
                                           --Select Form--
@@ -683,7 +684,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                           getRouteList.map((routeList, ind) => {
                                             return (
                                               <option
-                                                value={routeList.name +":" +routeList.id}>
+                                                value={routeList.name + ":" + routeList.id}>
                                                 {routeList.name}
                                               </option>
                                             );
@@ -719,7 +720,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                               <label htmlFor="Notes" className="form-label">
                                 Notes
                               </label>
-                              <textarea id="NotesId" type="text" className="form-control form-control-sm" name="Notes" value={sendForm.Notes} onChange={handleChangeText}/>
+                              <textarea id="NotesId" type="text" className="form-control form-control-sm" name="Notes" value={sendForm.Notes} onChange={handleChangeText} />
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
                               <div>
@@ -733,7 +734,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     <label class="form-label" for="UseDefault">
                                       No
                                     </label>
-                                    <input class="form-check-input" type="radio" name="addToList" id="No" value={0} onChange={handleChangeText} checked={sendForm.addToList == 0}/>
+                                    <input class="form-check-input" type="radio" name="addToList" id="No" value={0} onChange={handleChangeText} checked={sendForm.addToList == 0} />
                                   </div>
                                 </div>
                                 <div>
@@ -741,7 +742,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                     <label class="form-label" for="UseRxNorm">
                                       Yes
                                     </label>
-                                    <input class="form-check-input" type="radio" name="addToList" id="Yes" value={1} onChange={handleChangeText} checked={sendForm.addToList == 1}/>
+                                    <input class="form-check-input" type="radio" name="addToList" id="Yes" value={1} onChange={handleChangeText} checked={sendForm.addToList == 1} />
                                   </div>
                                 </div>
                               </div>
@@ -812,7 +813,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                 <tbody>
                   {prescreptionList &&
                     prescreptionList.map((list, ind) => {
-                      
+
                       return (
                         <tr>
                           <td>{ind + 1}</td>
@@ -858,7 +859,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
                                   list.medication,
                                   list.substitute
                                 );
-                               
+
                               }}
                             >
                               <img src={editIcon} className="icnn" alt="" />
@@ -877,6 +878,7 @@ export default function FHIRAddPrescription({setShowToster, setPrecription, theE
           </div>
         </div>
       </div>
+      {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
     </>
   );
 }

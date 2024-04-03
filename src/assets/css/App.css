@@ -2078,12 +2078,7 @@ input[type=number] {
   cursor: pointer;
 }
 
-.opdpopUp {
-  backdrop-filter: blur(3px);
-}
-
 .modal.d-block {
-
   /* background: #000000e8; */
   backdrop-filter: blur(2px);
 
@@ -12331,3 +12326,7 @@ span.starMandatory {
 }
 
 /* test */
+
+.modal.fade.show {
+  backdrop-filter: blur(2px);
+}

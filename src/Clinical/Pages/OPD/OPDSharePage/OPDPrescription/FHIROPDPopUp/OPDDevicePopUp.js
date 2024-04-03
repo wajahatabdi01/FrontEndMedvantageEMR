@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, isCloseModal, fnisClose }) {
+function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, isCloseModal, fnisClose }) {
     let [device, setDevice] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -22,8 +22,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [brandList, setBrandList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    // let [tosterMessage, setTosterMessage] = useState("");
-    // let [tosterValue, setTosterValue] = useState(0);
+    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -37,11 +36,11 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
 
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-        
-        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [deviceData, setDeviceData] = useState({
         issueTypeId: 4,
@@ -60,7 +59,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
         severityId: 0,
         allergyType: 0,
         allergyTypeId: 0,
-        udi:''
+        udi: ''
     })
 
     let getAllIssueOutCome = async () => {
@@ -199,7 +198,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
             severityId: 0,
             allergyType: 0,
             allergyTypeId: 0,
-            udi:''
+            udi: ''
         })
         setUpdateBool(0);
         setTxtCoding([]);
@@ -227,8 +226,8 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                 encounterDetailsJsonString: JSON.stringify([deviceData]),
                 clientId: window.clientId,
                 userId: window.userId,
-                doctorId : activeDocID,
-    departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);
@@ -362,7 +361,7 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                 <div className="col-10 mb-2">
                     <label htmlFor="name" className="form-label">UDI<span className="starMandatory"></span></label>
                     <div style={{ position: 'relative' }}>
-                        <input type="text" value={deviceData.udi} className='form-control form-control-sm' name='udi' placeholder={t("Search")} onChange={handleTitleInputChange}/>
+                        <input type="text" value={deviceData.udi} className='form-control form-control-sm' name='udi' placeholder={t("Search")} onChange={handleTitleInputChange} />
                         <span className="udisericon"><i class="fas fa-search"></i> Process UDI</span>
                     </div>
                 </div>
@@ -543,6 +542,14 @@ function OPDDevicePopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool
                 </div>
                 : ''}
             {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+            {showToster === 4 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
         </>
     )
 }

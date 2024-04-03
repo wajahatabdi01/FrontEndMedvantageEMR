@@ -126,7 +126,7 @@ export default function OPDPatientMedicationAssign(props) {
 
     let handleDeleteRow = async (ind, id, value, drugId) => {
         handleDeleteRowCode(ind, id, value, drugId, row, drugInteractionId, medicationData, setMedicationData, setShowMeassage, setShowSuccessToster, setShowAlertToster)
-       
+
         // // let response = handleDelete()
         // try {
         //     let temp = [...medicationData]
@@ -261,7 +261,7 @@ export default function OPDPatientMedicationAssign(props) {
                     if (temp[ind]["duration"] !== "-1" && temp[ind]["duration"] !== "") {
                         let textdata = temp[ind]["duration"].split(",")[0]
                         let selectdata = temp[ind]["duration"].split(",")[1]
-                        
+
                         if (selectdata.length !== 0) {
                             temp[ind]["duration"] = value + "," + selectdata
                         }
@@ -291,7 +291,7 @@ export default function OPDPatientMedicationAssign(props) {
                     else {
                         temp[ind]["duration"] = "," + value
                     }
-                    
+
                     setMedicationData([...temp])
                 }
                 else if (name === "rationalData") {
@@ -395,7 +395,7 @@ export default function OPDPatientMedicationAssign(props) {
     let handleClick = (name, ind, data) => {
         try {
             let temp = [...medicationData]
-            
+
 
             if (name === "drugData") {
 
@@ -409,13 +409,13 @@ export default function OPDPatientMedicationAssign(props) {
                             if (key[0] === "jsonallergies") {
                                 if (val.jsonallergies.length !== 0) {
                                     checkMedicine = val
-                                   
+
                                 }
                             }
                         }
                     })
                 })
-                
+
                 if (checkMedicine.length !== 0) {
                     if (checkMedicine.jsonallergies.length === 0) {
                         let response = FindByQuery(temp, data[1], "drugName")
@@ -427,9 +427,9 @@ export default function OPDPatientMedicationAssign(props) {
                             temp[ind]["dosageStrength"] = data[3]
                             temp[ind]["doseUnit"] = data[4]
                             temp[ind]["isAntibiotic"] = data[5]
-                            
+
                             setDrugInteractionId([...drugInteractionId, data[0]])
-                          
+
 
                             GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                             document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
@@ -446,7 +446,7 @@ export default function OPDPatientMedicationAssign(props) {
                     else {
                         let flag = 0
                         checkMedicine.jsonallergies.map((val, ind) => {
-                            
+
                             if (val.problemId === data[0]) {
                                 flag = 1
                             }
@@ -460,9 +460,9 @@ export default function OPDPatientMedicationAssign(props) {
                                 temp[ind]["dosageStrength"] = data[3]
                                 temp[ind]["doseUnit"] = data[4]
                                 temp[ind]["isAntibiotic"] = data[5]
-                                
+
                                 setDrugInteractionId([...drugInteractionId, data[0]])
-                                
+
 
                                 GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                                 document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
@@ -488,7 +488,7 @@ export default function OPDPatientMedicationAssign(props) {
                     }
                 }
                 else {
-                    
+
                     let response = FindByQuery(temp, data[1], "drugName")
                     if (response.length === 0) {
                         temp[ind]["drugId"] = data[0]
@@ -497,15 +497,15 @@ export default function OPDPatientMedicationAssign(props) {
                         temp[ind]["dosageStrength"] = data[3]
                         temp[ind]["doseUnit"] = data[4]
                         temp[ind]["isAntibiotic"] = data[5]
-                        
+
                         setDrugInteractionId([...drugInteractionId, data[0]])
-                        
+
                         GetDrugInteractionn([drugInteractionId[drugInteractionId.length - 1], data[0]])
                         document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
                         setShowSearchBoxMedic(-1)
                         setMedicationData(temp)
                     }
-                    else{
+                    else {
                         temp[ind]["drugId"] = 0
                         temp[ind]["drugName"] = ""
                         temp[ind]["dosageForm"] = ""
@@ -514,9 +514,9 @@ export default function OPDPatientMedicationAssign(props) {
                         temp[ind]["isAntibiotic"] = ""
                         document.getElementById("drugData" + ind).value = data[2] + "-" + data[1] + "-" + data[3]
                         setMedicationData(temp)
-                        
+
                         setShowAlertToster(1)
-                        
+
                         setShowMeassage(t("Medicine Already Exits"))
                         setShowSearchBoxMedic(-1)
                     }
@@ -539,7 +539,7 @@ export default function OPDPatientMedicationAssign(props) {
             else if (name === "rationalData") {
                 temp[ind]["rationalId"] = data[0]
                 temp[ind]["problemName"] = data[1]
-             
+
                 setShowSearchBoxRational(-1)
                 document.getElementById("rationalData" + ind).value = data[1];
                 setMedicationData(temp)
@@ -614,12 +614,12 @@ export default function OPDPatientMedicationAssign(props) {
         // let drugresponse = await PostDrugInteraction({ "brandId": "11884,11885,11886,11887,11888,12537", "medicineName": "string" })
         // let contraResponse = await PostContraIndicationList({ "brandId": "38802,38898", "diseaseName": "834" })
         // let sideEffectResponse = await ADRReportPost({"brandId":"3219","problemId":"14166,2891,577"})
-     
+
         let drugresponse = await PostDrugInteraction({ "brandId": senddata.toString(), "medicineName": "string" })
         let contraResponse = await PostContraIndicationList({ "brandId": senddata.toString(), "diseaseName": problemId.toString() })
         // let sideEffectResponse = await ADRReportPost({ "brandId": senddata.toString(), "problemId": problemId.toString() })
         if (drugresponse.status === 1 && drugresponse.responseValue.length != 0) {
-            
+
             setShowPopupDDrugInteraction(1)
             setDrugInteractionIdResponse(drugresponse.responseValue)
         }
@@ -628,7 +628,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         }
         if (contraResponse.status === 1 && contraResponse.responseValue.length != 0) {
-            
+
 
             setShowPopupDDrugInteraction(1)
             setContraIndicationResponse(contraResponse.responseValue)
@@ -638,7 +638,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         }
         if (sideEffectResponse.status === 1 && sideEffectResponse.responseValue[0].otherSideEffect.length != 0) {
-         
+
 
             setShowPopupDDrugInteraction(1)
             setSideEffectResponse(sideEffectResponse.responseValue[0].otherSideEffect)
@@ -655,7 +655,7 @@ export default function OPDPatientMedicationAssign(props) {
 
         try {
             function query(data, query, value) {
-               
+
                 return data
                     .filter(item => item[value] == query)
 
@@ -674,13 +674,13 @@ export default function OPDPatientMedicationAssign(props) {
                         if (key[0] === "jsonArray") {
                             val.jsonArray.map((val, i) => {
                                 if (val != null) {
-                                   
+
                                     // setMedicationData([...medicationsData, val])
                                     if (val.stopBy === null || val.stopBy === "") {
                                         druginteractionIds.push(val.drugId)
 
-                                        
-                                        
+
+
                                         let resp = query(rationalList, val.rationalId, "id")
                                         // let resp = []
                                         if (resp.length !== 0) {
@@ -865,12 +865,12 @@ export default function OPDPatientMedicationAssign(props) {
                     <TableContainer>
                         <thead>
                             <th className="wrap-content">#</th>
-                            <th><img src={meddetails} className='icnim' alt=''/>{t("MEDICINE")}</th>
-                            <th><img src={frequency} className='icnim' alt=''/>{t("FREQUENCY")}</th>
-                            <th><img src={duration} className='icnim' alt=''/>{t("DURATION")}</th>
-                            <th><img src={rational} className='icnim' alt=''/>{t("RATIONALE")}</th>
-                            <th><img src={remark1} className='icnim' alt=''/>{t("Remark")}</th>
-                            <th><img src={status} className='icnim' alt=''/>{t("Action")}</th>
+                            <th><img src={meddetails} className='icnim' alt='' />{t("MEDICINE")}</th>
+                            <th><img src={frequency} className='icnim' alt='' />{t("FREQUENCY")}</th>
+                            <th><img src={duration} className='icnim' alt='' />{t("DURATION")}</th>
+                            <th><img src={rational} className='icnim' alt='' />{t("RATIONALE")}</th>
+                            <th><img src={remark1} className='icnim' alt='' />{t("Remark")}</th>
+                            <th><img src={status} className='icnim' alt='' />{t("Action")}</th>
                         </thead>
                         <tbody className='pb-5' >
 

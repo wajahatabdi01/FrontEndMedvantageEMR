@@ -12,7 +12,8 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
-function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
+import SuccessToster from '../../../../../../Component/SuccessToster';
+function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -22,8 +23,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [surgeryList, setSurgeryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    // let [tosterMessage, setTosterMessage] = useState("");
-    // let [tosterValue, setTosterValue] = useState(0);
+    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -36,12 +36,12 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
-    
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-        
-        const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [surgeryData, setSurgeryData] = useState({
         issueTypeId: 5,
@@ -210,7 +210,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
             ...prevIssueDetails,
             coding: [],
         }));
-        fnisClose(0); 
+        fnisClose(0);
         document.getElementById("errTitleSurgery").style.display = "none";
         document.getElementById("errBeginDateTimeSurgery").style.display = "none";
     }
@@ -230,8 +230,8 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 encounterDetailsJsonString: JSON.stringify([surgeryData]),
                 clientId: window.clientId,
                 userId: window.userId,
-                doctorId : activeDocID,
-                departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);
@@ -302,7 +302,7 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 return null; // Or return an appropriate value indicating an error
             }
         } else {
-         
+
             return null; // Or return an appropriate value indicating an error
         }
     }
@@ -542,6 +542,22 @@ function OPDSurgeryPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updateboo
                 </div>
                 : ''}
             {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+            {showToster === 15 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 13 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Surgery updated successFully !!"
+                />
+            ) : (
+                ""
+            )}
         </>
     )
 }

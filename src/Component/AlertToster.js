@@ -25,10 +25,10 @@ export default function AlertToster(props) {
 
     }, [])
     return (
-        <div id="toastBox" style={{ zIndex: "99" }}>
+        <div id="toastBox" style={{ zIndex: "999999999999999" }}>
             <div className='toastClass error'>
 
-                <i className="bi bi-bookmark-x-fill" onClick={()=>{props.handle(0)}}></i> {props.message}
+                <i className="bi bi-bookmark-x-fill" onClick={() => { props.handle(0) }}></i> {props.message}
             </div>
         </div>
     )

@@ -411,7 +411,8 @@ function SearchRegisteredPatient() {
                                                                 <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
                                                             </div>
                                                             <div data-bs-toggle="modal" data-bs-target="#patientrevisit">
-                                                                <i class="fa-regular fa-clone" onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
+                                                                <i style={{ backgroundColor: '#dee4f3', padding: '3px 6px', fontSize: '16px' }} class="bi bi-arrow-left-right" title='Patient Re-Visit' onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
+
                                                             </div>
                                                         </div>
                                                     </td>

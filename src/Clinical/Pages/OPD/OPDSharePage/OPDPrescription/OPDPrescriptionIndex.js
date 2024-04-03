@@ -862,8 +862,7 @@ export default function OPDPrescriptionIndex(props) {
                             {/* <OPDPatientLabDetails values={getD} funh={setGetD} /> */}
                             <OPDInvestigationProcedure values={getD} funh={setGetD} />
                         </div>
-
-                        <div className="modal fade opdpopUp" id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div className="modal fade " id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content ">
                                     <div className="modal-header">
@@ -873,14 +872,6 @@ export default function OPDPrescriptionIndex(props) {
                                         <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { getAllEncoutersAsPerIssueID(); setisClose(1) }}>
                                             <i className="fa fa-times"></i>
                                         </button>
-                                        {/* <button type="button" className="btn-close_ btnModalClose" aria-label="Close" onClick={() => { 
-                                    getAllEncoutersAsPerIssueID();
-                                    // Close the modal manually
-                                    
-                                }}>
-                                <i className="fa fa-times"></i>
-                            </button> */}
-
                                     </div>
                                     <div className="modal-body">
                                         <div class="tab-content" id="myTabContent">
@@ -1108,38 +1099,38 @@ export default function OPDPrescriptionIndex(props) {
 
             {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
 
-            {showToster === 1 ? (
+            {/* {showToster === 1 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Problem saved successFully !!"
                 />
             ) : (
                 ""
-            )}
-            {showToster === 2 ? (
+            )} */}
+            {/* {showToster === 2 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Allergy saved successFully !!"
                 />
             ) : (
                 ""
-            )}
-            {showToster === 3 ? (
+            )} */}
+            {/* {showToster === 3 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Medication saved successFully !!"
                 />
             ) : (
                 ""
-            )}
-            {showToster === 4 ? (
+            )} */}
+            {/* {showToster === 4 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Device saved successFully !!"
                 />
             ) : (
                 ""
-            )}
+            )} */}
             {showToster === 5 ? (
                 <SuccessToster
                     handle={setShowToster}
@@ -1204,14 +1195,14 @@ export default function OPDPrescriptionIndex(props) {
             ) : (
                 ""
             )}
-            {showToster === 13 ? (
+            {/* {showToster === 13 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Surgery updated successFully !!"
                 />
             ) : (
                 ""
-            )}
+            )} */}
             {showToster === 14 ? (
                 <SuccessToster
                     handle={setShowToster}
@@ -1220,14 +1211,14 @@ export default function OPDPrescriptionIndex(props) {
             ) : (
                 ""
             )}
-            {showToster === 15 ? (
+            {/* {showToster === 15 ? (
                 <SuccessToster
                     handle={setShowToster}
                     message="Surgery saved successFully !!"
                 />
             ) : (
                 ""
-            )}
+            )} */}
 
             {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
             <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">

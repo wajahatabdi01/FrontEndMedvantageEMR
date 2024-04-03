@@ -12,7 +12,7 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
-function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
+function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [medication, setMedication] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -22,8 +22,7 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [brandList, setBrandList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
-    // let [tosterMessage, setTosterMessage] = useState("");
-    // let [tosterValue, setTosterValue] = useState(0);
+    let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showMessage, setShowMessage] = useState(0)
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -36,13 +35,13 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
-    
-        const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-  
-  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
-    
+
+    const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+
 
     let [medicationData, setMedicationData] = useState({
         titleId: '',
@@ -233,8 +232,8 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
                 encounterDetailsJsonString: JSON.stringify([medicationData]),
                 clientId: window.clientId,
                 userId: window.userId,
-                doctorId : activeDocID,
-                 departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             // return;
             const response = await InsertEncounter(pobj);
@@ -541,6 +540,14 @@ function OPDMedicationPopUp({ setShowToster, getAllEncoutersAsPerIssueID, update
                 </div>
                 : ''}
             {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+            {showToster === 3 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
         </>
     )
 }
