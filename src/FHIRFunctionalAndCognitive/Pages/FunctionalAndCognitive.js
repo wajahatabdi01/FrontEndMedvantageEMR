@@ -447,6 +447,8 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
         : ''}
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
       {showToster === 27 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive saved successfully !!" />) : ("")}
+      {showToster === 30 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive updated successfully !!" />) : ("")}
+      {showToster === 28 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive deleted successfully !!" />) : ("")}
 
     </>
   )
