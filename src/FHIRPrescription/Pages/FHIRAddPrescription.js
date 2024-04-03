@@ -22,6 +22,7 @@ import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 import GetAllRefills from "../API/GET/GetAllRefills";
 import SuccessToster from "../../Component/SuccessToster";
+import FHIRGetAllUnit from "../API/GET/FHIRGetAllForm";
 
 export default function FHIRAddPrescription({ setPrecription, theEncounterId }) {
   const [brandList, setBrandList] = useState([]);
@@ -40,7 +41,8 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const [theRowId, setTheRowId] = useState("");
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
-  const [getMedName, setMedName] = useState('')
+  const [getMedName, setMedName] = useState('');
+  const [getUnit, setUnit] = useState([])
 
   const [getRefillsList, setRefillsList] = useState([])
   let [showTosterMessage, setShowTosterMessage] = useState("");
@@ -124,6 +126,9 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     const intervalRes = await GetAllInterval();
     if (intervalRes.status === 1) {
       setIntervalList(intervalRes.responseValue);
+    }
+    else {
+      setIntervalList([])
     }
   };
 
@@ -468,6 +473,13 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     }
   }
 
+  const funGetUnit = async () => {
+    const resUnit = await FHIRGetAllUnit();
+    if (resUnit.status === 1) {
+      console.log('resUnit.responseValue : ', resUnit.responseValue)
+      setUnit(resUnit.responseValue)
+    }
+  }
 
 
   useEffect(() => {
@@ -481,6 +493,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     getAllFromList();
     getAllRouteList();
     getAllIntervalList();
+    funGetUnit();
   }, [setPrecription]);
 
   return (
@@ -605,9 +618,15 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 Medicine Unit
                               </label>
                               <select name="medicineUnit" className="form-select form-select-sm" id="medicineUnitID" value={sendForm.medicineUnit} onChange={handleChangeText}>
-                                <option value="0">mm/gg</option>
-                                <option value="1">mm/CC</option>
-                                <option value="2">mm</option>
+                                <option value="0">--Select Provider--</option>
+                                {getUnit &&
+                                  getUnit.map((unitList, ind) => {
+                                    return (
+                                      <option value={unitList.id}>
+                                        {unitList.name}
+                                      </option>
+                                    );
+                                  })}
                               </select>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
@@ -632,7 +651,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 </div>
                                 <div>
                                   <label htmlFor="Code" className="form-label">
-                                    # of tablets:
+                                    of tablets
                                   </label>
                                   <input id="ofTabletsID" type="text" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText} />
                                 </div>

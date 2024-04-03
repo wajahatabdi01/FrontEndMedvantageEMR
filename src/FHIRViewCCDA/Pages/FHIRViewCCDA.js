@@ -11,7 +11,7 @@ export default function FHIRViewCCDA() {
   : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
 
   const getUHIDFromPID = async () => {
-    const resUHID = await GetPidFromUhid(activeUHID);
+    const resUHID = await GetPidFromUhid(1);
    
     setPID(resUHID.responseValue[0].pid)
   }

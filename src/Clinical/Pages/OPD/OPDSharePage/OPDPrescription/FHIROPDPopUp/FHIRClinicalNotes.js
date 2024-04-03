@@ -24,7 +24,7 @@ import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg';
 import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg';
 import DeleteClinicalNotesFormById from '../../../../../API/FHIRClinicalNotes/DeleteClinicalNotesFormById';
 function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
-    console.log('the encounter ID : ', theEncounterId)
+
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
@@ -395,7 +395,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
     const funGetClinicalNotesFormList = async () => {
         const resGet = await GetClinicalNotesFormListByUHID(activeUHID, theEncounterId);
         setClinicalNotesFormList(resGet.responseValue)
-        console.log('resGet : ', resGet)
+
     }
 
     useEffect(() => {
