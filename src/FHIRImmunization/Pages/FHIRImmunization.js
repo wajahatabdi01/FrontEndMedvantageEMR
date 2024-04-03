@@ -539,22 +539,30 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
 
     setObservationRow([...newObsArr]);
 
-
-
-    const dateStringAdministered = list.administered_date;
-    const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; const formattedDate = `${yearA}-${monthA}-${dayA}`;
-    const dateStringExpired = list.expiration_date;
-    const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; const formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
-    const dateStringIS = list.education_date;
-    const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; const formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
-    const dateStringVIS = list.vis_date;
-    const partsVIS = dateStringVIS.split("-"); const dayVIS = partsIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsIS[2]; const formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
+    if(list.administered_date){
+      const dateStringAdministered = list.administered_date;
+    const partsA = dateStringAdministered.split("-"); const dayA = partsA[0]; const monthA = partsA[1]; const yearA = partsA[2]; 
+    var formattedDate = `${yearA}-${monthA}-${dayA}`;
+    }
+    if(list.expiration_date){
+      const dateStringExpired = list.expiration_date;
+    const partsE = dateStringExpired.split("-"); const dayE = partsE[0]; const monthE = partsE[1]; const yearE = partsE[2]; var formattedExpiryDate = `${yearE}-${monthE}-${dayE}`;
+    }
+    if(list.education_date){
+      const dateStringIS = list.education_date;
+    const partsIS = dateStringIS.split("-"); const dayIS = partsIS[0]; const monthIS = partsIS[1]; const yearIS = partsIS[2]; var formattedEducationDate = `${yearIS}-${monthIS}-${dayIS}`;
+    }
+    if(list.vis_date){
+      const dateStringVIS = list.vis_date;
+    const partsVIS = dateStringVIS.split("-"); const dayVIS = partsVIS[0]; const monthVIS = partsVIS[1]; const yearVIS = partsVIS[2]; var formattedVISDate = `${yearVIS}-${monthVIS}-${dayVIS}`;
+    }
+    
 
     setSendForm((prev) => ({
       ...prev,
-      DatenTimeAdministered: formattedDate,
+      DatenTimeAdministered: formattedDate ? formattedDate :'',
       AmountAdministered: list.amount_administered,
-      ExpirationDate: formattedExpiryDate,
+      ExpirationDate: formattedExpiryDate ? formattedExpiryDate : '',
       ImmunizationManufacturer: list.manufacturerId,
       ImmunizationLotNumber: list.lot_number,
       ImmunizationStatements: formattedEducationDate,
