@@ -13,6 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // New local For FHIR
 
 window.AppbaseUrl = "http://192.168.11.101:6082"
+window.AppbaseUrlNew = "http://192.168.11.101:9000"
 window.AdminbaseUrl = "http://192.168.11.101:6083"
 window.UserbaseUrl = "http://192.168.11.101:6084"
 window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"

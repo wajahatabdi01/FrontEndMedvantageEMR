@@ -485,15 +485,7 @@ export default function OPDTOPBottom(props) {
       {/* -----------------------------------------------------------------------Start ClinicalNotes Plan --------------------------------------------- */}
 
 
-      <div
-        className="modal fade opdpopUp"
-        id="ClinicalNotes"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabe2"
-        aria-hidden="true"
-      >
+      <div className="modal fade opdpopUp" id="ClinicalNotes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">

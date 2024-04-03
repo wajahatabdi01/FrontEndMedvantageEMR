@@ -452,14 +452,14 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
         userId: userId,
         cvxCode: investConCat ? investConCat : document.getElementById('immunizationCode').value,
         reasonCode: investConCatReason?investConCatReason : document.getElementById('ReasonId').value,
-        administeredDate: sendForm.DatenTimeAdministered,
+        administeredDate: sendForm.DatenTimeAdministered ? sendForm.DatenTimeAdministered : null,
         amountAdministeredUnit: sendForm.AmountAdministeredUnit,
         amountAdministered: sendForm.AmountAdministered,
-        expirationDate: sendForm.ExpirationDate,
-        visDate: sendForm.DateofVISStatement,
+        expirationDate: sendForm.ExpirationDate ? sendForm.ExpirationDate : null,
+        visDate: sendForm.DateofVISStatement ? sendForm.DateofVISStatement : null,
         manufacturer: sendForm.ImmunizationManufacturer,
         lotNumber: sendForm.ImmunizationLotNumber,
-        dateImmunizationInformationStatementsGiven: sendForm.ImmunizationStatements,
+        dateImmunizationInformationStatementsGiven: sendForm.ImmunizationStatements ? sendForm.ImmunizationStatements : null,
         administeredById: sendForm.IDofImmunizationAdministrator,
         administeredBy: sendForm.IDofImmunizationAdministrator,
         route: sendForm.Route,
@@ -659,7 +659,12 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
       const dateVisPresentedId = 'Date_VIS_PresentedId' + rowID;
       const snomedCTCodeId = 'SNOMED-CTCodeId' + rowID;
 
-      document.getElementById(observationCriteriaID).value = '1'; // Reset Observation Criteria to 'Unassigned'
+      
+         //document.getElementById(observationCriteriaID).value = '1'; // Reset Observation Criteria to 'Unassigned'
+         const observationCriteriaIDField = document.getElementById(observationCriteriaID);
+         if(observationCriteriaIDField){
+          observationCriteriaIDField.value = '1';
+         }
 
       // Check if CVX Code field exists before accessing it
       const observationCriteriaValueIDField = document.getElementById(observationCriteriaValueID);
@@ -698,6 +703,8 @@ export default function FHIRImmunization({ setShowToster ,setImmunization, theEn
         observationCriteria: '1', // '1' corresponds to "Unassigned"
       }
     ]);
+
+    setSelectedValues({ 1: '1' }); // Reset selectedValues to have "Unassigned" for rowID 1
 
   }
 

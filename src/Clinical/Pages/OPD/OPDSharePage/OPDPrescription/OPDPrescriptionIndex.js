@@ -617,6 +617,9 @@ export default function OPDPrescriptionIndex(props) {
         }
     }
     const getAllEncoutersAsPerIssueID = async () => {
+        console.log('activeUHID : ', activeUHID);
+        console.log('getIssueID : ', getIssueID);
+        console.log('toPassEncounter : ', toPassEncounter);
         const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, toPassEncounter);
 
         if (getRes.status === 1) {

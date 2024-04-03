@@ -298,6 +298,7 @@ let SaveInsuranceDetails = async()=>{
                                                             <tr>
                                                                 <td><img src={ageIcon} className='icnn' alt=''  />{t("Age")}:</td>
                                                                 <td><strong> {patientData && patientData.age}{patientData.ageType ? patientData.ageType : ''}</strong></td>
+                                                                
                                                             </tr>
 
                                                             <tr>
