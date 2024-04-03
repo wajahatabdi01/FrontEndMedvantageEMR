@@ -2078,8 +2078,15 @@ input[type=number] {
   cursor: pointer;
 }
 
+.opdpopUp {
+  backdrop-filter: blur(3px);
+}
+
 .modal.d-block {
-  background: #000000e8;
+
+  /* background: #000000e8; */
+  backdrop-filter: blur(2px);
+
 }
 
 .PopUpModal .modal-content {

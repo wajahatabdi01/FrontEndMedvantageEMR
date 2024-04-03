@@ -33,7 +33,7 @@ export default function OPDTOPBottom(props) {
   let [disable, setDisable] = useState(0);
   let [patientCategoryResult, setPatientCategoryResult] = useState([]);
   // let [patientExaminationResult, setPatientExaminationResult] = useState([])
-  let [patientHistoryCategoryResultExistance,setPatientHistoryCategoryResultExistance,] = useState([]);
+  let [patientHistoryCategoryResultExistance, setPatientHistoryCategoryResultExistance,] = useState([]);
   // let [patientHistoryCategoryResult, setPatientHistoryCategoryResult] = useState([])
   let [showDynamicSideBar, setShowDynamicSideBar] = useState(0);
   let [showHistorySideBar, setShowHistoryideBar] = useState(0);
@@ -139,7 +139,7 @@ export default function OPDTOPBottom(props) {
     }
   };
 
-  
+
 
   useEffect(() => {
     setData();
@@ -156,7 +156,7 @@ export default function OPDTOPBottom(props) {
   return (
     <>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem"); props.setToShowDesiredList(true)}}>
+        <span onClick={() => { props.setActiveComponent("problemId"); props.setShowTheButton(true); props.setIssueID(1); props.setHeadingName("Problem"); props.setToShowDesiredList(true) }}>
           {t("Problem")}
         </span>
       </div>
@@ -185,7 +185,7 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => {setCarePlan(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => { setCarePlan(1); props.setToShowDesiredList(false) }}>
           {t("Care Plan")}{" "}
         </span>
       </div>
@@ -194,50 +194,50 @@ export default function OPDTOPBottom(props) {
 
             </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => {setFamilyHistory(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => { setFamilyHistory(1); props.setToShowDesiredList(false) }}>
           {t("Family History")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ImmunizationPop" onClick={() => {setImmunization(1);props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#ImmunizationPop" onClick={() => { setImmunization(1); props.setToShowDesiredList(false) }}>
           {t("Immunization")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onClick={() => {props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onClick={() => { props.setToShowDesiredList(false) }}>
           {t("Record Disclosure")}{" "}
         </span>
       </div>
-      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer" onClick={() => {props.setToShowDesiredList(false)}}>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer" onClick={() => { props.setToShowDesiredList(false) }}>
         <span data-bs-toggle="modal" data-bs-target="#Message">
           {t("Patient Message")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#PrescriptionPopList" onClick={() => { setPrecription(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#PrescriptionPopList" onClick={() => { setPrecription(1); props.setToShowDesiredList(false) }}>
           {t("Prescription")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#Lifestyle" onClick={() => {props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#Lifestyle" onClick={() => { props.setToShowDesiredList(false) }}>
           {t("LifeStyle")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes" onClick={() => {props.setToShowDesiredList(false); setClinicalForms(1)}}>
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalNotes" onClick={() => { props.setToShowDesiredList(false); setClinicalForms(1) }}>
           {t("Clinical Notes Form")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => { setClinicalPres(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#ClinicalInstructions" onClick={() => { setClinicalPres(1); props.setToShowDesiredList(false) }}>
           {t("Clinical Instructions")}{" "}</span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => { setFunctionalAndCog(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#FunctionalAndCognitive" onClick={() => { setFunctionalAndCog(1); props.setToShowDesiredList(false) }}>
           {t("Functional And Cognitive Status")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => { setObservation(1); props.setToShowDesiredList(false)}}>
+        <span data-bs-toggle="modal" data-bs-target="#ObservationPopList" onClick={() => { setObservation(1); props.setToShowDesiredList(false) }}>
           {t("Observation")}{" "}
         </span>
       </div>
@@ -299,7 +299,7 @@ export default function OPDTOPBottom(props) {
                 </div>
 
             </div> */}
-      <div className="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalToggleLabel" aria-hidden="true">
+      <div className="modal fade opdpopUp" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalToggleLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -311,7 +311,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="modal-body">
-              <OPDRecordDisclosurePopUp theEncounterId = {props.theEncounterId}/>
+              <OPDRecordDisclosurePopUp theEncounterId={props.theEncounterId} />
             </div>
             {/* <div class="modal-footer">
                             <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
@@ -332,12 +332,12 @@ export default function OPDTOPBottom(props) {
             </div> */}
       {/* --------------------------------------------------------------LifeStyle PopUp End--------------------------------------------------- */}
 
-      <div className="modal fade" id="Lifestyle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="staticBackdropLabe2" tabindex="-1">
+      <div className="modal fade opdpopUp" id="Lifestyle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="staticBackdropLabe2" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable1 modal-xl">
           <div class="modal-content">
             <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
             <div class="modal-body">
-              <OPDLifeStyle setShowToster={setShowToster} theEncounterId = {props.theEncounterId}/>
+              <OPDLifeStyle setShowToster={setShowToster} theEncounterId={props.theEncounterId} />
             </div>
 
           </div>
@@ -349,7 +349,7 @@ export default function OPDTOPBottom(props) {
 
       {/* --------------------------------------------------------------Record Disclosure PopUp End--------------------------------------------------- */}
       {/* --------------------------------------------------------------Patient Message PopUp Begin--------------------------------------------------- */}
-      <div className="modal fade" id="Message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
+      <div className="modal fade opdpopUp" id="Message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
@@ -371,7 +371,7 @@ export default function OPDTOPBottom(props) {
                   aria-labelledby="home-tab"
                   tabindex="0"
                 > */}
-                <OPDPatientMessagePopUp theEncounterId = {props.theEncounterId}/>
+                <OPDPatientMessagePopUp theEncounterId={props.theEncounterId} />
                 {/* </div> */}
               </div>
             </div>
@@ -382,7 +382,7 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start FHIR Family History --------------------------------------------- */}
 
-      <div className="modal fade" id="familyHistoryID" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade opdpopUp" id="familyHistoryID" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-lg">
           <div className="modal-content ">
             <div className="modal-header">
@@ -396,7 +396,7 @@ export default function OPDTOPBottom(props) {
             <div className="modal-body">
 
               {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-              {familyHistory === 1 ? (<FHIRFamilyHistoryEdit setShowToster={setShowToster} setFamilyHistory={setFamilyHistory} theEncounterId = {props.theEncounterId}/>) : ("")}
+              {familyHistory === 1 ? (<FHIRFamilyHistoryEdit setShowToster={setShowToster} setFamilyHistory={setFamilyHistory} theEncounterId={props.theEncounterId} />) : ("")}
 
             </div>
           </div>
@@ -406,7 +406,7 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start Care Plan --------------------------------------------- */}
 
-      <div className="modal fade" id="carePlanId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade opdpopUp" id="carePlanId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
@@ -422,7 +422,7 @@ export default function OPDTOPBottom(props) {
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                 <div class="tab-pane fade show active" id="careplan" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  {carePlan === 1 ? (<FHIRCarePlan patientUhid={activePatient} setShowCarePlan={true} setShowToster={setShowToster} setCarePlan = {setCarePlan} theEncounterId = {props.theEncounterId}/>):("")}
+                  {carePlan === 1 ? (<FHIRCarePlan patientUhid={activePatient} setShowCarePlan={true} setShowToster={setShowToster} setCarePlan={setCarePlan} theEncounterId={props.theEncounterId} />) : ("")}
                 </div>
               </div>
             </div>
@@ -432,7 +432,7 @@ export default function OPDTOPBottom(props) {
       {/* -----------------------------------------------------------------------End Care Plan --------------------------------------------- */}
       {/* -----------------------------------------------------------------------Start Immunization Plan --------------------------------------------- */}
 
-      <div className="modal fade" id="ImmunizationPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade opdpopUp" id="ImmunizationPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-xl">
           <div className="modal-content ">
             <div className="modal-header">
@@ -448,7 +448,7 @@ export default function OPDTOPBottom(props) {
                 {/* --------------------------Problem Tab Section----------------------------------------------- */}
                 <div class="tab-pane fade show active" id="problem" role="tabpanel" value="1" aria-labelledby="home-tab" tabindex="0">
                   {/* <OPDProblemPopUp setShowToster={setShowToster}/> */}
-                  {immunization === 1 ? (<FHIRImmunization setShowToster={setShowToster} setImmunization = {setImmunization} theEncounterId = {props.theEncounterId}/>) : ("")}
+                  {immunization === 1 ? (<FHIRImmunization setShowToster={setShowToster} setImmunization={setImmunization} theEncounterId={props.theEncounterId} />) : ("")}
                   {/* <FHIRImmunization setShowToster={setShowToster} theEncounterId = {props.theEncounterId}/> */}
                 </div>
               </div>
@@ -460,7 +460,7 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start Prescription Plan --------------------------------------------- */}
 
-      <div class="modal fade" id="PrescriptionPopList" data-backdrop="static">
+      <div class="modal fade opdpopUp" id="PrescriptionPopList" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -470,7 +470,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{precription === 1 ? (<FHIRAddPrescription setShowToster={setShowToster} setPrecription={setPrecription} theEncounterId = {props.theEncounterId}/>) : ("")}
+            <div class="modal-body">{precription === 1 ? (<FHIRAddPrescription setShowToster={setShowToster} setPrecription={setPrecription} theEncounterId={props.theEncounterId} />) : ("")}
             </div>
 
             {/* <div class="modal-footer">
@@ -486,7 +486,7 @@ export default function OPDTOPBottom(props) {
 
 
       <div
-        className="modal fade"
+        className="modal fade opdpopUp"
         id="ClinicalNotes"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -505,8 +505,8 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div className="modal-body">
-              <div class="tab-content" id="myTabContent">{clinicalForms === 1 ? (<FHIRClinicalNotes theEncounterId = {props.theEncounterId} setClinicalForms = {setClinicalForms}/>) : ("")}
-                
+              <div class="tab-content" id="myTabContent">{clinicalForms === 1 ? (<FHIRClinicalNotes theEncounterId={props.theEncounterId} setClinicalForms={setClinicalForms} />) : ("")}
+
 
               </div>
             </div>
@@ -518,7 +518,7 @@ export default function OPDTOPBottom(props) {
       {/* -----------------------------------------------------------------------End ClinicalNotes Plan --------------------------------------------- */}
 
       {/* -----------------------------------------------------------------------Start Clinical Instructions Plan --------------------------------------------- */}
-      <div class="modal fade" id="ClinicalInstructions" data-backdrop="static">
+      <div class="modal fade opdpopUp" id="ClinicalInstructions" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -528,7 +528,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{clinicalPres === 1 ? (<ClinicalInstructions setShowToster={setShowToster} setClinicalPres={setClinicalPres} theEncounterId = {props.theEncounterId}/>) : ("")}
+            <div class="modal-body">{clinicalPres === 1 ? (<ClinicalInstructions setShowToster={setShowToster} setClinicalPres={setClinicalPres} theEncounterId={props.theEncounterId} />) : ("")}
             </div>
 
             {/* <div class="modal-footer">
@@ -541,7 +541,7 @@ export default function OPDTOPBottom(props) {
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
 
       {/* -----------------------------------------------------------------------Start Functional Instructions Plan --------------------------------------------- */}
-      <div class="modal fade" id="FunctionalAndCognitive" data-backdrop="static">
+      <div class="modal fade opdpopUp" id="FunctionalAndCognitive" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -565,7 +565,7 @@ export default function OPDTOPBottom(props) {
 
       {/* -----------------------------------------------------------------------Start observation Plan --------------------------------------------- */}
 
-      <div class="modal fade" id="ObservationPopList" data-backdrop="static">
+      <div class="modal fade opdpopUp" id="ObservationPopList" data-backdrop="static">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -575,7 +575,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{observation === 1 ? (<FHIRObservation setShowToster={setShowToster} setObservation={setObservation} theEncounterId = {props.theEncounterId}/> ) : ("")}
+            <div class="modal-body">{observation === 1 ? (<FHIRObservation setShowToster={setShowToster} setObservation={setObservation} theEncounterId={props.theEncounterId} />) : ("")}
             </div>
 
             {/* <div class="modal-footer">
@@ -590,39 +590,39 @@ export default function OPDTOPBottom(props) {
 
 
 
-      {showToster === 1 ? (<SuccessToster  handle={setShowToster}  message="Problem saved successfully !!"/>) : (  "")}
-      {showToster === 2 ? (<SuccessToster  handle={setShowToster}  message="Allergy saved successfully !!"/>) : (  "")}
-      {showToster === 3 ? (<SuccessToster  handle={setShowToster}  message="Medication saved successfully !!"/>) : (  "")}
-      {showToster === 4 ? (<SuccessToster  handle={setShowToster}  message="Device saved successfully !!"/>) : (  "")}
-      {showToster === 5 ? (<SuccessToster  handle={setShowToster}  message="Surgery saved successfully !!"/>) : (  "")}
-      {showToster === 6 ? (<SuccessToster  handle={setShowToster}  message="History saved successfully !!"/>) : (  "")}
-      {showToster === 7 ? (<SuccessToster  handle={setShowToster}  message="Immunization saved successfully !!"/>) : (  "")}
-      {showToster === 8 ? (<SuccessToster  handle={setShowToster}  message="Lifestyle saved successfully !!"/>) : (  "")}
-      {showToster === 9 ? (<SuccessToster  handle={setShowToster}  message="Careplan deleted successfully !!"/>) : (  "")}
-      {showToster === 10 ? (<SuccessToster  handle={setShowToster}  message="Careplan updated successfully !!"/>) : (  "")}
-      {showToster === 22 ? (<SuccessToster  handle={setShowToster}  message="Prescription saved successfully !!"/>) : (  "")}
-      {showToster === 23 ? (<SuccessToster  handle={setShowToster}  message="Prescription sent successfully !!"/>) : (  "")}
-      {showToster === 24 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction saved successfully !!"/>) : (  "")}
-      {showToster === 25 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction updated successfully !!"/>) : (  "")}
-      {showToster === 26 ? (<SuccessToster  handle={setShowToster}  message="Clinical Instruction deleted successfully !!"/>) : (  "")}
-      {showToster === 27 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive saved successfully !!"/>) : (  "")}
-      {showToster === 28 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive deleted successfully !!"/>) : (  "")}
-      {showToster === 29 ? (<SuccessToster  handle={setShowToster}  message="Observation deleted successfully !!"/>) : (  "")}
-      {showToster === 30 ? (<SuccessToster  handle={setShowToster}  message="Functional and Cognitive updated successfully !!"/>) : (  "")}
-      {showToster === 31 ? (<SuccessToster  handle={setShowToster}  message="Observation saved successfully !!"/>) : (  "")}
-      {showToster === 32 ? (<SuccessToster  handle={setShowToster}  message="Observation updated successfully !!"/>) : (  "")}
-      {showToster === 33 ? (<SuccessToster  handle={setShowToster}  message="Deleted successfully !!"/>) : (  "")}
+      {showToster === 1 ? (<SuccessToster handle={setShowToster} message="Problem saved successfully !!" />) : ("")}
+      {showToster === 2 ? (<SuccessToster handle={setShowToster} message="Allergy saved successfully !!" />) : ("")}
+      {showToster === 3 ? (<SuccessToster handle={setShowToster} message="Medication saved successfully !!" />) : ("")}
+      {showToster === 4 ? (<SuccessToster handle={setShowToster} message="Device saved successfully !!" />) : ("")}
+      {showToster === 5 ? (<SuccessToster handle={setShowToster} message="Surgery saved successfully !!" />) : ("")}
+      {showToster === 6 ? (<SuccessToster handle={setShowToster} message="History saved successfully !!" />) : ("")}
+      {showToster === 7 ? (<SuccessToster handle={setShowToster} message="Immunization saved successfully !!" />) : ("")}
+      {showToster === 8 ? (<SuccessToster handle={setShowToster} message="Lifestyle saved successfully !!" />) : ("")}
+      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Careplan deleted successfully !!" />) : ("")}
+      {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Careplan updated successfully !!" />) : ("")}
+      {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
+      {showToster === 23 ? (<SuccessToster handle={setShowToster} message="Prescription sent successfully !!" />) : ("")}
+      {showToster === 24 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction saved successfully !!" />) : ("")}
+      {showToster === 25 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction updated successfully !!" />) : ("")}
+      {showToster === 26 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction deleted successfully !!" />) : ("")}
+      {showToster === 27 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive saved successfully !!" />) : ("")}
+      {showToster === 28 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive deleted successfully !!" />) : ("")}
+      {showToster === 29 ? (<SuccessToster handle={setShowToster} message="Observation deleted successfully !!" />) : ("")}
+      {showToster === 30 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive updated successfully !!" />) : ("")}
+      {showToster === 31 ? (<SuccessToster handle={setShowToster} message="Observation saved successfully !!" />) : ("")}
+      {showToster === 32 ? (<SuccessToster handle={setShowToster} message="Observation updated successfully !!" />) : ("")}
+      {showToster === 33 ? (<SuccessToster handle={setShowToster} message="Deleted successfully !!" />) : ("")}
 
       {showAlertToster === 1 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : ("")}
       {showAlertToster === 2 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : ("")}
       {showAlertToster === 3 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : ("")}
       {showAlertToster === 4 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : ("")}
       {showAlertToster === 5 ? (
-        <AlertToster handle={setShowAlertToster} message={showMessage} />) : (  "")}
+        <AlertToster handle={setShowAlertToster} message={showMessage} />) : ("")}
     </>
   );
 }

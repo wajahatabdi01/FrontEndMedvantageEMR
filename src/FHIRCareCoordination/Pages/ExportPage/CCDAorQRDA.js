@@ -221,7 +221,7 @@ export default function CCDAorQRDA() {
     console.log("Searchedresponse", response.details)
     setIsLoading(true)
     if (response.details.length > 0) {
-      alert("Success")
+      // alert("Success")
       getAllExport(formData);
     }
   };

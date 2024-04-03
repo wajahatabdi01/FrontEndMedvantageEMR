@@ -263,7 +263,7 @@ export default function OPDPatientList(props) {
                                             <td>{val.mobileNo}</td>
                                             <td>{val.visitDate}</td>
                                             <td>{val.doctorName || val.name}</td>
-                                            <td> <span className='text-center ps-2 pe-2' style={{ whiteSpace: 'nowrap', borderRadius: "5px", fontSize: "12px", fontWeight: "600", padding: "3px", color: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "12px", backgroundColor: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "Follow Up" : val.patientType.toUpperCase()}</span> </td>
+                                            <td> <span className='text-center ps-2 pe-2' style={{ whiteSpace: 'nowrap', borderRadius: "5px", fontSize: "12px", fontWeight: "600", padding: "3px", color: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "12px", backgroundColor: `${val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{val.patientType.toString().toLowerCase() === "Old".toString().toLowerCase() ? "FOLLOW UP" : val.patientType.toUpperCase()}</span> </td>
                                             <td className='pointer' title='Open Profile'><span onClick={() => { handleActiveTab(val) }} title='Open Profile'> <img src={viewIcon} className='bgicn' alt='Open Profile' /></span></td>
                                         </tr>
                                     )
