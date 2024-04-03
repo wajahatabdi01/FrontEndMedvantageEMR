@@ -19,7 +19,6 @@ const CCD = () => {
         }
 
         const userData = JSON.parse(sessionStorage.getItem("LoginData"));
-        console.log(userData);
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('document_category', 12);
