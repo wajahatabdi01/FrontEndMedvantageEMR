@@ -23,10 +23,12 @@ import GetClinicalNotesFormListByUHID from '../../../../../API/FHIRClinicalNotes
 import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg';
 import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg';
 import DeleteClinicalNotesFormById from '../../../../../API/FHIRClinicalNotes/DeleteClinicalNotesFormById';
+import GetAllClinicalNotesCategory from '../../../../../API/FHIRClinicalNotes/GetAllClinicalNotesCategory';
 function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
+    let [categoryList, setCategoryList] = useState([]);
     let [messageList, setMessageList] = useState([]);
     const [divs, setDivs] = useState([{ rowID: 1 }]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
@@ -120,6 +122,12 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
         const response = await GetAllFHIRMessageTypeMaster()
         if (response.status === 1) {
             setMessageTypeList(response.responseValue)
+        }
+    }
+    const getAllCategory = async () => {
+        const response = await GetAllClinicalNotesCategory()
+        if (response.status === 1) {
+            setCategoryList(response.responseValue)
         }
     }
     //Get Provider
@@ -316,7 +324,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
             tempArrList.push({
 
-                id: theRowId,
+
                 form_id: 0,
                 date: date,
                 clinical_notes_type: typeIdValue,
@@ -326,6 +334,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
         }
 
         let objupdate = {
+            id: theRowId,
             uhid: activeUHID,
             clientId: clientID,
             userId: window.userId,
@@ -399,6 +408,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
     }
 
     useEffect(() => {
+        getAllCategory();
         getUserListByRoleId();
         getpatientMessageType();
         patientMessage();
@@ -437,9 +447,9 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                                 <select className="form-select form-select-sm" id={"providerId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_category' >
                                                     {/* <select className="form-select form-select-sm" id="providerId" aria-label="form-select-sm example" onChange={(e) => handleAddBtnChange(e, index)} name='clinical_notes_category' value={div.clinical_notes_category}> */}
                                                     <option value="0">{t("Select Note Category")}</option>
-                                                    {providerList && providerList.map((list) => {
+                                                    {categoryList && categoryList.map((list) => {
                                                         return (
-                                                            <option value={list.id}>{list.name}</option>
+                                                            <option value={list.id}>{list.title}</option>
                                                         )
                                                     })}
                                                 </select>

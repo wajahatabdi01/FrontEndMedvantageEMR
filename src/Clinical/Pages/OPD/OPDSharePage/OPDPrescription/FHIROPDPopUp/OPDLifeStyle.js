@@ -21,7 +21,7 @@ function OPDLifeStyle({ theEncounterId }) {
 
     let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
         window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
-
+    const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
     const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
         JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
 
@@ -48,6 +48,7 @@ function OPDLifeStyle({ theEncounterId }) {
         const param = {
             Uhid: activeUHID,
             HistoryType: 2,
+            clientID: clientID,
             EncounterId: theEncounterId
         }
         const response = await GetFamilyHistoryData(param);
@@ -218,6 +219,7 @@ function OPDLifeStyle({ theEncounterId }) {
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
             const tobaccoData = response.responseValue.map((item, index) => {
+                console.log("item", item.id)
                 if (item.tobacco) { // Check if item.tobacco is not null
                     const tobaccoListItem = item.tobacco.split('|');
                     setRowId(item.id);

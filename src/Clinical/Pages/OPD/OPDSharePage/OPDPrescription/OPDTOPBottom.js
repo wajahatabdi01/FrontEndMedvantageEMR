@@ -543,7 +543,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{functionalAndCog === 1 ? (<FunctionalAndCognitive setShowToster={setShowToster} setFunctionalAndCog={setFunctionalAndCog} />) : ("")}
+            <div class="modal-body">{functionalAndCog === 1 ? (<FunctionalAndCognitive theEncounterId={props.theEncounterId} setShowToster={setShowToster} setFunctionalAndCog={setFunctionalAndCog} />) : ("")}
             </div>
 
             {/* <div class="modal-footer">
