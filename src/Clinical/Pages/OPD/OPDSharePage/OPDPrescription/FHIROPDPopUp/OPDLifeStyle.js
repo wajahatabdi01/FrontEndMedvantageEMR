@@ -9,7 +9,9 @@ import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyle
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 function OPDLifeStyle({ theEncounterId }) {
+    console.log("theEncounterIddddd", theEncounterId)
     let [showLifeStyle, setShowLifestyle] = useState(1);
+    let [encounterId, setEncounterId] = useState(0);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
@@ -44,12 +46,13 @@ function OPDLifeStyle({ theEncounterId }) {
             setSmokingList(response.responseValue);
         }
     }
+    console.log("encounterId", encounterId)
     let getFamilyHistoryData = async () => {
         const param = {
             Uhid: activeUHID,
             HistoryType: 2,
             clientID: clientID,
-            EncounterId: theEncounterId
+            EncounterId: encounterId
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
@@ -213,7 +216,9 @@ function OPDLifeStyle({ theEncounterId }) {
     let handleEdit = async () => {
         const param = {
             Uhid: activeUHID,
-            HistoryType: 2
+            HistoryType: 2,
+            clientID: clientID,
+            EncounterId: encounterId
         }
         setShowLifestyle(0);
         const response = await GetFamilyHistoryData(param);
@@ -467,6 +472,7 @@ function OPDLifeStyle({ theEncounterId }) {
     }
 
     useEffect(() => {
+        setEncounterId(theEncounterId);
         getAllSmokingStatus();
         getFamilyHistoryData();
     }, [])

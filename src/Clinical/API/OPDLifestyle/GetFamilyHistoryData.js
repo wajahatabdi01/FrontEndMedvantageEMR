@@ -1,4 +1,5 @@
 async function GetFamilyHistoryData(param) {
+    console.log("param", param)
     let url = window.AppbaseUrl + "/api/FHIRHistoryData/GetFamilyHistoryData?Uhid=" + param.Uhid + "&HistoryType=" + param.HistoryType + "&EncounterId=" + param.EncounterId + "&ClientId=" + param.clientID;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {

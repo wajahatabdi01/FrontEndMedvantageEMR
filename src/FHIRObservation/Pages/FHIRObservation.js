@@ -12,8 +12,9 @@ import IconEdit from '../../assets/images/icons/IconEdit.svg';
 import IconDelete from '../../assets/images/icons/IconDelete.svg';
 import FHIRDeleteObservation from '../API/FHIRDeleteObservation';
 import FHIRPutObservation from '../API/FHIRPutObservation';
+import SuccessToster from '../../Component/SuccessToster';
 
-export default function FHIRObservation({ setShowToster, setObservation, theEncounterId }) {
+export default function FHIRObservation({ setObservation, theEncounterId }) {
 
   const [reasonSectionOpen, setReasonSectionOpen] = useState({});
   const [observationRow, setObservationRow] = useState([{ rowID: 1, },]);
@@ -21,6 +22,7 @@ export default function FHIRObservation({ setShowToster, setObservation, theEnco
   const [PopUpId, setPopUpId] = useState('');
   let [makeData, setMakeData] = useState([]);
   let [getData, setgetData] = useState([]);
+  let [showToster, setShowToster] = useState(0);
   const [getObservationList, setObservationList] = useState([])
   const [toShowButtons, setToShowButtons] = useState(1);
   const [theRowId, setTheRowId] = useState(0)
@@ -575,6 +577,8 @@ export default function FHIRObservation({ setShowToster, setObservation, theEnco
         </div>
         : ''}
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+      {showToster === 31 ? (<SuccessToster handle={setShowToster} message="Observation saved successfully !!" />) : ("")}
+      {showToster === 32 ? (<SuccessToster handle={setShowToster} message="Observation updated successfully !!" />) : ("")}
     </>
   )
 }
