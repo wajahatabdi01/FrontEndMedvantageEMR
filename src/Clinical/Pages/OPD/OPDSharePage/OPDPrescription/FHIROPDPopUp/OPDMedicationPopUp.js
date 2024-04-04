@@ -111,12 +111,12 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            if (!document.getElementById("ddlCoding" + i).checked) {
+            if (!document.getElementById("ddlCodingB" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
         for (var i = 0; i < tempAr.length; i++) {
-            document.getElementById("ddlCoding" + i).checked = false;
+            document.getElementById("ddlCodingB" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
             tempNew += tempData[j] + ';';
@@ -386,7 +386,7 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                                         return (
                                             <>
                                                 <span>
-                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCodingB' + i} />{list}
                                                 </span>
                                                 <br />
                                             </>
