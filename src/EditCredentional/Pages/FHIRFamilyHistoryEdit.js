@@ -31,6 +31,7 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
   const customStyle = { marginLeft: '0px' };
   // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
+  console.log('clientID : ', clientID)
 
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -206,7 +207,8 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
     const param = {
       Uhid: activeUHID,
       HistoryType: 1,
-      EncounterId: theEncounterId
+      EncounterId: theEncounterId,
+      ClientId : clientID
     }
     const getHisListRes = await GetFamilyHistoryData(param);
     if (getHisListRes.status === 1) {
