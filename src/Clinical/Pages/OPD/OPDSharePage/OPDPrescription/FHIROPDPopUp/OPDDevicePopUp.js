@@ -59,7 +59,8 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         severityId: 0,
         allergyType: 0,
         allergyTypeId: 0,
-        udi: ''
+        udi: '',
+
     })
 
     let getAllIssueOutCome = async () => {
@@ -104,6 +105,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         setDeviceData((prevIssueDetails) => ({
             ...prevIssueDetails,
             [name]: value,
+            issueTypeId: 4
         }));
     }
 
@@ -198,7 +200,8 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
             severityId: 0,
             allergyType: 0,
             allergyTypeId: 0,
-            udi: ''
+            udi: '',
+
         })
         setUpdateBool(0);
         setTxtCoding([]);
