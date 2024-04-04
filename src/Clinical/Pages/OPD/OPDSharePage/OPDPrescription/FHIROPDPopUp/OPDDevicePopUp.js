@@ -59,7 +59,8 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         severityId: 0,
         allergyType: 0,
         allergyTypeId: 0,
-        udi: ''
+        udi: '',
+
     })
 
     let getAllIssueOutCome = async () => {
@@ -104,6 +105,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         setDeviceData((prevIssueDetails) => ({
             ...prevIssueDetails,
             [name]: value,
+            issueTypeId: 4
         }));
     }
 
@@ -155,12 +157,12 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            if (!document.getElementById("ddlCoding" + i).checked) {
+            if (!document.getElementById("ddlCodingC" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
         for (var i = 0; i < tempAr.length; i++) {
-            document.getElementById("ddlCoding" + i).checked = false;
+            document.getElementById("ddlCodingC" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
             tempNew += tempData[j] + ';';
@@ -198,7 +200,8 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
             severityId: 0,
             allergyType: 0,
             allergyTypeId: 0,
-            udi: ''
+            udi: '',
+
         })
         setUpdateBool(0);
         setTxtCoding([]);
@@ -387,7 +390,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
                                         return (
                                             <>
                                                 <span>
-                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCodingC' + i} />{list}
                                                 </span>
                                                 <br />
                                             </>
@@ -521,7 +524,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
                     }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
@@ -546,6 +549,14 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
                 <SuccessToster
                     handle={setShowToster}
                     message="Device saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 11 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Device updated successFully !!"
                 />
             ) : (
                 ""

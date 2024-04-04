@@ -71,10 +71,10 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
     document.getElementById(modalID).value = temp
 
   }
-  const handleOpenModal = (modalID) => {
+  const handleOpenModal = (modalID , rowId) => {
     setIsShowPopUp(1);
     setPopUpId(modalID);
-
+    document.getElementById('errDate' + rowId).style.display = "none";
 
   }
   const handleOpenReasonModal = (rowID) => {
@@ -152,15 +152,18 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
 
   const handleSave = async () => {
     const getresponse = await dataMaker(makeData);
-    if (carePlanRow.length === getresponse.length) {
       let tempArrList = [];
       const data = [...carePlanRow];
 
 
       for (var i = 0; i < data.length; i++) {
+        if(!document.getElementById('codeInputID' + data[i].rowID).value){
 
-
-        const date = document.getElementById('careDateID' + data[i].rowID).value;
+          document.getElementById("errDate"+data[i].rowID).innerHTML = "Please select code.";
+      document.getElementById("errDate"+data[i].rowID).style.display = "block";
+        }
+        else{
+          const date = document.getElementById('careDateID' + data[i].rowID).value;
         const type = document.getElementById('careTypeID' + data[i].rowID).value;
         const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
         const reasonCodeElement = document.getElementById('reasonCodeInputID' + data[i].rowID);
@@ -189,9 +192,9 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
           reason_date_low: reasonRecordingDate,
           reason_date_high: reasonEndDate,
         });
+        }
+      
       }
-
-
       let finalObj = {
         uhid: activeUHID,
         clientId: clientID,
@@ -200,8 +203,6 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         doctorId: activeDocID,
         departmentId: activeDeptID
       }
-
-
       const saveObj = await POSTFHIRCarePlan(finalObj);
 
       if (saveObj.status === 1) {
@@ -215,10 +216,8 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
       else {
         alert('Data Not saved')
       }
-    }
-    else {
-      alert('Please select the code.');
-    }
+    
+    
 
   }
 
@@ -226,16 +225,32 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   const handleClear = () => {
 
     for (let i = 0; i < carePlanRow.length; i++) {
+      
       document.getElementById('careDateID' + carePlanRow[i].rowID).value = '';
       document.getElementById('careTypeID' + carePlanRow[i].rowID).value = 0;
       document.getElementById('careDescriptionID' + carePlanRow[i].rowID).value = ''
-      document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('reasonStatusID' + carePlanRow[i].rowID).value = 0;
-      document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('reasonEndDateID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('codeInputID' + carePlanRow[i].rowID).value = '';
+      if (document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID)) {
+        document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID).value = '';
+    }  
+      if(document.getElementById('reasonStatusID' + carePlanRow[i].rowID)) {
+        document.getElementById('reasonStatusID' + carePlanRow[i].rowID).value = 0;
+      } 
+      if(document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID)){
+
+        document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID).value = '';
+      }
+      if(document.getElementById('reasonEndDateID' + carePlanRow[i].rowID)){
+
+        document.getElementById('reasonEndDateID' + carePlanRow[i].rowID).value = '';
+      }
+      if(document.getElementById('codeInputID' + carePlanRow[i].rowID)){
+
+        document.getElementById('codeInputID' + carePlanRow[i].rowID).value = '';
+      }
     }
     setMakeData([]);
+    setReasonSectionOpen({});
+    setCarePlanRow([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', }]);
   }
 
   const getCarePlanListByUhid = async () => {
@@ -392,8 +407,9 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                       <div className="row mb-2">
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Code :<span className="starMandatory">*</span></label>
-                          <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} />
+                          <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID, carePlan.rowID) }} />
                           {/* <span>{carePlan.rowID}</span> */}
+                          <small id={"errDate" + carePlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Date :</label>
@@ -525,18 +541,27 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                 </thead>
                 <tbody>
                   {getCarePlanList && getCarePlanList.map((list, ind) => {
+                    const codingListItem = list.code ? list.code.split(';') : [];
                     return (<>
                       <tr key={list.id}>
                         <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
-                        <td>{list.date}</td>
-                        <td>{list.code}</td>
-                        <td>{list.codetext ? list.codetext : 'Not Available'}</td>
+                        <td>{list.date === '00-00-0000'? '---' :list.date }</td>
+                        {/* <td>{list.code}</td> */}
+                        <td>
+                            <div className='codeSplit'>
+                                {codingListItem.map((coding, index) => (
+                                    coding.trim() !== '' &&
+                                    <span key={index} className="">{coding}</span>
+                                ))}
+                            </div>
+                        </td>
+                        <td>{list.codetext ? list.codetext : 'NA'}</td>
                         <td>{list.description}</td>
                         <td>{list.typeName}</td>
                         <td>{list.reason_code}</td>
-                        <td>{list.reason_description ? list.reason_description : 'Not Available'}</td>
-                        <td>{list.reason_date_low}</td>
-                        <td>{list.reason_date_high}</td>
+                        <td>{list.reason_description ? list.reason_description : 'NA'}</td>
+                        <td>{list.reason_date_low === '00-00-0000' ? '---' : list.reason_date_low}</td>
+                        <td>{list.reason_date_high === '00-00-0000' ? '---' : list.reason_date_high}</td>
                         <td>
                           <div className="action-button">
                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}

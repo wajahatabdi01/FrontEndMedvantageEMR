@@ -187,6 +187,7 @@ export default function OPDTopVitals(props) {
             alert('Not saved')
         }
     }
+
     useEffect(() => {
         if (props.values === 1) {
             setData()
@@ -195,25 +196,42 @@ export default function OPDTopVitals(props) {
     }, [props.values === 1])
 
     useEffect(() => {
-        SaveOPDData(sendVitals, "jsonVital");
+        let flag = 0
+        sendVitals.map((val, ind)=>{
+            if(val.vmValue.length === 0)
+            {
+                flag= 1
+            }
+        })
+        if(flag ===0)
+        {
+            SaveOPDData(sendVitals, "jsonVital");
+        }
+        else{
+            
+            setTimeout(()=>{
+                setData()
+            }, 600)
+        }
+        
     }, [sendVitals])
 
     let setData = () => {
         let temp = window.sessionStorage.getItem("patientsendData") ? JSON.parse(window.sessionStorage.getItem("patientsendData")) : []
         let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
         let tempVital = [...sendVitals]
+       
         temp.map((value, index) => {
             value.map((val, ind) => {
                 if (value[0] === activeUHID) {
                     let key = Object.keys(val)
-
                     if (key[0] === "jsonVital") {
-
                         if (val.jsonVital.length != 0) {
                             val.jsonVital.map((val, ind) => {
                                 sendVitals.map((v, i) => {
                                     if (val.vmId === v.vmId) {
                                         tempVital[i]["vmValue"] = val.vmValue
+                                      
                                     }
                                 })
                             })
@@ -250,6 +268,7 @@ export default function OPDTopVitals(props) {
                 }
             }
         })
+        
     }, [patientsendData])
 
 

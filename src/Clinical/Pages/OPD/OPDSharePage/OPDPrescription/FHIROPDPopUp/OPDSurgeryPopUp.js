@@ -154,12 +154,12 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            if (!document.getElementById("ddlCoding" + i).checked) {
+            if (!document.getElementById("ddlCodingD" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
         for (var i = 0; i < tempAr.length; i++) {
-            document.getElementById("ddlCoding" + i).checked = false;
+            document.getElementById("ddlCodingD" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
             tempNew += tempData[j] + ';';
@@ -388,7 +388,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                                         return (
                                             <>
                                                 <span>
-                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCodingD' + i} />{list}
                                                 </span>
                                                 <br />
                                             </>
@@ -521,7 +521,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
                     }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>

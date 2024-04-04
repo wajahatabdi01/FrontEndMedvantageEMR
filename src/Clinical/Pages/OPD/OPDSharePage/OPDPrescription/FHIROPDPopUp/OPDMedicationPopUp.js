@@ -111,12 +111,12 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
         let tempData = [];
         let tempNew = "";
         for (var i = 0; i < tempAr.length; i++) {
-            if (!document.getElementById("ddlCoding" + i).checked) {
+            if (!document.getElementById("ddlCodingB" + i).checked) {
                 tempData.push(tempAr[i])
             }
         }
         for (var i = 0; i < tempAr.length; i++) {
-            document.getElementById("ddlCoding" + i).checked = false;
+            document.getElementById("ddlCodingB" + i).checked = false;
         }
         for (var j = 0; j < tempData.length; j++) {
             tempNew += tempData[j] + ';';
@@ -386,7 +386,7 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                                         return (
                                             <>
                                                 <span>
-                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />{list}
+                                                    <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCodingB' + i} />{list}
                                                 </span>
                                                 <br />
                                             </>
@@ -519,7 +519,7 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
                     }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
@@ -544,6 +544,14 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                 <SuccessToster
                     handle={setShowToster}
                     message="Medication saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 8 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Medication updated successFully !!"
                 />
             ) : (
                 ""
