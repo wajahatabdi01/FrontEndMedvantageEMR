@@ -226,16 +226,32 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   const handleClear = () => {
 
     for (let i = 0; i < carePlanRow.length; i++) {
+      
       document.getElementById('careDateID' + carePlanRow[i].rowID).value = '';
       document.getElementById('careTypeID' + carePlanRow[i].rowID).value = 0;
       document.getElementById('careDescriptionID' + carePlanRow[i].rowID).value = ''
-      document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('reasonStatusID' + carePlanRow[i].rowID).value = 0;
-      document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('reasonEndDateID' + carePlanRow[i].rowID).value = '';
-      document.getElementById('codeInputID' + carePlanRow[i].rowID).value = '';
+      if (document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID)) {
+        document.getElementById('reasonCodeInputID' + carePlanRow[i].rowID).value = '';
+    }  
+      if(document.getElementById('reasonStatusID' + carePlanRow[i].rowID)) {
+        document.getElementById('reasonStatusID' + carePlanRow[i].rowID).value = 0;
+      } 
+      if(document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID)){
+
+        document.getElementById('reasonRecordingDateID' + carePlanRow[i].rowID).value = '';
+      }
+      if(document.getElementById('reasonEndDateID' + carePlanRow[i].rowID)){
+
+        document.getElementById('reasonEndDateID' + carePlanRow[i].rowID).value = '';
+      }
+      if(document.getElementById('codeInputID' + carePlanRow[i].rowID)){
+
+        document.getElementById('codeInputID' + carePlanRow[i].rowID).value = '';
+      }
     }
     setMakeData([]);
+    setReasonSectionOpen({});
+    setCarePlanRow([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', }]);
   }
 
   const getCarePlanListByUhid = async () => {
