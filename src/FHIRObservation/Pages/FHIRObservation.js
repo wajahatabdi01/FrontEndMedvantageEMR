@@ -393,6 +393,8 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
                           <label className='form-label'>Type :</label>
                           <select className='form-select form-select-sm' id={'obTypeID' + observationPlan.rowID} >
                             <option value='0'>Select Code</option>
+                            <option value='1'>TEST CODE A</option>
+                            <option value='2'>TEST Code B</option>
                             {/* {getobservationPlanTypeList && getobservationPlanTypeList.map((list, ind) => (
                             <option key={ind} value={list.id}>{list.typeName}</option>
                   ))} */}
