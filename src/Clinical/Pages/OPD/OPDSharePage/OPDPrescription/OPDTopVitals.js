@@ -19,8 +19,12 @@ import InsertPatientVitalForONC from '../../../../API/OPD/Vitals/InsertPatientVi
 
 export default function OPDTopVitals(props) {
     const deptId = JSON.parse(window.sessionStorage.getItem("activePage")).DepartmentId;
+    // console.log('testttt : ', JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId)
 
-    const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId;
+   // const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId : 0;
+    const opdPatientData = JSON.parse(window.sessionStorage.getItem("OPDPatientData"));
+const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0].doctorId : 0;
+
 
     const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
     const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;

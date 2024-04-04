@@ -327,7 +327,7 @@ export default function AddRule() {
             //     "userId": window.userId
             // }
             console.log("obj data", sendForm)
-            // return;
+            return;
             const response = await PutAddRule({
                 ...sendForm,
             });
