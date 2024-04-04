@@ -152,14 +152,16 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
 
   const handleSave = async () => {
     const getresponse = await dataMaker(makeData);
-    if (carePlanRow.length === getresponse.length) {
       let tempArrList = [];
       const data = [...carePlanRow];
-
+      
 
       for (var i = 0; i < data.length; i++) {
-
-
+        
+        if(document.getElementById('codeInputID' + data[i].rowID).value === ''){
+          console.log('the row id : ', data[i].rowID)
+        }
+        return;
         const date = document.getElementById('careDateID' + data[i].rowID).value;
         const type = document.getElementById('careTypeID' + data[i].rowID).value;
         const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
@@ -215,10 +217,8 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
       else {
         alert('Data Not saved')
       }
-    }
-    else {
-      alert('Please select the code.');
-    }
+    
+    
 
   }
 
@@ -409,6 +409,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Code :<span className="starMandatory">*</span></label>
                           <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} />
+                          <small id={"errDate" + carePlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                           {/* <span>{carePlan.rowID}</span> */}
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
