@@ -159,14 +159,42 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
       for (var i = 0; i < data.length; i++) {
         if(!document.getElementById('codeInputID' + data[i].rowID).value){
 
-          console.log('the row id : ', data[i].rowID);
           document.getElementById("errDate"+data[i].rowID).innerHTML = "Please select code.";
       document.getElementById("errDate"+data[i].rowID).style.display = "block";
         }
+        else{
+          const date = document.getElementById('careDateID' + data[i].rowID).value;
+        const type = document.getElementById('careTypeID' + data[i].rowID).value;
+        const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
+        const reasonCodeElement = document.getElementById('reasonCodeInputID' + data[i].rowID);
+        const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
+        const reasonStatusElement = document.getElementById('reasonStatusID' + data[i].rowID);
+        const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
+        const reasonRecordingDateElement = document.getElementById('reasonRecordingDateID' + data[i].rowID);
+        const reasonRecordingDate = reasonRecordingDateElement ? reasonRecordingDateElement.value : '';
+        const reasonEndDateElement = document.getElementById('reasonEndDateID' + data[i].rowID);
+        const reasonEndDate = reasonEndDateElement ? reasonEndDateElement.value : '';
+        var arr = getresponse[i].data;
+        var maker = "";
+        var codeTextMaker = "";
+        for (var j = 0; j < arr.length; j++) {
+          maker = maker.length === 0 ? arr[j].dropdownName + ':' + arr[j].code : maker + ',' + arr[j].dropdownName + ':' + arr[j].code;
+          codeTextMaker = codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker + '|' + arr[j].codeText;
+        }
+        tempArrList.push({
+          date: date,
+          codeType: maker,
+          codeText: codeTextMaker,
+          care_plan_type: type,
+          description: description,
+          reason_code: reasonCode,
+          reason_status: reasonStatus,
+          reason_date_low: reasonRecordingDate,
+          reason_date_high: reasonEndDate,
+        });
+        }
       
       }
-
-      return;
       let finalObj = {
         uhid: activeUHID,
         clientId: clientID,
@@ -175,8 +203,6 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         doctorId: activeDocID,
         departmentId: activeDeptID
       }
-
-
       const saveObj = await POSTFHIRCarePlan(finalObj);
 
       if (saveObj.status === 1) {
