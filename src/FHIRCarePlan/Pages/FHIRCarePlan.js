@@ -557,11 +557,11 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                             ))}
                           </div>
                         </td>
-                        <td>{list.codetext ? list.codetext : 'Not Available'}</td>
+                        <td>{list.codetext ? list.codetext : 'N A'}</td>
                         <td>{list.description}</td>
                         <td>{list.typeName}</td>
                         <td>{list.reason_code}</td>
-                        <td>{list.reason_description ? list.reason_description : 'Not Available'}</td>
+                        <td>{list.reason_description ? list.reason_description : 'N A'}</td>
                         <td>{list.reason_date_low === '00-00-0000' ? '--' : list.reason_date_low}</td>
                         <td>{list.reason_date_high === '00-00-0000' ? '--' : list.reason_date_high}</td>
                         <td>
