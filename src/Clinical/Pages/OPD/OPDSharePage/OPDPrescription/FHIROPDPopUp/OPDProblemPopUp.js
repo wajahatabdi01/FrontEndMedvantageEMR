@@ -273,7 +273,6 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
         else {
             const response = await UpdateEncounter(JSON.stringify([problemData]));
             if (response.status === 1) {
-                setShowUnderProcess(0);
                 setShowToster(6)
                 getAllEncoutersAsPerIssueID();
                 handleClear();
@@ -282,7 +281,6 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 }, 2000)
             }
             else {
-                setShowUnderProcess(0)
                 setShowAlertToster(1)
                 setShowMessage(response.responseValue)
                 setTimeout(() => {
@@ -535,7 +533,7 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 <div class="d-inline-flex gap-2 justify-content-md-end d-md-flex justify-content-md-end">
                     {updatebool === 0 ?
                         <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveIssues}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
+                        : <button type="button" className="btn btn-save btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSaveUpdate}>{t("UPDATE")}</button>
                     }
                     <button type="button" className="btn btn-clear btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleClear}><img src={clearIcon} className='icnn' alt='' /> Clear</button>
                 </div>
@@ -561,6 +559,14 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 <SuccessToster
                     handle={setShowToster}
                     message="Problem saved successFully !!"
+                />
+            ) : (
+                ""
+            )}
+            {showToster === 6 ? (
+                <SuccessToster
+                    handle={setShowToster}
+                    message="Problem updated successFully !!"
                 />
             ) : (
                 ""

@@ -9,7 +9,9 @@ import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyle
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 function OPDLifeStyle({ theEncounterId }) {
+    console.log("theEncounterIddddd", theEncounterId)
     let [showLifeStyle, setShowLifestyle] = useState(1);
+    let [encounterId, setEncounterId] = useState(0);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
@@ -21,7 +23,7 @@ function OPDLifeStyle({ theEncounterId }) {
 
     let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid :
         window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
-
+    const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
     const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
         JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
 
@@ -44,11 +46,13 @@ function OPDLifeStyle({ theEncounterId }) {
             setSmokingList(response.responseValue);
         }
     }
+    console.log("encounterId", encounterId)
     let getFamilyHistoryData = async () => {
         const param = {
             Uhid: activeUHID,
             HistoryType: 2,
-            EncounterId: theEncounterId
+            clientID: clientID,
+            EncounterId: encounterId
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
@@ -212,12 +216,15 @@ function OPDLifeStyle({ theEncounterId }) {
     let handleEdit = async () => {
         const param = {
             Uhid: activeUHID,
-            HistoryType: 2
+            HistoryType: 2,
+            clientID: clientID,
+            EncounterId: encounterId
         }
         setShowLifestyle(0);
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
             const tobaccoData = response.responseValue.map((item, index) => {
+                console.log("item", item.id)
                 if (item.tobacco) { // Check if item.tobacco is not null
                     const tobaccoListItem = item.tobacco.split('|');
                     setRowId(item.id);
@@ -465,6 +472,7 @@ function OPDLifeStyle({ theEncounterId }) {
     }
 
     useEffect(() => {
+        setEncounterId(theEncounterId);
         getAllSmokingStatus();
         getFamilyHistoryData();
     }, [])

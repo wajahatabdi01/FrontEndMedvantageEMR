@@ -802,9 +802,7 @@ export default function OPDPrescriptionIndex(props) {
                                                 </thead>
                                                 <tbody>
                                                     {getEncounterList && getEncounterList.map((list, ind) => {
-
                                                         const codingListItem = list.encounterCoding ? list.encounterCoding.split(';') : [];
-
                                                         return (
                                                             <tr className="text-center" key={list.id}>
                                                                 <td className="text-center">{ind + 1}</td>

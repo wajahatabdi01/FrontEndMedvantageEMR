@@ -541,18 +541,28 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                 </thead>
                 <tbody>
                   {getCarePlanList && getCarePlanList.map((list, ind) => {
+                    const codingListItem = list.code ? list.code.split(';') : [];
+
                     return (<>
                       <tr key={list.id}>
                         <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
-                        <td>{list.date}</td>
-                        <td>{list.code}</td>
+                        <td>{list.date === '00-00-0000' ? '--' : list.date}</td>
+                        {/* <td>{list.code}</td> */}
+                        <td>
+                          <div className='codeSplit'>
+                            {codingListItem.map((coding, index) => (
+                              coding.trim() !== '' &&
+                              <span key={index} className="">{coding}</span>
+                            ))}
+                          </div>
+                        </td>
                         <td>{list.codetext ? list.codetext : 'Not Available'}</td>
                         <td>{list.description}</td>
                         <td>{list.typeName}</td>
                         <td>{list.reason_code}</td>
                         <td>{list.reason_description ? list.reason_description : 'Not Available'}</td>
-                        <td>{list.reason_date_low}</td>
-                        <td>{list.reason_date_high}</td>
+                        <td>{list.reason_date_low === '00-00-0000' ? '--' : list.reason_date_low}</td>
+                        <td>{list.reason_date_high === '00-00-0000' ? '--' : list.reason_date_high}</td>
                         <td>
                           <div className="action-button">
                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
