@@ -71,10 +71,10 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
     document.getElementById(modalID).value = temp
 
   }
-  const handleOpenModal = (modalID) => {
+  const handleOpenModal = (modalID , rowId) => {
     setIsShowPopUp(1);
     setPopUpId(modalID);
-
+    document.getElementById('errDate' + rowId).style.display = "none";
 
   }
   const handleOpenReasonModal = (rowID) => {
@@ -154,46 +154,19 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
     const getresponse = await dataMaker(makeData);
       let tempArrList = [];
       const data = [...carePlanRow];
-      
+
 
       for (var i = 0; i < data.length; i++) {
-        
-        if(document.getElementById('codeInputID' + data[i].rowID).value === ''){
-          console.log('the row id : ', data[i].rowID)
+        if(!document.getElementById('codeInputID' + data[i].rowID).value){
+
+          console.log('the row id : ', data[i].rowID);
+          document.getElementById("errDate"+data[i].rowID).innerHTML = "Please select code.";
+      document.getElementById("errDate"+data[i].rowID).style.display = "block";
         }
-        return;
-        const date = document.getElementById('careDateID' + data[i].rowID).value;
-        const type = document.getElementById('careTypeID' + data[i].rowID).value;
-        const description = document.getElementById('careDescriptionID' + data[i].rowID).value;
-        const reasonCodeElement = document.getElementById('reasonCodeInputID' + data[i].rowID);
-        const reasonCode = reasonCodeElement ? reasonCodeElement.value : '';
-        const reasonStatusElement = document.getElementById('reasonStatusID' + data[i].rowID);
-        const reasonStatus = reasonStatusElement ? reasonStatusElement.value : '';
-        const reasonRecordingDateElement = document.getElementById('reasonRecordingDateID' + data[i].rowID);
-        const reasonRecordingDate = reasonRecordingDateElement ? reasonRecordingDateElement.value : '';
-        const reasonEndDateElement = document.getElementById('reasonEndDateID' + data[i].rowID);
-        const reasonEndDate = reasonEndDateElement ? reasonEndDateElement.value : '';
-        var arr = getresponse[i].data;
-        var maker = "";
-        var codeTextMaker = "";
-        for (var j = 0; j < arr.length; j++) {
-          maker = maker.length === 0 ? arr[j].dropdownName + ':' + arr[j].code : maker + ',' + arr[j].dropdownName + ':' + arr[j].code;
-          codeTextMaker = codeTextMaker.length === 0 ? arr[j].codeText : codeTextMaker + '|' + arr[j].codeText;
-        }
-        tempArrList.push({
-          date: date,
-          codeType: maker,
-          codeText: codeTextMaker,
-          care_plan_type: type,
-          description: description,
-          reason_code: reasonCode,
-          reason_status: reasonStatus,
-          reason_date_low: reasonRecordingDate,
-          reason_date_high: reasonEndDate,
-        });
+      
       }
 
-
+      return;
       let finalObj = {
         uhid: activeUHID,
         clientId: clientID,
@@ -408,9 +381,9 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                       <div className="row mb-2">
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Code :<span className="starMandatory">*</span></label>
-                          <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} />
-                          <small id={"errDate" + carePlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
+                          <input type='text' className='form-control form-control-sm' id={'codeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID, carePlan.rowID) }} />
                           {/* <span>{carePlan.rowID}</span> */}
+                          <small id={"errDate" + carePlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Date :</label>
@@ -543,27 +516,26 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                 <tbody>
                   {getCarePlanList && getCarePlanList.map((list, ind) => {
                     const codingListItem = list.code ? list.code.split(';') : [];
-
                     return (<>
                       <tr key={list.id}>
                         <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
-                        <td>{list.date === '00-00-0000' ? '--' : list.date}</td>
+                        <td>{list.date === '00-00-0000'? '---' :list.date }</td>
                         {/* <td>{list.code}</td> */}
                         <td>
-                          <div className='codeSplit'>
-                            {codingListItem.map((coding, index) => (
-                              coding.trim() !== '' &&
-                              <span key={index} className="">{coding}</span>
-                            ))}
-                          </div>
+                            <div className='codeSplit'>
+                                {codingListItem.map((coding, index) => (
+                                    coding.trim() !== '' &&
+                                    <span key={index} className="">{coding}</span>
+                                ))}
+                            </div>
                         </td>
-                        <td>{list.codetext ? list.codetext : 'N A'}</td>
+                        <td>{list.codetext ? list.codetext : 'NA'}</td>
                         <td>{list.description}</td>
                         <td>{list.typeName}</td>
                         <td>{list.reason_code}</td>
-                        <td>{list.reason_description ? list.reason_description : 'N A'}</td>
-                        <td>{list.reason_date_low === '00-00-0000' ? '--' : list.reason_date_low}</td>
-                        <td>{list.reason_date_high === '00-00-0000' ? '--' : list.reason_date_high}</td>
+                        <td>{list.reason_description ? list.reason_description : 'NA'}</td>
+                        <td>{list.reason_date_low === '00-00-0000' ? '---' : list.reason_date_low}</td>
+                        <td>{list.reason_date_high === '00-00-0000' ? '---' : list.reason_date_high}</td>
                         <td>
                           <div className="action-button">
                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}

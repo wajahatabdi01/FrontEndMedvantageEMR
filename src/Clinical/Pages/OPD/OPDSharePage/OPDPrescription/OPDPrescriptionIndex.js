@@ -175,128 +175,131 @@ export default function OPDPrescriptionIndex(props) {
                     let patientHistoryCategoryResult = []
                     let patientHistoryCategoryResultExistance = []
 
-                    temp.map((values, index) => {
-                        values.map((val, ind) => {
-                            if (values[0] === activeUHID) {
-                                let key = Object.keys(val)
-                                if (key[0] === "jsonDiagnosis") {
-                                    if (data.patientComplainHistory.length != 0) {
+                    // temp.map((values, index) => {
+                    //     values.map((val, ind) => {
+                    //         if (values[0] === activeUHID) {
+                    //             let key = Object.keys(val)
+                    //             if (key[0] === "jsonDiagnosis") {
+                    //                 if (data.patientComplainHistory.length != 0) {
 
-                                        data.patientComplainHistory.map((value, ind) => {
-                                            if (value.pdmId === 2) {
-                                                symptomsDatas.push(value)
-                                            }
-                                            if (value.pdmId === 4) {
-                                                consultantDatas.push(value)
-                                            }
-                                            if (value.pdmId === 6) {
-                                                physicalexamination.push(value)
-                                            }
-                                            if (value.pdmId === 11) {
-                                                foodData.push(value)
-                                            }
-                                            if (value.pdmId === 10) {
-                                                foodData.push(value)
-                                            }
-                                            if (value.pdmId === 9) {
-                                                foodData.push(value)
-                                            }
-                                            if (value.pdmId === 7) {
-                                                allergiesData.push(value)
-                                            }
-                                            if (value.pdmId === 8) {
-                                                allergiesData.push(value)
-                                            }
-                                        })
-                                    }
-                                    else {
-                                        data.patientHeightWeight.map((val, ind) => {
+                    //                     data.patientComplainHistory.map((value, ind) => {
+                    //                         if (value.pdmId === 2) {
+                    //                             symptomsDatas.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 4) {
+                    //                             consultantDatas.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 6) {
+                    //                             physicalexamination.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 11) {
+                    //                             foodData.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 10) {
+                    //                             foodData.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 9) {
+                    //                             foodData.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 7) {
+                    //                             allergiesData.push(value)
+                    //                         }
+                    //                         if (value.pdmId === 8) {
+                    //                             allergiesData.push(value)
+                    //                         }
+                    //                     })
+                    //                 }
+                    //                 else {
+                    //                     data.patientHeightWeight.map((val, ind) => {
 
-                                            Vitalsdata.map((v, ii) => {
-                                                if (v.vmId === 1) {
-                                                    Vitalsdata[ii].vmValue = val.height
-                                                }
-                                                else if (v.vmId === 2) {
-                                                    Vitalsdata[ii].vmValue = val.weight
-                                                }
-                                            })
+                    //                         Vitalsdata.map((v, ii) => {
+                    //                             if (v.vmId === 1) {
+                    //                                 Vitalsdata[ii].vmValue = val.height
+                    //                             }
+                    //                             else if (v.vmId === 2) {
+                    //                                 Vitalsdata[ii].vmValue = val.weight
+                    //                             }
+                    //                         })
 
-                                        })
-                                        // data.patientHeightWeight
-                                    }
-                                }
-                                else if (key[0] === "jsonVital") {
-                                    if (data.patientVitals.length != 0) {
+                    //                     })
+                    //                     // data.patientHeightWeight
+                    //                 }
+                    //             }
+                    //             else if (key[0] === "jsonVital") {
+                    //                 if (data.patientVitals.length != 0) {
 
-                                        Vitalsdata = [...data.patientVitals]
+                    //                     Vitalsdata = [...data.patientVitals]
 
-                                    }
-                                }
-                                else if (key[0] === "jsonArray") {
-                                    if (data.allPrescription.length != 0) {
-                                        prescriptiondata = [...data.allPrescription]
+                    //                 }
+                    //             }
+                    //             else if (key[0] === "jsonArray") {
+                    //                 if (data.allPrescription.length != 0) {
+                    //                     prescriptiondata = [...data.allPrescription]
 
-                                        // SaveOPDData(data.allPrescription, "jsonArray")
-                                    }
-                                    else {
-                                        prescriptiondata = []
-
-
-                                    }
-                                }
-                                else if (key[0] === "jsonInvestigation") {
-                                    if (data.patientInvestigation.length != 0) {
-                                        investigationData = [...data.patientInvestigation]
-                                        // SaveOPDData(data.patientInvestigation, "jsonInvestigation")
-                                    }
-                                    else {
-                                        investigationData = []
+                    //                     // SaveOPDData(data.allPrescription, "jsonArray")
+                    //                 }
+                    //                 else {
+                    //                     prescriptiondata = []
 
 
-                                    }
-                                }
-                                else if (key[0] === "patientCategoryResult") {
+                    //                 }
+                    //             }
+                    //             else if (key[0] === "jsonInvestigation") {
+                    //                 if (data.patientInvestigation.length != 0) {
+                    //                     investigationData = [...data.patientInvestigation]
+                    //                     // SaveOPDData(data.patientInvestigation, "jsonInvestigation")
+                    //                 }
+                    //                 else {
+                    //                     investigationData = []
 
-                                    if (data.patientCategoryResult.length != 0) {
 
-                                        patientCategoryResult = data.patientCategoryResult
-                                    }
-                                }
-                                else if (key[0] === "patientExaminationResult") {
-                                    if (data.patientExaminationResult.length != 0) {
-                                        patientExaminationResult = data.patientExaminationResult
-                                    }
+                    //                 }
+                    //             }
+                    //             else if (key[0] === "patientCategoryResult") {
 
-                                }
-                                else if (key[0] === "patientHistoryCategoryResult") {
-                                    if (data.patientHistoryCategoryResult.length != 0) {
-                                        patientHistoryCategoryResult = data.patientHistoryCategoryResult
-                                    }
+                    //                 if (data.patientCategoryResult.length != 0) {
 
-                                }
-                                else if (key[0] === "patientHistoryCategoryResultExistance") {
-                                    if (data.patientHistoryCategoryResultExistance.length != 0) {
-                                        patientHistoryCategoryResultExistance = data.patientHistoryCategoryResultExistance
-                                    }
+                    //                     patientCategoryResult = data.patientCategoryResult
+                    //                 }
+                    //             }
+                    //             else if (key[0] === "patientExaminationResult") {
+                    //                 if (data.patientExaminationResult.length != 0) {
+                    //                     patientExaminationResult = data.patientExaminationResult
+                    //                 }
 
-                                }
+                    //             }
+                    //             else if (key[0] === "patientHistoryCategoryResult") {
+                    //                 if (data.patientHistoryCategoryResult.length != 0) {
+                    //                     patientHistoryCategoryResult = data.patientHistoryCategoryResult
+                    //                 }
 
-                            }
-                        })
-                    })
+                    //             }
+                    //             else if (key[0] === "patientHistoryCategoryResultExistance") {
+                    //                 if (data.patientHistoryCategoryResultExistance.length != 0) {
+                    //                     patientHistoryCategoryResultExistance = data.patientHistoryCategoryResultExistance
+                    //                 }
 
-                    let t = [...consultantDatas, ...symptomsDatas, ...physicalexamination]
-                    SaveOPDData(t, "jsonDiagnosis")
-                    SaveOPDData(foodData, "jsonFood")
-                    SaveOPDData(Vitalsdata, "jsonVital")
-                    SaveOPDData(patientCategoryResult, "patientCategoryResult")
-                    SaveOPDData(patientExaminationResult, "patientExaminationResult")
-                    SaveOPDData(patientHistoryCategoryResult, "patientHistoryCategoryResult")
-                    SaveOPDData(patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
-                    SaveOPDData(prescriptiondata, "jsonArray")
-                    SaveOPDData(investigationData, "jsonInvestigation")
-                    SaveOPDData(nextVisitDate, "nextVisitDate")
-                    SaveOPDData(allergiesData, "jsonallergies")
+                    //             }
+
+                    //         }
+                    //     })
+                    // })
+
+                    // let t = [...consultantDatas, ...symptomsDatas, ...physicalexamination]
+                    // SaveOPDData(t, "jsonDiagnosis")
+                    // SaveOPDData(foodData, "jsonFood")
+                    // Vitalsdata = [...data]
+                   
+
+                    SaveOPDData(data, "jsonVital")
+                    // SaveOPDData(patientCategoryResult, "patientCategoryResult")
+                    // SaveOPDData(patientExaminationResult, "patientExaminationResult")
+                    // SaveOPDData(patientHistoryCategoryResult, "patientHistoryCategoryResult")
+                    // SaveOPDData(patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
+                    // SaveOPDData(prescriptiondata, "jsonArray")
+                    // SaveOPDData(investigationData, "jsonInvestigation")
+                    // SaveOPDData(nextVisitDate, "nextVisitDate")
+                    // SaveOPDData(allergiesData, "jsonallergies")
 
                     SaveOPDData(0, "disable")
                     setGetD(1)
@@ -395,10 +398,14 @@ export default function OPDPrescriptionIndex(props) {
                                             // data.patientHeightWeight
                                         }
                                     }
-                                    SaveOPDData(data.patientCategoryResult, "patientCategoryResult")
-                                    SaveOPDData(data.patientExaminationResult, "patientExaminationResult")
-                                    SaveOPDData(data.patientHistoryCategoryResult, "patientHistoryCategoryResult")
-                                    SaveOPDData(data.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
+                  
+
+                        SaveOPDData(data, "jsonVital")
+
+                                    // SaveOPDData(data.patientCategoryResult, "patientCategoryResult")
+                                    // SaveOPDData(data.patientExaminationResult, "patientExaminationResult")
+                                    // SaveOPDData(data.patientHistoryCategoryResult, "patientHistoryCategoryResult")
+                                    // SaveOPDData(data.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
 
                                 }
                             })
@@ -470,106 +477,106 @@ export default function OPDPrescriptionIndex(props) {
                         let patientExaminationResult = []
                         let patientHistoryCategoryResult = []
                         let patientHistoryCategoryResultExistance = []
-                        temp.map((values, index) => {
-                            values.map((val, ind) => {
-                                if (values[0] === activeUHID) {
-                                    let key = Object.keys(val)
+                        // temp.map((values, index) => {
+                        //     values.map((val, ind) => {
+                        //         if (values[0] === activeUHID) {
+                        //             let key = Object.keys(val)
 
-                                    if (key[0] === "jsonDiagnosis") {
-                                        if (data.patientComplainHistory.length != 0) {
+                        //             if (key[0] === "jsonDiagnosis") {
+                        //                 if (data.patientComplainHistory.length != 0) {
 
-                                            data.patientComplainHistory.map((value, ind) => {
-                                                if (value.pdmId === 2) {
-                                                    symptomsDatas.push(value)
-                                                }
-                                                if (value.pdmId === 4) {
-                                                    consultantDatas.push(value)
-                                                }
-                                                if (value.pdmId === 6) {
-                                                    physicalexamination.push(value)
-                                                }
-                                                if (value.pdmId === 11) {
-                                                    foodData.push(value)
-                                                }
-                                                if (value.pdmId === 10) {
-                                                    foodData.push(value)
-                                                }
-                                                if (value.pdmId === 9) {
-                                                    foodData.push(value)
-                                                }
-                                            })
-                                        }
-                                    }
-                                    else if (key[0] === "jsonVital") {
-                                        if (data.patientVitals.length != 0) {
-                                            Vitalsdata = data.patientVitals
+                        //                     data.patientComplainHistory.map((value, ind) => {
+                        //                         if (value.pdmId === 2) {
+                        //                             symptomsDatas.push(value)
+                        //                         }
+                        //                         if (value.pdmId === 4) {
+                        //                             consultantDatas.push(value)
+                        //                         }
+                        //                         if (value.pdmId === 6) {
+                        //                             physicalexamination.push(value)
+                        //                         }
+                        //                         if (value.pdmId === 11) {
+                        //                             foodData.push(value)
+                        //                         }
+                        //                         if (value.pdmId === 10) {
+                        //                             foodData.push(value)
+                        //                         }
+                        //                         if (value.pdmId === 9) {
+                        //                             foodData.push(value)
+                        //                         }
+                        //                     })
+                        //                 }
+                        //             }
+                        //             else if (key[0] === "jsonVital") {
+                        //                 if (data.patientVitals.length != 0) {
+                        //                     Vitalsdata = data.patientVitals
+                        //                 }
+                        //                 else {
+                        //                     data.patientHeightWeight.map((val, ind) => {
 
-                                        }
-                                        else {
-                                            data.patientHeightWeight.map((val, ind) => {
+                        //                         Vitalsdata.map((v, ii) => {
+                        //                             if (v.vmId === 1) {
+                        //                                 Vitalsdata[ii].vmValue = val.height
+                        //                             }
+                        //                             else if (v.vmId === 2) {
+                        //                                 Vitalsdata[ii].vmValue = val.weight
+                        //                             }
+                        //                         })
 
-                                                Vitalsdata.map((v, ii) => {
-                                                    if (v.vmId === 1) {
-                                                        Vitalsdata[ii].vmValue = val.height
-                                                    }
-                                                    else if (v.vmId === 2) {
-                                                        Vitalsdata[ii].vmValue = val.weight
-                                                    }
-                                                })
+                        //                     })
+                        //                     // data.patientHeightWeight
+                        //                 }
+                        //             }
+                        //             else if (key[0] === "jsonArray") {
+                        //                 if (data.allPrescription.length != 0) {
+                        //                     prescriptiondata = data.allPrescription
+                        //                 }
+                        //             }
+                        //             else if (key[0] === "jsonInvestigation") {
+                        //                 if (data.patientInvestigation.length != 0) {
+                        //                     investigationData = [...data.patientInvestigation]
+                        //                 }
+                        //             }
+                        //             else if (key[0] === "patientCategoryResult") {
+                        //                 if (data.patientCategoryResult.length != 0) {
+                        //                     patientCategoryResult = data.patientCategoryResult
+                        //                 }
+                        //             }
+                        //             else if (key[0] === "patientExaminationResult") {
+                        //                 if (data.patientExaminationResult.length != 0) {
+                        //                     patientExaminationResult = data.patientExaminationResult
+                        //                 }
 
-                                            })
-                                            // data.patientHeightWeight
-                                        }
-                                    }
-                                    else if (key[0] === "jsonArray") {
-                                        if (data.allPrescription.length != 0) {
-                                            prescriptiondata = data.allPrescription
-                                        }
-                                    }
-                                    else if (key[0] === "jsonInvestigation") {
-                                        if (data.patientInvestigation.length != 0) {
-                                            investigationData = [...data.patientInvestigation]
-                                        }
-                                    }
-                                    else if (key[0] === "patientCategoryResult") {
-                                        if (data.patientCategoryResult.length != 0) {
-                                            patientCategoryResult = data.patientCategoryResult
-                                        }
-                                    }
-                                    else if (key[0] === "patientExaminationResult") {
-                                        if (data.patientExaminationResult.length != 0) {
-                                            patientExaminationResult = data.patientExaminationResult
-                                        }
+                        //             }
+                        //             else if (key[0] === "patientHistoryCategoryResult") {
+                        //                 if (data.patientHistoryCategoryResult.length != 0) {
+                        //                     patientHistoryCategoryResult = data.patientHistoryCategoryResult
+                        //                 }
 
-                                    }
-                                    else if (key[0] === "patientHistoryCategoryResult") {
-                                        if (data.patientHistoryCategoryResult.length != 0) {
-                                            patientHistoryCategoryResult = data.patientHistoryCategoryResult
-                                        }
+                        //             }
+                        //             else if (key[0] === "patientHistoryCategoryResultExistance") {
+                        //                 if (data.patientHistoryCategoryResultExistance.length != 0) {
+                        //                     patientHistoryCategoryResultExistance = data.patientHistoryCategoryResultExistance
+                        //                 }
 
-                                    }
-                                    else if (key[0] === "patientHistoryCategoryResultExistance") {
-                                        if (data.patientHistoryCategoryResultExistance.length != 0) {
-                                            patientHistoryCategoryResultExistance = data.patientHistoryCategoryResultExistance
-                                        }
+                        //             }
+                        //         }
+                        //     })
+                        // })
 
-                                    }
-                                }
-                            })
-                        })
+                        // let t = [...consultantDatas, ...symptomsDatas, ...physicalexamination]
+                        // SaveOPDData(t, "jsonDiagnosis")
+                        // SaveOPDData(foodData, "jsonFood")
+                        // SaveOPDData(1, "disable")
+                        // SaveOPDData(investigationData, "jsonInvestigation")
+                        // SaveOPDData(data.patientCategoryResult, "patientCategoryResult")
+                        // SaveOPDData(data.patientExaminationResult, "patientExaminationResult")
+                        // SaveOPDData(data.patientHistoryCategoryResult, "patientHistoryCategoryResult")
+                        // SaveOPDData(data.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
 
-                        let t = [...consultantDatas, ...symptomsDatas, ...physicalexamination]
-                        SaveOPDData(t, "jsonDiagnosis")
-                        SaveOPDData(foodData, "jsonFood")
-                        SaveOPDData(1, "disable")
-                        SaveOPDData(investigationData, "jsonInvestigation")
-                        SaveOPDData(data.patientCategoryResult, "patientCategoryResult")
-                        SaveOPDData(data.patientExaminationResult, "patientExaminationResult")
-                        SaveOPDData(data.patientHistoryCategoryResult, "patientHistoryCategoryResult")
-                        SaveOPDData(data.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
-
-                        SaveOPDData(prescriptiondata, "jsonArray")
-                        SaveOPDData(Vitalsdata, "jsonVital")
+                        // SaveOPDData(prescriptiondata, "jsonArray")
+                       
+                        SaveOPDData(data, "jsonVital")
 
 
 
@@ -617,9 +624,7 @@ export default function OPDPrescriptionIndex(props) {
         }
     }
     const getAllEncoutersAsPerIssueID = async () => {
-        console.log('activeUHID : ', activeUHID);
-        console.log('getIssueID : ', getIssueID);
-        console.log('toPassEncounter : ', toPassEncounter);
+       
         const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, toPassEncounter);
 
         if (getRes.status === 1) {

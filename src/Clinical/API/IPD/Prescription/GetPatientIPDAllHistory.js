@@ -4,11 +4,11 @@ async function GetPatientIPDAllHistory(uhid, pmId="") {
     let url = ""
     if (pmId === "") {
 
-      url = window.AppbaseUrl + `/api/PatientIPDPrescription/PatientIPDAllHistory?UhId=${uhid}&DeptId=${department}&UserId=${window.userId}&clientId=${window.clientId}`;
+      url = window.AppbaseUrlNew + `/api/PatientIPDPrescription/PatientIPDAllHistory?UhId=${uhid}&DeptId=${department}&UserId=${window.userId}&clientId=${window.clientId}`;
 
     }
     else {
-        url = window.AppbaseUrl + `/api/PatientIPDPrescription/PatientIPDAllHistory?UhId=${uhid}&DeptId=${department}&UserId=${window.userId}&PmId=${pmId}&clientId=${window.clientId}`;
+        url = window.AppbaseUrlNew + `/api/PatientIPDPrescription/PatientIPDAllHistory?UhId=${uhid}&DeptId=${department}&UserId=${window.userId}&PmId=${pmId}&clientId=${window.clientId}`;
 
     }
     let head = {
