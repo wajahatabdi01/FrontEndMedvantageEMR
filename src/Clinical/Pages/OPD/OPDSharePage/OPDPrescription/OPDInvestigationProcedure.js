@@ -332,11 +332,10 @@ export default function OPDInvestigationProcedure(props) {
     return (
 
         <>
-            <div className='reminder' style={{ paddingTop: '4px' }}>
+            {/* <div className='reminder' style={{ paddingTop: '4px' }}>
                 <div className='reminder container'>
                     <div className='opdorder-in'>
                         <div className='remhead'>
-                            {/* <Heading text={t("Clinical Reminders")} /> */}
                             Clinical Reminders <i class="bi bi-bell"></i>
                         </div>
                     </div>
@@ -381,7 +380,7 @@ export default function OPDInvestigationProcedure(props) {
                         </TableContainer>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* -----------------------------------------------------Clinical Reminders End-------------------------------------------------- */}
             <div className='p-0 boxcontainer mt-2 investigationbox'>
@@ -423,11 +422,6 @@ export default function OPDInvestigationProcedure(props) {
                 <div className='opdorder border-topp suminvest'>
                     <div className='totalod'>  {t("Total Investigation Charge")}: <span>{total}</span></div>
                     <div className='resetpodinvest relative'>
-                        {/* <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handlesaveInvestigation}><img src={saveButtonIcon} className='icnn' alt='' />{t("Save")}</button>
-                    <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={() => { handleReset(); }}>
-                        <i className="fa fa-refresh" aria-hidden="true"></i> {t("Reset")}
-                    </button> */}
-
                         {showUnderProcess === 1 ? <TosterUnderProcess /> :
                             <>
                                 {showToster === 1 ?
@@ -447,7 +441,6 @@ export default function OPDInvestigationProcedure(props) {
                 {
                     showLoder === 1 ? <Loader val={showLoder} /> : ""
                 }
-                {/* Toaster */}
                 {
                     isShowToaster === 1 ?
                         <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
