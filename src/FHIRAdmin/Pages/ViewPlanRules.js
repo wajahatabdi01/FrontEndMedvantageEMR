@@ -77,7 +77,7 @@ export default function ViewPlanRules() {
             if (getResponse.status === 1) {
                 setPlanList(getResponse.responseValue);
             } else {
-               
+
                 setShowErrMessage(getResponse.responseValue);
                 setShowLoder(0);
                 setShowAlertToster(1);
@@ -134,21 +134,7 @@ export default function ViewPlanRules() {
         }
     };
 
-    //Handle Add Rule
-    // const handleAddRule = (rule) => {
-    //     let temp = {
-    //         planId: selectedPlanId,
-    //         ruleId: rule.id,
-    //         ruleTitle: rule.title,
-    //     }
-    //     setSelectedRules((prev) => (Array.isArray(prev) ? [...prev, temp] : [temp]));
-    //     let avilableIndex = tempAvailableRules.findIndex(val => val.id === rule.id)
-    //     if (avilableIndex !== -1) {
-    //         let temprules = [...tempAvailableRules]
-    //         temprules.splice(avilableIndex, 1)
-    //         setTempAvailableRules(temprules)
-    //     }
-    // };
+    //Handle Add Rule  
 
     const handleAddRule = (rule) => {
         const isRuleAlreadyAdded = selectedRules && selectedRules.some((addedRule) => addedRule.ruleId === rule.id);
@@ -172,20 +158,7 @@ export default function ViewPlanRules() {
 
 
     // Handle Remove Rule
-    // const handleRemoveRule = (rule) => {
-    //     let avilableIndex = selectedRules.findIndex(val => val.ruleId === rule.ruleId)
-    //     if (avilableIndex !== -1) {
-    //         let temp = {
-    //             planId: selectedPlanId,
-    //             id: rule.ruleId,
-    //             title: rule.ruleTitle,
-    //         }
-    //         setTempAvailableRules((prev) => ([...prev, temp]))
-    //         let temprules = [...selectedRules]
-    //         temprules.splice(avilableIndex, 1)
-    //         setSelectedRules(temprules)
-    //     }
-    // };
+  
     const handleRemoveRule = (rule) => {
         const availableIndex = tempAvailableRules.findIndex((val) => val.id === rule.ruleId);
 
@@ -201,6 +174,7 @@ export default function ViewPlanRules() {
         let tempRules = selectedRules.filter((val) => val.ruleId !== rule.ruleId);
         setSelectedRules(tempRules);
     };
+    
     //Handle Mapping Plan Rule
     let save = async () => {
         let modifiedPayload = selectedRules.map(({ planId, ruleId }) => ({
@@ -215,7 +189,7 @@ export default function ViewPlanRules() {
         //     JsonPlanRuleDetails: JSON.stringify(modifiedPayload).replace(/\\/g, '')
         // }
         //tempjson.JsonPlanRuleDetails = JSON.parse(tempjson.JsonPlanRuleDetails);
-       
+
         const response = await InsertPlanRule(JSON.stringify(modifiedPayload));
         if (response.status === 1) {
             setShowUnderProcess(0);
@@ -243,7 +217,7 @@ export default function ViewPlanRules() {
     //HandleChange
     const handleChange = async (e) => {
         let selectedRule = document.getElementById("planId").value
-       
+
         setShowData(selectedRule);
         setEditPlan("");
         getAllRule();
@@ -473,20 +447,26 @@ export default function ViewPlanRules() {
                                                             <div>Add rules to plan</div>
                                                         </div>
                                                         <div className='allrules'>
-                                                            {/* {tempAvailableRules && tempAvailableRules.filter((val) => `${val.title}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val) => (
-                                                                <div className="planrule" key={val.id}>
-                                                                    <div className="plantxt" val={val.id}>{val.title}</div>
-                                                                    <div className="planicon" onClick={() => handleAddRule(val)}>
-                                                                        <i className="fa fa-plus"></i>
-                                                                    </div>
-                                                                </div>
-                                                            ))} */}
 
-                                                            {tempAvailableRules
+                                                            {/* {tempAvailableRules
                                                                 .filter((val) => !selectedRules || (val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
                                                                     !selectedRules.some(
                                                                         (selectedRule) => selectedRule.ruleId === val.id
                                                                     ))
+                                                                )
+                                                                .map((val) => (
+                                                                    <div className="planrule" key={val.id}>
+                                                                        <div className="plantxt" val={val.id}>{val.title}</div>
+                                                                        <div className="planicon" onClick={() => handleAddRule(val)}>
+                                                                            <i className="fa fa-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                ))} */}
+
+                                                            {tempAvailableRules
+                                                                .filter((val) =>
+                                                                    val.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                                                                    (!selectedRules || !selectedRules.some((selectedRule) => selectedRule.ruleId === val.id))
                                                                 )
                                                                 .map((val) => (
                                                                     <div className="planrule" key={val.id}>
