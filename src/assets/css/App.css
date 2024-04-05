@@ -370,6 +370,8 @@ p.devName {
   /* margin-left: 10px; */
   /* margin-left: 2px; */
   padding: 0 5px;
+  overflow: scroll;
+  height: 93vh;
 }
 
 /* .sidebar-link {
