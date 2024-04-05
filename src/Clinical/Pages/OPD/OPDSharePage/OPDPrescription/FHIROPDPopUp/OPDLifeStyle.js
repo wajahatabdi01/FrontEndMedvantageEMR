@@ -8,9 +8,9 @@ import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingSt
 import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
 import SuccessToster from '../../../../../../Component/SuccessToster';
-function OPDLifeStyle({ theEncounterId }) {
-    console.log("theEncounterIddddd", theEncounterId)
-    let [showLifeStyle, setShowLifestyle] = useState(1);
+function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
+    console.log("param===========>", theEncounterId)
+    // let [showLifeStyle, setShowLifestyle] = useState(1);
     let [encounterId, setEncounterId] = useState(0);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
@@ -52,7 +52,7 @@ function OPDLifeStyle({ theEncounterId }) {
             Uhid: activeUHID,
             HistoryType: 2,
             clientID: clientID,
-            EncounterId: encounterId
+            encounterId: theEncounterId || 0
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
@@ -218,8 +218,9 @@ function OPDLifeStyle({ theEncounterId }) {
             Uhid: activeUHID,
             HistoryType: 2,
             clientID: clientID,
-            EncounterId: encounterId
+            encounterId: theEncounterId || 0
         }
+        console.log('param', param)
         setShowLifestyle(0);
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {

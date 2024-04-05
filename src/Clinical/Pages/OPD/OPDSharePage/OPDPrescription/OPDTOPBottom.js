@@ -27,6 +27,8 @@ import FHIRObservation from "../../../../../FHIRObservation/Pages/FHIRObservatio
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
   const { t } = useTranslation();
+  let [showLifeStyle, setShowLifestyle] = useState(1);
+
   // let [activeBox, setActiveBox] = useState();
   // let [showPhysicalExamination, setShowPhysicalExamination] = useState()
   // let [showAlergies, setShowAlergies] = useState();
@@ -48,6 +50,7 @@ export default function OPDTOPBottom(props) {
   let [precription, setPrecription] = useState(0);
   let [observation, setObservation] = useState(0);
   let [carePlan, setCarePlan] = useState(0);
+  let [opdLifestyle, setOPDLifestyle] = useState(0);
   let [immunization, setImmunization] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
   let [clinicalForms, setClinicalForms] = useState(0);
@@ -180,19 +183,12 @@ export default function OPDTOPBottom(props) {
           {t("Surgery")}{" "}
         </span>
       </div>
-      {/* <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span>{t("Dental")} </span>
-
-            </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => { setCarePlan(1); props.setToShowDesiredList(false) }}>
           {t("Care Plan")}{" "}
         </span>
       </div>
-      {/* <div className='opdvitalbottom d-flex gap-1 align-items-center pointer'>
-                <span data-bs-toggle="modal" data-bs-target="#familyHistory">{t("Family History")} </span>
 
-            </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#familyHistoryID" onClick={() => { setFamilyHistory(1); props.setToShowDesiredList(false) }}>
           {t("Family History")}{" "}
@@ -219,7 +215,7 @@ export default function OPDTOPBottom(props) {
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#Lifestyle" onClick={() => { props.setToShowDesiredList(false) }}>
+        <span data-bs-toggle="modal" data-bs-target="#Lifestyle" onClick={() => { setOPDLifestyle(1); props.setToShowDesiredList(false) }}>
           {t("LifeStyle")}{" "}
         </span>
       </div>
@@ -241,19 +237,6 @@ export default function OPDTOPBottom(props) {
           {t("Observation")}{" "}
         </span>
       </div>
-      {/* --------------------------------------------------------------Problem PopUp Begin--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Problem PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Allergy PopUp Begin--------------------------------------------------- */}
-      {/* --------------------------------------------------------------Allergy PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Medication PopUp Begin--------------------------------------------------- */}
-      {/* --------------------------------------------------------------Medication PopUp End--------------------------------------------------- */}
-
-      {/* --------------------------------------------------------------Device PopUp Begin--------------------------------------------------- */}
-      {/* --------------------------------------------------------------Device PopUp End--------------------------------------------------- */}
-
       {/* --------------------------------------------------------------Surgery PopUp Begin--------------------------------------------------- */}
       <div className="modal fade" id="surgery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
         <div className=" modal-dialog modal-dialog-scrollable modal-lg">
@@ -279,26 +262,6 @@ export default function OPDTOPBottom(props) {
       </div>
       {/* --------------------------------------------------------------Surgery PopUp End--------------------------------------------------- */}
 
-      {/* --------------------------------------------------------------Record Disclosure PopUp Begin--------------------------------------------------- */}
-      {/* <div className="modal fade" id="disclosure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabe2" aria-hidden="true">
-                <div className=" modal-dialog modal-dialog-scrollable modal-lg">
-                    <div className="modal-content ">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">Record Disclosure</h1>
-                            <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i className="fa fa-times"></i></button>
-                        </div>
-                        <div className="modal-body">
-                            <div class="tab-content" id="myTabContent"> */}
-      {/* --------------------------Problem Tab Section----------------------------------------------- */}
-      {/* <div class="tab-pane fade show active" id="allergy" role="tabpanel" value='1' aria-labelledby="home-tab" tabindex="0">
-                                    <OPDRecordDisclosurePopUp />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> */}
       <div className="modal fade opdpopUp" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalToggleLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
           <div class="modal-content">
@@ -313,31 +276,17 @@ export default function OPDTOPBottom(props) {
             <div class="modal-body">
               <OPDRecordDisclosurePopUp theEncounterId={props.theEncounterId} />
             </div>
-            {/* <div class="modal-footer">
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-                        </div> */}
           </div>
         </div>
       </div>
-      {/* <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">View Disclosure</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
-                        <div class="modal-body">
-                        <OPDViewDiscloserRecord />
-                        </div>
-                      
-                    </div>
-                </div>
-            </div> */}
       {/* --------------------------------------------------------------LifeStyle PopUp End--------------------------------------------------- */}
 
       <div className="modal fade opdpopUp" id="Lifestyle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="staticBackdropLabe2" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable1 modal-xl">
           <div class="modal-content">
-            <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button></div>
+            <div class="modal-header"><h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">Lifestyle</h1><button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setShowLifestyle(1) }}><i class="fa fa-times"></i></button></div>
             <div class="modal-body">
-              <OPDLifeStyle setShowToster={setShowToster} theEncounterId={props.theEncounterId} />
+              {opdLifestyle === 1 ? <OPDLifeStyle setShowToster={setShowToster} theEncounterId={props.theEncounterId} showLifeStyle={showLifeStyle} setShowLifestyle={setShowLifestyle} /> : ""}
             </div>
 
           </div>
@@ -498,8 +447,6 @@ export default function OPDTOPBottom(props) {
             </div>
             <div className="modal-body">
               <div class="tab-content" id="myTabContent">{clinicalForms === 1 ? (<FHIRClinicalNotes theEncounterId={props.theEncounterId} setClinicalForms={setClinicalForms} />) : ("")}
-
-
               </div>
             </div>
           </div>
