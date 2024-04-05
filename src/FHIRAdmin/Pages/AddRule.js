@@ -277,6 +277,7 @@ export default function AddRule() {
             "patientReminder": patient_reminder,
             "userId": window.userId,
         }))
+        document.getElementById("referentialCDS").value=referentialCDS;
     }
 
     const handleChangeCheckbox = (e) => {
@@ -289,47 +290,28 @@ export default function AddRule() {
 
     //Handle Update
     const handlerUpdate = async () => {
-        // const getresponse = await dataMaker(makeData);
-
-        // const codeArr = getresponse[0].data;
-
-        // var maker = "";
-        // var codeTextMaker = "";
-        // for (var j = 0; j < codeArr.length; j++) {
-        //     maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
-        //     codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
-        // }
-
-        // const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
-
-        // const activeData = document.getElementById("active").checked ? 1 : 0;
-        // const passiveData = document.getElementById("passive").checked ? 1 : 0;
-        // const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
+        const getresponse = await dataMaker(makeData);
+        const codeArr = getresponse[0].data;
+        var maker = "";
+        var codeTextMaker = "";
+        for (var j = 0; j < codeArr.length; j++) {
+            maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
+            codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
+        }
+        const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
+       
         if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
             document.getElementById('errTitle').innerHTML = "Title is Required";
             document.getElementById('errTitle').style.display = "block";
         }
 
         else {
-            setShowUnderProcess(1);
-            // var obj = {
-            //     "id": rowId,
-            //     "title": sendForm.title,
-            //     "active": activeData,
-            //     "passive": passiveData,
-            //     "patientReminder": patientReminderData,
-            //     "bibliographicCitation": sendForm.bibliographicCitation,
-            //     "developer": sendForm.developer,
-            //     "fundingSource": sendForm.fundingSource,
-            //     "release": sendForm.release,
-            //     "webReference": sendForm.webReference,
-            //     "referentialCDS": colabDataOfMakerAndCodeText,
-            //     "userId": window.userId
-            // }
+            setShowUnderProcess(1);           
             console.log("obj data", sendForm)
-            return;
+            // return;
             const response = await PutAddRule({
                 ...sendForm,
+                "referentialCDS": colabDataOfMakerAndCodeText
             });
             if (response.status === 1) {
                 setShowUnderProcess(0);
@@ -457,7 +439,9 @@ export default function AddRule() {
                                                 <div className="mb-2 me-2">
                                                     <label htmlFor="referentialCDS" className="form-label">Referential CDS</label>
                                                     {/* <input type="text" className="form-control form-control-sm" id="referentialCDS" name='referentialCDS' placeholder={t("Enter Referential CDS")} onClick={() => { handleOpenModal('referentialCDS') }} /> */}
-                                                    <input id="referentialCDS" type="text" className="form-control form-control-sm" name="referentialCDS" placeholder="Enter Code" value={sendForm.referentialCDS} onClick={() => { handleOpenModal('referentialCDS') }} />
+                                                    <input id="referentialCDS" type="text" className="form-control form-control-sm" name="referentialCDS" placeholder="Enter Code"
+                                                    //  value={sendForm.referentialCDS} 
+                                                     onClick={() => { handleOpenModal('referentialCDS') }} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
