@@ -485,7 +485,7 @@ export default function OPDInvestigationProcedure(props) {
                                                                         <div className="col-xl-3 col-lg-4 col-md-6 mb-2">
                                                                             <label htmlFor="" className="form-label">Completed</label>
                                                                             <select className='form-select form-select-sm' >
-                                                                                <option value='0'>Select Code</option>
+                                                                                <option value='0'>Select</option>
                                                                                 <option value='Pending'>Pending</option>
                                                                                 <option value='Completed'>Completed</option>
                                                                                 <option value='Completed'>Negated</option>
