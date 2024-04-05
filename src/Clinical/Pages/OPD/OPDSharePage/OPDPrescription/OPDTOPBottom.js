@@ -439,7 +439,7 @@ export default function OPDTOPBottom(props) {
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Immunization
               </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => {setImmunization(0);}}> 
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setImmunization(0); }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
@@ -530,6 +530,7 @@ export default function OPDTOPBottom(props) {
           </div>
         </div>
       </div>
+
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
 
       {/* -----------------------------------------------------------------------Start Functional Instructions Plan --------------------------------------------- */}
