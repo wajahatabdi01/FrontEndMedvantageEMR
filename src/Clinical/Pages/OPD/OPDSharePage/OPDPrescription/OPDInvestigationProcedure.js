@@ -355,21 +355,26 @@ export default function OPDInvestigationProcedure(props) {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span data-bs-toggle="modal" data-bs-target="#clinicalReminder" style={{ color: '#1d4999', textDecoration: 'underline', cursor: 'pointer' }}>Measurement: Weight</span>
-
+                                        <span data-bs-toggle="modal" data-bs-target="#clinicalReminder" style={{ color: '#1d4999', textDecoration: 'underline', cursor: 'pointer' }}>Measurement: Mammogram</span>
                                     </td>
                                     <td>Past Due &nbsp;<i style={{ color: 'red' }} class="bi bi-question-circle-fill"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Measurement: Weight</td>
+                                    <td>
+                                        <span data-bs-toggle="modal" data-bs-target="#clinicalReminder" style={{ color: '#1d4999', textDecoration: 'underline', cursor: 'pointer' }}>Examination: Pap Smear</span>
+                                    </td>
                                     <td>Past Due &nbsp;<i style={{ color: 'red' }} class="bi bi-question-circle-fill"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Measurement: Weight</td>
+                                    <td>Treatment: Influenza Vaccine</td>
                                     <td>Past Due &nbsp;<i style={{ color: 'red' }} class="bi bi-question-circle-fill"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Measurement: Weight</td>
+                                    <td>Treatment: Pneumococcal Vaccine</td>
+                                    <td>Past Due &nbsp;<i style={{ color: 'red' }} class="bi bi-question-circle-fill"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Assessment: Tobacco</td>
                                     <td>Past Due &nbsp;<i style={{ color: 'red' }} class="bi bi-question-circle-fill"></i></td>
                                 </tr>
                             </tbody>
