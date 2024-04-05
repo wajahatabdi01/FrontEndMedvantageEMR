@@ -306,9 +306,10 @@ function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
 
             if (validTobaccoData.length > 0) {
                 const firstTobaccoItem = validTobaccoData[0];
-
+                console.log("firstTobaccoItem", firstTobaccoItem)
                 const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
                 const lifestyleStatus = firstTobaccoItem[5];
+                setisShow(lifestyleStatus)
                 document.getElementById("ddlTobaccoId").value = firstTobaccoItem[1];
                 setTobaccoDetails((prev) => ({
                     ...prev,
@@ -316,7 +317,7 @@ function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
                     "tobaccoId": firstTobaccoItem[1],
                     "code": firstTobaccoItem[3],
                     "date": dateValue,
-                    "lifestylestatus": lifestyleStatus,
+                    "lifestylestatus": isShow,
                 }));
             }
             if (validCoffeeData.length > 0) {
