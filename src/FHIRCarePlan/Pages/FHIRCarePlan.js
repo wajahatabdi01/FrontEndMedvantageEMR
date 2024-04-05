@@ -21,6 +21,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   let [getData, setgetData] = useState([]);
   let [showToster, setShowToster] = useState(0)
   const [isShowPopUp, setIsShowPopUp] = useState(0);
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
   const [reasonSectionOpen, setReasonSectionOpen] = useState({});
   const [PopUpId, setPopUpId] = useState('');
   const [carePlanRow, setCarePlanRow] = useState([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', },]);
@@ -77,6 +78,17 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
     document.getElementById('errDate' + rowId).style.display = "none";
 
   }
+
+  const handleOpenDeletePopUp = (rowId) => {
+    console.log('its workingggggg : ')
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);
+  }
+  const handleCloseDeletePopUp = () => {
+    setIsShowDeletePopUp(0);
+    setTheRowId(0)
+  }
+
   const handleOpenReasonModal = (rowID) => {
     // Update the state to mark the reason section as open for the specified rowID
     const tempArr = [...carePlanRow]
@@ -161,6 +173,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
 
           document.getElementById("errDate"+data[i].rowID).innerHTML = "Please select code.";
       document.getElementById("errDate"+data[i].rowID).style.display = "block";
+      return;
         }
         else{
           const date = document.getElementById('careDateID' + data[i].rowID).value;
@@ -214,7 +227,10 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         getCarePlanListByUhid();
       }
       else {
-        alert('Data Not saved')
+        setShowToster(12);
+        setTimeout(() => {
+          setShowToster(0);
+        }, 2000)
       }
     
     
@@ -360,14 +376,18 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
       handleClear();
     }
     else {
-      alert('Data not updated!')
+      
+      setShowToster(13);
+      setTimeout(() => {
+        setShowToster(10)
+      }, 2000)
     }
 
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Do you wish to delete!')) {
-      const resDel = await DeleteCareplanByID(id);
+  const handleDelete = async () => {
+    
+      const resDel = await DeleteCareplanByID(theRowId);
       if (resDel.status === 1) {
 
 
@@ -376,9 +396,10 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
           setShowToster(9)
         }, 2000);
         getCarePlanListByUhid();
+        setIsShowDeletePopUp(0)
 
       }
-    }
+    
   }
 
 
@@ -566,7 +587,8 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                           <div className="action-button">
                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
                             <div onClick={() => { handleEdit(list) }}><img src={IconEdit} alt='' title='Edit Careplan' /></div>
-                            <div onClick={() => { handleDelete(list.id) }}><img src={IconDelete} title='Delete Careplan' alt='' /></div>
+                            <div onClick={() => { handleOpenDeletePopUp(list.id) }}><img src={IconDelete} title='Delete Careplan' alt='' /></div>
+                            {/* <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setTheRowId(list.id) }} alt='' /></div> */}
                           </div>
                         </td>
                       </tr>
@@ -578,6 +600,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
           </div>
         </div>
 
+                  
 
       </div>
 
@@ -597,9 +620,35 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
           </div>
         </div>
         : ''}
+
+        {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+        {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
+
+         
+
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
       {showToster === 11 ? (<SuccessToster handle={setShowToster} message="Careplan saved successfully !!" />) : ("")}
       {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Careplan updated successfully !!" />) : ("")}
+      {showToster === 12 ? (<SuccessToster handle={setShowToster} message="Data not saved !!" />) : ("")}
+      {showToster === 13 ? (<SuccessToster handle={setShowToster} message="Data not updated !!" />) : ("")}
+      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Data deleted successfully!!" />) : ("")}
+      
 
     </>
 

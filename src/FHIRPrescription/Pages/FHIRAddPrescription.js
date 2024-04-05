@@ -653,7 +653,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                   <label htmlFor="Code" className="form-label">
                                     of tablets
                                   </label>
-                                  <input id="ofTabletsID" type="text" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText} />
+                                  <input id="ofTabletsID" type="number" className="form-control form-control-sm" name="oftabletsName" placeholder="Enter Medicine" value={sendForm.oftabletsName} onChange={handleChangeText} />
                                 </div>
                               </div>
                             </div>

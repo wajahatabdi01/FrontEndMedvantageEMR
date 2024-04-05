@@ -590,9 +590,9 @@ export default function OPDTOPBottom(props) {
       {showToster === 6 ? (<SuccessToster handle={setShowToster} message="History saved successfully !!" />) : ("")}
       {showToster === 7 ? (<SuccessToster handle={setShowToster} message="Immunization saved successfully !!" />) : ("")}
       {showToster === 8 ? (<SuccessToster handle={setShowToster} message="Lifestyle saved successfully !!" />) : ("")}
-      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Careplan deleted successfully !!" />) : ("")}
+      {/* {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Careplan deleted successfully !!" />) : ("")}
       {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Careplan updated successfully !!" />) : ("")}
-      {showToster === 11 ? (<SuccessToster handle={setShowToster} message="Careplan saved successfully !!" />) : ("")}
+      {showToster === 11 ? (<SuccessToster handle={setShowToster} message="Careplan saved successfully !!" />) : ("")} */}
       {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
       {showToster === 23 ? (<SuccessToster handle={setShowToster} message="Prescription sent successfully !!" />) : ("")}
       {showToster === 24 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction saved successfully !!" />) : ("")}

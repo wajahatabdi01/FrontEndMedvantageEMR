@@ -77,13 +77,17 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
   const handleSave = async () => {
 
     const getresponse = await dataMaker(makeData);
-    if (observationRow.length === getresponse.length) {
       const tempArrList = [];
       const data = [...observationRow];
       for (let i = 0; i < data.length; i++) {
-
-
-        const date = document.getElementById('obDateID' + data[i].rowID).value;
+        if(!document.getElementById('obcodeInputID' + data[i].rowID).value){
+            document.getElementById("errCode"+data[i].rowID).innerHTML = "Please select code.";
+      document.getElementById("errCode"+data[i].rowID).style.display = "block";
+          
+      return;
+        }
+        else{
+          const date = document.getElementById('obDateID' + data[i].rowID).value;
         const type = document.getElementById('obTypeID' + data[i].rowID).value;
         const description = document.getElementById('obCommentID' + data[i].rowID).value;
         const valueforOb = document.getElementById('obValueID' + data[i].rowID).value;
@@ -114,6 +118,8 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
           // reason_date_low: reasonRecordingDate,
           // reason_date_high: reasonEndDate,
         });
+        }
+        
       }
       let finalObj = {
         uhid: activeUHID,
@@ -138,17 +144,15 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
       else {
         alert('Data Not saved')
       }
-    }
-    else {
-      alert('Please select the code.');
-    }
+    
+    
 
   }
 
-  const handleOpenModal = (modalID) => {
+  const handleOpenModal = (modalID, rowId) => {
     setIsShowPopUp(1);
     setPopUpId(modalID);
-
+    document.getElementById('errCode' + rowId).style.display = "none";
 
   }
 
@@ -381,12 +385,15 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
               <div class="title mb-1" style={{ backgroundColor: '#80808036' }}>Observation Form </div>
               <div className="inner-content">
                 {observationRow && observationRow.map((observationPlan, index) => {
+                 
                   return (<div className='container-fluid border border-primary mb-2 rounded'>
                     <>
                       <div className="row mb-2">
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Code :<span className="starMandatory">*</span></label>
-                          <input type='text' className='form-control form-control-sm' id={'obcodeInputID' + observationPlan.rowID} onClick={() => { handleOpenModal('obcodeInputID' + observationPlan.rowID) }} />
+                          <input type='text' className='form-control form-control-sm' id={'obcodeInputID' + observationPlan.rowID} onClick={() => { handleOpenModal('obcodeInputID' + observationPlan.rowID, observationPlan.rowID) }} />
+                          <small id={"errCode" + observationPlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
+                          
                           {/* <span>{observationPlan.rowID}</span> */}
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">

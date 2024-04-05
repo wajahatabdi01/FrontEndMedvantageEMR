@@ -67,6 +67,8 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
   })
 
   let [observationRow, setObservationRow] = useState([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', },]);
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
+  const [theRowId, setTheRowId] = useState(0)
 
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -100,6 +102,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
   const handleOpenModal = (modalID) => {
     setIsShowPopUp(1);
     setPopUpId(modalID);
+    document.getElementById('errImmunizationCode').style.display = 'none'
   }
 
   const handleCloseModal = () => {
@@ -108,6 +111,17 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleOpenDeletePopUp = (rowId) => {
+    
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);
+  }
+
+  const handleCloseDeletePopUp = () => {
+    setIsShowDeletePopUp(0);
+    setTheRowId(0)
+  }
 
   //////////////////////////////////////////////// Open and close modal for CVX  Code //////////////////////
   const handleOpenModalCVX = (modalId, labelId) => {
@@ -441,8 +455,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
       })
 
     }
-    if (document.getElementById('immunizationCode').value == '') {
-      alert('Please select Immunization Code.');
+    if (!document.getElementById('immunizationCode').value) {
+      document.getElementById('errImmunizationCode').innerHTML = 'Please select code.';
+      document.getElementById('errImmunizationCode').style.display = "block"
       return;
     }
     else {
@@ -488,7 +503,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         setTimeout(() => {
           handleClear();
           setShowToster(0)
-        }, 1000)
+        }, 2000)
       }
       else {
         // setShowUnderProcess(0);
@@ -498,16 +513,25 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         //   setShowToster(0);
         // },1000)
         alert('Data Not Saved');
+        setShowToster(8);
+        setTimeout(() => {
+          setShowToster(0)
+        }, 2000)
       }
     }
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////// Delete the specific row from the immunization list on page ///////////////////////////////
-  const deleteImmunizationListData = async (rowId) => {
-    const deleteRowRes = await DeleteImmunizationByRowId(rowId);
+  const deleteImmunizationListData = async () => {
+    const deleteRowRes = await DeleteImmunizationByRowId(theRowId);
     if (deleteRowRes.status === 1) {
       funGetAllImmunizationData();
+      setShowToster(9);
+        setTimeout(() => {
+          setShowToster(9)
+        }, 2000);
+        setIsShowDeletePopUp(0)
     }
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -775,9 +799,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="LotNumber" className="form-label">Immunization Lot Number</label>
                             <select name="ImmunizationLotNumber" className='form-select form-select-sm' id="LotNumberID" value={sendForm.ImmunizationLotNumber} onChange={handleChange}>
-                              <option value="0">1</option>
-                              <option value="1">2</option>
-                              <option value="2">3</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
                             </select>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
@@ -829,9 +853,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Information" className="form-label">Information Source</label>
                             <select name="InformationSource" className='form-select form-select-sm' id="InformationID" value={sendForm.InformationSource} onChange={handleChange}>
-                              <option value="0">1</option>
-                              <option value="1">2</option>
-                              <option value="2">3</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
                             </select>
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
@@ -859,8 +883,8 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="ImmunizationOrdering" className="form-label">Immunization Ordering Provider</label>
                             <select name="ImmunizationOrderingProvider" className='form-select form-select-sm' id="ImmunizationOrderingID" value={sendForm.ImmunizationOrderingProvider} onChange={handleChange}>
-                              <option value="0">1</option>
-                              <option value="1">2</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
                               <option value="3">3</option>
                             </select>
                           </div>
@@ -1005,7 +1029,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                     <th>Administered Site</th>
                     <th>Notes</th>
                     <th>Completion Status</th>
-                    <th>Error</th>
+                    <th>Substance Refusal Reason</th>
+                    <th>Reason Code</th>
+                    <th>Immunization Ordering Provider</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -1021,13 +1047,15 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           <td>{immunizationList.expiration_date}</td>
                           <td>{immunizationList.manufacturerName}</td>
                           <td>{immunizationList.lot_number}</td>
-                          <td>{immunizationList.administered_by}</td>
+                          <td>{immunizationList.nameAndTitle}</td>
                           <td>{immunizationList.education_date}</td>
-                          <td>{immunizationList.route}</td>
-                          <td>{immunizationList.administration_site}</td>
+                          <td>{immunizationList.routeName}</td>
+                          <td>{immunizationList.administrationSiteName}</td>
                           <td>{immunizationList.note}</td>
                           <td>{immunizationList.completionTitle}</td>
-                          <td>{immunizationList.completion_status}</td>
+                          <td>{immunizationList.refusalReasonName}</td>
+                          <td>{immunizationList.reason_code}</td>
+                          <td>{immunizationList.ordering_provider}</td>
                           <td>
                             {/* <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 ms-2" onClick={() => { deleteImmunizationListData(immunizationList.id) }}>
                               <img src={deleteIcon} className='icnn' alt='' />
@@ -1035,7 +1063,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                             <div className="action-button">
                               {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
                               <div onClick={() => { editImmunizationListData(immunizationList, immunizationList.id) }}><img src={IconEdit} alt='' title='Edit Immunization' /></div>
-                              <div onClick={() => { deleteImmunizationListData(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
+                              <div onClick={() => { handleOpenDeletePopUp(immunizationList.id) }}><img src={IconDelete} title='Delete Immunization' alt='' /></div>
                             </div>
                           </td>
                         </tr>
@@ -1127,8 +1155,27 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         </div>
       ) : ''}
 
+      {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+      {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={deleteImmunizationListData} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
       {showToster === 7 ? (<SuccessToster handle={setShowToster} message="Immunization saved successfully !!" />) : ("")}
+      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Data deleted !!" />) : ("")}
 
     </>
 

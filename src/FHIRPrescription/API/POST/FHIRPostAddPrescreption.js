@@ -1,5 +1,5 @@
 const FHIRPostAddPrescreption = async(params)=>{
-  let url = window.AppbaseUrlNew+"/api/FHIRPrescription/InsertPrescription";
+  let url = window.AppbaseUrlNew+"/api/EMRPrescription/InsertPrescription";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {

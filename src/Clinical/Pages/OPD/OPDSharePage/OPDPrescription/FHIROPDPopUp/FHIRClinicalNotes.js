@@ -24,10 +24,11 @@ import IconEdit from '../../../../../../assets/images/icons/IconEdit.svg';
 import IconDelete from '../../../../../../assets/images/icons/IconDelete.svg';
 import DeleteClinicalNotesFormById from '../../../../../API/FHIRClinicalNotes/DeleteClinicalNotesFormById';
 import GetAllClinicalNotesCategory from '../../../../../API/FHIRClinicalNotes/GetAllClinicalNotesCategory';
+import GetAllClinicalNotesType from '../../../FHIRApi/GET/GetAllClinicalNotesType';
 function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
     let [providerList, setProviderList] = useState([]);
-    let [messageTypeList, setMessageTypeList] = useState([]);
+    let [clinicalNotesType, setClinicalNotesType] = useState([]);
     let [categoryList, setCategoryList] = useState([]);
     let [messageList, setMessageList] = useState([]);
     const [divs, setDivs] = useState([{ rowID: 1 }]);
@@ -119,9 +120,9 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
     //Get MessageType
     const getpatientMessageType = async () => {
-        const response = await GetAllFHIRMessageTypeMaster()
+        const response = await GetAllClinicalNotesType()
         if (response.status === 1) {
-            setMessageTypeList(response.responseValue)
+            setClinicalNotesType(response.responseValue)
         }
     }
     const getAllCategory = async () => {
@@ -434,9 +435,9 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                                 <label htmlFor="typeId" className="form-label">Type</label>
                                                 <select className="form-select form-select-sm" id={"typeId" + div.rowID} aria-label="form-select-sm example" name='clinical_notes_type'>
                                                     <option value="0">{t("Select Note Type")}</option>
-                                                    {messageTypeList && messageTypeList.map((list) => {
+                                                    {clinicalNotesType && clinicalNotesType.map((list) => {
                                                         return (
-                                                            <option value={list.id}>{list.name}</option>
+                                                            <option value={list.id}>{list.title}</option>
                                                         )
                                                     })}
                                                 </select>
