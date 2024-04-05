@@ -370,6 +370,8 @@ p.devName {
   /* margin-left: 10px; */
   /* margin-left: 2px; */
   padding: 0 5px;
+  overflow: scroll;
+  height: 93vh;
 }
 
 /* .sidebar-link {
@@ -1701,6 +1703,22 @@ h3.comingsoontxt {
   padding-left: 5px;
 }
 
+.reminder.container {
+  background: #ffff;
+  padding-top: 5px;
+  margin-top: 2px;
+}
+
+.remhead {
+  font-weight: 600;
+  font-size: 18px;
+  font-family: poppins;
+  padding: 5px;
+  margin: 1px 0px 3px -7px;
+  color: var(--primary-color);
+  background-color: #f5f8ff;
+}
+
 .opdorder-in {
   display: flex;
   flex-direction: column;
@@ -2079,7 +2097,7 @@ input[type=number] {
 }
 
 .modal.d-block {
-  /* background: #000000e8; */
+  background: #0000007a;
   backdrop-filter: blur(2px);
 
 }

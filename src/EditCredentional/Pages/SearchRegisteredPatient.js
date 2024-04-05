@@ -22,6 +22,7 @@ import GetMenuByHead from '../API/GetMenuByHead';
 import { useNavigate } from 'react-router-dom';
 import AlertToster from '../../Component/AlertToster';
 import PatientRevisit from '../../Registartion/Pages/OPDRegistration/PatientRevisit';
+import NoDataFound from '../../assets/images/icons/No data-rafiki.svg'
 
 function SearchRegisteredPatient() {
     const { t } = useTranslation();
@@ -396,32 +397,33 @@ function SearchRegisteredPatient() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {registeredPatientList && Array.isArray(registeredPatientList) && registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
-                                            const adjustedIndex = ind + (pageNumbers - 1) * pageSize + 1;
-                                            return (
-                                                <tr key={val.id}>
-                                                    <td className="text-center">{adjustedIndex}</td>
-                                                    <td>{val.patientName} {val.middleName} {val.lastName} <span style={{ color: '#f26b29' }}>({val.uhID})</span></td>
-                                                    <td>{val.socialSecurityNo}</td>
-                                                    <td>{val.externalId}</td>
-                                                    <td>{val.dob.substring(0, 10)}</td>
-                                                    <td>
-                                                        <div className="action-button">
-                                                            <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
-                                                                <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
+                                        {registeredPatientList && Array.isArray(registeredPatientList) && registeredPatientList.length > 0 ?
+                                            registeredPatientList.filter((val) => `${val.patientName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((val, ind) => {
+                                                const adjustedIndex = ind + (pageNumbers - 1) * pageSize + 1;
+                                                return (
+                                                    <tr key={val.id}>
+                                                        <td className="text-center">{adjustedIndex}</td>
+                                                        <td>{val.patientName} {val.middleName} {val.lastName} <span style={{ color: '#f26b29' }}>({val.uhID})</span></td>
+                                                        <td>{val.socialSecurityNo}</td>
+                                                        <td>{val.externalId}</td>
+                                                        <td>{val.dob.substring(0, 10)}</td>
+                                                        <td>
+                                                            <div className="action-button">
+                                                                <div data-bs-toggle="tooltip" title="Edit Row" data-bs-placement="bottom">
+                                                                    <img src={viewIcon} onClick={() => { handleRedirect(val.uhID) }} alt='' />
+                                                                </div>
+                                                                <div data-bs-toggle="modal" data-bs-target="#patientrevisit">
+                                                                    <i style={{ backgroundColor: '#dee4f3', padding: '3px 6px', fontSize: '16px' }} class="bi bi-arrow-left-right" title='Patient Re-Visit' onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
+                                                                </div>
                                                             </div>
-                                                            <div data-bs-toggle="modal" data-bs-target="#patientrevisit">
-                                                                <i style={{ backgroundColor: '#dee4f3', padding: '3px 6px', fontSize: '16px' }} class="bi bi-arrow-left-right" title='Patient Re-Visit' onClick={() => handleVisit(val.patientName, val.uhID, val.lastName)}></i>
-
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-
-
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            }) :
+                                            <div className='imageNoDataFound' style={{ paddingTop: '550px' }}><img src={NoDataFound} alt="imageNoDataFound" /></div>
+                                        }
                                     </tbody>
+
                                 </TableContainer>
                                 {/* ---------------------------Pagination-------------------------- */}
                                 {patientCountdata && patientCountdata.map((data) => {

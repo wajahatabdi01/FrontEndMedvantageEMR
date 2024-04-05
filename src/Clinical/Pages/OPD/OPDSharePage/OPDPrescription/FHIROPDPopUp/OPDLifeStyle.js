@@ -8,9 +8,9 @@ import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingSt
 import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
 import SuccessToster from '../../../../../../Component/SuccessToster';
-function OPDLifeStyle({ theEncounterId }) {
-    console.log("theEncounterIddddd", theEncounterId)
-    let [showLifeStyle, setShowLifestyle] = useState(1);
+function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
+    console.log("param===========>", theEncounterId)
+    // let [showLifeStyle, setShowLifestyle] = useState(1);
     let [encounterId, setEncounterId] = useState(0);
     let [smokingList, setSmokingList] = useState([]);
     let [familyHistoryList, setFamilyHistoryList] = useState([]);
@@ -52,7 +52,7 @@ function OPDLifeStyle({ theEncounterId }) {
             Uhid: activeUHID,
             HistoryType: 2,
             clientID: clientID,
-            EncounterId: encounterId
+            encounterId: theEncounterId || 0
         }
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1) {
@@ -218,8 +218,9 @@ function OPDLifeStyle({ theEncounterId }) {
             Uhid: activeUHID,
             HistoryType: 2,
             clientID: clientID,
-            EncounterId: encounterId
+            encounterId: theEncounterId || 0
         }
+        console.log('param', param)
         setShowLifestyle(0);
         const response = await GetFamilyHistoryData(param);
         if (response.status === 1 && response.responseValue && response.responseValue.length > 0) {
@@ -305,9 +306,10 @@ function OPDLifeStyle({ theEncounterId }) {
 
             if (validTobaccoData.length > 0) {
                 const firstTobaccoItem = validTobaccoData[0];
-
+                console.log("firstTobaccoItem", firstTobaccoItem)
                 const dateValue = firstTobaccoItem[4] ? formatDate(firstTobaccoItem[4]) : '';
                 const lifestyleStatus = firstTobaccoItem[5];
+                setisShow(lifestyleStatus)
                 document.getElementById("ddlTobaccoId").value = firstTobaccoItem[1];
                 setTobaccoDetails((prev) => ({
                     ...prev,
@@ -315,7 +317,7 @@ function OPDLifeStyle({ theEncounterId }) {
                     "tobaccoId": firstTobaccoItem[1],
                     "code": firstTobaccoItem[3],
                     "date": dateValue,
-                    "lifestylestatus": lifestyleStatus,
+                    "lifestylestatus": isShow,
                 }));
             }
             if (validCoffeeData.length > 0) {

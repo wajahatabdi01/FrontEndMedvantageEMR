@@ -171,73 +171,74 @@ export default function AddRule() {
 
     //Handle Save 
     const handlerSave = async () => {
-        //let tempArrList = [];
-
-        const getresponse = await dataMaker(makeData);
-
-        const codeArr = getresponse[0].data;
-
-        var maker = "";
-        var codeTextMaker = "";
-        for (var j = 0; j < codeArr.length; j++) {
-            maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
-            codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
-        }
-
-        const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
-
-        const activeData = document.getElementById("active").checked ? 1 : 0;
-        const passiveData = document.getElementById("passive").checked ? 1 : 0;
-        const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
-        if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
-            document.getElementById('errTitle').innerHTML = "Title is Required";
-            document.getElementById('errTitle').style.display = "block";
-        }
-        else {
-            setShowUnderProcess(1);
-            var obj = {
-                "title": sendForm.title,
-                "active": activeData,
-                "passive": passiveData,
-                "patientReminder": patientReminderData,
-                "bibliographicCitation": sendForm.bibliographicCitation,
-                "developer": sendForm.developer,
-                "fundingSource": sendForm.fundingSource,
-                "release": sendForm.release,
-                "webReference": sendForm.webReference,
-                "referentialCDS": colabDataOfMakerAndCodeText,
-                "userId": window.userId
+        try {
+            const getresponse = await dataMaker(makeData);
+            let codeArr = [];
+            if (getresponse && getresponse[0] && getresponse[0].data) {
+                codeArr = getresponse[0].data;
             }
 
-            const response = await PostAddRule(obj);
-            if (response.status === 1) {
-                setShowUnderProcess(0);
-                setTosterValue(0);
-                setShowToster(1);
-                setTosterMessage("Data Saved Successfully.!");
-                setTimeout(() => {
-                    setShowToster(0);
-                    handleClear();
-                }, 2000)
-                getRule();
+            var maker = "";
+            var codeTextMaker = "";
+            for (var j = 0; j < codeArr.length; j++) {
+                maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
+                codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
             }
-            else {
-                setShowUnderProcess(0);
-                setTosterValue(1);
-                setShowToster(1);
-                setTosterMessage(response.responseValue);
-                setTimeout(() => {
-                    setShowToster(0);
-                }, 1500)
+
+            const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
+
+            const activeData = document.getElementById("active").checked ? 1 : 0;
+            const passiveData = document.getElementById("passive").checked ? 1 : 0;
+            const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
+            if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
+                document.getElementById('errTitle').innerHTML = "Title is Required";
+                document.getElementById('errTitle').style.display = "block";
+            } else {
+                setShowUnderProcess(1);
+                var obj = {
+                    "title": sendForm.title,
+                    "active": activeData,
+                    "passive": passiveData,
+                    "patientReminder": patientReminderData,
+                    "bibliographicCitation": sendForm.bibliographicCitation,
+                    "developer": sendForm.developer,
+                    "fundingSource": sendForm.fundingSource,
+                    "release": sendForm.release,
+                    "webReference": sendForm.webReference,
+                    "referentialCDS": colabDataOfMakerAndCodeText,
+                    "userId": window.userId
+                };
+
+                const response = await PostAddRule(obj);
+                if (response.status === 1) {
+                    setShowUnderProcess(0);
+                    setTosterValue(0);
+                    setShowToster(1);
+                    setTosterMessage("Data Saved Successfully.!");
+                    setTimeout(() => {
+                        setShowToster(0);
+                        handleClear();
+                    }, 2000);
+                    getRule();
+                } else {
+                    setShowUnderProcess(0);
+                    setTosterValue(1);
+                    setShowToster(1);
+                    setTosterMessage(response.responseValue);
+                    setTimeout(() => {
+                        setShowToster(0);
+                    }, 1500);
+                }
             }
+        } catch (error) {
+            console.error("Error:", error);
         }
-    }
+    };
+
+
     //Handle Delete
     const handleDelete = async () => {
         setShowLoder(1);
-        // let obj = {
-        //   id: rowId,
-        // }
         const response = await DeleteAddRule(rowId);
         if (response.status === 1) {
             setShowLoder(0)
@@ -277,83 +278,72 @@ export default function AddRule() {
             "patientReminder": patient_reminder,
             "userId": window.userId,
         }))
+        document.getElementById("referentialCDS").value = referentialCDS;
     }
 
     const handleChangeCheckbox = (e) => {
         const { name, checked } = e.target;
         setSendForm(prevState => ({
             ...prevState,
-            [name]: checked ? 1 : 0 
+            [name]: checked ? 1 : 0
         }));
     };
 
-    //Handle Update
+    //Handle Update    
     const handlerUpdate = async () => {
-        // const getresponse = await dataMaker(makeData);
+        try {
+            const getresponse = await dataMaker(makeData);
+            let codeArr = [];
+            if (getresponse && getresponse[0] && getresponse[0].data) {
+                codeArr = getresponse[0].data;
+            }
 
-        // const codeArr = getresponse[0].data;
+            var maker = "";
+            var codeTextMaker = "";
+            for (var j = 0; j < codeArr.length; j++) {
+                maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
+                codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
+            }
 
-        // var maker = "";
-        // var codeTextMaker = "";
-        // for (var j = 0; j < codeArr.length; j++) {
-        //     maker = maker.length === 0 ? codeArr[j].dropdownName + ':' + codeArr[j].code : maker + ';' + codeArr[j].dropdownName + ':' + codeArr[j].code;
-        //     codeTextMaker = codeTextMaker.length === 0 ? (codeArr[j].codeText ? codeArr[j].codeText : '') : codeTextMaker + '|' + (codeArr[j].codeText ? codeArr[j].codeText : '');
-        // }
+            const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
 
-        // const colabDataOfMakerAndCodeText = maker + ' ' + codeTextMaker;
+            if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
+                document.getElementById('errTitle').innerHTML = "Title is Required";
+                document.getElementById('errTitle').style.display = "block";
+            } else {
+                setShowUnderProcess(1);
+                var objUpdate = {
+                    ...sendForm,
+                    "referentialCDS": colabDataOfMakerAndCodeText
+                };
 
-        // const activeData = document.getElementById("active").checked ? 1 : 0;
-        // const passiveData = document.getElementById("passive").checked ? 1 : 0;
-        // const patientReminderData = document.getElementById("patientReminder").checked ? 1 : 0;
-        if (sendForm.title === '' || sendForm.title === null || sendForm.title === undefined) {
-            document.getElementById('errTitle').innerHTML = "Title is Required";
-            document.getElementById('errTitle').style.display = "block";
-        }
-
-        else {
-            setShowUnderProcess(1);
-            // var obj = {
-            //     "id": rowId,
-            //     "title": sendForm.title,
-            //     "active": activeData,
-            //     "passive": passiveData,
-            //     "patientReminder": patientReminderData,
-            //     "bibliographicCitation": sendForm.bibliographicCitation,
-            //     "developer": sendForm.developer,
-            //     "fundingSource": sendForm.fundingSource,
-            //     "release": sendForm.release,
-            //     "webReference": sendForm.webReference,
-            //     "referentialCDS": colabDataOfMakerAndCodeText,
-            //     "userId": window.userId
-            // }
-            console.log("obj data", sendForm)
-            return;
-            const response = await PutAddRule({
-                ...sendForm,
-            });
-            if (response.status === 1) {
-                setShowUnderProcess(0);
-                setTosterValue(0);
-                setShowToster(1);
-                setTosterMessage("Updated Successfully..");
-                setTimeout(() => {
-                    setShowToster(0);
+                const response = await PutAddRule(objUpdate);
+                if (response.status === 1) {
+                    setShowUnderProcess(0);
+                    setTosterValue(0);
+                    setShowToster(1);
+                    setTosterMessage("Updated Successfully..");
                     handleClear();
+                    setTimeout(() => {
+                        setShowToster(0);
+                        handleClear();
+                    }, 1500);
                     getRule();
-
-                }, 1500)
+                } else {
+                    setShowUnderProcess(0);
+                    setTosterValue(1);
+                    setShowToster(1);
+                    setTosterMessage(response.responseValue);
+                    setTimeout(() => {
+                        setShowToster(0);
+                    }, 1500);
+                }
             }
-            else {
-                setShowUnderProcess(0);
-                setTosterValue(1);
-                setShowToster(1);
-                setTosterMessage(response.responseValue);
-                setTimeout(() => {
-                    setShowToster(0);
-                }, 1500)
-            }
+        } catch (error) {
+            console.error("Error:", error);
         }
-    }
+    };
+
 
 
     //Handel Clear
@@ -457,7 +447,9 @@ export default function AddRule() {
                                                 <div className="mb-2 me-2">
                                                     <label htmlFor="referentialCDS" className="form-label">Referential CDS</label>
                                                     {/* <input type="text" className="form-control form-control-sm" id="referentialCDS" name='referentialCDS' placeholder={t("Enter Referential CDS")} onClick={() => { handleOpenModal('referentialCDS') }} /> */}
-                                                    <input id="referentialCDS" type="text" className="form-control form-control-sm" name="referentialCDS" placeholder="Enter Code" value={sendForm.referentialCDS} onClick={() => { handleOpenModal('referentialCDS') }} />
+                                                    <input id="referentialCDS" type="text" className="form-control form-control-sm" name="referentialCDS" placeholder="Enter Code"
+                                                        //  value={sendForm.referentialCDS} 
+                                                        onClick={() => { handleOpenModal('referentialCDS') }} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-6 col-sm-12">
@@ -531,9 +523,9 @@ export default function AddRule() {
                                                         <td>{val.release}</td>
                                                         <td>{val.webReference}</td>
                                                         <td>{val.referentialCDS}</td>
-                                                        <td>{val.active === 1 ? "Yes" : "No"}</td>
-                                                        <td>{val.passive === 1 ? "Yes" : "No"}</td>
-                                                        <td>{val.patient_reminder === 1 ? "Yes" : "No"}</td>
+                                                        <td className="text-center">{val.active === 1 ? "Yes" : "No"}</td>
+                                                        <td className="text-center">{val.passive === 1 ? "Yes" : "No"}</td>
+                                                        <td className="text-center">{val.patient_reminder === 1 ? "Yes" : "No"}</td>
                                                         <td>
                                                             <div className="action-button">
                                                                 <div data-bs-toggle="tooltip" data-bs-title="Edit Row" data-bs-placement="bottom"><img src={editBtnIcon} className='' alt='' onClick={() => { handleUpdate(val.id, val.title, val.bibliographicCitation, val.developer, val.fundingSource, val.release, val.webReference, val.referentialCDS, val.active, val.passive, val.patient_reminder, val.userId) }} /></div>
