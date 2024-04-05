@@ -52,7 +52,7 @@ export default function FHIRClassMaster() {
     }))
   }
 
-  //Doctor Departmernt Unit Mapping
+  //GetClass
   const getClass = async () => {
     setShowLoder(1);
     const response = await GetFHIRClassMaster();

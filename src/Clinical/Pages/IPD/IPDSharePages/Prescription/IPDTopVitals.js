@@ -411,10 +411,14 @@ export default function IPDTopVitals(props) {
 
             getAllEncoutersAsPerIssueID();
         }
+        setData()
+
     }, [showTheButton, getIssueID]);
     useEffect(() => {
         
         getAllEncoutersAsPerIssueID();
+        setData()
+
     }, [props.theEncounterId])
 
     return (
