@@ -87,6 +87,9 @@ function OPDPatientMessagePopUp({theEncounterId}) {
         if (getResponse.status === 1) {
             setMessageList(getResponse.responseValue.responseValue);
         }
+        else{
+            setMessageList([])
+        }
     }
 
     //Handle Save

@@ -73,6 +73,9 @@ function OPDRecordDisclosurePopUp({theEncounterId}) {
         if (response.status === 1) {
             setRecordList(response.responseValue);
         }
+        else{
+            setRecordList([])
+        }
     }
 
     //Get MessageType

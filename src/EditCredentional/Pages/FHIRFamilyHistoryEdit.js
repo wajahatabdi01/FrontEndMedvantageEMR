@@ -31,7 +31,6 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
   const customStyle = { marginLeft: '0px' };
   // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
-  console.log('clientID : ', clientID)
 
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -43,7 +42,6 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
-  console.log('activeDocID : ', activeDocID, 'activeDeptID : ', activeDeptID)
   let SelectedData = (data, modalID) => {
 
     let t = {
