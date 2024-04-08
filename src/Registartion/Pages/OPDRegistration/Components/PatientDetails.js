@@ -184,6 +184,12 @@ const PatientDetails = ({ clearStatus, setClearStatus, initialPatientDetails, on
                 return;
             }
         }
+        if (name === "mobileNo") {
+            const checkLength = e.target.value;
+            if (checkLength.toString().length > 10) {
+                return false;
+            }
+        }
         if (value.length > 25) {
             setCharacterValidation((prev) => ({ [name]: 'Maximum character limit reached.' }));
             return false;
