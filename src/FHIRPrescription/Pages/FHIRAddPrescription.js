@@ -42,7 +42,8 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
   const [getMedName, setMedName] = useState('');
-  const [getUnit, setUnit] = useState([])
+  const [getUnit, setUnit] = useState([]);
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
 
   const [getRefillsList, setRefillsList] = useState([])
   let [showTosterMessage, setShowTosterMessage] = useState("");
@@ -76,12 +77,27 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     }
   };
 
-  const handleDelete = async (rowId) => {
-    const deleteRes = await FHIRDeletePrescriptionList(rowId);
+  const handleDelete = async () => {
+    const deleteRes = await FHIRDeletePrescriptionList(theRowId);
     if (deleteRes.status === 1) {
       funGetAllList();
+      setShowToster(9);
+        setTimeout(() => {
+          setShowToster(9)
+        }, 2000);
+        
+        setIsShowDeletePopUp(0)
     }
   };
+
+    const handleOpenDeletePopUp = (rowId) => {
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);}
+
+    const handleCloseDeletePopUp = () => {
+      setIsShowDeletePopUp(0);
+      setTheRowId(0)
+    }
 
   const getAllBrandList = async () => {
 
@@ -407,7 +423,11 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
     if (updateRes.status === 1) {
-      alert('Data updated successfully!');
+      setShowToster(10);
+          setTimeout(() => {
+            setShowToster(10)
+          }, 2000);
+          handleClear();
       handleClear(); funGetAllList(); setShowSave(1); setShowUpdate(0)
     }
   };
@@ -849,9 +869,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                             <button
                               type="button"
                               className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1"
-                              onClick={() => {
-                                handleDelete(list.id);
-                              }} title="Delete"
+                              onClick={() => { handleOpenDeletePopUp(list.id) }} title="Delete"
                             >
                               <img src={deleteIcon} className="icnn" alt="" />
                             </button>
@@ -897,7 +915,26 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
           </div>
         </div>
       </div>
+      {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+
       {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
+      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Prescription deleted !!" />) : ("")}
+      {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Prescription updated successfully!!" />) : ("")}
     </>
   );
 }

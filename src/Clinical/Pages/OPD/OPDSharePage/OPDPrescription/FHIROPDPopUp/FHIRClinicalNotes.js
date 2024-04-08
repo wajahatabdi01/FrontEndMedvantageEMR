@@ -159,7 +159,14 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
         let tempArr = [];
 
         for (var i = 0; i < notesList.length; i++) {
-            const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
+            if(!document.getElementById('notesDate' + notesList[i].rowID).value){
+
+                document.getElementById("errDate"+notesList[i].rowID).innerHTML = "Please select date.";
+            document.getElementById("errDate"+notesList[i].rowID).style.display = "block";
+            return;
+              }
+              else{
+                const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
             const getNotesType = document.getElementById("typeId" + notesList[i].rowID).value;
             const getNotesCategory = document.getElementById("providerId" + notesList[i].rowID).value;
             const getNotesDescription = document.getElementById("note_related_to" + notesList[i].rowID).value;
@@ -175,6 +182,8 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                 clinical_notes_category: getNotesCategory,
                 note_related_to: getNotesDescription
             })
+              }
+            
         }
 
         let obj = {
@@ -407,6 +416,9 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
         setClinicalNotesFormList(resGet.responseValue)
 
     }
+    const celarDateValidation = (rowId) => {
+        document.getElementById("errDate"+rowId).style.display = "none";
+    }
 
     useEffect(() => {
         getAllCategory();
@@ -427,8 +439,8 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                         <div className="row">
                                             <div className="col-4 mb-2">
                                                 <label htmlFor="typeId" className="form-label">Date</label>
-                                                <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' />
-                                                {/* <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}></small> */}
+                                                <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' onClick={() => {celarDateValidation( div.rowID)}}/>
+                                                <small id={"errDate" + div.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                                             </div>
 
                                             <div className="col-4 mb-2">

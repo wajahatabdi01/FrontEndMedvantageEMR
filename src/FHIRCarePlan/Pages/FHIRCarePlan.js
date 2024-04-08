@@ -80,7 +80,6 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   }
 
   const handleOpenDeletePopUp = (rowId) => {
-    console.log('its workingggggg : ')
     setTheRowId(rowId);
     setIsShowDeletePopUp(1);
   }

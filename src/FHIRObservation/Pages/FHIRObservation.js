@@ -26,7 +26,7 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
   const [getObservationList, setObservationList] = useState([])
   const [toShowButtons, setToShowButtons] = useState(1);
   const [theRowId, setTheRowId] = useState(0)
-
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const activeUHID = window.sessionStorage.getItem("activePatient")
@@ -142,7 +142,11 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
         funGetObservationList();
       }
       else {
-        alert('Data Not saved')
+        setShowToster(1);
+        setTimeout(() => {
+          // handleClear();
+          setShowToster(11)
+        }, 2000)
       }
     
     
@@ -169,6 +173,15 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
   const handleCloseModal = () => {
     setIsShowPopUp(0);
     setPopUpId('');
+  }
+
+  const handleOpenDeletePopUp = (rowId) => {
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);
+  }
+  const handleCloseDeletePopUp = () => {
+    setIsShowDeletePopUp(0);
+    setTheRowId(0)
   }
 
   const handleAddCarePlanRow = (param) => {
@@ -253,9 +266,9 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
     setReasonSectionOpen({});
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Do you wish to delete?")) {
-      const resDel = await FHIRDeleteObservation(id);
+  const handleDelete = async () => {
+    
+      const resDel = await FHIRDeleteObservation(theRowId);
       if (resDel.status === 1) {
 
 
@@ -264,9 +277,10 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
           setShowToster(29)
         }, 2000);
         funGetObservationList();
+        setIsShowDeletePopUp(0)
 
       }
-    }
+    
   }
 
   const handleEdit = async (list) => {
@@ -361,7 +375,11 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
       funGetObservationList();
     }
     else {
-      alert('Data not updated!')
+      setShowToster(2);
+      setTimeout(() => {
+        // handleClear();
+        setShowToster(2)
+      }, 2000)
     }
   }
 
@@ -554,7 +572,7 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
                           <div className="action-button">
                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
                             <div onClick={() => { handleEdit(list) }}><img src={IconEdit} alt='' title='Edit Observation' /></div>
-                            <div onClick={() => { handleDelete(list.id) }}><img src={IconDelete} title='Delete Observation' alt='' /></div>
+                            <div onClick={() => { handleOpenDeletePopUp(list.id) }}><img src={IconDelete} title='Delete Observation' alt='' /></div>
                           </div>
                         </td>
                       </tr>
@@ -586,8 +604,31 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
         </div>
         : ''}
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
+
+        {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+        {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
+
       {showToster === 31 ? (<SuccessToster handle={setShowToster} message="Observation saved successfully !!" />) : ("")}
       {showToster === 32 ? (<SuccessToster handle={setShowToster} message="Observation updated successfully !!" />) : ("")}
+      {showToster === 29 ? (<SuccessToster handle={setShowToster} message="Observation deleted !!" />) : ("")}
+      {showToster === 1 ? (<SuccessToster handle={setShowToster} message="Observation not saved !!" />) : ("")}
+      {showToster === 2 ? (<SuccessToster handle={setShowToster} message="Observation not updated !!" />) : ("")}
     </>
   )
 }
