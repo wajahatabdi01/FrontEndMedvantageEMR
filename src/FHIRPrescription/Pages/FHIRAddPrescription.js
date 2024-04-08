@@ -496,7 +496,6 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const funGetUnit = async () => {
     const resUnit = await FHIRGetAllUnit();
     if (resUnit.status === 1) {
-      console.log('resUnit.responseValue : ', resUnit.responseValue)
       setUnit(resUnit.responseValue)
     }
   }
