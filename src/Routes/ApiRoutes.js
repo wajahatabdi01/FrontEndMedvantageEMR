@@ -388,6 +388,7 @@ import ClinicalInstructions from '../FHIIRClinicalInstruction/Pages/ClinicalInst
 import FHIRViewCCDA from '../FHIRViewCCDA/Pages/FHIRViewCCDA';
 import FHIRViewCCDAData from '../FHIRViewCCDA/Pages/FHIRViewCCDAData';
 import AddressBook from '../Admin/Pages/FHIRMaster/AddressBook';
+import FHIRImmunizationAdministrationSiteMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRImmunizationAdministrationSiteMaster';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -967,6 +968,7 @@ export default function ApiRoutes() {
                   <Route path="/fhirissueoutComemaster/" element={<ProtectedRoutes Compnent={<FHIRIssueOutComeMaster />} />} />
                   <Route path="/fhireferralourceMaster/" element={<ProtectedRoutes Compnent={<FHIRReferralSourceMaster />} />} />
                   <Route path="/fhirreligionMaster/" element={<ProtectedRoutes Compnent={<FHIRReligionMaster />} />} />
+                  <Route path="/fhirimmunizationadministrationsiteMaster/" element={<ProtectedRoutes Compnent={<FHIRImmunizationAdministrationSiteMaster />} />} />
                   {/* -----------------------------------End Medvantage FHIR Admin----------------------------------------- */}
 
 
