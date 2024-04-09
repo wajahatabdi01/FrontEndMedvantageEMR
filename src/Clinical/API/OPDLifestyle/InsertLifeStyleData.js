@@ -1,5 +1,5 @@
 let InsertLifeStyleData =async(pobj)=>{
-    let url= window.AppbaseUrl + "/api/FHIRHistoryData/InsertLifeStyleData";
+    let url= window.AppbaseUrl + "/api/EMRHistoryData/InsertLifeStyleData";
    const head={'Content-Type': 'application/json-patch+json','accept':'*/*',};
    let data={};
    let response= await fetch(url,{

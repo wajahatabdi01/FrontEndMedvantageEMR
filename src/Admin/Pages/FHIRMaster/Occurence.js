@@ -100,7 +100,7 @@ function Occurence() {
                                                             : <div className="ms-2">
                                                                 {updateBool === 0 ?
                                                                     <>
-                                                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSubmit}><img src={saveButtonIcon} className='icnn' />{t("Save")} </button>
+                                                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={handleSubmit}><img src={saveButtonIcon} className='icnn' alt=""/>{t("Save")} </button>
                                                                         <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={"handleClear"}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
                                                                     </>
                                                                     :

@@ -1,5 +1,5 @@
 async function PutAddRule(data) {
-    let url = window.AppbaseUrlNew + '/api/EMRRuleMaster/UpdateRuleMaster';
+    let url = window.AppbaseUrl + '/api/EMRRuleMaster/UpdateRuleMaster';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

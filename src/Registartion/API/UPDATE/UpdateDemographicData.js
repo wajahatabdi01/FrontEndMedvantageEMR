@@ -1,5 +1,5 @@
 let UpdateDemographicData =async(obj)=>{
-    let url=window.AppbaseUrl+"/api/FHIRDemographicData/UpdateDemographicData";
+    let url=window.AppbaseUrl+"/api/EMRDemographicData/UpdateDemographicData";
    const head={'Content-Type': 'application/json-patch+json','acept':'*/*',};
    let data={};
    let response= await fetch(url,{

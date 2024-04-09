@@ -1,5 +1,5 @@
 async function PutFHIRClassMaster(data) {
-    let url = window.AppbaseUrl + '/api/FHIRClassMaster/UpdateFHIRClassMaster';
+    let url = window.AppbaseUrl + '/api/EMRClassMaster/UpdateFHIRClassMaster';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

@@ -1,5 +1,5 @@
 let InsertPatientDemographicData =async(sendDataObj)=>{
-    let url= window.AppbaseUrl + "/api/FHIRDemographicData/InsertPatientDemographicData";
+    let url= window.AppbaseUrl + "/api/EMRDemographicData/InsertPatientDemographicData";
    const head={'Content-Type': 'application/json-patch+json','accept':'*/*',};
    let data={};
    let response= await fetch(url,{

@@ -1,7 +1,7 @@
 
 async function DeleteFHIRMessage(data) {
 
-    let url = window.AppbaseUrl + "/api/FHIRMessage/DeleteMessage";
+    let url = window.AppbaseUrl + "/api/EMRMessage/DeleteMessage";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

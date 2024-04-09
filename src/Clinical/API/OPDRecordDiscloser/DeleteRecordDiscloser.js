@@ -1,5 +1,5 @@
 async function DeleteRecordDiscloser(id) {
-    let url = window.AppbaseUrl + `/api/FHIRRecordDisclosure/DeleteRecordDisclosure?Id=${id}`;
+    let url = window.AppbaseUrl + `/api/EMRRecordDisclosure/DeleteRecordDisclosure?Id=${id}`;
     let head = {
         'Content-Type': 'application/JSON',
         accept: '*/*',

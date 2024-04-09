@@ -1,7 +1,7 @@
 
 async function DeleteFHIRDischargeDispositionMaster(data) {
 
-    let url = window.AppbaseUrl + "/api/FHIRDischargeDispositionMaster/DeleteFHIRDischargeDispositionMaster";
+    let url = window.AppbaseUrl + "/api/EMRDischargeDispositionMaster/DeleteFHIRDischargeDispositionMaster";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

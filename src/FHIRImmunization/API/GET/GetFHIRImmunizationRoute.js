@@ -1,5 +1,5 @@
 async function GetFHIRImmunizationRoute() {
-  let url = window.AppbaseUrl+"/api/FHIRImmunizationMaster/GetFHIRImmunizationRoute";
+  let url = window.AppbaseUrl+"/api/EMRImmunizationMaster/GetFHIRImmunizationRoute";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

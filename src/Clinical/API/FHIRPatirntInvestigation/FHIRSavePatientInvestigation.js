@@ -1,5 +1,5 @@
 async function FHIRSavePatientInvestigation(data) {
-    let url = window.AppbaseUrl + '/api/FHIRSavePatientInvestigation/InsertPatientInvestigation';
+    let url = window.AppbaseUrl + '/api/EMRSavePatientInvestigation/InsertPatientInvestigation';
     let head = {
         'Content-Type': 'application/JSON',
         accept: '*/*',

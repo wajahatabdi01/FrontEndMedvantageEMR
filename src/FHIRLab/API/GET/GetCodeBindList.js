@@ -1,7 +1,7 @@
 async function GetCodeBind(code, textSearch) {
   var url = (textSearch === '' || textSearch === undefined || textSearch === null) 
-  ? window.AppbaseUrl + "/api/FHIRCodeType/CheckCodeTypeService?codeType=" + code
-  : window.AppbaseUrl + "/api/FHIRCodeType/CheckCodeTypeService?codeType="+code+"&search_term="+textSearch;
+  ? window.AppbaseUrl + "/api/EMRCodeType/CheckCodeTypeService?codeType=" + code
+  : window.AppbaseUrl + "/api/EMRCodeType/CheckCodeTypeService?codeType="+code+"&search_term="+textSearch;
 
   
   let head = {"Content-Type":"application/JSON", accept : "*/*"}

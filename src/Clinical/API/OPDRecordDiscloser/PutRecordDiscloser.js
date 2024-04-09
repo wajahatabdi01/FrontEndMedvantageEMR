@@ -1,5 +1,5 @@
 async function PutRecordDiscloser(data) {
-    let url = window.AppbaseUrl + '/api/FHIRRecordDisclosure/UpdateRecordDisclosure';
+    let url = window.AppbaseUrl + '/api/EMRRecordDisclosure/UpdateRecordDisclosure';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

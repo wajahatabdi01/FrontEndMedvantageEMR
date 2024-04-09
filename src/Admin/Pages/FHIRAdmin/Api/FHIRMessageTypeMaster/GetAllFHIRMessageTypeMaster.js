@@ -1,5 +1,5 @@
 async function GetAllFHIRMessageTypeMaster(data) {
-    let url = window.AppbaseUrl+"/api/FHIRMessageTypeMaster/GetAllFHIRMessageTypeMaster";
+    let url = window.AppbaseUrl+"/api/EMRMessageTypeMaster/GetAllFHIRMessageTypeMaster";
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   
   

@@ -1,7 +1,7 @@
 
 async function DeleteFHIRTypeMaster(data) {
 
-    let url = window.AppbaseUrl + "/api/FHIRTypeMaster/DeleteFHIRTypeMaster";
+    let url = window.AppbaseUrl + "/api/EMRTypeMaster/DeleteFHIRTypeMaster";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

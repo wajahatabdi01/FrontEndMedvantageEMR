@@ -1,7 +1,7 @@
 
 async function DeleteFHIRSensitivityMaster(data) {
 
-    let url = window.AppbaseUrl + "/api/FHIRSensitivityMaster/DeleteFHIRSensitivityMaster";
+    let url = window.AppbaseUrl + "/api/EMRSensitivityMaster/DeleteFHIRSensitivityMaster";
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

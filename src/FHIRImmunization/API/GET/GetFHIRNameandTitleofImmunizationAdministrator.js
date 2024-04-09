@@ -1,5 +1,5 @@
 async function GetFHIRNameandTitleofImmunizationAdministrator() {
-  let url = window.AppbaseUrl+"/api/FHIRImmunizationMaster/GetFHIRNameandTitleofImmunizationAdministrator";
+  let url = window.AppbaseUrl+"/api/EMRImmunizationMaster/GetFHIRNameandTitleofImmunizationAdministrator";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

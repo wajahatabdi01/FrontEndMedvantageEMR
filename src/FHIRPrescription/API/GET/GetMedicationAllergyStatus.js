@@ -1,6 +1,6 @@
 async function GetMedicationAllergyStatus(uhid, clientId, medicineId) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetMedicationAllergyStatus";
-  let url = window.AppbaseUrl+"/api/FHIRPrescription/CheckMedicineAllergy?Uhid="+uhid+"&ClientId="+clientId+"&MedicineId="+medicineId;
+  let url = window.AppbaseUrl+"/api/EMRPrescription/CheckMedicineAllergy?Uhid="+uhid+"&ClientId="+clientId+"&MedicineId="+medicineId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

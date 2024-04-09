@@ -1,5 +1,5 @@
 async function PutFHIRDischargeDispositionMaster(data) {
-    let url = window.AppbaseUrl + '/api/FHIRDischargeDispositionMaster/UpdateFHIRDischargeDispositionMaster';
+    let url = window.AppbaseUrl + '/api/EMRDischargeDispositionMaster/UpdateFHIRDischargeDispositionMaster';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

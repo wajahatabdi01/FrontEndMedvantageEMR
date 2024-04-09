@@ -1,6 +1,6 @@
 let GetAddRule = async () => {
     // let url = window.fhiropenEMR + '/api/FHIRRuleMaster/GetAllRuleMaster';
-    let url = window.AppbaseUrl + '/api/FHIRRuleMaster/GetAllRuleMaster';
+    let url = window.AppbaseUrl + '/api/EMRRuleMaster/GetAllRuleMaster';
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', }
     let response = "";
     await fetch(url, {

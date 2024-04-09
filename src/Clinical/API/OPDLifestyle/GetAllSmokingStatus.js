@@ -1,5 +1,5 @@
 async function GetAllSmokingStatus(activePatient) {
-    let url = window.AppbaseUrl + "/api/FHIRsmokingStatusMaster/GetAllSmokingStatus";
+    let url = window.AppbaseUrl + "/api/EMRsmokingStatusMaster/GetAllSmokingStatus";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, { 
         headers: head,

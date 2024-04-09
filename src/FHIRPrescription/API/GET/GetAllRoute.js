@@ -1,6 +1,6 @@
 async function GetAllRoute(uhid) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetAllRoute";
-  let url = window.AppbaseUrl+"/api/FHIRRouteMaster/GetAllRoute";
+  let url = window.AppbaseUrl+"/api/EMRRouteMaster/GetAllRoute";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

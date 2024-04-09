@@ -1,5 +1,5 @@
 async function DeleteEncounter(obj) {
-    let url = window.AppbaseUrl + "/api/FHIREncounter/DeleteEncounter?Id=" + obj.Id;
+    let url = window.AppbaseUrl + "/api/EMREncounter/DeleteEncounter?Id=" + obj.Id;
     let head = {
         "Content-Type": "application/JSON",
         accept: "*/*",

@@ -1,5 +1,5 @@
 async function GetFHIRTypeOfDisclosureMaster(data) {
-    let url = window.AppbaseUrl+"/api/FHIRTypeOfDisclosureMaster/GetAllFHIRTypeOfDisclosureMaster";
+    let url = window.AppbaseUrl+"/api/EMRTypeOfDisclosureMaster/GetAllFHIRTypeOfDisclosureMaster";
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   
   

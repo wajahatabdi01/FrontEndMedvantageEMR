@@ -1,6 +1,6 @@
 async function GetPatientVisitsEncounter(uhid) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetPatientVisitsEncounter";
-  let url = window.AppbaseUrl+"/api/FHIRDemographicData/GetPatientVisits?Uhid="+uhid;
+  let url = window.AppbaseUrl+"/api/EMRDemographicData/GetPatientVisits?Uhid="+uhid;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

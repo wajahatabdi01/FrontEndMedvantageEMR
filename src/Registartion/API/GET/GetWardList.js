@@ -1,5 +1,5 @@
 let GetWardList=async(deptID)=>{
-    const url= window.AppbaseUrl+"/api/WardDepartmentAssign/GetWardbyDepartmentID?id="+deptID;
+    const url= window.AppbaseUrl+"/api/WardDepartmentAssign/GetWardByDepartmentId?id="+deptID;
     const head={'content-type':'application/json','accept':'*/*',}
     let data={};
     let response= await fetch(url,{

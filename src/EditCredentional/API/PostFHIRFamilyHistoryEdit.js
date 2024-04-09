@@ -1,5 +1,5 @@
 let PostFHIRFamilyHistoryEdit = async (obj) => {
-  let url = window.AppbaseUrl+"/api/FHIRHistoryData/InsertFamilyHistoryData"
+  let url = window.AppbaseUrl+"/api/EMRHistoryData/InsertFamilyHistoryData"
   
   
   let head = {'Content-Type':'application/json-patch+json', 'accept':'*/*',}

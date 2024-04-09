@@ -1,5 +1,5 @@
 async function GetAllvisitreason(data) {
-    let url = window.AppbaseUrl + "/api/FHIRVisitReason/GetAllFhirvisitreasonmaster";
+    let url = window.AppbaseUrl + "/api/EMRVisitReason/GetAllFhirvisitreasonmaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

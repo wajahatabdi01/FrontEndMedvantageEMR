@@ -1,5 +1,5 @@
 async function GetImmunizationCVXCodeList() {
-  var url =  window.AppbaseUrl + "/api/FHIRImmunization/GetAllCVXCode";
+  var url =  window.AppbaseUrl + "/api/EMRImmunization/GetAllCVXCode";
 
   
   let head = {"Content-Type":"application/JSON", accept : "*/*"}

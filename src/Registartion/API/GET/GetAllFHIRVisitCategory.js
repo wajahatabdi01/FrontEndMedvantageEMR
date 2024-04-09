@@ -1,5 +1,5 @@
 async function GetAllFHIRVisitCategory(data) {
-    let url = window.AppbaseUrl + "/api/FHIRVisitCategory/GetAllFHIRVisitCategoryMaster";
+    let url = window.AppbaseUrl + "/api/EMRVisitCategory/GetAllFHIRVisitCategoryMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

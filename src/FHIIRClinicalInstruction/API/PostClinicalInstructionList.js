@@ -2,7 +2,7 @@
 const PostClinicalInstructionList = async(params)=>{
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   // let url = window.fhiropenEMR+"/api/FHIRCarePlan/InsertCarePlanData";
-  let url = window.AppbaseUrl+"/api/FHIRFormClinicalInstructions/InsertFormClinicalInstructions";
+  let url = window.AppbaseUrl+"/api/EMRFormClinicalInstructions/InsertFormClinicalInstructions";
   let responsonse = "";
   await fetch(url, {
       method: "POST",

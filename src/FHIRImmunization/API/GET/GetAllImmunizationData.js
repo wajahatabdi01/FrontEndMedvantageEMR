@@ -1,6 +1,6 @@
 async function GetAllImmunizationData(uhid,encounterId) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetAllImmunizationData";
-  let url = window.AppbaseUrl+"/api/FHIRImmunization/GetAllImmunizationData?Uhid="+uhid+"&EncounterId="+encounterId;
+  let url = window.AppbaseUrl+"/api/EMRImmunization/GetAllImmunizationData?Uhid="+uhid+"&EncounterId="+encounterId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {
