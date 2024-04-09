@@ -75,6 +75,9 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
       setPrescreptionList(listRes.responseValue);
     }
+    else{
+      setPrescreptionList([])
+    }
   };
 
   const handleDelete = async () => {

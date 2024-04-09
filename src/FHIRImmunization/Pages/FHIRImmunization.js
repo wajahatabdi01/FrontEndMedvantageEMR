@@ -329,6 +329,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
     if (getAllImmunizationDataRes.status === 1) {
       setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);
     }
+    else{
+      setAllImmunizationDataList([]);
+    }
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -512,7 +515,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         // setTimeout(() => {
         //   setShowToster(0);
         // },1000)
-        alert('Data Not Saved');
+        
         setShowToster(8);
         setTimeout(() => {
           setShowToster(0)
