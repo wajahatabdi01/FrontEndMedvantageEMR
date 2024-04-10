@@ -63,6 +63,23 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
 
     })
 
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+    
+        // Adding leading zero if month/day is less than 10
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+    
+        return `${year}-${month}-${day}`;
+    }
+
     let getAllIssueOutCome = async () => {
         const response = await GetAllIssueOutCome();
         if (response.status === 1) {
@@ -413,13 +430,13 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
                     <div className="row">
                         <div className="col-6 mb-2">
                             <label for="bedName" class="form-label relative">Begin Date and Time<span class="starMandatory">*</span></label>
-                            <input type="date" value={deviceData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                            <input type="date" min={getCurrentDate()} value={deviceData.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
                             <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
                             </small>
                         </div>
                         <div className="col-6 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>End Date and Time</></label>
-                            <input type="date" value={deviceData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
+                            <input type="date" min={getCurrentDate()} value={deviceData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
                             <div className='mt-2' style={{ float: 'inline-end' }}>
                                 <span className='font-monospace fst-italic'>(leave blank if still active)</span>
                             </div>

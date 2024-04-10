@@ -65,6 +65,23 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+  
+      // Adding leading zero if month/day is less than 10
+      if (month < 10) {
+          month = '0' + month;
+      }
+      if (day < 10) {
+          day = '0' + day;
+      }
+  
+      return `${year}-${month}-${day}`;
+  }
+
   const funGetAllList = async () => {
 
     const listRes = await FHIRGetAllPrescriptionListByUHID(
@@ -539,7 +556,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 Starting Date
                                 <span className="starMandatory">*</span>
                               </label>
-                              <input id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
+                              <input id="startingdateID" type="date" min={getCurrentDate()}  className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
                               <small id="errDate" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
