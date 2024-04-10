@@ -20,7 +20,21 @@ window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
 window.LabServicebaseUrl = "http://192.168.11.101:6090"
 window.NotificationUrl = "http://192.168.11.101:6101"
 window.AppbaseUrl2 = "http://192.168.11.101:6082"
+window.PharmacyServicesUrl = "http://192.168.11.101:7000"
 // End For FHIR
+
+// New local For FHIRTesting
+
+// window.AppbaseUrl = "http://192.168.11.101:5082"
+// window.AppbaseUrlNew = "http://192.168.11.101:9000"
+// window.AdminbaseUrl = "http://192.168.11.101:5083"
+// window.UserbaseUrl = "http://192.168.11.101:5084"
+// window.FHIRBillingbaseUrl = "http://192.168.11.101:5088"
+// window.LabServicebaseUrl = "http://192.168.11.101:5090"
+// window.NotificationUrl = "http://192.168.11.101:5101"
+// window.AppbaseUrl2 = "http://192.168.11.101:6082"
+// window.PharmacyServicesUrl = "http://192.168.11.101:4000"
+// End For FHIRTesting
 
 
 window.BillingbaseUrl = "http://192.168.11.101:6088"
@@ -39,7 +53,7 @@ window.DietservicesUrl = "http://172.16.61.31:7096"
 window.RadiologyservicesUrl = "http://172.16.61.31:7086"
 window.ChatingUrl = "http://172.16.61.31:7100"
 window.FileUploadUrl = "http://172.16.61.31:7095/MediaFiles/"
-window.PharmacyServicesUrl = "http://192.168.11.101:7000"
+
 window.SpringBoardServicesUrl = "https://localhost:7170/"
 //window.SpringBoardServicesUrl = "http://172.16.61.31:7097/"
 window.CounsellingUrl = "http://172.16.61.31:7102/"

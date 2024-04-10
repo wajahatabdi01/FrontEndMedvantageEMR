@@ -22,7 +22,7 @@ import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 import GetAllRefills from "../API/GET/GetAllRefills";
 import SuccessToster from "../../Component/SuccessToster";
-import FHIRGetAllUnit from "../API/GET/FHIRGetAllForm";
+import FHIRGetAllUnit from "../API/GET/FHIRGetAllUnit";
 
 export default function FHIRAddPrescription({ setPrecription, theEncounterId }) {
   const [brandList, setBrandList] = useState([]);
@@ -255,15 +255,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
         medication: sendForm.addToList,
         substitute: sendForm.ReasonName,
         drug:
-          filterArr[0].name +
-          " " +
-          sendForm.medicineStrength +
-          " " +
-          sendForm.medicineUnit +
-          " " +
-          sendForm.routeName +
-          " " +
-          sendForm.formText,
+          filterArr[0].name,
         userId: userId,
         rxnormDrugCode: "1432537",
         clientId: clientID,
@@ -335,6 +327,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     setShowUpdate(1);
     setShowSave(0);
     //
+    
     const selectElement = document.getElementById("formID")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
 
@@ -349,7 +342,6 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
     // Get the formatted date in YYYY-MM-DD format
     const formattedDate = dateConvert.toISOString().split("T")[0];
-
 
     setSendForm((prev) => ({
       ...prev,
@@ -381,11 +373,11 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
     if (sendForm.brandList) {
       var filterArrUpName = brandList.filter((arr) => { if (arr.medicineID === sendForm.brandList) { return arr; } });
-
+      
     }
     else {
       var filterArrUpId = brandList.filter((arr) => { if (arr.name === editName) { return arr; } });
-
+      
     }
 
 
@@ -396,7 +388,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       currentlyActive: sendForm.currentlyActive,
       startingDate: sendForm.startingdate,
       providerId: sendForm.providerName,
-      drugId: (filterArrUpId !== undefined ? filterArrUpId[0].medicineID : (filterArrUpName !== undefined ? filterArrUpName[0].medicineID : null)),
+      drugId: (filterArrUpId && filterArrUpId.length > 0) ? filterArrUpId[0].medicineID : ((filterArrUpName && filterArrUpName.length > 0) ? filterArrUpName[0].medicineID : null),
       quantity: sendForm.QuantityName,
       size: sendForm.medicineStrength,
       unit: sendForm.medicineUnit,
@@ -409,21 +401,11 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       note: sendForm.Notes,
       medication: sendForm.addToList,
       substitute: sendForm.ReasonName,
-      drug:
-        (sendForm.brandList ? sendForm.brandList : editName) +
-        " " +
-        sendForm.medicineStrength +
-        " " +
-        sendForm.medicineUnit +
-        " " +
-        sendForm.routeName +
-        " " +
-        sendForm.selectedText,
+      drug: `${(filterArrUpName && filterArrUpName.length > 0) ? filterArrUpName[0].name : (filterArrUpId && filterArrUpId.length > 0) ? filterArrUpId[0].name : ''} `,
       userId: userId,
       rxnormDrugCode: "1432537",
       clientId: clientID,
-    };
-
+  };
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
     if (updateRes.status === 1) {
       setShowToster(10);
@@ -640,7 +622,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 Medicine Unit
                               </label>
                               <select name="medicineUnit" className="form-select form-select-sm" id="medicineUnitID" value={sendForm.medicineUnit} onChange={handleChangeText}>
-                                <option value="0">--Select Provider--</option>
+                                <option value="0">--Select Unit--</option>
                                 {getUnit &&
                                   getUnit.map((unitList, ind) => {
                                     return (
@@ -725,7 +707,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                           getRouteList.map((routeList, ind) => {
                                             return (
                                               <option
-                                                value={routeList.name + ":" + routeList.id}>
+                                                value={routeList.id}>
                                                 {routeList.name}
                                               </option>
                                             );
@@ -840,7 +822,9 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                       #
                     </th>
                     <th>Drug</th>
+                    <th>Route</th>
                     <th>RxNorm</th>
+                    <th>Form</th>
                     <th>Created Date</th>
                     <th>Changed Date</th>
                     <th>Dosage</th>
@@ -854,19 +838,21 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                 <tbody>
                   {prescreptionList &&
                     prescreptionList.map((list, ind) => {
-
+                      
                       return (
                         <tr>
-                          <td>{ind + 1}</td>
+                          <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
                           <td>{list.drug}</td>
+                          <td>{list.routeName}</td>
                           <td>{list.rxnormDrugCode}</td>
+                          <td>{list.formName}</td>
                           <td>{list.startingDate}</td>
                           <td>{list.startingDate}</td>
                           <td>{list.dosage}</td>
                           <td>{list.quantity}</td>
-                          <td>{list.unit}</td>
+                          <td>{list.unitName}</td>
                           <td>{list.refills}</td>
-                          <td>{list.providerId}</td>
+                          <td>{list.userName}</td>
                           <td>
                             <button
                               type="button"
@@ -888,10 +874,10 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                   list.quantity,
                                   list.size,
                                   list.unit,
-                                  list.refills,
+                                  list.refillsId,
                                   list.dosage,
                                   list.form,
-                                  list.route,
+                                  list.routeId,
                                   list.interval,
                                   list.note,
                                   list.perRefill,
