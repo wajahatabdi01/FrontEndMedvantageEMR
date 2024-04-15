@@ -55,11 +55,11 @@ export default function Login() {
       if (response.status === 1) {
         setLoder(0)
 
-        
+
         if (response.responseValue[0] !== undefined) {
           setShowOTP(0)
           let resp = response.responseValue[0];
-          
+
           // window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode }))
           window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, "roleId": resp.roleId, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode, "clientdata": resp.client, "headList": resp.headList, "shortCutMenu": resp.menuShortCuts, "userMobileNo": resp.mobileNo }))
           window.sessionStorage.setItem("languageId", JSON.stringify({ "languageId": response.responseValue[0].client.languagePreferredId }))
@@ -75,11 +75,11 @@ export default function Login() {
           window.token = response.token
 
           window.languageId = response.responseValue[0].client.languagePreferredId
-          
+
           let countryCode = "+91";
           let cornCallUrl = resp.mobileNo;
-          let res = await PostChatCornCall({ "mobileNO": countryCode + cornCallUrl });
-          
+          // let res = await PostChatCornCall({ "mobileNO": countryCode + cornCallUrl });
+
 
           navigate("/dashboard/")
 
@@ -123,7 +123,7 @@ export default function Login() {
           setLoder(0)
           if (response.responseValue[0] !== undefined) {
             let resp = response.responseValue[0];
-          
+
             // window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': resp.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName,  "countryId":resp.client.countryID , "countryCode":resp.client.countryCode }))
             // window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode,"mobileNo":resp.client.mobileNo,"address":resp.client.address,"defaultLanguage": resp.defaultLanguage,"localLanguage":resp.localLanguage}))
             window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName, "roleId": resp.roleId, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode, "clientdata": resp.client, "headList": resp.headList, "shortCutMenu": resp.menuShortCuts }))
@@ -144,7 +144,7 @@ export default function Login() {
             let cornCallUrl = resp.mobileNo;
 
             let res = await PostChatCornCall({ "mobileNO": countryCode + cornCallUrl });
-            
+
             navigate("/dashboard/")
           }
           else {
@@ -197,7 +197,7 @@ export default function Login() {
     if (response.status === 1) {
       setLoder(0)
       let resp = response.responseValue[0];
-    
+
       // window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode }))
       window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, "roleId": resp.roleId, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode, "clientdata": resp.client, "headList": resp.headList, "shortCutMenu": resp.menuShortCuts }))
       window.userId = resp.id
@@ -234,7 +234,7 @@ export default function Login() {
       if (response.status === 1) {
         setLoder(0)
         let resp = response.responseValue[0];
-       
+
         // window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode }))
         window.sessionStorage.setItem('LoginData', JSON.stringify({ 'token': response.token, 'userId': resp.id, 'name': resp.name, "roleId": resp.roleId, 'clientId': resp.clientID, 'userName': resp.userName, 'languageId': response.responseValue[0].client.languagePreferredId, "headId": response.responseValue[0].headId, "countryId": resp.client.countryID, "countryCode": resp.client.countryCode, "clientdata": resp.client, "headList": resp.headList, "shortCutMenu": resp.menuShortCuts }))
         window.sessionStorage.setItem("languageId", JSON.stringify({ "languageId": response.responseValue[0].client.languagePreferredId }))
