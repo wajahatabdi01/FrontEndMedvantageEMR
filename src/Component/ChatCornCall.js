@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 export default function ChatCornCall() {
   let [chatBoxCornCall, setChatBoxCornCall] = useState(0);
   let [countryCode, setCountryCode] = useState("+91")
-  let [cornCallUrl, setCornCornCall] = useState(window.sessionStorage.getItem("LoginData")?JSON.parse(window.sessionStorage.getItem("LoginData")).userMobileNo:"");
+  let [cornCallUrl, setCornCornCall] = useState(window.sessionStorage.getItem("LoginData") ? JSON.parse(window.sessionStorage.getItem("LoginData")).userMobileNo : "");
 
 
   let btnOpenChatCornCall = () => {
@@ -30,7 +30,7 @@ export default function ChatCornCall() {
         </div>
         : ''}
 
-      <div className="chatbtnCornCall" title='Start Chat' onClick={btnOpenChatCornCall}> <i className="bi bi-chat-text"></i></div>
+      {/* <div className="chatbtnCornCall" title='Start Chat' onClick={btnOpenChatCornCall}> <i className="bi bi-chat-text"></i></div> */}
 
     </>
   )

@@ -47,10 +47,10 @@ export default function CommonLayout(props) {
             setChangeNavbar(0)
             setIsSuperadmin(false)
             setShowMenu(0)
-            setActivePage(<OPDPatientList setShowMenu={setShowMenu} handlepatientTab={0} showPatientListValue={0}/>)
+            setActivePage(<OPDPatientList setShowMenu={setShowMenu} handlepatientTab={0} showPatientListValue={0} />)
         }
         else if (props.name.toString().trim().toLowerCase() === "IPDPatientList".toString().trim().toLowerCase()) {
-           
+
             setChangeNavbar(0)
             setIsSuperadmin(false)
             setShowMenu(0)
@@ -109,7 +109,7 @@ export default function CommonLayout(props) {
     let getDataDeaprtmentMenu = async (value) => {
         let response = await GetMenuAndDeptByHeadId(value)
         if (response.status === 1) {
-           
+
 
             setDepartmentData(response.responseValue.departmentList)
             setMenuData(response.responseValue.menuList)
@@ -134,7 +134,7 @@ export default function CommonLayout(props) {
 
                 if (response.responseValue.menuList[0].subMenuList.length !== 0) {
                     let flag = 0
-                    
+
                     response.responseValue.menuList.map((v, ind) => {
                         if (v.subMenuList.url === "/patientregistration/") {
                             flag = 1
@@ -154,9 +154,9 @@ export default function CommonLayout(props) {
 
                 }
                 else {
-                  
+
                     let flag = 0
-                    
+
                     response.responseValue.menuList.map((val, ind) => {
                         if (val.url === "/opdpatientlist/") {
                             flag = 1
@@ -242,7 +242,7 @@ export default function CommonLayout(props) {
             }
 
 
-            <ChatCornCall />
+            {/* <ChatCornCall /> */}
 
 
         </>
