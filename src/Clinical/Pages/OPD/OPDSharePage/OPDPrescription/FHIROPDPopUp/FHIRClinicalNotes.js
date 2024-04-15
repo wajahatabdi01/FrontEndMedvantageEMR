@@ -205,7 +205,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
             setShowUnderProcess(0);
             setTosterValue(1);
             setShowToster(1);
-            setTosterMessage(response.responseValue);
+            setShowErrMessage(response.responseValue);
             setTimeout(() => {
                 setShowToster(0);
             }, 1500)
@@ -361,7 +361,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
             setShowUnderProcess(0);
             setTosterValue(1);
             setShowToster(1);
-            setTosterMessage(resUpdate.responseValue);
+            setShowErrMessage(resUpdate.responseValue);
             setTimeout(() => {
                 setShowToster(0);
             }, 1500)

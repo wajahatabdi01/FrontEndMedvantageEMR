@@ -13,6 +13,7 @@ import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster'
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
 import SuccessToster from '../../../../../../Component/SuccessToster';
+import AlertToster from '../../../../../../Component/AlertToster';
 function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
@@ -25,7 +26,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
-    let [showMessage, setShowMessage] = useState(0)
+    let [showErrMessage, setShowErrMessage] = useState('');
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
@@ -246,7 +247,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -280,7 +281,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -558,6 +559,10 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             ) : (
                 ""
             )}
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
         </>
     )
 }

@@ -24,7 +24,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
-    let [showMessage, setShowMessage] = useState(0)
+    let [showErrMessage, setShowErrMessage] = useState('');
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     const customStyle = { marginLeft: '0px' };
     const [PopUpId, setPopUpId] = useState('');
@@ -245,7 +245,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -275,7 +275,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -561,6 +561,10 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
             ) : (
                 ""
             )}
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
         </>
     )
 }

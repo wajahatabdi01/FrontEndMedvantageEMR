@@ -23,6 +23,7 @@ import FHIRClinicalNotes from "./FHIROPDPopUp/FHIRClinicalNotes";
 import ClinicalInstructions from "../../../../../FHIIRClinicalInstruction/Pages/ClinicalInstructions";
 import FunctionalAndCognitive from "../../../../../FHIRFunctionalAndCognitive/Pages/FunctionalAndCognitive";
 import FHIRObservation from "../../../../../FHIRObservation/Pages/FHIRObservation";
+import FHIRVitals from "./FHIROPDPopUp/FHIRVitals";
 
 export default function OPDTOPBottom(props) {
   document.body.dir = i18n.dir();
@@ -53,6 +54,7 @@ export default function OPDTOPBottom(props) {
   let [opdLifestyle, setOPDLifestyle] = useState(0);
   let [immunization, setImmunization] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
+  let [vitals, setVitals] = useState(0);
   let [clinicalForms, setClinicalForms] = useState(0);
   let [functionalAndCog, setFunctionalAndCog] = useState(0);
   let [familyHistory, setFamilyHistory] = useState(0);
@@ -181,6 +183,11 @@ export default function OPDTOPBottom(props) {
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span onClick={() => { props.setActiveComponent("surgeryId"); props.setShowTheButton(true); props.setIssueID(5); props.setHeadingName("Surgery"); props.setToShowDesiredList(true) }}>
           {t("Surgery")}{" "}
+        </span>
+      </div>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+        <span data-bs-toggle="modal" data-bs-target="#vitals" onClick={() => { setVitals(1); props.setToShowDesiredList(false) }}>
+          {t("Vitals")}{" "}
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
@@ -469,16 +476,29 @@ export default function OPDTOPBottom(props) {
             <div class="container"></div>
             <div class="modal-body">{clinicalPres === 1 ? (<ClinicalInstructions setShowToster={setShowToster} setClinicalPres={setClinicalPres} theEncounterId={props.theEncounterId} />) : ("")}
             </div>
-
-            {/* <div class="modal-footer">
-          <button  data-dismiss="modal" class="btn">Close</button>
-          <a href="##" class="btn btn-primary">Save changes</a>
-        </div> */}
           </div>
         </div>
       </div>
 
       {/* -----------------------------------------------------------------------End Clinical Instructions Plan --------------------------------------------- */}
+      {/* -----------------------------------------------------------------------Start VItals --------------------------------------------- */}
+      <div class="modal fade opdpopUp" id="vitals" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title text-white">Vitals</h4>
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setClinicalPres(0); }}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">{vitals === 1 ? (<FHIRVitals setShowToster={setShowToster} setVitals={setVitals} theEncounterId={props.theEncounterId} />) : ("")}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* -----------------------------------------------------------------------End VItals --------------------------------------------- */}
 
       {/* -----------------------------------------------------------------------Start Functional Instructions Plan --------------------------------------------- */}
       <div class="modal fade opdpopUp" id="FunctionalAndCognitive" data-backdrop="static">

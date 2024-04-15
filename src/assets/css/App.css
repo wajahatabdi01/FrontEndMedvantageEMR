@@ -1709,6 +1709,16 @@ h3.comingsoontxt {
   margin-top: 2px;
 }
 
+.addvitals {
+  margin-top: 17px;
+}
+
+.scrollcustum {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 70vh;
+}
+
 .remhead {
   font-weight: 600;
   font-size: 18px;

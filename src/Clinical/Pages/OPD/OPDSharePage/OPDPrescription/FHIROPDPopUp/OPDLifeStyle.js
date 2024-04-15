@@ -8,6 +8,7 @@ import GetAllSmokingStatus from '../../../../../API/OPDLifestyle/GetAllSmokingSt
 import InsertLifeStyleData from '../../../../../API/OPDLifestyle/InsertLifeStyleData';
 import GetFamilyHistoryData from '../../../../../API/OPDLifestyle/GetFamilyHistoryData';
 import SuccessToster from '../../../../../../Component/SuccessToster';
+import AlertToster from '../../../../../../Component/AlertToster';
 function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
     console.log("param===========>", theEncounterId)
     // let [showLifeStyle, setShowLifestyle] = useState(1);
@@ -17,7 +18,7 @@ function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
-    let [showMessage, setShowMessage] = useState(0)
+    let [showErrMessage, setShowErrMessage] = useState('');
     let [rowId, setRowId] = useState(0);
     const [isShow, setisShow] = useState('');
 
@@ -462,7 +463,7 @@ function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
         else {
             setShowUnderProcess(0)
             setShowAlertToster(1)
-            setShowMessage(response.responseValue)
+            setShowErrMessage(response.responseValue)
             setTimeout(() => {
                 setShowToster(0)
             }, 2000)
@@ -934,6 +935,10 @@ function OPDLifeStyle({ theEncounterId, showLifeStyle, setShowLifestyle }) {
 
 
             {showToster === 8 ? (<SuccessToster handle={setShowToster} message="Lifestyle saved successfully !!" />) : ("")}
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
 
         </>
     )

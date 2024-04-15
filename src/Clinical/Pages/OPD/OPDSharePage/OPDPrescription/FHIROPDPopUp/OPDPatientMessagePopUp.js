@@ -17,11 +17,11 @@ import DeleteFHIRMessage from '../../../../../API/OPDPatientMessage/DeleteFHIRMe
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDPatientMessagePopUp({theEncounterId}) {
+function OPDPatientMessagePopUp({ theEncounterId }) {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
-    let [sendForm, setSendForm] = useState({"typeId": 0,"providerId": 0,"description": '',"userId": window.userId,"clientId": window.clientId })
+    let [sendForm, setSendForm] = useState({ "typeId": 0, "providerId": 0, "description": '', "userId": window.userId, "clientId": window.clientId })
 
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0);
@@ -39,10 +39,10 @@ function OPDPatientMessagePopUp({theEncounterId}) {
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
     const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-  
-  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let [showMessage, setShowMessage] = useState(1)
 
@@ -83,7 +83,7 @@ function OPDPatientMessagePopUp({theEncounterId}) {
     //getPatient Message by uhid and clientId
     const patientMessage = async () => {
         const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
-        const getResponse = await GetFHIRMessage({ Uhid: activeUHID, ClientId: clientID, EncounterId : theEncounterId });
+        const getResponse = await GetFHIRMessage({ Uhid: activeUHID, ClientId: clientID, EncounterId: theEncounterId });
         if (getResponse.status === 1) {
             setMessageList(getResponse.responseValue.responseValue);
         }
@@ -112,8 +112,8 @@ function OPDPatientMessagePopUp({theEncounterId}) {
                 "description": sendForm.description,
                 "clientId": clientID,
                 "userId": window.userId,
-                doctorId : activeDocID,
-                departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             const response = await InsertFHIRMessage(obj);
             if (response.status === 1) {
@@ -131,7 +131,7 @@ function OPDPatientMessagePopUp({theEncounterId}) {
                 setShowUnderProcess(0);
                 setTosterValue(1);
                 setShowToster(1);
-                setTosterMessage(response.responseValue);
+                setShowErrMessage(response.responseValue);
                 setTimeout(() => {
                     setShowToster(0);
                 }, 1500)
@@ -183,7 +183,7 @@ function OPDPatientMessagePopUp({theEncounterId}) {
                         setShowUnderProcess(0);
                         setTosterValue(1);
                         setShowToster(1);
-                        setTosterMessage(response.responseValue);
+                        setShowErrMessage(response.responseValue);
                         setTimeout(() => {
                             setShowToster(0);
                         }, 1500);
@@ -302,7 +302,7 @@ function OPDPatientMessagePopUp({theEncounterId}) {
                                                         <td>{list.lastUpdated}</td>
                                                         <td>{list.updatedUserName}</td>
                                                         <td className="text-center">
-                                                            <div className="form-check ps-0" style={{marginTop:'7px'}}>
+                                                            <div className="form-check ps-0" style={{ marginTop: '7px' }}>
                                                                 <input type="checkbox" id={`active-${list.id}`} checked={list.isActive === 1} readOnly />
                                                             </div>
                                                         </td>

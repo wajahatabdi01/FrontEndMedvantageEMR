@@ -34,7 +34,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
     let [showToster, setShowToster] = useState(0)
     let [tosterValue, setTosterValue] = useState(0);
     let [showAlertToster, setShowAlertToster] = useState(0)
-    let [showMessage, setShowMessage] = useState(0)
+    let [showErrMessage, setShowErrMessage] = useState('');
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     let [severitylist, setSeverityList] = useState([]);
     let [reactionlist, setReactionList] = useState([]);
@@ -328,7 +328,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -360,7 +360,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             else {
                 setShowUnderProcess(0)
                 setShowAlertToster(1)
-                setShowMessage(response.responseValue)
+                setShowErrMessage(response.responseValue)
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -733,6 +733,10 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             ) : (
                 ""
             )}
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
         </>
     )
 }
