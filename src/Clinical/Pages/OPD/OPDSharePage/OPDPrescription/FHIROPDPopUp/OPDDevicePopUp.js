@@ -437,7 +437,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
                         </div>
                         <div className="col-6 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>End Date and Time</></label>
-                            <input type="date" min={getCurrentDate()} value={deviceData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
+                            <input type="date" min={deviceData.beginDateTime || getCurrentDate()} value={deviceData.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
                             <div className='mt-2' style={{ float: 'inline-end' }}>
                                 <span className='font-monospace fst-italic'>(leave blank if still active)</span>
                             </div>

@@ -56,6 +56,22 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         issueDetailsData((prev) => ({ ...prev, "Allergy": t }));
 
     };
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+
+        // Adding leading zero if month/day is less than 10
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        return `${year}-${month}-${day}`;
+    }
 
     let handleRemove = () => {
         const tempAr = txtCoding;
@@ -235,7 +251,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
         // setPopUpId('');
     }
     // const SelectedData = (data, modalID) => {
-    
+
     //     let t = {
     //       moduleId: modalID,
     //       data: data
@@ -386,12 +402,12 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                         <div className="row">
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>Begin Date and Time</b></label>
-                                <input type="date" value={issueDetailss.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
+                                <input type="date" min={getCurrentDate()} value={issueDetailss.beginDateTime} className="form-control form-control-sm" id="beginDateTime" name='beginDateTime' onChange={handleIssueDetailsChange} />
                                 <small id="errDateAllergies" className="form-text text-danger" style={{ display: 'none' }} />
                             </div>
                             <div className="col-6 mb-2">
                                 <label htmlFor="txtPatientRelationAddress" className="form-label"><b>End Date and Time</b></label>
-                                <input type="date" value={issueDetailss.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
+                                <input type="date" min={issueDetailss.beginDateTime || getCurrentDate()} value={issueDetailss.endDateTime} className="form-control form-control-sm" id="endDateTime" name='endDateTime' onChange={handleIssueDetailsChange} />
                                 <div className='mt-2' style={{ float: 'inline-end' }}>
                                     <span className='font-monospace fst-italic'>(leave blank if still active)</span>
                                 </div>
