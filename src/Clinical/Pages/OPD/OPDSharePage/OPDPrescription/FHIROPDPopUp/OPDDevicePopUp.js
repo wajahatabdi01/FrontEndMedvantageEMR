@@ -68,7 +68,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         const year = today.getFullYear();
         let month = today.getMonth() + 1;
         let day = today.getDate();
-    
+
         // Adding leading zero if month/day is less than 10
         if (month < 10) {
             month = '0' + month;
@@ -76,7 +76,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
         if (day < 10) {
             day = '0' + day;
         }
-    
+
         return `${year}-${month}-${day}`;
     }
 
@@ -342,6 +342,7 @@ function OPDDevicePopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool
     useEffect(() => {
         if (isCloseModal === 1) {
             handleClear();
+            setMakeData([])
         }
 
     }, [isCloseModal]);

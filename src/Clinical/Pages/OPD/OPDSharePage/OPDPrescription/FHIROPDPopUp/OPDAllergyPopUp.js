@@ -83,7 +83,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
         const year = today.getFullYear();
         let month = today.getMonth() + 1;
         let day = today.getDate();
-    
+
         // Adding leading zero if month/day is less than 10
         if (month < 10) {
             month = '0' + month;
@@ -91,7 +91,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
         if (day < 10) {
             day = '0' + day;
         }
-    
+
         return `${year}-${month}-${day}`;
     }
 
@@ -456,6 +456,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
     useEffect(() => {
         if (isCloseModal === 1) {
             handleClear();
+            setMakeData([])
         }
 
     }, [isCloseModal]);

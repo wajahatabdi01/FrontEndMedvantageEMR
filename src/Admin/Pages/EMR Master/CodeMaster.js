@@ -16,14 +16,14 @@ export const CodeMaster = (props) => {
 
     const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])
-    
+
     const [textSearch, setTextSearch] = useState('')
     const [getCode, setCode] = useState('')
     const [arrToFwd, setArrToFwd] = useState([]);
     const [showImage, setShowImage] = useState(0);
     const [loader, setLoader] = useState(0)
-    
-    
+
+
     ///////////////////////////////////////////// search text box /////////////////////////////
 
     let handleSearchChange = (e) => {
@@ -39,16 +39,16 @@ export const CodeMaster = (props) => {
     //////////////////////////////////// to Get Code list in dropdown
     let funGetCodeList = async () => {
         const getResponse = await GetCodeDropdown();
-        
+
         setCodeList(getResponse.responseValue)
     }
 
-    
 
-    
+
+
 
     /////////////////////////////////////// To Bind the list of code from dropdown ////////////////////////
-    let funBindCodeList = async (e, codeName ) => {
+    let funBindCodeList = async (e, codeName) => {
         if (getCode === '' && getCode === undefined && getCode === null && codeName !== "") {
             alert('Please select code.');
         }
@@ -56,41 +56,41 @@ export const CodeMaster = (props) => {
             setLoader(1);
             //const codeNames = codeName = ""?codeName:getCode;
             const codeNames = getCode;
-            if(codeName !== undefined){
+            if (codeName !== undefined) {
                 let getBindRes = await GetCodeBind(codeName, textSearch);
-                if(getBindRes.status === 0) {
+                if (getBindRes.status === 0) {
                     setLoader(0);
                     setShowImage(1);
                 }
-                else{
+                else {
                     setLoader(0)
-                setShowImage(0)
-                setCodeBindList(getBindRes.responseValue.slice(0,50))
+                    setShowImage(0)
+                    setCodeBindList(getBindRes.responseValue.slice(0, 50))
                 }
             }
-            else{
+            else {
                 let getBindRes = await GetCodeBind(codeNames, textSearch);
-                if(getBindRes.status === 0) {
+                if (getBindRes.status === 0) {
                     setLoader(0);
                     setShowImage(1);
                 }
-                else{
+                else {
                     const result = getBindRes.responseValue;
-                setLoader(0)
-                setShowImage(0)
-                setCodeBindList(result.slice(0,50))
+                    setLoader(0)
+                    setShowImage(0)
+                    setCodeBindList(result.slice(0, 50))
                 }
             }
-            
-          
+
+
             // if (getBindRes.responseValue.length === 0) {
             //     setLoader(0);
             //     setShowImage(1);
             // }
             // else {
-                
+
             // }
-            
+
         }
 
     }
@@ -104,9 +104,9 @@ export const CodeMaster = (props) => {
     }
 
     let getDataDetail = (id, code, codeText) => {
-      
+
         const targetInputBox = document.getElementById("chckBoxId" + code).checked;
-        
+
         if (targetInputBox === false) {
             let temp = [...arrToFwd];
             for (var i = 0; i < temp.length; i++) {
@@ -114,13 +114,13 @@ export const CodeMaster = (props) => {
                     temp.splice(i, 1);
                 }
             }
-           
+
             props.SelectedData(temp, props.modalID)
             setArrToFwd(temp)
         }
         else {
             let temp = [...arrToFwd];
-            
+
             temp.push({
                 id: id,
                 code: code,
@@ -129,7 +129,7 @@ export const CodeMaster = (props) => {
 
 
             });
-       
+
             props.SelectedData(temp, props.modalID)
             setArrToFwd([...temp])
         }
@@ -137,21 +137,21 @@ export const CodeMaster = (props) => {
 
     }
     useEffect(() => {
-        
-        setArrToFwd(props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !==0 ? props.defaultData[props.defaultData.length - 1].data : [] : [])
+
+        setArrToFwd(props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : [])
 
         let hai = props.defaultData.length !== 0 ? props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ? props.defaultData[props.defaultData.length - 1].data : [] : []
 
-        
+        console.log("haiiiiiiiiii", hai)
         if (hai.length !== 0) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 document.getElementById("dropdownName").value = hai[0].dropdownName
                 setCode(hai[0].dropdownName)
                 funBindCodeList("", hai[0].dropdownName)
 
             }, 3000)
         }
-        funGetCodeList();    
+        funGetCodeList();
     }, [])
     return (
         <>
@@ -221,23 +221,23 @@ export const CodeMaster = (props) => {
                                     <tbody>
                                         {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> : <>
                                             {getCodeBindList && getCodeBindList.map((bindList, ind) => {
-                                                return (                                                  
+                                                return (
                                                     <>
-                                                    <tr key={bindList.code}>
-                                                        <td><input type={props.isMultiple === true ? 'checkbox' : 'radio' } name={props.isMultiple === true ? 'chckBoxId' + bindList.code : 'chckBoxId'} id={'chckBoxId' + bindList.code}
-                                                            role={props.isMultiple === true ? 'switch' : ''}
-                                                            defaultChecked=
-                                                            {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
-                                                                props.defaultData[props.defaultData.length - 1].data.filter(val => val.code === bindList.code).length !== 0 ?
-                                                                    true :
-                                                                    false :
-                                                                false
-                                                            } onClick={() => { getDataDetail(bindList.id, bindList.code, bindList.code_text); }} /></td>
-                                                        {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
+                                                        <tr key={bindList.code}>
+                                                            <td><input type={props.isMultiple === true ? 'checkbox' : 'radio'} name={props.isMultiple === true ? 'chckBoxId' + bindList.code : 'chckBoxId'} id={'chckBoxId' + bindList.code}
+                                                                role={props.isMultiple === true ? 'switch' : ''}
+                                                                defaultChecked=
+                                                                {props.defaultData.filter(val => val.moduleId === props.modalID).length !== 0 ?
+                                                                    props.defaultData[props.defaultData.length - 1].data.filter(val => val.code === bindList.code).length !== 0 ?
+                                                                        true :
+                                                                        false :
+                                                                    false
+                                                                } onClick={() => { getDataDetail(bindList.id, bindList.code, bindList.code_text); }} /></td>
+                                                            {/* <td><input type='checkbox' id={'chckBoxId' + bindList.id}
                                                      role='switch' onClick={() => { getDataDetail(bindList.id, bindList.code); }} /></td> */}
-                                                        <td style={{ textAlign: 'center' }}>{bindList.code}</td>
-                                                        <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
-                                                    </tr>
+                                                            <td style={{ textAlign: 'center' }}>{bindList.code}</td>
+                                                            <td style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{bindList.code_text}</td>
+                                                        </tr>
                                                     </>
 
                                                 )
