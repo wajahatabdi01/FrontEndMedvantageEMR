@@ -1,5 +1,5 @@
 async function PutFHIRMessage(data) {
-    let url = window.AppbaseUrl + '/api/FHIRMessage/UpdateMessage';
+    let url = window.AppbaseUrl + '/api/EMRMessage/UpdateMessage';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

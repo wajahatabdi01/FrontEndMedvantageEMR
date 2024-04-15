@@ -1,6 +1,6 @@
 async function DeleteImmunizationByRowId(rowId) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/DeleteImmunizationByRowId";
-  let url = window.AppbaseUrl+"/api/FHIRImmunization/DeleteImmunizationByRowId?Id="+rowId;
+  let url = window.AppbaseUrl+"/api/EMRImmunization/DeleteImmunizationByRowId?Id="+rowId;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

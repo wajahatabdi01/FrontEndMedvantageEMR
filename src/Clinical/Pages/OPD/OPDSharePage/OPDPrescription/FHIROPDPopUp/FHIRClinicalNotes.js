@@ -43,6 +43,8 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
     let [showSuccessMsg, setShowSuccessMsg] = useState('');
     let [updateBool, setUpdateBool] = useState(0);
     let [rowId, setRowId] = useState(0);
+    const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
+    
     let activeUHID = window.sessionStorage.getItem("activePatient")
         ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
         : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : []
@@ -142,7 +144,6 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
             setProviderList(response.responseValue)
         }
     }
-    console.log("theEncounterId", theEncounterId)
     //getPatient Message by uhid and clientId
     const patientMessage = async () => {
         const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
@@ -159,7 +160,14 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
         let tempArr = [];
 
         for (var i = 0; i < notesList.length; i++) {
-            const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
+            if(!document.getElementById('notesDate' + notesList[i].rowID).value){
+
+                document.getElementById("errDate"+notesList[i].rowID).innerHTML = "Please select date.";
+            document.getElementById("errDate"+notesList[i].rowID).style.display = "block";
+            return;
+              }
+              else{
+                const getNotesDate = document.getElementById("notesDate" + notesList[i].rowID).value;
             const getNotesType = document.getElementById("typeId" + notesList[i].rowID).value;
             const getNotesCategory = document.getElementById("providerId" + notesList[i].rowID).value;
             const getNotesDescription = document.getElementById("note_related_to" + notesList[i].rowID).value;
@@ -175,6 +183,8 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                 clinical_notes_category: getNotesCategory,
                 note_related_to: getNotesDescription
             })
+              }
+            
         }
 
         let obj = {
@@ -211,6 +221,15 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
             }, 1500)
         }
     }
+
+    const handleOpenDeletePopUp = (rowId) => {
+        setTheRowId(rowId);
+        setIsShowDeletePopUp(1);}
+    
+        const handleCloseDeletePopUp = () => {
+          setIsShowDeletePopUp(0);
+          setTheRowId(0)
+        }
 
 
 
@@ -278,9 +297,8 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
 
     //Handle Delete
-    let handleDeleteRow = async (id) => {
-        if (window.confirm("Do you wish to delete?")) {
-            const resDel = await DeleteClinicalNotesFormById(id, window.userId);
+    let handleDeleteRow = async () => {
+            const resDel = await DeleteClinicalNotesFormById(theRowId, window.userId);
             if (resDel.status === 1) {
 
 
@@ -288,10 +306,11 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                 setTimeout(() => {
                     setShowToster(33)
                 }, 2000);
+                setIsShowDeletePopUp(0)
                 funGetClinicalNotesFormList();
 
             }
-        }
+        
     }
 
     // to fill data for updation
@@ -404,8 +423,17 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
 
     const funGetClinicalNotesFormList = async () => {
         const resGet = await GetClinicalNotesFormListByUHID(activeUHID, theEncounterId);
-        setClinicalNotesFormList(resGet.responseValue)
+        if(resGet.status === 1){
+            
+            setClinicalNotesFormList(resGet.responseValue)
+        }
+        else{
+            setClinicalNotesFormList([])
+        }
 
+    }
+    const celarDateValidation = (rowId) => {
+        document.getElementById("errDate"+rowId).style.display = "none";
     }
 
     useEffect(() => {
@@ -426,9 +454,9 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                     <div className='col-12'>
                                         <div className="row">
                                             <div className="col-4 mb-2">
-                                                <label htmlFor="typeId" className="form-label">Date</label>
-                                                <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' />
-                                                {/* <small id="errDate" className="form-text text-danger" style={{ display: 'none' }}></small> */}
+                                                <label htmlFor="typeId" className="form-label">Date<span className="starMandatory">*</span></label>
+                                                <input id={"notesDate" + div.rowID} type="date" className="form-control form-control-sm" name='date' onClick={() => {celarDateValidation( div.rowID)}}/>
+                                                <small id={"errDate" + div.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                                             </div>
 
                                             <div className="col-4 mb-2">
@@ -533,7 +561,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                         <th>Type</th>
                                         <th>Category</th>
                                         <th>Narrative</th>
-                                        <th>Action</th>
+                                        <th className="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -551,7 +579,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                                                         <div className="action-button">
                                                             {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
                                                             <div onClick={() => handleEdit(list)}><img src={IconEdit} alt='' title='Edit Observation' /></div>
-                                                            <div onClick={() => { handleDeleteRow(list.id) }}><img src={IconDelete} title='Delete Observation' alt='' /></div>
+                                                            <div onClick={() => { handleOpenDeletePopUp(list.id) }}><img src={IconDelete} title='Delete Observation' alt='' /></div>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -562,8 +590,22 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                         </div>
                     </div>
                 </div>
-
-
+                {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDeleteRow} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
                 {
                     showLoder === 1 ? <Loader val={showLoder} /> : ""
                 }
@@ -577,6 +619,7 @@ function FHIRClinicalNotes({ theEncounterId, setClinicalForms }) {
                     showAlertToster === 1 ?
                         <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
                 }
+                {showToster === 28 ? (<SuccessToster handle={setShowToster} message="Clinical Notes deleted!!" />) : ("")}
             </div>
         </>
     )

@@ -69,7 +69,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
   let [observationRow, setObservationRow] = useState([{ rowID: 1, Date: '', Code: '', Type: 0, Description: '', reasonCode: '', reasonStatus: '', reasonRecordingDate: '', reasonEndDate: '', },]);
   const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
   const [theRowId, setTheRowId] = useState(0)
-
+  const [currentDate] = useState(getCurrentDate());
   const customStyle = { marginLeft: '0px' };
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
   const userId = JSON.parse(sessionStorage.getItem("LoginData")).userId;
@@ -84,6 +84,24 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
 
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+
+    function getCurrentDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+  
+      // Adding leading zero if month/day is less than 10
+      if (month < 10) {
+        month = '0' + month;
+      }
+      if (day < 10) {
+        day = '0' + day;
+      }
+  
+      return `${year}-${month}-${day}`;
+    }
+  
 
   const handleAddCarePlanRow = () => {
     setObservationRow(prevRows => [
@@ -329,6 +347,9 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
     if (getAllImmunizationDataRes.status === 1) {
       setAllImmunizationDataList(getAllImmunizationDataRes.responseValue.immunizationList);
     }
+    else{
+      setAllImmunizationDataList([]);
+    }
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -512,7 +533,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         // setTimeout(() => {
         //   setShowToster(0);
         // },1000)
-        alert('Data Not Saved');
+        
         setShowToster(8);
         setTimeout(() => {
           setShowToster(0)
@@ -768,7 +789,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Date & Time Administered</label>
-                            <input id="dateId" type="date" className="form-control form-control-sm" name="DatenTimeAdministered" value={sendForm.DatenTimeAdministered} onChange={handleChange} />
+                            <input id="dateId" type="date" min={currentDate} className="form-control form-control-sm" name="DatenTimeAdministered" value={sendForm.DatenTimeAdministered} onChange={handleChange} />
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Amount" className="form-label">Amount Administered</label>
@@ -784,7 +805,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Immunization Expiration Date</label>
-                            <input id="expireDateId" type="date" className="form-control form-control-sm" name="ExpirationDate" value={sendForm.ExpirationDate} onChange={handleChange} />
+                            <input id="expireDateId" type="date" min={currentDate} className="form-control form-control-sm" name="ExpirationDate" value={sendForm.ExpirationDate} onChange={handleChange} />
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Manufacturer" className="form-label">Immunization Manufacturer</label>
@@ -806,7 +827,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="DateTime" className="form-label">Date Immunization Information Statements Given</label>
-                            <input id="ImmunizationDateId" type="date" className="form-control form-control-sm" name="ImmunizationStatements" value={sendForm.ImmunizationStatements} onChange={handleChange} />
+                            <input id="ImmunizationDateId" type="date" min={currentDate} className="form-control form-control-sm" name="ImmunizationStatements" value={sendForm.ImmunizationStatements} onChange={handleChange} />
                           </div>
                           {/* <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Immunization" className="form-label">Name and Title of Immunization Administrator</label>
@@ -830,7 +851,7 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="VISDateTime" className="form-label">Date of VIS Statement (?)</label>
-                            <input id="VISId" type="date" className="form-control form-control-sm" name="DateofVISStatement" value={sendForm.DateofVISStatement} onChange={handleChange} />
+                            <input id="VISId" type="date" min={currentDate} className="form-control form-control-sm" name="DateofVISStatement" value={sendForm.DateofVISStatement} onChange={handleChange} />
                           </div>
                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3'>
                             <label htmlFor="Route" className="form-label">Route</label>
@@ -938,11 +959,11 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
                                           </div>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                             <label htmlFor="Date_VIS_Published" className="form-label">Date VIS Published</label>
-                                            <input id={"Date_VIS_Published_Id" + observeList.rowID} type="date" className="form-control form-control-sm" name="Date_VIS_Published_Name" />
+                                            <input id={"Date_VIS_Published_Id" + observeList.rowID} type="date" min={currentDate} className="form-control form-control-sm" name="Date_VIS_Published_Name" />
                                           </div>
                                           <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-3 mt-2'>
                                             <label htmlFor="Date_VIS_Presented" className="form-label">Date VIS Presented</label>
-                                            <input id={"Date_VIS_PresentedId" + observeList.rowID} type="date" className="form-control form-control-sm" name="Date_VIS_PresentedName" />
+                                            <input id={"Date_VIS_PresentedId" + observeList.rowID} type="date" min={currentDate} className="form-control form-control-sm" name="Date_VIS_PresentedName" />
                                           </div>
                                         </>
                                       )}

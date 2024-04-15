@@ -1,5 +1,5 @@
 async function GetAllReactionList(data) {
-    let url = window.AppbaseUrl + "/api/ReactionMasterFHIR/GetAllReactionMaster";
+    let url = window.AppbaseUrl + "/api/EMRReactionMaster/GetAllReactionMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -1,6 +1,6 @@
 let GetViewPlanRules = async () => {
     // let url = window.fhiropenEMR + '/api/FHIRPlanMaster/GetPlan';
-    let url = window.AppbaseUrl + '/api/FHIRPlanMaster/GetPlan';
+    let url = window.AppbaseUrl + '/api/EMRPlanMaster/GetPlan';
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', }
     let response = "";
     await fetch(url, {

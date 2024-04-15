@@ -1,5 +1,5 @@
 let InsertPatientRevisitData = async (pobj) => {
-    let url = window.AppbaseUrl + "/api/FHIRDemographicData/InsertPatientRevisitData";
+    let url = window.AppbaseUrl + "/api/EMRDemographicData/InsertPatientRevisitData";
     const head = { 'Content-Type': 'application/json-patch+json', 'accept': '*/*', };
     let data = {};
     let response = await fetch(url, {

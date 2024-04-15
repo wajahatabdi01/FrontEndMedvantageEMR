@@ -1,5 +1,5 @@
 let GetMaritalStatusList=async()=>{
-    const url= window.AppbaseUrl+"/api/MaritalstatusMaster/GetAllMaritalstatus";
+    const url= window.AppbaseUrl+"/api/EMRMaritalStatus/GetAllMaritalStatus";
     const head={'content-type':'application/json','accept':'*/*',}
     let data={};
     let response= await fetch(url,{

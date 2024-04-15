@@ -1,5 +1,5 @@
 async function GetAllFHIRSensitivity(data) {
-    let url = window.AppbaseUrl + "/api/FHIRSensitivityMaster/GetAllFHIRSensitivityMaster";
+    let url = window.AppbaseUrl + "/api/EMRSensitivityMaster/GetAllFHIRSensitivityMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

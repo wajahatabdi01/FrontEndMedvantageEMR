@@ -22,6 +22,7 @@ export default function ClinicalInstructions({ setClinicalPres, theEncounterId }
   const [sendForm, setSendForm] = useState({ userId: window.userId, clientId: window.clientId, instructionText: '' });
 
   const [getClinicalInstructionList, setClinicalInstructionList] = useState([]);
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -115,10 +116,18 @@ export default function ClinicalInstructions({ setClinicalPres, theEncounterId }
 
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Do you wish to delete?")) {
+  const handleOpenDeletePopUp = (rowId) => {
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);}
 
-      const resDel = await DeleteClinicalInstructionList(id, window.userId);
+    const handleCloseDeletePopUp = () => {
+      setIsShowDeletePopUp(0);
+      setTheRowId(0)
+    }
+
+  const handleDelete = async (id) => {
+    
+      const resDel = await DeleteClinicalInstructionList(theRowId, window.userId);
       if (resDel.status === 1) {
         getClinicalList();
         setShowSave(1);
@@ -127,9 +136,10 @@ export default function ClinicalInstructions({ setClinicalPres, theEncounterId }
         setTimeout(() => {
           setShowToster(26)
         }, 2000);
+        setIsShowDeletePopUp(0)
 
       }
-    }
+    
   }
 
   const handleClear = () => {
@@ -235,7 +245,7 @@ export default function ClinicalInstructions({ setClinicalPres, theEncounterId }
                           </button> */}
                           <div className="action-button">
                             <div data-bs-title="Edit Row" title="Edit Row" onClick={() => { handleUpdate(list) }}><img src={IconEdit} alt='' /></div>
-                            <div data-bs-title="Delete Row" data-bs-target="#deleteModal" onClick={() => { handleDelete(list.id) }}><img src={IconDelete} alt='' /></div>
+                            <div data-bs-title="Delete Row" data-bs-target="#deleteModal" onClick={() => { handleOpenDeletePopUp(list.id) }}><img src={IconDelete} alt='' /></div>
 
                           </div>
 
@@ -249,6 +259,22 @@ export default function ClinicalInstructions({ setClinicalPres, theEncounterId }
           </div>
         </div>
       </div>
+      {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
       {showToster === 24 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction saved successfully !!" />) : ("")}
       {showToster === 25 ? (<SuccessToster handle={setShowToster} message="Clinical Instruction updated successfully !!" />) : ("")}
 

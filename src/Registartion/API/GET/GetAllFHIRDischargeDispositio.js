@@ -1,5 +1,5 @@
 async function GetAllFHIRDischargeDispositio(data) {
-    let url = window.AppbaseUrl + "/api/FHIRDischargeDispositionMaster/GetAllFHIRDischargeDispositionMaster";
+    let url = window.AppbaseUrl + "/api/EMRDischargeDispositionMaster/GetAllFHIRDischargeDispositionMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -1,6 +1,6 @@
 async function DeleteAddRule(id) {
 
-    let url = window.AppbaseUrlNew + `/api/EMRRuleMaster/DeleteRuleMaster?Id=` + id;
+    let url = window.AppbaseUrl + `/api/EMRRuleMaster/DeleteRuleMaster?Id=` + id;
     let head = {
         "Content-Type": "application/JSON",
         accept: "*/*",

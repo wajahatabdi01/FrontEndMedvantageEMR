@@ -1,5 +1,5 @@
 const FHIRPostObservation = async(params)=>{
-  let url = window.AppbaseUrl+"/api/FHIRObservation/InsertObservation";
+  let url = window.AppbaseUrl+"/api/EMRObservation/InsertObservation";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {

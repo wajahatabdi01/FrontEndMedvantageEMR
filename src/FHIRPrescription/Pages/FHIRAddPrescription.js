@@ -22,7 +22,7 @@ import GetMedicalHistory from "../../PatientMonitorDashboard/Components/History/
 import GetMedicationAllergyStatus from "../API/GET/GetMedicationAllergyStatus";
 import GetAllRefills from "../API/GET/GetAllRefills";
 import SuccessToster from "../../Component/SuccessToster";
-import FHIRGetAllUnit from "../API/GET/FHIRGetAllForm";
+import FHIRGetAllUnit from "../API/GET/FHIRGetAllUnit";
 
 export default function FHIRAddPrescription({ setPrecription, theEncounterId }) {
   const [brandList, setBrandList] = useState([]);
@@ -42,7 +42,8 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const [showUpdate, setShowUpdate] = useState(0);
   const [showSave, setShowSave] = useState(1);
   const [getMedName, setMedName] = useState('');
-  const [getUnit, setUnit] = useState([])
+  const [getUnit, setUnit] = useState([]);
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
 
   const [getRefillsList, setRefillsList] = useState([])
   let [showTosterMessage, setShowTosterMessage] = useState("");
@@ -64,6 +65,23 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+  
+      // Adding leading zero if month/day is less than 10
+      if (month < 10) {
+          month = '0' + month;
+      }
+      if (day < 10) {
+          day = '0' + day;
+      }
+  
+      return `${year}-${month}-${day}`;
+  }
+
   const funGetAllList = async () => {
 
     const listRes = await FHIRGetAllPrescriptionListByUHID(
@@ -74,14 +92,32 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
       setPrescreptionList(listRes.responseValue);
     }
-  };
-
-  const handleDelete = async (rowId) => {
-    const deleteRes = await FHIRDeletePrescriptionList(rowId);
-    if (deleteRes.status === 1) {
-      funGetAllList();
+    else{
+      setPrescreptionList([])
     }
   };
+
+  const handleDelete = async () => {
+    const deleteRes = await FHIRDeletePrescriptionList(theRowId);
+    if (deleteRes.status === 1) {
+      funGetAllList();
+      setShowToster(9);
+        setTimeout(() => {
+          setShowToster(9)
+        }, 2000);
+        
+        setIsShowDeletePopUp(0)
+    }
+  };
+
+    const handleOpenDeletePopUp = (rowId) => {
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);}
+
+    const handleCloseDeletePopUp = () => {
+      setIsShowDeletePopUp(0);
+      setTheRowId(0)
+    }
 
   const getAllBrandList = async () => {
 
@@ -236,15 +272,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
         medication: sendForm.addToList,
         substitute: sendForm.ReasonName,
         drug:
-          filterArr[0].name +
-          " " +
-          sendForm.medicineStrength +
-          " " +
-          sendForm.medicineUnit +
-          " " +
-          sendForm.routeName +
-          " " +
-          sendForm.formText,
+          filterArr[0].name,
         userId: userId,
         rxnormDrugCode: "1432537",
         clientId: clientID,
@@ -316,6 +344,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
     setShowUpdate(1);
     setShowSave(0);
     //
+    
     const selectElement = document.getElementById("formID")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
 
@@ -330,7 +359,6 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
     // Get the formatted date in YYYY-MM-DD format
     const formattedDate = dateConvert.toISOString().split("T")[0];
-
 
     setSendForm((prev) => ({
       ...prev,
@@ -362,11 +390,11 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
 
     if (sendForm.brandList) {
       var filterArrUpName = brandList.filter((arr) => { if (arr.medicineID === sendForm.brandList) { return arr; } });
-
+      
     }
     else {
       var filterArrUpId = brandList.filter((arr) => { if (arr.name === editName) { return arr; } });
-
+      
     }
 
 
@@ -377,7 +405,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       currentlyActive: sendForm.currentlyActive,
       startingDate: sendForm.startingdate,
       providerId: sendForm.providerName,
-      drugId: (filterArrUpId !== undefined ? filterArrUpId[0].medicineID : (filterArrUpName !== undefined ? filterArrUpName[0].medicineID : null)),
+      drugId: (filterArrUpId && filterArrUpId.length > 0) ? filterArrUpId[0].medicineID : ((filterArrUpName && filterArrUpName.length > 0) ? filterArrUpName[0].medicineID : null),
       quantity: sendForm.QuantityName,
       size: sendForm.medicineStrength,
       unit: sendForm.medicineUnit,
@@ -390,24 +418,18 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       note: sendForm.Notes,
       medication: sendForm.addToList,
       substitute: sendForm.ReasonName,
-      drug:
-        (sendForm.brandList ? sendForm.brandList : editName) +
-        " " +
-        sendForm.medicineStrength +
-        " " +
-        sendForm.medicineUnit +
-        " " +
-        sendForm.routeName +
-        " " +
-        sendForm.selectedText,
+      drug: `${(filterArrUpName && filterArrUpName.length > 0) ? filterArrUpName[0].name : (filterArrUpId && filterArrUpId.length > 0) ? filterArrUpId[0].name : ''} `,
       userId: userId,
       rxnormDrugCode: "1432537",
       clientId: clientID,
-    };
-
+  };
     const updateRes = await FHIRPutPrescription(finalObjUpdate);
     if (updateRes.status === 1) {
-      alert('Data updated successfully!');
+      setShowToster(10);
+          setTimeout(() => {
+            setShowToster(10)
+          }, 2000);
+          handleClear();
       handleClear(); funGetAllList(); setShowSave(1); setShowUpdate(0)
     }
   };
@@ -476,7 +498,6 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   const funGetUnit = async () => {
     const resUnit = await FHIRGetAllUnit();
     if (resUnit.status === 1) {
-      console.log('resUnit.responseValue : ', resUnit.responseValue)
       setUnit(resUnit.responseValue)
     }
   }
@@ -535,7 +556,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 Starting Date
                                 <span className="starMandatory">*</span>
                               </label>
-                              <input id="startingdateID" type="date" className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
+                              <input id="startingdateID" type="date" min={getCurrentDate()}  className="form-control form-control-sm" name="startingdate" value={sendForm.startingdate} onChange={handleChangeText} />
                               <small id="errDate" className="form-text text-danger" style={{ display: "none" }}></small>
                             </div>
                             <div className="col-xxl-3 col-xl-3 col-lg-4 col-md-6 mb-2 mt-2">
@@ -618,7 +639,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                 Medicine Unit
                               </label>
                               <select name="medicineUnit" className="form-select form-select-sm" id="medicineUnitID" value={sendForm.medicineUnit} onChange={handleChangeText}>
-                                <option value="0">--Select Provider--</option>
+                                <option value="0">--Select Unit--</option>
                                 {getUnit &&
                                   getUnit.map((unitList, ind) => {
                                     return (
@@ -703,7 +724,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                           getRouteList.map((routeList, ind) => {
                                             return (
                                               <option
-                                                value={routeList.name + ":" + routeList.id}>
+                                                value={routeList.id}>
                                                 {routeList.name}
                                               </option>
                                             );
@@ -818,7 +839,9 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                       #
                     </th>
                     <th>Drug</th>
+                    <th>Route</th>
                     <th>RxNorm</th>
+                    <th>Form</th>
                     <th>Created Date</th>
                     <th>Changed Date</th>
                     <th>Dosage</th>
@@ -832,26 +855,26 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                 <tbody>
                   {prescreptionList &&
                     prescreptionList.map((list, ind) => {
-
+                      
                       return (
                         <tr>
-                          <td>{ind + 1}</td>
+                          <td className="text-center" style={{ width: "5%" }}>{ind + 1}</td>
                           <td>{list.drug}</td>
+                          <td>{list.routeName}</td>
                           <td>{list.rxnormDrugCode}</td>
+                          <td>{list.formName}</td>
                           <td>{list.startingDate}</td>
                           <td>{list.startingDate}</td>
                           <td>{list.dosage}</td>
                           <td>{list.quantity}</td>
-                          <td>{list.unit}</td>
+                          <td>{list.unitName}</td>
                           <td>{list.refills}</td>
-                          <td>{list.providerId}</td>
+                          <td>{list.userName}</td>
                           <td>
                             <button
                               type="button"
                               className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1"
-                              onClick={() => {
-                                handleDelete(list.id);
-                              }} title="Delete"
+                              onClick={() => { handleOpenDeletePopUp(list.id) }} title="Delete"
                             >
                               <img src={deleteIcon} className="icnn" alt="" />
                             </button>
@@ -868,10 +891,10 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
                                   list.quantity,
                                   list.size,
                                   list.unit,
-                                  list.refills,
+                                  list.refillsId,
                                   list.dosage,
                                   list.form,
-                                  list.route,
+                                  list.routeId,
                                   list.interval,
                                   list.note,
                                   list.perRefill,
@@ -897,7 +920,26 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
           </div>
         </div>
       </div>
+      {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+
       {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
+      {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Prescription deleted !!" />) : ("")}
+      {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Prescription updated successfully!!" />) : ("")}
     </>
   );
 }

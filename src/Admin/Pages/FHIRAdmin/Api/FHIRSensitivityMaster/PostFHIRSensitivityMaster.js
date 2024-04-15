@@ -1,6 +1,6 @@
 async function PostFHIRSensitivityMaster(data) {
     // let token = window.SuperAdminToken;
-    let url = window.AppbaseUrl + '/api/FHIRSensitivityMaster/InserFHIRSensitivityMaster';
+    let url = window.AppbaseUrl + '/api/EMRSensitivityMaster/InserFHIRSensitivityMaster';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

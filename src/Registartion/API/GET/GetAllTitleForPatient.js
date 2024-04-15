@@ -1,5 +1,5 @@
 async function GetAllTitleForPatient(data) {
-    let url = window.AppbaseUrl + "/api/FHIRTitleMaster/GetAllTitleForPatient";
+    let url = window.AppbaseUrl + "/api/EMRTitleMaster/GetAllTitleForPatient";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

@@ -1,5 +1,5 @@
 async function PutFHIRSensitivityMaster(data) {
-    let url = window.AppbaseUrl + '/api/FHIRSensitivityMaster/UpdateFHIRSensitivityMaster';
+    let url = window.AppbaseUrl + '/api/EMRSensitivityMaster/UpdateFHIRSensitivityMaster';
     let token = window.SuperAdminToken;
     let head = {
         'Content-Type': 'application/JSON',

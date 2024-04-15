@@ -1,6 +1,6 @@
 async function GetAllInterval() {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetAllInterval";
-  let url = window.AppbaseUrl+"/api/FHIRIntervalMaster/GetAllInterval";
+  let url = window.AppbaseUrl+"/api/EMRIntervalMaster/GetAllInterval";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

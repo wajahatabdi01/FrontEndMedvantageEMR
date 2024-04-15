@@ -1,6 +1,6 @@
 async function DeleteFunctionAndCog(id, userid) {
   // let url = window.fhiropenEMR+"/api/FHIRCarePlanTypeMaster/GetAllCarePlanType";
-  let url = window.AppbaseUrl+"/api/FHIRFormFunctionalCognitiveStatus/DeleteFHIRFormFunctionalCognitiveStatus?Id="+id+"&UserId="+userid;
+  let url = window.AppbaseUrl+"/api/EMRFormFunctionalCognitiveStatus/DeleteFHIRFormFunctionalCognitiveStatus?Id="+id+"&UserId="+userid;
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

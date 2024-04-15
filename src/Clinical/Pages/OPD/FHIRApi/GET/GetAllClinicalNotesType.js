@@ -1,5 +1,5 @@
 async function GetAllClinicalNotesType(data) {
-  let url = window.AppbaseUrlNew+"/api/ClinicalNotesCategoryAndTypeMaster/GetAllClinicalNotesType";
+  let url = window.AppbaseUrl+"/api/ClinicalNotesCategoryAndTypeMaster/GetAllClinicalNotesType";
 let head = { "Content-Type": "application/JSON", accept : '*/*' };
 
 

@@ -4,7 +4,9 @@ import plus from '../../assets/images/icons/icons8-plus-30.png';
 import deleteIcon from '../../assets/images/icons/icons8-delete-30.png';
 import save from '../../assets/images/icons/save.svg';
 import clear from '../../assets/images/icons/clear.svg'
-import editIcon from '../../assets/images/icons/icons8-pencil-30.png'
+import editIcon from '../../assets/images/icons/icons8-pencil-30.png';
+import IconEdit from '../../assets/images/icons/IconEdit.svg';
+import IconDelete from '../../assets/images/icons/IconDelete.svg'
 import { CodeMaster } from '../../Admin/Pages/EMR Master/CodeMaster';
 import PostFunctionAndCog from '../API/PostFunctionAndCog';
 import GetFunctionAndCog from '../API/GetFunctionAndCod';
@@ -35,6 +37,7 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
   const [getFunAndCogList, setFunAndCogList] = useState([]);
   const [toShowButtons, setToShowButtons] = useState(1);
   const [theRowId, setTheRowId] = useState(0)
+  const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
   ///////////////////////////////////////////////////////////////////
 
 
@@ -90,9 +93,10 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
   }
 
   ///////////// to open modal /////////////////////////
-  const handleOpenModal = (modalID) => {
+  const handleOpenModal = (modalID,rowId) => {
     setIsShowPopUp(1);
     setPopUpId(modalID);
+    document.getElementById('errDate' + rowId).style.display = "none";
 
 
   }
@@ -139,11 +143,17 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
 
     const getresponse = await dataMaker(makeData);
 
-    if (carePlanRow.length === getresponse.length) {
       let tempArrList = [];
       const data = [...carePlanRow];
       for (let i = 0; i < data.length; i++) {
-        const date = document.getElementById('funCareDateID' + data[i].rowID).value;
+        if(!document.getElementById('funCodeInputID' + data[i].rowID).value){
+
+          document.getElementById("errDate"+data[i].rowID).innerHTML = "Please select code.";
+      document.getElementById("errDate"+data[i].rowID).style.display = "block";
+      return;
+        }
+        else{
+          const date = document.getElementById('funCareDateID' + data[i].rowID).value;
         const mentalStatusCheck = document.getElementById('mentalStatusID' + data[i].rowID);
         const description = document.getElementById('funCareDescriptionID' + data[i].rowID).value;
         const mentalStatus = mentalStatusCheck.checked;
@@ -161,6 +171,8 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
           codetext: codeTextMaker ? codeTextMaker : '',
           description: description
         })
+        }
+        
       }
 
       let finalObj = {
@@ -183,10 +195,14 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
         }, 2000)
         handleClear();
       }
-    }
-    else {
-      alert('Please select the code.');
-    }
+      else{
+        setShowToster(2);
+      setTimeout(() => {
+        // handleClear();
+        setShowToster(2)
+      }, 2000)
+      }
+    
   }
 
   const handleClear = () => {
@@ -214,9 +230,9 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
     }
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Do you wish to delete?")) {
-      const resDel = await DeleteFunctionAndCog(id, window.userId);
+  const handleDelete = async () => {
+   
+      const resDel = await DeleteFunctionAndCog(theRowId, window.userId);
       if (resDel.status === 1) {
 
 
@@ -225,10 +241,20 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
           setShowToster(28)
         }, 2000);
         getfunAndCog();
+        setIsShowDeletePopUp(0)
 
       }
-    }
+    
 
+  }
+
+  const handleOpenDeletePopUp = (rowId) => {
+    setTheRowId(rowId);
+    setIsShowDeletePopUp(1);
+  }
+  const handleCloseDeletePopUp = () => {
+    setIsShowDeletePopUp(0);
+    setTheRowId(0)
   }
 
   const handleEdit = async (list) => {
@@ -300,7 +326,12 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
       handleClear();
     }
     else {
-      alert('Data not updated!');
+      
+      setShowToster(1);
+      setTimeout(() => {
+        // handleClear();
+        setShowToster(1)
+      }, 2000)
     }
   }
 
@@ -325,7 +356,8 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
                           <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                             <label className='form-label'>Code :<span className="starMandatory">*</span></label>
                             {/* <input type='text'  className='form-control form-control-sm'  id={'codeInputID' + carePlan.rowID} placeholder="Enter Code" onClick={() => { handleOpenModal('codeInputID' + carePlan.rowID) }} /> */}
-                            <input type='text' className='form-control form-control-sm' id={'funCodeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('funCodeInputID' + carePlan.rowID) }} placeholder='Select Code' />
+                            <input type='text' className='form-control form-control-sm' id={'funCodeInputID' + carePlan.rowID} onClick={() => { handleOpenModal('funCodeInputID' + carePlan.rowID, carePlan.rowID) }} placeholder='Select Code' />
+                            <small id={"errDate" + carePlan.rowID} className="form-text text-danger" style={{ display: "none" }}></small>
                           </div>
                           <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                             <label className='form-label'>Date :</label>
@@ -410,13 +442,12 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
                         <td>{list.activity == 1 ? 'True' : 'False'}</td>
                         <td>{list.description}</td>
                         <td>
-
-                          <button type="button" className="btn btn-secondary btn-sm btn-save-fill mb-1 me-1" title="Edit" onClick={() => { handleEdit(list) }}>
-                            <img src={editIcon} className="icnn" alt="" />
-                          </button>
-                          <button type="button" className="btn btn-danger btn-sm btn-danger-fill mb-1 me-1" title="Delete" onClick={() => { handleDelete(list.id) }} >
-                            <img src={deleteIcon} className="icnn" alt="" />
-                          </button>
+                          <div className="action-button">
+                            {/* <div><img src={IconDelete}  onClick={() => { deleteImmunizationListData(immunizationList.id) }} alt='' /></div> */}
+                            <div onClick={() => { handleEdit(list) }}><img src={IconEdit} alt='' title='Edit Careplan' /></div>
+                            <div onClick={() => { handleOpenDeletePopUp(list.id) }}><img src={IconDelete} title='Delete Careplan' alt='' /></div>
+                            {/* <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal"><img src={IconDelete} onClick={() => { setTheRowId(list.id) }} alt='' /></div> */}
+                          </div>
                         </td>
 
                       </tr>
@@ -445,10 +476,31 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
           </div>
         </div>
         : ''}
+
+        {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
+        {isShowDeletePopUp === 1 ? <div className={`modal d-${isShowDeletePopUp === 1 ? 'block' : 'none'}`} id="deleteModal"  data-bs-backdrop="static">
+    <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content" style={{ position: 'relative', zIndex: '1051' }}>
+            <div className="modal-body modelbdy text-center">
+                <div className='popDeleteIcon'><i className="fa fa-trash"></i></div>
+                <div className='popDeleteTitle mt-3'>Delete?</div>
+                <div className='popDeleteContent'>Do you want to delete?</div>
+            </div>
+            <div className="modal-footer1 text-center">
+                <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal" onClick={handleCloseDeletePopUp}>Cancel</button>
+                <button type="button" className="btn-delete popBtnDelete" onClick={handleDelete} data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+ : ''}
+            {/* {/ -----------------------End Delete Modal Popup--------------------- /} */}
       {/* ------------------------------------------ Code Master popUp End------------------------------------ */}
       {showToster === 27 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive saved successfully !!" />) : ("")}
       {showToster === 30 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive updated successfully !!" />) : ("")}
-      {showToster === 28 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive deleted successfully !!" />) : ("")}
+      {showToster === 28 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive deleted !!" />) : ("")}
+      {showToster === 1 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive not updated !!" />) : ("")}
+      {showToster === 2 ? (<SuccessToster handle={setShowToster} message="Functional and Cognitive not saved !!" />) : ("")}
 
     </>
   )

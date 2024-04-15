@@ -1,5 +1,5 @@
 async function UpdateEncounter(data) {
-    let url = window.AppbaseUrl + '/api/FHIREncounter/UpdateEncounter?EncounterDetailsJsonString='+data;
+    let url = window.AppbaseUrl + '/api/EMREncounter/UpdateEncounter?EncounterDetailsJsonString='+data;
     let head = {
         'Content-Type': 'application/JSON',
         accept: '*/*',

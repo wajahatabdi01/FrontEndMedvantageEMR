@@ -1,5 +1,5 @@
 async function GetAllSeverityData(data) {
-    let url = window.AppbaseUrl + "/api/FHIRSeverityMaster/GetAllSeverityData";
+    let url = window.AppbaseUrl + "/api/EMRSeverityMaster/GetAllSeverityData";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

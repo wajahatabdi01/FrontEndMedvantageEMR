@@ -1,6 +1,6 @@
 let GetRuleByPlanId = async (PlanId) => {
     // let url = window.fhiropenEMR + '/api/FHIRPlanRuleMapping/GetRuleByPlanId?PlanId=' + PlanId;
-    let url = window.AppbaseUrl + '/api/FHIRPlanRuleMapping/GetRuleByPlanId?PlanId=' + PlanId;
+    let url = window.AppbaseUrl + '/api/EMRPlanRuleMapping/GetRuleByPlanId?PlanId=' + PlanId;
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', }
     let response = "";
     await fetch(url, {

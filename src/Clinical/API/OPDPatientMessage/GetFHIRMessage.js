@@ -1,6 +1,6 @@
 
 async function GetFHIRMessage(param) {
-    let url = window.AppbaseUrl + `/api/FHIRMessage/GetMessage?Uhid=${param.Uhid}&ClientId=${param.ClientId}&EncounterId=${param.EncounterId}`;
+    let url = window.AppbaseUrl + `/api/EMRMessage/GetMessage?Uhid=${param.Uhid}&ClientId=${param.ClientId}&EncounterId=${param.EncounterId}`;
     const headers = { "Content-Type": "application/JSON", accept: '*/*' };
 
     try {

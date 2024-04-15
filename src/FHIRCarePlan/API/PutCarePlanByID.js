@@ -1,5 +1,5 @@
 const PutCarePlanByID = async(params)=>{
-  let url = window.AppbaseUrl+"/api/FHIRPatientCarePlan/UpdatePatientCarePlan";
+  let url = window.AppbaseUrl+"/api/EMRPatientCarePlan/UpdatePatientCarePlan";
   let head = { 'Content-Type': 'application/JSON', 'accept': '*/*', };
   let responsonse = "";
   await fetch(url, {

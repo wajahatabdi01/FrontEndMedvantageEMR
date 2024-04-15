@@ -1,5 +1,5 @@
 async function FHIRGetEncounterByUHIDandIssueID(uhid, issueID, encounterId) {
-  let url = window.AppbaseUrl+"/api/FHIREncounter/GetAllEncounters?Uhid="+uhid+"&Issueid="+issueID+"&EncounterId="+encounterId;
+  let url = window.AppbaseUrl+"/api/EMREncounter/GetAllEncounters?Uhid="+uhid+"&Issueid="+issueID+"&EncounterId="+encounterId;
 
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   let data={};

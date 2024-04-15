@@ -1,6 +1,6 @@
 async function GetFHIRImmunizationAdministrationSite() {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/GetFHIRImmunizationAdministrationSite";
-  let url = window.AppbaseUrl+"/api/FHIRImmunizationMaster/GetFHIRImmunizationAdministrationSite";
+  let url = window.AppbaseUrl+"/api/EMRImmunizationMaster/GetFHIRImmunizationAdministrationSite";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

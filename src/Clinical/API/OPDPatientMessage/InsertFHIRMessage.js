@@ -1,5 +1,5 @@
 async function InsertFHIRMessage(data) {
-    let url = window.AppbaseUrl + '/api/FHIRMessage/InsertMessage';
+    let url = window.AppbaseUrl + '/api/EMRMessage/InsertMessage';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

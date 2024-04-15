@@ -1,5 +1,5 @@
 async function GetAllFHIRClass(data) {
-    let url = window.AppbaseUrl + "/api/FHIRClassMaster/GetAllFHIRClassMaster";
+    let url = window.AppbaseUrl + "/api/EMRClassMaster/GetAllFHIRClassMaster";
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,

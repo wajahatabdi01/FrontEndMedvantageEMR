@@ -1,6 +1,6 @@
 async function PostFHIRTypeMaster(data) {
     // let token = window.SuperAdminToken;
-    let url = window.AppbaseUrl + '/api/FHIRTypeMaster/InserFHIRTypeMaster';
+    let url = window.AppbaseUrl + '/api/EMRTypeMaster/InserFHIRTypeMaster';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

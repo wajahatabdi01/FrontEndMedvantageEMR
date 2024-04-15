@@ -29,7 +29,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   const [toShowButtons, setToShowButtons] = useState(1);
   const [theRowId, setTheRowId] = useState(0)
 
-
+  const [currentDate] = useState(getCurrentDate());
   // const handleTextChange  =(e) =>{
   //   let arr=[...carePlanRow];
 
@@ -48,7 +48,26 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
+
+    function getCurrentDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+  
+      // Adding leading zero if month/day is less than 10
+      if (month < 10) {
+        month = '0' + month;
+      }
+      if (day < 10) {
+        day = '0' + day;
+      }
+  
+      return `${year}-${month}-${day}`;
+    }
   //////////////////////////////////////  TO Get Care Plan Type List ///////////////////////////////
+
+
 
   const funGetCarePlanTypeList = async () => {
     const getCareTypeRes = await GetCarePlanType();
@@ -80,7 +99,6 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
   }
 
   const handleOpenDeletePopUp = (rowId) => {
-    console.log('its workingggggg : ')
     setTheRowId(rowId);
     setIsShowDeletePopUp(1);
   }
@@ -434,7 +452,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Date :</label>
-                          <input type='date' className='form-control form-control-sm' id={'careDateID' + carePlan.rowID} />
+                          <input type='date' min={currentDate} className='form-control form-control-sm' id={'careDateID' + carePlan.rowID} />
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Type :</label>

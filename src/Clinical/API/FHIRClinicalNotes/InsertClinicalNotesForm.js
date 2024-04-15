@@ -1,5 +1,5 @@
 async function InsertClinicalNotesForm(data) {
-    let url = window.AppbaseUrl + '/api/FHIRClinicalNotesForm/InsertClinicalNotesForm';
+    let url = window.AppbaseUrl + '/api/EMRClinicalNotesForm/InsertClinicalNotesForm';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

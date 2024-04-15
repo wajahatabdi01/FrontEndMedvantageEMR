@@ -1,6 +1,6 @@
 async function PostFHIRDischargeDispositionMaster(data) {
     // let token = window.SuperAdminToken;
-    let url = window.AppbaseUrl + '/api/FHIRDischargeDispositionMaster/InserFHIRDischargeDispositionMaster';
+    let url = window.AppbaseUrl + '/api/EMRDischargeDispositionMaster/InserFHIRDischargeDispositionMaster';
     let head = {
       'Content-Type': 'application/JSON',
       accept: '*/*',

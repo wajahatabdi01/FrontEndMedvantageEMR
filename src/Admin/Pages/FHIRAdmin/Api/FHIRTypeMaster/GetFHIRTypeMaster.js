@@ -1,5 +1,5 @@
 async function GetFHIRTypeMaster(data) {
-    let url = window.AppbaseUrl+"/api/FHIRTypeMaster/GetAllFHIRTypeMaster";
+    let url = window.AppbaseUrl+"/api/EMRTypeMaster/GetAllFHIRTypeMaster";
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   
   

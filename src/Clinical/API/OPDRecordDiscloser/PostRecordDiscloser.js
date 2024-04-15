@@ -1,5 +1,5 @@
 let PostRecordDiscloser =async(pobj)=>{
-    let url= window.AppbaseUrl + "/api/FHIRRecordDisclosure/InsertRecordDisclosure";
+    let url= window.AppbaseUrl + "/api/EMRRecordDisclosure/InsertRecordDisclosure";
    const head={'Content-Type': 'application/json-patch+json','accept':'*/*',};
    let data={};
    let response= await fetch(url,{

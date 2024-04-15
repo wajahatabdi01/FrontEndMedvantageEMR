@@ -395,7 +395,10 @@ export default function IPDTopVitals(props) {
         }
         const saveRes = await InsertPatientVitalForONC(saveObj);
         if(saveRes.status === 1) {
-            alert('Data Saved For Vital');
+            setShowToster(16)
+            setTimeout(() => {
+              setShowToster(0);
+            }, 2000)
         }
         else{
             alert('Not saved')
@@ -928,6 +931,7 @@ export default function IPDTopVitals(props) {
             ) : (
                 ""
             )}
+            {showToster === 16 ? (<SuccessToster handle={setShowToster} message="Vitals saved successfully !!" />) : ("")}
 
             {/*  <!------------------- Start Delete Modal ---------------------------------->  */}
             <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
