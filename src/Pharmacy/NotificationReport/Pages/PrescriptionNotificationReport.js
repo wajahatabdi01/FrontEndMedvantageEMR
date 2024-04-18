@@ -292,6 +292,7 @@ export default function PrescriptionNotificationReport() {
                                     )
                                   })} */}
                                   {medData.medicineData && [medData.medicineData].map((list, index) => {
+                                    console.log('listttt : ', list)
                                     return (
                                       <tr>
                                         <td><input type='checkbox' id={'check' + list.id} /></td>
