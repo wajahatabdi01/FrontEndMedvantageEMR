@@ -389,6 +389,7 @@ import FHIRViewCCDA from '../FHIRViewCCDA/Pages/FHIRViewCCDA';
 import FHIRViewCCDAData from '../FHIRViewCCDA/Pages/FHIRViewCCDAData';
 import AddressBook from '../Admin/Pages/FHIRMaster/AddressBook';
 import FHIRImmunizationAdministrationSiteMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRImmunizationAdministrationSiteMaster';
+import TemplateMaster from '../Admin/Pages/TemplateMaster/Pages/TemplateMaster';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -589,6 +590,7 @@ export default function ApiRoutes() {
                         <Route path="/fhirtypemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRTypeMaster />} name="FHIRTypeMaster" />} />} />
                         <Route path="/fhirsensitivitymaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRSensitivityMaster />} name="FHIRSensitivityMaster" />} />} />
                         <Route path="/fhirdischargedispositionmaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<FHIRDischargeDispositionMaster />} name="FHIRDischargeDispositionMaster" />} />} />
+                        <Route path="/templatemaster/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<TemplateMaster />} name="TemplateMaster" />} />} />
                   </>
                   {/* End Here */}
 
