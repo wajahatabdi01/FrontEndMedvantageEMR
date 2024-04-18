@@ -12358,3 +12358,7 @@ span.starMandatory {
 .modal.fade.show {
   backdrop-filter: blur(2px);
 }
+
+.ql-container.ql-snow {
+  height: 170px;
+}
