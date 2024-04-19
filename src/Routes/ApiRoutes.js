@@ -390,6 +390,7 @@ import FHIRViewCCDAData from '../FHIRViewCCDA/Pages/FHIRViewCCDAData';
 import AddressBook from '../Admin/Pages/FHIRMaster/AddressBook';
 import FHIRImmunizationAdministrationSiteMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRImmunizationAdministrationSiteMaster';
 import TemplateMaster from '../Admin/Pages/TemplateMaster/Pages/TemplateMaster';
+import PatientNotes from '../Clinical/Pages/IPD/PatientNotes';
 //import FHIRClassificationTypeMaster from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 // import /fhirclassificationtypemaster/ from '../Admin/Pages/FHIRAdmin/Pages/FHIRClassificationTypeMaster';
 
@@ -675,6 +676,7 @@ export default function ApiRoutes() {
                         <Route path="/patientpersonalDashboardpmdDashboard/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientProfileForDB />} name="null" />} />} />
                         <Route path="/patientoutput/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<Output />} name="ipd" />} />} />
                         <Route path="/patientphysicalactivity/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientPhysicalActivity />} name="ipd" />} />} />
+                        <Route path="/patientnotes/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientNotes />} name="ipd" />} />} />
 
                   </>
                   {/* -----------------------------End IPD Routing---------------------- */}
