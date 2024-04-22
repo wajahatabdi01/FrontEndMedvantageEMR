@@ -8492,10 +8492,10 @@ a.nav-link.px-3.sidebar-link span {
   }
 
   .patient-lft{
-    width: 100%;
+    width: 100% !important;
     }
     .patient-rt{
-    width: 100%;
+    width: 100% !important;
     }
     .patientMain {
       row-gap: 10px;

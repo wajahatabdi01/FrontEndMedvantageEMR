@@ -253,8 +253,8 @@ export default function PatientNotes() {
             <div className="tab-content mt-2" id="nav-tabContent">
                 <div className="tab-pane fade show active" id="nav-ProgressNote" role="tabpanel" aria-labelledby="nav-ProgressNote-tab" tabIndex="0">
 
-                    <div className='patientMain'>
-                        <div className='patient-lft'>
+                    <div className='patientMain_ row'>
+                        <div className='patient-lft_ col-md-4 pe-1 mb-2'>
                             <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-12 p-0">
@@ -303,7 +303,7 @@ export default function PatientNotes() {
                                 </div>
                             </div>
                         </div>
-                        <div className='patient-rt'>
+                        <div className='patient-rt_ col-md-8 ps-2'>
                             <div className="col-12">
 
                                 <div className="med-box">
