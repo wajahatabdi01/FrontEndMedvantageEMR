@@ -171,7 +171,7 @@ export default function PatientNotes() {
                     setShowToster(0)
                 }, 2000);
 
-                getdata()
+                getdata(id)
 
             }
             else {
