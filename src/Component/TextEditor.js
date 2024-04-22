@@ -25,17 +25,30 @@ export default function TextEditor(props) {
         ]
     })
 
-    let handleOnChange = (value)=>{
-        props.getTextvalue({target:{
-            value:value,
-            id:props.id,
-            name:props.name
-        }})
-    }
+    // let handleOnChange = (value)=>{
+    //     props.getTextvalue({target:{
+    //         value:value,
+    //         id:props.id,
+    //         name:props.name
+    //     }})
+    // }
+
+    const handleOnChange = (value) => {
+      
+        if (typeof props.getTextvalue === 'function') {
+            props.getTextvalue({
+                target: {
+                    value: value === '' ? '' : value,
+                    id: props.id,
+                    name: props.name
+                }
+            });
+        }
+    };
     
     return (
         <div name={props.name} id={props.id}>
-            <ReactQuill value={props.setValue} formats={format} modules={module} onChange={handleOnChange} disabled/>
+            <ReactQuill  value={props.setValue || ''} formats={format} modules={module} onChange={handleOnChange} disabled/>
         </div>
     )
 }

@@ -940,6 +940,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       {showToster === 22 ? (<SuccessToster handle={setShowToster} message="Prescription saved successfully !!" />) : ("")}
       {showToster === 9 ? (<SuccessToster handle={setShowToster} message="Prescription deleted !!" />) : ("")}
       {showToster === 10 ? (<SuccessToster handle={setShowToster} message="Prescription updated successfully!!" />) : ("")}
+      {showToster === 23 ? (<SuccessToster handle={setShowToster} message="Prescription sent successfully!!" />) : ("")}
     </>
   );
 }

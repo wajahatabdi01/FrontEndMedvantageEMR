@@ -12359,6 +12359,13 @@ span.starMandatory {
   backdrop-filter: blur(2px);
 }
 
+/* .ql-container.ql-snow {
+  height: 170px;
+} */
+.tempEditor .ql-container.ql-snow {
+  height: 200px;
+}
+
 .codesectn {
   display: flex;
   gap: 10px;
