@@ -75,7 +75,6 @@ export default function PatientNotes() {
         if (response.status === 1) {
             setTemplateMasterList(response.responseValue);
             console.log("gfgfdfd", response.responseValue)
-
             setShowLoder(0)
         }
         else {
@@ -134,12 +133,6 @@ export default function PatientNotes() {
     }
 
     let saveForm = async (id) => {
-        // console.log('key-->>>>>>',key);
-        // // const pdmid = key
-        // sendForm["pdmID"] = key;
-        // sendForm["doctorID"]= window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].doctorId : []
-        // sendForm["pmID"]= window.sessionStorage.getItem("IPDpatientList") ? JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].pmId : []
-        // sendForm["detailsDate"] =currentDate+' '+ currentTime;
 
         const obj = {
             pid: PID,
@@ -155,8 +148,6 @@ export default function PatientNotes() {
         }
 
         console.log('sendForm222', obj);
-
-        // let valresponse = ValidationPatientNotes(sendForm.details)
 
         let valresponse = true
         if (valresponse) {
@@ -227,10 +218,13 @@ export default function PatientNotes() {
 
 
     useEffect(() => {
+        // setDetailName("Progress Note");
+        // setDetailName(templateMasterList[0] && templateMasterList[0].detailsName)
         getdata(1)
-        getNotesTitle()
+        getNotesTitle(0)
         getCurrentDateTime()
-    }, [])
+       
+    }, []);
 
 
     return (
@@ -277,7 +271,7 @@ export default function PatientNotes() {
 
                                                     <div className="col-md-12">
                                                         <img src={notes} className='icnn' />
-                                                        <label htmlFor="details" className="form-label">{DetailName}</label>
+                                                        <label htmlFor="details" className="form-label">{DetailName ? DetailName : 'Progress Note' }</label>
                                                         <div className='tempEditorpt'>
                                                             <TextEditor setValue={!templateByUserIdList[0] ? '' : templateByUserIdList[0].body} name="body" id="body" />
 
