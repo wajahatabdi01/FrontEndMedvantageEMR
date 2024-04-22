@@ -12358,3 +12358,54 @@ span.starMandatory {
 .modal.fade.show {
   backdrop-filter: blur(2px);
 }
+
+.codesectn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+button.btndeltcode {
+  font-size: 11px;
+  padding: 0px 2px;
+  color: red;
+  border: 1px solid red;
+  border-radius: 3px;
+  background: #fff;
+  /* margin-top: 26px; */
+}
+
+.codelabel {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  align-items: center;
+}
+
+span.AddCode i {
+  /* border: 1px solid #1d4999; */
+  border: 1px solid #bdc0c3;
+  color: #fff;
+  font-size: 12px;
+  padding: 1px 4px;
+  /* background: #1d4999; */
+  background: #a2a9af;
+
+  border-radius: 3px;
+}
+
+span.AddVital i {
+  border: 1px solid #bdc0c3;
+  color: #fff;
+  font-size: 15px;
+  background: #a2a9af;
+  border-radius: 3px;
+  display: flex;
+  width: 31px;
+  height: 31px;
+  align-items: center;
+  justify-content: center;
+}
