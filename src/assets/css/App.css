@@ -8490,6 +8490,17 @@ a.nav-link.px-3.sidebar-link span {
     flex-direction: column;
     align-items: center;
   }
+
+  .patient-lft{
+    width: 100%;
+    }
+    .patient-rt{
+    width: 100%;
+    }
+    .patientMain {
+      row-gap: 10px;
+      flex-wrap: wrap;
+  }
 }
 
 /* // Large devices (desktops, 992px and up) */
@@ -12364,4 +12375,29 @@ span.starMandatory {
 } */
 .tempEditor .ql-container.ql-snow {
   height: 200px;
+}
+.tempEditorpt .ql-container.ql-snow {
+  height: 425px;
+}
+img.imgprint {
+  width: 28px !important;
+  padding: 3px 5px;
+  background: #b6cbefd1;
+  border-radius: 3px;
+}
+.patientMain {
+  display: flex;
+  gap: 10px;
+}
+.btnsecPt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.patient-lft{
+width: 30%;
+}
+.patient-rt{
+width: 70%;
 }
