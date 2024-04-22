@@ -289,7 +289,7 @@ export default function OPDPrescriptionIndex(props) {
                     // SaveOPDData(t, "jsonDiagnosis")
                     // SaveOPDData(foodData, "jsonFood")
                     // Vitalsdata = [...data]
-                   
+
 
                     SaveOPDData(data, "jsonVital")
                     // SaveOPDData(patientCategoryResult, "patientCategoryResult")
@@ -398,9 +398,9 @@ export default function OPDPrescriptionIndex(props) {
                                             // data.patientHeightWeight
                                         }
                                     }
-                  
 
-                        SaveOPDData(data, "jsonVital")
+
+                                    SaveOPDData(data, "jsonVital")
 
                                     // SaveOPDData(data.patientCategoryResult, "patientCategoryResult")
                                     // SaveOPDData(data.patientExaminationResult, "patientExaminationResult")
@@ -575,7 +575,7 @@ export default function OPDPrescriptionIndex(props) {
                         // SaveOPDData(data.patientHistoryCategoryResultExistance, "patientHistoryCategoryResultExistance")
 
                         // SaveOPDData(prescriptiondata, "jsonArray")
-                       
+
                         SaveOPDData(data, "jsonVital")
 
 
@@ -624,12 +624,12 @@ export default function OPDPrescriptionIndex(props) {
         }
     }
     const getAllEncoutersAsPerIssueID = async () => {
-       
         const getRes = await FHIRGetEncounterByUHIDandIssueID(activeUHID, getIssueID, toPassEncounter);
 
         if (getRes.status === 1) {
             setEncounterList(getRes.responseValue);
             setShowImage(0)
+            setShowLoader(0);
         }
         else {
             setShowImage(1)
@@ -702,6 +702,7 @@ export default function OPDPrescriptionIndex(props) {
     const getPatientVisit = async () => {
         const resVisit = await GetPatientVisitsEncounter(activeUHID);
         if (resVisit.status === 1) {
+            setShowLoader(0);
             settheEncounterId(resVisit.responseValue);
             setToPassEncounter(resVisit.responseValue[0].encounterId)
         }

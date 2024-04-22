@@ -53,6 +53,8 @@ export default function OPDTOPBottom(props) {
   let [carePlan, setCarePlan] = useState(0);
   let [opdLifestyle, setOPDLifestyle] = useState(0);
   let [immunization, setImmunization] = useState(0);
+  let [patientMessage, setPatientMessage] = useState(0);
+  let [recordDisclosure, setRecordDisclosure] = useState(0);
   let [clinicalPres, setClinicalPres] = useState(0);
   let [vitals, setVitals] = useState(0);
   let [clinicalForms, setClinicalForms] = useState(0);
@@ -185,11 +187,11 @@ export default function OPDTOPBottom(props) {
           {t("Surgery")}{" "}
         </span>
       </div>
-      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+      {/* <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#vitals" onClick={() => { setVitals(1); props.setToShowDesiredList(false) }}>
           {t("Vitals")}{" "}
         </span>
-      </div>
+      </div> */}
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => { setCarePlan(1); props.setToShowDesiredList(false) }}>
           {t("Care Plan")}{" "}
@@ -207,11 +209,11 @@ export default function OPDTOPBottom(props) {
         </span>
       </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
-        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onClick={() => { props.setToShowDesiredList(false) }}>
+        <span data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onClick={() => { setRecordDisclosure(1); props.setToShowDesiredList(false) }}>
           {t("Record Disclosure")}{" "}
         </span>
       </div>
-      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer" onClick={() => { props.setToShowDesiredList(false) }}>
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer" onClick={() => { setPatientMessage(1); props.setToShowDesiredList(false) }}>
         <span data-bs-toggle="modal" data-bs-target="#Message">
           {t("Patient Message")}{" "}
         </span>
@@ -276,12 +278,13 @@ export default function OPDTOPBottom(props) {
               <h1 class="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Record Disclosure
               </h1>
-              <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" class="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setRecordDisclosure(0) }}>
                 <i class="fa fa-times"></i>
               </button>
             </div>
             <div class="modal-body">
-              <OPDRecordDisclosurePopUp theEncounterId={props.theEncounterId} />
+              {recordDisclosure === 1 ? <OPDRecordDisclosurePopUp theEncounterId={props.theEncounterId} setRecordDisclosure={setRecordDisclosure} /> : ''}
+              {/* <OPDRecordDisclosurePopUp theEncounterId={props.theEncounterId} /> */}
             </div>
           </div>
         </div>
@@ -312,7 +315,7 @@ export default function OPDTOPBottom(props) {
               <h1 className="modal-title fs-5 text-white " id="staticBackdropLabel">
                 Patient Message
               </h1>
-              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" onClick={() => { setPatientMessage(1) }}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
@@ -327,7 +330,8 @@ export default function OPDTOPBottom(props) {
                   aria-labelledby="home-tab"
                   tabindex="0"
                 > */}
-                <OPDPatientMessagePopUp theEncounterId={props.theEncounterId} />
+                {patientMessage === 1 ? <OPDPatientMessagePopUp theEncounterId={props.theEncounterId} setPatientMessage={setPatientMessage} /> : ''}
+                {/* <OPDPatientMessagePopUp theEncounterId={props.theEncounterId} /> */}
                 {/* </div> */}
               </div>
             </div>
