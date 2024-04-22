@@ -198,7 +198,7 @@ export default function PatientNotes() {
         if (response.status === 1) {
             setShowUnderProcess(0)
             setShowToster(1)
-            setTosterMessage("Data Deleted SuccessFully!")
+            setTosterMessage("Data Deleted SuccessFully!")  
             setTosterValue(0)
             setTimeout(() => {
                 setShowToster(0)
@@ -281,7 +281,7 @@ export default function PatientNotes() {
                                                     <div className="col-md-12">
                                                         <div className='btnsecPt'>
                                                             <div>
-                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { saveForm(id) }}><img src={savewhite} className='icnn' />Templates</button>
+                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Templates</button>
                                                             </div>
                                                             <div>
                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { saveForm(id) }}><img src={savewhite} className='icnn' />Save</button>
