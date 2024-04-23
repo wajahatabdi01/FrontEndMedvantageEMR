@@ -240,7 +240,7 @@ export default function PatientNotes() {
 
     let handleReset = async (id) => {
         getdata(id);
-        
+        getCurrentDateTime();
     }
 
 
