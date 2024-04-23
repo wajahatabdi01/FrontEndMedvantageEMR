@@ -5,6 +5,7 @@ import BoxContainer from '../../../Component/BoxContainer'
 import upDownIcon from '../../../assets/images/icons/upDownIcon.svg'
 import IconEdit from '../../../assets/images/icons/IconEdit.svg'
 import IconDelete from '../../../assets/images/icons/IconDelete.svg'
+import reset from '../../../assets/images/icons/RotateIcon.png'
 import notes from '../../../assets/images/icons/PatientHistory1.svg'
 import GetTemplateByUserId from '../../API/IPD/PatientsNotes/GetTemplateByUserId'
 // import PutPatientNotes from '../../../../API/IPD/PatientsNotes/PutPatientNotes'
@@ -26,6 +27,7 @@ import GetPatientNotes from '../../API/IPD/PatientsNotes/GetPatientNotes'
 import GetAllTemplateMaster from '../../../Admin/Pages/TemplateMaster/API/GetAllTemplateMaster'
 import GetNotesTittle from '../../../Admin/Pages/TemplateMaster/API/GetNotesTittle'
 import PostPatientNotes from '../../API/IPD/PatientsNotes/PostPatientNotes'
+import DropdownWithSearch from '../../../Component/DropdownWithSearch';
 import { t } from 'i18next'
 
 
@@ -48,6 +50,7 @@ export default function PatientNotes() {
     let [tosterValue, setTosterValue] = useState(0)
     // let [sendForm, setSendForm] = useState('')
     let [id, setId] = useState(1)
+    let [isShowTemplateModel, setIsShowTemplateModel] = useState(0)
 
 
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
@@ -87,22 +90,29 @@ export default function PatientNotes() {
         }
     }
 
+    let handleChange = (e) => {
 
-    // let handleChange = (e) => {
-    //     let name = e.target.name;
-    //     let value = e.target.value;
-    //     setSendForm(sendForm => ({
-    //       ...sendForm,
-    //       [name]: value
-    //     }))
-    //   }
+        let name = e.target.name;
+        let value = e.target.value;
+        setBody("")
+        if (name === "body") {
+            setBody(e.target.value);
+        }
+
+    }
+
+
+    function stripHtml(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    }
 
     //Get data
     let getdata = async (id, ind) => {
         setId(id)
         const isShared = 0
         let getResponse = await GetTemplateByUserId(id, userID, isShared, clientID);
-        let getPatientNotes = await GetPatientNotes(id);
+        let getPatientNotes = await GetPatientNotes(id, PID, clientID);
 
         if (getResponse.status === 1) {
             // setLoder(0)
@@ -132,13 +142,19 @@ export default function PatientNotes() {
 
     }
 
+
+    const GetTemplateNotes = () => {
+        setIsShowTemplateModel(1);
+
+
+    };
+
     let saveForm = async (id) => {
 
         const obj = {
             pid: PID,
             doctorID: DOCTORID,
             pdmID: id,
-            pmID: PMID,
             details: body,
             detailsDate: currentDate + ' ' + currentTime,
             userID: userID,
@@ -188,7 +204,7 @@ export default function PatientNotes() {
 
 
     //Handle Delete
-    let handleDeleteRow = async () => {
+    let handleDeleteRow = async (id) => {
         // setLoder(1)
         setShowUnderProcess(1)
         let obj = {
@@ -198,12 +214,12 @@ export default function PatientNotes() {
         if (response.status === 1) {
             setShowUnderProcess(0)
             setShowToster(1)
-            setTosterMessage("Data Deleted SuccessFully!")  
+            setTosterMessage("Data Deleted SuccessFully!")
             setTosterValue(0)
             setTimeout(() => {
                 setShowToster(0)
             }, 2000)
-            getdata()
+            getdata(id)
         }
         else {
             setShowUnderProcess(0)
@@ -216,6 +232,17 @@ export default function PatientNotes() {
         }
     }
 
+    let handleClear = () => {
+        setBody('')
+        setCurrentTime('')
+        setCurrentDate('')
+    }
+
+    let handleReset = async (id) => {
+        getdata(id);
+        
+    }
+
 
     useEffect(() => {
         // setDetailName("Progress Note");
@@ -223,7 +250,7 @@ export default function PatientNotes() {
         getdata(1)
         getNotesTitle(0)
         getCurrentDateTime()
-       
+
     }, []);
 
 
@@ -258,11 +285,11 @@ export default function PatientNotes() {
                                                 <BoxContainer>
                                                     <div className="col-md-12">
                                                         <div className="d-flex gap-2 align-content-end">
-                                                            <div className="mb-2 me-2" style={{flex:'1'}}>
+                                                            <div className="mb-2 me-2" style={{ flex: '1' }}>
                                                                 <img src={calender} className='icnn' /> <label htmlFor="detailsDate" className="form-label">Date</label>
                                                                 <input type="date" className="form-control form-control-sm" id="detailsDateProgress" name="detailsDate" placeholder="Enter Date" value={currentDate} />
                                                             </div>
-                                                            <div className="mb-2 me-2" style={{flex:'1'}}>
+                                                            <div className="mb-2 me-2" style={{ flex: '1' }}>
                                                                 <img src={clock} className='icnn' /> <label htmlFor="detailsDate" className="form-label">Time</label>
                                                                 <input type="time" className="form-control form-control-sm" id="detailsTimeProgress" name="detailsTime" placeholder="Enter Time" value={currentTime} />
                                                             </div>
@@ -270,22 +297,27 @@ export default function PatientNotes() {
                                                     </div>
 
                                                     <div className="col-md-12">
-                                                        <img src={notes} className='icnn' />
-                                                        <label htmlFor="details" className="form-label">{DetailName ? DetailName : 'Progress Note' }</label>
-                                                        <div className='tempEditorpt'>
-                                                            <TextEditor setValue={!templateByUserIdList[0] ? '' : templateByUserIdList[0].body} name="body" id="body" />
-
+                                                        <div className='resetMain'>
+                                                            <img src={notes} className='icnn' />
+                                                            <label htmlFor="details" className="form-label">{DetailName ? DetailName : 'Progress Note'}</label>
+                                                            <div className='tempEditorpt'>
+                                                                {/* <TextEditor setValue={!templateByUserIdList[0] ? '' : templateByUserIdList[0].body} name="body" id="body" /> */}
+                                                                <TextEditor getTextvalue={handleChange} setValue={body} name="body" id="body" />
+                                                                <div className='resetimg'>
+                                                                    <img src={reset} alt='' onClick={() => { handleReset(id) }}/>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div className="col-md-12">
                                                         <div className='btnsecPt'>
                                                             <div>
-                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Templates</button>
+                                                                <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { setIsShowTemplateModel(1); GetTemplateNotes() }}><img src={savewhite} className='icnn' />Templates</button>
                                                             </div>
                                                             <div>
                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { saveForm(id) }}><img src={savewhite} className='icnn' />Save</button>
-                                                                <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1" >
+                                                                <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1" onClick={handleClear}>
                                                                     <img src={clearIcon} className='icnn' />Clear</button>
                                                             </div>
                                                         </div>
@@ -309,8 +341,8 @@ export default function PatientNotes() {
                                         <div className='listdetailsct-in'>
                                             <div className='listd-in'>
                                                 <form className="d-flex ms-auto ser" role="search">
-                                                    <input type="search" className="form-control form-control-sm" placeholder="Search.." />
-                                                    <i className="fa fa-search"></i>
+                                                    {/* <input type="search" className="form-control form-control-sm" placeholder="Search.." /> */}
+                                                    {/* <i className="fa fa-search"></i> */}
                                                 </form>
                                             </div>
                                         </div>
@@ -323,10 +355,10 @@ export default function PatientNotes() {
                                             <thead>
                                                 <tr>
                                                     <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                    <th style={{width:'10%'}}>Date/Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
+                                                    <th style={{ width: '10%' }}>Date/Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     {/* <th>Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th> */}
-                                                    <th>{DetailName} <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
-                                                    <th style={{width:'10%'}}>Written Note<img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
+                                                    <th>{DetailName ? DetailName : 'Progress Note'} <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
+                                                    <th style={{ width: '10%' }}>Written Note <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     <th style={{ "width": "10%" }} className="text-center">Action</th>
                                                 </tr>
                                             </thead>
@@ -336,11 +368,9 @@ export default function PatientNotes() {
                                                     return (
                                                         <tr key={val.id}>
                                                             <td className="text-center">{ind + 1}</td>
-                                                            {/* <td>{val.detailsDate}</td>
-                        <td>{val.detailsTime}</td> */}
                                                             <td><span style={{ color: '#7696F1', fontSize: '13px' }}>{val.detailsDate}</span><br /><span style={{ color: '#858585', fontSize: '13px' }}>{val.detailsTime}</span></td>
-                                                            <td>{val.details}</td>
-                                                            <td>{val.consultandid}</td>
+                                                            <td>{stripHtml(val.details)}</td>
+                                                            <td>{val.consultantName}</td>
                                                             <td>
                                                                 <div className="action-button">
                                                                     <div className="actionItem" title="View"><img src={IconPrint} className='imgprint' alt="IconPrint" /></div>
@@ -368,6 +398,188 @@ export default function PatientNotes() {
                 }
 
 
+                {/* --------------------Template Model popup -------------*/}
+
+                {isShowTemplateModel === 1 ?
+                    <div className={`modal d-${isShowTemplateModel === 1 ? "block" : ""}`} id="templateModal" data-bs-backdrop="static">
+
+                        <div className="modal-dialog modal-xl">
+
+                            <div className="modal-content p-0">
+
+                                <div className="modal-header tempModal">
+                                    <div className='hedinimg'>
+                                        <img src={savewhite} className='icnn' />
+                                        <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Patient Note Templates</h1>
+                                    </div>
+
+                                    <button type="button" className="btn-close_ btnModalClosept" title="Close Window" onClick={() => { setIsShowTemplateModel(0) }}>
+
+                                        <i className="bi bi-x-octagon"></i>
+
+                                    </button>
+
+                                </div>
+
+                                <div className="modal-body p-0">
+
+                                    <div className='ptnotesHead'>
+                                        <div className='row'>
+                                            <div className='col-md-4 pe-1'>
+                                                <div className='ptnotesHead-inn'>
+                                                    <div className='patintbt'>
+                                                        <div className='row'>
+                                                            <div className="col-12">
+                                                                <div className="mb-2 me-2">
+                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
+                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='patintbt'>
+                                                        <div className='patintbt-i'>
+                                                            <span className='pttime'>07:00 PM</span>
+                                                            <span className='ptDate'>02/04/2024</span>
+                                                        </div>
+
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='usetemplte'>
+                                                        <div>
+                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='col-md-4 pe-1 ps-1'>
+                                                <div className='ptnotesHead-inn'>
+                                                    <div className='patintbt'>
+                                                        <div className='row'>
+                                                            <div className="col-12">
+                                                                <div className="mb-2 me-2">
+                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
+                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='patintbt'>
+                                                        <div className='patintbt-i'>
+                                                            <span className='pttime'>07:00 PM</span>
+                                                            <span className='ptDate'>02/04/2024</span>
+                                                        </div>
+
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='usetemplte'>
+                                                        <div>
+                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='col-md-4 ps-1'>
+                                                <div className='ptnotesHead-inn'>
+                                                    <div className='patintbt'>
+                                                        <div className='row'>
+                                                            <div className="col-12">
+                                                                <div className="mb-2 me-2">
+                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
+                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='patintbt'>
+                                                        <div className='patintbt-i'>
+                                                            <span className='pttime'>07:00 PM</span>
+                                                            <span className='ptDate'>02/04/2024</span>
+                                                        </div>
+
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='usetemplte'>
+                                                        <div>
+                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div> : ''
+                }
+
+
+                {/* -------------------------End Template Model Popup ---------------------*/}
+
                 {/*  <!--  Delete Pop-Up Modal -->  */}
 
                 <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static">
@@ -380,7 +592,7 @@ export default function PatientNotes() {
                             </div>
                             <div className="modal-footer1 text-center">
                                 <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn-delete popBtnDelete" onClick={handleDeleteRow} data-bs-dismiss="modal">Delete</button>
+                                <button type="button" className="btn-delete popBtnDelete" data-bs-dismiss="modal" onClick={() => { handleDeleteRow(id) }}>Delete</button>
                             </div>
                         </div>
                     </div>
