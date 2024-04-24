@@ -187,11 +187,11 @@ export default function OPDTOPBottom(props) {
           {t("Surgery")}{" "}
         </span>
       </div>
-      {/* <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
+      <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#vitals" onClick={() => { setVitals(1); props.setToShowDesiredList(false) }}>
           {t("Vitals")}{" "}
         </span>
-      </div> */}
+      </div>
       <div className="opdvitalbottom d-flex gap-1 align-items-center pointer">
         <span data-bs-toggle="modal" data-bs-target="#carePlanId" onClick={() => { setCarePlan(1); props.setToShowDesiredList(false) }}>
           {t("Care Plan")}{" "}
