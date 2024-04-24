@@ -18,6 +18,7 @@ import TosterUnderProcess from '../../../Component/TosterUnderProcess'
 import ValidationPatientNotes from '../../../Validation/IPD/ValidationPatientNotes'
 import savewhite from '../../..//assets/images/icons/save.svg'
 import clearIcon from '../../../assets/images/icons/clear.svg'
+import SuccessToster from '../../../Component/SuccessToster';
 import Search, { FindByQuery, SearchIndex } from '../../../Code/Serach'
 import ExistingComplain from "../../../assets/images/OPD/existingComplain.svg"
 // import OPDSymptomsPopUp from '../../../OPD/OPDSharePage/OPDPrescription/OPDSymptomsPopUp'
@@ -41,8 +42,10 @@ export default function PatientNotes() {
     let [showLoder, setShowLoder] = useState(0);
     let [body, setBody] = useState('')
     let [updateBool, setUpdateBool] = useState(0)
+    let [showSuccessMsg, setShowSuccessMsg] = useState('');
     let [loder, setLoder] = useState(1)
     let [rowId, setRowId] = useState('');
+    let [isShowToaster, setisShowToaster] = useState(0);
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
@@ -171,12 +174,11 @@ export default function PatientNotes() {
             let response = await PostPatientNotes(obj);
             if (response.status === 1) {
                 setShowUnderProcess(0)
-                setShowToster(1)
-                setTosterMessage("Data Save SuccessFully!")
-                setTosterValue(0)
+                setisShowToaster(1);
+                setShowSuccessMsg("Data saved Successfully")
                 setTimeout(() => {
-                    setShowToster(0)
-                }, 2000);
+                    setisShowToaster(0);
+                }, 1500);
 
                 getdata(id)
 
@@ -213,12 +215,11 @@ export default function PatientNotes() {
         let response = await DeletePatientNotes(obj)
         if (response.status === 1) {
             setShowUnderProcess(0)
-            setShowToster(1)
-            setTosterMessage("Data Deleted SuccessFully!")
-            setTosterValue(0)
+            setisShowToaster(1)
+            setShowSuccessMsg("Data Deleted Successfully!")
             setTimeout(() => {
-                setShowToster(0)
-            }, 2000)
+                setisShowToaster(0)
+            }, 1500)
             getdata(id)
         }
         else {
@@ -304,7 +305,7 @@ export default function PatientNotes() {
                                                                 {/* <TextEditor setValue={!templateByUserIdList[0] ? '' : templateByUserIdList[0].body} name="body" id="body" /> */}
                                                                 <TextEditor getTextvalue={handleChange} setValue={body} name="body" id="body" />
                                                                 <div className='resetimg'>
-                                                                    <img src={reset} alt='' onClick={() => { handleReset(id) }}/>
+                                                                    <img src={reset} alt='' onClick={() => { handleReset(id) }} title='Reset' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -373,9 +374,9 @@ export default function PatientNotes() {
                                                             <td>{val.consultantName}</td>
                                                             <td>
                                                                 <div className="action-button">
-                                                                    <div className="actionItem" title="View"><img src={IconPrint} className='imgprint' alt="IconPrint" /></div>
+                                                                    <div className="actionItem" title="Print"><img src={IconPrint} className='imgprint' alt="IconPrint" /></div>
                                                                     {/* <div className="actionItem" title="Edit"><img src={IconEdit} alt="Edit" onClick={() => { handleUpdate(val.id, val.pmID, val.pdmID, val.detailsDate, val.detailsTime, val.details, val.userId, "detailsDateProgress", "detailsTimeProgress", "detailsProgress") }} /></div> */}
-                                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" ><img src={IconDelete} alt="Delete" onClick={() => { setRowId(val.id) }} /></div>
+                                                                    <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" ><img src={IconDelete} alt="Delete" onClick={() => { setRowId(val.id) }} title='Delete' /></div>
 
                                                                 </div>
                                                             </td>
@@ -392,10 +393,7 @@ export default function PatientNotes() {
                         </div>
                     </div>
                 </div>
-                {
-                    showAlertToster === 1 ?
-                        <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
-                }
+
 
 
                 {/* --------------------Template Model popup -------------*/}
@@ -600,7 +598,15 @@ export default function PatientNotes() {
 
             </div>
 
+            {
+                showAlertToster === 1 ?
+                    <AlertToster handle={setShowAlertToster} message={showErrMessage} /> : ""
+            }
 
+            {
+                isShowToaster === 1 ?
+                    <SuccessToster handle={setShowToster} message={showSuccessMsg} /> : ""
+            }
         </>
     )
 }
