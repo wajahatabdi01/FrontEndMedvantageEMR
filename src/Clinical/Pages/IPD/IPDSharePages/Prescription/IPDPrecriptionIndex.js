@@ -30,8 +30,8 @@ export default function IPDPrecriptionIndex(props) {
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     : window.sessionStorage.getItem("IPDactivePatient")
-    ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid
-    : [];
+      ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid
+      : [];
 
   let getOnlySpecificData = async () => {
     setLoader(1);
@@ -178,7 +178,7 @@ export default function IPDPrecriptionIndex(props) {
       getData();
     } else {
       store.dispatch(getIPDPatientData(temp));
-      
+
       setLoader(0);
     }
   }, [IPDUHIDChange]);

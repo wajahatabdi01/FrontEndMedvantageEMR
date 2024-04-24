@@ -21,9 +21,9 @@ export default function OPDTopVitals(props) {
     const deptId = JSON.parse(window.sessionStorage.getItem("activePage")).DepartmentId;
     // console.log('testttt : ', JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId)
 
-   // const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId : 0;
+    // const doctorId = JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId ? JSON.parse(window.sessionStorage.getItem("OPDPatientData"))[0].doctorId : 0;
     const opdPatientData = JSON.parse(window.sessionStorage.getItem("OPDPatientData"));
-const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0].doctorId : 0;
+    const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0].doctorId : 0;
 
 
     const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -201,30 +201,28 @@ const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0]
 
     useEffect(() => {
         let flag = 0
-        sendVitals.map((val, ind)=>{
-            if(val.vmValue.length === 0)
-            {
-                flag= 1
+        sendVitals.map((val, ind) => {
+            if (val.vmValue.length === 0) {
+                flag = 1
             }
         })
-        if(flag ===0)
-        {
+        if (flag === 0) {
             SaveOPDData(sendVitals, "jsonVital");
         }
-        else{
-            
-            setTimeout(()=>{
+        else {
+
+            setTimeout(() => {
                 setData()
             }, 600)
         }
-        
+
     }, [sendVitals])
 
     let setData = () => {
         let temp = window.sessionStorage.getItem("patientsendData") ? JSON.parse(window.sessionStorage.getItem("patientsendData")) : []
         let activeUHID = window.sessionStorage.getItem("activePatient") ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid : []
         let tempVital = [...sendVitals]
-       
+
         temp.map((value, index) => {
             value.map((val, ind) => {
                 if (value[0] === activeUHID) {
@@ -235,7 +233,7 @@ const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0]
                                 sendVitals.map((v, i) => {
                                     if (val.vmId === v.vmId) {
                                         tempVital[i]["vmValue"] = val.vmValue
-                                      
+
                                     }
                                 })
                             })
@@ -272,7 +270,7 @@ const doctorId = opdPatientData && opdPatientData.length > 0 ? opdPatientData[0]
                 }
             }
         })
-        
+
     }, [patientsendData])
 
 
