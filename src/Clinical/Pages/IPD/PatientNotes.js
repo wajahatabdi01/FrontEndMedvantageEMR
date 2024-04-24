@@ -382,8 +382,7 @@ export default function PatientNotes() {
                                             <thead>
                                                 <tr>
                                                     <th className="text-center" style={{ "width": "5%" }}>#</th>
-                                                    <th style={{ width: '10%' }}>Date/Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
-                                                    {/* <th>Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th> */}
+                                                    <th style={{ width: '10%' }}>Date/Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>                                               
                                                     <th>{DetailName ? DetailName : 'Progress Note'} <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     <th style={{ width: '10%' }}>Written Note <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     <th style={{ "width": "10%" }} className="text-center">Action</th>
@@ -395,15 +394,12 @@ export default function PatientNotes() {
                                                     return (
                                                         <tr key={val.id}>
                                                             <td className="text-center">{ind + 1}</td>
-                                                            <td><span style={{ color: '#7696F1', fontSize: '13px' }}>{val.detailsDate}</span><br /><span style={{ color: '#858585', fontSize: '13px' }}>{val.detailsTime}</span></td>
-                                                            {/* <td>{stripHtml(val.details)}</td> */}
-                                                            {/* <td>{(val.details)}</td> */}
-                                                           <td><div dangerouslySetInnerHTML={{ __html:val.details }} /></td>                                                      
+                                                            <td><span style={{ color: '#7696F1', fontSize: '13px' }}>{val.detailsDate}</span><br /><span style={{ color: '#858585', fontSize: '13px' }}>{val.detailsTime}</span></td>                                                          
+                                                           <td><div dangerouslySetInnerHTML={{ __html:val.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px' }}/></td>                                                      
                                                             <td>{val.consultantName}</td>   
                                                             <td>
                                                                 <div className="action-button">
-                                                                    <div className="actionItem" title="Print"><img src={IconPrint} className='imgprint' alt="IconPrint" onClick={() => { handlePrint(val,ind) }}/></div>
-                                                                    {/* <div className="actionItem" title="Edit"><img src={IconEdit} alt="Edit" onClick={() => { handleUpdate(val.id, val.pmID, val.pdmID, val.detailsDate, val.detailsTime, val.details, val.userId, "detailsDateProgress", "detailsTimeProgress", "detailsProgress") }} /></div> */}
+                                                                    <div className="actionItem" title="Print"><img src={IconPrint} className='imgprint' alt="IconPrint" onClick={() => { handlePrint(val,ind) }}/></div>                                                         
                                                                     <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" ><img src={IconDelete} alt="Delete" onClick={() => { setRowId(val.id) }} title='Delete' /></div>
 
                                                                 </div>
@@ -474,7 +470,7 @@ export default function PatientNotes() {
                                                        
                                                         <div className='patNotetxt'>
                                                         {/* <div dangerouslySetInnerHTML={{ __html:val.body }} /> */}
-                                                        <span><div dangerouslySetInnerHTML={{ __html:val.body }} /></span>
+                                                        <span><div dangerouslySetInnerHTML={{ __html:val.body }} style={{ lineHeight: '2px', margin: '4px', padding: '2px' }}/></span>
                                                         </div>
                                                        
                                                       
