@@ -12521,9 +12521,12 @@ span.pttime {
   border-bottom: 1px solid #ddd;
   margin-bottom: 5px;
 }
+
 .ptnotesHead {
   background: #F9FAFC;
   padding: 8px;
+  max-height: 80vh;
+  overflow: auto;
 }
 .patNotetxt span {
   width: 100%;
@@ -12533,6 +12536,9 @@ span.pttime {
 }
 .patNotetxt {
   margin-bottom: 10px;
+  max-height: 60vh;
+  overflow: auto;
+  min-height: 60vh;
 }
 
 .usetemplte {
