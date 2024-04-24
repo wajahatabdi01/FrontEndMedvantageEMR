@@ -419,7 +419,8 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                                             <>
                                                 <span>
                                                     <input type='checkbox' style={{ marginRight: '5px' }} id={'ddlCoding' + i} />
-                                                    <span onClick={() => { redirectToHealthInfoPage(list) }}>{list}</span>
+                                                    {/* <span onClick={() => { redirectToHealthInfoPage(list) }}>{list}</span> */}
+                                                    <span>{list}</span>
                                                 </span>
                                                 <br />
                                             </>

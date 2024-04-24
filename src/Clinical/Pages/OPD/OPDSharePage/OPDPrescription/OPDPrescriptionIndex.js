@@ -36,6 +36,8 @@ import DeleteEncounter from '../../../../API/FHIREncounter/DeleteEncounter'
 import OPDTopVitals from './OPDTopVitals'
 import GetPatientVisitsEncounter from '../../../../API/FHIREncounterList/GetPatientVisitsEncounter'
 import { Blur } from 'konva/lib/filters/Blur'
+import RedirectUrl from './PopUp/RedirectUrl'
+import { useSelector } from 'react-redux'
 export default function OPDPrescriptionIndex(props) {
 
     let [showPopUp, setShowPopUp] = useState(1)
@@ -78,6 +80,7 @@ export default function OPDPrescriptionIndex(props) {
         setShowPopUp(val)
     }
     const [isClose, setisClose] = useState(0);
+    let [showPatientType, setShowPatientType] = useState("")
 
     //Handle Delete
     let handleDeleteRow = async () => {
@@ -714,6 +717,7 @@ export default function OPDPrescriptionIndex(props) {
         // setToRefreshComponent(true)
     };
 
+
     useEffect(() => {
 
         if (showTheButton === true) {
@@ -730,11 +734,30 @@ export default function OPDPrescriptionIndex(props) {
 
         getAllEncoutersAsPerIssueID();
     }, [toPassEncounter])
+    let patientsendData = useSelector((state) => state.PatientSendData)
 
+    useEffect(() => {
+        // setData()
+        let a = window.sessionStorage.getItem("OPDPatientData") ? JSON.parse(window.sessionStorage.getItem("OPDPatientData")) : []
+        let active = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
+
+        a.map((val, ind) => {
+
+            if (active === val.uhid || active === val.uhId) {
+                if (val.patientType === "New" || val.patientType === "OPD") {
+                    setShowPatientType("New Patient")
+                }
+                else {
+                    setShowPatientType("Follow up")
+
+                }
+            }
+        })
+
+    }, [patientsendData])
     return (
         <>
             {/* <OPDPatientTabs handlePopUp={handlePopUp} getdata={getdata} handlepatientTab={handlepatientTab}/> */}
-
             {showPopUp != 1 ?
                 <div className=''>
                     <div className="row">
@@ -757,11 +780,16 @@ export default function OPDPrescriptionIndex(props) {
                     </div>
 
 
-                    <OPDTopVitals />
+                    {/* <OPDTopVitals /> */}
+
                     <div className="row" >
                         <div className='col-md-9 col-sm-12 plt1'>
                             {/* <OPDPatientInputData values={getD} funh={setGetD} setFoodData={setFoodData} /> */}
+
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
+                                <div className='cb'>
+                                    <label htmlFor='newPatient' className='vital-left justify-content-center d-flex align-items-center ' style={{ padding: "5px 10px", fontWeight: "bolder", width: '86px', height: "25px", borderRadius: "5px", color: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "11px", backgroundColor: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{showPatientType.toUpperCase()}</label>
+                                </div>
                                 <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId={toPassEncounter} setToShowDesiredList={setToShowDesiredList} />
                             </div>
                             {showTheButton && toShowDesiredList ? (
@@ -814,14 +842,18 @@ export default function OPDPrescriptionIndex(props) {
                                                                 <td className="text-center">{ind + 1}</td>
                                                                 <td style={{ whiteSpace: 'nowrap' }}>{list.encounterTitle}</td>
                                                                 {/* <td>{list.encounterCoding}</td> */}
-                                                                <td>
+                                                                <RedirectUrl codingListItem={codingListItem} />
+                                                                {/* <td>
                                                                     <div className='codeSplit'>
                                                                         {codingListItem.map((coding, index) => (
                                                                             coding.trim() !== '' &&
-                                                                            <span key={index} className="">{coding}</span>
+                                                                            <span key={index} className="" onClick={() => handleClick(coding)}>
+                                                                                {coding}
+                                                                            </span>
                                                                         ))}
                                                                     </div>
-                                                                </td>
+                                                                </td> */}
+
                                                                 <td style={{ whiteSpace: 'nowrap' }}>{list.encounterBeginDate}</td>
                                                                 <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate}</td>
                                                                 <td>{list.encounterReferredBy}</td>
