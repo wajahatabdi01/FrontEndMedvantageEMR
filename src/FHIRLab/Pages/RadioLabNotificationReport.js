@@ -61,8 +61,8 @@ export const RadioLabNotificationReport = () => {
                                 <thead>
                                     <tr>
                                         <th className="" style={{ "width": "5%" }}>#</th>
-                                        <th>Bill Number</th>
                                         <th>UHID</th>
+                                        <th>Bill Number</th>
                                         <th>Date & Time</th>
                                         <th style={{ "width": "10%" }} className="text-center" >Action</th>
 
