@@ -57,7 +57,7 @@ export default function PatientNotes() {
     let [isShared, setIsShared] = useState(0)
     let [clearDropdown, setClearDropdown] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
-    let [DetailName, setDetailName] = useState("Progress Note")
+    let [DetailName, setDetailName] = useState("")
     let [tosterValue, setTosterValue] = useState(0)
     // let [sendForm, setSendForm] = useState('')
     let [id, setId] = useState(1)
@@ -289,10 +289,11 @@ export default function PatientNotes() {
 
 
     useEffect(() => {
-        getdata(1)
-        getNotesTitle(0)
-        getCurrentDateTime()
-        getNotesType(0)
+        getdata(1);
+        getNotesTitle(0);
+        getCurrentDateTime();
+        getNotesType(0);
+        
 
     }, []);
 

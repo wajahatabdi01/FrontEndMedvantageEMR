@@ -432,7 +432,8 @@ export default function TemplateMaster() {
                                                     <td className="text-center">{ind + 1}</td>
                                                     <td>{val.tittleName}</td>
                                                     <td>{val.subTittle}</td>
-                                                    <td>{stripHtml(val.body)}</td>
+                                                    {/* <td>{stripHtml(val.body)}</td> */}
+                                                    <td><div dangerouslySetInnerHTML={{ __html:val.body }} style={{ lineHeight: '2px', margin: '0px', padding: '0px', whiteSpace: 'nowrap' }}/></td>
                                                     <td>{val.isShared === 1 ? 'Yes' : 'No'}</td>
                                                     {/* <td>{convertHtmlToText(val.templateText)}</td> */}
                                                     <td>
