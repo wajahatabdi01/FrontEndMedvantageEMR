@@ -143,7 +143,7 @@ export default function PatientNotesPrint() {
 
 
                 <div className="pat-dtls cert-top2" >
-                    <div className='document-title'>{notesData.noteName}</div>
+                    <div className='document-title'>{notesData.noteName ? notesData.noteName : 'Progress Note'}</div>
                     <table className='table-certificate_ border-bottom_ tableWhiteSmoke mt-2_'>
                         <thead>
                             <tr>
@@ -151,7 +151,7 @@ export default function PatientNotesPrint() {
                               
                                 <th className='text-center'>Date</th>
                                 <th className='text-center'>Time</th>
-                                <th className='text-center'>{notesData.noteName}</th>
+                                <th className='text-center'>{notesData.noteName ? notesData.noteName : 'Progress Note'}</th>
                                
 
 
@@ -163,7 +163,7 @@ export default function PatientNotesPrint() {
                                     <tr>                                                                            
                                         <td className='text-center'>{notesData.detailsDate}</td>
                                         <td className='text-center'>{notesData.detailsTime}</td>
-                                        <td className='text-center'><div dangerouslySetInnerHTML={{ __html:notesData.details }} /></td>
+                                        <td className='text-center'><div dangerouslySetInnerHTML={{ __html:notesData.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px' }}/></td>
                                     </tr>
                                                                                                                                                        
                         </tbody>

@@ -53,6 +53,7 @@ export default function TemplateMaster() {
         "userId": window.userId,
         "clientId": window.clientId,
         "tittle": '',
+        "subTittle": '',
         "body": '',
         // "isShared": 0
     })
@@ -156,6 +157,7 @@ export default function TemplateMaster() {
             setShowUnderProcess(1);
             const obj = {
                 "tittle": sendForm.tittle,
+                "subTittle": sendForm.subTittle,
                 "body": sendForm.body,
                 "clientId": clientID,
                 "userId": window.userId,
@@ -216,6 +218,7 @@ export default function TemplateMaster() {
             ...sendForm,
             "id": data.id,
             "tittle": data.title,
+            "subTittle": data.subTittle,
             "body": data.body,
             "clientId": data.clientId,
             "userId": data.userId,
@@ -227,6 +230,7 @@ export default function TemplateMaster() {
         setTemplateText(data.body)
         setEditTemplate(data.tittleName)
         setIsUrgent(data.isShared)
+        document.getElementById('subTittle').value= data.subTittle;
     }
 
 
@@ -313,10 +317,12 @@ export default function TemplateMaster() {
             "userId": window.userId,
             "clientId": window.clientId,
             "tittle": '',
+            "subTittle": '',
             "body": ''
         })
         setEditTemplate(0)
         document.getElementById("body").value = "";
+        document.getElementById('subTittle').value = '';
         setTemplateText('');
         // document.getElementById("templateText").style.height = "100px";
     }
@@ -342,6 +348,12 @@ export default function TemplateMaster() {
                                     <div className="col-md-6 mb-2">
                                         <label htmlFor="tittle" className="form-label">{t("Tittle")} <span className="starMandatory">*</span></label>
                                         {notesTittleList && <DropdownWithSearch defaulNname={t("Select title")} name="tittle" list={notesTittleList} valueName="id" displayName="detailsName" editdata={editTemplate} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />}
+                                        <small id="errtittle" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                    </div>
+
+                                    <div className="col-md-6 mb-2">
+                                        <label htmlFor="subTittle" className="form-label">{t("Sub-Tittle")} <span className="starMandatory">*</span></label>
+                                        <input type="text" className="form-control form-control-sm" name="subTittle" id="subTittle"  onChange={handleChange} placeholder={t("Enter Sub-Title")} />
                                         <small id="errtittle" className="invalid-feedback" style={{ display: 'none' }}></small>
                                     </div>
 
@@ -404,6 +416,7 @@ export default function TemplateMaster() {
                                         <tr>
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Form Title</th>
+                                            <th>Form Sub-Title</th>
                                             <th>Template Text</th>
                                             <th>Is Shared</th>
                                             <th style={{ "width": "10%" }} className="text-center">Action</th>
@@ -418,7 +431,9 @@ export default function TemplateMaster() {
                                                 <tr key={val.id}>
                                                     <td className="text-center">{ind + 1}</td>
                                                     <td>{val.tittleName}</td>
-                                                    <td>{stripHtml(val.body)}</td>
+                                                    <td>{val.subTittle}</td>
+                                                    {/* <td>{stripHtml(val.body)}</td> */}
+                                                    <td><div dangerouslySetInnerHTML={{ __html:val.body }} style={{ lineHeight: '2px', margin: '0px', padding: '0px', whiteSpace: 'nowrap' }}/></td>
                                                     <td>{val.isShared === 1 ? 'Yes' : 'No'}</td>
                                                     {/* <td>{convertHtmlToText(val.templateText)}</td> */}
                                                     <td>

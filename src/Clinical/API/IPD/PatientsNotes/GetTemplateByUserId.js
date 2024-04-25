@@ -1,5 +1,5 @@
-async function GetTemplateByUserId(title, userId, isShared, clientId) {
-    let url = window.AppbaseUrl+"/api/NotesTemplateMaster/GetTemplateByUserId?tittle="+title+"&userId="+userId+"&isShared="+isShared+"&clientId="+clientId;
+async function GetTemplateByUserId(title, subTitle, userId, isShared, clientId) {
+    let url = window.AppbaseUrl+"/api/NotesTemplateMaster/GetTemplateByUserId?tittle="+title+"&subTittle="+subTitle+"&userId="+userId+"&isShared="+isShared+"&clientId="+clientId;
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   
   let data ={}
