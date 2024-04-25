@@ -12563,3 +12563,7 @@ span.pttime {
   line-height: 30px;
   cursor: pointer;
 }
+.ptDrop button {
+  min-width: 200px;
+  width: 100%;
+}
