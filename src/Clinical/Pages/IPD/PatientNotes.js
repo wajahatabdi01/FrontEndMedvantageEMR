@@ -30,13 +30,18 @@ import GetNotesTittle from '../../../Admin/Pages/TemplateMaster/API/GetNotesTitt
 import PostPatientNotes from '../../API/IPD/PatientsNotes/PostPatientNotes'
 import DropdownWithSearch from '../../../Component/DropdownWithSearch';
 import { t } from 'i18next'
+import GetSharedNotes from '../../API/IPD/PatientsNotes/GetSharedNotes'
+import GetSubTitle from '../../API/IPD/PatientsNotes/GetSubTitle'
+
 
 
 export default function PatientNotes() {
 
     let [patientNotesList, setPatientNotesList] = useState([])
     let [templateByUserIdList, setTemplateByUserIdList] = useState([])
+    let [subTitle, setSubtitle] = useState([])
     let [templateMasterList, setTemplateMasterList] = useState([])
+    let [sharedTemplate, setSharedTemplate] = useState([])
     let [showErrMessage, setShowErrMessage] = useState('');
     let [showAlertToster, setShowAlertToster] = useState(0);
     let [showLoder, setShowLoder] = useState(0);
@@ -48,8 +53,11 @@ export default function PatientNotes() {
     let [isShowToaster, setisShowToaster] = useState(0);
     let [showUnderProcess, setShowUnderProcess] = useState(0)
     let [showToster, setShowToster] = useState(0)
+    let [subbTitle, setSubbtitle] = useState('')
+    let [isShared, setIsShared] = useState(0)
+    let [clearDropdown, setClearDropdown] = useState(0)
     let [tosterMessage, setTosterMessage] = useState("")
-    let [DetailName, setDetailName] = useState("Progress Note")
+    let [DetailName, setDetailName] = useState("")
     let [tosterValue, setTosterValue] = useState(0)
     // let [sendForm, setSendForm] = useState('')
     let [id, setId] = useState(1)
@@ -61,7 +69,7 @@ export default function PatientNotes() {
     const PID = JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].pid;
     const DOCTORID = JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].doctorId;
     const PMID = JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].pmId;
-    console.log("poiijk", PMID)
+   
 
     const [currentDate, setCurrentDate] = useState('');
     const [currentTime, setCurrentTime] = useState('');
@@ -94,29 +102,70 @@ export default function PatientNotes() {
     }
 
     let handleChange = (e) => {
-
-        let name = e.target.name;
-        let value = e.target.value;
+     const {value , name } = e.target
         setBody("")
         if (name === "body") {
+
             setBody(e.target.value);
+        }
+
+        if (name === "subTittle") {
+            setSubbtitle(value)
+            console.log("subbTitle", subbTitle)
+            getTemplateNotes(value)
         }
 
     }
 
+    const chnageCheckedType = (param)=>{
+        setClearDropdown(1)
+        setIsShared(param)
+       if(param === 0 ){
+           document.getElementById('persNote').checked=true;
+           document.getElementById('sharNote').checked=false;
+           getNotesType(param)
+       } 
+       else{
+           document.getElementById('sharNote').checked=true;
+           document.getElementById('persNote').checked=false;
+           getNotesType(param)
+       }
+     }
 
-    function stripHtml(html) {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        return doc.body.textContent || "";
+    let getNotesType = async (isShared) => {
+      
+        const subTitleresponse = await GetSubTitle(id, userID, isShared, clientID);
+        if (subTitleresponse.status === 1) {
+
+            setSubtitle(subTitleresponse.responseValue)
+        }
+       
     }
 
     //Get data
     let getdata = async (id, ind) => {
+        setClearDropdown(1)
         setId(id)
-        const isShared = 0
-        let getResponse = await GetTemplateByUserId(id, userID, isShared, clientID);
+       
         let getPatientNotes = await GetPatientNotes(id, PID, clientID);
+       
+        if (getPatientNotes.status === 1) {
+            // setLoder(0)
+            setPatientNotesList(getPatientNotes.responseValue)
+            const data = getPatientNotes.responseValue
+            console.log("getPatientNotes", getPatientNotes.responseValue)
 
+        }
+        setDetailName(templateMasterList[ind] && templateMasterList[ind].detailsName)
+       
+        
+    }
+
+
+    const getTemplateNotes = async (subbTitle) => {
+
+        let getResponse = await GetTemplateByUserId(id, subbTitle, userID, isShared, clientID);
+       
         if (getResponse.status === 1) {
             // setLoder(0)
             setTemplateByUserIdList(getResponse.responseValue)
@@ -128,27 +177,6 @@ export default function PatientNotes() {
             setBody(body)
 
         }
-
-        if (getPatientNotes.status === 1) {
-            // setLoder(0)
-            setPatientNotesList(getPatientNotes.responseValue)
-            const data = getPatientNotes.responseValue
-            console.log("getPatientNotes", getPatientNotes.responseValue)
-
-
-        }
-        setDetailName(templateMasterList[ind] && templateMasterList[ind].detailsName)
-
-
-
-
-
-    }
-
-
-    const GetTemplateNotes = () => {
-        setIsShowTemplateModel(1);
-
 
     };
 
@@ -204,6 +232,20 @@ export default function PatientNotes() {
         }
     }
 
+    const handlePrint = (data) => {
+
+
+        const detailsDate = (data.detailsDate)
+        const detailsTime = (data.detailsTime)
+        const details = (data.details)
+
+        window.sessionStorage.setItem("PrintPatientNotes", JSON.stringify({
+            "detailsDate": detailsDate, "detailsTime": detailsTime, "details": details, "noteName": DetailName
+        }));
+        window.open("/PatientNotesPrint/", 'noopener,noreferrer');
+    }
+
+
 
     //Handle Delete
     let handleDeleteRow = async (id) => {
@@ -233,10 +275,11 @@ export default function PatientNotes() {
         }
     }
 
-    let handleClear = () => {
+    let handleClear = (value) => {
+        setClearDropdown(value)
         setBody('')
-        setCurrentTime('')
-        setCurrentDate('')
+        // setCurrentTime('')
+        // setCurrentDate('')
     }
 
     let handleReset = async (id) => {
@@ -246,11 +289,11 @@ export default function PatientNotes() {
 
 
     useEffect(() => {
-        // setDetailName("Progress Note");
-        // setDetailName(templateMasterList[0] && templateMasterList[0].detailsName)
-        getdata(1)
-        getNotesTitle(0)
-        getCurrentDateTime()
+        getdata(1);
+        getNotesTitle(0);
+        getCurrentDateTime();
+        getNotesType(0);
+        
 
     }, []);
 
@@ -284,7 +327,40 @@ export default function PatientNotes() {
                                             <div className="fieldsett">
                                                 <span className='fieldse'>Patient Notes</span>
                                                 <BoxContainer>
+
+
+
+                                                    {/* <div className="col-md-6 mb-2">
+                                                        <label htmlFor="tittle" className="form-label">{t("Sub-Tittle")} <span className="starMandatory">*</span></label>
+                                                        {notesTittleList && <DropdownWithSearch defaulNname={t("Select Sub-title")} name="tittle" list={notesTittleList} valueName="id" displayName="detailsName" editdata={''} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />}
+                                                        <small id="errtittle" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                    </div> */}
+
                                                     <div className="col-md-12">
+                                                        <div className="row">
+                                                            <div className='col-md-3'>
+                                                                <div className="mb-2">
+                                                                    <input className="form-check-input me-2" type="radio" name="persNote" id="persNote" onClick={() => { chnageCheckedType(0) }} defaultChecked />
+                                                                    <label className="form-label" for="persNote">
+                                                                        {t("Personal")}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-md-3'>
+                                                                <div className="mb-2">
+                                                                    <input className="form-check-input me-2" type="radio" name="sharNote" id="sharNote" onClick={() => { chnageCheckedType(1) }} />
+                                                                    <label className="form-label" for="sharNote">
+                                                                        {t("Shared")}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-md-6'>
+                                                                {/* <label htmlFor="tittle" className="form-label">{t("Tittle")} <span className="starMandatory">*</span></label> */}
+                                                                {subTitle && <DropdownWithSearch defaulNname={t("Select Sub-title")} name="subTittle" list={subTitle} valueName="subTittle" displayName="subTittle" editdata={''} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} style={{ width: '200px' }}  />}
+                                                                <small id="errSubtittle" className="invalid-feedback" style={{ display: 'none' }}></small>
+                                                            </div>
+
+                                                        </div>
                                                         <div className="d-flex gap-2 align-content-end">
                                                             <div className="mb-2 me-2" style={{ flex: '1' }}>
                                                                 <img src={calender} className='icnn' /> <label htmlFor="detailsDate" className="form-label">Date</label>
@@ -313,12 +389,12 @@ export default function PatientNotes() {
 
                                                     <div className="col-md-12">
                                                         <div className='btnsecPt'>
-                                                            <div>
+                                                            {/* <div>
                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { setIsShowTemplateModel(1); GetTemplateNotes() }}><img src={savewhite} className='icnn' />Templates</button>
-                                                            </div>
+                                                            </div> */}
                                                             <div>
                                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" onClick={() => { saveForm(id) }}><img src={savewhite} className='icnn' />Save</button>
-                                                                <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1" onClick={handleClear}>
+                                                                <button type="button" className="btn btn-save btn-sm btnbluehover mb-1 me-1"  onClick={() => { handleClear(1) }}>
                                                                     <img src={clearIcon} className='icnn' />Clear</button>
                                                             </div>
                                                         </div>
@@ -357,7 +433,6 @@ export default function PatientNotes() {
                                                 <tr>
                                                     <th className="text-center" style={{ "width": "5%" }}>#</th>
                                                     <th style={{ width: '10%' }}>Date/Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
-                                                    {/* <th>Time <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th> */}
                                                     <th>{DetailName ? DetailName : 'Progress Note'} <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     <th style={{ width: '10%' }}>Written Note <img className="IconFilter" src={upDownIcon} alt="upDownIcon" /></th>
                                                     <th style={{ "width": "10%" }} className="text-center">Action</th>
@@ -370,12 +445,11 @@ export default function PatientNotes() {
                                                         <tr key={val.id}>
                                                             <td className="text-center">{ind + 1}</td>
                                                             <td><span style={{ color: '#7696F1', fontSize: '13px' }}>{val.detailsDate}</span><br /><span style={{ color: '#858585', fontSize: '13px' }}>{val.detailsTime}</span></td>
-                                                            <td>{stripHtml(val.details)}</td>
+                                                            <td><div dangerouslySetInnerHTML={{ __html: val.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px' }} /></td>
                                                             <td>{val.consultantName}</td>
                                                             <td>
                                                                 <div className="action-button">
-                                                                    <div className="actionItem" title="Print"><img src={IconPrint} className='imgprint' alt="IconPrint" /></div>
-                                                                    {/* <div className="actionItem" title="Edit"><img src={IconEdit} alt="Edit" onClick={() => { handleUpdate(val.id, val.pmID, val.pdmID, val.detailsDate, val.detailsTime, val.details, val.userId, "detailsDateProgress", "detailsTimeProgress", "detailsProgress") }} /></div> */}
+                                                                    <div className="actionItem" title="Print"><img src={IconPrint} className='imgprint' alt="IconPrint" onClick={() => { handlePrint(val, ind) }} /></div>
                                                                     <div data-bs-toggle="modal" data-bs-title="Delete Row" data-bs-placement="bottom" data-bs-target="#deleteModal" ><img src={IconDelete} alt="Delete" onClick={() => { setRowId(val.id) }} title='Delete' /></div>
 
                                                                 </div>
@@ -411,7 +485,7 @@ export default function PatientNotes() {
                                         <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Patient Note Templates</h1>
                                     </div>
 
-                                    <button type="button" className="btn-close_ btnModalClosept" title="Close Window" onClick={() => { setIsShowTemplateModel(0) }}>
+                                    <button type="button" className="btn-close_ btnModalClosept" title="Close Window" >
 
                                         <i className="bi bi-x-octagon"></i>
 
@@ -423,13 +497,98 @@ export default function PatientNotes() {
 
                                     <div className='ptnotesHead'>
                                         <div className='row'>
-                                            <div className='col-md-4 pe-1'>
+                                            {sharedTemplate && sharedTemplate.map((val, ind) => {
+                                                return (
+                                                    <div className='col-md-4 pe-1'>
+                                                        <div className='ptnotesHead-inn'>
+                                                            <div className='patintbt'>
+                                                                <div className='row'>
+                                                                    <div className="col-12">
+                                                                        <div className="mb-2 me-2">
+                                                                            {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
+                                                                            {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className='patintbt'>
+                                                                <div className='patintbt-i'>
+                                                                    <span className='pttime'>07:00 PM</span>
+                                                                    <span className='ptDate'>02/04/2024</span>
+                                                                </div>
+
+                                                                <div className='patNotetxt'>
+                                                                    {/* <div dangerouslySetInnerHTML={{ __html:val.body }} /> */}
+                                                                    <span><div dangerouslySetInnerHTML={{ __html: val.body }} style={{ lineHeight: '2px', margin: '4px', padding: '2px' }} /></span>
+                                                                </div>
+
+
+
+                                                                <div className='usetemplte'>
+                                                                    <div>
+                                                                        <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                            {/* <div className='col-md-4 pe-1 ps-1'>
                                                 <div className='ptnotesHead-inn'>
                                                     <div className='patintbt'>
                                                         <div className='row'>
                                                             <div className="col-12">
                                                                 <div className="mb-2 me-2">
-                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
+                                                                   
+                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='patintbt'>
+                                                        <div className='patintbt-i'>
+                                                            <span className='pttime'>07:00 PM</span>
+                                                            <span className='ptDate'>02/04/2024</span>
+                                                        </div>
+
+                                                        <div className='patNotetxt'>
+
+
+                                                        
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                        <div className='patNotetxt'>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                            <span>BP-120/80Mmhg</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='usetemplte'>
+                                                        <div>
+                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div> */}
+                                            {/* <div className='col-md-4 ps-1'>
+                                                <div className='ptnotesHead-inn'>
+                                                    <div className='patintbt'>
+                                                        <div className='row'>
+                                                            <div className="col-12">
+                                                                <div className="mb-2 me-2">
+                                                                 
                                                                     {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
                                                                 </div>
                                                             </div>
@@ -467,97 +626,7 @@ export default function PatientNotes() {
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className='col-md-4 pe-1 ps-1'>
-                                                <div className='ptnotesHead-inn'>
-                                                    <div className='patintbt'>
-                                                        <div className='row'>
-                                                            <div className="col-12">
-                                                                <div className="mb-2 me-2">
-                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
-                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='patintbt'>
-                                                        <div className='patintbt-i'>
-                                                            <span className='pttime'>07:00 PM</span>
-                                                            <span className='ptDate'>02/04/2024</span>
-                                                        </div>
-
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                    </div>
-                                                    <div className='usetemplte'>
-                                                        <div>
-                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='col-md-4 ps-1'>
-                                                <div className='ptnotesHead-inn'>
-                                                    <div className='patintbt'>
-                                                        <div className='row'>
-                                                            <div className="col-12">
-                                                                <div className="mb-2 me-2">
-                                                                    {/* <input type="text" className="form-control form-control-sm" id="bedName" placeholder={t("Select Doctor")} name="bedName" /> */}
-                                                                    {<DropdownWithSearch defaulNname={t("Select Doctor")} name="tittle" list={''} valueName="id" displayName="detailsName" editdata={''} getvalue={''} clear={''} clearFun={''} />}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='patintbt'>
-                                                        <div className='patintbt-i'>
-                                                            <span className='pttime'>07:00 PM</span>
-                                                            <span className='ptDate'>02/04/2024</span>
-                                                        </div>
-
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                        <div className='patNotetxt'>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                            <span>BP-120/80Mmhg</span>
-                                                        </div>
-                                                    </div>
-                                                    <div className='usetemplte'>
-                                                        <div>
-                                                            <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1"><img src={savewhite} className='icnn' />Use Template</button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 

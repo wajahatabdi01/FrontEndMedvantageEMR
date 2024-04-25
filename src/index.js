@@ -20,6 +20,7 @@ window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
 window.LabServicebaseUrl = "http://192.168.11.101:6090"
 window.NotificationUrl = "http://192.168.11.101:6101"
 window.AppbaseUrl2 = "http://192.168.11.101:6082"
+window.RadiologyservicesUrl = "http://192.168.11.101:6086"
 window.PharmacyServicesUrl = "http://192.168.11.101:7000"
 // End For FHIR
 
@@ -34,6 +35,7 @@ window.PharmacyServicesUrl = "http://192.168.11.101:7000"
 // window.NotificationUrl = "http://192.168.11.101:5101"
 // window.AppbaseUrl2 = "http://192.168.11.101:6082"
 // window.PharmacyServicesUrl = "http://192.168.11.101:4000"
+// window.RadiologyservicesUrl = "http://192.168.11.101:5086"
 // End For FHIRTesting
 
 
@@ -50,7 +52,7 @@ window.InventoryBaseUrl = "http://172.16.61.31:7093"
 window.BMSservicesUrl = "http://172.16.61.31:7094"
 window.MaintenanceUrl = "http://172.16.61.31:7099"
 window.DietservicesUrl = "http://172.16.61.31:7096"
-window.RadiologyservicesUrl = "http://172.16.61.31:7086"
+//window.RadiologyservicesUrl = "http://172.16.61.31:7086"
 window.ChatingUrl = "http://172.16.61.31:7100"
 window.FileUploadUrl = "http://172.16.61.31:7095/MediaFiles/"
 
