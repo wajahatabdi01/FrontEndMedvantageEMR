@@ -70,7 +70,6 @@ export default function DropdownWithSearch(props) {
 
     useEffect(() => {
         setdataList(props.list)
-
         if (props.clear === 1) {
             setDropdownName("")
             props.clearFun(0)
