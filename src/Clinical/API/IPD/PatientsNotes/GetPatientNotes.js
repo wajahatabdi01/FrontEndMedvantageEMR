@@ -16,8 +16,8 @@
   
 
 
-  async function GetPatientNotes(id) {
-    let url = window.AppbaseUrl+"/api/PatientNotes/GetAllPatientNotes?pdmID="+id;
+  async function GetPatientNotes(id, pid, clientId) {
+    let url = window.AppbaseUrl+"/api/PatientNotes/GetAllPatientNotes?pdmID="+id+"&pid="+pid+"&ClientId="+clientId;
   let head = { "Content-Type": "application/JSON", accept : '*/*' };
   
   let data ={}

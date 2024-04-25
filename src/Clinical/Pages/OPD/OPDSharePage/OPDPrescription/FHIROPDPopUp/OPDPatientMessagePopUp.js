@@ -17,7 +17,7 @@ import DeleteFHIRMessage from '../../../../../API/OPDPatientMessage/DeleteFHIRMe
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDPatientMessagePopUp({ theEncounterId }) {
+function OPDPatientMessagePopUp({ theEncounterId, setPatientMessage }) {
     let [providerList, setProviderList] = useState([]);
     let [messageTypeList, setMessageTypeList] = useState([]);
     let [messageList, setMessageList] = useState([]);
@@ -87,7 +87,7 @@ function OPDPatientMessagePopUp({ theEncounterId }) {
         if (getResponse.status === 1) {
             setMessageList(getResponse.responseValue.responseValue);
         }
-        else{
+        else {
             setMessageList([])
         }
     }
@@ -261,7 +261,7 @@ function OPDPatientMessagePopUp({ theEncounterId }) {
         getUserListByRoleId();
         getpatientMessageType();
         patientMessage();
-    }, []);
+    }, [setPatientMessage]);
     return (
         <>
             <div className="container-fluid">

@@ -8490,6 +8490,17 @@ a.nav-link.px-3.sidebar-link span {
     flex-direction: column;
     align-items: center;
   }
+
+  .patient-lft{
+    width: 100% !important;
+    }
+    .patient-rt{
+    width: 100% !important;
+    }
+    .patientMain {
+      row-gap: 10px;
+      flex-wrap: wrap;
+  }
 }
 
 /* // Large devices (desktops, 992px and up) */
@@ -12364,4 +12375,191 @@ span.starMandatory {
 } */
 .tempEditor .ql-container.ql-snow {
   height: 200px;
+}
+.tempEditorpt .ql-container.ql-snow {
+  height: 425px;
+}
+img.imgprint {
+  width: 28px !important;
+  padding: 3px 5px;
+  background: #b6cbefd1;
+  border-radius: 3px;
+}
+.patientMain {
+  display: flex;
+  gap: 10px;
+}
+.btnsecPt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.patient-lft{
+width: 30%;
+}
+.patient-rt{
+width: 70%;
+}
+.codesectn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+button.btndeltcode {
+  font-size: 11px;
+  padding: 0px 2px;
+  color: red;
+  border: 1px solid red;
+  border-radius: 3px;
+  background: #fff;
+  /* margin-top: 26px; */
+}
+
+.codelabel {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  align-items: center;
+}
+
+span.AddCode i {
+  /* border: 1px solid #1d4999; */
+  border: 1px solid #bdc0c3;
+  color: #fff;
+  font-size: 12px;
+  padding: 1px 4px;
+  /* background: #1d4999; */
+  background: #a2a9af;
+
+  border-radius: 3px;
+}
+
+span.AddVital i {
+  border: 1px solid #bdc0c3;
+  color: #fff;
+  font-size: 15px;
+  background: #a2a9af;
+  border-radius: 3px;
+  display: flex;
+  width: 31px;
+  height: 31px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tempModal {
+  color: white;
+  padding: 10px 10px !important;
+  /* background-color: #ffb741; */
+  background-image: linear-gradient(45deg, #1D4999, #1D4999);
+  border-radius: 0;
+}
+.tempModal h1{
+  font-size: 15px !important;
+}
+.tempModal img {
+  height: 18px;
+  width: auto;
+  padding: 1px;
+}
+.btnModalClosept {
+  display: flex;
+  outline: none;
+  border: none;
+  background: #F44336;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  right: 11px;
+  top: 12px;
+  background: white;
+  color: black;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+}
+.hedinimg {
+  display: flex;
+  justify-content: left;
+  gap: 2px;
+  /* align-items: center; */
+}
+
+.patintbt {
+  background: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+.patintbt-i {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5px;
+  font-size: 13px;
+  align-items: center;
+}
+span.ptDate {
+  font-style: italic;
+  color: #2D8AF5;
+}
+span.pttime {
+  color: #4B4B4B;
+  font-weight: 600;
+}
+.patintbt-i {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5px;
+  font-size: 13px;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 5px;
+}
+
+.ptnotesHead {
+  background: #F9FAFC;
+  padding: 8px;
+  max-height: 80vh;
+  overflow: auto;
+}
+.patNotetxt span {
+  width: 100%;
+  display: inline-block;
+  font-size: 14px;
+  color: #7B7B7B;
+}
+.patNotetxt {
+  margin-bottom: 10px;
+  max-height: 60vh;
+  overflow: auto;
+  min-height: 60vh;
+}
+
+.usetemplte {
+  display: flex;
+  justify-content: end;
+  margin-top: 15px;
+}
+.resetMain {
+  position: relative;
+}
+.resetimg {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.resetimg img {
+  padding: 5px;
+  background: #1d4999;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  cursor: pointer;
 }

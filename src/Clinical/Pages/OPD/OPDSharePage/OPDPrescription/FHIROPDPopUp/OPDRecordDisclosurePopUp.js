@@ -19,7 +19,7 @@ import DeleteRecordDiscloser from '../../../../../API/OPDRecordDiscloser/DeleteR
 import Loader from '../../../../../../Component/Loader';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDRecordDisclosurePopUp({theEncounterId}) {
+function OPDRecordDisclosurePopUp({ theEncounterId, setRecordDisclosure }) {
     // let [rowId, setRowId] = useState('')
     let [recordList, setRecordList] = useState([])
     let [disclosureTypeList, setDisclosureTypeList] = useState([])
@@ -62,10 +62,10 @@ function OPDRecordDisclosurePopUp({theEncounterId}) {
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
 
     const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
-  
-  const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
-  JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId: window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
+
+    const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
+        JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
     let getAllRecords = async () => {
         // let activePatient = JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
@@ -73,7 +73,7 @@ function OPDRecordDisclosurePopUp({theEncounterId}) {
         if (response.status === 1) {
             setRecordList(response.responseValue);
         }
-        else{
+        else {
             setRecordList([])
         }
     }
@@ -130,8 +130,8 @@ function OPDRecordDisclosurePopUp({theEncounterId}) {
                 "providerName": providerName,
                 "userId": window.userId,
                 "clientId": window.clientId,
-                doctorId : activeDocID,
-                departmentId : activeDeptID
+                doctorId: activeDocID,
+                departmentId: activeDeptID
             }
             const response = await PostRecordDiscloser(obj);
             if (response.status === 1) {
@@ -291,7 +291,7 @@ function OPDRecordDisclosurePopUp({theEncounterId}) {
     useEffect(() => {
         getAllRecords();
         getpatientMessageType();
-    }, []);
+    }, [setRecordDisclosure]);
     return (
         <>
             <div className="container-fluid">
