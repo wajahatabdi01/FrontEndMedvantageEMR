@@ -147,6 +147,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             ...prev,
             title: selectProblem,
             titleId: ddlSurgeryId,
+            issueTypeId: 5
         }))
     }
     const SelectedData = (data, modalID) => {
