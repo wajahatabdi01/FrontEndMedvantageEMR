@@ -788,7 +788,7 @@ export default function OPDPrescriptionIndex(props) {
 
                             <div className={`d-flex gap-1 boxcontainer mt-2 `} style={{ padding: "7px", overflowX: "auto" }}>
                                 <div className='cb'>
-                                    <label htmlFor='newPatient' className='vital-left justify-content-center d-flex align-items-center ' style={{ padding: "5px 10px", fontWeight: "bolder", width: '86px', height: "25px", borderRadius: "5px", color: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "11px", backgroundColor: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{showPatientType.toUpperCase()}</label>
+                                    <label htmlFor='newPatient' className='vital-left justify-content-center d-flex align-items-center ' style={{ padding: "5px 10px", fontWeight: "bolder", width: '95px', height: "25px", borderRadius: "5px", color: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#C77700" : "#5651F9"}`, fontSize: "11px", backgroundColor: `${showPatientType.toString().toLowerCase() === "Follow up".toString().toLowerCase() ? "#FFEDD2" : "#EBECFD"}` }}>{showPatientType.toUpperCase()}</label>
                                 </div>
                                 <OPDTOPBottom values={getD} funh={setGetD} setActiveComponent={setActiveComponent} setShowTheButton={setShowTheButton} setIssueID={setIssueID} setHeadingName={setHeadingName} theEncounterId={toPassEncounter} setToShowDesiredList={setToShowDesiredList} />
                             </div>
@@ -855,7 +855,7 @@ export default function OPDPrescriptionIndex(props) {
                                                                 </td> */}
 
                                                                 <td style={{ whiteSpace: 'nowrap' }}>{list.encounterBeginDate}</td>
-                                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate}</td>
+                                                                <td style={{ whiteSpace: 'nowrap' }}>{list.encounterEndDate === '00-00-0000' ? '' : list.encounterEndDate}</td>
                                                                 <td>{list.encounterReferredBy}</td>
                                                                 <td>{list.encounterComments}</td>
                                                                 <td>{list.encounterDestination}</td>

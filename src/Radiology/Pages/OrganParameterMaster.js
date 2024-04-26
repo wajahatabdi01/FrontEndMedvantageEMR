@@ -212,10 +212,9 @@ export default function OrganParameterMaster() {
     document.getElementById('errpParameterName').style.display="none";
   }
   let handleEdit = (params) => {
-    
     // setEditOrgan(params.organName);
     // setSelectedOrgan(params.unitId);
-    setEditUnit(params.organName);
+    setEditUnit(params.unitName);
     setSelectedUnit(params.unitId);
     setParameterName(params.parameterName);
     setRowId(params.id);
