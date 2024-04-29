@@ -82,19 +82,19 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
     const spouseHis = document.getElementById("spouseID").value;
     const offSpringHis = document.getElementById("offSpringID").value;
     if (fatherHis) {
-      temDataMaker.push({ code: 'F', codeValue: fatherHis })
+      temDataMaker.push({ code: 'F', codeValue: fatherHis.trim() })
     }
     if (motherHis) {
-      temDataMaker.push({ code: 'M', codeValue: motherHis })
+      temDataMaker.push({ code: 'M', codeValue: motherHis.trim() })
     }
     if (siblingHis) {
-      temDataMaker.push({ code: 'S', codeValue: siblingHis })
+      temDataMaker.push({ code: 'S', codeValue: siblingHis.trim() })
     }
     if (spouseHis) {
-      temDataMaker.push({ code: 'SP', codeValue: spouseHis })
+      temDataMaker.push({ code: 'SP', codeValue: spouseHis.trim() })
     }
     if (offSpringHis) {
-      temDataMaker.push({ code: 'O', codeValue: offSpringHis })
+      temDataMaker.push({ code: 'O', codeValue: offSpringHis.trim() })
     }
     const getresponse = await dataMaker(makeData);
 
@@ -108,7 +108,6 @@ export default function FHIRFamilyHistoryEdit({ setFamilyHistory, theEncounterId
       doctorId: activeDocID,
       departmentId: activeDeptID
     }
-
 
     if (temDataMaker.length > 0) {
       if (objSave !== '' && objSave !== undefined) {

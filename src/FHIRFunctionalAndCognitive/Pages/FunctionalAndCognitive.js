@@ -40,6 +40,22 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
   const [isShowDeletePopUp, setIsShowDeletePopUp] = useState(0);
   ///////////////////////////////////////////////////////////////////
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // Adding leading zero if month/day is less than 10
+    if (month < 10) {
+        month = '0' + month;
+    }
+    if (day < 10) {
+        day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+}
 
   const handleCloseModal = () => {
     setIsShowPopUp(0);
@@ -361,7 +377,7 @@ export default function FunctionalAndCognitive({ setFunctionalAndCog, theEncount
                           </div>
                           <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                             <label className='form-label'>Date :</label>
-                            <input type='date' className='form-control form-control-sm' id={'funCareDateID' + carePlan.rowID} />
+                            <input type='date' className='form-control form-control-sm' min={getCurrentDate()} id={'funCareDateID' + carePlan.rowID} />
                           </div>
                           <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                             <label className='form-label'>Mental Status</label>

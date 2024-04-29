@@ -214,7 +214,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         }
         tempArrList.push({
           date: date,
-          codeType: maker,
+          codeType: maker.trim(),
           codeText: codeTextMaker,
           care_plan_type: type,
           description: description,
@@ -234,6 +234,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         doctorId: activeDocID,
         departmentId: activeDeptID
       }
+      
       const saveObj = await POSTFHIRCarePlan(finalObj);
 
       if (saveObj.status === 1) {
@@ -363,13 +364,13 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         }
       }
       else {
-        var codePre = document.getElementById('reasonCodeInputID' + data[i].rowID).value
+        var codePre = document.getElementById('codeInputID' + data[i].rowID).value
       }
 
       tempArrList.push({
         id: theRowId,
         date: date,
-        codeType: maker ? maker : codePre,
+        codeType: maker.trim() ? maker.trim() : codePre,
         codeText: codeTextMaker,
         care_plan_type: type,
         description: description,

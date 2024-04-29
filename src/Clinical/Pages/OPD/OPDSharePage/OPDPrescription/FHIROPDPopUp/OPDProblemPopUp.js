@@ -158,8 +158,6 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
     }
 
     const SelectedData = (data, modalID) => {
-        console.log("data", data)
-        console.log("modalID", modalID)
         let t = {
             moduleId: modalID,
             data: data
@@ -231,7 +229,6 @@ function OPDProblemPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
         document.getElementById("errbegindate").style.display = "none";
     }
     const handleOpenModal = (modalID) => {
-        console.log("modalID", modalID)
         setIsShowPopUp(1);
         setPopUpId(modalID);
     }

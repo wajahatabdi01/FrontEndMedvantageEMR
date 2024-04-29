@@ -13,7 +13,6 @@ import Loader from '../../../Component/Loader';
 import GetCarePlanType from '../../../FHIRCarePlan/API/GetCarePlanType';
 
 export const CodeMaster = (props) => {
-    console.log('props', props)
     const [getCodeList, setCodeList] = useState([])
     const [getCodeBindList, setCodeBindList] = useState([])
 
@@ -114,7 +113,6 @@ export const CodeMaster = (props) => {
                     temp.splice(i, 1);
                 }
             }
-
             props.SelectedData(temp, props.modalID)
             setArrToFwd(temp)
         }
@@ -123,13 +121,12 @@ export const CodeMaster = (props) => {
 
             temp.push({
                 id: id,
-                code: code,
+                code: code.trim(),
                 dropdownName: getCode,
                 codeText: codeText
 
 
             });
-
             props.SelectedData(temp, props.modalID)
             setArrToFwd([...temp])
         }
