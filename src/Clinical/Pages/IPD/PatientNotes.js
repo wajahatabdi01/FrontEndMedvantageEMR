@@ -186,7 +186,7 @@ export default function PatientNotes() {
 
         const obj = {
             pid: PID,
-            doctorID: DOCTORID,
+            doctorID: userID,
             pdmID: id,
             details: body,
             detailsDate: currentDate + ' ' + currentTime,
