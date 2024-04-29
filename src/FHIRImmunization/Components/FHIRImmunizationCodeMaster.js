@@ -86,7 +86,7 @@ export default function FHIRImmunizationCodeMaster(props) {
           
           temp.push({
               id: id,
-              code: code,
+              code: code.trim(),
               dropdownName: getCode,
               codeText: codeText
 
