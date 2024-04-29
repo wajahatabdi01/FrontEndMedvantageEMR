@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import FooterLogo from '../assest/image/footer-logo.png'
 import { Link } from 'react-router-dom'
 import rmd_logo from "../assest/image/RMD-Logo.png"
 
 export default function Footer() {
+
+    const [currYear, setCurrYear] = useState('')
+
+    function getCurrentYear() {
+        // Get the current date
+        const currentDate = new Date();
+        // Extract the year from the current date
+        const currentYear = currentDate.getFullYear();
+       console.log('currentYear : ', currentYear)
+       setCurrYear(currentYear);
+        
+      }
+
+    useEffect(() => {
+        getCurrentYear()
+    },[])
+
     return (
         <>
             <section className="footrabout">
@@ -67,7 +84,7 @@ export default function Footer() {
                         </div>
                             <div className="fterp">
                                 <hr />
-                                    <div>Copyright 2023 Medvantage All Right Reserved.</div>
+                                    <div>Copyright {currYear} Medvantage All Right Reserved.</div>
                                     <div className="version-text">Version 1.0 </div>
                             </div>
                     </div>

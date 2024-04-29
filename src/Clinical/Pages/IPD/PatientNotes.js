@@ -59,8 +59,7 @@ export default function PatientNotes() {
     let [tosterMessage, setTosterMessage] = useState("")
     let [DetailName, setDetailName] = useState("")
     let [tosterValue, setTosterValue] = useState(0)
-    // let [sendForm, setSendForm] = useState('')
-    let [id, setId] = useState(1)
+    let [id, setId] = useState()
     let [isShowTemplateModel, setIsShowTemplateModel] = useState(0)
 
 
@@ -117,22 +116,23 @@ export default function PatientNotes() {
 
     }
 
-    const chnageCheckedType = (param)=>{
+    const chnageCheckedType = (id,param)=>{
         setClearDropdown(1)
         setIsShared(param)
        if(param === 0 ){
            document.getElementById('persNote').checked=true;
            document.getElementById('sharNote').checked=false;
-           getNotesType(param)
+           getNotesType(id,param)
        } 
        else{
            document.getElementById('sharNote').checked=true;
            document.getElementById('persNote').checked=false;
-           getNotesType(param)
+           getNotesType(id,param)
        }
      }
+    
 
-    let getNotesType = async (isShared) => {
+    let getNotesType = async (id,isShared) => {
       
         const subTitleresponse = await GetSubTitle(id, userID, isShared, clientID);
         if (subTitleresponse.status === 1) {
@@ -144,9 +144,9 @@ export default function PatientNotes() {
 
     //Get data
     let getdata = async (id, ind) => {
+       
         setClearDropdown(1)
         setId(id)
-       
         let getPatientNotes = await GetPatientNotes(id, PID, clientID);
        
         if (getPatientNotes.status === 1) {
@@ -157,9 +157,11 @@ export default function PatientNotes() {
 
         }
         setDetailName(templateMasterList[ind] && templateMasterList[ind].detailsName)
-       
-        
-    }
+      
+        chnageCheckedType(id, 0)
+      
+    
+}
 
 
     const getTemplateNotes = async (subbTitle) => {
@@ -184,7 +186,7 @@ export default function PatientNotes() {
 
         const obj = {
             pid: PID,
-            doctorID: DOCTORID,
+            doctorID: userID,
             pdmID: id,
             details: body,
             detailsDate: currentDate + ' ' + currentTime,
@@ -292,7 +294,7 @@ export default function PatientNotes() {
         getdata(1);
         getNotesTitle(0);
         getCurrentDateTime();
-        getNotesType(0);
+     
         
 
     }, []);
@@ -305,7 +307,7 @@ export default function PatientNotes() {
                     <div className="nav nav-tabs customeTab" id="nav-tab" role="tablist">
                         {templateMasterList && templateMasterList.map((val, ind) => {
                             return (
-                                <button onClick={() => { getdata(val.id, ind) }} className={`nav-link ${ind === 0 ? 'active' : ''}`} id={`nav-tab-${val.id}`} data-bs-toggle="tab" data-bs-target={`#nav-${val.detailsName}`} type="button" role="tab" aria-controls={`nav-${val.detailsName}`} aria-selected={ind === 0 ? 'true' : 'false'}>{val.detailsName}</button>
+                                <button onClick={() => { getdata(val.id, ind)}} className={`nav-link ${ind === 0 ? 'active' : ''}`} id={`nav-tab-${val.id}`} data-bs-toggle="tab" data-bs-target={`#nav-${val.detailsName}`} type="button" role="tab" aria-controls={`nav-${val.detailsName}`} aria-selected={ind === 0 ? 'true' : 'false'}>{val.detailsName}</button>
                             )
                         })}
 
@@ -330,17 +332,13 @@ export default function PatientNotes() {
 
 
 
-                                                    {/* <div className="col-md-6 mb-2">
-                                                        <label htmlFor="tittle" className="form-label">{t("Sub-Tittle")} <span className="starMandatory">*</span></label>
-                                                        {notesTittleList && <DropdownWithSearch defaulNname={t("Select Sub-title")} name="tittle" list={notesTittleList} valueName="id" displayName="detailsName" editdata={''} getvalue={handleChange} clear={clearDropdown} clearFun={handleClear} />}
-                                                        <small id="errtittle" className="invalid-feedback" style={{ display: 'none' }}></small>
-                                                    </div> */}
+                                                
 
                                                     <div className="col-md-12">
                                                         <div className="row">
                                                             <div className='col-md-3'>
                                                                 <div className="mb-2">
-                                                                    <input className="form-check-input me-2" type="radio" name="persNote" id="persNote" onClick={() => { chnageCheckedType(0) }} defaultChecked />
+                                                                    <input className="form-check-input me-2" type="radio" name="persNote" id="persNote" onClick={() => { chnageCheckedType(id,0) }} defaultChecked />
                                                                     <label className="form-label" for="persNote">
                                                                         {t("Personal")}
                                                                     </label>
@@ -348,7 +346,7 @@ export default function PatientNotes() {
                                                             </div>
                                                             <div className='col-md-3'>
                                                                 <div className="mb-2">
-                                                                    <input className="form-check-input me-2" type="radio" name="sharNote" id="sharNote" onClick={() => { chnageCheckedType(1) }} />
+                                                                    <input className="form-check-input me-2" type="radio" name="sharNote" id="sharNote" onClick={() => { chnageCheckedType(id,1) }} />
                                                                     <label className="form-label" for="sharNote">
                                                                         {t("Shared")}
                                                                     </label>

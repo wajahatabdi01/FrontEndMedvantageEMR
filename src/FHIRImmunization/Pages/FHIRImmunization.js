@@ -511,7 +511,6 @@ export default function FHIRImmunization({ setImmunization, theEncounterId }) {
         departmentId: activeDeptID
 
       }
-
       const saveObj = await PostFHIRImmunization(finalObjInvestAndReason);
       if (saveObj.status === 1) {
 
