@@ -12567,3 +12567,7 @@ span.pttime {
   min-width: 200px;
   width: 100%;
 }
+.dtlspt p {
+  font-size: 11px !important;
+  margin-bottom: 0px;
+}

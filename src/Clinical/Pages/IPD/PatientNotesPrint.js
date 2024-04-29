@@ -163,7 +163,7 @@ export default function PatientNotesPrint() {
                                     <tr>                                                                            
                                         <td className='text-center'>{notesData.detailsDate}</td>
                                         <td className='text-center'>{notesData.detailsTime}</td>
-                                        <td className='text-center'><div dangerouslySetInnerHTML={{ __html:notesData.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px' }}/></td>
+                                        <td className='text-center'><div className='dtlspt' dangerouslySetInnerHTML={{ __html:notesData.details }} style={{margin: '2px', padding: '2px' }}/></td>
                                     </tr>
                                                                                                                                                        
                         </tbody>

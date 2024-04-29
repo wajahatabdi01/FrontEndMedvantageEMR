@@ -61,7 +61,8 @@ export default function PatientNotes() {
     let [tosterValue, setTosterValue] = useState(0)
     let [id, setId] = useState()
     let [isShowTemplateModel, setIsShowTemplateModel] = useState(0)
-
+    let [detailsDate, setDetailsDate] = useState('')
+    let [detailsTime, setDetailsTime] = useState('')
 
     const clientID = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId;
     const userID = JSON.parse(window.sessionStorage.getItem("LoginData")).userId;
@@ -70,16 +71,16 @@ export default function PatientNotes() {
     const PMID = JSON.parse(window.sessionStorage.getItem("IPDpatientList"))[0].pmId;
    
 
-    const [currentDate, setCurrentDate] = useState('');
-    const [currentTime, setCurrentTime] = useState('');
+    // const [currentDate, setCurrentDate] = useState('');
+    // const [currentTime, setCurrentTime] = useState('');
 
     // Function to get the current date and time
     const getCurrentDateTime = () => {
         const now = new Date();
         const date = now.toISOString().split('T')[0]; // Format: YYYY-MM-DD
         const time = now.toTimeString().slice(0, 5); // Format: HH:MM
-        setCurrentDate(date);
-        setCurrentTime(time);
+        setDetailsDate(date);
+        setDetailsTime(time);
     };
 
     const getNotesTitle = async () => {
@@ -102,7 +103,7 @@ export default function PatientNotes() {
 
     let handleChange = (e) => {
      const {value , name } = e.target
-        setBody("")
+        // setBody("")
         if (name === "body") {
 
             setBody(e.target.value);
@@ -112,6 +113,16 @@ export default function PatientNotes() {
             setSubbtitle(value)
             console.log("subbTitle", subbTitle)
             getTemplateNotes(value)
+        }
+
+        if (name === "detailsDate") {
+            setDetailsDate(value)
+           
+        }
+
+        if (name === "detailsTime") {
+            setDetailsTime(value)
+           
         }
 
     }
@@ -189,9 +200,9 @@ export default function PatientNotes() {
             doctorID: userID,
             pdmID: id,
             details: body,
-            detailsDate: currentDate + ' ' + currentTime,
+            detailsDate: detailsDate + ' ' + detailsTime,
             userID: userID,
-            entryDate: currentDate + ' ' + currentTime,
+            entryDate: detailsDate + ' ' + detailsTime,
             clientId: clientID
 
         }
@@ -280,6 +291,7 @@ export default function PatientNotes() {
     let handleClear = (value) => {
         setClearDropdown(value)
         setBody('')
+        getCurrentDateTime();
         // setCurrentTime('')
         // setCurrentDate('')
     }
@@ -362,11 +374,11 @@ export default function PatientNotes() {
                                                         <div className="d-flex gap-2 align-content-end">
                                                             <div className="mb-2 me-2" style={{ flex: '1' }}>
                                                                 <img src={calender} className='icnn' /> <label htmlFor="detailsDate" className="form-label">Date</label>
-                                                                <input type="date" className="form-control form-control-sm" id="detailsDateProgress" name="detailsDate" placeholder="Enter Date" value={currentDate} />
+                                                                <input type="date" className="form-control form-control-sm" id="detailsDateProgress" name="detailsDate" placeholder="Enter Date" value={detailsDate} onChange={handleChange}/>
                                                             </div>
                                                             <div className="mb-2 me-2" style={{ flex: '1' }}>
                                                                 <img src={clock} className='icnn' /> <label htmlFor="detailsDate" className="form-label">Time</label>
-                                                                <input type="time" className="form-control form-control-sm" id="detailsTimeProgress" name="detailsTime" placeholder="Enter Time" value={currentTime} />
+                                                                <input type="time" className="form-control form-control-sm" id="detailsTimeProgress" name="detailsTime" placeholder="Enter Time" value={detailsTime} onChange={handleChange}/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -443,7 +455,7 @@ export default function PatientNotes() {
                                                         <tr key={val.id}>
                                                             <td className="text-center">{ind + 1}</td>
                                                             <td><span style={{ color: '#7696F1', fontSize: '13px' }}>{val.detailsDate}</span><br /><span style={{ color: '#858585', fontSize: '13px' }}>{val.detailsTime}</span></td>
-                                                            <td><div dangerouslySetInnerHTML={{ __html: val.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px' }} /></td>
+                                                            <td><div dangerouslySetInnerHTML={{ __html: val.details }} style={{ lineHeight: '2px', margin: '2px', padding: '2px', whiteSpace:'nowrap' }} /></td>
                                                             <td>{val.consultantName}</td>
                                                             <td>
                                                                 <div className="action-button">
