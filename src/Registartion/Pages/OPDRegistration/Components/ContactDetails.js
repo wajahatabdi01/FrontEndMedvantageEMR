@@ -37,7 +37,7 @@ const ContactDetails = ({ contactDetailsData, clearStatus, setClearStatus }) => 
         workPhone: '',
         emailID: '',
         trustedEmail: '',
-        additionalAddressJsonString:'[]'
+        additionalAddressJsonString: '[]'
     });
 
     useEffect(() => {

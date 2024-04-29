@@ -252,7 +252,7 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 doctorId: activeDocID,
                 departmentId: activeDeptID
             }
-            // return;
+
             const response = await InsertEncounter(pobj);
             if (response.status === 1) {
                 setShowUnderProcess(0);
