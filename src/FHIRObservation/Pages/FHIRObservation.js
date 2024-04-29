@@ -39,6 +39,22 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
   const activeDeptID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].departmentId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].deptId : [];
 
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+
+      // Adding leading zero if month/day is less than 10
+      if (month < 10) {
+          month = '0' + month;
+      }
+      if (day < 10) {
+          day = '0' + day;
+      }
+
+      return `${year}-${month}-${day}`;
+  }
 
   const SelectedData = (data, modalID) => {
 
@@ -129,7 +145,7 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
         doctorId: activeDocID,
         departmentId: activeDeptID
       }
-
+      
       const saveObj = await FHIRPostObservation(finalObj);
 
       if (saveObj.status === 1) {
@@ -364,7 +380,6 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
       });
     }
     const updObj = { JsonObservationData: JSON.stringify(tempArrList) }
-
     const resUpdate = await FHIRPutObservation(updObj);
     if (resUpdate.status === 1) {
       setShowToster(32);
@@ -437,11 +452,11 @@ export default function FHIRObservation({ setObservation, theEncounterId }) {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>Date :</label>
-                          <input type='date' className='form-control form-control-sm' id={'obDateID' + observationPlan.rowID} />
+                          <input type='date' className='form-control form-control-sm' min={getCurrentDate()} id={'obDateID' + observationPlan.rowID} />
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-6 mb-2">
                           <label className='form-label'>End Date :</label>
-                          <input type='date' className='form-control form-control-sm' id={'obEndDateID' + observationPlan.rowID} />
+                          <input type='date' className='form-control form-control-sm' min={getCurrentDate()} id={'obEndDateID' + observationPlan.rowID} />
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 mb-2">
