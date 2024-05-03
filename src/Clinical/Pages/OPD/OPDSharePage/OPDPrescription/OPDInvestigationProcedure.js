@@ -22,6 +22,7 @@ import clearIcon from '../../../../../assets/images/icons/clear.svg';
 
 
 export default function OPDInvestigationProcedure(props) {
+    console.log('propsss : ', props)
     document.body.dir = i18n.dir();
     const { t } = useTranslation();
     let [investigationHistory, setInvestigationHistory] = useState([])
@@ -296,7 +297,8 @@ export default function OPDInvestigationProcedure(props) {
             "doctorId": patientDoctId,
             "clientId": window.clientId,
             "userId": window.userId,
-            "deptId": patientDeptId,
+            "departmentId": patientDeptId,
+            "encounterId" : props.theEncounterId,
             "investigationItemDetails": JSON.stringify(sendData),
         }
 

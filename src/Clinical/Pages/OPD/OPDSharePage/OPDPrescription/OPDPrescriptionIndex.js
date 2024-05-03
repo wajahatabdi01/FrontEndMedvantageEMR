@@ -897,7 +897,7 @@ export default function OPDPrescriptionIndex(props) {
                         </div>
                         <div className='col-md-3 col-sm-12 prt1 arabicpad'>
                             {/* <OPDPatientLabDetails values={getD} funh={setGetD} /> */}
-                            <OPDInvestigationProcedure values={getD} funh={setGetD} />
+                            <OPDInvestigationProcedure values={getD} funh={setGetD} theEncounterId={toPassEncounter}/>
                         </div>
                         <div className="modal fade " id="problemId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div className=" modal-dialog modal-dialog-scrollable modal-lg">
