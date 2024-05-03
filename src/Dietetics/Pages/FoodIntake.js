@@ -21,6 +21,7 @@ import TosterUnderProcess from "../../Component/TosterUnderProcess";
 import Toster from "../../Component/Toster";
 import DieteticsFoodIntakeValidation from "../API/FoodIntake/DieteticsFoodIntakeValidation";
 import Search from "../../Code/Serach";
+import PatientTabs from "./PatientTabs";
 
 export default function FoodIntake() {
   let [foodList, setFoodList] = useState(); 
@@ -52,8 +53,9 @@ export default function FoodIntake() {
     
     const txtGetDate = document.getElementById("txtDate").value;
     console.log("txtGetDate", txtDate);
-    let uhid = window.sessionStorage.getItem("activeUHIDdiet")?JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid:JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
-    let foodIntakeList = await GetFoodIntakeList(uhid, txtGetDate);
+    let entryType='D'
+    let uhid = window.sessionStorage.getItem("activeUHIDdiet")?JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid:JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid;
+    let foodIntakeList = await GetFoodIntakeList(uhid, txtGetDate, entryType);
     if (foodIntakeList.status === 1) {
       setFoodIntakeList(foodIntakeList.foodIntakeList);
       setFoodIntakeListtemp(foodIntakeList.foodIntakeList);
@@ -78,6 +80,15 @@ export default function FoodIntake() {
       setUnitList(unitList.responseValue);
     }
   }
+
+  const updateCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const formattedTime = `${hours}:${minutes}`;
+    setTime(formattedTime);
+  };
+
   let handleChange = (e)=>{
     clearError(1);
     let value = e.target.value 
@@ -88,7 +99,7 @@ export default function FoodIntake() {
     console.log('txtDateee',value);
    }
    else if(name === "time"){
-    setTime(value)
+    setTime(e.target.value)
    }
    else if(name ==="quantity"){
     setQuantity(value);
@@ -163,7 +174,7 @@ export default function FoodIntake() {
         foodId: food,
         entryType: "D",
         givenFoodUnitID: unit,
-        uhid: window.sessionStorage.getItem("activeUHIDdiet")?JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid:JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid,
+        uhid: window.sessionStorage.getItem("activeUHIDdiet")?JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid:JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid,
         recommendedUserID: window.userId,
       };
       console.log(foodObj, "faiz");
@@ -219,11 +230,13 @@ export default function FoodIntake() {
     // getFoodIntakeList();
     getFoodIntakeList(yyyy + "-" + mm + "-" + dd);
     getDate();
+    updateCurrentTime();
   }, []);
   return (
     <>
       <div className="main-content pt-3 mt-5">
         <div className="container-fluid">
+        <PatientTabs />
           <div className="row">
             <div className="col-12">
               <div className="fieldsett-in">
@@ -260,6 +273,7 @@ export default function FoodIntake() {
                         className="form-control form-control-sm"
                         id="time"
                         name="time"
+                        value={time}
                         placeholder="Enter Time"
                         onChange={handleChange}
                       />

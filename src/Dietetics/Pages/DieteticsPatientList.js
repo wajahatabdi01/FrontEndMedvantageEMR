@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import GetAPIDepartmentMaster from "../../Admin/Api/Master/DepartmentMasterAPI/GetAPIDepartmentMaster";
 import { useTranslation } from 'react-i18next';
+import viewicn from "../../../src/assets/images/PatientListIcons/viewicn.svg";
 import  i18n from "i18next";
 
 export default function DieteticsPatientList(props) {
@@ -18,7 +19,7 @@ export default function DieteticsPatientList(props) {
   const {t} = useTranslation();
   let getAllDeptList = async () => {
     let response = await GetAPIDepartmentMaster();
-    if (response.status === 1) {
+    if (response.status === 1) {  
       setDepartmentList(response.responseValue);
     }
   };
@@ -32,11 +33,29 @@ export default function DieteticsPatientList(props) {
       setPatientList(response.responseValue);
       setPatientListTemp(response.responseValue);
     }
+    console.log("response.responseValue",response.responseValue);
   };
 
+  // let handleActiveUHID = (val) => {
+  //   window.sessionStorage.setItem("activeUHIDdiet",JSON.stringify({"uhid":val}))
+  //   props.setShowMenu(1)
+  // };
+
   let handleActiveUHID = (val) => {
-    window.sessionStorage.setItem("activeUHIDdiet",JSON.stringify({"uhid":val}))
-    props.setShowMenu(1)
+    console.log("val",val);
+    let oldPatientList = window.sessionStorage.getItem("activePatientDatadiet")
+      ? JSON.parse(window.sessionStorage.getItem("activePatientDatadiet"))
+      : [];
+
+    window.sessionStorage.setItem(
+      "activeUHIDdiet",
+      JSON.stringify({ Uhid: val.uhId })
+    );
+    window.sessionStorage.setItem(
+      "activePatientDatadiet",
+      JSON.stringify([...oldPatientList, val])
+    );
+    props.setShowMenu(1);
   };
 
   // let handleSearch = (e) => {
@@ -61,6 +80,8 @@ export default function DieteticsPatientList(props) {
   useEffect(() => {
     getDieteticsPatientList(13);
     getAllDeptList();
+    window.sessionStorage.removeItem("activeUHIDdiet");
+    window.sessionStorage.removeItem("activePatientDatadiet");
   }, []);
   document.body.dir = i18n.dir();
   return (
@@ -178,12 +199,17 @@ export default function DieteticsPatientList(props) {
                 </thead>
                 <tbody>
                   {patientListTemp &&
-                    patientListTemp.map((val, ind) => {
+                    patientListTemp.map((val, ind) => { 
                       return (
                         <tr className="">
-                          <td className="ps-2">{ind + 1}</td>
-                          <td>
+                          <td className="text-center pe-1">{ind + 1}</td>
+                          {/* <td>
                             {val.patientName} {val.age}/{val.gender}
+                          </td> */}
+                           <td className='pe-3'>
+                            <div className='txtb'>{val.patientName.toUpperCase()}</div>
+                            <div className="d-flex gap-1" style={{fontSize:'12px'}}> <div className="d-flex"><span title="Age"> {val.age ? val.age :''}{val.ageType ? val.ageType :''}</span> / <span title="Gender"> {val.gender} </span>  </div>  <span className='uhidnao' title="UHID">- {val.uhId}</span></div>
+                           
                           </td>
                           <td>{val.uhId}</td>
                           <td>{val.ipNo}</td>
@@ -194,16 +220,21 @@ export default function DieteticsPatientList(props) {
                           <td>
                             {val.wardName}/{val.bedName}
                           </td>
-                          <td className="pointer">
+                          {/* <td className="pointer">
                             <Link
                               to="/foodIntake/"
                               onClick={() => {
-                                handleActiveUHID(val.uhId);
+                                handleActiveUHID(val);
                               }}
                             >
                               {" "}
                               <i className="fa-solid fa-eye "></i>
                             </Link>
+                          </td> */}
+                          <td className="pointer text-center">
+                            <Link to="/foodIntake/" onClick={() => { handleActiveUHID(val);}}>                              
+                              <img src={viewicn} className='bgicn' alt="View" title="View" />
+                            </Link>  
                           </td>
                         </tr>
                       );
