@@ -8491,15 +8491,17 @@ a.nav-link.px-3.sidebar-link span {
     align-items: center;
   }
 
-  .patient-lft{
+  .patient-lft {
     width: 100% !important;
-    }
-    .patient-rt{
+  }
+
+  .patient-rt {
     width: 100% !important;
-    }
-    .patientMain {
-      row-gap: 10px;
-      flex-wrap: wrap;
+  }
+
+  .patientMain {
+    row-gap: 10px;
+    flex-wrap: wrap;
   }
 }
 
@@ -12376,31 +12378,38 @@ span.starMandatory {
 .tempEditor .ql-container.ql-snow {
   height: 200px;
 }
+
 .tempEditorpt .ql-container.ql-snow {
   height: 390px;
 }
+
 img.imgprint {
   width: 27px !important;
   padding: 3px 5px;
   background: #b6cbefd1;
   border-radius: 3px;
 }
+
 .patientMain {
   display: flex;
   gap: 10px;
 }
+
 .btnsecPt {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
-.patient-lft{
-width: 30%;
+
+.patient-lft {
+  width: 30%;
 }
-.patient-rt{
-width: 70%;
+
+.patient-rt {
+  width: 70%;
 }
+
 .codesectn {
   display: flex;
   gap: 10px;
@@ -12459,14 +12468,17 @@ span.AddVital i {
   background-image: linear-gradient(45deg, #1D4999, #1D4999);
   border-radius: 0;
 }
-.tempModal h1{
+
+.tempModal h1 {
   font-size: 15px !important;
 }
+
 .tempModal img {
   height: 18px;
   width: auto;
   padding: 1px;
 }
+
 .btnModalClosept {
   display: flex;
   outline: none;
@@ -12484,6 +12496,7 @@ span.AddVital i {
   align-items: center;
   justify-content: center;
 }
+
 .hedinimg {
   display: flex;
   justify-content: left;
@@ -12497,6 +12510,7 @@ span.AddVital i {
   border-radius: 3px;
   margin-bottom: 5px;
 }
+
 .patintbt-i {
   display: flex;
   justify-content: space-between;
@@ -12504,14 +12518,17 @@ span.AddVital i {
   font-size: 13px;
   align-items: center;
 }
+
 span.ptDate {
   font-style: italic;
   color: #2D8AF5;
 }
+
 span.pttime {
   color: #4B4B4B;
   font-weight: 600;
 }
+
 .patintbt-i {
   display: flex;
   justify-content: space-between;
@@ -12528,12 +12545,14 @@ span.pttime {
   max-height: 80vh;
   overflow: auto;
 }
+
 .patNotetxt span {
   width: 100%;
   display: inline-block;
   font-size: 14px;
   color: #7B7B7B;
 }
+
 .patNotetxt {
   margin-bottom: 10px;
   max-height: 60vh;
@@ -12546,14 +12565,17 @@ span.pttime {
   justify-content: end;
   margin-top: 15px;
 }
+
 .resetMain {
   position: relative;
 }
+
 .resetimg {
   position: absolute;
   right: 10px;
   bottom: 10px;
 }
+
 .resetimg img {
   padding: 5px;
   background: #1d4999;
@@ -12563,7 +12585,12 @@ span.pttime {
   line-height: 30px;
   cursor: pointer;
 }
+
 .ptDrop button {
   min-width: 200px;
   width: 100%;
+}
+.dtlspt p {
+  font-size: 11px !important;
+  margin-bottom: 0px;
 }
