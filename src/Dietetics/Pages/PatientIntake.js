@@ -969,7 +969,7 @@ export default function FoodIntake() {
           <PatientTabs />
           <div className="row">
 
-            <div className="col-12">
+            <div className="col-sm-12">
               <div className="fieldse">
 
 
@@ -979,14 +979,14 @@ export default function FoodIntake() {
 
               </div>
               </div>
-              <div className="col-6">
+              <div className="col-sm-6">
               <div className="fieldsett-in">
 
                 <div className="fieldsett">
                   <span className="fieldse"> Food Intake</span>
 
                   <BoxContainer>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={calender} className="icnn" />{" "} */}
                       <label htmlFor="txtDate" className="form-label">
                         Date
@@ -1007,7 +1007,7 @@ export default function FoodIntake() {
                         style={{ display: "none" }}
                       ></small>
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={clock} className="icnn" />{" "} */}
                       <label htmlFor="time" className="form-label">
                         Time
@@ -1032,7 +1032,7 @@ export default function FoodIntake() {
                       <img src={dish} className='icnn'/> <label htmlFor="dish" className="form-label">Dish</label>
                         <input type="text" className="form-control form-control-sm" id="dish" name="dish" placeholder="Enter Dish" />
                       </div>    */}
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={dish} className="icnn" />{" "} */}
                       <label htmlFor="dish" className="form-label">
                         Food
@@ -1058,7 +1058,7 @@ export default function FoodIntake() {
                         style={{ display: "none" }}
                       ></small>
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={quantity} className="icnn" />{" "} */}
                       <label htmlFor="Quantity" className="form-label">
                         Quantity
@@ -1204,14 +1204,14 @@ export default function FoodIntake() {
               </div>
             </div>
 
-            <div className="col-6">
+            <div className="col-sm-6">
 
               <div className="fieldsett-in">
                 <div className="fieldsett">
                   <span className='fieldse'> Supplement Intake</span>
                   <BoxContainer>
 
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={calender} className="icnn" />{" "} */}
                       <label htmlFor="txtDateSp" className="form-label">
                         Date
@@ -1232,7 +1232,7 @@ export default function FoodIntake() {
                         style={{ display: "none" }}
                       ></small>
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={clock} className="icnn" />{" "} */}
                       <label htmlFor="time" className="form-label">
                         Time
@@ -1253,14 +1253,14 @@ export default function FoodIntake() {
                         style={{ display: "none" }}
                       ></small>
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       <label htmlFor="countryId" className="form-label">Supplement <span className="starMandatory">*</span></label>
                       {/* {countryList && <DropdownWithSearch defaulNname="Select Country" name="countryId" list={countryList} displayName="countryName" valueName="id" getvalue={handleChange} />} */}
                       {supplementData && <DropdownWithSearch defaulNname="Select Supplement" id="supplimentName" name="supplimentName" list={supplementData} valueName="supplimentId" displayName="supplimentName" editdata={""} clear={clearDropdownSp} getvalue={handleChangeSp} clearFun={clear} />}
                       <small id="errSupplementSp" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="">
                       {/* <img src={quantity} className='icnn' /> */}
                       <label htmlFor="Quantity" className="form-label">Quantity <span className="starMandatory">*</span></label>
                       <input type="number" className="form-control form-control-sm" id="quantity" name="quantity" value={qty} onChange={handleChangeSp}
@@ -1268,7 +1268,7 @@ export default function FoodIntake() {
                       <small id="errQuantitySp" className="form-text text-danger" style={{ display: 'none' }}></small>
 
                     </div>
-                    <div className="mb-2 me-2">
+                    <div className="  ">
                       {/* <img src={unitIcon} className='icnn' />  */}
                       <label htmlFor="Unit" className="form-label">Unit <span className="starMandatory">*</span></label>
                       <select className="form-select form-select-sm" aria-label=".form-select-sm example" id='unitSp' name='unitSp' onChange={handleChangeSp}>
