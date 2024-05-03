@@ -12,34 +12,36 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // New local For FHIR
 
-window.AppbaseUrl = "http://192.168.11.101:6082"
-window.AppbaseUrlNew = "http://192.168.11.101:9000"
-window.AdminbaseUrl = "http://192.168.11.101:6083"
-window.UserbaseUrl = "http://192.168.11.101:6084"
-window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
-window.LabServicebaseUrl = "http://192.168.11.101:6090"
-window.NotificationUrl = "http://192.168.11.101:6101"
-window.AppbaseUrl2 = "http://192.168.11.101:6082"
-window.RadiologyservicesUrl = "http://192.168.11.101:6086"
-window.PharmacyServicesUrl = "http://192.168.11.101:7000"
+// window.AppbaseUrl = "http://192.168.11.101:6082"
+// window.AppbaseUrlNew = "http://192.168.11.101:9000"
+// window.AdminbaseUrl = "http://192.168.11.101:6083"
+// window.UserbaseUrl = "http://192.168.11.101:6084"
+//// window.FHIRBillingbaseUrl = "http://192.168.11.101:6088"
+// window.BillingbaseUrl = "http://192.168.11.101:6088"
+// window.LabServicebaseUrl = "http://192.168.11.101:6090"
+// window.NotificationUrl = "http://192.168.11.101:6101"
+// window.AppbaseUrl2 = "http://192.168.11.101:6082"
+// window.RadiologyservicesUrl = "http://192.168.11.101:6086"
+// window.PharmacyServicesUrl = "http://192.168.11.101:7000"
 // End For FHIR
 
 // New local For FHIRTesting
 
-// window.AppbaseUrl = "http://192.168.11.101:5082"
-// window.AppbaseUrlNew = "http://192.168.11.101:9000"
-// window.AdminbaseUrl = "http://192.168.11.101:5083"
-// window.UserbaseUrl = "http://192.168.11.101:5084"
+window.AppbaseUrl = "http://192.168.11.101:5082"
+window.AppbaseUrlNew = "http://192.168.11.101:9000"
+window.AdminbaseUrl = "http://192.168.11.101:5083"
+window.UserbaseUrl = "http://192.168.11.101:5084"
 // window.FHIRBillingbaseUrl = "http://192.168.11.101:5088"
-// window.LabServicebaseUrl = "http://192.168.11.101:5090"
-// window.NotificationUrl = "http://192.168.11.101:5101"
-// window.AppbaseUrl2 = "http://192.168.11.101:6082"
-// window.PharmacyServicesUrl = "http://192.168.11.101:4000"
-// window.RadiologyservicesUrl = "http://192.168.11.101:5086"
+window.BillingbaseUrl = "http://192.168.11.101:5088"
+window.LabServicebaseUrl = "http://192.168.11.101:5090"
+window.NotificationUrl = "http://192.168.11.101:5101"
+window.AppbaseUrl2 = "http://192.168.11.101:6082"
+window.PharmacyServicesUrl = "http://192.168.11.101:4000"
+window.RadiologyservicesUrl = "http://192.168.11.101:5086"
 // End For FHIRTesting
 
 
-window.BillingbaseUrl = "http://192.168.11.101:6088"
+// window.BillingbaseUrl = "http://192.168.11.101:6088"
 window.OTBaseURL = "http://172.16.61.31:7091/api/"
 window.BloodbaseUrl = "http://172.16.61.31:7092/"
 window.SendXMLDatabaseUl = "http://172.16.61.31:7082"
