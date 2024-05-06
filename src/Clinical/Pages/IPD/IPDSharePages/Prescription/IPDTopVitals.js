@@ -623,6 +623,8 @@ export default function IPDTopVitals(props) {
                                             encounterComments={encounterComments}
                                             encounterDestination={encounterDestination}
                                             titleId={titleId}
+                                            severity={severityId}
+                                            reaction={reactionId}
                                             isCloseModal={isClose}
                                             fnisClose={setisClose}
                                         />
@@ -714,6 +716,8 @@ export default function IPDTopVitals(props) {
                                             encounterComments={encounterComments}
                                             encounterDestination={encounterDestination}
                                             titleId={titleId}
+                                            severity={severityId}
+                                            reaction={reactionId}
                                             isCloseModal={isClose}
                                             fnisClose={setisClose} />
                                     </div>
@@ -755,6 +759,8 @@ export default function IPDTopVitals(props) {
                                             occurrence={occurrenceId}
                                             verificationStatus={verificationStatusId}
                                             outcome={outcomeId}
+                                            severity={severityId}
+                                            reaction={reactionId}
                                             encounterComments={encounterComments}
                                             encounterDestination={encounterDestination}
                                             isCloseModal={isClose}
@@ -800,6 +806,8 @@ export default function IPDTopVitals(props) {
                                             encounterComments={encounterComments}
                                             encounterDestination={encounterDestination}
                                             titleId={titleId}
+                                            severity={severityId}
+                                            reaction={reactionId}
                                             isCloseModal={isClose}
                                             fnisClose={setisClose} />
                                     </div>

@@ -6,6 +6,7 @@ import m2 from '../../assets/images/DischargePatient/m2.png'
 import m3 from '../../assets/images/DischargePatient/m3.png'
 import m4 from '../../assets/images/DischargePatient/m4.png'
 import m5 from '../../assets/images/DischargePatient/m5.png'
+import PatientTabs from './PatientTabs'
 
 
 export default function DischargePatient() {
@@ -15,7 +16,7 @@ export default function DischargePatient() {
     <>
       <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
-
+        <PatientTabs />
           <div className="row">
            
             <div className="col-md-8 col-sm-12 wt plt">

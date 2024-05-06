@@ -28,6 +28,7 @@ import Search from '../../Code/Serach';
 import deleteBtnIcon from '../../assets/images/icons/delete.svg';
 import DeleteSupplement from '../API/SupplementIntake/DeleteSupplement';
 import Loader from '../../Component/Loader';
+import PatientTabs from './PatientTabs';
 
 
 export default function SupplementIntake() {
@@ -86,11 +87,15 @@ export default function SupplementIntake() {
     if (name==="supplimentName"){
       getUnit(value)
     }
-    else if(name === "txtDate"){
+  
+     if(name === "txtDate"){
       settxtDate (value)
       getAllSupplementList(value);
      }
-     else if(name === "supplimentName"){
+     if (name === "time") {
+      setTime(e.target.value)
+    }
+     if(name === "supplimentName"){
       setsupplimentName (value)
       
      }
@@ -114,7 +119,13 @@ export default function SupplementIntake() {
     console.log('supplementList',supplementList);
   }
 
-  
+  const updateCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const formattedTime = `${hours}:${minutes}`;
+    setTime(formattedTime);
+  };
 
   let getAllSupplementList = async(txtDate)=>{
     const txtGetDate=document.getElementById("txtDate").value;
@@ -175,7 +186,7 @@ let saveSupplement = async()=>{
       document.getElementById('errSupplement').style.display = "none";
       document.getElementById('errUnit').style.display = "none";
   
-      if (sendForm.time === '' || sendForm.time === null || sendForm.time === undefined) {
+      if (time === '' || time === null || time === undefined) {
         document.getElementById('errTime').innerHTML = "Please Select Time";
         document.getElementById('errTime').style.display = "block";
         return false;
@@ -209,14 +220,14 @@ if (sendForm.unit === '' || sendForm.unit === null || sendForm.unit === undefine
         sendForm.txtDate = yyyy + "-" + mm + "-" + dd; 
       }
       var valResponse = {
-        intakeDateTime: sendForm.txtDate + ' ' + sendForm.time,
+        intakeDateTime: sendForm.txtDate + ' ' + time,
         brandID: sendForm.supplimentName,
         doseStrength: parseInt(sendForm.quantity),
         doseUnitID: parseInt(sendForm.unit),
         entryType: "D",
-        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
-        //uhid: 'UHID00608',
+        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
         userID: window.userId,
+        clientId: JSON.parse(window.sessionStorage.getItem("LoginData")).clientId
     }
     console.log('valResponse',valResponse);
     let data = await SaveSuppliment(valResponse);
@@ -291,11 +302,13 @@ let deleteRow = async () => {
     getDate();
     getSupplementList();
     getAllSupplementList(yyyy + "-" + mm + "-" + dd);
+    updateCurrentTime();
   },[]);
   return (
     <>
       <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
+        <PatientTabs />
           <div className="row">
             
             {/* <div className="col-12 mt-2">  
@@ -346,6 +359,7 @@ let deleteRow = async () => {
                         className="form-control form-control-sm"
                         id="time"
                         name="time"
+                        value={time}
                         placeholder="Enter Time"
                         onChange={handleChange}
                       />

@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-
+import Heading from "../../Component/Heading";
 import BoxContainer from "../../Component/BoxContainer";
 import TableContainer from "../../Component/TableContainer";
 
 import save from "../../assets/images/icons/save.svg";
 import reset from "../../assets/images/icons/reset.svg";
-
+import transfer from "../../assets/images/icons/transfer.svg";
+import editbtn from "../../assets/images/icons/editbtn.svg";
 import delbtn from "../../assets/images/icons/delbtn.svg";
 
 import unitIcon from "../../assets/images/icons/unit.svg";
-
+import Ingredient from "../../assets/images/icons/Ingredient.svg";
 import dish from "../../assets/images/icons/dish.svg";
 
 import quantity from "../../assets/images/icons/quantity.svg";
@@ -17,7 +18,7 @@ import DropdownWithSearch from "../../Component/DropdownWithSearch";
 import { useState } from "react";
 import GetFoodList from "../API/FoodIntake/GetFoodList";
 import GetUnitList from "../API/FoodIntake/GetUnitList";
-
+import { json } from "react-router-dom";
 import SaveRecipeMaster from "../API/Recipe/SaveRecipeMaster";
 import GetRecipeMain from "../API/Recipe/GetRecipeMain";
 import TosterUnderProcess from "../../Component/TosterUnderProcess";
@@ -28,6 +29,7 @@ import UpdateRecipeMasterClick from "../API/Recipe/UpdateRecipeMasterClick";
 import IconDelete from "../../assets/images/icons/IconDelete.svg";
 import DeleteRecipe from "../API/Recipe/DeleteRecipe";
 import IconEdit from '../../assets/images/icons/IconEdit.svg'
+import PatientTabs from "./PatientTabs";
 
 export default function RecipeMaster() {
   let [foodList, setFoodList] = useState();
@@ -91,14 +93,14 @@ export default function RecipeMaster() {
         ["unitName"]: text,
       }));
     }
-  
+    console.log("after change", row);
   };
   let handleChangeIngDropdown = (e) => {
     clearIngError();
     let value = e.target.value;
     let name = e.target.selectedName;
     // setFood(value);
- 
+    console.log(e);
 
     setRow((sendForm) => ({
       ...sendForm,
@@ -110,18 +112,18 @@ export default function RecipeMaster() {
     }));
     // row["ingredientId"] = value;
     // row["ingredientName"] = name;
-    
+    // console.log("name, id", row)
     getUnitIngList(value);
   };
   let getUnitList = async (value) => {
-    
+    console.log(value, "foodId");
     let unitList = await GetUnitList(value);
     if (unitList.status === 1) {
       setUnitList(unitList.responseValue);
     }
   };
   let getUnitIngList = async (value) => {
-   
+    console.log(value, "foodId");
     let unitIngList = await GetUnitList(value);
     if (unitIngList.status === 1) {
       setUnitIngList(unitIngList.responseValue);
@@ -137,14 +139,14 @@ export default function RecipeMaster() {
       setFoodUnit(value);
     }
   };
-  // let handleIngChange = (e) => {
-  //   // clearError();
-  //   let value = e.target.value;
-  //   let name = e.target.name;
-  //   if (name === "unit") {
-  //     setUnit(value);
-  //   }
-  // };
+  let handleIngChange = (e) => {
+    // clearError();
+    let value = e.target.value;
+    let name = e.target.name;
+    if (name === "unit") {
+      setUnit(value);
+    }
+  };
   let clearError = async () => {
     document.getElementById("errFood").style.display = "none";
     document.getElementById("errQuantity").style.display = "none";
@@ -174,20 +176,22 @@ export default function RecipeMaster() {
     var id = isValidateRecipeMain[1];
     if (isValidateRecipeMain === true) {
       let recipeObj = {
-        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
+        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
         foodId: txtFood,
         foodQuantity: foodQuantity,
         unitId: foodUnit,
         userID: window.userId,
         jsonData: JSON.stringify(showIngredientList),
       };
-     
+      console.log(recipeObj, "rec");
       let data = await SaveRecipeMaster(recipeObj);
       if (data.status === 1) {
         setShowUnderProcess(0);
         setTosterValue(0);
         setShowToster(1);
         setTosterMessage("Data Saved Successfully!");
+        getRecipeMainFood();
+        clear(1);
         setTimeout(() => {
           setShowToster(0);
         }, 2000);
@@ -219,7 +223,7 @@ export default function RecipeMaster() {
   ///// Get Recipe Main list
   let getRecipeMainFood = async () => {
     let recipeUhid = {
-      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
+      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
     };
     let recipeMain = await GetRecipeMain(recipeUhid);
     if (recipeMain.status === 1) {
@@ -228,7 +232,7 @@ export default function RecipeMaster() {
   };
   // let removeIngredient =(ind)=>{
 
-
+  //   console.log('indd',showIngredientList);
   //   setShowIngredientList(showIngredientList.splice(ind, 1));
 
   // }
@@ -243,7 +247,7 @@ export default function RecipeMaster() {
     let recipeMainObj = {
       foodId: val.foodId,
       recipeMainId: val.recipeMainId,
-      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
+      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
     };
 
     let getRecipeMain = await GetRecipeSub(recipeMainObj);
@@ -252,7 +256,7 @@ export default function RecipeMaster() {
       setRecipeMainId(mainFoodId);
 
       let recipeMainUpd = getRecipeMain.recipeMainList[0];
-      
+      console.log("fff", getRecipeMain, getRecipeMain.recipeMainList[0].foodId);
       setEditFood(recipeMainUpd.foodName);
       setUnitList(getRecipeMain.unitListByFoodFId);
       setFood(getRecipeMain.recipeMainList[0].foodId);
@@ -263,7 +267,7 @@ export default function RecipeMaster() {
           getRecipeMain.recipeMainList[0].unitId.toString();
       }, 500);
       //  let t = document.getElementById("foodUnit");
-      
+      //  console.log(t)
 
       // setShowIngredientList([getRecipeMain.ingredientLists, row]);
       let arrIngList = getRecipeMain.ingredientLists;
@@ -284,7 +288,8 @@ export default function RecipeMaster() {
       document.getElementById("qtyMain").value = recipeMainUpd.foodQuantity;
       document.getElementById("foodUnit").value = recipeMainUpd.unitId;
     }
-    
+    console.log("faina", getRecipeMain);
+    console.log("reciMain", recipesMainId);
   };
   //  let handleChange = (e) => {
   //   clearError();
@@ -310,6 +315,7 @@ export default function RecipeMaster() {
     setFoodQuanttity("")
     setFoodUnit("")
     setEditFood("")
+    clearError();
     //  document.getElementById('foodName').value = 0;
     // document.getElementById('ddlUnitList').value = 0;
   };
@@ -324,7 +330,7 @@ export default function RecipeMaster() {
     var id = isValidateRecipeMain[1];
     if (isValidateRecipeMain === true) {
       let recipeObj = {
-        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
+        uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
         foodId: txtFood,
         foodQuantity: foodQuantity,
         unitId: foodUnit,
@@ -332,7 +338,7 @@ export default function RecipeMaster() {
         jsonData: JSON.stringify(showIngredientList),
         recipeMainId: recipesMainId,
       };
-      
+      console.log(recipeObj, "rec");
       let data = await UpdateRecipeMasterClick(recipeObj);
       if (data.status === 1) {
         setShowUnderProcess(0);
@@ -367,11 +373,11 @@ export default function RecipeMaster() {
   let handleDeleteRow = async () => {
     // setLoder(1)
     let delObj = {
-      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).uhid,
+      uhid: JSON.parse(window.sessionStorage.getItem("activeUHIDdiet")).Uhid,
       foodId: mainFoodId,
       recipeMainId: recipesMainId,
     };
-    
+    console.log("del", delObj);
     setShowUnderProcess(1);
     let response = await DeleteRecipe(delObj);
     if (response.status === 1) {
@@ -379,6 +385,7 @@ export default function RecipeMaster() {
       setShowToster(1);
       setTosterMessage("Data Deleted SuccessFully!");
       setTosterValue(0);
+      clear(1);
       setTimeout(() => {
         setShowToster(0);
       }, 2000);
@@ -402,6 +409,8 @@ export default function RecipeMaster() {
     <>
       <section className="main-content mt-5 pt-3">
         <div className="container-fluid">
+        <PatientTabs />
+
           <div className="row">
             {/* <div className="col-12 mt-2">
               <div className="selection">
@@ -426,18 +435,38 @@ export default function RecipeMaster() {
                 <div className="fieldsett">
                   <span className="fieldse">Recipe Master</span>
                   <div className="row">
-                    <div className="col-md-4 col-sm-12 plt">
-                      <BoxContainer>
+                    {/* <div className="col-md-4 col-sm-12 plt">
+                      <BoxContainer> */}
                         {/* <div className="mb-2 me-2">
                             <img src={dish} className='icnn'/> <label htmlFor="DishFood" className="form-label">Dish/Food</label>
                             <select className="form-select form-select-sm" aria-label=".form-select-sm example">
                               <option selected>Select Quantity</option>
                             </select>
                           </div>  */}
-                        <div className="mb-2 me-2">
-                          <img src={dish} className="icnn" alt=""/>{" "}
+                       
+                        {/* <div className="mb-2 me-2">
+                          <label htmlFor="DishFood" className="form-label">
+                            &nbsp;
+                          </label>
+                          <div className="addfood">
+                            <i className="fa fa-plus"></i>
+                          </div>
+                        </div> */}
+                      {/* </BoxContainer> */}
+                    {/* </div> */}
+                    <div className="col-md-12 col-sm-12 prt">
+                      <BoxContainer>
+                        {/* <div className="mb-2 me-2">
+                            <img src={Ingredient} className='icnn'/> <label htmlFor="Ingredient" className="form-label">Ingredient</label>
+                            <select className="form-select form-select-sm" aria-label=".form-select-sm example">
+                              <option selected>Select Date</option>
+                            </select>
+                          </div>  */}
+                           <div className="mb-2 me-2">
+                          <img src={dish} className="icnn" />{" "}
                           <label htmlFor="dish" className="form-label">
                             Food
+                            <span className="starMandatory">*</span>
                           </label>
                           {foodList && (
                             <DropdownWithSearch
@@ -459,26 +488,8 @@ export default function RecipeMaster() {
                             style={{ display: "none" }}
                           ></small>
                         </div>
-                        {/* <div className="mb-2 me-2">
-                          <label htmlFor="DishFood" className="form-label">
-                            &nbsp;
-                          </label>
-                          <div className="addfood">
-                            <i className="fa fa-plus"></i>
-                          </div>
-                        </div> */}
-                      </BoxContainer>
-                    </div>
-                    <div className="col-md-8 col-sm-12 prt">
-                      <BoxContainer>
-                        {/* <div className="mb-2 me-2">
-                            <img src={Ingredient} className='icnn'/> <label htmlFor="Ingredient" className="form-label">Ingredient</label>
-                            <select className="form-select form-select-sm" aria-label=".form-select-sm example">
-                              <option selected>Select Date</option>
-                            </select>
-                          </div>  */}
                         <div className="mb-2 me-2">
-                          <img src={dish} className="icnn" alt=""/>{" "}
+                          <img src={dish} className="icnn" />{" "}
                           <label htmlFor="dish" className="form-label">
                             Ingredient
                           </label>
@@ -504,7 +515,7 @@ export default function RecipeMaster() {
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={quantity} className="icnn" alt=""/>{" "}
+                          <img src={quantity} className="icnn" />{" "}
                           <label htmlFor="RDA" className="form-label">
                             Quantity
                           </label>
@@ -517,14 +528,14 @@ export default function RecipeMaster() {
                             onChange={handlehandleChangeIng}
                           />
                           <small
-                            id="errIngQuantity"
+                            id="errIngQty"
                             className="form-text text-danger"
                             style={{ display: "none" }}
                           ></small>
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={unitIcon} className="icnn" alt=""/>{" "}
+                          <img src={unitIcon} className="icnn" />{" "}
                           <label htmlFor="Unit" className="form-label">
                             Unit
                           </label>
@@ -598,7 +609,7 @@ export default function RecipeMaster() {
                               <tbody>
                                 {showIngredientList &&
                                   showIngredientList.map((val, ind) => {
-                                    
+                                    console.log(val);
                                     return (
                                       <tr>
                                         <td className="text-center">
@@ -623,7 +634,7 @@ export default function RecipeMaster() {
                                               <img
                                                 src={delbtn}
                                                 className="icnn"
-                                               alt=""/>
+                                              />
                                             </span>
                                           </div>
                                         </td>
@@ -640,9 +651,10 @@ export default function RecipeMaster() {
 
                       <BoxContainer>
                         <div className="mb-2 me-2">
-                          <img src={quantity} className="icnn" alt=""/>{" "}
+                          <img src={quantity} className="icnn" />{" "}
                           <label htmlFor="qtyMain" className="form-label">
                             Quantity
+                            <span className="starMandatory">*</span>
                           </label>
                           <input
                             type="text"
@@ -660,9 +672,10 @@ export default function RecipeMaster() {
                         </div>
 
                         <div className="mb-2 me-2">
-                          <img src={unitIcon} className="icnn" alt=""/>{" "}
+                          <img src={unitIcon} className="icnn" />{" "}
                           <label htmlFor="foodUnit" className="form-label">
                             Unit
+                            <span className="starMandatory">*</span>
                           </label>
                           <select
                             className="form-select form-select-sm"
@@ -718,14 +731,14 @@ export default function RecipeMaster() {
                                     className="btn btn-save btn-save-fill btn-sm"
                                     onClick={SaveRecipeMasterClick}
                                   >
-                                    <img src={save} className="icnn" alt=""/> Save{" "}
+                                    <img src={save} className="icnn" /> Save{" "}
                                   </button>
                                   <button
                                     type="button"
                                     className="btn btn-save btn-sm btnbluehover"
                                     onClick={() => clear(1)}
                                   >
-                                    <img src={reset} className="icnn" alt=""/> Reset
+                                    <img src={reset} className="icnn" /> Reset
                                   </button>
                                 </>
                               ) : (

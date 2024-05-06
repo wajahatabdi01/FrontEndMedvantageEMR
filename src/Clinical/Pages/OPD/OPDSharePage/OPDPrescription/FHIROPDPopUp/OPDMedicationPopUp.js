@@ -12,7 +12,9 @@ import clearIcon from '../../../../../../assets/images/icons/clear.svg';
 import { CodeMaster } from '../../../../../../Admin/Pages/EMR Master/CodeMaster';
 import { t } from 'i18next';
 import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
-function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
+import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
+import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
+function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction, isCloseModal, fnisClose }) {
     let [medication, setMedication] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -21,6 +23,8 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
     let [classificationList, setClassificationList] = useState([]);
     const [isCodingSelected, setCodingSelected] = useState(false);
     let [brandList, setBrandList] = useState([]);
+    let [severitylist, setSeverityList] = useState([]);
+    let [reactionlist, setReactionList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0)
     let [showAlertToster, setShowAlertToster] = useState(0)
@@ -78,7 +82,18 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
 
         return `${year}-${month}-${day}`;
     }
-
+    let getAllSeverityData = async () => {
+        const response = await GetAllSeverityData();
+        if (response.status === 1) {
+            setSeverityList(response.responseValue);
+        }
+    }
+    let getAllReactionList = async () => {
+        const response = await GetAllReactionList();
+        if (response.status === 1) {
+            setReactionList(response.responseValue);
+        }
+    }
     let getAllBrandList = async () => {
         const response = await GetBrandList();
         if (response.status === 1) {
@@ -221,7 +236,9 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
             referredby: '',
             comments: '',
             outcomeId: '0',
-            destination: ''
+            destination: '',
+            reactionId: '',
+            severityId: ''
         })
         setUpdateBool(0);
         setTxtCoding([]);
@@ -339,11 +356,13 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
             referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
+            severityId: severity && severity !== '' ? severity : '',
+            reactionId: reaction && reaction !== '' ? reaction : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
         setTxtCoding(formattCodingData)
-    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction])
     // Used To Clear Modal
     useEffect(() => {
         if (isCloseModal === 1) {
@@ -353,6 +372,8 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
 
     }, [isCloseModal]);
     useEffect(() => {
+        getAllReactionList();
+        getAllSeverityData();
         getAllBrandList();
         getAllIssueOutCome();
         getAllIssueOccurence();
@@ -472,7 +493,36 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Severity</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={medicationData.severityId} className="form-select form-select-sm" id="severityId" aria-label=".form-select-sm example" name='severityId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Severity</option>
+                                    {severitylist && severitylist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Reaction</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={medicationData.reactionId} className="form-select form-select-sm" id="reactionId" aria-label=".form-select-sm example" name='reactionId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Reaction</option>
+                                    {reactionlist && reactionlist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.title}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Verification Status</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
@@ -488,11 +538,7 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-                    </div>
-                </div>
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-6 mb-2">
+                        <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Outcome</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
@@ -507,18 +553,24 @@ function OPDMedicationPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdate
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                    </div>
+                </div>
+                <div className='col-12'>
+                    <div className="row">
+
                         <div className="col-6 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Destination</></label>
                             <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={medicationData.destination} onChange={handleIssueDetailsChange} />
+                        </div>
+                        <div className="col-6 mb-2">
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
+                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={medicationData.referredby} onChange={handleIssueDetailsChange} />
                         </div>
                     </div>
                 </div>
                 <div className='col-12'>
                     <div className="row">
-                        <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
-                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={medicationData.referredby} onChange={handleIssueDetailsChange} />
-                        </div>
+
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Comments</></label>
                             <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={medicationData.comments} onChange={handleIssueDetailsChange}></textarea>
