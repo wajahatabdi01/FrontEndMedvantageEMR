@@ -14,7 +14,9 @@ import UpdateEncounter from '../../../../../API/FHIREncounter/UpdateEncounter';
 import { t } from 'i18next';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
-function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, isCloseModal, fnisClose }) {
+import GetAllSeverityData from '../../../../../../Registartion/API/GET/GetAllSeverityData';
+import GetAllReactionList from '../../../../../../Registartion/API/GET/GetAllReactionList';
+function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBool, rowId, encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction, isCloseModal, fnisClose }) {
     let [surgery, setSurgery] = useState('');
     let [coding, setCoding] = useState('');
     let [outComelist, setOutcomeList] = useState([]);
@@ -25,6 +27,8 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
     let [surgeryList, setSurgeryList] = useState([]);
     let [showUnderProcess, setShowUnderProcess] = useState(0);
     let [showToster, setShowToster] = useState(0)
+    let [severitylist, setSeverityList] = useState([]);
+    let [reactionlist, setReactionList] = useState([]);
     let [showAlertToster, setShowAlertToster] = useState(0)
     let [showErrMessage, setShowErrMessage] = useState('');
     const [isShowPopUp, setIsShowPopUp] = useState(0);
@@ -88,7 +92,18 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             setSurgeryList(slicedProblemList);
         }
     }
-
+    let getAllSeverityData = async () => {
+        const response = await GetAllSeverityData();
+        if (response.status === 1) {
+            setSeverityList(response.responseValue);
+        }
+    }
+    let getAllReactionList = async () => {
+        const response = await GetAllReactionList();
+        if (response.status === 1) {
+            setReactionList(response.responseValue);
+        }
+    }
     let getAllIssueOutCome = async () => {
         const response = await GetAllIssueOutCome();
         if (response.status === 1) {
@@ -221,6 +236,8 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             referredby: '',
             comments: '',
             outcomeId: '0',
+            reactionId: '',
+            severityId: '',
             destination: ''
         })
         setUpdateBool(0);
@@ -342,11 +359,13 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
             referredby: encounterReferredBy !== undefined ? encounterReferredBy : '',
             comments: encounterComments && encounterComments !== '' ? encounterComments : '',
             outcomeId: outcome && outcome !== '' ? outcome : '',
+            severityId: severity && severity !== '' ? severity : '',
+            reactionId: reaction && reaction !== '' ? reaction : '',
             destination: encounterDestination && encounterDestination !== '' ? encounterDestination : ''
         });
         const formattCodingData = encounterCoding ? encounterCoding.split(';').slice(0, -1) : [];
         setTxtCoding(formattCodingData)
-    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId])
+    }, [encounterTitle, encounterBeginDate, encounterEndDate, encounterReferredBy, encounterCoding, classificationName, occurrence, verificationStatus, outcome, encounterComments, encounterDestination, titleId, severity, reaction])
 
     // Used To Clear Modal
     useEffect(() => {
@@ -357,6 +376,8 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
 
     }, [isCloseModal]);
     useEffect(() => {
+        getAllReactionList();
+        getAllSeverityData();
         getAllSurgeryList();
         getAllIssueOutCome();
         getAllIssueOccurence();
@@ -476,7 +497,36 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Severity</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={surgeryData.severityId} className="form-select form-select-sm" id="severityId" aria-label=".form-select-sm example" name='severityId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Severity</option>
+                                    {severitylist && severitylist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.name}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
+                        <div className="col-4 mb-2">
+                            <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Reaction</></label>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
+                            <div className='d-flex gap-3' >
+                                <select value={surgeryData.reactionId} className="form-select form-select-sm" id="reactionId" aria-label=".form-select-sm example" name='reactionId' onChange={handleIssueDetailsChange} >
+                                    <option value="0" selected>Select Reaction</option>
+                                    {reactionlist && reactionlist.map((list) => {
+                                        return (
+                                            <option value={list.id}>{list.title}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
+                        </div>
                         <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Verification Status</></label>
                             {/* <sup style={{ color: "red" }}>*</sup> */}
@@ -492,13 +542,8 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
-                    </div>
-                </div>
-                <div className='col-12'>
-                    <div className="row">
-                        <div className="col-6 mb-2">
+                        <div className="col-4 mb-2">
                             <label htmlFor="ddlRelationshipTertiary" className="form-label"><>Outcome</></label>
-                            {/* <sup style={{ color: "red" }}>*</sup> */}
                             <div className='d-flex gap-3' >
                                 <select value={surgeryData.outcomeId} className="form-select form-select-sm" id="outcomeId" aria-label=".form-select-sm example" name='outcomeId' onChange={handleIssueDetailsChange} >
                                     <option value="0" selected>Select Outcome</option>
@@ -511,18 +556,22 @@ function OPDSurgeryPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                             </div>
                             <small id="errRelationshipTertiary" className="form-text text-danger" style={{ display: 'none' }}></small>
                         </div>
+                    </div>
+                </div>
+                <div className='col-12'>
+                    <div className="row">
                         <div className="col-6 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Destination</></label>
                             <input type="text" className="form-control form-control-sm" id="destination" name='destination' value={surgeryData.destination} onChange={handleIssueDetailsChange} />
+                        </div>
+                        <div className="col-6 mb-2">
+                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
+                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={surgeryData.referredby} onChange={handleIssueDetailsChange} />
                         </div>
                     </div>
                 </div>
                 <div className='col-12'>
                     <div className="row">
-                        <div className="col-12 mb-2">
-                            <label htmlFor="txtPatientRelationAddress" className="form-label"><>Referred by</></label>
-                            <input type="text" className="form-control form-control-sm mt-1" id="referredby" name='referredby' value={surgeryData.referredby} onChange={handleIssueDetailsChange} />
-                        </div>
                         <div className="col-12 mb-2">
                             <label htmlFor="txtPatientRelationAddress" className="form-label"><>Comments</></label>
                             <textarea className='mt-1 form-control' id="comments" name="comments" rows="3" cols="40" style={{ height: '121px' }} value={surgeryData.comments} onChange={handleIssueDetailsChange}></textarea>
