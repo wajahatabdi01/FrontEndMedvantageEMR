@@ -48,7 +48,6 @@ function SearchRegisteredPatient() {
     const navigate = useNavigate();
     const pageSize = 15;
     let getData = async (pageNumbers) => {
-        console.log("selectedPatient", selectedPatient);
         const parts = selectedPatient.split(' ');
         let firstName = '';
         let lastName = '';
@@ -67,8 +66,6 @@ function SearchRegisteredPatient() {
     }
 
     let handleVisit = (patientName, Uhid, lastName) => {
-        console.log("patientName", patientName)
-        console.log("UHID", Uhid)
         setPatientName(patientName + ' ' + lastName)
         setUhid(Uhid)
     }
@@ -211,6 +208,7 @@ function SearchRegisteredPatient() {
             if (deptResponse) {
 
                 if (resp.responseValue[0].admitDoctorId !== 0) {
+                    console.log('ipdddddddddddddd resp.responseValue[0] : ', resp.responseValue[0])
                     let deptmenu = await GetMenuByHead(resp.responseValue[0].deptId, 4);
                     if (deptmenu.status === 1) {
                         let patientList = await GetPatientDetailsByUHID(key, 4)
@@ -241,6 +239,7 @@ function SearchRegisteredPatient() {
 
                 }
                 else {
+                    console.log('oooopppppffffff resp.responseValue[0] : ', resp.responseValue[0])
                     let deptmenu = await GetMenuByHead(resp.responseValue[0].deptId, 1);
 
                     if (deptmenu.status === 1) {
@@ -271,17 +270,12 @@ function SearchRegisteredPatient() {
                         // window.open('/prescriptionopd/')
                         // console.log("cdcsdcsdc", patientList.responseValue[0].createdDate, formattedDate)
                         if (patientList.responseValue[0].createdDate === formattedDate) {
-
+                            console.log('patientList.responseValue[0] : ', patientList.responseValue[0])
                             navigate('/prescriptionopd/')
                         }
                         else {
                             navigate('/fhirpatientprofile/')
-                            // console.log('createdDate', patientList.responseValue[0].createdDate, ' ', 'formattedDate', formattedDate);
-                            // setShowAlertToster(1)
-                            // setShowErrMessage("Patient is not currently in the OPD.")
-                            // setTimeout(() => {
-                            //     setShowAlertToster(0)
-                            // }, 2000)
+                           
                         }
                     }
 
@@ -290,9 +284,7 @@ function SearchRegisteredPatient() {
             else {
                 console.error('Something went wrong..');
             }
-            // newWindow["uhid"] = props.patientData.UhId
-            // window["clientId"] = JSON.parse(window.sessionStorage.getItem("LoginData")).clientId
-            // setPatientProfilePopup(1)
+            
         }
     }
     let handleChange = (e) => {

@@ -24,7 +24,8 @@ import GetAllRefills from "../API/GET/GetAllRefills";
 import SuccessToster from "../../Component/SuccessToster";
 import FHIRGetAllUnit from "../API/GET/FHIRGetAllUnit";
 
-export default function FHIRAddPrescription({ setPrecription, theEncounterId }) {
+export default function FHIRAddPrescription({ setPrecription, theEncounterId , setPatientType}) {
+  console.log('setPatientType : ', setPatientType)
   const [brandList, setBrandList] = useState([]);
   const [clearDropdown, setClearDropdown] = useState(0);
   const [editName, setEditName] = useState("");
@@ -58,6 +59,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
   let activeUHID = window.sessionStorage.getItem("activePatient")
     ? JSON.parse(window.sessionStorage.getItem("activePatient")).Uhid
     : window.sessionStorage.getItem("IPDactivePatient") ? JSON.parse(window.sessionStorage.getItem("IPDactivePatient")).Uhid : [];
+
 
   const activeDocID = window.sessionStorage.getItem('OPDPatientData') ?
     JSON.parse(window.sessionStorage.getItem('OPDPatientData'))[0].doctorId : window.sessionStorage.getItem('IPDpatientList') ? JSON.parse(window.sessionStorage.getItem('IPDpatientList'))[0].doctorId : [];
@@ -466,7 +468,7 @@ export default function FHIRAddPrescription({ setPrecription, theEncounterId }) 
       // "recieverId": 331,
       "recieverId": 252,
       "prescriptionDetails": JSON.stringify(data),
-      "comingFrom": "OPD",
+      "comingFrom": setPatientType === 'IPD'? 'IPD' : 'OPD',
       "status": true,
       // "createdDate": datas.startingDate,
       "isSent": true

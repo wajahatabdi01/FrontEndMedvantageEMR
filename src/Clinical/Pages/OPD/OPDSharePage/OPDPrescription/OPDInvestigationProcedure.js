@@ -22,7 +22,7 @@ import clearIcon from '../../../../../assets/images/icons/clear.svg';
 
 
 export default function OPDInvestigationProcedure(props) {
-    console.log('propsss : ', props)
+    console.log('propsssssssssssss : ', props)
     document.body.dir = i18n.dir();
     const { t } = useTranslation();
     let [investigationHistory, setInvestigationHistory] = useState([])
