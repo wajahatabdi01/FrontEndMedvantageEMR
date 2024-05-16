@@ -430,7 +430,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{precription === 1 ? (<FHIRAddPrescription setShowToster={setShowToster} setPrecription={setPrecription} theEncounterId={props.theEncounterId} />) : ("")}
+            <div class="modal-body">{precription === 1 ? (<FHIRAddPrescription setShowToster={setShowToster} setPrecription={setPrecription} theEncounterId={props.theEncounterId} setPatientType ={props.setPatientType}/>) : ("")}
             </div>
 
             {/* <div class="modal-footer">
