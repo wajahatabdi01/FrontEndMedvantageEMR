@@ -1204,7 +1204,7 @@ export default function FoodIntake() {
               </div>
             </div>
 
-            <div className="col-sm-6">
+            <div className="col-sm-6 ps-0">
 
               <div className="fieldsett-in">
                 <div className="fieldsett">
