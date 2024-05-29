@@ -1,5 +1,5 @@
 async function GetAllItem(data) {
-    let url = window.FHIRBillingbaseUrl + "/api/ItemMaster/GetAllItemMaster?id="+4422;
+    let url = window.BillingbaseUrl + "/api/ItemMaster/GetAllItemMaster?id=" + 4422;
     let head = { "Content-Type": "application/JSON", accept: '*/*' };
     let response = fetch(url, {
         headers: head,
