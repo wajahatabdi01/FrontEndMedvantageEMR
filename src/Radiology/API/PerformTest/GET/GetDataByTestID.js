@@ -1,5 +1,4 @@
 let GetDataByTestID = async(key,clientId)=>{
-    console.log('clientId : ', clientId)
     let url = window.RadiologyservicesUrl + "/api/RadiologyTestResult/GetOrgansAndParameterForRadiologyTest?testId="+key+"&clientId="+clientId;
     let head = { 'Content-Type': 'application/json', 'accept': '*/*', };
     let responsonse = "";

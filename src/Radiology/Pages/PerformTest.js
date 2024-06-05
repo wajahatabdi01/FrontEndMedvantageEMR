@@ -28,6 +28,12 @@ import TextEditor from '../../Component/TextEditor'
 import remarkIcon from '../../assets/images/icons/edit.svg'
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
+
+import viewIcon from '../../assets/images/icons/IconView.svg'
+import closeIcon from '../../assets/images/icons/Cross.png'
+import PostRadiologyImage from '../API/PerformTest/POST/PostRadiologyImage'
+
+
 export default function PerformTest() {
   let [userID, setUserID] = useState(JSON.parse(window.sessionStorage.getItem("LoginData")).userId);
   let [showLoder, setShowLoder] = useState(0);
@@ -46,7 +52,7 @@ export default function PerformTest() {
   let [showToster, setShowToster] = useState(0);
   let [tosterMessage, setTosterMessage] = useState("");
   let [tosterValue, setTosterValue] = useState(0);
-  let [saveButtonDisable, setSaveButtonDisable] = useState(false);
+  // let [saveButtonDisable, setSaveButtonDisable] = useState(false);
   let [showAlertToster, setShowAlertToster] = useState(0);
   let [showErrMessage, setShowErrMessage] = useState('');
   let [editorValue, setEditorValue] = useState("");
@@ -55,6 +61,9 @@ export default function PerformTest() {
   let [remarkList, setRemarkList] = useState([]);
   let [showRemark, setRhowRemark] = useState(0);
   let [activeOrganID, setActiveOrganID] = useState('');
+  const [getRadioImageShow, setRadioImageShow] = useState(false)
+  const [getTheImageUrl, setTheImageUrl] = useState('')
+  const [getShowRadioImageIcon,setShowRadioImageIcon] = useState(false)
   
   const { t } = useTranslation();
 
@@ -104,6 +113,8 @@ export default function PerformTest() {
           setShowImage(1)
         }
         else {
+          setShowRadioImageIcon(false)
+          setTheImageUrl('')
           setTestList(responseTestList.responseValue.testType);
           setShowLoder(0);
           if (responseTestList.responseValue.testType.length === 0) {
@@ -122,11 +133,25 @@ export default function PerformTest() {
       }
     }
   }
-  let getTestDataByTestID = async (param) => {
+  let getTestDataByTestID = async (param, imgUrl) => {
+    const imgObj ={
+      url : imgUrl
+    }
+    
     const response = await GetDataByTestID(param, clientID);
     if (response.status === 1) {
+      const imgRes = await PostRadiologyImage(imgObj);
+        
+        if(imgRes.originalImage){
+
+          setTheImageUrl(imgRes.originalImage)
+          setShowAlertToster(1);
+      setShowErrMessage('Patient suffering from Pneumonia.');
+        }
       setTestData(response.responseValue);
       if (response.responseValue.length > 0) {
+        
+        setShowRadioImageIcon(true);
         setActiveTestName(response.responseValue[0].testName);
         setActiveTestID(response.responseValue[0].testId);
         setShowButtons(true);
@@ -279,6 +304,13 @@ export default function PerformTest() {
     setRemarkList(tempArrData);
 
   }
+
+  const funOpenImage = () => {
+    setRadioImageShow(true)
+  }
+  const funCloseImageShow = () => {
+    setRadioImageShow(false)
+  }
   useEffect(() => {
     setTxtBillNo(window.sessionStorage.getItem('radioLabBillNumber'));
   }, [])
@@ -379,8 +411,9 @@ export default function PerformTest() {
             <div className="col-12 mt-2">
               <div className='whitebg1'>
                 <div className='row'>
-                  <div className="col-md-4 col-sm-12 plt">
-                    <div className='whitebg' style={{ height: '70vh' }}>
+                  <div className="col-md-6 col-sm-12 plt">
+                    
+                  {(getRadioImageShow === false) && <div className='whitebg' style={{ height: '70vh' }}>
                       <Heading text={t("Test_List")} />
                       <div className="med-table-section" style={{ "height": "64vh", position: 'relative' }}>
                         {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> :
@@ -395,7 +428,7 @@ export default function PerformTest() {
                             </thead>
                             <tbody>
                               {testList && testList.map((val, ind) => {
-
+                               
                                 return (<>
                                   {(val.testID !== null) &&
                                     <tr key={val.id}>
@@ -403,7 +436,7 @@ export default function PerformTest() {
                                       <td>{val.testname}</td>
                                       <td> {val.isPerformedTest === "YES" ? "DONE" : "NOT DONE"}</td>
                                       {val.isPerformedTest === 'NO' ?
-                                        <td><i className="fa fa-edit actionedit" onClick={() => { getTestDataByTestID(val.testID) }}></i></td> :
+                                        <td><i className="fa fa-edit actionedit" onClick={() => { getTestDataByTestID(val.testID, val.imageUrl) }}></i></td> :
                                         <td title='Disabled' disabled><i className="fa fa-edit actionedit" style={{ backgroundColor: '#00000040' }} disabled></i></td>}
                                     </tr>
 
@@ -416,13 +449,35 @@ export default function PerformTest() {
                           </TableContainer>
                         }
                       </div>
-                    </div>
+                    </div>}
+                    {/* {(getRadioImageShow === true) && <div className='whitebg' style={{ maxHeight: '75vh' }}>
+                      <div>
+                      <iframe src="http://172.16.61.10:8042/osimis-viewer/app/index.html?study=e75219f8-2a21c937-fca9ca67-66d88a09-fba4c0ae" title="W3Schools Free Online Web Tutorials" />
+                      </div>
+                    </div>} */}
+                    {(getRadioImageShow === true) && (
+    <div className='whitebg' style={{ height: '75vh', overflow: 'auto',position: 'relative' }}>
+    <span style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '9999', cursor:'pointer'}} onClick={funCloseImageShow}>
+      <img src={closeIcon} alt="Close" />
+    </span>
+      <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+      {getTheImageUrl?
+        <iframe
+          src={getTheImageUrl}
+          title="Image of radiology." alt='No Image Found'
+          style={{ width: '100%', height: '100%', border: 'none', overflow: 'auto' }} // Enable scrolling in iframe
+        /> :
+        <img className='absoluteImg' src={NoDataFound} alt=''/>
+      }
+      </div>
+    </div>
+  )}
                   </div>
 
-                  <div className="col-md-8 col-sm-12 prt">
+                  <div className="col-md-6  col-sm-12 prt">
                     <div className="whitebg">
                       <div className="row">
-                        <div className='col-12'>
+                        <div className='col-12' style={{ display: 'flex', justifyContent: 'space-between' }}>
                           <div className="titile-txt">
                             <div className="title-h">
                               <div className="heading mb-2">{t("testNamePlaceholder")} - <span>{activeTestName}</span></div>
@@ -471,6 +526,7 @@ export default function PerformTest() {
 
                           <div>
                           </div>
+                          {getShowRadioImageIcon && <span><img src={viewIcon} alt='' title='Show image.' style={{cursor:'pointer'}} onClick={funOpenImage}/></span>}
                         </div>
                         {showTxtBox === true &&
                           <div className='col-12 mt-1 ms-2'>

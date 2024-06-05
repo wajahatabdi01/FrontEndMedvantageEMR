@@ -496,7 +496,7 @@ export default function OPDTOPBottom(props) {
               </button>
             </div>
             <div class="container"></div>
-            <div class="modal-body">{vitals === 1 ? (<FHIRVitals setShowToster={setShowToster} setVitals={setVitals} theEncounterId={props.theEncounterId} />) : ("")}
+            <div class="modal-body">{vitals === 1 ? (<FHIRVitals setShowToster={setShowToster} setVitals={setVitals} theEncounterId={props.theEncounterId} setPatientType ={props.setPatientType} /> ) : ("")}
             </div>
           </div>
         </div>

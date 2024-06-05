@@ -8,9 +8,10 @@ import PostPatientIPDPrescription from '../../../../../API/IPD/Prescription/Post
 import GetPatientIPDAllHistory from '../../../../../API/IPD/Prescription/GetPatientIPDAllHistory';
 import SuccessToster from '../../../../../../Component/SuccessToster';
 import AlertToster from '../../../../../../Component/AlertToster';
+import POSTOPDPatientPrescription from '../../../../../API/OPD/Prescription/POSTOPDPatientPrescription';
 
 
-function FHIRVitals({ theEncounterId }) {
+function FHIRVitals({ theEncounterId , setPatientType}) {
     const [isShowPopUp, setIsShowPopUp] = useState(0);
     const [PopUpId, setPopUpId] = useState('');
     const [checkedStates, setCheckedStates] = useState({});
@@ -1150,7 +1151,6 @@ function FHIRVitals({ theEncounterId }) {
     const funSave = async () => {
         if (inputIsValid) {
             const vitalData = JSON.stringify([weightData, heightData, bpSysData, bpDysData, pulseData, respirationData, temperatureData, oxygeSatData, oxygeFlowData, inhaledOxygeData, headCircumData, waistCircumData, bmiData])
-            console.log("vitalData", vitalData)
             const vitalObj = {
                 "jsonVital": vitalData,
                 "uhid": activeUHID,
@@ -1161,7 +1161,8 @@ function FHIRVitals({ theEncounterId }) {
             }
             console.log("vitalObj", vitalObj)
             // return
-            const response = await PostPatientIPDPrescription(vitalObj)
+            if(setPatientType === 'OPD'){
+                const response = await POSTOPDPatientPrescription(vitalObj)
             if (response.status === 1) {
                 getAllVital();
                 setShowToster(1)
@@ -1176,6 +1177,25 @@ function FHIRVitals({ theEncounterId }) {
                     setShowAlertToster(0)
                 }, 2000)
             }
+            }
+            else{
+                const response = await PostPatientIPDPrescription(vitalObj)
+            if (response.status === 1) {
+                getAllVital();
+                setShowToster(1)
+                setTimeout(() => {
+                    setShowToster(0);
+                }, 2000)
+            }
+            else {
+                setShowAlertToster(1)
+                setShowErrMessage(response.responseValue)
+                setTimeout(() => {
+                    setShowAlertToster(0)
+                }, 2000)
+            }
+            }
+            
         }
     }
 
