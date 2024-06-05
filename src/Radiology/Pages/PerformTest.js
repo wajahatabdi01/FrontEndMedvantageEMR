@@ -63,8 +63,8 @@ export default function PerformTest() {
   let [activeOrganID, setActiveOrganID] = useState('');
   const [getRadioImageShow, setRadioImageShow] = useState(false)
   const [getTheImageUrl, setTheImageUrl] = useState('')
-  const [getShowRadioImageIcon,setShowRadioImageIcon] = useState(false)
-  
+  const [getShowRadioImageIcon, setShowRadioImageIcon] = useState(false)
+
   const { t } = useTranslation();
 
   const clientID = JSON.parse(sessionStorage.getItem("LoginData")).clientId;
@@ -134,23 +134,24 @@ export default function PerformTest() {
     }
   }
   let getTestDataByTestID = async (param, imgUrl) => {
-    const imgObj ={
-      url : imgUrl
+    const imgObj = {
+      url: imgUrl
     }
-    
+    setShowLoder(1)
     const response = await GetDataByTestID(param, clientID);
     if (response.status === 1) {
+      setShowLoder(0)
       const imgRes = await PostRadiologyImage(imgObj);
-        
-        if(imgRes.originalImage){
 
-          setTheImageUrl(imgRes.originalImage)
-          setShowAlertToster(1);
-      setShowErrMessage('Patient suffering from Pneumonia.');
-        }
+      if (imgRes.originalImage) {
+
+        setTheImageUrl(imgRes.originalImage)
+        setShowAlertToster(1);
+        setShowErrMessage(`Patient is ${imgRes.data}.`);
+      }
       setTestData(response.responseValue);
       if (response.responseValue.length > 0) {
-        
+
         setShowRadioImageIcon(true);
         setActiveTestName(response.responseValue[0].testName);
         setActiveTestID(response.responseValue[0].testId);
@@ -412,8 +413,8 @@ export default function PerformTest() {
               <div className='whitebg1'>
                 <div className='row'>
                   <div className="col-md-6 col-sm-12 plt">
-                    
-                  {(getRadioImageShow === false) && <div className='whitebg' style={{ height: '70vh' }}>
+
+                    {(getRadioImageShow === false) && <div className='whitebg' style={{ height: '70vh' }}>
                       <Heading text={t("Test_List")} />
                       <div className="med-table-section" style={{ "height": "64vh", position: 'relative' }}>
                         {showImage === 1 ? <div className='imageNoDataFound'><img src={NoDataFound} alt="imageNoDataFound" /></div> :
@@ -428,7 +429,7 @@ export default function PerformTest() {
                             </thead>
                             <tbody>
                               {testList && testList.map((val, ind) => {
-                               
+
                                 return (<>
                                   {(val.testID !== null) &&
                                     <tr key={val.id}>
@@ -456,22 +457,22 @@ export default function PerformTest() {
                       </div>
                     </div>} */}
                     {(getRadioImageShow === true) && (
-    <div className='whitebg' style={{ height: '75vh', overflow: 'auto',position: 'relative' }}>
-    <span style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '9999', cursor:'pointer'}} onClick={funCloseImageShow}>
-      <img src={closeIcon} alt="Close" />
-    </span>
-      <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
-      {getTheImageUrl?
-        <iframe
-          src={getTheImageUrl}
-          title="Image of radiology." alt='No Image Found'
-          style={{ width: '100%', height: '100%', border: 'none', overflow: 'auto' }} // Enable scrolling in iframe
-        /> :
-        <img className='absoluteImg' src={NoDataFound} alt=''/>
-      }
-      </div>
-    </div>
-  )}
+                      <div className='whitebg' style={{ height: '75vh', overflow: 'auto', position: 'relative' }}>
+                        <span style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '9999', cursor: 'pointer' }} onClick={funCloseImageShow}>
+                          <img src={closeIcon} alt="Close" />
+                        </span>
+                        <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+                          {getTheImageUrl ?
+                            <iframe
+                              src={getTheImageUrl}
+                              title="Image of radiology." alt='No Image Found'
+                              style={{ width: '100%', height: '100%', border: 'none', overflow: 'auto' }} // Enable scrolling in iframe
+                            /> :
+                            <img className='absoluteImg' src={NoDataFound} alt='' />
+                          }
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-md-6  col-sm-12 prt">
@@ -526,7 +527,7 @@ export default function PerformTest() {
 
                           <div>
                           </div>
-                          {getShowRadioImageIcon && <span><img src={viewIcon} alt='' title='Show image.' style={{cursor:'pointer'}} onClick={funOpenImage}/></span>}
+                          {getShowRadioImageIcon && <span><img src={viewIcon} alt='' title='Show image.' style={{ cursor: 'pointer' }} onClick={funOpenImage} /></span>}
                         </div>
                         {showTxtBox === true &&
                           <div className='col-12 mt-1 ms-2'>
