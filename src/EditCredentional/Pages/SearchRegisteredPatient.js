@@ -382,6 +382,7 @@ function SearchRegisteredPatient() {
                                         <tr>
                                             <th className="text-center" style={{ "width": "5%" }}>#</th>
                                             <th>Full Name</th>
+                                            <th>Patient UUID</th>
                                             <th>SSN</th>
                                             <th>External ID</th>
                                             <th>Date of Birth</th>
@@ -396,6 +397,7 @@ function SearchRegisteredPatient() {
                                                     <tr key={val.id}>
                                                         <td className="text-center">{adjustedIndex}</td>
                                                         <td>{val.patientName} {val.middleName} {val.lastName} <span style={{ color: '#f26b29' }}>({val.uhID})</span></td>
+                                                        <td>{val.uuId}</td>
                                                         <td>{val.socialSecurityNo}</td>
                                                         <td>{val.externalId}</td>
                                                         <td>{val.dob.substring(0, 10)}</td>
