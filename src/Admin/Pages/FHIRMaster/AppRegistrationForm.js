@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Heading from '../../../Component/Heading'
 import BoxContainer from '../../../Component/BoxContainer'
 import saveButtonIcon from '../../../assets/images/icons/saveButton.svg';
-
+ 
 import { t } from 'i18next'
 import GetAllScopes from '../../Api/AppRegistrationForm/GetAllScopes';
 import { json } from 'react-router-dom';
@@ -12,55 +12,39 @@ import AlertToster from '../../../Component/AlertToster';
 import TosterUnderProcess from '../../../Component/TosterUnderProcess';
 import Toster from '../../../Component/Toster';
 import clearIcon from '../../../assets/images/icons/clear.svg';
-
+import GetOAuthClients from '../../Api/UserService/GetOAuthClients';
+ 
 function AppRegistrationForm() {
-    let [userType, setUserType] = useState([]);
-    let [clientname, setClientName] = useState('')
-    let [clientData, setClientData] = useState('')
-    let [contactEmail, setContactEmail] = useState('')
-    let [redirectUri, setRedirectUri] = useState('')
-    let [logoutredirecturis, setLogoutRedirectUris] = useState('')
-    let [jwksUri, setJwksUri] = useState('')
-    let [jwks, setJwks] = useState('')
-    let [scopesList, setScopesList] = useState([
-        { id: 1, name: 'add_list' },
-        { id: 2, name: 'api' },
-        { id: 3, name: 'checksum' },
-        { id: 4, name: 'delete' },
-        { id: 5, name: 'edit_list' },
-        { id: 6, name: 'fee' },
-        { id: 7, name: 'login' },
-        { id: 8, name: 'login attempt' },
-        { id: 9, name: 'logout' },
-        { id: 10, name: 'order' },
-        { id: 11, name: 'other' },
-        { id: 12, name: 'patient' },
-        { id: 13, name: 'patient-merge' },
-        { id: 14, name: 'patient-record' },
-        { id: 15, name: 'portalapi' },
-        { id: 16, name: 'print' },
-        { id: 17, name: 'qrda3' },
-        { id: 18, name: 'scheduling' },
-        { id: 19, name: 'security-administration' },
-        { id: 20, name: 'uuid' },
-        { id: 21, name: 'view' },
-        { id: 22, name: 'disclosure' }
-    ])
-    let [scopeData, setScopeData] = useState([])
-    let [filterScopeData, setFilterScopeData] = useState()
+    const [userType, setUserType] = useState([]);
+    const [clientname, setClientName] = useState('')
+    const [clientData, setClientData] = useState('')
+    const [contactEmail, setContactEmail] = useState('')
+    const [redirectUri, setRedirectUri] = useState('')
+    const [logoutredirecturis, setLogoutRedirectUris] = useState('')
+    const [jwksUri, setJwksUri] = useState('')
+    const [jwks, setJwks] = useState('')
+    const [oAuthClientsList, setOAuthClientsList] = useState([])
+    const [scopeData, setScopeData] = useState([])
+    const [filterScopeData, setFilterScopeData] = useState()
     const [applicationType, setApplicationType] = useState(1);
     const [application, setApplication] = useState('private');
-    let [showUnderProcess, setShowUnderProcess] = useState(0)
-    let [showToster, setShowToster] = useState(0)
-    let [tosterMessage, setTosterMessage] = useState("")
-    let [tosterValue, setTosterValue] = useState(0)
-
-    let getAllScopes = async () => {
+    const [showUnderProcess, setShowUnderProcess] = useState(0)
+    const [showToster, setShowToster] = useState(0)
+    const [tosterMessage, setTosterMessage] = useState("")
+    const [tosterValue, setTosterValue] = useState(0)
+ 
+    const getAllScopes = async () => {
         const response = await GetAllScopes();
         if (Array.isArray(response)) {
             setScopeData(response);
         }
-        console.log("ScopesData", response);
+    }
+    const getOAuthClients = async () => {
+        const { status, responseValue } = await GetOAuthClients();
+        console.log('response', responseValue.table);
+        if (status) {
+            setOAuthClientsList(responseValue.table);
+        }
     }
     const handleInputChange = (e) => {
         const name = e.target.name;
@@ -69,8 +53,8 @@ function AppRegistrationForm() {
         document.getElementById("errRedirectURI").style.display = "none"
         document.getElementById("errLogoutURI").style.display = "none"
         document.getElementById("errClientname").style.display = "none"
-
-
+ 
+ 
         if (name === "client_name") {
             setClientName(value)
         }
@@ -100,7 +84,7 @@ function AppRegistrationForm() {
                 document.getElementById('systemclient').checked = true
             }, 2000);
         }
-
+ 
     }
     const filteredOptions = scopeData ? scopeData.filter(data => {
         if (typeof data.name === 'string') {
@@ -109,33 +93,23 @@ function AppRegistrationForm() {
             return false;
         }
     }) : [];
-
+ 
     const formatData = (value) => {
         return value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' | ');
     };
-
+ 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+ 
         const contactEmails = formatData(contactEmail);
         const redirectUris = formatData(redirectUri);
         const logoutredirecturi = formatData(logoutredirecturis);
         const jwksdata = JSON.stringify(jwks);
-
+ 
         const scopesjson = JSON.stringify(userType); // Convert tempArr to a JSON string
         const parsedScopes = JSON.parse(scopesjson); // Parse the JSON string back to an array
         const formattedScopes = parsedScopes.map(item => item.scope).join(' '); // Use map() on the array
-        console.log('formattedScopes', formattedScopes);
-        // #CONSOLES
-        // console.log("client_name", clientname)
-        // console.log("application_type", application)
-        // console.log("contacts", [contactEmails]);
-        // console.log("redirect_uris", [redirectUris]);
-        // console.log("post_logout_redirect_uris", [logoutredirecturi]);
-        // console.log("jwks_uri", jwksUri);
-        // console.log("jwks", jwksdata);
-        // console.log("scope", userType);
-
+ 
         const formData = new FormData();
         formData.append("application_type", application);
         formData.append("client_name", clientname);
@@ -145,10 +119,9 @@ function AppRegistrationForm() {
         formData.append("jwks_uri", jwksUri);
         formData.append("jwks", jwksdata);
         formData.append("scope", formattedScopes);
-
+ 
         // Log FormData entries
         for (let pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
         }
         if (clientname === '' || clientname === undefined) {
             document.getElementById("errClientname").innerHTML = "Enter app name"
@@ -170,7 +143,6 @@ function AppRegistrationForm() {
             // return
             const response = await PostAppRegistrationForm(formData);
             setClientData(response)
-            console.log('response', response)
             setShowUnderProcess(1)
             if (response.length > 0 || response.client_id != null) {
                 setShowUnderProcess(0)
@@ -191,42 +163,31 @@ function AppRegistrationForm() {
                 }, 3000)
             }
         }
-
     };
-
+ 
     let changeUser = (name) => {
         document.getElementById("errScopes").style.display = "none"
         let data = [...userType];
-        console.log("userType of", typeof userType);
-        console.log("userType", userType);
-        console.log("arr", data);
-        console.log("param value", name);
         const index = data.findIndex((arr) => arr.scope === name);
-        console.log('index', index);
         if (index !== -1) {
             // Remove the item at the found index
             data.splice(index, 1);
         } else {
-            // Add the new item
-            console.log("LIST OF DATA", name);
             data.push({
                 scope: name
             });
         }
-        console.log('object', data);
-
+ 
         // Update the "Select All" checkbox state
         const allSelected = data.length === scopeData.length;
         document.getElementById('ddlSelectAllUser').checked = allSelected;
-        console.log("FINAL", data);
         setUserType(data);
     };
-
+ 
     let handlerSelectAll = () => {
         document.getElementById("errScopes").style.display = "none"
         const isSelectedAll = document.getElementById("ddlSelectAllUser").checked;
         let tempArr = [];
-        console.log('isSelectedAll', isSelectedAll);
         for (let i = 0; i < scopeData.length; i++) {
             const scopeName = scopeData[i].name;
             const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${scopeName}"]`);
@@ -243,11 +204,10 @@ function AppRegistrationForm() {
                 console.warn(`Checkboxes for name "${scopeName}" not found.`);
             }
         }
-        console.log('tempArr', tempArr);
         setUserType(tempArr);
-
+ 
     };
-
+ 
     let handleClear = () => {
         setClientName('')
         setContactEmail('');
@@ -255,14 +215,15 @@ function AppRegistrationForm() {
         setLogoutRedirectUris('')
         setJwksUri('')
         setJwks('')
-
+ 
         document.getElementById("errRedirectURI").style.display = "none"
         document.getElementById("errLogoutURI").style.display = "none"
         document.getElementById("errClientname").style.display = "none"
-
+ 
     }
     useEffect(() => {
         getAllScopes();
+        getOAuthClients();
         document.getElementById('systemclient').checked = true
         setTimeout(() => {
             document.getElementById('contactEmail').value = ""
@@ -283,7 +244,7 @@ function AppRegistrationForm() {
                             </div>
                         </div>
                     </div>
-
+ 
                     <BoxContainer>
                         <div className='applcn-main'>
                             <div className="aplclable">
@@ -348,10 +309,10 @@ function AppRegistrationForm() {
                                     </div>
                                 </div>
                             }
-
+ 
                         </div>
                     </BoxContainer>
-
+ 
                     <BoxContainer>
                         <div className='row'>
                             <div className='app-inner'>
@@ -400,13 +361,11 @@ function AppRegistrationForm() {
                                             ) : (
                                                 <li>No options available</li>
                                             )}
-
-
                                         </ul>
                                         <small id="errScopes" className="form-text text-danger" style={{ display: 'none' }}></small>
                                     </div>
                                 </div>
-
+ 
                             </div>
                         </div>
                     </BoxContainer>
@@ -424,7 +383,7 @@ function AppRegistrationForm() {
                                                     <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
                                                     </small>
                                                 </div>
-
+ 
                                                 <div className="col-12 mb-2">
                                                     <label htmlFor="txtPatientRelationAddress" className="form-label">JSON Web Key Set <span style={{ fontStyle: 'italic' }}>(Note a hosted web URI is preferred and this feature may be removed in future SMART versions)</span></label>
                                                     <textarea className='mt-1 form-control' id="descriptionOfTheDisclosure" name="jwks_uri" value={jwksUri} style={{ height: '110px' }} onChange={handleInputChange} ></textarea>
@@ -453,11 +412,48 @@ function AppRegistrationForm() {
                             </div>
                         </div>
                     </div>
-
+ 
+ 
+                    <div className="col-12 mt-2">
+                        <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
+                            <table className="med-table border striped mt-3">
+                                <thead style={{ zIndex: "0" }}>
+                                    <tr>
+                                        <th className="text-center" style={{ width: "5%" }}>#</th>
+                                        <th>Client Id</th>
+                                        <th>Client Secret</th>
+                                        <th>App Name</th>
+                                        <th>Contact Email</th>
+                                        <th>App Redirect URI</th>
+                                        <th>App Logout URI</th>
+                                        <th>Scopes Requested</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {oAuthClientsList.length > 0 && oAuthClientsList.map((item, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td className="text-center">{index + 1}</td>
+                                                <td className="text-center">{item.client_id}</td>
+                                                <td className="text-center">{item.client_secret}</td>
+                                                <td className="text-center">{item.client_name}</td>
+                                                <td className="text-center">{item.contacts}</td>
+                                                <td className="text-center">{item.redirect_uri}</td>
+                                                <td className="text-center">{item.logout_redirect_uris}</td>
+                                                <td className="text-center">{item.scope}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+ 
+                            </table>
+                        </div>
+                    </div>
+ 
                 </div>
             </section>
         </>
     )
 }
-
+ 
 export default AppRegistrationForm
