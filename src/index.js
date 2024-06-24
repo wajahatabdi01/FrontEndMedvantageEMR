@@ -43,7 +43,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 //New local For FHIR with SSl
  
 window.AppbaseUrl = "https://onc.medvantage.tech:5082"
-window.AppbaseUrlNew = "https://onc.medvantage.tech:9000"
+window.AppbaseUrlNew = "https://onc.medvantage.tech:5082"
 window.AdminbaseUrl = "https://onc.medvantage.tech:5083"
 window.UserbaseUrl = "https://onc.medvantage.tech:5084"
 // window.FHIRBillingbaseUrl = "https://onc.medvantage.tech:5088"

@@ -543,7 +543,7 @@ const Allergy = ({ issueDetailss, issueDetailsData, id }) => {
                         <div className="modal-content" >
                             {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                             <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
-                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} isMultiple={true} />
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} isMultiple={false} />
                             {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>

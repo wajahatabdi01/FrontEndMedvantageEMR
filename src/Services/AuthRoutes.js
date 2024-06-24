@@ -13,7 +13,7 @@ export default function AuthRoutes(props) {
             }
             else {
                 if (window.sessionStorage.getItem("departmentmenu")) {
-                    console.log("enter")
+                   
                     let flag = 0
                     JSON.parse(window.sessionStorage.getItem("departmentmenu")).menuList.map((val, ind) => {
                         if (val.subMenuList.length !== 0) {
@@ -35,10 +35,10 @@ export default function AuthRoutes(props) {
 
                     })
                     if (flag === 0) {
-                        // console.log("test", currentPath.pathname.toLowerCase().toString().trim().replace("/", "").includes("print"))
+                        
                         if (!currentPath.pathname.toLowerCase().toString().trim().replace("/", "").includes("print")) {
                             if (currentPath.pathname.toLowerCase().toString().trim() !== "/dashboard/") {
-                                console.log("test", currentPath.pathname.toLowerCase().toString().trim())
+                               
                                 if (currentPath.pathname.toLowerCase().toString().trim() !== "/profile/") {
                                     if (currentPath.pathname.toLowerCase().toString().trim() !== "/patientmonitordashboard/") {
                                         if (!currentPath.pathname.toLowerCase().toString().trim().replace("/", "").includes("list") && currentPath.pathname.toLowerCase().toString().trim() !== "/pagenotfound/") {

@@ -32,6 +32,8 @@ function AppRegistrationForm() {
     const [showToster, setShowToster] = useState(0)
     const [tosterMessage, setTosterMessage] = useState("")
     const [tosterValue, setTosterValue] = useState(0)
+
+    const loginCredential = sessionStorage.getItem('LoginData');
  
     const getAllScopes = async () => {
         const response = await GetAllScopes();
@@ -41,7 +43,7 @@ function AppRegistrationForm() {
     }
     const getOAuthClients = async () => {
         const { status, responseValue } = await GetOAuthClients();
-        console.log('response', responseValue.table);
+      
         if (status) {
             setOAuthClientsList(responseValue.table);
         }
@@ -226,12 +228,15 @@ function AppRegistrationForm() {
         getOAuthClients();
         document.getElementById('systemclient').checked = true
         setTimeout(() => {
-            document.getElementById('contactEmail').value = ""
+            const contactEmailInput = document.getElementById('contactEmail');
+            if (contactEmailInput) {
+                contactEmailInput.value = "";
+            }
         }, 200);
     }, [])
     return (
         <>
-            <section className="main-content mt-5 pt-3">
+            <section className={loginCredential? 'main-content mt-5 pt-3':''}>
                 <div className="container-fluid">
                     <div className='clientSecret'>
                         <div>

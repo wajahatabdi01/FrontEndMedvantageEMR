@@ -1,6 +1,6 @@
 async function FHIRGetAllUnit(uhid) {
   // let url = window.fhiropenEMR+"/api/FHIRImmunizationMaster/FHIRGetAllUnit";
-  let url = window.AppbaseUrlNew+"/api/EMRPrescription/MedUnit";
+  let url = window.AppbaseUrl+"/api/EMRPrescription/MedUnit";
   let head = {"Content-Type":"application/JSON", accept : "*/*"}
   let data = {}
   let response = fetch(url, {

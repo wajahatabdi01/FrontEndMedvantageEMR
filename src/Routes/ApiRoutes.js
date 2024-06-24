@@ -397,6 +397,8 @@ import PatientNotesPrint from '../Clinical/Pages/IPD/PatientNotesPrint';
 
 export default function ApiRoutes() {
 
+      const loginCredential = sessionStorage.getItem('LoginData');
+
       return (
             <Routes>
                   {/* -----------------------------Start Website Routing---------------------- */}
@@ -686,7 +688,10 @@ export default function ApiRoutes() {
                   {/* -----------------------------Start Registration Routing---------------------- */}
                   <>
                         <Route path="/patientregistration/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistration />} name="patientregistration" />} />} />
-                        <Route path="/appregistrationform/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AppRegistrationForm />} name="appregistrationform" />} />} />
+                        {loginCredential ? <Route path="/appregistrationform/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<AppRegistrationForm />} name="appregistrationform" />} />} />:
+                        <Route path="/appregistrationform/" element={<AppRegistrationForm />} />}
+                        
+                        
                         <Route path="/patientregistration&admit/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<PatientRegistrationAndAdmit />} name="patientregistration" />} />} />
                         <Route path="/visitRevisitReport/" element={<ProtectedRoutes Compnent={<CommonLayout Component={<VisitRevisitReport />} name="patientregistration" />} />} />
                         <Route path="/opdPrint/" element={<ProtectedRoutes Compnent={<PrintOPDRegistrationSlip />} />} />

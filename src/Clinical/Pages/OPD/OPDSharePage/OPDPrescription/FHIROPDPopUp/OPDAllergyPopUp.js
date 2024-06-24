@@ -199,7 +199,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                 tempData.push(tempAr[i])
             }
         }
-        console.log('tempData', tempData);
+   
         for (var i = 0; i < tempAr.length; i++) {
             document.getElementById("ddlCodingA" + i).checked = false;
         }
@@ -728,7 +728,7 @@ function OPDAllergyPopUp({ getAllEncoutersAsPerIssueID, updatebool, setUpdateBoo
                         <div className="modal-content" >
                             {/* <button type="button" className="btncancel popBtnCancel me-2" data-bs-dismiss="modal">Cancel"</button> */}
                             <button type="button" className="btn-close_ btnModalClose" data-bs-dismiss="modal" aria-label="Close" title="Close Window"><i className="bi bi-x-octagon" onClick={handleCloseModal}></i></button>
-                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={true} />
+                            <CodeMaster style={customStyle} SelectedData={SelectedData} defaultData={makeData} modalID={PopUpId} isMultiple={false} />
                             {/*<CodeMaster style={customStyle} SelectedData = {SelectedData} modalID={PopUpId}/> */}
                         </div>
                     </div>
