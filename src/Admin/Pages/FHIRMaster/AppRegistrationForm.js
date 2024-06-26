@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Heading from '../../../Component/Heading'
 import BoxContainer from '../../../Component/BoxContainer'
 import saveButtonIcon from '../../../assets/images/icons/saveButton.svg';
- 
+
 import { t } from 'i18next'
 import GetAllScopes from '../../Api/AppRegistrationForm/GetAllScopes';
 import { json } from 'react-router-dom';
@@ -13,7 +13,8 @@ import TosterUnderProcess from '../../../Component/TosterUnderProcess';
 import Toster from '../../../Component/Toster';
 import clearIcon from '../../../assets/images/icons/clear.svg';
 import GetOAuthClients from '../../Api/UserService/GetOAuthClients';
- 
+import UpdateOAuthClients from '../../Api/AppRegistrationForm/UpdateOAuthClients';
+
 function AppRegistrationForm() {
     const [userType, setUserType] = useState([]);
     const [clientname, setClientName] = useState('')
@@ -34,7 +35,7 @@ function AppRegistrationForm() {
     const [tosterValue, setTosterValue] = useState(0)
 
     const loginCredential = sessionStorage.getItem('LoginData');
- 
+
     const getAllScopes = async () => {
         const response = await GetAllScopes();
         if (Array.isArray(response)) {
@@ -43,7 +44,7 @@ function AppRegistrationForm() {
     }
     const getOAuthClients = async () => {
         const { status, responseValue } = await GetOAuthClients();
-      
+
         if (status) {
             setOAuthClientsList(responseValue.table);
         }
@@ -55,8 +56,8 @@ function AppRegistrationForm() {
         document.getElementById("errRedirectURI").style.display = "none"
         document.getElementById("errLogoutURI").style.display = "none"
         document.getElementById("errClientname").style.display = "none"
- 
- 
+
+
         if (name === "client_name") {
             setClientName(value)
         }
@@ -86,7 +87,7 @@ function AppRegistrationForm() {
                 document.getElementById('systemclient').checked = true
             }, 2000);
         }
- 
+
     }
     const filteredOptions = scopeData ? scopeData.filter(data => {
         if (typeof data.name === 'string') {
@@ -95,23 +96,23 @@ function AppRegistrationForm() {
             return false;
         }
     }) : [];
- 
+
     const formatData = (value) => {
         return value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' | ');
     };
- 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
- 
+
         const contactEmails = formatData(contactEmail);
         const redirectUris = formatData(redirectUri);
         const logoutredirecturi = formatData(logoutredirecturis);
         const jwksdata = JSON.stringify(jwks);
- 
+
         const scopesjson = JSON.stringify(userType); // Convert tempArr to a JSON string
         const parsedScopes = JSON.parse(scopesjson); // Parse the JSON string back to an array
         const formattedScopes = parsedScopes.map(item => item.scope).join(' '); // Use map() on the array
- 
+
         const formData = new FormData();
         formData.append("application_type", application);
         formData.append("client_name", clientname);
@@ -121,7 +122,7 @@ function AppRegistrationForm() {
         formData.append("jwks_uri", jwksUri);
         formData.append("jwks", jwksdata);
         formData.append("scope", formattedScopes);
- 
+
         // Log FormData entries
         // for (let pair of formData.entries()) {
         // }
@@ -167,7 +168,7 @@ function AppRegistrationForm() {
             }
         }
     };
- 
+
     let changeUser = (name) => {
         document.getElementById("errScopes").style.display = "none"
         let data = [...userType];
@@ -180,13 +181,13 @@ function AppRegistrationForm() {
                 scope: name
             });
         }
- 
+
         // Update the "Select All" checkbox state
         const allSelected = data.length === scopeData.length;
         document.getElementById('ddlSelectAllUser').checked = allSelected;
         setUserType(data);
     };
- 
+
     let handlerSelectAll = () => {
         document.getElementById("errScopes").style.display = "none"
         const isSelectedAll = document.getElementById("ddlSelectAllUser").checked;
@@ -208,9 +209,9 @@ function AppRegistrationForm() {
             }
         }
         setUserType(tempArr);
- 
+
     };
- 
+
     let handleClear = () => {
         setClientName('')
         setContactEmail('');
@@ -218,11 +219,11 @@ function AppRegistrationForm() {
         setLogoutRedirectUris('')
         setJwksUri('')
         setJwks('')
- 
+
         document.getElementById("errRedirectURI").style.display = "none"
         document.getElementById("errLogoutURI").style.display = "none"
         document.getElementById("errClientname").style.display = "none"
- 
+
     }
     useEffect(() => {
         getAllScopes();
@@ -235,9 +236,24 @@ function AppRegistrationForm() {
             }
         }, 200);
     }, [])
+
+    const toggleClientStatus = async (id, checked) => {
+        const pobj = {
+            AuthClientId: id,
+            IsEnableOrDisable: checked
+        }
+        const response = await UpdateOAuthClients(pobj)
+        if (response.status === 1) {
+            getOAuthClients();
+        }
+    };
+
+    const maskSecret = (secret) => {
+        return secret.replace(/.(?=.{4})/g, '*');
+    };
     return (
         <>
-            <section className={loginCredential? 'main-content mt-5 pt-3':''}>
+            <section className={loginCredential ? 'main-content mt-5 pt-3' : ''}>
                 <div className="container-fluid">
                     <div className='clientSecret'>
                         <div>
@@ -250,7 +266,7 @@ function AppRegistrationForm() {
                             </div>
                         </div>
                     </div>
- 
+
                     <BoxContainer>
                         <div className='applcn-main'>
                             <div className="aplclable">
@@ -315,10 +331,10 @@ function AppRegistrationForm() {
                                     </div>
                                 </div>
                             }
- 
+
                         </div>
                     </BoxContainer>
- 
+
                     <BoxContainer>
                         <div className='row'>
                             <div className='app-inner'>
@@ -371,7 +387,7 @@ function AppRegistrationForm() {
                                         <small id="errScopes" className="form-text text-danger" style={{ display: 'none' }}></small>
                                     </div>
                                 </div>
- 
+
                             </div>
                         </div>
                     </BoxContainer>
@@ -389,7 +405,7 @@ function AppRegistrationForm() {
                                                     <small id="errbegindatedev" className="form-text text-danger" style={{ display: 'none' }}>
                                                     </small>
                                                 </div>
- 
+
                                                 <div className="col-12 mb-2">
                                                     <label htmlFor="txtPatientRelationAddress" className="form-label">JSON Web Key Set <span style={{ fontStyle: 'italic' }}>(Note a hosted web URI is preferred and this feature may be removed in future SMART versions)</span></label>
                                                     <textarea className='mt-1 form-control' id="descriptionOfTheDisclosure" name="jwks_uri" value={jwksUri} style={{ height: '110px' }} onChange={handleInputChange} ></textarea>
@@ -418,13 +434,14 @@ function AppRegistrationForm() {
                             </div>
                         </div>
                     </div>
- 
- 
+
+
                     <div className="col-12 mt-2">
                         <div className="med-table-section" style={{ maxHeight: "40vh", minHeight: '20vh' }}>
                             <table className="med-table border striped mt-3">
                                 <thead style={{ zIndex: "0" }}>
                                     <tr>
+                                        <th className="text-center" style={{ width: "5%" }}>E/D</th>
                                         <th className="text-center" style={{ width: "5%" }}>#</th>
                                         <th>Client Id</th>
                                         <th>Client Secret</th>
@@ -439,9 +456,19 @@ function AppRegistrationForm() {
                                     {oAuthClientsList.length > 0 && oAuthClientsList.map((item, index) => {
                                         return (
                                             <tr key={index}>
+                                                <td>
+                                                    <label className="switch">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={item.is_enabled}
+                                                            onChange={(e) => toggleClientStatus(item.client_id, e.target.checked ? 1 : 0)}
+                                                        />
+                                                        <span className="slider round"></span>
+                                                    </label>
+                                                </td>
                                                 <td className="text-center">{index + 1}</td>
-                                                <td className="text-center">{item.client_id}</td>
-                                                <td className="text-center">{item.client_secret}</td>
+                                                <td>{item.is_enabled ? item.client_id : maskSecret(item.client_id)}</td>
+                                                <td>{item.is_enabled ? item.client_secret : maskSecret(item.client_secret)}</td>
                                                 <td className="text-center">{item.client_name}</td>
                                                 <td className="text-center">{item.contacts}</td>
                                                 <td className="text-center">{item.redirect_uri}</td>
@@ -451,15 +478,15 @@ function AppRegistrationForm() {
                                         );
                                     })}
                                 </tbody>
- 
+
                             </table>
                         </div>
                     </div>
- 
+
                 </div>
             </section>
         </>
     )
 }
- 
+
 export default AppRegistrationForm
