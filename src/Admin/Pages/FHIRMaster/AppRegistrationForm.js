@@ -123,8 +123,8 @@ function AppRegistrationForm() {
         formData.append("scope", formattedScopes);
  
         // Log FormData entries
-        for (let pair of formData.entries()) {
-        }
+        // for (let pair of formData.entries()) {
+        // }
         if (clientname === '' || clientname === undefined) {
             document.getElementById("errClientname").innerHTML = "Enter app name"
             document.getElementById("errClientname").style.display = "block"
@@ -150,7 +150,8 @@ function AppRegistrationForm() {
                 setShowUnderProcess(0)
                 setShowToster(1)
                 setTosterMessage("Data Save Successfully!")
-                setTosterValue(0)
+                setTosterValue(0);
+                getOAuthClients()
                 setTimeout(() => {
                     setShowToster(0)
                 }, 2000)
@@ -410,7 +411,7 @@ function AppRegistrationForm() {
                                             :
                                             <div>
                                                 <button type="button" className="btn btn-save btn-save-fill btn-sm mb-1 me-1" data-bs-dismiss="modal_" onClick={handleSubmit}><img src={saveButtonIcon} className='icnn' alt='' /> Save</button>
-                                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear}><img src={clearIcon} className='icnn' />{t("Clear")}</button>
+                                                <button type="button" className="btn btn-clear btn-sm mb-1 me-1" onClick={handleClear}><img src={clearIcon} className='icnn' alt=''/>{t("Clear")}</button>
                                             </div>}
                                     </>
                                 }

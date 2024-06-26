@@ -223,6 +223,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
           reason_date_low: reasonRecordingDate,
           reason_date_high: reasonEndDate,
         });
+
         }
       
       }
@@ -366,12 +367,13 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
       else {
         var codePre = document.getElementById('codeInputID' + data[i].rowID).value
       }
-
+      
+      
       tempArrList.push({
         id: theRowId,
         date: date,
-        codeType: maker.trim() ? maker.trim() : codePre,
-        codeText: codeTextMaker,
+        codeType: maker? maker.trim():codePre,
+        codeText: codeTextMaker?codeTextMaker:'Not available',
         care_plan_type: type,
         description: description,
         reason_code: reasonCode,
@@ -379,6 +381,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
         reason_date_low: lowDate,
         reason_date_high: highDate,
       });
+     
     }
     const updObj = {
       userId: window.userId,
@@ -567,12 +570,12 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                       #
                     </th>
                     <th>Date</th>
-                    <th>Code Type</th>
+                    <th>Code</th>
                     <th>Codetext</th>
                     <th>Description</th>
                     <th>Care Plan Type</th>
                     <th>Reason Code</th>
-                    <th>Reason Description</th>
+                    {/* <th>Reason Description</th> */}
                     <th>Reason Recording Date</th>
                     <th>Reason End Date</th>
                     <th>Action</th>
@@ -599,7 +602,7 @@ export default function FHIRCarePlan({ setCarePlan, theEncounterId }) {
                         <td>{list.description}</td>
                         <td>{list.typeName}</td>
                         <td>{list.reason_code}</td>
-                        <td>{list.reason_description ? list.reason_description : 'NA'}</td>
+                        {/* <td>{list.reason_description ? list.reason_description : 'NA'}</td> */}
                         <td>{list.reason_date_low === '00-00-0000' ? '---' : list.reason_date_low}</td>
                         <td>{list.reason_date_high === '00-00-0000' ? '---' : list.reason_date_high}</td>
                         <td>
